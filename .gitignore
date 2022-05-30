@@ -1,0 +1,14 @@
+# System related files
+.DS_Store
+.Trashes
+
+# Xcode related files
+build/
+xcodebuild/
+*.pbxuser
+*.mode1v3
+*.xcuserstate
+*.xcuserdatad/
+*.xccheckout
+*.xcscmblueprint
+Breakpoints.xcbkptlist
