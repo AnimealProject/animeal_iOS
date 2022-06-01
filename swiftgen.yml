@@ -1,4 +1,8 @@
-## Generate constants for Assets Catalogs, including constants for images, colors, ARKit resources, etc.
+strings:
+  inputs: animeal/res/en.lproj
+  outputs:
+    - templateName: structured-swift5
+      output: animeal/src/Common/Strings.swift
 xcassets:
   inputs:
     - animeal/res/Colors.xcassets

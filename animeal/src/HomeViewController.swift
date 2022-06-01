@@ -24,8 +24,12 @@ class HomeViewController: UIViewController {
         title.translatesAutoresizingMaskIntoConstraints = false
         title.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         title.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 12).isActive = true
+        title.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12).isActive = true
+        title.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12).isActive = true
 
-        title.text = "Animeal"
+        title.text = L10n.AddPetScreen.Header.info
+        title.numberOfLines = 3
+        title.textAlignment = .center
         title.textColor = Asset.Colors.tiffany.color
     }
 }
