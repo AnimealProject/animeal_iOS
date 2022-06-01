@@ -26,6 +26,8 @@ jobs:
           ruby-version: 2.6
           # runs 'bundle install' and caches installed gems automatically
           bundler-cache: true
+      - name: Install Swiftgen
+        run: brew install swiftgen
       - name: Set Xcode version
         uses: maxim-lobanov/setup-xcode@v1
         with: 
