@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DB058D6F284646430064A21F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB058D6E284646430064A21F /* Images.xcassets */; };
+		DB058D71284646530064A21F /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB058D70284646530064A21F /* Colors.xcassets */; };
+		DB0D66BF2846688500930564 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0D66BE2846688500930564 /* Assets.swift */; };
 		DB6B07C628450A380009397B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07C528450A380009397B /* AppDelegate.swift */; };
 		DB6B07C828450A380009397B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07C728450A380009397B /* SceneDelegate.swift */; };
 		DB6B07CA28450A380009397B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07C928450A380009397B /* HomeViewController.swift */; };
-		DB6B07CF28450A390009397B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB6B07CE28450A390009397B /* Assets.xcassets */; };
 		DB6B07D228450A390009397B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB6B07D028450A390009397B /* LaunchScreen.storyboard */; };
 		DB6B07DD28450A3A0009397B /* AnimealTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07DC28450A3A0009397B /* AnimealTests.swift */; };
 /* End PBXBuildFile section */
@@ -26,11 +28,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DB058D6E284646430064A21F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		DB058D70284646530064A21F /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		DB0D66BE2846688500930564 /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		DB6B07C228450A380009397B /* animeal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = animeal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB6B07C528450A380009397B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DB6B07C728450A380009397B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		DB6B07C928450A380009397B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		DB6B07CE28450A390009397B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DB6B07D128450A390009397B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DB6B07D328450A390009397B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DB6B07D828450A3A0009397B /* animealTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = animealTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -55,9 +59,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DB0D66BB2846676100930564 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				DB0D66BE2846688500930564 /* Assets.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		DB4CA51C28450FEE00050EA5 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				DB0D66BB2846676100930564 /* Common */,
 				DB6B07C928450A380009397B /* HomeViewController.swift */,
 			);
 			path = src;
@@ -66,9 +79,10 @@
 		DB4CA51D2845104900050EA5 /* res */ = {
 			isa = PBXGroup;
 			children = (
-				DB6B07CE28450A390009397B /* Assets.xcassets */,
 				DB6B07D028450A390009397B /* LaunchScreen.storyboard */,
 				DB6B07D328450A390009397B /* Info.plist */,
+				DB058D6E284646430064A21F /* Images.xcassets */,
+				DB058D70284646530064A21F /* Colors.xcassets */,
 			);
 			path = res;
 			sourceTree = "<group>";
@@ -121,6 +135,7 @@
 				DB6B07BF28450A380009397B /* Frameworks */,
 				DB6B07C028450A380009397B /* Resources */,
 				DB4CA51E2845114E00050EA5 /* swiftlint */,
+				DB058D61284642D60064A21F /* swiftgen */,
 			);
 			buildRules = (
 			);
@@ -192,8 +207,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB058D6F284646430064A21F /* Images.xcassets in Resources */,
 				DB6B07D228450A390009397B /* LaunchScreen.storyboard in Resources */,
-				DB6B07CF28450A390009397B /* Assets.xcassets in Resources */,
+				DB058D71284646530064A21F /* Colors.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,6 +223,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		DB058D61284642D60064A21F /* swiftgen */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = swiftgen;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftgen >/dev/null; then\n    swiftgen\nelse\n  echo \"warning: SwiftGen not installed, download it from https://github.com/SwiftGen/SwiftGen\"\nfi\n";
+		};
 		DB4CA51E2845114E00050EA5 /* swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -234,6 +268,7 @@
 			files = (
 				DB6B07CA28450A380009397B /* HomeViewController.swift in Sources */,
 				DB6B07C628450A380009397B /* AppDelegate.swift in Sources */,
+				DB0D66BF2846688500930564 /* Assets.swift in Sources */,
 				DB6B07C828450A380009397B /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
