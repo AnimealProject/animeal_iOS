@@ -18,12 +18,12 @@
 		DB6B07CA28450A380009397B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07C928450A380009397B /* HomeViewController.swift */; };
 		DB6B07D228450A390009397B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB6B07D028450A390009397B /* LaunchScreen.storyboard */; };
 		DB6B07DD28450A3A0009397B /* AnimealTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07DC28450A3A0009397B /* AnimealTests.swift */; };
-		FB371CE228476D1D007E6A08 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB371CE128476D1D007E6A08 /* AppDelegate.swift */; };
-		FB371CE428476D1D007E6A08 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB371CE328476D1D007E6A08 /* SceneDelegate.swift */; };
-		FB371CE628476D1D007E6A08 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB371CE528476D1D007E6A08 /* MainViewController.swift */; };
-		FB371CEB28476D1E007E6A08 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB371CEA28476D1E007E6A08 /* Assets.xcassets */; };
-		FB371CEE28476D1E007E6A08 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB371CEC28476D1E007E6A08 /* LaunchScreen.storyboard */; };
-		FB5E4A3D28476EFB00679657 /* UIComponents in Frameworks */ = {isa = PBXBuildFile; productRef = FB5E4A3C28476EFB00679657 /* UIComponents */; };
+		FB4313592848E97C0084C21A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4313582848E97C0084C21A /* AppDelegate.swift */; };
+		FB43135B2848E97C0084C21A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB43135A2848E97C0084C21A /* SceneDelegate.swift */; };
+		FB43135D2848E97C0084C21A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB43135C2848E97C0084C21A /* MainViewController.swift */; };
+		FB4313622848E97E0084C21A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB4313612848E97E0084C21A /* Assets.xcassets */; };
+		FB4313652848E97E0084C21A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB4313632848E97E0084C21A /* LaunchScreen.storyboard */; };
+		FB43136B2848EA950084C21A /* UIComponents in Frameworks */ = {isa = PBXBuildFile; productRef = FB43136A2848EA950084C21A /* UIComponents */; };
 		FB5E4A3F284770FE00679657 /* UIComponents in Frameworks */ = {isa = PBXBuildFile; productRef = FB5E4A3E284770FE00679657 /* UIComponents */; };
 /* End PBXBuildFile section */
 
@@ -54,15 +54,15 @@
 		DB6B07D328450A390009397B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DB6B07D828450A3A0009397B /* animealTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = animealTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB6B07DC28450A3A0009397B /* AnimealTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimealTests.swift; sourceTree = "<group>"; };
-		FB371CDF28476D1D007E6A08 /* animealStyle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = animealStyle.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		FB371CE128476D1D007E6A08 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		FB371CE328476D1D007E6A08 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		FB371CE528476D1D007E6A08 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		FB371CEA28476D1E007E6A08 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		FB371CED28476D1E007E6A08 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		FB371CEF28476D1E007E6A08 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FB371CF328476D6A007E6A08 /* UIComponents */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = UIComponents; sourceTree = "<group>"; };
 		FB4313512848E3850084C21A /* Style */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Style; sourceTree = "<group>"; };
+		FB4313562848E97C0084C21A /* animealUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = animealUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB4313582848E97C0084C21A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		FB43135A2848E97C0084C21A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		FB43135C2848E97C0084C21A /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		FB4313612848E97E0084C21A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FB4313642848E97E0084C21A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		FB4313662848E97E0084C21A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,11 +81,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FB371CDC28476D1D007E6A08 /* Frameworks */ = {
+		FB4313532848E97C0084C21A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FB5E4A3D28476EFB00679657 /* UIComponents in Frameworks */,
+				FB43136B2848EA950084C21A /* UIComponents in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,7 +130,7 @@
 				FB371CF328476D6A007E6A08 /* UIComponents */,
 				DB6B07C428450A380009397B /* animeal */,
 				DB6B07DB28450A3A0009397B /* animealTests */,
-				FB371CE028476D1D007E6A08 /* animealStyle */,
+				FB4313572848E97C0084C21A /* animealUI */,
 				DB6B07C328450A380009397B /* Products */,
 				FB5E4A3B28476EFB00679657 /* Frameworks */,
 			);
@@ -141,7 +141,7 @@
 			children = (
 				DB6B07C228450A380009397B /* animeal.app */,
 				DB6B07D828450A3A0009397B /* animealTests.xctest */,
-				FB371CDF28476D1D007E6A08 /* animealStyle.app */,
+				FB4313562848E97C0084C21A /* animealUI.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -165,17 +165,17 @@
 			path = animealTests;
 			sourceTree = "<group>";
 		};
-		FB371CE028476D1D007E6A08 /* animealStyle */ = {
+		FB4313572848E97C0084C21A /* animealUI */ = {
 			isa = PBXGroup;
 			children = (
-				FB371CE128476D1D007E6A08 /* AppDelegate.swift */,
-				FB371CE328476D1D007E6A08 /* SceneDelegate.swift */,
-				FB371CE528476D1D007E6A08 /* MainViewController.swift */,
-				FB371CEA28476D1E007E6A08 /* Assets.xcassets */,
-				FB371CEC28476D1E007E6A08 /* LaunchScreen.storyboard */,
-				FB371CEF28476D1E007E6A08 /* Info.plist */,
+				FB4313582848E97C0084C21A /* AppDelegate.swift */,
+				FB43135A2848E97C0084C21A /* SceneDelegate.swift */,
+				FB43135C2848E97C0084C21A /* MainViewController.swift */,
+				FB4313612848E97E0084C21A /* Assets.xcassets */,
+				FB4313632848E97E0084C21A /* LaunchScreen.storyboard */,
+				FB4313662848E97E0084C21A /* Info.plist */,
 			);
-			path = animealStyle;
+			path = animealUI;
 			sourceTree = "<group>";
 		};
 		FB5E4A3B28476EFB00679657 /* Frameworks */ = {
@@ -230,24 +230,24 @@
 			productReference = DB6B07D828450A3A0009397B /* animealTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		FB371CDE28476D1D007E6A08 /* animealStyle */ = {
+		FB4313552848E97C0084C21A /* animealUI */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FB371CF228476D1E007E6A08 /* Build configuration list for PBXNativeTarget "animealStyle" */;
+			buildConfigurationList = FB4313672848E97E0084C21A /* Build configuration list for PBXNativeTarget "animealUI" */;
 			buildPhases = (
-				FB371CDB28476D1D007E6A08 /* Sources */,
-				FB371CDC28476D1D007E6A08 /* Frameworks */,
-				FB371CDD28476D1D007E6A08 /* Resources */,
+				FB4313522848E97C0084C21A /* Sources */,
+				FB4313532848E97C0084C21A /* Frameworks */,
+				FB4313542848E97C0084C21A /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = animealStyle;
+			name = animealUI;
 			packageProductDependencies = (
-				FB5E4A3C28476EFB00679657 /* UIComponents */,
+				FB43136A2848EA950084C21A /* UIComponents */,
 			);
-			productName = animealStyle;
-			productReference = FB371CDF28476D1D007E6A08 /* animealStyle.app */;
+			productName = animealUI;
+			productReference = FB4313562848E97C0084C21A /* animealUI.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -267,7 +267,7 @@
 						CreatedOnToolsVersion = 13.2.1;
 						TestTargetID = DB6B07C128450A380009397B;
 					};
-					FB371CDE28476D1D007E6A08 = {
+					FB4313552848E97C0084C21A = {
 						CreatedOnToolsVersion = 13.3.1;
 					};
 				};
@@ -289,7 +289,7 @@
 			targets = (
 				DB6B07C128450A380009397B /* animeal */,
 				DB6B07D728450A3A0009397B /* animealTests */,
-				FB371CDE28476D1D007E6A08 /* animealStyle */,
+				FB4313552848E97C0084C21A /* animealUI */,
 			);
 		};
 /* End PBXProject section */
@@ -314,12 +314,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FB371CDD28476D1D007E6A08 /* Resources */ = {
+		FB4313542848E97C0084C21A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FB371CEE28476D1E007E6A08 /* LaunchScreen.storyboard in Resources */,
-				FB371CEB28476D1E007E6A08 /* Assets.xcassets in Resources */,
+				FB4313652848E97E0084C21A /* LaunchScreen.storyboard in Resources */,
+				FB4313622848E97E0084C21A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -421,13 +421,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FB371CDB28476D1D007E6A08 /* Sources */ = {
+		FB4313522848E97C0084C21A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FB371CE628476D1D007E6A08 /* MainViewController.swift in Sources */,
-				FB371CE228476D1D007E6A08 /* AppDelegate.swift in Sources */,
-				FB371CE428476D1D007E6A08 /* SceneDelegate.swift in Sources */,
+				FB43135D2848E97C0084C21A /* MainViewController.swift in Sources */,
+				FB4313592848E97C0084C21A /* AppDelegate.swift in Sources */,
+				FB43135B2848E97C0084C21A /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -460,10 +460,10 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
-		FB371CEC28476D1E007E6A08 /* LaunchScreen.storyboard */ = {
+		FB4313632848E97E0084C21A /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FB371CED28476D1E007E6A08 /* Base */,
+				FB4313642848E97E0084C21A /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -687,7 +687,7 @@
 			};
 			name = Release;
 		};
-		FB371CF028476D1E007E6A08 /* Debug */ = {
+		FB4313682848E97E0084C21A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -696,7 +696,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 53APD5F9YQ;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = animealStyle/Info.plist;
+				INFOPLIST_FILE = animealUI/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
@@ -709,7 +709,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animeal.style;
+				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animeal.ui;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -717,7 +717,7 @@
 			};
 			name = Debug;
 		};
-		FB371CF128476D1E007E6A08 /* Release */ = {
+		FB4313692848E97E0084C21A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -726,7 +726,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 53APD5F9YQ;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = animealStyle/Info.plist;
+				INFOPLIST_FILE = animealUI/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
@@ -739,7 +739,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animeal.style;
+				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animeal.ui;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -777,11 +777,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FB371CF228476D1E007E6A08 /* Build configuration list for PBXNativeTarget "animealStyle" */ = {
+		FB4313672848E97E0084C21A /* Build configuration list for PBXNativeTarget "animealUI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				FB371CF028476D1E007E6A08 /* Debug */,
-				FB371CF128476D1E007E6A08 /* Release */,
+				FB4313682848E97E0084C21A /* Debug */,
+				FB4313692848E97E0084C21A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -789,7 +789,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		FB5E4A3C28476EFB00679657 /* UIComponents */ = {
+		FB43136A2848EA950084C21A /* UIComponents */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = UIComponents;
 		};
