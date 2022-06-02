@@ -1,14 +1,14 @@
 import Style
 
-public struct UIComponent {
+public struct AnyUIComponent {
     public private(set) var text = "Hello, World!"
 
     public init() {
     }
     
     public func foo() {
-        let a = AnyStyle()
+        let anyStyle = AnyStyle()
         
-        print(a.text)
+        print(anyStyle.text)
     }
 }
