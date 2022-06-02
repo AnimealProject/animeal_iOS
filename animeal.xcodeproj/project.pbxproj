@@ -62,6 +62,7 @@
 		FB371CED28476D1E007E6A08 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FB371CEF28476D1E007E6A08 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FB371CF328476D6A007E6A08 /* UIComponents */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = UIComponents; sourceTree = "<group>"; };
+		FB4313512848E3850084C21A /* Style */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Style; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +126,7 @@
 		DB6B07B928450A380009397B = {
 			isa = PBXGroup;
 			children = (
+				FB4313512848E3850084C21A /* Style */,
 				FB371CF328476D6A007E6A08 /* UIComponents */,
 				DB6B07C428450A380009397B /* animeal */,
 				DB6B07DB28450A3A0009397B /* animealTests */,
