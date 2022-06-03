@@ -5,10 +5,10 @@ public struct AnyUIComponent {
 
     public init() {
     }
-    
+
     public func foo() {
         let anyStyle = AnyStyle()
-        
+
         print(anyStyle.text)
     }
 }

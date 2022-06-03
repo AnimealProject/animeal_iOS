@@ -9,7 +9,7 @@ let package = Package(
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "UIComponents",
-            targets: ["UIComponents"]),
+            targets: ["UIComponents"])
     ],
     dependencies: [
         .package(path: "../Style")
@@ -24,6 +24,6 @@ let package = Package(
             ]),
         .testTarget(
             name: "UIComponentsTests",
-            dependencies: ["UIComponents"]),
+            dependencies: ["UIComponents"])
     ]
 )
