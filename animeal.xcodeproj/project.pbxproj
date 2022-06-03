@@ -11,13 +11,13 @@
 		DB058D71284646530064A21F /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB058D70284646530064A21F /* Colors.xcassets */; };
 		DB0D66BF2846688500930564 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0D66BE2846688500930564 /* Assets.swift */; };
 		DB0D671528466D6200930564 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DB0D670C28466D6200930564 /* Localizable.strings */; };
-		DB0D671728466D6200930564 /* sheet.csv in Resources */ = {isa = PBXBuildFile; fileRef = DB0D671428466D6200930564 /* sheet.csv */; };
 		DB0D671928466E7700930564 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0D671828466E7700930564 /* Strings.swift */; };
 		DB6B07C628450A380009397B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07C528450A380009397B /* AppDelegate.swift */; };
 		DB6B07C828450A380009397B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07C728450A380009397B /* SceneDelegate.swift */; };
 		DB6B07CA28450A380009397B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07C928450A380009397B /* HomeViewController.swift */; };
 		DB6B07D228450A390009397B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB6B07D028450A390009397B /* LaunchScreen.storyboard */; };
 		DB6B07DD28450A3A0009397B /* AnimealTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07DC28450A3A0009397B /* AnimealTests.swift */; };
+		DB8F733B284D179400CA698F /* Style in Frameworks */ = {isa = PBXBuildFile; productRef = DB8F733A284D179400CA698F /* Style */; };
 		FB4313592848E97C0084C21A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4313582848E97C0084C21A /* AppDelegate.swift */; };
 		FB43135B2848E97C0084C21A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB43135A2848E97C0084C21A /* SceneDelegate.swift */; };
 		FB43135D2848E97C0084C21A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB43135C2848E97C0084C21A /* MainViewController.swift */; };
@@ -42,8 +42,6 @@
 		DB058D70284646530064A21F /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		DB0D66BE2846688500930564 /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		DB0D670D28466D6200930564 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		DB0D671228466D6200930564 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
-		DB0D671428466D6200930564 /* sheet.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sheet.csv; sourceTree = "<group>"; };
 		DB0D671828466E7700930564 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		DB0D671B2846744100930564 /* ka */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ka; path = ka.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DB6B07C228450A380009397B /* animeal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = animeal.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,6 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB8F733B284D179400CA698F /* Style in Frameworks */,
 				FB5E4A3F284770FE00679657 /* UIComponents in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -113,7 +112,6 @@
 		DB4CA51D2845104900050EA5 /* res */ = {
 			isa = PBXGroup;
 			children = (
-				DB0D671428466D6200930564 /* sheet.csv */,
 				DB0D670C28466D6200930564 /* Localizable.strings */,
 				DB6B07D028450A390009397B /* LaunchScreen.storyboard */,
 				DB6B07D328450A390009397B /* Info.plist */,
@@ -195,8 +193,6 @@
 				DB6B07BE28450A380009397B /* Sources */,
 				DB6B07BF28450A380009397B /* Frameworks */,
 				DB6B07C028450A380009397B /* Resources */,
-				DB0D671C284677C300930564 /* download localization .csv */,
-				DB0D671A2846714D00930564 /* babelish */,
 				DB058D61284642D60064A21F /* swiftgen */,
 				DB4CA51E2845114E00050EA5 /* swiftlint */,
 			);
@@ -207,6 +203,7 @@
 			name = animeal;
 			packageProductDependencies = (
 				FB5E4A3E284770FE00679657 /* UIComponents */,
+				DB8F733A284D179400CA698F /* Style */,
 			);
 			productName = animeal;
 			productReference = DB6B07C228450A380009397B /* animeal.app */;
@@ -258,7 +255,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1330;
-				LastUpgradeCheck = 1320;
+				LastUpgradeCheck = 1340;
 				TargetAttributes = {
 					DB6B07C128450A380009397B = {
 						CreatedOnToolsVersion = 13.2.1;
@@ -279,7 +276,6 @@
 			knownRegions = (
 				en,
 				Base,
-				ru,
 				ka,
 			);
 			mainGroup = DB6B07B928450A380009397B;
@@ -302,7 +298,6 @@
 				DB058D6F284646430064A21F /* Images.xcassets in Resources */,
 				DB0D671528466D6200930564 /* Localizable.strings in Resources */,
 				DB6B07D228450A390009397B /* LaunchScreen.storyboard in Resources */,
-				DB0D671728466D6200930564 /* sheet.csv in Resources */,
 				DB058D71284646530064A21F /* Colors.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -343,42 +338,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftgen >/dev/null; then\n    swiftgen\nelse\n  echo \"warning: SwiftGen not installed, download it from https://github.com/SwiftGen/SwiftGen\"\nfi\n";
-		};
-		DB0D671A2846714D00930564 /* babelish */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = babelish;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export LANG=en_US.UTF-8\ncd ${PROJECT_DIR}/animeal/res/\nbundle exec babelish csv2strings --filename sheet.csv --langs English:en Russian:ru Georgian:ka\n";
-		};
-		DB0D671C284677C300930564 /* download localization .csv */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "download localization .csv";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export LANG=en_US.UTF-8\nCSV_LINK=\"https://docs.google.com/spreadsheets/d/1yBbmWHkfT8ElZEy0Xz2Hk8yHRdsKN_Uo3l8S9QdiRH8/gviz/tq?tqx=out:csv&sheet=Sheet1\"\n\nTYPE=$(curl -sI \"$CSV_LINK\" -w '%{content_type}' -o /dev/null)\nif [[ \"$TYPE\" = \"text/csv\"* ]]\nthen\n    curl $CSV_LINK -o ${SRCROOT}/animeal/res/sheet.csv\nelse\n    echo $TYPE\n    echo \"Content type is not CSV, invalid URL\"\n    exit 1\nfi\n";
 		};
 		DB4CA51E2845114E00050EA5 /* swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -446,7 +405,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				DB0D670D28466D6200930564 /* en */,
-				DB0D671228466D6200930564 /* ru */,
 				DB0D671B2846744100930564 /* ka */,
 			);
 			name = Localizable.strings;
@@ -475,6 +433,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -536,6 +495,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -789,6 +749,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		DB8F733A284D179400CA698F /* Style */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Style;
+		};
 		FB43136A2848EA950084C21A /* UIComponents */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = UIComponents;

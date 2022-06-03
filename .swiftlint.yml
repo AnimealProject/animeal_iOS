@@ -1,54 +1,78 @@
-# By default, SwiftLint uses a set of sensible default rules you can adjust:
-disabled_rules: # rule identifiers turned on by default to exclude from running
-  - colon
-  - comma
-  - control_statement
-opt_in_rules: # some rules are turned off by default, so you need to opt-in
-  - empty_count # Find all the available rules by running: `swiftlint rules`
+excluded:
+  - ${PWD}/Pods
+  - ${PWD}/DerivedData
 
-# Alternatively, specify all rules explicitly by uncommenting this option:
-# only_rules: # delete `disabled_rules` & `opt_in_rules` if using this
-#   - empty_parameters
-#   - vertical_whitespace
+disabled_rules:
+  - discarded_notification_center_observer
+  - notification_center_detachment
+  - orphaned_doc_comment
+  - todo
+  - unused_capture_list
+  - indentation_width
 
-# included: # paths to include during linting. `--path` is ignored if present.
-# - Sources
-excluded: # paths to ignore during linting. Takes precedence over `included`.
-  - Carthage
-  - Pods
-  - Source/ExcludedFolder
-  - Source/ExcludedFile.swift
-  - Source/*/ExcludedFile.swift # Exclude files with a wildcard
-  - R.generated.swift
-  - .build
-analyzer_rules: # Rules run by `swiftlint analyze`
-  - explicit_self
+opt_in_rules:
+  - array_init
+  - attributes
+  - closure_end_indentation
+  - closure_spacing
+  - collection_alignment
+  - colon # promote to error
+  - convenience_type
+  - discouraged_object_literal
+  - empty_collection_literal
+  - empty_count
+  - empty_string
+  - enum_case_associated_values_count
+  - fatal_error_message
+  - first_where
+  - force_unwrapping
+  - implicitly_unwrapped_optional
+  - last_where
+  - legacy_random
+  - literal_expression_end_indentation
+  - multiline_arguments
+  - multiline_function_chains
+  - multiline_literal_brackets
+  - multiline_parameters
+  - multiline_parameters_brackets
+  - operator_usage_whitespace
+  - overridden_super_call
+  - pattern_matching_keywords
+  - prefer_self_type_over_type_of_self
+  - redundant_nil_coalescing
+  - redundant_type_annotation
+  - strict_fileprivate
+  - toggle_bool
+  - trailing_closure
+  - unneeded_parentheses_in_closure_argument
+  - unused_import
+  - vertical_whitespace_closing_braces
+  - yoda_condition
 
-# configurable rules can be customized from this configuration file
-# binary rules can set their severity level
-force_cast: warning # implicitly
-force_try:
-  severity: warning # explicitly
-# rules that have both warning and error levels, can set just the warning level
-# implicitly
-line_length: 110
-# they can set both implicitly with an array
-type_body_length:
-  - 300 # warning
-  - 400 # error
-# or they can set both explicitly
-file_length:
-  warning: 500
-  error: 1200
-# naming rules can set warnings/errors for min_length and max_length
-# additionally they can set excluded names
-type_name:
-  min_length: 3 # only warning
-  max_length: # warning and error
-    warning: 40
-    error: 50
-  excluded: iPhone # excluded via string
-  allowed_symbols: ["_"] # these are allowed in type names
+
+custom_rules:
+  array_constructor:
+    name: "Array/Dictionary initializer"
+    regex: '[let,var] .+ = (\[.+\]\(\))'
+    capture_group: 1
+    message: "Use explicit type annotation when initializing empty arrays and dictionaries"
+    severity: warning
+
+
+attributes:
+  always_on_same_line:
+    - "@IBSegueAction"
+    - "@IBAction"
+    - "@NSManaged"
+    - "@objc"
+
+force_cast: warning
+force_try: warning
+function_body_length:
+    warning: 60
+
+legacy_hashing: error
+
 identifier_name:
   min_length: # only min_length
     error: 4 # only error
@@ -58,4 +82,28 @@ identifier_name:
     - id
     - URL
     - GlobalAPIKey
-reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, codeclimate, junit, html, emoji, sonarqube, markdown, github-actions-logging)
+    - i
+    - id
+    - x
+    - y
+    - z
+
+line_length:
+  ignores_urls: true
+  ignores_function_declarations: true
+  ignores_comments: true
+
+multiline_arguments:
+  first_argument_location: next_line
+  only_enforce_after_first_closure_on_first_line: true
+  
+private_over_fileprivate:
+  validate_extensions: true
+
+trailing_whitespace:
+  ignores_empty_lines: false
+  ignores_comments: true
+
+vertical_whitespace:
+  max_empty_lines: 2
+
