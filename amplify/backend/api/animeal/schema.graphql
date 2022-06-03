@@ -1,0 +1,550 @@
+enum FeedingPointStatus {
+  fed
+  pending
+  starved
+}
+
+enum FeedingStatus {
+  approved
+  rejected
+  pending
+  inProgress
+}
+
+type Location @aws_api_key @aws_cognito_user_pools {
+  lat: Float!
+  lon: Float!
+}
+
+type Caretaker @aws_api_key @aws_cognito_user_pools {
+  fullName: String
+  email: AWSEmail
+  phoneNumber: AWSPhone
+}
+
+type PetI18n @aws_api_key @aws_cognito_user_pools {
+  locale: String!
+  name: String
+  breed: String
+  color: String
+}
+
+type Pet
+  @searchable
+  @model
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["Administrator"]
+        operations: [create, read, update, delete]
+      }
+      {
+        allow: groups
+        groups: ["Moderator"]
+        operations: [create, read, update, delete]
+      }
+      { allow: groups, groups: ["Volunteer"], operations: [read] }
+      { allow: owner, operations: [create, read, update, delete] }
+      { allow: public, provider: apiKey }
+      { allow: private, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  images: [String!]!
+  breed: String!
+  color: String!
+  age: Int!
+  chipNumber: String!
+  vaccinatedAt: AWSDateTime!
+  caretaker: Caretaker
+  i18n: [PetI18n!]
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  createdBy: String
+  updatedBy: String
+  owner: String
+  feedingPoints: [RelationPetFeedingPoint!] @hasMany(indexName: "byPetId", fields: ["id"])
+  category: Category! @hasOne
+  medications: [Medication!] @hasMany
+  users: [RelationUserPet!] @hasMany(indexName: "byPetId", fields: ["id"])
+}
+
+type CategoryI18n @aws_api_key @aws_cognito_user_pools {
+  locale: String!
+  name: String
+}
+
+type Category
+  @searchable
+  @model
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["Administrator"]
+        operations: [create, read, update, delete]
+      }
+      {
+        allow: groups
+        groups: ["Moderator"]
+        operations: [create, read, update, delete]
+      }
+      { allow: groups, groups: ["Volunteer"], operations: [read] }
+      { allow: owner, operations: [create, read, update, delete] }
+      { allow: public, provider: apiKey }
+      { allow: private, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  icon: String!
+  i18n: [CategoryI18n!]
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  createdBy: String
+  updatedBy: String
+  owner: String
+}
+
+type Point @aws_api_key @aws_cognito_user_pools {
+  type: String!
+  coordinates: [Float]!
+}
+
+type FeedingPointI18n @aws_api_key @aws_cognito_user_pools {
+  locale: String!
+  name: String
+  description: String
+  city: String
+  street: String
+  address: String
+  region: String
+  neighborhood: String
+}
+
+type FeedingPoint
+  @searchable
+  @model
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["Administrator"]
+        operations: [create, read, update, delete]
+      }
+      {
+        allow: groups
+        groups: ["Moderator"]
+        operations: [create, read, update, delete]
+      }
+      { allow: groups, groups: ["Volunteer"], operations: [read] }
+      { allow: owner, operations: [create, read, update, delete] }
+      { allow: public, provider: apiKey }
+      { allow: private, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  description: String!
+  city: String!
+  street: String!
+  address: String!
+  images: [String]
+  point: Point!
+  location: Location!
+  region: String!
+  neighborhood: String!
+  distance: Float!
+  status: FeedingPointStatus!
+  i18n: [FeedingPointI18n!]
+  statusUpdatedAt: AWSDateTime!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  createdBy: String
+  updatedBy: String
+  owner: String
+  pets: [RelationPetFeedingPoint!] @hasMany(indexName: "byFeedingPointId", fields: ["id"])
+  category: Category! @hasOne
+  users: [RelationUserFeedingPoint!]
+    @hasMany(indexName: "byFeedingPointId", fields: ["id"])
+  feedings: [Feeding] @hasMany
+}
+
+type Feeding
+  @searchable
+  @model
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["Administrator"]
+        operations: [create, read, update, delete]
+      }
+      {
+        allow: groups
+        groups: ["Moderator"]
+        operations: [create, read, update, delete]
+      }
+      { allow: groups, groups: ["Volunteer"], operations: [read] }
+      { allow: owner, operations: [create, read, update, delete] }
+      { allow: public, provider: apiKey }
+      { allow: private, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  userId: String!
+  images: [String!]!
+  status: FeedingStatus!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  createdBy: String
+  updatedBy: String
+  owner: String
+  feedingPoint: FeedingPoint! @belongsTo
+}
+
+type RelationPetFeedingPoint
+  @model
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["Administrator"]
+        operations: [create, read, update, delete]
+      }
+      {
+        allow: groups
+        groups: ["Moderator"]
+        operations: [create, read, update, delete]
+      }
+      { allow: groups, groups: ["Volunteer"], operations: [read] }
+      { allow: owner, operations: [create, read, update, delete] }
+      { allow: public, provider: apiKey }
+      { allow: private, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  petId: ID!
+    @index(
+      name: "byPetId"
+      sortKeyFields: ["feedingPointId"]
+      queryField: "relationPetFeedingPointByPetId"
+    )
+  feedingPointId: ID!
+    @index(
+      name: "byFeedingPointId"
+      sortKeyFields: ["petId"]
+      queryField: "relationPetFeedingPointByFeedingPointId"
+    )
+  pet: Pet! @belongsTo(fields: ["petId"])
+  feedingPoint: FeedingPoint! @belongsTo(fields: ["feedingPointId"])
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  owner: String
+}
+
+type RelationUserFeedingPoint
+  @model
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["Administrator"]
+        operations: [create, read, update, delete]
+      }
+      {
+        allow: groups
+        groups: ["Moderator"]
+        operations: [create, read, update, delete]
+      }
+      { allow: groups, groups: ["Volunteer"], operations: [read] }
+      { allow: owner, operations: [create, read, update, delete] }
+      { allow: public, provider: apiKey }
+      { allow: private, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  userId: String!
+    @index(
+      name: "byUserId"
+      sortKeyFields: ["feedingPointId"]
+      queryField: "relationUserFeedingPointByUserId"
+    )
+  feedingPointId: ID!
+    @index(
+      name: "byFeedingPointId"
+      sortKeyFields: ["userId"]
+      queryField: "relationUserFeedingPointByFeedingPointId"
+    )
+  feedingPoint: FeedingPoint! @belongsTo(fields: ["feedingPointId"])
+}
+
+type RelationUserPet
+  @model
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["Administrator"]
+        operations: [create, read, update, delete]
+      }
+      {
+        allow: groups
+        groups: ["Moderator"]
+        operations: [create, read, update, delete]
+      }
+      { allow: groups, groups: ["Volunteer"], operations: [read] }
+      { allow: owner, operations: [create, read, update, delete] }
+      { allow: public, provider: apiKey }
+      { allow: private, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  userId: String! @index(name: "byUserId", sortKeyFields: ["petId"])
+  petId: ID! @index(name: "byPetId", sortKeyFields: ["userId"])
+  pet: Pet! @belongsTo(fields: ["petId"])
+}
+
+type MedicationI18n @aws_api_key @aws_cognito_user_pools {
+  name: String!
+}
+
+type Medication
+  @searchable
+  @model
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["Administrator"]
+        operations: [create, read, update, delete]
+      }
+      {
+        allow: groups
+        groups: ["Moderator"]
+        operations: [create, read, update, delete]
+      }
+      { allow: groups, groups: ["Volunteer"], operations: [read] }
+      { allow: owner, operations: [create, read, update, delete] }
+      { allow: public, provider: apiKey }
+      { allow: private, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  date: AWSDateTime!
+  i18n: [MedicationI18n!]
+}
+
+type Settings
+  @model
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["Administrator"]
+        operations: [create, read, update, delete]
+      }
+      {
+        allow: groups
+        groups: ["Moderator"]
+        operations: [create, read, update, delete]
+      }
+      { allow: groups, groups: ["Volunteer"], operations: [read] }
+      { allow: owner, operations: [create, read, update, delete] }
+      { allow: public, provider: apiKey }
+      { allow: private, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  key: String!
+  value: String!
+}
+
+type Language
+  @model
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["Administrator"]
+        operations: [create, read, update, delete]
+      }
+      {
+        allow: groups
+        groups: ["Moderator"]
+        operations: [create, read, update, delete]
+      }
+      { allow: groups, groups: ["Volunteer"], operations: [read] }
+      { allow: owner, operations: [create, read, update, delete] }
+      { allow: public, provider: apiKey }
+      { allow: private, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  code: String!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  createdBy: String
+  updatedBy: String
+  direction: String!
+}
+
+type LanguagesSetting
+  @model
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["Administrator"]
+        operations: [create, read, update, delete]
+      }
+      {
+        allow: groups
+        groups: ["Moderator"]
+        operations: [create, read, update, delete]
+      }
+      { allow: groups, groups: ["Volunteer"], operations: [read] }
+      { allow: owner, operations: [create, read, update, delete] }
+      { allow: public, provider: apiKey }
+      { allow: private, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  value: String!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  createdBy: String
+  updatedBy: String
+}
+
+type Favourites
+  @searchable
+  @model
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["Administrator"]
+        operations: [create, read, update, delete]
+      }
+      {
+        allow: groups
+        groups: ["Moderator"]
+        operations: [create, read, update, delete]
+      }
+      { allow: groups, groups: ["Volunteer"], operations: [read] }
+      { allow: owner, operations: [create, read, update, delete] }
+      { allow: public, provider: apiKey }
+      { allow: private, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  userId: ID! @index(name: "byUserId", sortKeyFields: ["feedingPointId"])
+  feedingPointId: ID!
+    @index(name: "byFeedingPointId", sortKeyFields: ["userId"])
+  feedingPoint: FeedingPoint! @hasOne(fields: ["feedingPointId"])
+}
+
+input BoundsInput {
+  top_left: LocationInput
+  bottom_right: LocationInput
+}
+
+input LocationInput {
+  lat: Float
+  lon: Float
+}
+
+input SearchableIDFilterInput {
+  ne: String
+  gt: String
+  lt: String
+  gte: String
+  lte: String
+  eq: String
+  match: String
+  matchPhrase: String
+  matchPhrasePrefix: String
+  multiMatch: String
+  exists: Boolean
+  wildcard: String
+  regexp: String
+  range: [String]
+}
+
+input SearchableStringFilterInput {
+  ne: String
+  gt: String
+  lt: String
+  gte: String
+  lte: String
+  eq: String
+  match: String
+  matchPhrase: String
+  matchPhrasePrefix: String
+  multiMatch: String
+  exists: Boolean
+  wildcard: String
+  regexp: String
+  range: [String]
+}
+
+input SearchableFloatFilterInput {
+  ne: Int
+  gt: Int
+  lt: Int
+  gte: Int
+  lte: Int
+  eq: Int
+  range: [Int]
+}
+
+input SearchableFilterInput {
+  id: SearchableIDFilterInput
+  name: SearchableStringFilterInput
+  status: SearchableStringFilterInput
+  description: SearchableStringFilterInput
+  images: SearchableStringFilterInput
+  cover: SearchableStringFilterInput
+  categoryId: SearchableIDFilterInput
+  owner: SearchableStringFilterInput
+  createdBy: SearchableStringFilterInput
+  updatedBy: SearchableStringFilterInput
+  createdAt: SearchableStringFilterInput
+  updatedAt: SearchableStringFilterInput
+  statusUpdatedAt: SearchableStringFilterInput
+  author: SearchableStringFilterInput
+  address: SearchableStringFilterInput
+  length: SearchableFloatFilterInput
+  duration: SearchableFloatFilterInput
+  notes: SearchableStringFilterInput
+  url: SearchableStringFilterInput
+  and: [SearchableFilterInput]
+  or: [SearchableFilterInput]
+  not: SearchableFilterInput
+}
+
+type FeedingPointConnection @aws_api_key @aws_cognito_user_pools {
+  items: [FeedingPoint!]!
+  total: Int
+  nextToken: String
+}
+
+type Query {
+  translate(text: String!, to: String!, from: String): String!
+    @function(name: "translate-${env}")
+    @aws_api_key
+    @aws_cognito_user_pools
+  searchByBounds(
+    bounds: BoundsInput!
+    limit: Int
+    nextToken: String
+    from: Int
+    filter: SearchableFilterInput
+  ): FeedingPointConnection @aws_api_key @aws_cognito_user_pools
+}

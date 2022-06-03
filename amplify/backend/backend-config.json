@@ -1,0 +1,202 @@
+{
+    "auth": {
+        "animeald4b890d7": {
+            "service": "Cognito",
+            "providerPlugin": "awscloudformation",
+            "dependsOn": [],
+            "customAuth": false,
+            "frontendAuthConfig": {
+                "socialProviders": [],
+                "usernameAttributes": [
+                    "EMAIL"
+                ],
+                "signupAttributes": [
+                    "BIRTHDATE",
+                    "EMAIL",
+                    "FAMILY_NAME",
+                    "NAME",
+                    "PHONE_NUMBER"
+                ],
+                "passwordProtectionSettings": {
+                    "passwordPolicyMinLength": 8,
+                    "passwordPolicyCharacters": []
+                },
+                "mfaConfiguration": "OFF",
+                "mfaTypes": [
+                    "SMS"
+                ],
+                "verificationMechanisms": [
+                    "EMAIL"
+                ]
+            }
+        },
+        "userPoolGroups": {
+            "service": "Cognito-UserPool-Groups",
+            "providerPlugin": "awscloudformation",
+            "dependsOn": [
+                {
+                    "category": "auth",
+                    "resourceName": "animeald4b890d7",
+                    "attributes": [
+                        "UserPoolId",
+                        "AppClientIDWeb",
+                        "AppClientID",
+                        "IdentityPoolId"
+                    ]
+                }
+            ]
+        }
+    },
+    "storage": {
+        "animealstorage": {
+            "service": "S3",
+            "providerPlugin": "awscloudformation",
+            "dependsOn": [
+                {
+                    "category": "auth",
+                    "resourceName": "animeald4b890d7",
+                    "attributes": [
+                        "UserPoolId"
+                    ]
+                },
+                {
+                    "category": "auth",
+                    "resourceName": "userPoolGroups",
+                    "attributes": [
+                        "AdministratorGroupRole"
+                    ]
+                },
+                {
+                    "category": "auth",
+                    "resourceName": "userPoolGroups",
+                    "attributes": [
+                        "ModeratorGroupRole"
+                    ]
+                },
+                {
+                    "category": "auth",
+                    "resourceName": "userPoolGroups",
+                    "attributes": [
+                        "VolunteerGroupRole"
+                    ]
+                }
+            ]
+        }
+    },
+    "api": {
+        "animeal": {
+            "service": "AppSync",
+            "providerPlugin": "awscloudformation",
+            "output": {
+                "authConfig": {
+                    "defaultAuthentication": {
+                        "authenticationType": "API_KEY",
+                        "apiKeyConfig": {
+                            "apiKeyExpirationDays": 7
+                        }
+                    },
+                    "additionalAuthenticationProviders": [
+                        {
+                            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+                            "userPoolConfig": {
+                                "userPoolId": "authanimeald4b890d7"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        "AdminQueries": {
+            "service": "API Gateway",
+            "providerPlugin": "awscloudformation",
+            "authorizationType": "AMAZON_COGNITO_USER_POOLS",
+            "dependsOn": [
+                {
+                    "category": "auth",
+                    "resourceName": "animeald4b890d7",
+                    "attributes": [
+                        "UserPoolId"
+                    ]
+                },
+                {
+                    "category": "function",
+                    "resourceName": "AdminQueries9b7a2344",
+                    "attributes": [
+                        "Arn",
+                        "Name"
+                    ]
+                }
+            ]
+        }
+    },
+    "geo": {
+        "animealplaceindex": {
+            "isDefault": true,
+            "providerPlugin": "awscloudformation",
+            "service": "PlaceIndex",
+            "dataProvider": "HERE",
+            "dataSourceIntendedUse": "SingleUse",
+            "accessType": "AuthorizedUsers"
+        }
+    },
+    "function": {
+        "AdminQueries9b7a2344": {
+            "service": "Lambda",
+            "providerPlugin": "awscloudformation",
+            "build": true,
+            "dependsOn": [
+                {
+                    "category": "auth",
+                    "resourceName": "animeald4b890d7",
+                    "attributes": [
+                        "UserPoolId"
+                    ]
+                }
+            ]
+        },
+        "translate": {
+            "build": true,
+            "providerPlugin": "awscloudformation",
+            "service": "Lambda"
+        },
+        "updateTranslationsTrigger": {
+            "build": true,
+            "providerPlugin": "awscloudformation",
+            "service": "Lambda",
+            "dependsOn": [
+                {
+                    "category": "api",
+                    "resourceName": "animeal",
+                    "attributes": [
+                        "GraphQLAPIIdOutput",
+                        "GraphQLAPIEndpointOutput",
+                        "GraphQLAPIKeyOutput"
+                    ]
+                }
+            ]
+        }
+    },
+    "custom": {
+        "searchByBounds": {
+            "service": "customCDK",
+            "providerPlugin": "awscloudformation",
+            "dependsOn": [
+                {
+                    "category": "api",
+                    "resourceName": "animeal",
+                    "attributes": [
+                        "GraphQLAPIKeyOutput",
+                        "GraphQLAPIIdOutput",
+                        "GraphQLAPIEndpointOutput"
+                    ]
+                }
+            ]
+        }
+    },
+    "hosting": {
+        "amplifyhosting": {
+            "service": "amplifyhosting",
+            "type": "cicd"
+        }
+    }
+}
