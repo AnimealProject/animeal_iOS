@@ -1,0 +1,49 @@
+## Query.searchByBounds.req.vtl
+## FeedingPoints of type FeedingPoint will be stored in the /feedingpoint index
+
+#set( $indexPath = "/feedingpoint/_search" )
+#set( $nonKeywordFields = ["createdAt", "updatedAt", "statusUpdatedAt"] )
+
+#if( $util.isNullOrEmpty($context.args.sort) )
+  #set( $sortDirection = "desc" )
+  #set( $sortField = "id" )
+#else
+  #set( $sortDirection = $util.defaultIfNull($context.args.sort.direction, "desc") )
+  #set( $sortField = $util.defaultIfNull($context.args.sort.field, "id") )
+#end
+#if( $nonKeywordFields.contains($sortField) )
+  #set( $sortField0 = $util.toJson($sortField) )
+#else
+  #set( $sortField0 = $util.toJson("${sortField}.keyword") )
+#end
+{
+    "version": "2017-02-28",
+    "operation": "GET",
+    "path": "$indexPath.toLowerCase()",
+    "params": {
+        "body": {
+            #if( $context.args.nextToken )"search_after": [$util.toJson($context.args.nextToken)], #end
+            "sort": [{$sortField0: { "order" : $util.toJson($sortDirection) }}],
+            "size": #if( $context.args.limit ) $context.args.limit #else 100 #end,
+            "query": {
+                "bool" : {
+                    "filter" : [{     
+                        "geo_bounding_box": {
+                            "location": {
+                                "top_left": $util.toJson($ctx.args.bounds.top_left),
+                                "bottom_right": $util.toJson($ctx.args.bounds.bottom_right)
+                            }
+                        }},
+                        #if( $context.args.filter )
+                          $util.transform.toElasticsearchQueryDSL($ctx.args.filter)
+                        #else
+                          {
+                            "match_all": {}
+                          }
+                        #end
+                      ]                    
+                }
+            }
+        }
+    }
+}

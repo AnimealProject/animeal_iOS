@@ -1,0 +1,124 @@
+{
+    "UserAgent": "aws-amplify-cli/2.0",
+    "Version": "1.0",
+    "api": {
+        "plugins": {
+            "awsAPIPlugin": {
+                "animeal": {
+                    "endpointType": "GraphQL",
+                    "endpoint": "https://62b27nxx65a6nfp4aqfetq62he.appsync-api.us-east-1.amazonaws.com/graphql",
+                    "region": "us-east-1",
+                    "authorizationType": "API_KEY",
+                    "apiKey": "da2-nuv77jobdbgfnjaxvbkdpxl63u"
+                },
+                "AdminQueries": {
+                    "endpointType": "REST",
+                    "endpoint": "https://ethx3qrv9c.execute-api.us-east-1.amazonaws.com/dev",
+                    "region": "us-east-1",
+                    "authorizationType": "AMAZON_COGNITO_USER_POOLS"
+                }
+            }
+        }
+    },
+    "auth": {
+        "plugins": {
+            "awsCognitoAuthPlugin": {
+                "UserAgent": "aws-amplify/cli",
+                "Version": "0.1.0",
+                "IdentityManager": {
+                    "Default": {}
+                },
+                "CredentialsProvider": {
+                    "CognitoIdentity": {
+                        "Default": {
+                            "PoolId": "us-east-1:f69d1a9c-a236-4365-ade0-67260d452406",
+                            "Region": "us-east-1"
+                        }
+                    }
+                },
+                "CognitoUserPool": {
+                    "Default": {
+                        "PoolId": "us-east-1_YAGSvvSKF",
+                        "AppClientId": "2d9l24c6oi5tdebpvvbg171ln2",
+                        "Region": "us-east-1"
+                    }
+                },
+                "Auth": {
+                    "Default": {
+                        "authenticationFlowType": "USER_SRP_AUTH",
+                        "socialProviders": [],
+                        "usernameAttributes": [
+                            "EMAIL"
+                        ],
+                        "signupAttributes": [
+                            "BIRTHDATE",
+                            "EMAIL",
+                            "FAMILY_NAME",
+                            "NAME",
+                            "PHONE_NUMBER"
+                        ],
+                        "passwordProtectionSettings": {
+                            "passwordPolicyMinLength": 8,
+                            "passwordPolicyCharacters": [
+                                "REQUIRES_LOWERCASE",
+                                "REQUIRES_UPPERCASE",
+                                "REQUIRES_NUMBERS",
+                                "REQUIRES_SYMBOLS"
+                            ]
+                        },
+                        "mfaConfiguration": "OFF",
+                        "mfaTypes": [
+                            "SMS"
+                        ],
+                        "verificationMechanisms": [
+                            "EMAIL"
+                        ]
+                    }
+                },
+                "S3TransferUtility": {
+                    "Default": {
+                        "Bucket": "animeal171201-dev",
+                        "Region": "us-east-1"
+                    }
+                },
+                "AppSync": {
+                    "Default": {
+                        "ApiUrl": "https://62b27nxx65a6nfp4aqfetq62he.appsync-api.us-east-1.amazonaws.com/graphql",
+                        "Region": "us-east-1",
+                        "AuthMode": "API_KEY",
+                        "ApiKey": "da2-nuv77jobdbgfnjaxvbkdpxl63u",
+                        "ClientDatabasePrefix": "animeal_API_KEY"
+                    },
+                    "animeal_AMAZON_COGNITO_USER_POOLS": {
+                        "ApiUrl": "https://62b27nxx65a6nfp4aqfetq62he.appsync-api.us-east-1.amazonaws.com/graphql",
+                        "Region": "us-east-1",
+                        "AuthMode": "AMAZON_COGNITO_USER_POOLS",
+                        "ClientDatabasePrefix": "animeal_AMAZON_COGNITO_USER_POOLS"
+                    }
+                }
+            }
+        }
+    },
+    "storage": {
+        "plugins": {
+            "awsS3StoragePlugin": {
+                "bucket": "animeal171201-dev",
+                "region": "us-east-1",
+                "defaultAccessLevel": "guest"
+            }
+        }
+    },
+    "geo": {
+        "plugins": {
+            "awsLocationGeoPlugin": {
+                "region": "us-east-1",
+                "searchIndices": {
+                    "items": [
+                        "animealplaceindex-dev"
+                    ],
+                    "default": "animealplaceindex-dev"
+                }
+            }
+        }
+    }
+}
