@@ -27,6 +27,13 @@
 		704192811E47C576AE584354 /* Favourites+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6AFDBF0B00B11A2E29B8944 /* Favourites+Schema.swift */; };
 		715F8D7B404E4EECCD15081A /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4A7CF4F0C1D848CC47A162 /* Location.swift */; };
 		74DE171718857E1BDAA82A57 /* RelationUserFeedingPoint+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51C75C31E8D0F3CD7FEA2BB /* RelationUserFeedingPoint+Schema.swift */; };
+		8360D1A3284E954900ACDEDB /* LoginModelOnboardingStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8360D1A2284E954900ACDEDB /* LoginModelOnboardingStep.swift */; };
+		8360D1A5284E964D00ACDEDB /* LoginViewActionMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8360D1A4284E964D00ACDEDB /* LoginViewActionMapper.swift */; };
+		8360D1A7284E98FA00ACDEDB /* LoginViewOnboardingStepsMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8360D1A6284E98FA00ACDEDB /* LoginViewOnboardingStepsMapper.swift */; };
+		8360D1A9284E9A9600ACDEDB /* LoginViewOnboardingStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8360D1A8284E9A9600ACDEDB /* LoginViewOnboardingStep.swift */; };
+		8360D1AB284E9EBD00ACDEDB /* LoginViewAction+ButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8360D1AA284E9EBD00ACDEDB /* LoginViewAction+ButtonViewModel.swift */; };
+		8360D1AD284E9FF400ACDEDB /* LoginViewOnboardingStep+OnboardingViewStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8360D1AC284E9FF400ACDEDB /* LoginViewOnboardingStep+OnboardingViewStep.swift */; };
+		8360D1AF284F2A5E00ACDEDB /* LoginViewActionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8360D1AE284F2A5E00ACDEDB /* LoginViewActionEvent.swift */; };
 		839E2742284A33490040142A /* AWSAPIPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 839E2741284A33490040142A /* AWSAPIPlugin */; };
 		839E2744284A33490040142A /* AWSCognitoAuthPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 839E2743284A33490040142A /* AWSCognitoAuthPlugin */; };
 		839E2746284A33490040142A /* AWSDataStorePlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 839E2745284A33490040142A /* AWSDataStorePlugin */; };
@@ -34,6 +41,13 @@
 		839E274A284A33490040142A /* Amplify in Frameworks */ = {isa = PBXBuildFile; productRef = 839E2749284A33490040142A /* Amplify */; };
 		839E274C284A33CA0040142A /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 839E274B284A33CA0040142A /* amplifyconfiguration.json */; };
 		839E274E284A33DD0040142A /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 839E274D284A33DD0040142A /* awsconfiguration.json */; };
+		83F3CC0E2847704300C05298 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F3CC0D2847704300C05298 /* LoginViewController.swift */; };
+		83F3CC102847713400C05298 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F3CC0F2847713400C05298 /* LoginViewModel.swift */; };
+		83F3CC12284771CA00C05298 /* LoginAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F3CC11284771CA00C05298 /* LoginAssembler.swift */; };
+		83F3CC14284771FB00C05298 /* LoginContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F3CC13284771FB00C05298 /* LoginContract.swift */; };
+		83F3CC1B28477ECE00C05298 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F3CC1A28477ECE00C05298 /* LoginModel.swift */; };
+		83F3CC1D2847808200C05298 /* LoginModelAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F3CC1C2847808200C05298 /* LoginModelAction.swift */; };
+		83F3CC202847851300C05298 /* LoginViewAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F3CC1F2847851300C05298 /* LoginViewAction.swift */; };
 		83FA79410E174D738434A8AD /* Medication+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A66FE8EF8CD69BA7FC2D891 /* Medication+Schema.swift */; };
 		88EA22371FFB6AF061D88A0F /* FeedingPointI18n+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8CB726A199268170F5DB49 /* FeedingPointI18n+Schema.swift */; };
 		894C53219C7197F7610E9C6D /* FeedingPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F2F2B14E76EE035EDE1673 /* FeedingPoint.swift */; };
@@ -108,8 +122,22 @@
 		6A0B545C01B304B77CD48DF3 /* CategoryI18n.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = CategoryI18n.swift; path = amplify/generated/models/CategoryI18n.swift; sourceTree = "<group>"; };
 		761104F96C616340746249C7 /* FeedingPointStatus.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = FeedingPointStatus.swift; path = amplify/generated/models/FeedingPointStatus.swift; sourceTree = "<group>"; };
 		832B4C337074B295E887E7E6 /* Caretaker.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Caretaker.swift; path = amplify/generated/models/Caretaker.swift; sourceTree = "<group>"; };
+		8360D1A2284E954900ACDEDB /* LoginModelOnboardingStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModelOnboardingStep.swift; sourceTree = "<group>"; };
+		8360D1A4284E964D00ACDEDB /* LoginViewActionMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewActionMapper.swift; sourceTree = "<group>"; };
+		8360D1A6284E98FA00ACDEDB /* LoginViewOnboardingStepsMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewOnboardingStepsMapper.swift; sourceTree = "<group>"; };
+		8360D1A8284E9A9600ACDEDB /* LoginViewOnboardingStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewOnboardingStep.swift; sourceTree = "<group>"; };
+		8360D1AA284E9EBD00ACDEDB /* LoginViewAction+ButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginViewAction+ButtonViewModel.swift"; sourceTree = "<group>"; };
+		8360D1AC284E9FF400ACDEDB /* LoginViewOnboardingStep+OnboardingViewStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginViewOnboardingStep+OnboardingViewStep.swift"; sourceTree = "<group>"; };
+		8360D1AE284F2A5E00ACDEDB /* LoginViewActionEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewActionEvent.swift; sourceTree = "<group>"; };
 		839E274B284A33CA0040142A /* amplifyconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = amplifyconfiguration.json; sourceTree = SOURCE_ROOT; };
 		839E274D284A33DD0040142A /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = SOURCE_ROOT; };
+		83F3CC0D2847704300C05298 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		83F3CC0F2847713400C05298 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		83F3CC11284771CA00C05298 /* LoginAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAssembler.swift; sourceTree = "<group>"; };
+		83F3CC13284771FB00C05298 /* LoginContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginContract.swift; sourceTree = "<group>"; };
+		83F3CC1A28477ECE00C05298 /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
+		83F3CC1C2847808200C05298 /* LoginModelAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModelAction.swift; sourceTree = "<group>"; };
+		83F3CC1F2847851300C05298 /* LoginViewAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewAction.swift; sourceTree = "<group>"; };
 		8CD69A6F89E3BC60EA232408 /* Language+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "Language+Schema.swift"; path = "amplify/generated/models/Language+Schema.swift"; sourceTree = "<group>"; };
 		8F4A7CF4F0C1D848CC47A162 /* Location.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Location.swift; path = amplify/generated/models/Location.swift; sourceTree = "<group>"; };
 		95550513A0326A8E443C7BCB /* FeedingPointConnection+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "FeedingPointConnection+Schema.swift"; path = "amplify/generated/models/FeedingPointConnection+Schema.swift"; sourceTree = "<group>"; };
@@ -191,6 +219,83 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		83F3CC0B2847702900C05298 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				83F3CC0C2847703100C05298 /* Login */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		83F3CC0C2847703100C05298 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				83F3CC1828477EB600C05298 /* Model */,
+				83F3CC172847790000C05298 /* View */,
+				83F3CC0D2847704300C05298 /* LoginViewController.swift */,
+				83F3CC0F2847713400C05298 /* LoginViewModel.swift */,
+				83F3CC11284771CA00C05298 /* LoginAssembler.swift */,
+				83F3CC13284771FB00C05298 /* LoginContract.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		83F3CC16284778FA00C05298 /* Items */ = {
+			isa = PBXGroup;
+			children = (
+				83F3CC1F2847851300C05298 /* LoginViewAction.swift */,
+				8360D1A8284E9A9600ACDEDB /* LoginViewOnboardingStep.swift */,
+				8360D1AA284E9EBD00ACDEDB /* LoginViewAction+ButtonViewModel.swift */,
+				8360D1AC284E9FF400ACDEDB /* LoginViewOnboardingStep+OnboardingViewStep.swift */,
+				8360D1AE284F2A5E00ACDEDB /* LoginViewActionEvent.swift */,
+			);
+			path = Items;
+			sourceTree = "<group>";
+		};
+		83F3CC172847790000C05298 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				83F3CC21284786FE00C05298 /* Utils */,
+				83F3CC16284778FA00C05298 /* Items */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		83F3CC1828477EB600C05298 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				83F3CC1E2847814700C05298 /* Providers */,
+				83F3CC1928477EC100C05298 /* Items */,
+				83F3CC1A28477ECE00C05298 /* LoginModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		83F3CC1928477EC100C05298 /* Items */ = {
+			isa = PBXGroup;
+			children = (
+				83F3CC1C2847808200C05298 /* LoginModelAction.swift */,
+				8360D1A2284E954900ACDEDB /* LoginModelOnboardingStep.swift */,
+			);
+			path = Items;
+			sourceTree = "<group>";
+		};
+		83F3CC1E2847814700C05298 /* Providers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Providers;
+			sourceTree = "<group>";
+		};
+		83F3CC21284786FE00C05298 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				8360D1A4284E964D00ACDEDB /* LoginViewActionMapper.swift */,
+				8360D1A6284E98FA00ACDEDB /* LoginViewOnboardingStepsMapper.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		DB0D66BB2846676100930564 /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -203,6 +308,7 @@
 		DB4CA51C28450FEE00050EA5 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				83F3CC0B2847702900C05298 /* Modules */,
 				DB0D66BB2846676100930564 /* Common */,
 				DB6B07C928450A380009397B /* HomeViewController.swift */,
 			);
@@ -527,10 +633,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83F3CC14284771FB00C05298 /* LoginContract.swift in Sources */,
 				DB6B07CA28450A380009397B /* HomeViewController.swift in Sources */,
+				8360D1AF284F2A5E00ACDEDB /* LoginViewActionEvent.swift in Sources */,
+				8360D1AB284E9EBD00ACDEDB /* LoginViewAction+ButtonViewModel.swift in Sources */,
+				83F3CC12284771CA00C05298 /* LoginAssembler.swift in Sources */,
+				83F3CC1D2847808200C05298 /* LoginModelAction.swift in Sources */,
 				DB6B07C628450A380009397B /* AppDelegate.swift in Sources */,
+				8360D1A7284E98FA00ACDEDB /* LoginViewOnboardingStepsMapper.swift in Sources */,
 				DB0D671928466E7700930564 /* Strings.swift in Sources */,
+				83F3CC1B28477ECE00C05298 /* LoginModel.swift in Sources */,
+				8360D1A5284E964D00ACDEDB /* LoginViewActionMapper.swift in Sources */,
+				83F3CC102847713400C05298 /* LoginViewModel.swift in Sources */,
+				8360D1A3284E954900ACDEDB /* LoginModelOnboardingStep.swift in Sources */,
+				8360D1A9284E9A9600ACDEDB /* LoginViewOnboardingStep.swift in Sources */,
 				DB0D66BF2846688500930564 /* Assets.swift in Sources */,
+				83F3CC0E2847704300C05298 /* LoginViewController.swift in Sources */,
 				DB6B07C828450A380009397B /* SceneDelegate.swift in Sources */,
 				DA7754CFE85DA01540F13750 /* AmplifyModels.swift in Sources */,
 				B37ACA9AB22169F324F2C212 /* Caretaker+Schema.swift in Sources */,
@@ -575,6 +693,8 @@
 				68EBA811759F197EE338048C /* RelationUserPet.swift in Sources */,
 				9FAE26445420DFE979D48E46 /* Settings+Schema.swift in Sources */,
 				8A6AAAE674342B5D7F37A670 /* Settings.swift in Sources */,
+				83F3CC202847851300C05298 /* LoginViewAction.swift in Sources */,
+				8360D1AD284E9FF400ACDEDB /* LoginViewOnboardingStep+OnboardingViewStep.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

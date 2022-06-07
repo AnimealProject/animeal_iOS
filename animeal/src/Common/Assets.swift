@@ -26,6 +26,10 @@ internal enum Asset {
     internal static let tiffany = ColorAsset(name: "Tiffany")
   }
   internal enum Images {
+    internal static let onboardingFeed = ImageAsset(name: "onboarding_feed")
+    internal static let signInApple = ImageAsset(name: "sign_in_apple")
+    internal static let signInFacebook = ImageAsset(name: "sign_in_facebook")
+    internal static let signInMobile = ImageAsset(name: "sign_in_mobile")
     internal static let animealLogo = ImageAsset(name: "animeal_logo")
   }
 }

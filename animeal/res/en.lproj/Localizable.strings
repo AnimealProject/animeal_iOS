@@ -1,5 +1,8 @@
-"tabBar.search"            = "Search";
-"tabBar.favourites"        = "Favourites";
-"tabBar.leaderBoard"       = "Leader Board";
-"tabBar.Mode"              = "More";
-"addPetScreen.header.info" = "It is possible to add a maximum of three photos, adding a photo is required";
+"tabBar.search"                    = "Search";
+"tabBar.favourites"                = "Favourites";
+"tabBar.leaderBoard"               = "Leader Board";
+"tabBar.Mode"                      = "More";
+"addPetScreen.header.info"         = "It is possible to add a maximum of three photos, adding a photo is required";
+"loginScreen.signInViaMobilePhone" = "Sign in with Mobile";
+"loginScreen.signInViaFacebook"    = "Sign in with Facebook";
+"loginScreen.signInViaApple"       = "Sign in with Apple";
