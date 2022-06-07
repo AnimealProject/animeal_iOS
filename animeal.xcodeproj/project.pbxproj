@@ -80,6 +80,7 @@
 		DB6B07DD28450A3A0009397B /* AnimealTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07DC28450A3A0009397B /* AnimealTests.swift */; };
 		DB96543B284DC80A00C7668E /* Style in Frameworks */ = {isa = PBXBuildFile; productRef = DB96543A284DC80A00C7668E /* Style */; };
 		DCE1CAAC12C918FB62B0BA8B /* LanguagesSetting+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6536D50A446F5742969183 /* LanguagesSetting+Schema.swift */; };
+		FB2914DC284F66830094DA8B /* Services in Frameworks */ = {isa = PBXBuildFile; productRef = FB2914DB284F66830094DA8B /* Services */; };
 		FB4313592848E97C0084C21A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4313582848E97C0084C21A /* AppDelegate.swift */; };
 		FB43135B2848E97C0084C21A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB43135A2848E97C0084C21A /* SceneDelegate.swift */; };
 		FB43135D2848E97C0084C21A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB43135C2848E97C0084C21A /* MainViewController.swift */; };
@@ -175,6 +176,7 @@
 		E7755CAA75F8797C1A590B38 /* Category+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "Category+Schema.swift"; path = "amplify/generated/models/Category+Schema.swift"; sourceTree = "<group>"; };
 		F51C75C31E8D0F3CD7FEA2BB /* RelationUserFeedingPoint+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "RelationUserFeedingPoint+Schema.swift"; path = "amplify/generated/models/RelationUserFeedingPoint+Schema.swift"; sourceTree = "<group>"; };
 		FA4AB87F5303920447B46AFE /* Caretaker+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "Caretaker+Schema.swift"; path = "amplify/generated/models/Caretaker+Schema.swift"; sourceTree = "<group>"; };
+		FB2914D8284F65970094DA8B /* Services */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Services; sourceTree = "<group>"; };
 		FB371CF328476D6A007E6A08 /* UIComponents */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = UIComponents; sourceTree = "<group>"; };
 		FB4313512848E3850084C21A /* Style */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Style; sourceTree = "<group>"; };
 		FB4313562848E97C0084C21A /* animealUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = animealUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -195,6 +197,7 @@
 				839E2748284A33490040142A /* AWSLocationGeoPlugin in Frameworks */,
 				FB5E4A3F284770FE00679657 /* UIComponents in Frameworks */,
 				839E274A284A33490040142A /* Amplify in Frameworks */,
+				FB2914DC284F66830094DA8B /* Services in Frameworks */,
 				DB96543B284DC80A00C7668E /* Style in Frameworks */,
 				839E2744284A33490040142A /* AWSCognitoAuthPlugin in Frameworks */,
 				839E2746284A33490040142A /* AWSDataStorePlugin in Frameworks */,
@@ -330,6 +333,7 @@
 		DB6B07B928450A380009397B = {
 			isa = PBXGroup;
 			children = (
+				FB2914D8284F65970094DA8B /* Services */,
 				FB4313512848E3850084C21A /* Style */,
 				FB371CF328476D6A007E6A08 /* UIComponents */,
 				DB6B07C428450A380009397B /* animeal */,
@@ -468,6 +472,7 @@
 				839E2747284A33490040142A /* AWSLocationGeoPlugin */,
 				839E2749284A33490040142A /* Amplify */,
 				DB96543A284DC80A00C7668E /* Style */,
+				FB2914DB284F66830094DA8B /* Services */,
 			);
 			productName = animeal;
 			productReference = DB6B07C228450A380009397B /* animeal.app */;
@@ -1114,6 +1119,10 @@
 		DB96543A284DC80A00C7668E /* Style */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Style;
+		};
+		FB2914DB284F66830094DA8B /* Services */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Services;
 		};
 		FB43136A2848EA950084C21A /* UIComponents */ = {
 			isa = XCSwiftPackageProductDependency;
