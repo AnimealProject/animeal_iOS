@@ -18,6 +18,15 @@ internal enum L10n {
     }
   }
 
+  internal enum LoginScreen {
+    /// Sign in with Apple
+    internal static let signInViaApple = L10n.tr("Localizable", "loginScreen.signInViaApple")
+    /// Sign in with Facebook
+    internal static let signInViaFacebook = L10n.tr("Localizable", "loginScreen.signInViaFacebook")
+    /// Sign in with Mobile
+    internal static let signInViaMobilePhone = L10n.tr("Localizable", "loginScreen.signInViaMobilePhone")
+  }
+
   internal enum TabBar {
     /// Favourites
     internal static let favourites = L10n.tr("Localizable", "tabBar.favourites")
