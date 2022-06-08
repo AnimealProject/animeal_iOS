@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Style
 
 protocol LoginViewOnboardingStepsMappable {
     func map(_ input: LoginModelOnboardingStep) -> LoginViewOnboardingStep

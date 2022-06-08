@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Style
 
 protocol LoginViewActionMappable {
     func map(_ input: LoginModelAction) -> LoginViewAction

@@ -68,9 +68,6 @@
 		CEE642FAC4700C08C7138B74 /* Category+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7755CAA75F8797C1A590B38 /* Category+Schema.swift */; };
 		CF57277BF72FB11BE40424A3 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8CB79619259AF5F554F3EC7 /* Language.swift */; };
 		DA7754CFE85DA01540F13750 /* AmplifyModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12662058C69A26CF52E46B66 /* AmplifyModels.swift */; };
-		DB058D6F284646430064A21F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB058D6E284646430064A21F /* Images.xcassets */; };
-		DB058D71284646530064A21F /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB058D70284646530064A21F /* Colors.xcassets */; };
-		DB0D66BF2846688500930564 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0D66BE2846688500930564 /* Assets.swift */; };
 		DB0D671528466D6200930564 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DB0D670C28466D6200930564 /* Localizable.strings */; };
 		DB0D671928466E7700930564 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0D671828466E7700930564 /* Strings.swift */; };
 		DB6B07C628450A380009397B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07C528450A380009397B /* AppDelegate.swift */; };
@@ -78,7 +75,6 @@
 		DB6B07CA28450A380009397B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07C928450A380009397B /* HomeViewController.swift */; };
 		DB6B07D228450A390009397B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB6B07D028450A390009397B /* LaunchScreen.storyboard */; };
 		DB6B07DD28450A3A0009397B /* AnimealTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07DC28450A3A0009397B /* AnimealTests.swift */; };
-		DB96543B284DC80A00C7668E /* Style in Frameworks */ = {isa = PBXBuildFile; productRef = DB96543A284DC80A00C7668E /* Style */; };
 		DCE1CAAC12C918FB62B0BA8B /* LanguagesSetting+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6536D50A446F5742969183 /* LanguagesSetting+Schema.swift */; };
 		FB2914DC284F66830094DA8B /* Services in Frameworks */ = {isa = PBXBuildFile; productRef = FB2914DB284F66830094DA8B /* Services */; };
 		FB4313592848E97C0084C21A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4313582848E97C0084C21A /* AppDelegate.swift */; };
@@ -156,9 +152,6 @@
 		C5A3F3180005C29FF765CAC8 /* FeedingPoint+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "FeedingPoint+Schema.swift"; path = "amplify/generated/models/FeedingPoint+Schema.swift"; sourceTree = "<group>"; };
 		D5F69DAC34ED36AD10ABB6FD /* Favourites.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Favourites.swift; path = amplify/generated/models/Favourites.swift; sourceTree = "<group>"; };
 		D6AFDBF0B00B11A2E29B8944 /* Favourites+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "Favourites+Schema.swift"; path = "amplify/generated/models/Favourites+Schema.swift"; sourceTree = "<group>"; };
-		DB058D6E284646430064A21F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		DB058D70284646530064A21F /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
-		DB0D66BE2846688500930564 /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		DB0D670D28466D6200930564 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DB0D671828466E7700930564 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		DB0D671B2846744100930564 /* ka */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ka; path = ka.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -198,7 +191,6 @@
 				FB5E4A3F284770FE00679657 /* UIComponents in Frameworks */,
 				839E274A284A33490040142A /* Amplify in Frameworks */,
 				FB2914DC284F66830094DA8B /* Services in Frameworks */,
-				DB96543B284DC80A00C7668E /* Style in Frameworks */,
 				839E2744284A33490040142A /* AWSCognitoAuthPlugin in Frameworks */,
 				839E2746284A33490040142A /* AWSDataStorePlugin in Frameworks */,
 			);
@@ -302,7 +294,6 @@
 		DB0D66BB2846676100930564 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				DB0D66BE2846688500930564 /* Assets.swift */,
 				DB0D671828466E7700930564 /* Strings.swift */,
 			);
 			path = Common;
@@ -324,8 +315,6 @@
 				DB0D670C28466D6200930564 /* Localizable.strings */,
 				DB6B07D028450A390009397B /* LaunchScreen.storyboard */,
 				DB6B07D328450A390009397B /* Info.plist */,
-				DB058D6E284646430064A21F /* Images.xcassets */,
-				DB058D70284646530064A21F /* Colors.xcassets */,
 			);
 			path = res;
 			sourceTree = "<group>";
@@ -471,7 +460,6 @@
 				839E2745284A33490040142A /* AWSDataStorePlugin */,
 				839E2747284A33490040142A /* AWSLocationGeoPlugin */,
 				839E2749284A33490040142A /* Amplify */,
-				DB96543A284DC80A00C7668E /* Style */,
 				FB2914DB284F66830094DA8B /* Services */,
 			);
 			productName = animeal;
@@ -567,12 +555,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DB058D6F284646430064A21F /* Images.xcassets in Resources */,
 				839E274E284A33DD0040142A /* awsconfiguration.json in Resources */,
 				839E274C284A33CA0040142A /* amplifyconfiguration.json in Resources */,
 				DB0D671528466D6200930564 /* Localizable.strings in Resources */,
 				DB6B07D228450A390009397B /* LaunchScreen.storyboard in Resources */,
-				DB058D71284646530064A21F /* Colors.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -652,7 +638,6 @@
 				83F3CC102847713400C05298 /* LoginViewModel.swift in Sources */,
 				8360D1A3284E954900ACDEDB /* LoginModelOnboardingStep.swift in Sources */,
 				8360D1A9284E9A9600ACDEDB /* LoginViewOnboardingStep.swift in Sources */,
-				DB0D66BF2846688500930564 /* Assets.swift in Sources */,
 				83F3CC0E2847704300C05298 /* LoginViewController.swift in Sources */,
 				DB6B07C828450A380009397B /* SceneDelegate.swift in Sources */,
 				DA7754CFE85DA01540F13750 /* AmplifyModels.swift in Sources */,
@@ -1115,10 +1100,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 839E2740284A33490040142A /* XCRemoteSwiftPackageReference "amplify-ios" */;
 			productName = Amplify;
-		};
-		DB96543A284DC80A00C7668E /* Style */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Style;
 		};
 		FB2914DB284F66830094DA8B /* Services */ = {
 			isa = XCSwiftPackageProductDependency;
