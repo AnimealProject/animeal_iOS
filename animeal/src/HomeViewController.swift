@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Style
 
 class HomeViewController: UIViewController {
 

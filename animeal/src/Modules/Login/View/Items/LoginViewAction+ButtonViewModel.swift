@@ -10,6 +10,7 @@ import UIKit
 
 // SDK
 import UIComponents
+import Style
 
 extension LoginViewAction {
     var buttonViewModel: ButtonViewModel {
@@ -18,21 +19,21 @@ extension LoginViewAction {
             return ButtonViewModel(
                 identifier: identifier,
                 viewType: SignInWithMobileButtonView.self,
-                icon: UIImage(named: associatedIcon),
+                icon: ImageAsset.Image(named: associatedIcon),
                 title: title
             )
         case .signInViaFacebook:
             return ButtonViewModel(
                 identifier: identifier,
                 viewType: SignInWithFacebookButtonView.self,
-                icon: UIImage(named: associatedIcon),
+                icon: ImageAsset.Image(named: associatedIcon),
                 title: title
             )
         case .signInViaAppleID:
             return ButtonViewModel(
                 identifier: identifier,
                 viewType: SignInWithAppleButtonView.self,
-                icon: UIImage(named: associatedIcon),
+                icon: ImageAsset.Image(named: associatedIcon),
                 title: title
             )
         }

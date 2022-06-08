@@ -10,12 +10,13 @@ import UIKit
 
 // SDK
 import UIComponents
+import Style
 
 extension LoginViewOnboardingStep {
     var onboardingViewStepModel: OnboardingView.Step {
         return OnboardingView.Step(
             identifier: identifier,
-            image: UIImage(named: associatedIcon),
+            image: ImageAsset.Image(named: associatedIcon),
             title: title,
             text: text
         )
