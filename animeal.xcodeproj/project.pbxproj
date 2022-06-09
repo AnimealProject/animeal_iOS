@@ -77,16 +77,21 @@
 		DB6B07C828450A380009397B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07C728450A380009397B /* SceneDelegate.swift */; };
 		DB6B07CA28450A380009397B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07C928450A380009397B /* HomeViewController.swift */; };
 		DB6B07D228450A390009397B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB6B07D028450A390009397B /* LaunchScreen.storyboard */; };
-		DB6B07DD28450A3A0009397B /* AnimealTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07DC28450A3A0009397B /* AnimealTests.swift */; };
 		DB96543B284DC80A00C7668E /* Style in Frameworks */ = {isa = PBXBuildFile; productRef = DB96543A284DC80A00C7668E /* Style */; };
 		DCE1CAAC12C918FB62B0BA8B /* LanguagesSetting+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6536D50A446F5742969183 /* LanguagesSetting+Schema.swift */; };
+		FB25134B285201E300E5407D /* AutoMockable.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB25134A285201E300E5407D /* AutoMockable.generated.swift */; };
+		FB25134E285203E700E5407D /* Nimble in Frameworks */ = {isa = PBXBuildFile; productRef = FB25134D285203E700E5407D /* Nimble */; };
 		FB4313592848E97C0084C21A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4313582848E97C0084C21A /* AppDelegate.swift */; };
 		FB43135B2848E97C0084C21A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB43135A2848E97C0084C21A /* SceneDelegate.swift */; };
 		FB43135D2848E97C0084C21A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB43135C2848E97C0084C21A /* MainViewController.swift */; };
 		FB4313622848E97E0084C21A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB4313612848E97E0084C21A /* Assets.xcassets */; };
 		FB4313652848E97E0084C21A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB4313632848E97E0084C21A /* LaunchScreen.storyboard */; };
 		FB43136B2848EA950084C21A /* UIComponents in Frameworks */ = {isa = PBXBuildFile; productRef = FB43136A2848EA950084C21A /* UIComponents */; };
+		FB4E748D284F726F002F09DA /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = FB4E748C284F726F002F09DA /* Quick */; };
+		FB4E748F284F75D0002F09DA /* LoginViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4E748E284F75D0002F09DA /* LoginViewModelTests.swift */; };
+		FB51E06D2850E767006D1D76 /* AutoMockable.stencil in Resources */ = {isa = PBXBuildFile; fileRef = FB51E0652850E767006D1D76 /* AutoMockable.stencil */; };
 		FB5E4A3F284770FE00679657 /* UIComponents in Frameworks */ = {isa = PBXBuildFile; productRef = FB5E4A3E284770FE00679657 /* UIComponents */; };
+		FBBC2709285143A100B528C7 /* sourcery.yml in Resources */ = {isa = PBXBuildFile; fileRef = FBBC2708285143A100B528C7 /* sourcery.yml */; };
 		FBEB291F802113F2A65D62C9 /* FeedingPointConnection+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95550513A0326A8E443C7BCB /* FeedingPointConnection+Schema.swift */; };
 		FF0D1A35DECA7017DE49AF15 /* RelationUserPet+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CE4BA48AE07A2C248C7246 /* RelationUserPet+Schema.swift */; };
 /* End PBXBuildFile section */
@@ -168,13 +173,13 @@
 		DB6B07D128450A390009397B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DB6B07D328450A390009397B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DB6B07D828450A3A0009397B /* animealTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = animealTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		DB6B07DC28450A3A0009397B /* AnimealTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimealTests.swift; sourceTree = "<group>"; };
 		DEFE643B8BEBAC315C0A9518 /* Pet.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Pet.swift; path = amplify/generated/models/Pet.swift; sourceTree = "<group>"; };
 		E1877F1460B58C5A5A0F72E5 /* LanguagesSetting.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = LanguagesSetting.swift; path = amplify/generated/models/LanguagesSetting.swift; sourceTree = "<group>"; };
 		E423FC6DE22260CD3829A2BE /* MedicationI18n+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "MedicationI18n+Schema.swift"; path = "amplify/generated/models/MedicationI18n+Schema.swift"; sourceTree = "<group>"; };
 		E7755CAA75F8797C1A590B38 /* Category+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "Category+Schema.swift"; path = "amplify/generated/models/Category+Schema.swift"; sourceTree = "<group>"; };
 		F51C75C31E8D0F3CD7FEA2BB /* RelationUserFeedingPoint+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "RelationUserFeedingPoint+Schema.swift"; path = "amplify/generated/models/RelationUserFeedingPoint+Schema.swift"; sourceTree = "<group>"; };
 		FA4AB87F5303920447B46AFE /* Caretaker+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "Caretaker+Schema.swift"; path = "amplify/generated/models/Caretaker+Schema.swift"; sourceTree = "<group>"; };
+		FB25134A285201E300E5407D /* AutoMockable.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoMockable.generated.swift; sourceTree = "<group>"; };
 		FB371CF328476D6A007E6A08 /* UIComponents */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = UIComponents; sourceTree = "<group>"; };
 		FB4313512848E3850084C21A /* Style */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Style; sourceTree = "<group>"; };
 		FB4313562848E97C0084C21A /* animealUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = animealUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -184,6 +189,9 @@
 		FB4313612848E97E0084C21A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FB4313642848E97E0084C21A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FB4313662848E97E0084C21A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FB4E748E284F75D0002F09DA /* LoginViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModelTests.swift; sourceTree = "<group>"; };
+		FB51E0652850E767006D1D76 /* AutoMockable.stencil */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AutoMockable.stencil; sourceTree = "<group>"; };
+		FBBC2708285143A100B528C7 /* sourcery.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = sourcery.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -205,6 +213,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB4E748D284F726F002F09DA /* Quick in Frameworks */,
+				FB25134E285203E700E5407D /* Nimble in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,7 +377,8 @@
 		DB6B07DB28450A3A0009397B /* animealTests */ = {
 			isa = PBXGroup;
 			children = (
-				DB6B07DC28450A3A0009397B /* AnimealTests.swift */,
+				FB25134F2852092700E5407D /* src */,
+				FB9B1E552850CB8200D9166F /* Sourcery */,
 			);
 			path = animealTests;
 			sourceTree = "<group>";
@@ -422,6 +433,14 @@
 			name = AmplifyModels;
 			sourceTree = "<group>";
 		};
+		FB25134F2852092700E5407D /* src */ = {
+			isa = PBXGroup;
+			children = (
+				FB4E748E284F75D0002F09DA /* LoginViewModelTests.swift */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
 		FB4313572848E97C0084C21A /* animealUI */ = {
 			isa = PBXGroup;
 			children = (
@@ -440,6 +459,32 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FB9B1E552850CB8200D9166F /* Sourcery */ = {
+			isa = PBXGroup;
+			children = (
+				FBBC2708285143A100B528C7 /* sourcery.yml */,
+				FB9B1E592850CFDF00D9166F /* Templates */,
+				FB9B1E582850CC1200D9166F /* Generated */,
+			);
+			path = Sourcery;
+			sourceTree = "<group>";
+		};
+		FB9B1E582850CC1200D9166F /* Generated */ = {
+			isa = PBXGroup;
+			children = (
+				FB25134A285201E300E5407D /* AutoMockable.generated.swift */,
+			);
+			path = Generated;
+			sourceTree = "<group>";
+		};
+		FB9B1E592850CFDF00D9166F /* Templates */ = {
+			isa = PBXGroup;
+			children = (
+				FB51E0652850E767006D1D76 /* AutoMockable.stencil */,
+			);
+			path = Templates;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -480,6 +525,7 @@
 				DB6B07D428450A3A0009397B /* Sources */,
 				DB6B07D528450A3A0009397B /* Frameworks */,
 				DB6B07D628450A3A0009397B /* Resources */,
+				FB51E0722850E80B006D1D76 /* Generate Sourcery Mocks */,
 			);
 			buildRules = (
 			);
@@ -487,6 +533,10 @@
 				DB6B07DA28450A3A0009397B /* PBXTargetDependency */,
 			);
 			name = animealTests;
+			packageProductDependencies = (
+				FB4E748C284F726F002F09DA /* Quick */,
+				FB25134D285203E700E5407D /* Nimble */,
+			);
 			productName = animealTests;
 			productReference = DB6B07D828450A3A0009397B /* animealTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -545,6 +595,8 @@
 			mainGroup = DB6B07B928450A380009397B;
 			packageReferences = (
 				839E2740284A33490040142A /* XCRemoteSwiftPackageReference "amplify-ios" */,
+				FB4E748B284F726F002F09DA /* XCRemoteSwiftPackageReference "Quick" */,
+				FB25134C285203E700E5407D /* XCRemoteSwiftPackageReference "Nimble" */,
 			);
 			productRefGroup = DB6B07C328450A380009397B /* Products */;
 			projectDirPath = "";
@@ -575,6 +627,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FBBC2709285143A100B528C7 /* sourcery.yml in Resources */,
+				FB51E06D2850E767006D1D76 /* AutoMockable.stencil in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -625,6 +679,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint lint --config \"${PROJECT_DIR}/.swiftlint.yml\"\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+		FB51E0722850E80B006D1D76 /* Generate Sourcery Mocks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Sourcery Mocks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${PROJECT_DIR}/animealTests/Sourcery/sourcery --config ${PROJECT_DIR}/animealTests/Sourcery/sourcery.yml\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -702,7 +774,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DB6B07DD28450A3A0009397B /* AnimealTests.swift in Sources */,
+				FB4E748F284F75D0002F09DA /* LoginViewModelTests.swift in Sources */,
+				FB25134B285201E300E5407D /* AutoMockable.generated.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1083,6 +1156,22 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		FB25134C285203E700E5407D /* XCRemoteSwiftPackageReference "Nimble" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Quick/Nimble.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		FB4E748B284F726F002F09DA /* XCRemoteSwiftPackageReference "Quick" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Quick/Quick.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1115,9 +1204,19 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Style;
 		};
+		FB25134D285203E700E5407D /* Nimble */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FB25134C285203E700E5407D /* XCRemoteSwiftPackageReference "Nimble" */;
+			productName = Nimble;
+		};
 		FB43136A2848EA950084C21A /* UIComponents */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = UIComponents;
+		};
+		FB4E748C284F726F002F09DA /* Quick */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FB4E748B284F726F002F09DA /* XCRemoteSwiftPackageReference "Quick" */;
+			productName = Quick;
 		};
 		FB5E4A3E284770FE00679657 /* UIComponents */ = {
 			isa = XCSwiftPackageProductDependency;

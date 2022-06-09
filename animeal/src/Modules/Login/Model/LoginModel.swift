@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class LoginModel: LoginModelRequest, LoginModelResponse {
+final class LoginModel: LoginModelProtocol {
     // MARK: - Private properties
 
     // MARK: - Dependencies

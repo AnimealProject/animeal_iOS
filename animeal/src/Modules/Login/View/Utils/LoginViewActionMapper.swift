@@ -7,13 +7,14 @@
 
 import Foundation
 
+// sourcery: AutoMockable
 protocol LoginViewActionMappable {
-    func map(_ input: LoginModelAction) -> LoginViewAction
-    func map(_ input: [LoginModelAction]) -> [LoginViewAction]
+    func mapAction(_ input: LoginModelAction) -> LoginViewAction
+    func mapActions(_ input: [LoginModelAction]) -> [LoginViewAction]
 }
 
 final class LoginViewActionMapper: LoginViewActionMappable {
-    func map(_ input: LoginModelAction) -> LoginViewAction {
+    func mapAction(_ input: LoginModelAction) -> LoginViewAction {
         let viewAction = LoginViewAction(
             identifier: input.identifier,
             title: mapTitle(input),
@@ -23,8 +24,8 @@ final class LoginViewActionMapper: LoginViewActionMappable {
         return viewAction
     }
 
-    func map(_ input: [LoginModelAction]) -> [LoginViewAction] {
-        return input.map(map)
+    func mapActions(_ input: [LoginModelAction]) -> [LoginViewAction] {
+        return input.map(mapAction)
     }
 
     private func mapTitle(_ input: LoginModelAction) -> String {
