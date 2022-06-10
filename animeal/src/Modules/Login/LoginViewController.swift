@@ -72,7 +72,7 @@ final class LoginViewController: UIViewController, LoginViewModelOutput {
 
     // MARK: - Setup
     private func setup() {
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = designEngine.colors.primary.uiColor
 
         view.addSubview(onboardingView)
         onboardingView.topAnchor.constraint(

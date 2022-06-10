@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Style
 
 extension PageIndicatorView {
     public class Model: ObservableObject {
@@ -43,6 +44,9 @@ public struct PageIndicatorView: View {
     private let minimumWidth: CGFloat
     private let normalHeight: CGFloat
 
+    // MARK: - Engine
+    @EnvironmentObject private var designEngine: StyleEngine
+
     // MARK: - Model
     @StateObject var model: Model
 
@@ -67,7 +71,7 @@ public struct PageIndicatorView: View {
             ForEach((Int.zero..<model.numberOfPages), id: \.self) { index in
                 let isActive = index == model.activePageIndex
                 let width = isActive ? maximumWidth : minimumWidth
-                let color = isActive ? Color(red: 240.0 / 255.0, green: 78.0 / 255.0, blue: 69.0 / 255.0) : Color.gray
+                let color = isActive ? designEngine.colors.destructive.color : designEngine.colors.disableTint.color
                 Capsule()
                     .fill(color)
                     .frame(width: width, height: normalHeight)
@@ -75,7 +79,7 @@ public struct PageIndicatorView: View {
         }
         .overlay(
             Capsule()
-                .fill(Color(red: 240.0 / 255.0, green: 78.0 / 255.0, blue: 69.0 / 255.0))
+                .fill(designEngine.colors.destructive.color)
                 .frame(width: maximumWidth, height: normalHeight)
                 .offset(x: animationOffset)
             ,alignment: .leading

@@ -5,8 +5,8 @@ strings:
       output: animeal/src/Common/Strings.swift
 xcassets:
   inputs:
-    - Style/Sources/Style/Colors.xcassets
-    - Style/Sources/Style/Images.xcassets
+    - Style/Sources/Style/Resources/Colors/Colors.xcassets
+    - Style/Sources/Style/Resources/Images/Images.xcassets
   outputs:
     - templateName: swift5
       output: Style/Sources/Style/Assets.swift

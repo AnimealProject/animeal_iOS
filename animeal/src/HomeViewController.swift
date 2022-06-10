@@ -31,6 +31,6 @@ class HomeViewController: UIViewController {
         title.text = L10n.AddPetScreen.Header.info
         title.numberOfLines = 3
         title.textAlignment = .center
-        title.textColor = Asset.Colors.tiffany.color
+        title.textColor = Asset.Colors.darkTurquoise.color
     }
 }
