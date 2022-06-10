@@ -16,8 +16,8 @@ class LoginViewModelTestsSpec: QuickSpec {
 
             beforeEach {
                 model = LoginModelProtocolMock()
-                model.fetchOnboardingStepsClosure = {[]}
-                model.fetchActionsClosure = {[]}
+                model.fetchOnboardingStepsClosure = { [] }
+                model.fetchActionsClosure = { [] }
 
                 actionsMapper = LoginViewActionMappableMock()
                 actionsMapper.mapActionsClosure = { _ in [] }

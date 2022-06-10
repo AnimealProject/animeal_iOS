@@ -1,7 +1,7 @@
 // Generated using Sourcery 1.8.1 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
-// swiftlint:disable line_length
-// swiftlint:disable variable_name
+// swiftlint:disable vertical_whitespace
+// swiftlint:disable vertical_whitespace_closing_braces
 
 import Foundation
 #if os(iOS) || os(tvOS) || os(watchOS)
@@ -28,7 +28,7 @@ import AppKit
 
 class LoginModelProtocolMock: LoginModelProtocol {
 
-    //MARK: - fetchOnboardingSteps
+    // MARK: - fetchOnboardingSteps
 
     var fetchOnboardingStepsCallsCount = 0
     var fetchOnboardingStepsCalled: Bool {
@@ -46,7 +46,7 @@ class LoginModelProtocolMock: LoginModelProtocol {
         }
     }
 
-    //MARK: - fetchActions
+    // MARK: - fetchActions
 
     var fetchActionsCallsCount = 0
     var fetchActionsCalled: Bool {
@@ -67,7 +67,7 @@ class LoginModelProtocolMock: LoginModelProtocol {
 }
 class LoginViewActionMappableMock: LoginViewActionMappable {
 
-    //MARK: - mapAction
+    // MARK: - mapAction
 
     var mapActionCallsCount = 0
     var mapActionCalled: Bool {
@@ -89,7 +89,7 @@ class LoginViewActionMappableMock: LoginViewActionMappable {
         }
     }
 
-    //MARK: - mapActions
+    // MARK: - mapActions
 
     var mapActionsCallsCount = 0
     var mapActionsCalled: Bool {
@@ -114,7 +114,7 @@ class LoginViewActionMappableMock: LoginViewActionMappable {
 }
 class LoginViewOnboardingStepsMappableMock: LoginViewOnboardingStepsMappable {
 
-    //MARK: - mapStep
+    // MARK: - mapStep
 
     var mapStepCallsCount = 0
     var mapStepCalled: Bool {
@@ -136,7 +136,7 @@ class LoginViewOnboardingStepsMappableMock: LoginViewOnboardingStepsMappable {
         }
     }
 
-    //MARK: - mapSteps
+    // MARK: - mapSteps
 
     var mapStepsCallsCount = 0
     var mapStepsCalled: Bool {
