@@ -12,7 +12,7 @@ final class LoginViewModel: LoginViewModelLifeCycle, LoginViewInteraction, Login
     private var viewActions: [LoginViewAction]
 
     // MARK: - Dependencies
-    private let model: LoginCombinedModel
+    private let model: LoginModelProtocol
     private let actionsMapper: LoginViewActionMappable
     private let onboardingMapper: LoginViewOnboardingStepsMappable
 
@@ -22,7 +22,7 @@ final class LoginViewModel: LoginViewModelLifeCycle, LoginViewInteraction, Login
 
     // MARK: - Initialization
     init(
-        model: LoginCombinedModel,
+        model: LoginModelProtocol,
         actionsMapper: LoginViewActionMappable,
         onboardingMapper: LoginViewOnboardingStepsMappable
     ) {
@@ -39,8 +39,8 @@ final class LoginViewModel: LoginViewModelLifeCycle, LoginViewInteraction, Login
         let modelOnboardingSteps = model.fetchOnboardingSteps()
         let modelActions = model.fetchActions()
 
-        let viewOnboardingsStep = onboardingMapper.map(modelOnboardingSteps)
-        let viewActions = actionsMapper.map(modelActions)
+        let viewOnboardingsStep = onboardingMapper.mapSteps(modelOnboardingSteps)
+        let viewActions = actionsMapper.mapActions(modelActions)
 
         onOnboardingStepsHaveBeenPrepared?(viewOnboardingsStep)
         onActionsHaveBeenPrepaped?(viewActions)

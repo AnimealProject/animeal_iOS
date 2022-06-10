@@ -1,0 +1,9 @@
+sources:
+    - ../../animeal
+templates:
+    - Templates
+output:
+    Generated
+args:
+    autoMockableTestableImports:
+        [animeal]
