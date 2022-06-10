@@ -45,6 +45,7 @@ final class OnboardingStepperView: UIView {
     // MARK: - Setup
     private func setup() {
         let pageIndicatorView = PageIndicatorView(model: self.pageIndicatorViewModel)
+            .environmentObject(designEngine)
         let hostingViewController = UIHostingController(rootView: pageIndicatorView)
 
         addSubview(hostingViewController.view)

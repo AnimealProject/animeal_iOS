@@ -38,28 +38,28 @@ public final class OnboardingImageStepView: UIView {
         return item
     }()
 
-    private let imageView: UIImageView = {
+    private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
 
-    private let titleView: UILabel = {
+    private lazy var titleView: UILabel = {
         let item = UILabel()
         item.translatesAutoresizingMaskIntoConstraints = false
-        item.textColor = .black
-        item.font = UIFont.systemFont(ofSize: 24.0)
+        item.textColor = designEngine.colors.textSecondary.uiColor
+        item.font = designEngine.fonts.primary.bold(24.0).uiFont
         item.textAlignment = .center
         item.numberOfLines = 0
         return item
     }()
 
-    private let textView: UILabel = {
+    private lazy var textView: UILabel = {
         let item = UILabel()
         item.translatesAutoresizingMaskIntoConstraints = false
-        item.textColor = .gray
-        item.font = UIFont.systemFont(ofSize: 16.0)
+        item.textColor = designEngine.colors.textDescriptive.uiColor
+        item.font = designEngine.fonts.primary.medium(16.0).uiFont
         item.textAlignment = .center
         item.numberOfLines = 0
         return item
