@@ -74,7 +74,6 @@
 		DB6B07C828450A380009397B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07C728450A380009397B /* SceneDelegate.swift */; };
 		DB6B07CA28450A380009397B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07C928450A380009397B /* HomeViewController.swift */; };
 		DB6B07D228450A390009397B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB6B07D028450A390009397B /* LaunchScreen.storyboard */; };
-		DB6B07DD28450A3A0009397B /* AnimealTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07DC28450A3A0009397B /* AnimealTests.swift */; };
 		DCE1CAAC12C918FB62B0BA8B /* LanguagesSetting+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6536D50A446F5742969183 /* LanguagesSetting+Schema.swift */; };
 		FB2914DC284F66830094DA8B /* Services in Frameworks */ = {isa = PBXBuildFile; productRef = FB2914DB284F66830094DA8B /* Services */; };
 		FB4313592848E97C0084C21A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4313582848E97C0084C21A /* AppDelegate.swift */; };
@@ -83,8 +82,14 @@
 		FB4313622848E97E0084C21A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB4313612848E97E0084C21A /* Assets.xcassets */; };
 		FB4313652848E97E0084C21A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB4313632848E97E0084C21A /* LaunchScreen.storyboard */; };
 		FB43136B2848EA950084C21A /* UIComponents in Frameworks */ = {isa = PBXBuildFile; productRef = FB43136A2848EA950084C21A /* UIComponents */; };
+		FB5A725828534B0900B9AD15 /* AutoMockable.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5A725728534B0900B9AD15 /* AutoMockable.generated.swift */; };
 		FB5E4A3F284770FE00679657 /* UIComponents in Frameworks */ = {isa = PBXBuildFile; productRef = FB5E4A3E284770FE00679657 /* UIComponents */; };
+		FBA263B1285347B200DBED37 /* sourcery.yml in Resources */ = {isa = PBXBuildFile; fileRef = FBA263B0285347B200DBED37 /* sourcery.yml */; };
+		FBA263B32853480500DBED37 /* AutoMockable.stencil in Resources */ = {isa = PBXBuildFile; fileRef = FBA263B22853480500DBED37 /* AutoMockable.stencil */; };
+		FBA263B62853488200DBED37 /* LoginViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA263B52853488200DBED37 /* LoginViewModelTests.swift */; };
 		FBEB291F802113F2A65D62C9 /* FeedingPointConnection+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95550513A0326A8E443C7BCB /* FeedingPointConnection+Schema.swift */; };
+		FBFE40F02853448800316D58 /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = FBFE40EF2853448800316D58 /* Quick */; };
+		FBFE40F3285344B100316D58 /* Nimble in Frameworks */ = {isa = PBXBuildFile; productRef = FBFE40F2285344B100316D58 /* Nimble */; };
 		FF0D1A35DECA7017DE49AF15 /* RelationUserPet+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CE4BA48AE07A2C248C7246 /* RelationUserPet+Schema.swift */; };
 /* End PBXBuildFile section */
 
@@ -162,7 +167,6 @@
 		DB6B07D128450A390009397B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DB6B07D328450A390009397B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DB6B07D828450A3A0009397B /* animealTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = animealTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		DB6B07DC28450A3A0009397B /* AnimealTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimealTests.swift; sourceTree = "<group>"; };
 		DEFE643B8BEBAC315C0A9518 /* Pet.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Pet.swift; path = amplify/generated/models/Pet.swift; sourceTree = "<group>"; };
 		E1877F1460B58C5A5A0F72E5 /* LanguagesSetting.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = LanguagesSetting.swift; path = amplify/generated/models/LanguagesSetting.swift; sourceTree = "<group>"; };
 		E423FC6DE22260CD3829A2BE /* MedicationI18n+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "MedicationI18n+Schema.swift"; path = "amplify/generated/models/MedicationI18n+Schema.swift"; sourceTree = "<group>"; };
@@ -179,6 +183,10 @@
 		FB4313612848E97E0084C21A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FB4313642848E97E0084C21A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FB4313662848E97E0084C21A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FB5A725728534B0900B9AD15 /* AutoMockable.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoMockable.generated.swift; sourceTree = "<group>"; };
+		FBA263B0285347B200DBED37 /* sourcery.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = sourcery.yml; sourceTree = "<group>"; };
+		FBA263B22853480500DBED37 /* AutoMockable.stencil */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AutoMockable.stencil; sourceTree = "<group>"; };
+		FBA263B52853488200DBED37 /* LoginViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,6 +208,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FBFE40F02853448800316D58 /* Quick in Frameworks */,
+				FBFE40F3285344B100316D58 /* Nimble in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -360,7 +370,8 @@
 		DB6B07DB28450A3A0009397B /* animealTests */ = {
 			isa = PBXGroup;
 			children = (
-				DB6B07DC28450A3A0009397B /* AnimealTests.swift */,
+				FBA263B42853484C00DBED37 /* src */,
+				FBFE40F42853462300316D58 /* Sourcery */,
 			);
 			path = animealTests;
 			sourceTree = "<group>";
@@ -435,6 +446,40 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		FBA263AE2853471400DBED37 /* Generated */ = {
+			isa = PBXGroup;
+			children = (
+				FB5A725728534B0900B9AD15 /* AutoMockable.generated.swift */,
+			);
+			path = Generated;
+			sourceTree = "<group>";
+		};
+		FBA263AF2853471B00DBED37 /* Templates */ = {
+			isa = PBXGroup;
+			children = (
+				FBA263B22853480500DBED37 /* AutoMockable.stencil */,
+			);
+			path = Templates;
+			sourceTree = "<group>";
+		};
+		FBA263B42853484C00DBED37 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				FBA263B52853488200DBED37 /* LoginViewModelTests.swift */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		FBFE40F42853462300316D58 /* Sourcery */ = {
+			isa = PBXGroup;
+			children = (
+				FBA263B0285347B200DBED37 /* sourcery.yml */,
+				FBA263AF2853471B00DBED37 /* Templates */,
+				FBA263AE2853471400DBED37 /* Generated */,
+			);
+			path = Sourcery;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -470,6 +515,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DB6B07EF28450A3A0009397B /* Build configuration list for PBXNativeTarget "animealTests" */;
 			buildPhases = (
+				FBA263B7285348D300DBED37 /* Generate Sourcery Mocks */,
 				DB6B07D428450A3A0009397B /* Sources */,
 				DB6B07D528450A3A0009397B /* Frameworks */,
 				DB6B07D628450A3A0009397B /* Resources */,
@@ -480,6 +526,10 @@
 				DB6B07DA28450A3A0009397B /* PBXTargetDependency */,
 			);
 			name = animealTests;
+			packageProductDependencies = (
+				FBFE40EF2853448800316D58 /* Quick */,
+				FBFE40F2285344B100316D58 /* Nimble */,
+			);
 			productName = animealTests;
 			productReference = DB6B07D828450A3A0009397B /* animealTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -519,6 +569,7 @@
 					};
 					DB6B07D728450A3A0009397B = {
 						CreatedOnToolsVersion = 13.2.1;
+						LastSwiftMigration = 1330;
 						TestTargetID = DB6B07C128450A380009397B;
 					};
 					FB4313552848E97C0084C21A = {
@@ -538,6 +589,8 @@
 			mainGroup = DB6B07B928450A380009397B;
 			packageReferences = (
 				839E2740284A33490040142A /* XCRemoteSwiftPackageReference "amplify-ios" */,
+				FBFE40EE2853448800316D58 /* XCRemoteSwiftPackageReference "Quick" */,
+				FBFE40F1285344B100316D58 /* XCRemoteSwiftPackageReference "Nimble" */,
 			);
 			productRefGroup = DB6B07C328450A380009397B /* Products */;
 			projectDirPath = "";
@@ -566,6 +619,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FBA263B1285347B200DBED37 /* sourcery.yml in Resources */,
+				FBA263B32853480500DBED37 /* AutoMockable.stencil in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -616,6 +671,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint lint --config \"${PROJECT_DIR}/.swiftlint.yml\"\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+		FBA263B7285348D300DBED37 /* Generate Sourcery Mocks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Sourcery Mocks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n${PROJECT_DIR}/animealTests/Sourcery/sourcery --config ${PROJECT_DIR}/animealTests/Sourcery/sourcery.yml\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -692,7 +765,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DB6B07DD28450A3A0009397B /* AnimealTests.swift in Sources */,
+				FBA263B62853488200DBED37 /* LoginViewModelTests.swift in Sources */,
+				FB5A725828534B0900B9AD15 /* AutoMockable.generated.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -928,15 +1002,22 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2GBFVLY769;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animealTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/animeal.app/animeal";
@@ -948,11 +1029,17 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2GBFVLY769;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animealTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1073,6 +1160,22 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		FBFE40EE2853448800316D58 /* XCRemoteSwiftPackageReference "Quick" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Quick/Quick.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		FBFE40F1285344B100316D58 /* XCRemoteSwiftPackageReference "Nimble" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Quick/Nimble.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1112,6 +1215,16 @@
 		FB5E4A3E284770FE00679657 /* UIComponents */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = UIComponents;
+		};
+		FBFE40EF2853448800316D58 /* Quick */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FBFE40EE2853448800316D58 /* XCRemoteSwiftPackageReference "Quick" */;
+			productName = Quick;
+		};
+		FBFE40F2285344B100316D58 /* Nimble */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FBFE40F1285344B100316D58 /* XCRemoteSwiftPackageReference "Nimble" */;
+			productName = Nimble;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

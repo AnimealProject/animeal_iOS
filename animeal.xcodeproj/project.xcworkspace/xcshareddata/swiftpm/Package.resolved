@@ -28,6 +28,42 @@
       }
     },
     {
+      "identity" : "cwlcatchexception",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mattgallagher/CwlCatchException.git",
+      "state" : {
+        "revision" : "35f9e770f54ce62dd8526470f14c6e137cef3eea",
+        "version" : "2.1.1"
+      }
+    },
+    {
+      "identity" : "cwlpreconditiontesting",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mattgallagher/CwlPreconditionTesting.git",
+      "state" : {
+        "revision" : "c21f7bab5ca8eee0a9998bbd17ca1d0eb45d4688",
+        "version" : "2.1.0"
+      }
+    },
+    {
+      "identity" : "nimble",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Quick/Nimble.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "44b9392dc0cdcc318d7310553f74b13bb74fce1c"
+      }
+    },
+    {
+      "identity" : "quick",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Quick/Quick.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "1d6f80abc1ad5b8f520ca78b4c0aae897d2aaece"
+      }
+    },
+    {
       "identity" : "sqlite.swift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/stephencelis/SQLite.swift.git",

@@ -33,14 +33,12 @@ protocol LoginViewState: AnyObject {
 }
 
 // MARK: - Model
-typealias LoginCombinedModel = LoginModelRequest & LoginModelResponse
 
-protocol LoginModelRequest: AnyObject {
+// sourcery: AutoMockable
+protocol LoginModelProtocol: AnyObject {
     func fetchOnboardingSteps() -> [LoginModelOnboardingStep]
     func fetchActions() -> [LoginModelAction]
 }
-
-protocol LoginModelResponse: AnyObject { }
 
 // MARK: - Assembler
 protocol LoginAssembler {
