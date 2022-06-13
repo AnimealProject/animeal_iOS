@@ -37,6 +37,11 @@ public enum Asset {
     public static let signInApple = ImageAsset(name: "sign_in_apple")
     public static let signInFacebook = ImageAsset(name: "sign_in_facebook")
     public static let signInMobile = ImageAsset(name: "sign_in_mobile")
+    public static let glass = ImageAsset(name: "glass")
+    public static let heart = ImageAsset(name: "heart")
+    public static let home = ImageAsset(name: "home")
+    public static let more = ImageAsset(name: "more")
+    public static let podium = ImageAsset(name: "podium")
     public static let animealLogo = ImageAsset(name: "animeal_logo")
   }
 }
