@@ -88,6 +88,8 @@ identifier_name:
     - x
     - y
     - z
+    - lhs
+    - rhs
 
 line_length:
   ignores_urls: true
