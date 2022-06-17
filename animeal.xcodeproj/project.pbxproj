@@ -70,6 +70,8 @@
 		DA7754CFE85DA01540F13750 /* AmplifyModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12662058C69A26CF52E46B66 /* AmplifyModels.swift */; };
 		DB0D671528466D6200930564 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DB0D670C28466D6200930564 /* Localizable.strings */; };
 		DB0D671928466E7700930564 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0D671828466E7700930564 /* Strings.swift */; };
+		DB5A837D285C513700F3C3A5 /* TabBarControllerAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5A837C285C513700F3C3A5 /* TabBarControllerAssembler.swift */; };
+		DB5A837F285C536E00F3C3A5 /* ComponentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5A837E285C536E00F3C3A5 /* ComponentViewController.swift */; };
 		DB6B07C628450A380009397B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07C528450A380009397B /* AppDelegate.swift */; };
 		DB6B07C828450A380009397B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07C728450A380009397B /* SceneDelegate.swift */; };
 		DB6B07CA28450A380009397B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07C928450A380009397B /* HomeViewController.swift */; };
@@ -78,7 +80,7 @@
 		FB2914DC284F66830094DA8B /* Services in Frameworks */ = {isa = PBXBuildFile; productRef = FB2914DB284F66830094DA8B /* Services */; };
 		FB4313592848E97C0084C21A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4313582848E97C0084C21A /* AppDelegate.swift */; };
 		FB43135B2848E97C0084C21A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB43135A2848E97C0084C21A /* SceneDelegate.swift */; };
-		FB43135D2848E97C0084C21A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB43135C2848E97C0084C21A /* MainViewController.swift */; };
+		FB43135D2848E97C0084C21A /* ComponentsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB43135C2848E97C0084C21A /* ComponentsTableViewController.swift */; };
 		FB4313622848E97E0084C21A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB4313612848E97E0084C21A /* Assets.xcassets */; };
 		FB4313652848E97E0084C21A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB4313632848E97E0084C21A /* LaunchScreen.storyboard */; };
 		FB43136B2848EA950084C21A /* UIComponents in Frameworks */ = {isa = PBXBuildFile; productRef = FB43136A2848EA950084C21A /* UIComponents */; };
@@ -160,6 +162,8 @@
 		DB0D670D28466D6200930564 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DB0D671828466E7700930564 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		DB0D671B2846744100930564 /* ka */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ka; path = ka.lproj/Localizable.strings; sourceTree = "<group>"; };
+		DB5A837C285C513700F3C3A5 /* TabBarControllerAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarControllerAssembler.swift; sourceTree = "<group>"; };
+		DB5A837E285C536E00F3C3A5 /* ComponentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentViewController.swift; sourceTree = "<group>"; };
 		DB6B07C228450A380009397B /* animeal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = animeal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB6B07C528450A380009397B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DB6B07C728450A380009397B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -179,7 +183,7 @@
 		FB4313562848E97C0084C21A /* animealUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = animealUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB4313582848E97C0084C21A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FB43135A2848E97C0084C21A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		FB43135C2848E97C0084C21A /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		FB43135C2848E97C0084C21A /* ComponentsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentsTableViewController.swift; sourceTree = "<group>"; };
 		FB4313612848E97E0084C21A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FB4313642848E97E0084C21A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FB4313662848E97E0084C21A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -329,6 +333,14 @@
 			path = res;
 			sourceTree = "<group>";
 		};
+		DB5A837B285C511700F3C3A5 /* Assemblers */ = {
+			isa = PBXGroup;
+			children = (
+				DB5A837C285C513700F3C3A5 /* TabBarControllerAssembler.swift */,
+			);
+			path = Assemblers;
+			sourceTree = "<group>";
+		};
 		DB6B07B928450A380009397B = {
 			isa = PBXGroup;
 			children = (
@@ -429,9 +441,11 @@
 		FB4313572848E97C0084C21A /* animealUI */ = {
 			isa = PBXGroup;
 			children = (
+				DB5A837B285C511700F3C3A5 /* Assemblers */,
 				FB4313582848E97C0084C21A /* AppDelegate.swift */,
 				FB43135A2848E97C0084C21A /* SceneDelegate.swift */,
-				FB43135C2848E97C0084C21A /* MainViewController.swift */,
+				FB43135C2848E97C0084C21A /* ComponentsTableViewController.swift */,
+				DB5A837E285C536E00F3C3A5 /* ComponentViewController.swift */,
 				FB4313612848E97E0084C21A /* Assets.xcassets */,
 				FB4313632848E97E0084C21A /* LaunchScreen.storyboard */,
 				FB4313662848E97E0084C21A /* Info.plist */,
@@ -774,7 +788,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FB43135D2848E97C0084C21A /* MainViewController.swift in Sources */,
+				DB5A837D285C513700F3C3A5 /* TabBarControllerAssembler.swift in Sources */,
+				DB5A837F285C536E00F3C3A5 /* ComponentViewController.swift in Sources */,
+				FB43135D2848E97C0084C21A /* ComponentsTableViewController.swift in Sources */,
 				FB4313592848E97C0084C21A /* AppDelegate.swift in Sources */,
 				FB43135B2848E97C0084C21A /* SceneDelegate.swift in Sources */,
 			);
