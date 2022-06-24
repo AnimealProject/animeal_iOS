@@ -6,15 +6,34 @@
 //
 
 import UIKit
+import Services
+
+protocol AppDelegateProtocol {
+    var context: AppContext! { get }
+}
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateProtocol {
+    static let shared: AppDelegateProtocol = UIApplication.shared.delegate as! AppDelegateProtocol
+    var context: AppContext!
 
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
+        context = AppContext.context()
+        context.applicationDelegateServices.forEach {
+            _ = $0.registerApplication(application, didFinishLaunchingWithOptions: launchOptions)
+        }
+        logInfo("[APP] \(#function)")
         return true
+    }
+
+    func applicationWillTerminate(_ application: UIApplication) {
+        logInfo("[APP] \(#function)")
+        context.applicationDelegateServices.forEach {
+            _ = $0.applicationWillTerminate(application)
+        }
     }
 
     // MARK: UISceneSession Lifecycle

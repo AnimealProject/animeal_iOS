@@ -10,8 +10,11 @@ import UIKit
 import AppKit
 #endif
 
+import CoreLocation
+
 
 @testable import animeal
+@testable import Services
 
 
 
@@ -26,6 +29,97 @@ import AppKit
 
 
 
+class LocationServiceDelegateMock: LocationServiceDelegate {
+
+    // MARK: - handleLiveLocationStream
+
+    var handleLiveLocationStreamResultCallsCount = 0
+    var handleLiveLocationStreamResultCalled: Bool {
+        return handleLiveLocationStreamResultCallsCount > 0
+    }
+    var handleLiveLocationStreamResultReceivedResult: Result<CLLocation, Error>?
+    var handleLiveLocationStreamResultReceivedInvocations: [Result<CLLocation, Error>] = []
+    var handleLiveLocationStreamResultClosure: ((Result<CLLocation, Error>) -> Void)?
+
+    func handleLiveLocationStream(result: Result<CLLocation, Error>) {
+        handleLiveLocationStreamResultCallsCount += 1
+        handleLiveLocationStreamResultReceivedResult = result
+        handleLiveLocationStreamResultReceivedInvocations.append(result)
+        handleLiveLocationStreamResultClosure?(result)
+    }
+
+    // MARK: - handleOneTimeLocation
+
+    var handleOneTimeLocationResultCallsCount = 0
+    var handleOneTimeLocationResultCalled: Bool {
+        return handleOneTimeLocationResultCallsCount > 0
+    }
+    var handleOneTimeLocationResultReceivedResult: Result<CLLocation, Error>?
+    var handleOneTimeLocationResultReceivedInvocations: [Result<CLLocation, Error>] = []
+    var handleOneTimeLocationResultClosure: ((Result<CLLocation, Error>) -> Void)?
+
+    func handleOneTimeLocation(result: Result<CLLocation, Error>) {
+        handleOneTimeLocationResultCallsCount += 1
+        handleOneTimeLocationResultReceivedResult = result
+        handleOneTimeLocationResultReceivedInvocations.append(result)
+        handleOneTimeLocationResultClosure?(result)
+    }
+
+}
+class LocationServiceProtocolMock: LocationServiceProtocol {
+
+    // MARK: - requestLocation
+
+    var requestLocationForCallsCount = 0
+    var requestLocationForCalled: Bool {
+        return requestLocationForCallsCount > 0
+    }
+    var requestLocationForReceivedDelegate: LocationServiceDelegate?
+    var requestLocationForReceivedInvocations: [LocationServiceDelegate] = []
+    var requestLocationForClosure: ((LocationServiceDelegate) -> Void)?
+
+    func requestLocation(for delegate: LocationServiceDelegate) {
+        requestLocationForCallsCount += 1
+        requestLocationForReceivedDelegate = delegate
+        requestLocationForReceivedInvocations.append(delegate)
+        requestLocationForClosure?(delegate)
+    }
+
+    // MARK: - startUpdatingLocation
+
+    var startUpdatingLocationForCallsCount = 0
+    var startUpdatingLocationForCalled: Bool {
+        return startUpdatingLocationForCallsCount > 0
+    }
+    var startUpdatingLocationForReceivedDelegate: LocationServiceDelegate?
+    var startUpdatingLocationForReceivedInvocations: [LocationServiceDelegate] = []
+    var startUpdatingLocationForClosure: ((LocationServiceDelegate) -> Void)?
+
+    func startUpdatingLocation(for delegate: LocationServiceDelegate) {
+        startUpdatingLocationForCallsCount += 1
+        startUpdatingLocationForReceivedDelegate = delegate
+        startUpdatingLocationForReceivedInvocations.append(delegate)
+        startUpdatingLocationForClosure?(delegate)
+    }
+
+    // MARK: - stopUpdatingLocation
+
+    var stopUpdatingLocationForCallsCount = 0
+    var stopUpdatingLocationForCalled: Bool {
+        return stopUpdatingLocationForCallsCount > 0
+    }
+    var stopUpdatingLocationForReceivedDelegate: LocationServiceDelegate?
+    var stopUpdatingLocationForReceivedInvocations: [LocationServiceDelegate] = []
+    var stopUpdatingLocationForClosure: ((LocationServiceDelegate) -> Void)?
+
+    func stopUpdatingLocation(for delegate: LocationServiceDelegate) {
+        stopUpdatingLocationForCallsCount += 1
+        stopUpdatingLocationForReceivedDelegate = delegate
+        stopUpdatingLocationForReceivedInvocations.append(delegate)
+        stopUpdatingLocationForClosure?(delegate)
+    }
+
+}
 class LoginModelProtocolMock: LoginModelProtocol {
 
     // MARK: - fetchOnboardingSteps

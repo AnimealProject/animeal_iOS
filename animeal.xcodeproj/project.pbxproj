@@ -72,6 +72,9 @@
 		DB0D671928466E7700930564 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0D671828466E7700930564 /* Strings.swift */; };
 		DB5A837D285C513700F3C3A5 /* TabBarControllerAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5A837C285C513700F3C3A5 /* TabBarControllerAssembler.swift */; };
 		DB5A837F285C536E00F3C3A5 /* ComponentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5A837E285C536E00F3C3A5 /* ComponentViewController.swift */; };
+		DB5A8389285CEB5400F3C3A5 /* AppContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5A8388285CEB5400F3C3A5 /* AppContext.swift */; };
+		DB5A838C285CEB9D00F3C3A5 /* AppInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5A838B285CEB9D00F3C3A5 /* AppInfo.swift */; };
+		DB5A838E285CEC4B00F3C3A5 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5A838D285CEC4B00F3C3A5 /* Log.swift */; };
 		DB6B07C628450A380009397B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07C528450A380009397B /* AppDelegate.swift */; };
 		DB6B07C828450A380009397B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07C728450A380009397B /* SceneDelegate.swift */; };
 		DB6B07CA28450A380009397B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07C928450A380009397B /* HomeViewController.swift */; };
@@ -164,6 +167,9 @@
 		DB0D671B2846744100930564 /* ka */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ka; path = ka.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DB5A837C285C513700F3C3A5 /* TabBarControllerAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarControllerAssembler.swift; sourceTree = "<group>"; };
 		DB5A837E285C536E00F3C3A5 /* ComponentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentViewController.swift; sourceTree = "<group>"; };
+		DB5A8388285CEB5400F3C3A5 /* AppContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContext.swift; sourceTree = "<group>"; };
+		DB5A838B285CEB9D00F3C3A5 /* AppInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfo.swift; sourceTree = "<group>"; };
+		DB5A838D285CEC4B00F3C3A5 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		DB6B07C228450A380009397B /* animeal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = animeal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB6B07C528450A380009397B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DB6B07C728450A380009397B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -273,7 +279,6 @@
 		83F3CC1828477EB600C05298 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				83F3CC1E2847814700C05298 /* Providers */,
 				83F3CC1928477EC100C05298 /* Items */,
 				83F3CC1A28477ECE00C05298 /* LoginModel.swift */,
 			);
@@ -287,13 +292,6 @@
 				8360D1A2284E954900ACDEDB /* LoginModelOnboardingStep.swift */,
 			);
 			path = Items;
-			sourceTree = "<group>";
-		};
-		83F3CC1E2847814700C05298 /* Providers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Providers;
 			sourceTree = "<group>";
 		};
 		83F3CC21284786FE00C05298 /* Utils */ = {
@@ -316,6 +314,7 @@
 		DB4CA51C28450FEE00050EA5 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				DB5A838A285CEB8C00F3C3A5 /* App */,
 				83F3CC0B2847702900C05298 /* Modules */,
 				DB0D66BB2846676100930564 /* Common */,
 				DB6B07C928450A380009397B /* HomeViewController.swift */,
@@ -339,6 +338,16 @@
 				DB5A837C285C513700F3C3A5 /* TabBarControllerAssembler.swift */,
 			);
 			path = Assemblers;
+			sourceTree = "<group>";
+		};
+		DB5A838A285CEB8C00F3C3A5 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				DB5A8388285CEB5400F3C3A5 /* AppContext.swift */,
+				DB5A838B285CEB9D00F3C3A5 /* AppInfo.swift */,
+				DB5A838D285CEC4B00F3C3A5 /* Log.swift */,
+			);
+			path = App;
 			sourceTree = "<group>";
 		};
 		DB6B07B928450A380009397B = {
@@ -717,6 +726,7 @@
 				8360D1AB284E9EBD00ACDEDB /* LoginViewAction+ButtonViewModel.swift in Sources */,
 				83F3CC12284771CA00C05298 /* LoginAssembler.swift in Sources */,
 				83F3CC1D2847808200C05298 /* LoginModelAction.swift in Sources */,
+				DB5A838E285CEC4B00F3C3A5 /* Log.swift in Sources */,
 				DB6B07C628450A380009397B /* AppDelegate.swift in Sources */,
 				8360D1A7284E98FA00ACDEDB /* LoginViewOnboardingStepsMapper.swift in Sources */,
 				DB0D671928466E7700930564 /* Strings.swift in Sources */,
@@ -746,6 +756,7 @@
 				916158A01E8C9CF111B616B4 /* FeedingPointI18n.swift in Sources */,
 				CBC2C7CF54215BF6AF61524E /* FeedingPointStatus.swift in Sources */,
 				655B7A9CC4DC0177ED3A03DE /* FeedingStatus.swift in Sources */,
+				DB5A8389285CEB5400F3C3A5 /* AppContext.swift in Sources */,
 				5A9A8F2E45405A7C20E2970E /* Language+Schema.swift in Sources */,
 				CF57277BF72FB11BE40424A3 /* Language.swift in Sources */,
 				DCE1CAAC12C918FB62B0BA8B /* LanguagesSetting+Schema.swift in Sources */,
@@ -772,6 +783,7 @@
 				8A6AAAE674342B5D7F37A670 /* Settings.swift in Sources */,
 				83F3CC202847851300C05298 /* LoginViewAction.swift in Sources */,
 				8360D1AD284E9FF400ACDEDB /* LoginViewOnboardingStep+OnboardingViewStep.swift in Sources */,
+				DB5A838C285CEB9D00F3C3A5 /* AppInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -963,6 +975,9 @@
 				DEVELOPMENT_TEAM = 2GBFVLY769;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = animeal/res/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your precise location is used to calculate turn-by-turn directions, show your location on the map, and help improve the map.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
@@ -993,6 +1008,9 @@
 				DEVELOPMENT_TEAM = 2GBFVLY769;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = animeal/res/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your precise location is used to calculate turn-by-turn directions, show your location on the map, and help improve the map.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;

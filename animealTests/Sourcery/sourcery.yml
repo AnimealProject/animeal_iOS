@@ -1,9 +1,12 @@
 sources:
     - ../../animeal
+    - ../../Services
 templates:
     - Templates
 output:
     Generated
 args:
+    imports:
+        [CoreLocation]
     autoMockableTestableImports:
-        [animeal]
+        [animeal, Services]
