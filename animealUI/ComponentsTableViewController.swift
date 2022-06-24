@@ -107,6 +107,28 @@ class ComponentsTableViewController: UIViewController, UITableViewDataSource, UI
             }
             return viewController
         }))
+
+        dataSource.append(ComponentPresentation(description: "SegmentedControl", viewController: {
+            let viewController = ComponentViewController<SegmentedControl>()
+            viewController.configureElement = { element in
+                let superView = element.superview!
+                element.centerYAnchor ~= superView.centerYAnchor
+                element.centerXAnchor ~= superView.centerXAnchor
+                element.widthAnchor ~= 226
+                let action = { identifier in
+                    print(identifier)
+                }
+                element.configure(
+                    SegmentedControl.Model(
+                        items: [
+                            SegmentedControl.Item(identifier: 0, title: "Dogs", action: action),
+                            SegmentedControl.Item(identifier: 1, title: "Cats", action: action)
+                        ]
+                    )
+                )
+            }
+            return viewController
+        }))
     }
 
     private func showAlert(title: String = "Title", message: String = "Message") {
