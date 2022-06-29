@@ -2,7 +2,7 @@ import UIKit
 import Foundation
 import Combine
 
-public class BaseVC: UIViewController {
+public class BaseViewController: UIViewController {
 
     // MARK: - Private properties
     private var cancellables: Set<AnyCancellable> = []

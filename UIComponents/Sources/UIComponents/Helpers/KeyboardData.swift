@@ -7,7 +7,7 @@ public struct KeyboardData {
     let animationCurve: UIView.AnimationCurve
 
     var isHiding: Bool {
-        return keyboardRect.height == 0.0
+        return keyboardRect == .zero
     }
 
     /// Conversion between the animation curve and the animation options, required by `UIView.animate(...)`
