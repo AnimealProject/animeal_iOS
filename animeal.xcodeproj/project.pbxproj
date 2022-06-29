@@ -79,6 +79,7 @@
 		DB6B07C828450A380009397B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07C728450A380009397B /* SceneDelegate.swift */; };
 		DB6B07CA28450A380009397B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07C928450A380009397B /* HomeViewController.swift */; };
 		DB6B07D228450A390009397B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB6B07D028450A390009397B /* LaunchScreen.storyboard */; };
+		DBA3C7E728575CAF00B30A78 /* MapboxMaps in Frameworks */ = {isa = PBXBuildFile; productRef = DBA3C7E628575CAF00B30A78 /* MapboxMaps */; };
 		DCE1CAAC12C918FB62B0BA8B /* LanguagesSetting+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6536D50A446F5742969183 /* LanguagesSetting+Schema.swift */; };
 		FB2914DC284F66830094DA8B /* Services in Frameworks */ = {isa = PBXBuildFile; productRef = FB2914DB284F66830094DA8B /* Services */; };
 		FB4313592848E97C0084C21A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4313582848E97C0084C21A /* AppDelegate.swift */; };
@@ -207,6 +208,7 @@
 				839E2742284A33490040142A /* AWSAPIPlugin in Frameworks */,
 				839E2748284A33490040142A /* AWSLocationGeoPlugin in Frameworks */,
 				FB5E4A3F284770FE00679657 /* UIComponents in Frameworks */,
+				DBA3C7E728575CAF00B30A78 /* MapboxMaps in Frameworks */,
 				839E274A284A33490040142A /* Amplify in Frameworks */,
 				FB2914DC284F66830094DA8B /* Services in Frameworks */,
 				839E2744284A33490040142A /* AWSCognitoAuthPlugin in Frameworks */,
@@ -237,6 +239,7 @@
 		83F3CC0B2847702900C05298 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				DB5A838F285D00B100F3C3A5 /* Home */,
 				83F3CC0C2847703100C05298 /* Login */,
 			);
 			path = Modules;
@@ -317,7 +320,6 @@
 				DB5A838A285CEB8C00F3C3A5 /* App */,
 				83F3CC0B2847702900C05298 /* Modules */,
 				DB0D66BB2846676100930564 /* Common */,
-				DB6B07C928450A380009397B /* HomeViewController.swift */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -348,6 +350,14 @@
 				DB5A838D285CEC4B00F3C3A5 /* Log.swift */,
 			);
 			path = App;
+			sourceTree = "<group>";
+		};
+		DB5A838F285D00B100F3C3A5 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				DB6B07C928450A380009397B /* HomeViewController.swift */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 		DB6B07B928450A380009397B = {
@@ -515,6 +525,7 @@
 				DB6B07C028450A380009397B /* Resources */,
 				DB058D61284642D60064A21F /* swiftgen */,
 				DB4CA51E2845114E00050EA5 /* swiftlint */,
+				DB5359AD286C59D000D2FF7F /* mapBox */,
 			);
 			buildRules = (
 			);
@@ -529,6 +540,7 @@
 				839E2747284A33490040142A /* AWSLocationGeoPlugin */,
 				839E2749284A33490040142A /* Amplify */,
 				FB2914DB284F66830094DA8B /* Services */,
+				DBA3C7E628575CAF00B30A78 /* MapboxMaps */,
 			);
 			productName = animeal;
 			productReference = DB6B07C228450A380009397B /* animeal.app */;
@@ -614,6 +626,7 @@
 				839E2740284A33490040142A /* XCRemoteSwiftPackageReference "amplify-ios" */,
 				FBFE40EE2853448800316D58 /* XCRemoteSwiftPackageReference "Quick" */,
 				FBFE40F1285344B100316D58 /* XCRemoteSwiftPackageReference "Nimble" */,
+				DBA3C7E528575CAF00B30A78 /* XCRemoteSwiftPackageReference "mapbox-maps-ios" */,
 			);
 			productRefGroup = DB6B07C328450A380009397B /* Products */;
 			projectDirPath = "";
@@ -667,6 +680,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"$(TARGET_BUILD_DIR)/$(INFOPLIST_PATH)",
 			);
 			name = swiftgen;
 			outputFileListPaths = (
@@ -694,6 +708,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint lint --config \"${PROJECT_DIR}/.swiftlint.yml\"\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+		DB5359AD286C59D000D2FF7F /* mapBox */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = mapBox;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# For how it works see https://docs.mapbox.com/help/troubleshooting/private-access-token-android-and-ios/\n# Look for a global file named 'mapbox' or '.mapbox' within the home directory\ntoken_file=~/.mapbox\ntoken=\"$(cat $token_file 2>/dev/null)\"\nif [ \"$token\" ]; then\n  plutil -replace MBXAccessToken -string $token \"$TARGET_BUILD_DIR/$INFOPLIST_PATH\"\nelse\n  echo 'warning: Missing Mapbox access token'\n  open 'https://account.mapbox.com/access-tokens/'\n  echo \"warning: Get an access token from <https://account.mapbox.com/access-tokens/>, then create a new file at $token_file that contains the access token.\"\nfi\n";
 		};
 		FBA263B7285348D300DBED37 /* Generate Sourcery Mocks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1194,6 +1226,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		DBA3C7E528575CAF00B30A78 /* XCRemoteSwiftPackageReference "mapbox-maps-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mapbox/mapbox-maps-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.5.0;
+			};
+		};
 		FBFE40EE2853448800316D58 /* XCRemoteSwiftPackageReference "Quick" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Quick/Quick.git";
@@ -1237,6 +1277,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 839E2740284A33490040142A /* XCRemoteSwiftPackageReference "amplify-ios" */;
 			productName = Amplify;
+		};
+		DBA3C7E628575CAF00B30A78 /* MapboxMaps */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DBA3C7E528575CAF00B30A78 /* XCRemoteSwiftPackageReference "mapbox-maps-ios" */;
+			productName = MapboxMaps;
 		};
 		FB2914DB284F66830094DA8B /* Services */ = {
 			isa = XCSwiftPackageProductDependency;
