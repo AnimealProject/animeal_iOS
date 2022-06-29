@@ -44,7 +44,7 @@ private extension SegmentedControl {
         backgroundColor = designEngine.colors.primary.uiColor
         selectedSegmentTintColor = designEngine.colors.accentTint.uiColor
         setTitleTextAttributes(
-            [NSAttributedString.Key.foregroundColor : designEngine.colors.primary.uiColor],
+            [NSAttributedString.Key.foregroundColor: designEngine.colors.primary.uiColor],
             for: .selected
         )
     }

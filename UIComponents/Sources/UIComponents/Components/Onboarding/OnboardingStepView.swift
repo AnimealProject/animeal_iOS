@@ -38,7 +38,7 @@ public final class OnboardingImageStepView: UIView {
         return item
     }()
 
-    private lazy var imageView: UIImageView = {
+    private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit

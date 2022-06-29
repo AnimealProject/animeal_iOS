@@ -33,6 +33,7 @@ public enum Asset {
     public static let osloGrey = ColorAsset(name: "OsloGrey")
   }
   public enum Images {
+    public static let refreshIcon = ImageAsset(name: "refresh_icon")
     public static let onboardingFeed = ImageAsset(name: "onboarding_feed")
     public static let signInApple = ImageAsset(name: "sign_in_apple")
     public static let signInFacebook = ImageAsset(name: "sign_in_facebook")
