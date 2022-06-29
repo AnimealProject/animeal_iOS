@@ -2,7 +2,7 @@ import UIKit
 import Foundation
 import Combine
 
-public class BaseViewController: UIViewController {
+open class BaseViewController: UIViewController {
 
     // MARK: - Private properties
     private var cancellables: Set<AnyCancellable> = []
@@ -42,7 +42,7 @@ public class BaseViewController: UIViewController {
     ///
     /// - Parameters:
     ///   - keyboardData: contains info about keyboard frame and animations
-    public func handleKeyboardNotification(keyboardData: KeyboardData) {}
+    open func handleKeyboardNotification(keyboardData: KeyboardData) {}
 
     // MARK: - Private methods
 
