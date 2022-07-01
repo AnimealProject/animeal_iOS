@@ -7,8 +7,8 @@
 
 import UIKit
 
-final class LoginModuleAssembler: LoginAssembler {
-    func assembly() -> UIViewController {
+final class LoginModuleAssembler: Assembling {
+    static func assemble() -> UIViewController {
         let model = LoginModel()
         let viewModel = LoginViewModel(
             model: model,

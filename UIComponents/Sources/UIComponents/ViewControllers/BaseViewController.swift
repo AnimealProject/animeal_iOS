@@ -2,7 +2,7 @@ import UIKit
 import Foundation
 import Combine
 
-public class BaseViewController: UIViewController {
+open class BaseViewController: UIViewController {
 
     // MARK: - Private properties
     private var cancellables: Set<AnyCancellable> = []
@@ -27,7 +27,7 @@ public class BaseViewController: UIViewController {
     }
 
     /// Method should be overridden in subclass in order to update view
-    /// layout according to the keyboard changes. For example:
+    /// layout according to the keyboard changes
     ///
     ///     public override func handleKeyboardNotification(keyboardData: KeyboardData) {
     ///         ...
@@ -42,7 +42,7 @@ public class BaseViewController: UIViewController {
     ///
     /// - Parameters:
     ///   - keyboardData: contains info about keyboard frame and animations
-    public func handleKeyboardNotification(keyboardData: KeyboardData) {}
+    open func handleKeyboardNotification(keyboardData: KeyboardData) {}
 
     // MARK: - Private methods
 
@@ -59,7 +59,6 @@ public class BaseViewController: UIViewController {
             NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification),
             NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)
         )
-        .removeDuplicates(by: { $0.name == $1.name })
         .sink(receiveValue: { notification in
             self.keyboardData = notification.keyboardData(
                 isHiding: notification.name == UIResponder.keyboardWillHideNotification

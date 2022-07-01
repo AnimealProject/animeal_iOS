@@ -2,16 +2,16 @@ import Foundation
 import UIKit
 
 public struct KeyboardData {
-    let keyboardRect: CGRect
-    let animationDuration: TimeInterval
-    let animationCurve: UIView.AnimationCurve
+    public let keyboardRect: CGRect
+    public let animationDuration: TimeInterval
+    public let animationCurve: UIView.AnimationCurve
 
-    var isHiding: Bool {
+    public var isHiding: Bool {
         return keyboardRect == .zero
     }
 
     /// Conversion between the animation curve and the animation options, required by `UIView.animate(...)`
-    var animationCurveOption: UIView.AnimationOptions {
+    public var animationCurveOption: UIView.AnimationOptions {
         switch self.animationCurve {
         case .easeIn:
             return .curveEaseIn
