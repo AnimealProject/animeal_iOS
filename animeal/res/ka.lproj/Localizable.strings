@@ -6,3 +6,11 @@
 "loginScreen.signInViaMobilePhone" = "შედით მობილურით";
 "loginScreen.signInViaFacebook"    = "Ფეისბუქზე შესვლა";
 "loginScreen.signInViaApple"       = "შედით Apple-ით";
+"profile.name"                     = "სახელი";
+"profile.surname"                  = "გვარი";
+"profile.phoneNumber"              = "Ტელეფონის ნომერი";
+"profile.email"                    = "ელ.ფოსტა";
+"profile.birthDate"                = "Დაბადების თარიღი";
+"profile.done"                     = "შესრულებულია";
+"profile.header"                   = "პროფილი";
+"profile.subHeader"                = "გთხოვთ შეავსოთ პროფილის ინფორმაცია";

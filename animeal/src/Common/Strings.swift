@@ -27,6 +27,25 @@ internal enum L10n {
     internal static let signInViaMobilePhone = L10n.tr("Localizable", "loginScreen.signInViaMobilePhone")
   }
 
+  internal enum Profile {
+    /// Birth Date
+    internal static let birthDate = L10n.tr("Localizable", "profile.birthDate")
+    /// Done
+    internal static let done = L10n.tr("Localizable", "profile.done")
+    /// E-mail
+    internal static let email = L10n.tr("Localizable", "profile.email")
+    /// Profile
+    internal static let header = L10n.tr("Localizable", "profile.header")
+    /// Name
+    internal static let name = L10n.tr("Localizable", "profile.name")
+    /// Phone Number
+    internal static let phoneNumber = L10n.tr("Localizable", "profile.phoneNumber")
+    /// please fill out the profile information
+    internal static let subHeader = L10n.tr("Localizable", "profile.subHeader")
+    /// Surname
+    internal static let surname = L10n.tr("Localizable", "profile.surname")
+  }
+
   internal enum TabBar {
     /// Favourites
     internal static let favourites = L10n.tr("Localizable", "tabBar.favourites")
