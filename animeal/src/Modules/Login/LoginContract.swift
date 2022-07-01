@@ -40,7 +40,7 @@ protocol LoginModelProtocol: AnyObject {
     func fetchActions() -> [LoginModelAction]
 }
 
-// MARK: - Assembler
-protocol LoginAssembler {
-    func assembly() -> UIViewController
+// MARK: - Assembling
+protocol Assembling {
+    static func assemble() -> UIViewController
 }

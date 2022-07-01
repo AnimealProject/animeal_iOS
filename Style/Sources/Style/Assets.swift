@@ -35,6 +35,7 @@ public enum Asset {
   public enum Images {
     public static let refreshIcon = ImageAsset(name: "refresh_icon")
     public static let onboardingFeed = ImageAsset(name: "onboarding_feed")
+    public static let calendar = ImageAsset(name: "calendar")
     public static let signInApple = ImageAsset(name: "sign_in_apple")
     public static let signInFacebook = ImageAsset(name: "sign_in_facebook")
     public static let signInMobile = ImageAsset(name: "sign_in_mobile")

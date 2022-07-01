@@ -6,3 +6,11 @@
 "loginScreen.signInViaMobilePhone" = "Sign in with Mobile";
 "loginScreen.signInViaFacebook"    = "Sign in with Facebook";
 "loginScreen.signInViaApple"       = "Sign in with Apple";
+"profile.name"                     = "Name";
+"profile.surname"                  = "Surname";
+"profile.phoneNumber"              = "Phone Number";
+"profile.email"                    = "E-mail";
+"profile.birthDate"                = "Birth Date";
+"profile.done"                     = "Done";
+"profile.header"                   = "Profile";
+"profile.subHeader"                = "please fill out the profile information";
