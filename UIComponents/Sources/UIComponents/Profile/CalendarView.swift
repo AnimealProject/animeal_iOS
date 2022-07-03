@@ -5,21 +5,18 @@ public extension CalendarView {
     struct Model {
         public let description: String
         public let textFieldText: String
-        public let textFieldFactory: TextFieldGenerating
 
         public init(
             description: String,
-            textFieldText: String,
-            textFieldFactory: TextFieldGenerating = TextFieldFactory()
+            textFieldText: String
         ) {
             self.description = description
             self.textFieldText = textFieldText
-            self.textFieldFactory = textFieldFactory
         }
     }
 }
 
-public class CalendarView: UIView {
+public final class CalendarView: UIView {
 
     // MARK: - UI properties
     private lazy var titleLabel: UILabel = {
@@ -42,6 +39,7 @@ public class CalendarView: UIView {
 
     // MARK: - Dependencies
     private let model: CalendarView.Model
+    private let textFieldFactory = TextFieldFactory()
     private let datePickerView: UIView
     private weak var delegate: UITextFieldDelegate?
 
@@ -105,6 +103,6 @@ private extension CalendarView {
     }
 
     private func makeTextField() -> UITextField {
-        return model.textFieldFactory.makeNameTextField()
+        textFieldFactory.makeNameTextField()
     }
 }

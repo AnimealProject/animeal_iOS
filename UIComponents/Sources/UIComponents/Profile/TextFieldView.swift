@@ -7,27 +7,24 @@ public extension TextFieldView {
         public let defaultText: String?
         public let isEnabled: Bool
         public let textInputKind: TextFieldKind
-        public let textFieldFactory: TextFieldGenerating
 
         public init(
             description: String,
             placeholderText: String? = nil,
             defaultText: String? = nil,
             isEnabled: Bool = true,
-            textInputKind: TextFieldKind,
-            textFieldFactory: TextFieldGenerating = TextFieldFactory()
+            textInputKind: TextFieldKind
         ) {
             self.description = description
             self.placeholderText = placeholderText
             self.defaultText = defaultText
             self.isEnabled = isEnabled
             self.textInputKind = textInputKind
-            self.textFieldFactory = textFieldFactory
         }
     }
 }
 
-public class TextFieldView: UIView {
+public final class TextFieldView: UIView {
 
     // MARK: - UI properties
     private lazy var titleLabel: UILabel = {
@@ -51,6 +48,7 @@ public class TextFieldView: UIView {
 
     // MARK: - Dependencies
     private let model: TextFieldView.Model
+    private let textFieldFactory = TextFieldFactory()
     private weak var delegate: UITextFieldDelegate?
 
     // MARK: - Initialization
@@ -97,6 +95,6 @@ private extension TextFieldView {
     }
 
     private func makeTextField() -> UITextField {
-        model.textFieldFactory.makeTextField(for: model.textInputKind)
+        textFieldFactory.makeTextField(for: model.textInputKind)
     }
 }
