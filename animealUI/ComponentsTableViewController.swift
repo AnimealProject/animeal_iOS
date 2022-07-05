@@ -2,6 +2,8 @@ import UIKit
 import UIComponents
 import Style
 
+// swiftlint:disable function_body_length
+
 class ComponentsTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     // MARK: - Private props
     private let tableView = UITableView()
@@ -32,103 +34,129 @@ class ComponentsTableViewController: UIViewController, UITableViewDataSource, UI
     }
 
     private func composeDataSource() {
-        dataSource.append(ComponentPresentation(description: "TabBarController", viewController: {
-            TabBarControllerAssembler.assembly()
-        }))
+        dataSource.append(
+            ComponentPresentation(
+                description: "TabBarController"
+            ) {
+                TabBarControllerAssembler.assembly()
+            }
+        )
 
-        dataSource.append(ComponentPresentation(description: "OnboardingView", viewController: {
-            let viewController = ComponentViewController<OnboardingView>()
-            viewController.configureElement = { element in
-                let superView = element.superview!
-                element.heightAnchor ~= 500
-                element.leadingAnchor ~= superView.leadingAnchor
-                element.trailingAnchor ~= superView.trailingAnchor
-                element.centerYAnchor ~= superView.centerYAnchor
-                element.configure(
-                    OnboardingView.Model(
-                        steps: [
-                            OnboardingView.Step(
-                                identifier: UUID().uuidString,
-                                image: Asset.Images.onboardingFeed.image,
-                                title: "Take care of pets",
-                                text: "Some of them are homeless, they need your help"
-                            ),
-                            OnboardingView.Step(
-                                identifier: UUID().uuidString,
-                                image: Asset.Images.onboardingFeed.image,
-                                title: "Take care of pets",
-                                text: "Some of them are homeless, they need your help"
-                            ),
-                            OnboardingView.Step(
-                                identifier: UUID().uuidString,
-                                image: Asset.Images.onboardingFeed.image,
-                                title: "Take care of pets",
-                                text: "Some of them are homeless, they need your help"
-                            )
-                        ]
+        dataSource.append(
+            ComponentPresentation(
+                description: "OnboardingView"
+            ) {
+                let viewController = ComponentViewController<OnboardingView>()
+                viewController.configureElement = { element in
+                    guard let superView = element.superview else {
+                        return
+                    }
+
+                    element.heightAnchor ~= 500
+                    element.leadingAnchor ~= superView.leadingAnchor
+                    element.trailingAnchor ~= superView.trailingAnchor
+                    element.centerYAnchor ~= superView.centerYAnchor
+                    element.configure(
+                        OnboardingView.Model(
+                            steps: [
+                                OnboardingView.Step(
+                                    identifier: UUID().uuidString,
+                                    image: Asset.Images.onboardingFeed.image,
+                                    title: "Take care of pets",
+                                    text: "Some of them are homeless, they need your help"
+                                ),
+                                OnboardingView.Step(
+                                    identifier: UUID().uuidString,
+                                    image: Asset.Images.onboardingFeed.image,
+                                    title: "Take care of pets",
+                                    text: "Some of them are homeless, they need your help"
+                                ),
+                                OnboardingView.Step(
+                                    identifier: UUID().uuidString,
+                                    image: Asset.Images.onboardingFeed.image,
+                                    title: "Take care of pets",
+                                    text: "Some of them are homeless, they need your help"
+                                )
+                            ]
+                        )
                     )
-                )
-            }
-            return viewController
-        }))
-
-        dataSource.append(ComponentPresentation(description: "ButtonContainerView", viewController: {
-            let viewController = ComponentViewController<ButtonContainerView>()
-            viewController.configureElement = { element in
-                let superView = element.superview!
-
-                element.leadingAnchor ~= superView.leadingAnchor
-                element.trailingAnchor ~= superView.trailingAnchor
-                element.centerYAnchor ~= superView.centerYAnchor
-                element.centerXAnchor ~= superView.centerXAnchor
-
-                element.configure(
-                    ButtonContainerView.Model(buttons: [
-                        ButtonViewModel(
-                            identifier: "Sign in with Mobile",
-                            viewType: SignInWithMobileButtonView.self,
-                            icon: Asset.Images.signInMobile.image,
-                            title: "Sign in with Mobile"),
-                        ButtonViewModel(
-                            identifier: "Sign in with Facebook",
-                            viewType: SignInWithFacebookButtonView.self,
-                            icon: Asset.Images.signInFacebook.image,
-                            title: "Sign in with Facebook"),
-                        ButtonViewModel(
-                            identifier: "Sign in with Apple",
-                            viewType: SignInWithAppleButtonView.self,
-                            icon: Asset.Images.signInApple.image,
-                            title: "Sign in with Apple")
-                        ]
-                ))
-                element.onTap = { [weak self] identifier in
-                    self?.showAlert(title: identifier)
                 }
+                return viewController
             }
-            return viewController
-        }))
+        )
 
-        dataSource.append(ComponentPresentation(description: "SegmentedControl", viewController: {
-            let viewController = ComponentViewController<SegmentedControl>()
-            viewController.configureElement = { element in
-                let superView = element.superview!
-                element.centerYAnchor ~= superView.centerYAnchor
-                element.centerXAnchor ~= superView.centerXAnchor
-                element.widthAnchor ~= 226
-                let action = { identifier in
-                    print(identifier)
-                }
-                element.configure(
-                    SegmentedControl.Model(
-                        items: [
-                            SegmentedControl.Item(identifier: 0, title: "Dogs", action: action),
-                            SegmentedControl.Item(identifier: 1, title: "Cats", action: action)
-                        ]
+        dataSource.append(
+            ComponentPresentation(
+                description: "ButtonContainerView"
+            ) {
+                let viewController = ComponentViewController<ButtonContainerView>()
+                viewController.configureElement = { element in
+                    guard let superView = element.superview else {
+                        return
+                    }
+
+                    element.leadingAnchor ~= superView.leadingAnchor
+                    element.trailingAnchor ~= superView.trailingAnchor
+                    element.centerYAnchor ~= superView.centerYAnchor
+                    element.centerXAnchor ~= superView.centerXAnchor
+
+                    element.configure(
+                        ButtonContainerView.Model(
+                            buttons: [
+                                ButtonViewModel(
+                                    identifier: "Sign in with Mobile",
+                                    viewType: SignInWithMobileButtonView.self,
+                                    icon: Asset.Images.signInMobile.image,
+                                    title: "Sign in with Mobile"),
+                                ButtonViewModel(
+                                    identifier: "Sign in with Facebook",
+                                    viewType: SignInWithFacebookButtonView.self,
+                                    icon: Asset.Images.signInFacebook.image,
+                                    title: "Sign in with Facebook"),
+                                ButtonViewModel(
+                                    identifier: "Sign in with Apple",
+                                    viewType: SignInWithAppleButtonView.self,
+                                    icon: Asset.Images.signInApple.image,
+                                    title: "Sign in with Apple")
+                            ]
+                        )
                     )
-                )
+                    element.onTap = { [weak self] identifier in
+                        self?.showAlert(title: identifier)
+                    }
+                }
+                return viewController
             }
-            return viewController
-        }))
+        )
+
+        dataSource.append(
+            ComponentPresentation(
+                description: "SegmentedControl"
+            ) {
+                let viewController = ComponentViewController<SegmentedControl>()
+                viewController.configureElement = { element in
+                    guard let superView = element.superview else {
+                        return
+                    }
+
+                    element.centerYAnchor ~= superView.centerYAnchor
+                    element.centerXAnchor ~= superView.centerXAnchor
+                    element.widthAnchor ~= 226
+                    let action = { identifier in
+                        print(identifier)
+                    }
+                    element.configure(
+                        SegmentedControl.Model(
+                            items: [
+                                SegmentedControl.Item(identifier: 0, title: "Dogs", action: action),
+                                SegmentedControl.Item(identifier: 1, title: "Cats", action: action)
+                            ]
+                        )
+                    )
+                }
+                return viewController
+            }
+        )
     }
 
     private func showAlert(title: String = "Title", message: String = "Message") {

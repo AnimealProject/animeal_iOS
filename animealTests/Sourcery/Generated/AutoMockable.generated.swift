@@ -2,6 +2,7 @@
 // DO NOT EDIT
 // swiftlint:disable vertical_whitespace
 // swiftlint:disable vertical_whitespace_closing_braces
+// swiftlint:disable identifier_name
 
 import Foundation
 #if os(iOS) || os(tvOS) || os(watchOS)

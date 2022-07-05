@@ -14,7 +14,9 @@ protocol AppDelegateProtocol {
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateProtocol {
+    // swiftlint:disable force_cast
     static let shared: AppDelegateProtocol = UIApplication.shared.delegate as! AppDelegateProtocol
+    // swiftlint:enable force_cast
     var context: AppContext!
 
     func application(
