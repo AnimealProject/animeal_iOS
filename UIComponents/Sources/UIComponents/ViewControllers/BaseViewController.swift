@@ -59,11 +59,11 @@ open class BaseViewController: UIViewController {
             NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification),
             NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)
         )
-        .sink(receiveValue: { notification in
+        .sink { notification in
             self.keyboardData = notification.keyboardData(
                 isHiding: notification.name == UIResponder.keyboardWillHideNotification
             )
-        })
+        }
         .store(in: &self.cancellables)
     }
 

@@ -81,8 +81,8 @@ public struct PageIndicatorView: View {
             Capsule()
                 .fill(designEngine.colors.destructive.color)
                 .frame(width: maximumWidth, height: normalHeight)
-                .offset(x: animationOffset)
-            ,alignment: .leading
+                .offset(x: animationOffset),
+            alignment: .leading
         )
         .padding(.bottom, Constants.padding)
     }

@@ -76,11 +76,9 @@ final class ProfileViewController: BaseViewController, ProfileViewModelOutput {
     private lazy var doneButton: UIButton = {
         let button = UIButton(
             frame: .zero,
-            primaryAction: .init(
-                handler: { [weak self] _ in
-                    self?.onDoneButtonDidTap()
-                }
-            )
+            primaryAction: .init { [weak self] _ in
+                self?.onDoneButtonDidTap()
+            }
         )
         button.backgroundColor = designEngine.colors.accentTint.uiColor
         button.tintColor = designEngine.colors.primary.uiColor
