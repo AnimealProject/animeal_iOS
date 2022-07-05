@@ -39,8 +39,3 @@ protocol LoginModelProtocol: AnyObject {
     func fetchOnboardingSteps() -> [LoginModelOnboardingStep]
     func fetchActions() -> [LoginModelAction]
 }
-
-// MARK: - Assembler
-protocol LoginAssembler {
-    func assembly() -> UIViewController
-}

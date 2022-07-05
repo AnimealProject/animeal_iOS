@@ -1,12 +1,12 @@
 import Foundation
 
-extension Collection {
+public extension Collection {
     subscript(safe index: Index) -> Element? {
         return indices.contains(index) ? self[index] : nil
     }
 }
 
-extension Array {
+public extension Array {
     subscript(safe index: Index) -> Element? {
         get {
             return indices.contains(index) ? self[index] : nil

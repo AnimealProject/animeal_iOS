@@ -27,7 +27,7 @@ open class BaseViewController: UIViewController {
     }
 
     /// Method should be overridden in subclass in order to update view
-    /// layout according to the keyboard changes. For example:
+    /// layout according to the keyboard changes
     ///
     ///     public override func handleKeyboardNotification(keyboardData: KeyboardData) {
     ///         ...
@@ -59,7 +59,6 @@ open class BaseViewController: UIViewController {
             NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification),
             NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)
         )
-        .removeDuplicates(by: { $0.name == $1.name })
         .sink(receiveValue: { notification in
             self.keyboardData = notification.keyboardData(
                 isHiding: notification.name == UIResponder.keyboardWillHideNotification
