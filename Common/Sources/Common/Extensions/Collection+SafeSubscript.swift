@@ -6,7 +6,7 @@ public extension Collection {
     }
 }
 
-extension Array {
+public extension Array {
     subscript(safe index: Index) -> Element? {
         get {
             return indices.contains(index) ? self[index] : nil

@@ -1,4 +1,5 @@
 import UIKit
+import Common
 
 public final class SegmentedControl: UISegmentedControl {
     // MARK: - Private properties

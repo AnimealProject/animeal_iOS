@@ -1,11 +1,5 @@
-//
-//  LoginAssembler.swift
-//  animeal
-//
-//  Created by Диана Тынкован on 1.06.22.
-//
-
 import UIKit
+import Common
 
 final class LoginModuleAssembler: Assembling {
     static func assemble() -> UIViewController {

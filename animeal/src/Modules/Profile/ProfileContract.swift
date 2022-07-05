@@ -18,12 +18,13 @@ protocol ProfileViewModelProtocol {
 
 // MARK: - Model
 protocol ProfileModelProtocol {
+    func getUserFirstName() -> String
     func setUserFirstName(_ name: String)
+    func getUserLastName() -> String
     func setUserLastName(_ name: String)
+    func getUserEmail() -> String
     func setUserEmail(_ email: String)
+    func getUserBirthDate() -> Date
     func setUserBirthDate(_ date: Date)
-}
-
-protocol StringProcessable {
-    func process(_ string: String) -> String
+    func getUserPhoneNumber() -> String
 }

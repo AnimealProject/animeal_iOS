@@ -1,5 +1,6 @@
 import Foundation
 import UIComponents
+import Common
 
 final class ProfileViewModel: ProfileViewModelProtocol {
 
@@ -8,24 +9,14 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     private let stringProcessor: StringProcessable
     private let dateFormatter: DateFormatter
 
-    // MARK: - Mock
-    private var userBirthdate: Date {
-        var dateComponents = DateComponents()
-        dateComponents.year = 2000
-        dateComponents.month = 7
-        dateComponents.day = 1
-        return Calendar.current.date(from: dateComponents) ?? Date()
-    }
-
     private var userPhoneNumber: String {
-        "995558499969"
+        model.getUserPhoneNumber()
     }
 
     // MARK: - Public properties
     var userFirstName: String {
         get {
-            // Services are not implemented yet
-            "Michelangelo"
+            model.getUserFirstName()
         }
         set {
             model.setUserFirstName(newValue)
@@ -34,8 +25,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
 
     var userLastName: String {
         get {
-            // Services are not implemented yet
-            "Buonarotti"
+            model.getUserLastName()
         }
         set {
             model.setUserLastName(newValue)
@@ -44,8 +34,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
 
     var userEmail: String {
         get {
-            // Services are not implemented yet
-            "b_michelangelo@gmail.com"
+            model.getUserEmail()
         }
         set {
             model.setUserEmail(newValue)
@@ -57,7 +46,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     }
 
     var formattedBirthdate: String {
-        dateFormatter.string(from: userBirthdate)
+        dateFormatter.string(from: model.getUserBirthDate())
     }
 
     // MARK: - Initialization

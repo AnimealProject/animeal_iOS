@@ -52,9 +52,9 @@ final class ProfileViewController: BaseViewController, ProfileViewModelOutput {
         )
     }()
 
-    private lazy var calendarView: CalendarView = {
-        return CalendarView(
-            model: CalendarView.Model(
+    private lazy var calendarView: DateTextFieldView = {
+        return DateTextFieldView(
+            model: DateTextFieldView.Model(
                 description: L10n.Profile.birthDate,
                 textFieldText: viewModel.formattedBirthdate
             ),

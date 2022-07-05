@@ -107,12 +107,12 @@
 		FB4313652848E97E0084C21A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB4313632848E97E0084C21A /* LaunchScreen.storyboard */; };
 		FB43136B2848EA950084C21A /* UIComponents in Frameworks */ = {isa = PBXBuildFile; productRef = FB43136A2848EA950084C21A /* UIComponents */; };
 		FB5A725828534B0900B9AD15 /* AutoMockable.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5A725728534B0900B9AD15 /* AutoMockable.generated.swift */; };
-		FB74A19C285BC7EA0020122B /* PhoneNumberProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB74A19B285BC7EA0020122B /* PhoneNumberProcessor.swift */; };
 		FBA263B1285347B200DBED37 /* sourcery.yml in Resources */ = {isa = PBXBuildFile; fileRef = FBA263B0285347B200DBED37 /* sourcery.yml */; };
 		FBA263B32853480500DBED37 /* AutoMockable.stencil in Resources */ = {isa = PBXBuildFile; fileRef = FBA263B22853480500DBED37 /* AutoMockable.stencil */; };
 		FBA263B62853488200DBED37 /* LoginViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA263B52853488200DBED37 /* LoginViewModelTests.swift */; };
 		FBCAE51C28687467008E3AC7 /* UIComponents in Frameworks */ = {isa = PBXBuildFile; productRef = FB5E4A3E284770FE00679657 /* UIComponents */; };
 		FBCAE51D28687467008E3AC7 /* Services in Frameworks */ = {isa = PBXBuildFile; productRef = FB2914DB284F66830094DA8B /* Services */; };
+		FBE4295E287442B800D1BD26 /* Common in Frameworks */ = {isa = PBXBuildFile; productRef = FBE4295D287442B800D1BD26 /* Common */; };
 		FBEB291F802113F2A65D62C9 /* FeedingPointConnection+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95550513A0326A8E443C7BCB /* FeedingPointConnection+Schema.swift */; };
 		FBFE40F02853448800316D58 /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = FBFE40EF2853448800316D58 /* Quick */; };
 		FBFE40F3285344B100316D58 /* Nimble in Frameworks */ = {isa = PBXBuildFile; productRef = FBFE40F2285344B100316D58 /* Nimble */; };
@@ -234,10 +234,10 @@
 		FB4313642848E97E0084C21A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FB4313662848E97E0084C21A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FB5A725728534B0900B9AD15 /* AutoMockable.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoMockable.generated.swift; sourceTree = "<group>"; };
-		FB74A19B285BC7EA0020122B /* PhoneNumberProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberProcessor.swift; sourceTree = "<group>"; };
 		FBA263B0285347B200DBED37 /* sourcery.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = sourcery.yml; sourceTree = "<group>"; };
 		FBA263B22853480500DBED37 /* AutoMockable.stencil */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AutoMockable.stencil; sourceTree = "<group>"; };
 		FBA263B52853488200DBED37 /* LoginViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModelTests.swift; sourceTree = "<group>"; };
+		FBE4295C2874411200D1BD26 /* Common */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Common; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -250,6 +250,7 @@
 				839E2748284A33490040142A /* AWSLocationGeoPlugin in Frameworks */,
 				DBA3C7E728575CAF00B30A78 /* MapboxMaps in Frameworks */,
 				839E274A284A33490040142A /* Amplify in Frameworks */,
+				FBE4295E287442B800D1BD26 /* Common in Frameworks */,
 				839E2744284A33490040142A /* AWSCognitoAuthPlugin in Frameworks */,
 				839E2746284A33490040142A /* AWSDataStorePlugin in Frameworks */,
 				FBCAE51D28687467008E3AC7 /* Services in Frameworks */,
@@ -490,6 +491,7 @@
 		DB6B07B928450A380009397B = {
 			isa = PBXGroup;
 			children = (
+				FBE4295C2874411200D1BD26 /* Common */,
 				FB2914D8284F65970094DA8B /* Services */,
 				FB4313512848E3850084C21A /* Style */,
 				FB371CF328476D6A007E6A08 /* UIComponents */,
@@ -601,7 +603,6 @@
 			isa = PBXGroup;
 			children = (
 				FB00144E2859FCDD00943360 /* ProfileModel.swift */,
-				FB74A19B285BC7EA0020122B /* PhoneNumberProcessor.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -697,6 +698,7 @@
 				839E2749284A33490040142A /* Amplify */,
 				FB2914DB284F66830094DA8B /* Services */,
 				DBA3C7E628575CAF00B30A78 /* MapboxMaps */,
+				FBE4295D287442B800D1BD26 /* Common */,
 			);
 			productName = animeal;
 			productReference = DB6B07C228450A380009397B /* animeal.app */;
@@ -1470,6 +1472,10 @@
 		FB5E4A3E284770FE00679657 /* UIComponents */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = UIComponents;
+		};
+		FBE4295D287442B800D1BD26 /* Common */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Common;
 		};
 		FBFE40EF2853448800316D58 /* Quick */ = {
 			isa = XCSwiftPackageProductDependency;

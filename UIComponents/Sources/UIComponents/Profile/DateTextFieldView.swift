@@ -1,7 +1,7 @@
 import UIKit
 import Style
 
-public extension CalendarView {
+public extension DateTextFieldView {
     struct Model {
         public let description: String
         public let textFieldText: String
@@ -16,7 +16,7 @@ public extension CalendarView {
     }
 }
 
-public final class CalendarView: UIView {
+public final class DateTextFieldView: UIView {
 
     // MARK: - UI properties
     private lazy var titleLabel: UILabel = {
@@ -38,14 +38,14 @@ public final class CalendarView: UIView {
     }()
 
     // MARK: - Dependencies
-    private let model: CalendarView.Model
+    private let model: DateTextFieldView.Model
     private let textFieldFactory = TextFieldFactory()
     private let datePickerView: UIView
     private weak var delegate: UITextFieldDelegate?
 
     // MARK: - Initialization
     public init(
-        model: CalendarView.Model,
+        model: DateTextFieldView.Model,
         datePickerView: UIView,
         delegate: UITextFieldDelegate?
     ) {
@@ -67,7 +67,7 @@ public final class CalendarView: UIView {
     }
 }
 
-private extension CalendarView {
+private extension DateTextFieldView {
 
     // MARK: - Setup
     func setup() {
