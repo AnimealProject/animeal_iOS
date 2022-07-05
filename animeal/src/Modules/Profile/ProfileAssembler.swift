@@ -1,4 +1,5 @@
 import UIKit
+import Common
 
 final class ProfileModuleAssembler: Assembling {
     static func assemble() -> UIViewController {

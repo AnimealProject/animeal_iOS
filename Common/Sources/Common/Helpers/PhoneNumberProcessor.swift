@@ -1,13 +1,12 @@
 import Foundation
-import UIComponents
 
-struct PhoneNumberProcessor: StringProcessable {
+public struct PhoneNumberProcessor: StringProcessable {
 
     // MARK: - Constants
-    private enum Constants {
+    public enum Constants {
         static let maxPhoneNumberLength: Int = 12
-        static let phoneMask: String = "+### ### ##-##-##"
-        static let numberSign: Character = "#"
+        public static let phoneMask: String = "+### ### ##-##-##"
+        public static let numberSign: Character = "#"
     }
 
     // MARK: - Dependencies
@@ -15,7 +14,7 @@ struct PhoneNumberProcessor: StringProcessable {
     private let maskReplacementCharacter: Character
 
     // MARK: - Initialization
-    init(
+    public init(
         mask: String = Constants.phoneMask,
         maskReplacementCharacter: Character = Constants.numberSign
     ) {
@@ -24,7 +23,7 @@ struct PhoneNumberProcessor: StringProcessable {
     }
 
     // MARK: - Public methods
-    func process(_ string: String) -> String {
+    public func process(_ string: String) -> String {
 
         // Remove any character that is not a number
         let numbersOnly = string.components(
