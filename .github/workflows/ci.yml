@@ -26,6 +26,19 @@ jobs:
           ruby-version: 2.6
           # runs 'bundle install' and caches installed gems automatically
           bundler-cache: true
+      - name: Install npm
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install Amplify
+        run: npm install -g @aws-amplify/cli
+      - name: Setup Amplify
+        run: sh update_amplify.sh -a $AWS_ACCESS_KEY_ID -s $AWS_SECRET_ACCESS_KEY -i $APP_ID -e $AMPLIFY_DEV_ENV
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          APP_ID: ${{ secrets.APP_ID }}
+          AMPLIFY_ENV: ${{ secrets.AMPLIFY_DEV_ENV }}
       - name: Setup .mapbox file with MAPBOX_DOWNLOAD_TOKEN
         run: echo $MAPBOX_DOWNLOAD_TOKEN >> ~/.mapbox
         env:

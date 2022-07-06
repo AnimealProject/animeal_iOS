@@ -10,6 +10,32 @@
       "StackName": "amplify-animeal-dev-171201",
       "StackId": "arn:aws:cloudformation:us-east-1:027735239009:stack/amplify-animeal-dev-171201/aa198700-d2c6-11ec-9434-0eefc3705b7f",
       "AmplifyAppId": "d3uobbjnmsxou"
+    },
+    "categories": {
+      "auth": {
+        "animeald4b890d7": {},
+        "userPoolGroups": {}
+      },
+      "function": {
+        "AdminQueries9b7a2344": {
+          "deploymentBucketName": "amplify-animeal-dev-171201-deployment",
+          "s3Key": "amplify-builds/AdminQueries9b7a2344-586269547878306b664c-build.zip"
+        },
+        "translate": {
+          "deploymentBucketName": "amplify-animeal-dev-171201-deployment",
+          "s3Key": "amplify-builds/translate-6c38346c566e38616e58-build.zip"
+        },
+        "updateTranslationsTrigger": {
+          "deploymentBucketName": "amplify-animeal-dev-171201-deployment",
+          "s3Key": "amplify-builds/updateTranslationsTrigger-35492f486a6f65783065-build.zip"
+        }
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d3uobbjnmsxou",
+          "type": "cicd"
+        }
+      }
     }
   }
 }

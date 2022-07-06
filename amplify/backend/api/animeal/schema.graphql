@@ -110,7 +110,7 @@ type Category
 
 type Point @aws_api_key @aws_cognito_user_pools {
   type: String!
-  coordinates: [Float]!
+  coordinates: [Float!]!
 }
 
 type FeedingPointI18n @aws_api_key @aws_cognito_user_pools {
@@ -151,7 +151,7 @@ type FeedingPoint
   city: String!
   street: String!
   address: String!
-  images: [String]
+  images: [String!]
   point: Point!
   location: Location!
   region: String!
@@ -169,7 +169,7 @@ type FeedingPoint
   category: Category! @hasOne
   users: [RelationUserFeedingPoint!]
     @hasMany(indexName: "byFeedingPointId", fields: ["id"])
-  feedings: [Feeding] @hasMany
+  feedings: [Feeding!] @hasMany
 }
 
 type Feeding
