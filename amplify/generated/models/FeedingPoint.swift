@@ -9,7 +9,7 @@ public struct FeedingPoint: Model {
   public var city: String
   public var street: String
   public var address: String
-  public var images: [String?]?
+  public var images: [String]?
   public var point: Point
   public var location: Location
   public var region: String
@@ -35,7 +35,7 @@ public struct FeedingPoint: Model {
       city: String,
       street: String,
       address: String,
-      images: [String?]? = nil,
+      images: [String]? = nil,
       point: Point,
       location: Location,
       region: String,
@@ -52,7 +52,7 @@ public struct FeedingPoint: Model {
       pets: List<RelationPetFeedingPoint> = [],
       category: Category,
       users: List<RelationUserFeedingPoint> = [],
-      feedings: List<Feeding>? = [],
+      feedings: List<Feeding> = [],
       feedingPointCategoryId: String) {
       self.id = id
       self.name = name

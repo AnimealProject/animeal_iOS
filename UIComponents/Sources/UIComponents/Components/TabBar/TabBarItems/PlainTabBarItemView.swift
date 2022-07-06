@@ -57,6 +57,9 @@ private extension PlainTabBarItemView {
         titleLabel.bottomAnchor ~= bottomAnchor
         titleLabel.topAnchor ~= imageView.bottomAnchor + 3
         titleLabel.textAlignment = .center
+
+        prepareForAutoLayout()
+        widthAnchor >= 60
     }
 
     func fillContent() {

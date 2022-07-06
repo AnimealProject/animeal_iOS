@@ -26,7 +26,11 @@ const {
   listGroups,
   listGroupsForUser,
   listUsersInGroup,
+  deleteUser,
   signUserOut,
+  createUser,
+  resetUserPassword,
+  updateUserAttributes,
 } = require('./cognitoActions');
 
 const app = express();
@@ -44,7 +48,7 @@ app.use((req, res, next) => {
 // Only perform tasks if the user is in a specific group
 const allowedGroup = process.env.GROUP;
 
-const checkGroup = function (req, res, next) {
+const checkGroup = function(req, res, next) {
   if (req.path == '/signUserOut') {
     return next();
   }
@@ -79,6 +83,51 @@ app.post('/addUserToGroup', async (req, res, next) => {
 
   try {
     const response = await addUserToGroup(req.body.username, req.body.groupname);
+    res.status(200).json(response);
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.post('/deleteUser', async (req, res, next) => {
+  if (!req.body.username) {
+    const err = new Error('username is required');
+    err.statusCode = 400;
+    return next(err);
+  }
+
+  try {
+    const response = await deleteUser(req.body.username);
+    res.status(200).json(response);
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.post('/createUser', async (req, res, next) => {
+  if (!req.body.username || !req.body.userAttributes) {
+    const err = new Error('username and userAttributes are required');
+    err.statusCode = 400;
+    return next(err);
+  }
+
+  try {
+    const response = await createUser(req.body.username, req.body.userAttributes, req.body.messageAction);
+    res.status(200).json(response);
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.post('/updateAttributesUser', async (req, res, next) => {
+  if (!req.body.username || !req.body.userAttributes) {
+    const err = new Error('username and userAttributes are required');
+    err.statusCode = 400;
+    return next(err);
+  }
+
+  try {
+    const response = await updateUserAttributes(req.body.username, req.body.userAttributes);
     res.status(200).json(response);
   } catch (err) {
     next(err);
@@ -124,6 +173,21 @@ app.post('/disableUser', async (req, res, next) => {
 
   try {
     const response = await disableUser(req.body.username);
+    res.status(200).json(response);
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.post('/resetUserPassword', async (req, res, next) => {
+  if (!req.body.username) {
+    const err = new Error('username is required');
+    err.statusCode = 400;
+    return next(err);
+  }
+
+  try {
+    const response = await resetUserPassword(req.body.username);
     res.status(200).json(response);
   } catch (err) {
     next(err);
@@ -264,7 +328,10 @@ app.post('/signUserOut', async (req, res, next) => {
 app.use((err, req, res, next) => {
   console.error(err.message);
   if (!err.statusCode) err.statusCode = 500; // If err has no specified error code, set error code to 'Internal Server Error (500)'
-  res.status(err.statusCode).json({ message: err.message }).end();
+  res
+    .status(err.statusCode)
+    .json({ message: err.message })
+    .end();
 });
 
 app.listen(3000, () => {

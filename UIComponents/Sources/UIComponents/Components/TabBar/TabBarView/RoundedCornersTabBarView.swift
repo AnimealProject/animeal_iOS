@@ -62,9 +62,6 @@ extension RoundedCornersTabBarView: TabBarView {
         itemViews.forEach { $0.removeFromSuperview() }
 
         itemViews = items.enumerated().map { index, tabBarItemView in
-            tabBarItemView.heightAnchor ~= 56
-            tabBarItemView.widthAnchor ~= 80
-
             stackView.addArrangedSubview(tabBarItemView)
             let gestureRecognizer = TapGestureRecognizer { [weak self] _ in
                 self?.setSelectedIndex(index)
