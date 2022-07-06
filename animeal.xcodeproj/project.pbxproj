@@ -112,6 +112,8 @@
 		FBA263B62853488200DBED37 /* LoginViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA263B52853488200DBED37 /* LoginViewModelTests.swift */; };
 		FBCAE51C28687467008E3AC7 /* UIComponents in Frameworks */ = {isa = PBXBuildFile; productRef = FB5E4A3E284770FE00679657 /* UIComponents */; };
 		FBCAE51D28687467008E3AC7 /* Services in Frameworks */ = {isa = PBXBuildFile; productRef = FB2914DB284F66830094DA8B /* Services */; };
+		FBE017612874611600A79DB2 /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE017602874611600A79DB2 /* Navigator.swift */; };
+		FBE017632874666000A79DB2 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE017622874666000A79DB2 /* Coordinator.swift */; };
 		FBE4295E287442B800D1BD26 /* Common in Frameworks */ = {isa = PBXBuildFile; productRef = FBE4295D287442B800D1BD26 /* Common */; };
 		FBEB291F802113F2A65D62C9 /* FeedingPointConnection+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95550513A0326A8E443C7BCB /* FeedingPointConnection+Schema.swift */; };
 		FBFE40F02853448800316D58 /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = FBFE40EF2853448800316D58 /* Quick */; };
@@ -237,6 +239,8 @@
 		FBA263B0285347B200DBED37 /* sourcery.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = sourcery.yml; sourceTree = "<group>"; };
 		FBA263B22853480500DBED37 /* AutoMockable.stencil */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AutoMockable.stencil; sourceTree = "<group>"; };
 		FBA263B52853488200DBED37 /* LoginViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModelTests.swift; sourceTree = "<group>"; };
+		FBE017602874611600A79DB2 /* Navigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigator.swift; sourceTree = "<group>"; };
+		FBE017622874666000A79DB2 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		FBE4295C2874411200D1BD26 /* Common */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Common; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -445,6 +449,7 @@
 		DB4CA51C28450FEE00050EA5 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				FBE0175F287460FA00A79DB2 /* Navigation */,
 				DB5A838A285CEB8C00F3C3A5 /* App */,
 				83F3CC0B2847702900C05298 /* Modules */,
 				DB0D66BB2846676100930564 /* Common */,
@@ -658,6 +663,15 @@
 				FBA263B52853488200DBED37 /* LoginViewModelTests.swift */,
 			);
 			path = src;
+			sourceTree = "<group>";
+		};
+		FBE0175F287460FA00A79DB2 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				FBE017602874611600A79DB2 /* Navigator.swift */,
+				FBE017622874666000A79DB2 /* Coordinator.swift */,
+			);
+			path = Navigation;
 			sourceTree = "<group>";
 		};
 		FBFE40F42853462300316D58 /* Sourcery */ = {
@@ -931,6 +945,7 @@
 				FB001451285A097E00943360 /* ProfileAssembler.swift in Sources */,
 				8360D1A9284E9A9600ACDEDB /* LoginViewOnboardingStep.swift in Sources */,
 				83F3CC0E2847704300C05298 /* LoginViewController.swift in Sources */,
+				FBE017612874611600A79DB2 /* Navigator.swift in Sources */,
 				DB6B07C828450A380009397B /* SceneDelegate.swift in Sources */,
 				DA7754CFE85DA01540F13750 /* AmplifyModels.swift in Sources */,
 				B37ACA9AB22169F324F2C212 /* Caretaker+Schema.swift in Sources */,
@@ -977,6 +992,7 @@
 				83C24F84286D994A0086330B /* VerificationViewHeader.swift in Sources */,
 				B8E9C0526B1932D00ECDB596 /* Point.swift in Sources */,
 				1F770667D42E31D263AE67AB /* RelationPetFeedingPoint+Schema.swift in Sources */,
+				FBE017632874666000A79DB2 /* Coordinator.swift in Sources */,
 				838B6B732868B052001DD111 /* VerificationContract.swift in Sources */,
 				B8A233D7B15B4A46582895E9 /* RelationPetFeedingPoint.swift in Sources */,
 				83C24F83286D994A0086330B /* VerificationViewActionEvent.swift in Sources */,
@@ -991,7 +1007,6 @@
 				8A6AAAE674342B5D7F37A670 /* Settings.swift in Sources */,
 				83F3CC202847851300C05298 /* LoginViewAction.swift in Sources */,
 				83C24F72286D99280086330B /* LoginViewAction+ButtonViewModel.swift in Sources */,
-				FB74A19C285BC7EA0020122B /* PhoneNumberProcessor.swift in Sources */,
 				DB5A838C285CEB9D00F3C3A5 /* AppInfo.swift in Sources */,
 				FB1C7E28286F1E1A0024EBDD /* ProfileContract.swift in Sources */,
 			);
