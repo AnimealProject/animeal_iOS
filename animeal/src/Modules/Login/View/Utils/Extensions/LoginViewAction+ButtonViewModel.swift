@@ -13,29 +13,39 @@ import UIComponents
 import Style
 
 extension LoginViewAction {
-    var buttonViewModel: ButtonViewModel {
+    var buttonView: ButtonView {
+        let buttonsFactory = ButtonViewFactory()
         switch type {
         case .signInViaPhoneNumber:
-            return ButtonViewModel(
+            let model = ButtonView.Model(
                 identifier: identifier,
-                viewType: SignInWithMobileButtonView.self,
+                viewType: ButtonView.self,
                 icon: ImageAsset.Image(named: associatedIcon),
                 title: title
             )
+            let buttonView = buttonsFactory.makeSignInWithAppleButton()
+            buttonView.condifure(model)
+            return buttonView
         case .signInViaFacebook:
-            return ButtonViewModel(
+            let model = ButtonView.Model(
                 identifier: identifier,
-                viewType: SignInWithFacebookButtonView.self,
+                viewType: ButtonView.self,
                 icon: ImageAsset.Image(named: associatedIcon),
                 title: title
             )
+            let buttonView = buttonsFactory.makeSignInWithFacebookButton()
+            buttonView.condifure(model)
+            return buttonView
         case .signInViaAppleID:
-            return ButtonViewModel(
+            let model = ButtonView.Model(
                 identifier: identifier,
-                viewType: SignInWithAppleButtonView.self,
+                viewType: ButtonView.self,
                 icon: ImageAsset.Image(named: associatedIcon),
                 title: title
             )
+            let buttonView = buttonsFactory.makeSignInWithMobileButton()
+            buttonView.condifure(model)
+            return buttonView
         }
     }
 }

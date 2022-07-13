@@ -64,9 +64,7 @@ final class LoginViewController: UIViewController, LoginViewModelOutput {
 
     func applyActions(_ actions: [LoginViewAction]) {
         buttonsView.configure(
-            ButtonContainerView.Model(
-                buttons: actions.map { $0.buttonViewModel }
-            )
+            actions.map { $0.buttonView }
         )
     }
 

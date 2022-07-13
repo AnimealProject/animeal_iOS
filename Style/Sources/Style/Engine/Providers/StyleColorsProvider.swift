@@ -17,6 +17,9 @@ public protocol StyleColorsProvider {
     var textSecondary: StyleColor { get }
     var textDescriptive: StyleColor { get }
     var accentTint: StyleColor { get }
+    var secondaryAccentTint: StyleColor { get }
     var disableTint: StyleColor { get }
     var destructive: StyleColor { get }
+    var alwaysLight: StyleColor { get }
+    var alwaysDark: StyleColor { get }
 }

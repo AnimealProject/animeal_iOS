@@ -7,18 +7,6 @@
 
 import UIKit
 
-extension ButtonContainerView {
-    public struct Model {
-        public let buttons: [ButtonViewModel]
-
-        public init(
-            buttons: [ButtonViewModel]
-        ) {
-            self.buttons = buttons
-        }
-    }
-}
-
 public final class ButtonContainerView: UIView {
     // MARK: - Constants
     private enum Constants {
@@ -51,17 +39,14 @@ public final class ButtonContainerView: UIView {
     }
 
     // MARK: - Configuration
-    public func configure(_ model: Model) {
+    public func configure(_ content: [ButtonView]) {
         containerView.arrangedSubviews.forEach { $0.removeFromSuperview() }
-        let buttonViews = model.buttons.map { buttonModel -> ButtonView in
-            let item = buttonModel.viewType.init()
-            item.condifure(buttonModel)
+        content.forEach { item in
             item.onTap = { [weak self] identifier in
                 self?.onTap?(identifier)
             }
-            return item
         }
-        buttonViews.forEach(containerView.addArrangedSubview)
+        content.forEach(containerView.addArrangedSubview)
     }
 
     // MARK: - Setup

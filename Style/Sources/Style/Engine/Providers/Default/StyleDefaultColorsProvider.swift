@@ -26,11 +26,20 @@ public struct StyleDefaultColorsProvider: StyleColorsProvider {
     public var accentTint: StyleColor {
         StyleColor(Asset.Colors.darkTurquoise.color)
     }
+    public var secondaryAccentTint: StyleColor {
+        StyleColor(Asset.Colors.darkSkyBlue.color)
+    }
     public var disableTint: StyleColor {
         StyleColor(Asset.Colors.battleshipGrey.color)
     }
     public var destructive: StyleColor {
         StyleColor(Asset.Colors.carminePink.color)
+    }
+    public var alwaysLight: StyleColor {
+        StyleColor(Asset.Colors.light.color)
+    }
+    public var alwaysDark: StyleColor {
+        StyleColor(Asset.Colors.dark.color)
     }
 
     public init() { }
