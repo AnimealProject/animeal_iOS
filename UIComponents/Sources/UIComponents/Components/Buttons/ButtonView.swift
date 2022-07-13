@@ -7,28 +7,77 @@
 
 import UIKit
 
-public protocol ButtonView where Self: UIView {
-    var identifier: String { get }
-    var onTap: ((String) -> Void)? { get set }
+public extension ButtonView {
+    struct Model {
+        public let identifier: String
+        public let viewType: ButtonView.Type
+        public let icon: UIImage?
+        public let title: String
 
-    func condifure(_ model: ButtonViewModel)
+        public init(
+            identifier: String,
+            viewType: ButtonView.Type,
+            icon: UIImage?,
+            title: String
+        ) {
+            self.identifier = identifier
+            self.viewType = viewType
+            self.icon = icon
+            self.title = title
+        }
+    }
 }
 
-public struct ButtonViewModel {
-    public let identifier: String
-    public let viewType: ButtonView.Type
-    public let icon: UIImage?
-    public let title: String
+open class ButtonView: UIView {
+    // MARK: - Constants
+    private enum Constants {
+        static let height: CGFloat = 60.0
+    }
 
-    public init(
-        identifier: String,
-        viewType: ButtonView.Type,
-        icon: UIImage?,
-        title: String
-    ) {
-        self.identifier = identifier
-        self.viewType = viewType
-        self.icon = icon
-        self.title = title
+    // MARK: - Private properties
+    private let contentView: UIButton
+
+    // MARK: - Public properties
+    public var identifier: String
+    public var onTap: ((String) -> Void)?
+
+    // MARK: - Initialization
+    public init(contentView: UIButton) {
+        self.contentView = contentView
+        self.identifier = UUID().uuidString
+        super.init(frame: CGRect.zero)
+        setup()
+    }
+
+    public required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: - Configuration
+    public func condifure(_ model: Model) {
+        identifier = model.identifier
+        contentView.setTitle(model.title, for: UIControl.State.normal)
+        contentView.setImage(model.icon, for: UIControl.State.normal)
+    }
+
+    // MARK: - Setup
+    private func setup() {
+        addSubview(contentView.prepareForAutoLayout())
+        contentView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        contentView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        contentView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        contentView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        contentView.heightAnchor.constraint(equalToConstant: Constants.height).isActive = true
+
+        contentView.addTarget(
+            self,
+            action: #selector(buttonWasPressed(_:)),
+            for: UIControl.Event.touchUpInside
+        )
+    }
+
+    // MARK: - Action handlers
+    @objc private func buttonWasPressed(_ sender: UIButton) {
+        onTap?(identifier)
     }
 }
