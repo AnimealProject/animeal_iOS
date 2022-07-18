@@ -82,6 +82,7 @@
 		CEE642FAC4700C08C7138B74 /* Category+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7755CAA75F8797C1A590B38 /* Category+Schema.swift */; };
 		CF57277BF72FB11BE40424A3 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8CB79619259AF5F554F3EC7 /* Language.swift */; };
 		DA7754CFE85DA01540F13750 /* AmplifyModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12662058C69A26CF52E46B66 /* AmplifyModels.swift */; };
+		DB0D4A8228856D2C001750BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB0D4A8128856D2C001750BC /* Assets.xcassets */; };
 		DB0D671528466D6200930564 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DB0D670C28466D6200930564 /* Localizable.strings */; };
 		DB0D671928466E7700930564 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0D671828466E7700930564 /* Strings.swift */; };
 		DB4459E2287330CD00541570 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DB4459E1287330CD00541570 /* GoogleService-Info.plist */; };
@@ -200,6 +201,7 @@
 		C5A3F3180005C29FF765CAC8 /* FeedingPoint+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "FeedingPoint+Schema.swift"; path = "amplify/generated/models/FeedingPoint+Schema.swift"; sourceTree = "<group>"; };
 		D5F69DAC34ED36AD10ABB6FD /* Favourites.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Favourites.swift; path = amplify/generated/models/Favourites.swift; sourceTree = "<group>"; };
 		D6AFDBF0B00B11A2E29B8944 /* Favourites+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "Favourites+Schema.swift"; path = "amplify/generated/models/Favourites+Schema.swift"; sourceTree = "<group>"; };
+		DB0D4A8128856D2C001750BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = animeal/Assets.xcassets; sourceTree = SOURCE_ROOT; };
 		DB0D670D28466D6200930564 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DB0D671828466E7700930564 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		DB0D671B2846744100930564 /* ka */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ka; path = ka.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -471,6 +473,7 @@
 		DB4CA51D2845104900050EA5 /* res */ = {
 			isa = PBXGroup;
 			children = (
+				DB0D4A8128856D2C001750BC /* Assets.xcassets */,
 				DB0D670C28466D6200930564 /* Localizable.strings */,
 				DB6B07D028450A390009397B /* LaunchScreen.storyboard */,
 				DB4459E1287330CD00541570 /* GoogleService-Info.plist */,
@@ -832,6 +835,7 @@
 				DB0D671528466D6200930564 /* Localizable.strings in Resources */,
 				DB6B07D228450A390009397B /* LaunchScreen.storyboard in Resources */,
 				70BCFD97A37256084C0CD67A /* awsconfiguration.json in Resources */,
+				DB0D4A8228856D2C001750BC /* Assets.xcassets in Resources */,
 				68DD0E2AAE89D53E9131FE48 /* amplifyconfiguration.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
