@@ -32,6 +32,8 @@
 		8360D1A3284E954900ACDEDB /* LoginModelOnboardingStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8360D1A2284E954900ACDEDB /* LoginModelOnboardingStep.swift */; };
 		8360D1A9284E9A9600ACDEDB /* LoginViewOnboardingStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8360D1A8284E9A9600ACDEDB /* LoginViewOnboardingStep.swift */; };
 		8360D1AF284F2A5E00ACDEDB /* LoginViewActionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8360D1AE284F2A5E00ACDEDB /* LoginViewActionEvent.swift */; };
+		837F1FB328868C3A001FABC5 /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837F1FB228868C3A001FABC5 /* AuthenticationService.swift */; };
+		837F1FB528869B29001FABC5 /* AuthenticationAmplifyConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837F1FB428869B29001FABC5 /* AuthenticationAmplifyConverter.swift */; };
 		838B6B6C2868B011001DD111 /* VerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838B6B6B2868B011001DD111 /* VerificationViewController.swift */; };
 		838B6B6E2868B021001DD111 /* VerificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838B6B6D2868B021001DD111 /* VerificationViewModel.swift */; };
 		838B6B702868B039001DD111 /* VerificationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838B6B6F2868B039001DD111 /* VerificationModel.swift */; };
@@ -159,6 +161,8 @@
 		8360D1A2284E954900ACDEDB /* LoginModelOnboardingStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModelOnboardingStep.swift; sourceTree = "<group>"; };
 		8360D1A8284E9A9600ACDEDB /* LoginViewOnboardingStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewOnboardingStep.swift; sourceTree = "<group>"; };
 		8360D1AE284F2A5E00ACDEDB /* LoginViewActionEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewActionEvent.swift; sourceTree = "<group>"; };
+		837F1FB228868C3A001FABC5 /* AuthenticationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationService.swift; sourceTree = "<group>"; };
+		837F1FB428869B29001FABC5 /* AuthenticationAmplifyConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationAmplifyConverter.swift; sourceTree = "<group>"; };
 		838B6B6B2868B011001DD111 /* VerificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationViewController.swift; sourceTree = "<group>"; };
 		838B6B6D2868B021001DD111 /* VerificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationViewModel.swift; sourceTree = "<group>"; };
 		838B6B6F2868B039001DD111 /* VerificationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationModel.swift; sourceTree = "<group>"; };
@@ -285,6 +289,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		837F1FB028868BF4001FABC5 /* Business */ = {
+			isa = PBXGroup;
+			children = (
+				837F1FB128868C19001FABC5 /* Authentication */,
+			);
+			path = Business;
+			sourceTree = "<group>";
+		};
+		837F1FB128868C19001FABC5 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				837F1FB228868C3A001FABC5 /* AuthenticationService.swift */,
+				837F1FB428869B29001FABC5 /* AuthenticationAmplifyConverter.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
 		838B6B6A2868AFFA001DD111 /* Verification */ = {
 			isa = PBXGroup;
 			children = (
@@ -462,6 +483,7 @@
 		DB4CA51C28450FEE00050EA5 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				837F1FB028868BF4001FABC5 /* Business */,
 				FBE0175F287460FA00A79DB2 /* Navigation */,
 				DB5A838A285CEB8C00F3C3A5 /* App */,
 				83F3CC0B2847702900C05298 /* Modules */,
@@ -968,6 +990,7 @@
 				83C24F7E286D994A0086330B /* VerificationViewHeader+TextBigTitleSubtitleView.swift in Sources */,
 				83C24F80286D994A0086330B /* VerificationViewCode+VerificationInputView.swift in Sources */,
 				83C24F81286D994A0086330B /* VerificationViewCode.swift in Sources */,
+				837F1FB328868C3A001FABC5 /* AuthenticationService.swift in Sources */,
 				83F3CC1D2847808200C05298 /* LoginModelAction.swift in Sources */,
 				83C24F71286D99280086330B /* LoginViewOnboardingStepsMapper.swift in Sources */,
 				DB5A838E285CEC4B00F3C3A5 /* Log.swift in Sources */,
@@ -1035,6 +1058,7 @@
 				83C24F83286D994A0086330B /* VerificationViewActionEvent.swift in Sources */,
 				83C24F73286D99280086330B /* LoginViewOnboardingStep+OnboardingViewStep.swift in Sources */,
 				74DE171718857E1BDAA82A57 /* RelationUserFeedingPoint+Schema.swift in Sources */,
+				837F1FB528869B29001FABC5 /* AuthenticationAmplifyConverter.swift in Sources */,
 				83C24F82286D994A0086330B /* VereficationViewResendCode.swift in Sources */,
 				838B6B6C2868B011001DD111 /* VerificationViewController.swift in Sources */,
 				C059A696D2F75AE49A266D33 /* RelationUserFeedingPoint.swift in Sources */,
