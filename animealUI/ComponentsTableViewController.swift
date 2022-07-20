@@ -100,27 +100,40 @@ class ComponentsTableViewController: UIViewController, UITableViewDataSource, UI
                     element.centerYAnchor ~= superView.centerYAnchor
                     element.centerXAnchor ~= superView.centerXAnchor
 
-                    element.configure(
-                        ButtonContainerView.Model(
-                            buttons: [
-                                ButtonViewModel(
-                                    identifier: "Sign in with Mobile",
-                                    viewType: SignInWithMobileButtonView.self,
-                                    icon: Asset.Images.signInMobile.image,
-                                    title: "Sign in with Mobile"),
-                                ButtonViewModel(
-                                    identifier: "Sign in with Facebook",
-                                    viewType: SignInWithFacebookButtonView.self,
-                                    icon: Asset.Images.signInFacebook.image,
-                                    title: "Sign in with Facebook"),
-                                ButtonViewModel(
-                                    identifier: "Sign in with Apple",
-                                    viewType: SignInWithAppleButtonView.self,
-                                    icon: Asset.Images.signInApple.image,
-                                    title: "Sign in with Apple")
-                            ]
-                        )
+                    let buttonsFactory = ButtonViewFactory()
+                    let signInWithAppleModel = ButtonView.Model(
+                        identifier: "signInWithAppleButton",
+                        viewType: ButtonView.self,
+                        icon:  Asset.Images.signInApple.image,
+                        title: "Sign in with Apple"
                     )
+                    let signInWithAppleButtonView = buttonsFactory.makeSignInWithAppleButton()
+                    signInWithAppleButtonView.condifure(signInWithAppleModel)
+
+                    let signInWithMobileModel = ButtonView.Model(
+                        identifier: "signInWithMobileButton",
+                        viewType: ButtonView.self,
+                        icon:  Asset.Images.signInMobile.image,
+                        title: "Sign in with Mobile"
+                    )
+                    let signInWithMobileButton = buttonsFactory.makeSignInWithMobileButton()
+                    signInWithMobileButton.condifure(signInWithMobileModel)
+
+                    let signInWithFacebookModel = ButtonView.Model(
+                        identifier: "signInWithFacebookButton",
+                        viewType: ButtonView.self,
+                        icon:  Asset.Images.signInFacebook.image,
+                        title: "Sign in with Facebook"
+                    )
+                    let signInWithFacebookButton = buttonsFactory.makeSignInWithFacebookButton()
+                    signInWithFacebookButton.condifure(signInWithFacebookModel)
+
+                    element.configure([
+                        signInWithAppleButtonView,
+                        signInWithMobileButton,
+                        signInWithFacebookButton
+                    ])
+
                     element.onTap = { [weak self] identifier in
                         self?.showAlert(title: identifier)
                     }
@@ -151,6 +164,32 @@ class ComponentsTableViewController: UIViewController, UITableViewDataSource, UI
                                 SegmentedControl.Item(identifier: 0, title: "Dogs", action: action),
                                 SegmentedControl.Item(identifier: 1, title: "Cats", action: action)
                             ]
+                        )
+                    )
+                }
+                return viewController
+            }
+        )
+
+        dataSource.append(
+            ComponentPresentation(
+                description: "FeedingPointView"
+            ) {
+                let viewController = ComponentViewController<FeedingPointView>()
+                viewController.configureElement = { element in
+                    guard let superView = element.superview else {
+                        return
+                    }
+
+                    element.centerYAnchor ~= superView.centerYAnchor
+                    element.centerXAnchor ~= superView.centerXAnchor
+                    element.configure(
+                        FeedingPointView.Model(
+                            identifier: UUID().uuidString,
+                            kind: FeedingPointView.Kind.dog(.high),
+                            action: { identifier in
+                                print(identifier)
+                            }
                         )
                     )
                 }
