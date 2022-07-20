@@ -34,6 +34,16 @@ public enum Asset {
   }
   public enum Images {
     public static let refreshIcon = ImageAsset(name: "refresh_icon")
+    public static let catHungryHigh = ImageAsset(name: "cat_hungry_high")
+    public static let catHungryLow = ImageAsset(name: "cat_hungry_low")
+    public static let catHungryMedium = ImageAsset(name: "cat_hungry_medium")
+    public static let dogHungryHigh = ImageAsset(name: "dog_hungry_high")
+    public static let dogHungryLow = ImageAsset(name: "dog_hungry_low")
+    public static let dogHungryMedium = ImageAsset(name: "dog_hungry_medium")
+    public static let favouriteHungryHigh = ImageAsset(name: "favourite_hungry_high")
+    public static let favouriteHungryLow = ImageAsset(name: "favourite_hungry_low")
+    public static let favouriteHungryMedium = ImageAsset(name: "favourite_hungry_medium")
+    public static let myLocation = ImageAsset(name: "my_location")
     public static let onboardingFeed = ImageAsset(name: "onboarding_feed")
     public static let calendar = ImageAsset(name: "calendar")
     public static let signInApple = ImageAsset(name: "sign_in_apple")

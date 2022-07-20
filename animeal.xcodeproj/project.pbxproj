@@ -630,7 +630,6 @@
 		FB0014472859FBE000943360 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				FB0014492859FBF700943360 /* View */,
 				FB0014482859FBF200943360 /* Model */,
 				FB00144A2859FC1800943360 /* ProfileViewController.swift */,
 				FB00144C2859FC7700943360 /* ProfileViewModel.swift */,
@@ -646,13 +645,6 @@
 				FB00144E2859FCDD00943360 /* ProfileModel.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		FB0014492859FBF700943360 /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		FB4313572848E97C0084C21A /* animealUI */ = {
