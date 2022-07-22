@@ -186,12 +186,12 @@ class ComponentsTableViewController: UIViewController, UITableViewDataSource, UI
                     element.configure(
                         FeedingPointView.Model(
                             identifier: UUID().uuidString,
-                            kind: FeedingPointView.Kind.dog(.high),
-                            action: { identifier in
-                                print(identifier)
-                            }
+                            kind: FeedingPointView.Kind.dog(.high)
                         )
                     )
+                    element.tapAction = { identifier in
+                        print(identifier)
+                    }
                 }
                 return viewController
             }

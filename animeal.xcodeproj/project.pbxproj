@@ -85,6 +85,9 @@
 		CF57277BF72FB11BE40424A3 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8CB79619259AF5F554F3EC7 /* Language.swift */; };
 		DA7754CFE85DA01540F13750 /* AmplifyModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12662058C69A26CF52E46B66 /* AmplifyModels.swift */; };
 		DB0D4A8228856D2C001750BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB0D4A8128856D2C001750BC /* Assets.xcassets */; };
+		DB0D4A842886A9C4001750BC /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0D4A832886A9C4001750BC /* HomeViewModel.swift */; };
+		DB0D4A862886AB6B001750BC /* HomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0D4A852886AB6B001750BC /* HomeModel.swift */; };
+		DB0D4A882886AC92001750BC /* HomeAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0D4A872886AC92001750BC /* HomeAssembler.swift */; };
 		DB0D671528466D6200930564 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DB0D670C28466D6200930564 /* Localizable.strings */; };
 		DB0D671928466E7700930564 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0D671828466E7700930564 /* Strings.swift */; };
 		DB4459E2287330CD00541570 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DB4459E1287330CD00541570 /* GoogleService-Info.plist */; };
@@ -98,6 +101,9 @@
 		DB6B07CA28450A380009397B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07C928450A380009397B /* HomeViewController.swift */; };
 		DB6B07D228450A390009397B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB6B07D028450A390009397B /* LaunchScreen.storyboard */; };
 		DBA3C7E728575CAF00B30A78 /* MapboxMaps in Frameworks */ = {isa = PBXBuildFile; productRef = DBA3C7E628575CAF00B30A78 /* MapboxMaps */; };
+		DBDB50182887FBBA003C6FF0 /* HomeContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB50172887FBBA003C6FF0 /* HomeContract.swift */; };
+		DBDB501B2887FE00003C6FF0 /* HomeModel+DTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB501A2887FE00003C6FF0 /* HomeModel+DTO.swift */; };
+		DBDB50212889725C003C6FF0 /* FeedingPointViewMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB50202889725C003C6FF0 /* FeedingPointViewMapper.swift */; };
 		DCE1CAAC12C918FB62B0BA8B /* LanguagesSetting+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6536D50A446F5742969183 /* LanguagesSetting+Schema.swift */; };
 		FB00144B2859FC1800943360 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB00144A2859FC1800943360 /* ProfileViewController.swift */; };
 		FB00144D2859FC7700943360 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB00144C2859FC7700943360 /* ProfileViewModel.swift */; };
@@ -206,6 +212,9 @@
 		D5F69DAC34ED36AD10ABB6FD /* Favourites.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Favourites.swift; path = amplify/generated/models/Favourites.swift; sourceTree = "<group>"; };
 		D6AFDBF0B00B11A2E29B8944 /* Favourites+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "Favourites+Schema.swift"; path = "amplify/generated/models/Favourites+Schema.swift"; sourceTree = "<group>"; };
 		DB0D4A8128856D2C001750BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = animeal/Assets.xcassets; sourceTree = SOURCE_ROOT; };
+		DB0D4A832886A9C4001750BC /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		DB0D4A852886AB6B001750BC /* HomeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModel.swift; sourceTree = "<group>"; };
+		DB0D4A872886AC92001750BC /* HomeAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAssembler.swift; sourceTree = "<group>"; };
 		DB0D670D28466D6200930564 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DB0D671828466E7700930564 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		DB0D671B2846744100930564 /* ka */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ka; path = ka.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -222,6 +231,9 @@
 		DB6B07D128450A390009397B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DB6B07D328450A390009397B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DB6B07D828450A3A0009397B /* animealTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = animealTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DBDB50172887FBBA003C6FF0 /* HomeContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContract.swift; sourceTree = "<group>"; };
+		DBDB501A2887FE00003C6FF0 /* HomeModel+DTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeModel+DTO.swift"; sourceTree = "<group>"; };
+		DBDB50202889725C003C6FF0 /* FeedingPointViewMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingPointViewMapper.swift; sourceTree = "<group>"; };
 		DEFE643B8BEBAC315C0A9518 /* Pet.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Pet.swift; path = amplify/generated/models/Pet.swift; sourceTree = "<group>"; };
 		E1877F1460B58C5A5A0F72E5 /* LanguagesSetting.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = LanguagesSetting.swift; path = amplify/generated/models/LanguagesSetting.swift; sourceTree = "<group>"; };
 		E423FC6DE22260CD3829A2BE /* MedicationI18n+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "MedicationI18n+Schema.swift"; path = "amplify/generated/models/MedicationI18n+Schema.swift"; sourceTree = "<group>"; };
@@ -525,7 +537,11 @@
 		DB5A838F285D00B100F3C3A5 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				DB6B07C928450A380009397B /* HomeViewController.swift */,
+				DBDB501E2889721A003C6FF0 /* View */,
+				DBDB50192887FC0C003C6FF0 /* Model */,
+				DB0D4A832886A9C4001750BC /* HomeViewModel.swift */,
+				DB0D4A872886AC92001750BC /* HomeAssembler.swift */,
+				DBDB50172887FBBA003C6FF0 /* HomeContract.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -575,6 +591,32 @@
 				FBFE40F42853462300316D58 /* Sourcery */,
 			);
 			path = animealTests;
+			sourceTree = "<group>";
+		};
+		DBDB50192887FC0C003C6FF0 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				DB0D4A852886AB6B001750BC /* HomeModel.swift */,
+				DBDB501A2887FE00003C6FF0 /* HomeModel+DTO.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		DBDB501E2889721A003C6FF0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				DBDB501F28897222003C6FF0 /* Mappers */,
+				DB6B07C928450A380009397B /* HomeViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		DBDB501F28897222003C6FF0 /* Mappers */ = {
+			isa = PBXGroup;
+			children = (
+				DBDB50202889725C003C6FF0 /* FeedingPointViewMapper.swift */,
+			);
+			path = Mappers;
 			sourceTree = "<group>";
 		};
 		EC5A724E54B251047A4A70CA /* AmplifyModels */ = {
@@ -977,13 +1019,16 @@
 			files = (
 				83F3CC14284771FB00C05298 /* LoginContract.swift in Sources */,
 				DB6B07CA28450A380009397B /* HomeViewController.swift in Sources */,
+				DBDB50212889725C003C6FF0 /* FeedingPointViewMapper.swift in Sources */,
 				8360D1AF284F2A5E00ACDEDB /* LoginViewActionEvent.swift in Sources */,
+				DB0D4A842886A9C4001750BC /* HomeViewModel.swift in Sources */,
 				83F3CC12284771CA00C05298 /* LoginAssembler.swift in Sources */,
 				83C24F7E286D994A0086330B /* VerificationViewHeader+TextBigTitleSubtitleView.swift in Sources */,
 				83C24F80286D994A0086330B /* VerificationViewCode+VerificationInputView.swift in Sources */,
 				83C24F81286D994A0086330B /* VerificationViewCode.swift in Sources */,
 				837F1FB328868C3A001FABC5 /* AuthenticationService.swift in Sources */,
 				83F3CC1D2847808200C05298 /* LoginModelAction.swift in Sources */,
+				DBDB50182887FBBA003C6FF0 /* HomeContract.swift in Sources */,
 				83C24F71286D99280086330B /* LoginViewOnboardingStepsMapper.swift in Sources */,
 				DB5A838E285CEC4B00F3C3A5 /* Log.swift in Sources */,
 				83C24F70286D99280086330B /* LoginViewActionMapper.swift in Sources */,
@@ -1008,12 +1053,14 @@
 				8E8DC17FBCBFDAEA975F74C0 /* CategoryI18n.swift in Sources */,
 				704192811E47C576AE584354 /* Favourites+Schema.swift in Sources */,
 				4C682BBEC221AEFF0609E936 /* Favourites.swift in Sources */,
+				DB0D4A882886AC92001750BC /* HomeAssembler.swift in Sources */,
 				8EE189223EA6C7236079CEFD /* Feeding+Schema.swift in Sources */,
 				9522C3FA58BF89826BB2D27F /* Feeding.swift in Sources */,
 				14AB2108BFE313718FA8AF13 /* FeedingPoint+Schema.swift in Sources */,
 				894C53219C7197F7610E9C6D /* FeedingPoint.swift in Sources */,
 				FBEB291F802113F2A65D62C9 /* FeedingPointConnection+Schema.swift in Sources */,
 				55C7A18C565F680A28DBA276 /* FeedingPointConnection.swift in Sources */,
+				DBDB501B2887FE00003C6FF0 /* HomeModel+DTO.swift in Sources */,
 				83C24F89286D9D060086330B /* VerificationModelCode.swift in Sources */,
 				88EA22371FFB6AF061D88A0F /* FeedingPointI18n+Schema.swift in Sources */,
 				916158A01E8C9CF111B616B4 /* FeedingPointI18n.swift in Sources */,
@@ -1027,6 +1074,7 @@
 				0DC1E70297860089B4FC9074 /* LanguagesSetting.swift in Sources */,
 				838B6B6E2868B021001DD111 /* VerificationViewModel.swift in Sources */,
 				83C24F88286D9D060086330B /* VerificationModelTimeLeft.swift in Sources */,
+				DB0D4A862886AB6B001750BC /* HomeModel.swift in Sources */,
 				AA7331C285ADDCCBA8CF7FEA /* Location+Schema.swift in Sources */,
 				715F8D7B404E4EECCD15081A /* Location.swift in Sources */,
 				83FA79410E174D738434A8AD /* Medication+Schema.swift in Sources */,
