@@ -15,6 +15,9 @@ public final class FeedingPointView: UIView {
         return layer
     }()
 
+    // MARK: - Public properties
+    public var tapAction: ((String) -> Void)?
+
     // MARK: - Initialization
     public init() {
         super.init(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
@@ -52,6 +55,6 @@ private extension FeedingPointView {
     @objc func handleTapAction() {
         circleLayer.isHidden = !circleLayer.isHidden
         guard let identifier = model?.identifier else { return }
-        model?.action?(identifier)
+        tapAction?(identifier)
     }
 }

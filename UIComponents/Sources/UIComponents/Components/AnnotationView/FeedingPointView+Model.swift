@@ -5,23 +5,20 @@ extension FeedingPointView {
     public struct Model {
         public let identifier: String
         public let kind: FeedingPointView.Kind
-        public let action: ((String) -> Void)?
 
         public init(
             identifier: String,
-            kind: FeedingPointView.Kind,
-            action: ((String) -> Void)?
+            kind: FeedingPointView.Kind
         ) {
             self.identifier = identifier
             self.kind = kind
-            self.action = action
         }
     }
 
     public enum Kind {
-        case dog(FeedingPointView.HungryLevel)
-        case cat(FeedingPointView.HungryLevel)
-        case fav(FeedingPointView.HungryLevel)
+        case dog(FeedingPointView.HungerLevel)
+        case cat(FeedingPointView.HungerLevel)
+        case fav(FeedingPointView.HungerLevel)
 
         var image: UIImage {
             switch self {
@@ -56,7 +53,7 @@ extension FeedingPointView {
         }
     }
 
-    public enum HungryLevel {
+    public enum HungerLevel {
         case high
         case medium
         case low

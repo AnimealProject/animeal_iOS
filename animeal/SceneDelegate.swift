@@ -83,7 +83,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     model: TabBarItemViewModel(
                         icon: Asset.Images.home.image
                     )
-                ), viewController: HomeViewController()
+                ), viewController: HomeModuleAssembler.assemble()
             ),
             TabBarControllerItem(
                 tabBarItemView: PlainTabBarItemView(
