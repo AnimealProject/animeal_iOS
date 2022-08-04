@@ -4,7 +4,13 @@ protocol Starting {
     func start()
 }
 
-final class Coordinator: Starting {
+protocol Stopable {
+    func stop()
+}
+
+protocol Coordinatable: Starting, Stopable { }
+
+final class Coordinator: Coordinatable {
 
     // MARK: - Instance Properties
     private weak var startVC: UIViewController?
@@ -28,6 +34,8 @@ final class Coordinator: Starting {
     func start() {
 //        showFirstScreen()
     }
+
+    func stop() { }
 
     // MARK: - Example
 //    private func showFirstScreen() {

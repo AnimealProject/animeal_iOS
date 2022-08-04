@@ -13,6 +13,7 @@ final class LoginViewModel: LoginViewModelLifeCycle, LoginViewInteraction, Login
 
     // MARK: - Dependencies
     private let model: LoginModelProtocol
+    private let coordinator: LoginCoordinatable
     private let actionsMapper: LoginViewActionMappable
     private let onboardingMapper: LoginViewOnboardingStepsMappable
 
@@ -23,17 +24,32 @@ final class LoginViewModel: LoginViewModelLifeCycle, LoginViewInteraction, Login
     // MARK: - Initialization
     init(
         model: LoginModelProtocol,
+        coordinator: LoginCoordinatable,
         actionsMapper: LoginViewActionMappable,
         onboardingMapper: LoginViewOnboardingStepsMappable
     ) {
         self.model = model
+        self.coordinator = coordinator
         self.actionsMapper = actionsMapper
         self.onboardingMapper = onboardingMapper
         self.viewActions = []
     }
 
     // MARK: - Life cycle
-    func setup() { }
+    func setup() {
+        model.proceedAuthentificationResponse = { [weak self] status in
+            switch status {
+            case .confirmationCodeSent:
+                self?.coordinator.move(LoginRoute.codeConfirmation)
+            case .authentificated:
+                self?.coordinator.move(LoginRoute.profileFilling)
+            case .resetPassword:
+                break
+            case .failure:
+                break
+            }
+        }
+    }
 
     func load() {
         let modelOnboardingSteps = model.fetchOnboardingSteps()
@@ -49,8 +65,18 @@ final class LoginViewModel: LoginViewModelLifeCycle, LoginViewInteraction, Login
     // MARK: - Interaction
     func handleActionEvent(_ event: LoginViewActionEvent) {
         switch event {
-        case .tapInside:
-            break
+        case .tapInside(let identifier):
+            let modelActions = model.fetchActions()
+            guard let modelAction = modelActions
+                .first(where: { $0.identifier == identifier })
+            else { return }
+
+            if modelAction.isCustomAuthenticationSupported {
+                coordinator.move(LoginRoute.customAuthentication)
+            } else {
+                let type = modelAction.type
+                model.proceedAuthentication(type)
+            }
         }
     }
 }

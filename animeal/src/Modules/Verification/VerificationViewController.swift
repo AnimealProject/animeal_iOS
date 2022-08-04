@@ -85,7 +85,7 @@ final class VerificationViewController: BaseViewController {
         setupKeyboardHandling()
     }
 
-    // MARK: - Bind
+    // MARK: - Binding
     private func bind() {
         codeInputView.onChange = { [weak self] items in
             self?.viewModel.handleActionEvent(

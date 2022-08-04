@@ -13,26 +13,56 @@ final class AuthenticationService: AuthenticationServiceProtocol {
         self.converter = converter
     }
 
-    func signIn(username: String, password: String, handler: @escaping AuthenticationSignInHanler) {
-        Amplify.Auth.signIn(username: username, password: password) { [weak self] result in
+    func signUp(
+        username: String,
+        password: String,
+        options: [AuthenticationUserAttribute]?,
+        handler: @escaping AuthenticationSignUpHandler
+    ) {
+        Amplify.Auth.signUp(username: username, password: password) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let state):
-                handler(.success(self.converter.convertAmplifyState(state)))
+                guard let nextStep = self.converter.convertAmplifySignUpState(state) else {
+                    handler(.failure(AuthenticationError.unknown("Confirmation code sent to unknown destenation", nil)))
+                    return
+                }
+                handler(.success(nextStep))
             case .failure(let error):
                 handler(.failure(self.converter.convertAmplifyError(error)))
             }
         }
     }
 
-    func signIn(provider: AuthenticationProvider, handler: @escaping AuthenticationSignInHanler) {
+    func signIn(
+        username: String,
+        password: String,
+        options: [AuthenticationUserAttribute]?,
+        handler: @escaping AuthenticationSignInHanler
+    ) {
+        Amplify.Auth.signIn(username: username, password: password) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let state):
+                handler(.success(self.converter.convertAmplifySignInState(state)))
+            case .failure(let error):
+                handler(.failure(self.converter.convertAmplifyError(error)))
+            }
+        }
+    }
+
+    func signIn(
+        provider: AuthenticationProvider,
+        options: [AuthenticationUserAttribute]?,
+        handler: @escaping AuthenticationSignInHanler
+    ) {
         switch provider {
         case .apple(let presentationAnchor):
             Amplify.Auth.signInWithWebUI(for: .apple, presentationAnchor: presentationAnchor) { [weak self] result in
                 guard let self = self else { return }
                 switch result {
                 case .success(let state):
-                    handler(.success(self.converter.convertAmplifyState(state)))
+                    handler(.success(self.converter.convertAmplifySignInState(state)))
                 case .failure(let error):
                     handler(.failure(self.converter.convertAmplifyError(error)))
                 }
@@ -42,7 +72,7 @@ final class AuthenticationService: AuthenticationServiceProtocol {
                 guard let self = self else { return }
                 switch result {
                 case .success(let state):
-                    handler(.success(self.converter.convertAmplifyState(state)))
+                    handler(.success(self.converter.convertAmplifySignInState(state)))
                 case .failure(let error):
                     handler(.failure(self.converter.convertAmplifyError(error)))
                 }
@@ -57,7 +87,7 @@ final class AuthenticationService: AuthenticationServiceProtocol {
                 ))
                 return
             }
-            self.signIn(username: username, password: password, handler: handler)
+            self.signIn(username: username, password: password, options: nil, handler: handler)
         }
     }
 
@@ -73,12 +103,28 @@ final class AuthenticationService: AuthenticationServiceProtocol {
         }
     }
 
+    func confirmSignUp(for username: String, otp: String, handler: @escaping AuthenticationConfirmSignUpHanler) {
+        Amplify.Auth.confirmSignUp(for: username, confirmationCode: otp) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let state):
+                guard let nextStep = self.converter.convertAmplifySignUpState(state) else {
+                    handler(.failure(AuthenticationError.unknown("Confirmation code sent to unknown destenation", nil)))
+                    return
+                }
+                handler(.success(nextStep))
+            case .failure(let error):
+                handler(.failure(self.converter.convertAmplifyError(error)))
+            }
+        }
+    }
+
     func confirmSignIn(otp: String, handler: @escaping AuthenticationConfirmSignInHanler) {
         Amplify.Auth.confirmSignIn(challengeResponse: otp) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let state):
-                handler(.success(self.converter.convertAmplifyState(state)))
+                handler(.success(self.converter.convertAmplifySignInState(state)))
             case .failure(let error):
                 handler(.failure(self.converter.convertAmplifyError(error)))
             }

@@ -7,7 +7,8 @@ import Amplify
 
 protocol AuthenticationAmplifyConverting {
     func convertAmplifyError(_ amplifyError: AuthError) -> AuthenticationError
-    func convertAmplifyState(_ state: AuthSignInResult) -> AuthenticationSignInState
+    func convertAmplifySignUpState(_ state: AuthSignUpResult) -> AuthenticationSignUpState?
+    func convertAmplifySignInState(_ state: AuthSignInResult) -> AuthenticationSignInState
     func convertCodeDeliveryDetails(_ codeDeliveryDetails: AuthCodeDeliveryDetails) -> AuthenticationCodeDeliveryDetails
     func convertDeliveryDestination(_ deliveryDestination: DeliveryDestination) -> AuthenticationDeliveryDestination
     func converAuthUserAttributeKey(_ authUserAttributeKey: AuthUserAttributeKey?) -> AuthenticationUserAttributeKey?
@@ -35,7 +36,24 @@ struct AuthenticationAmplifyConverter: AuthenticationAmplifyConverting {
         }
     }
 
-    func convertAmplifyState(_ state: AuthSignInResult) -> AuthenticationSignInState {
+    func convertAmplifySignUpState(_ state: AuthSignUpResult) -> AuthenticationSignUpState? {
+        switch state.nextStep {
+        case .done:
+            return AuthenticationSignUpState(
+                AuthenticationSignUpStep.done
+            )
+        case let .confirmUser(codeDeliveryDetails, additionalInfo):
+            guard let codeDeliveryDetails = codeDeliveryDetails else { return nil }
+            return AuthenticationSignUpState(
+                AuthenticationSignUpStep.confirmUser(
+                    convertCodeDeliveryDetails(codeDeliveryDetails),
+                    additionalInfo
+                )
+            )
+        }
+    }
+
+    func convertAmplifySignInState(_ state: AuthSignInResult) -> AuthenticationSignInState {
         switch state.nextStep {
         case let .confirmSignInWithSMSMFACode(codeDeliveryDetails, additionalInfo):
             return AuthenticationSignInState(

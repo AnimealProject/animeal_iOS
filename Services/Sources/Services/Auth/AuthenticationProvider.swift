@@ -6,7 +6,6 @@ public typealias AuthenticationCustomAttributes = [AuthenticationCustomAttribute
 public enum AuthenticationCustomAttributesKey {
     case username
     case password
-    case email
 }
 
 public enum AuthenticationProvider {

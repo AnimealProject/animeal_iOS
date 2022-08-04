@@ -23,7 +23,7 @@ extension LoginViewAction {
                 icon: ImageAsset.Image(named: associatedIcon),
                 title: title
             )
-            let buttonView = buttonsFactory.makeSignInWithAppleButton()
+            let buttonView = buttonsFactory.makeSignInWithMobileButton()
             buttonView.condifure(model)
             return buttonView
         case .signInViaFacebook:
@@ -43,7 +43,7 @@ extension LoginViewAction {
                 icon: ImageAsset.Image(named: associatedIcon),
                 title: title
             )
-            let buttonView = buttonsFactory.makeSignInWithMobileButton()
+            let buttonView = buttonsFactory.makeSignInWithAppleButton()
             buttonView.condifure(model)
             return buttonView
         }

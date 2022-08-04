@@ -8,13 +8,13 @@
 import UIKit
 
 // MARK: - View
-protocol LoginViewModelOutput: AnyObject {
+protocol LoginViewable: AnyObject {
     func applyOnboarding(_ onboardingSteps: [LoginViewOnboardingStep])
     func applyActions(_ actions: [LoginViewAction])
 }
 
 // MARK: - ViewModel
-typealias LoginCombinedViewModel = LoginViewModelLifeCycle
+typealias LoginViewModelProtocol = LoginViewModelLifeCycle
     & LoginViewInteraction
     & LoginViewState
 
@@ -36,6 +36,14 @@ protocol LoginViewState: AnyObject {
 
 // sourcery: AutoMockable
 protocol LoginModelProtocol: AnyObject {
+    var proceedAuthentificationResponse: ((LoginModelStatus) -> Void)? { get set }
+
     func fetchOnboardingSteps() -> [LoginModelOnboardingStep]
     func fetchActions() -> [LoginModelAction]
+    func proceedAuthentication(_ type: LoginActionType)
+}
+
+// MARK: - Coordinator
+protocol LoginCoordinatable: Coordinatable {
+    func move(_ route: LoginRoute)
 }
