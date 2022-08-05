@@ -19,4 +19,15 @@ struct LoginModelAction {
     var identifier: String {
         return type.rawValue
     }
+
+    var isCustomAuthenticationSupported: Bool {
+        switch type {
+        case .signInViaPhoneNumber:
+            return true
+        case .signInViaFacebook:
+            return false
+        case .signInViaAppleID:
+            return false
+        }
+    }
 }

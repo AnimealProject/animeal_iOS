@@ -11,11 +11,15 @@ final class LoginModel: LoginModelProtocol {
     // MARK: - Private properties
 
     // MARK: - Dependencies
+    private let providers: [LoginActionType: LoginProviding?]
 
     // MARK: - Responses
+    var proceedAuthentificationResponse: ((LoginModelStatus) -> Void)?
 
     // MARK: - Initialization
-    init() { }
+    init(providers: [LoginActionType: LoginProviding?]) {
+        self.providers = providers
+    }
 
     // MARK: - Requests
     func fetchOnboardingSteps() -> [LoginModelOnboardingStep] {
@@ -44,10 +48,35 @@ final class LoginModel: LoginModelProtocol {
     }
 
     func fetchActions() -> [LoginModelAction] {
-        return [
-            LoginModelAction(type: LoginActionType.signInViaPhoneNumber),
-            LoginModelAction(type: LoginActionType.signInViaFacebook),
-            LoginModelAction(type: LoginActionType.signInViaAppleID)
-        ]
+        let types = Array(providers.keys)
+        return types.map { LoginModelAction(type: $0) }
+    }
+
+    func proceedAuthentication(_ type: LoginActionType) {
+        switch type {
+        case .signInViaPhoneNumber:
+            return
+        case .signInViaFacebook, .signInViaAppleID:
+            guard let provider = providers[type] else { return }
+            provider?.authenticate { [weak self] result in
+                switch result {
+                case .success(let state):
+                    switch state.nextStep {
+                    case .confirmSignInWithSMSCode, .confirmSignUp:
+                        self?.proceedAuthentificationResponse?(.confirmationCodeSent)
+                    case .done:
+                        self?.proceedAuthentificationResponse?(.authentificated)
+                    case .resetPassword:
+                        self?.proceedAuthentificationResponse?(.resetPassword)
+                    default:
+                        return
+                    }
+                case .failure(let error):
+                    self?.proceedAuthentificationResponse?(
+                        .failure(error.errorDescription.description)
+                    )
+                }
+            }
+        }
     }
 }

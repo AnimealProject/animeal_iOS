@@ -14,10 +14,10 @@ public struct ButtonViewFactory: ButtonViewGenerating, StyleEngineContainable {
         static let titleInsets: UIEdgeInsets =
             UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: -10.0)
     }
-    
+
     // MARK: - Initialization
     public init() { }
-    
+
     // MARK: - Creation
     public func makeSignInWithAppleButton() -> ButtonView {
         let button = UIButton()
@@ -34,7 +34,7 @@ public struct ButtonViewFactory: ButtonViewGenerating, StyleEngineContainable {
             for: UIControl.State.highlighted
         )
         button.titleEdgeInsets = Constants.titleInsets
-        
+
         return ButtonView(contentView: button)
     }
 
@@ -53,7 +53,7 @@ public struct ButtonViewFactory: ButtonViewGenerating, StyleEngineContainable {
             for: UIControl.State.highlighted
         )
         button.titleEdgeInsets = Constants.titleInsets
-        
+
         return ButtonView(contentView: button)
     }
 
@@ -72,7 +72,7 @@ public struct ButtonViewFactory: ButtonViewGenerating, StyleEngineContainable {
             for: UIControl.State.highlighted
         )
         button.titleEdgeInsets = Constants.titleInsets
-        
+
         return ButtonView(contentView: button)
     }
 }

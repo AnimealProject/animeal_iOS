@@ -11,7 +11,7 @@ import UIKit
 // SDK
 import UIComponents
 
-final class LoginViewController: UIViewController, LoginViewModelOutput {
+final class LoginViewController: UIViewController, LoginViewable {
     // MARK: - UI properties
     private let onboardingView: OnboardingView = {
         let item = OnboardingView()
@@ -34,10 +34,10 @@ final class LoginViewController: UIViewController, LoginViewModelOutput {
     }()
 
     // MARK: - Dependencies
-    private let viewModel: LoginCombinedViewModel
+    private let viewModel: LoginViewModelProtocol
 
     // MARK: - Initialization
-    init(viewModel: LoginCombinedViewModel) {
+    init(viewModel: LoginViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }

@@ -45,7 +45,7 @@ final class LoginViewActionMapper: LoginViewActionMappable {
         case .signInViaPhoneNumber:
             return Asset.Images.signInMobile.name
         case .signInViaFacebook:
-            return Asset.Images.signInMobile.name
+            return Asset.Images.signInFacebook.name
         case .signInViaAppleID:
             return Asset.Images.signInApple.name
         }

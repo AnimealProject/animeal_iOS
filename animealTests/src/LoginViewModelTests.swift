@@ -27,6 +27,10 @@ class LoginViewModelTestsSpec: QuickSpec {
 
                 sut = LoginViewModel(
                     model: model,
+                    coordinator: LoginCoordinator(
+                        navigator: Navigator(),
+                        completion: nil
+                    ),
                     actionsMapper: actionsMapper,
                     onboardingMapper: onboardingMapper
                 )

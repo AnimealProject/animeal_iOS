@@ -32,6 +32,10 @@
 		8360D1A3284E954900ACDEDB /* LoginModelOnboardingStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8360D1A2284E954900ACDEDB /* LoginModelOnboardingStep.swift */; };
 		8360D1A9284E9A9600ACDEDB /* LoginViewOnboardingStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8360D1A8284E9A9600ACDEDB /* LoginViewOnboardingStep.swift */; };
 		8360D1AF284F2A5E00ACDEDB /* LoginViewActionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8360D1AE284F2A5E00ACDEDB /* LoginViewActionEvent.swift */; };
+		8372CCAB289AFC3E0085C6D1 /* LoginProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCAA289AFC3E0085C6D1 /* LoginProviding.swift */; };
+		8372CCAE289B271E0085C6D1 /* LoginModelStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCAD289B271E0085C6D1 /* LoginModelStatus.swift */; };
+		8372CCB2289B7F4B0085C6D1 /* LoginCoordintator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCB1289B7F4B0085C6D1 /* LoginCoordintator.swift */; };
+		8372CCB5289B81D90085C6D1 /* LoginRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCB4289B81D90085C6D1 /* LoginRoute.swift */; };
 		837F1FB328868C3A001FABC5 /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837F1FB228868C3A001FABC5 /* AuthenticationService.swift */; };
 		837F1FB528869B29001FABC5 /* AuthenticationAmplifyConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837F1FB428869B29001FABC5 /* AuthenticationAmplifyConverter.swift */; };
 		838B6B6C2868B011001DD111 /* VerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838B6B6B2868B011001DD111 /* VerificationViewController.swift */; };
@@ -167,6 +171,10 @@
 		8360D1A2284E954900ACDEDB /* LoginModelOnboardingStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModelOnboardingStep.swift; sourceTree = "<group>"; };
 		8360D1A8284E9A9600ACDEDB /* LoginViewOnboardingStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewOnboardingStep.swift; sourceTree = "<group>"; };
 		8360D1AE284F2A5E00ACDEDB /* LoginViewActionEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewActionEvent.swift; sourceTree = "<group>"; };
+		8372CCAA289AFC3E0085C6D1 /* LoginProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginProviding.swift; sourceTree = "<group>"; };
+		8372CCAD289B271E0085C6D1 /* LoginModelStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModelStatus.swift; sourceTree = "<group>"; };
+		8372CCB1289B7F4B0085C6D1 /* LoginCoordintator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordintator.swift; sourceTree = "<group>"; };
+		8372CCB4289B81D90085C6D1 /* LoginRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRoute.swift; sourceTree = "<group>"; };
 		837F1FB228868C3A001FABC5 /* AuthenticationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationService.swift; sourceTree = "<group>"; };
 		837F1FB428869B29001FABC5 /* AuthenticationAmplifyConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationAmplifyConverter.swift; sourceTree = "<group>"; };
 		838B6B6B2868B011001DD111 /* VerificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationViewController.swift; sourceTree = "<group>"; };
@@ -301,6 +309,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8372CCA9289AFB0F0085C6D1 /* Providers */ = {
+			isa = PBXGroup;
+			children = (
+				8372CCAA289AFC3E0085C6D1 /* LoginProviding.swift */,
+			);
+			path = Providers;
+			sourceTree = "<group>";
+		};
+		8372CCB3289B814C0085C6D1 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				8372CCB1289B7F4B0085C6D1 /* LoginCoordintator.swift */,
+				8372CCB4289B81D90085C6D1 /* LoginRoute.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
 		837F1FB028868BF4001FABC5 /* Business */ = {
 			isa = PBXGroup;
 			children = (
@@ -419,6 +444,7 @@
 		83F3CC0C2847703100C05298 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				8372CCB3289B814C0085C6D1 /* Coordinator */,
 				83F3CC172847790000C05298 /* View */,
 				83F3CC1828477EB600C05298 /* Model */,
 				83F3CC0D2847704300C05298 /* LoginViewController.swift */,
@@ -451,6 +477,7 @@
 		83F3CC1828477EB600C05298 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				8372CCA9289AFB0F0085C6D1 /* Providers */,
 				83F3CC1928477EC100C05298 /* Items */,
 				83F3CC1A28477ECE00C05298 /* LoginModel.swift */,
 			);
@@ -462,6 +489,7 @@
 			children = (
 				83F3CC1C2847808200C05298 /* LoginModelAction.swift */,
 				8360D1A2284E954900ACDEDB /* LoginModelOnboardingStep.swift */,
+				8372CCAD289B271E0085C6D1 /* LoginModelStatus.swift */,
 			);
 			path = Items;
 			sourceTree = "<group>";
@@ -1022,10 +1050,13 @@
 				DBDB50212889725C003C6FF0 /* FeedingPointViewMapper.swift in Sources */,
 				8360D1AF284F2A5E00ACDEDB /* LoginViewActionEvent.swift in Sources */,
 				DB0D4A842886A9C4001750BC /* HomeViewModel.swift in Sources */,
+				8372CCAE289B271E0085C6D1 /* LoginModelStatus.swift in Sources */,
 				83F3CC12284771CA00C05298 /* LoginAssembler.swift in Sources */,
+				8372CCA52895DAC60085C6D1 /* RegistrationModel.swift in Sources */,
 				83C24F7E286D994A0086330B /* VerificationViewHeader+TextBigTitleSubtitleView.swift in Sources */,
 				83C24F80286D994A0086330B /* VerificationViewCode+VerificationInputView.swift in Sources */,
 				83C24F81286D994A0086330B /* VerificationViewCode.swift in Sources */,
+				8372CCB2289B7F4B0085C6D1 /* LoginCoordintator.swift in Sources */,
 				837F1FB328868C3A001FABC5 /* AuthenticationService.swift in Sources */,
 				83F3CC1D2847808200C05298 /* LoginModelAction.swift in Sources */,
 				DBDB50182887FBBA003C6FF0 /* HomeContract.swift in Sources */,
@@ -1038,6 +1069,7 @@
 				83F3CC1B28477ECE00C05298 /* LoginModel.swift in Sources */,
 				83F3CC102847713400C05298 /* LoginViewModel.swift in Sources */,
 				FB00144B2859FC1800943360 /* ProfileViewController.swift in Sources */,
+				8372CCAB289AFC3E0085C6D1 /* LoginProviding.swift in Sources */,
 				8360D1A3284E954900ACDEDB /* LoginModelOnboardingStep.swift in Sources */,
 				FB001451285A097E00943360 /* ProfileAssembler.swift in Sources */,
 				8360D1A9284E9A9600ACDEDB /* LoginViewOnboardingStep.swift in Sources */,
@@ -1093,6 +1125,7 @@
 				B8E9C0526B1932D00ECDB596 /* Point.swift in Sources */,
 				1F770667D42E31D263AE67AB /* RelationPetFeedingPoint+Schema.swift in Sources */,
 				FBE017632874666000A79DB2 /* Coordinator.swift in Sources */,
+				8372CCB5289B81D90085C6D1 /* LoginRoute.swift in Sources */,
 				838B6B732868B052001DD111 /* VerificationContract.swift in Sources */,
 				B8A233D7B15B4A46582895E9 /* RelationPetFeedingPoint.swift in Sources */,
 				83C24F83286D994A0086330B /* VerificationViewActionEvent.swift in Sources */,
