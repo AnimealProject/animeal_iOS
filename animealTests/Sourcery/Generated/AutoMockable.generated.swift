@@ -2,7 +2,6 @@
 // DO NOT EDIT
 // swiftlint:disable vertical_whitespace
 // swiftlint:disable vertical_whitespace_closing_braces
-// swiftlint:disable identifier_name
 
 import Foundation
 #if os(iOS) || os(tvOS) || os(watchOS)
@@ -30,6 +29,51 @@ import CoreLocation
 
 
 
+class FeedingPointViewMappableMock: FeedingPointViewMappable {
+
+    // MARK: - mapFeedingPoint
+
+    var mapFeedingPointCallsCount = 0
+    var mapFeedingPointCalled: Bool {
+        return mapFeedingPointCallsCount > 0
+    }
+    var mapFeedingPointReceivedInput: HomeModel.FeedingPoint?
+    var mapFeedingPointReceivedInvocations: [HomeModel.FeedingPoint] = []
+    var mapFeedingPointReturnValue: FeedingPointViewItem!
+    var mapFeedingPointClosure: ((HomeModel.FeedingPoint) -> FeedingPointViewItem)?
+
+    func mapFeedingPoint(_ input: HomeModel.FeedingPoint) -> FeedingPointViewItem {
+        mapFeedingPointCallsCount += 1
+        mapFeedingPointReceivedInput = input
+        mapFeedingPointReceivedInvocations.append(input)
+        if let mapFeedingPointClosure = mapFeedingPointClosure {
+            return mapFeedingPointClosure(input)
+        } else {
+            return mapFeedingPointReturnValue
+        }
+    }
+
+}
+class HomeModelProtocolMock: HomeModelProtocol {
+
+    // MARK: - fetchFeedingPoints
+
+    var fetchFeedingPointsCallsCount = 0
+    var fetchFeedingPointsCalled: Bool {
+        return fetchFeedingPointsCallsCount > 0
+    }
+    var fetchFeedingPointsReceivedCompletion: ((([HomeModel.FeedingPoint]) -> Void))?
+    var fetchFeedingPointsReceivedInvocations: [((([HomeModel.FeedingPoint]) -> Void))?] = []
+    var fetchFeedingPointsClosure: (((([HomeModel.FeedingPoint]) -> Void)?) -> Void)?
+
+    func fetchFeedingPoints(_ completion: (([HomeModel.FeedingPoint]) -> Void)?) {
+        fetchFeedingPointsCallsCount += 1
+        fetchFeedingPointsReceivedCompletion = completion
+        fetchFeedingPointsReceivedInvocations.append(completion)
+        fetchFeedingPointsClosure?(completion)
+    }
+
+}
 class LocationServiceDelegateMock: LocationServiceDelegate {
 
     // MARK: - handleLiveLocationStream
@@ -122,6 +166,7 @@ class LocationServiceProtocolMock: LocationServiceProtocol {
 
 }
 class LoginModelProtocolMock: LoginModelProtocol {
+    var proceedAuthentificationResponse: ((LoginModelStatus) -> Void)?
 
     // MARK: - fetchOnboardingSteps
 
@@ -157,6 +202,23 @@ class LoginModelProtocolMock: LoginModelProtocol {
         } else {
             return fetchActionsReturnValue
         }
+    }
+
+    // MARK: - proceedAuthentication
+
+    var proceedAuthenticationCallsCount = 0
+    var proceedAuthenticationCalled: Bool {
+        return proceedAuthenticationCallsCount > 0
+    }
+    var proceedAuthenticationReceivedType: LoginActionType?
+    var proceedAuthenticationReceivedInvocations: [LoginActionType] = []
+    var proceedAuthenticationClosure: ((LoginActionType) -> Void)?
+
+    func proceedAuthentication(_ type: LoginActionType) {
+        proceedAuthenticationCallsCount += 1
+        proceedAuthenticationReceivedType = type
+        proceedAuthenticationReceivedInvocations.append(type)
+        proceedAuthenticationClosure?(type)
     }
 
 }
@@ -251,6 +313,81 @@ class LoginViewOnboardingStepsMappableMock: LoginViewOnboardingStepsMappable {
         } else {
             return mapStepsReturnValue
         }
+    }
+
+}
+class VerificationModelProtocolMock: VerificationModelProtocol {
+    var fetchNewCodeResponse: ((VerificationModelCode) -> Void)?
+    var fetchNewCodeResponseTimeLeft: ((VerificationModelTimeLeft) -> Void)?
+
+    // MARK: - isValidationNeeded
+
+    var isValidationNeededCallsCount = 0
+    var isValidationNeededCalled: Bool {
+        return isValidationNeededCallsCount > 0
+    }
+    var isValidationNeededReceivedCode: VerificationModelCode?
+    var isValidationNeededReceivedInvocations: [VerificationModelCode] = []
+    var isValidationNeededReturnValue: Bool!
+    var isValidationNeededClosure: ((VerificationModelCode) -> Bool)?
+
+    func isValidationNeeded(_ code: VerificationModelCode) -> Bool {
+        isValidationNeededCallsCount += 1
+        isValidationNeededReceivedCode = code
+        isValidationNeededReceivedInvocations.append(code)
+        if let isValidationNeededClosure = isValidationNeededClosure {
+            return isValidationNeededClosure(code)
+        } else {
+            return isValidationNeededReturnValue
+        }
+    }
+
+    // MARK: - validateCode
+
+    var validateCodeCallsCount = 0
+    var validateCodeCalled: Bool {
+        return validateCodeCallsCount > 0
+    }
+    var validateCodeReceivedCode: VerificationModelCode?
+    var validateCodeReceivedInvocations: [VerificationModelCode] = []
+    var validateCodeReturnValue: Bool!
+    var validateCodeClosure: ((VerificationModelCode) -> Bool)?
+
+    func validateCode(_ code: VerificationModelCode) -> Bool {
+        validateCodeCallsCount += 1
+        validateCodeReceivedCode = code
+        validateCodeReceivedInvocations.append(code)
+        if let validateCodeClosure = validateCodeClosure {
+            return validateCodeClosure(code)
+        } else {
+            return validateCodeReturnValue
+        }
+    }
+
+    // MARK: - fetchInitialCode
+
+    var fetchInitialCodeCallsCount = 0
+    var fetchInitialCodeCalled: Bool {
+        return fetchInitialCodeCallsCount > 0
+    }
+    var fetchInitialCodeClosure: (() -> Void)?
+
+    func fetchInitialCode() {
+        fetchInitialCodeCallsCount += 1
+        fetchInitialCodeClosure?()
+    }
+
+    // MARK: - fetchNewCode
+
+    var fetchNewCodeCallsCount = 0
+    var fetchNewCodeCalled: Bool {
+        return fetchNewCodeCallsCount > 0
+    }
+    var fetchNewCodeClosure: (() -> Void)?
+
+    func fetchNewCode() {
+        fetchNewCodeCallsCount += 1
+        fetchNewCodeClosure?()
     }
 
 }
