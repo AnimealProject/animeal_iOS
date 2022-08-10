@@ -97,7 +97,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 tabBarItemView: PlainTabBarItemView(
                     model: TabBarItemViewModel(
                         icon: Asset.Images.more.image,
-                        title: L10n.TabBar.mode
+                        title: L10n.TabBar.more
                     )
                 ), viewController: greenVC
             )

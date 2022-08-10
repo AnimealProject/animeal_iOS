@@ -2,6 +2,9 @@ import UIKit
 import Common
 
 public final class SegmentedControl: UISegmentedControl {
+    // MARK: - Public properties
+    public var onTap: ((Int) -> Void)?
+
     // MARK: - Private properties
     private var model: Model?
 
@@ -27,8 +30,14 @@ public final class SegmentedControl: UISegmentedControl {
         removeAllSegments()
         for (index, item) in model.items.enumerated() {
             insertSegment(withTitle: item.title, at: index, animated: false)
+            if item.isSelected {
+                selectedSegmentIndex = index
+            }
         }
-        selectedSegmentIndex = 0
+        if selectedSegmentIndex == UISegmentedControl.noSegment {
+            selectedSegmentIndex = 0
+        }
+
         addTarget(self, action: #selector(segmentedControlTapHandler(_:)), for: .valueChanged)
     }
 }
@@ -36,9 +45,7 @@ public final class SegmentedControl: UISegmentedControl {
 // MARK: - Private API
 private extension SegmentedControl {
     @objc func segmentedControlTapHandler(_ segmentedControl: UISegmentedControl) {
-        model?.items[safe: segmentedControl.selectedSegmentIndex]?.action?(
-            segmentedControl.selectedSegmentIndex
-        )
+        onTap?(segmentedControl.selectedSegmentIndex)
     }
 
     func setup() {

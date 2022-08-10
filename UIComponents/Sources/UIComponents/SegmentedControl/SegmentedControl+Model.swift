@@ -12,16 +12,16 @@ extension SegmentedControl {
     public struct Item {
         public let identifier: Int
         public let title: String
-        public let action: ((Int) -> Void)?
+        public let isSelected: Bool
 
         public init(
             identifier: Int,
             title: String,
-            action: ((Int) -> Void)?
+            isSelected: Bool = false
         ) {
             self.identifier = identifier
             self.title = title
-            self.action = action
+            self.isSelected = isSelected
         }
     }
 }

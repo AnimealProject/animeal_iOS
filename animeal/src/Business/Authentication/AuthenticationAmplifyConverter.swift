@@ -15,7 +15,7 @@ protocol AuthenticationAmplifyConverting {
     func converAuthUserAttributeKey(_ authUserAttributeKey: AuthUserAttributeKey?) -> AuthenticationUserAttributeKey?
 }
 
-// swiftlint: disable cyclomatic_complexity
+// swiftlint:disable cyclomatic_complexity
 struct AuthenticationAmplifyConverter: AuthenticationAmplifyConverting {
     func convertAmplifyError(_ amplifyError: AuthError) -> AuthenticationError {
         switch amplifyError {
@@ -212,3 +212,4 @@ struct AuthenticationAmplifyConverter: AuthenticationAmplifyConverting {
         }
     }
 }
+// swiftlint:enable cyclomatic_complexity

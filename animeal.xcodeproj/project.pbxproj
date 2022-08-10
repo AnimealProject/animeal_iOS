@@ -105,6 +105,7 @@
 		CEE642FAC4700C08C7138B74 /* Category+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7755CAA75F8797C1A590B38 /* Category+Schema.swift */; };
 		CF57277BF72FB11BE40424A3 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8CB79619259AF5F554F3EC7 /* Language.swift */; };
 		DA7754CFE85DA01540F13750 /* AmplifyModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12662058C69A26CF52E46B66 /* AmplifyModels.swift */; };
+		DB0AD32928A26FB6007FD750 /* SegmentedControlMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0AD32828A26FB6007FD750 /* SegmentedControlMapper.swift */; };
 		DB0D4A8228856D2C001750BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB0D4A8128856D2C001750BC /* Assets.xcassets */; };
 		DB0D4A842886A9C4001750BC /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0D4A832886A9C4001750BC /* HomeViewModel.swift */; };
 		DB0D4A862886AB6B001750BC /* HomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0D4A852886AB6B001750BC /* HomeModel.swift */; };
@@ -253,6 +254,7 @@
 		C5A3F3180005C29FF765CAC8 /* FeedingPoint+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "FeedingPoint+Schema.swift"; path = "amplify/generated/models/FeedingPoint+Schema.swift"; sourceTree = "<group>"; };
 		D5F69DAC34ED36AD10ABB6FD /* Favourites.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Favourites.swift; path = amplify/generated/models/Favourites.swift; sourceTree = "<group>"; };
 		D6AFDBF0B00B11A2E29B8944 /* Favourites+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "Favourites+Schema.swift"; path = "amplify/generated/models/Favourites+Schema.swift"; sourceTree = "<group>"; };
+		DB0AD32828A26FB6007FD750 /* SegmentedControlMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlMapper.swift; sourceTree = "<group>"; };
 		DB0D4A8128856D2C001750BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = animeal/Assets.xcassets; sourceTree = SOURCE_ROOT; };
 		DB0D4A832886A9C4001750BC /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		DB0D4A852886AB6B001750BC /* HomeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModel.swift; sourceTree = "<group>"; };
@@ -766,6 +768,7 @@
 			isa = PBXGroup;
 			children = (
 				DBDB50202889725C003C6FF0 /* FeedingPointViewMapper.swift */,
+				DB0AD32828A26FB6007FD750 /* SegmentedControlMapper.swift */,
 			);
 			path = Mappers;
 			sourceTree = "<group>";
@@ -1273,6 +1276,7 @@
 				837F1FB528869B29001FABC5 /* AuthenticationAmplifyConverter.swift in Sources */,
 				83C24F82286D994A0086330B /* VereficationViewResendCode.swift in Sources */,
 				8372CCCB28A02BAA0085C6D1 /* PhoneAuthRoute.swift in Sources */,
+				DB0AD32928A26FB6007FD750 /* SegmentedControlMapper.swift in Sources */,
 				838B6B6C2868B011001DD111 /* VerificationViewController.swift in Sources */,
 				C059A696D2F75AE49A266D33 /* RelationUserFeedingPoint.swift in Sources */,
 				FF0D1A35DECA7017DE49AF15 /* RelationUserPet+Schema.swift in Sources */,

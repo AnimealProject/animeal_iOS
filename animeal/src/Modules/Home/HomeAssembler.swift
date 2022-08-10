@@ -13,6 +13,10 @@ final class HomeModuleAssembler: Assembling {
             view?.applyFeedingPoints(points)
         }
 
+        viewModel.onSegmentsHaveBeenPrepared = { [weak view] model in
+            view?.applyFilter(model)
+        }
+
         viewModel.setup()
 
         return view
