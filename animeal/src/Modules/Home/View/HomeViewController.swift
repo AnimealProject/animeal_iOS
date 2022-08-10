@@ -4,7 +4,7 @@ import UIComponents
 
 class HomeViewController: UIViewController {
     private var mapView: MapView!
-
+    private var segmentedControl = SegmentedControl()
 
     // MARK: - Dependencies
     private let viewModel: HomeCombinedViewModel
@@ -40,6 +40,7 @@ class HomeViewController: UIViewController {
 
 extension HomeViewController: HomeViewModelOutput {
     func applyFeedingPoints(_ feedingPoints: [FeedingPointViewItem]) {
+        mapView.viewAnnotations.removeAll()
         feedingPoints.forEach { point in
             let options = ViewAnnotationOptions(
                 geometry: MapboxMaps.Point(point.coordinates),
@@ -53,7 +54,14 @@ extension HomeViewController: HomeViewModelOutput {
             feedingPointView.tapAction = { [weak self] pointId in
                 self?.viewModel.handleActionEvent(.tapFeedingPoint(pointId))
             }
-            try? self.mapView.viewAnnotations.add(feedingPointView, options: options)
+            try? mapView.viewAnnotations.add(feedingPointView, options: options)
+        }
+    }
+
+    func applyFilter(_ filter: FilterModel) {
+        segmentedControl.configure(filter.segmentedControlModel)
+        segmentedControl.onTap = { [weak self] selectedSegmentIndex in
+            self?.viewModel.handleActionEvent(.tapFilterControl(selectedSegmentIndex))
         }
     }
 }
@@ -68,5 +76,10 @@ private extension HomeViewController {
         mapView = MapView(frame: view.bounds, mapInitOptions: mapInitOptions)
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(mapView)
+
+        view.addSubview(segmentedControl.prepareForAutoLayout())
+        segmentedControl.topAnchor ~= view.safeAreaLayoutGuide.topAnchor + 66
+        segmentedControl.centerXAnchor ~= view.centerXAnchor
+        segmentedControl.widthAnchor ~= 226
     }
 }

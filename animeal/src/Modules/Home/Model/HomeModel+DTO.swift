@@ -24,4 +24,15 @@ extension HomeModel {
         let latitude: Double
         let longitude: Double
     }
+
+    struct FilterItem {
+        let title: String
+        let identifier: FilterItemIdentifier
+        let isSelected: Bool
+    }
+
+    enum FilterItemIdentifier: Int {
+        case dogs = 0
+        case cats = 1
+    }
 }
