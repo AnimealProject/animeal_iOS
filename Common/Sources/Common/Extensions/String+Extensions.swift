@@ -1,5 +1,11 @@
 import Foundation
 
+public extension String {
+    static var empty: String {
+        return ""
+    }
+}
+
 extension String {
     func characterAt(_ index: Int) -> Character? {
         guard index < count else { return nil }

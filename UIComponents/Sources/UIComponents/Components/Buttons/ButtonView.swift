@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Common
 
 public extension ButtonView {
     struct Model {
@@ -18,7 +19,7 @@ public extension ButtonView {
             identifier: String,
             viewType: ButtonView.Type,
             icon: UIImage?,
-            title: String
+            title: String = String.empty
         ) {
             self.identifier = identifier
             self.viewType = viewType
@@ -35,7 +36,7 @@ open class ButtonView: UIView {
     }
 
     // MARK: - Private properties
-    private let contentView: UIButton
+    public let contentView: UIButton
 
     // MARK: - Public properties
     public var identifier: String
@@ -61,7 +62,7 @@ open class ButtonView: UIView {
     }
 
     // MARK: - Setup
-    private func setup() {
+    public func setup() {
         addSubview(contentView.prepareForAutoLayout())
         contentView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         contentView.topAnchor.constraint(equalTo: topAnchor).isActive = true
@@ -77,7 +78,7 @@ open class ButtonView: UIView {
     }
 
     // MARK: - Action handlers
-    @objc private func buttonWasPressed(_ sender: UIButton) {
+    @objc public func buttonWasPressed(_ sender: UIButton) {
         onTap?(identifier)
     }
 }

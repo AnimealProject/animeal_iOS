@@ -4,6 +4,8 @@ public protocol ButtonViewGenerating {
     func makeSignInWithAppleButton() -> ButtonView
     func makeSignInWithFacebookButton() -> ButtonView
     func makeSignInWithMobileButton() -> ButtonView
+
+    func makeMyLocationButton() -> ButtonView
 }
 
 public struct ButtonViewFactory: ButtonViewGenerating, StyleEngineContainable {
@@ -74,5 +76,11 @@ public struct ButtonViewFactory: ButtonViewGenerating, StyleEngineContainable {
         button.titleEdgeInsets = Constants.titleInsets
 
         return ButtonView(contentView: button)
+    }
+
+    public func makeMyLocationButton() -> ButtonView {
+        let button = UIButton()
+        button.backgroundColor = designEngine.colors.primary.uiColor
+        return CircleButtonView(contentView: button)
     }
 }

@@ -104,7 +104,7 @@ class ComponentsTableViewController: UIViewController, UITableViewDataSource, UI
                     let signInWithAppleModel = ButtonView.Model(
                         identifier: "signInWithAppleButton",
                         viewType: ButtonView.self,
-                        icon:  Asset.Images.signInApple.image,
+                        icon: Asset.Images.signInApple.image,
                         title: "Sign in with Apple"
                     )
                     let signInWithAppleButtonView = buttonsFactory.makeSignInWithAppleButton()
@@ -113,7 +113,7 @@ class ComponentsTableViewController: UIViewController, UITableViewDataSource, UI
                     let signInWithMobileModel = ButtonView.Model(
                         identifier: "signInWithMobileButton",
                         viewType: ButtonView.self,
-                        icon:  Asset.Images.signInMobile.image,
+                        icon: Asset.Images.signInMobile.image,
                         title: "Sign in with Mobile"
                     )
                     let signInWithMobileButton = buttonsFactory.makeSignInWithMobileButton()
@@ -122,7 +122,7 @@ class ComponentsTableViewController: UIViewController, UITableViewDataSource, UI
                     let signInWithFacebookModel = ButtonView.Model(
                         identifier: "signInWithFacebookButton",
                         viewType: ButtonView.self,
-                        icon:  Asset.Images.signInFacebook.image,
+                        icon: Asset.Images.signInFacebook.image,
                         title: "Sign in with Facebook"
                     )
                     let signInWithFacebookButton = buttonsFactory.makeSignInWithFacebookButton()
@@ -144,6 +144,40 @@ class ComponentsTableViewController: UIViewController, UITableViewDataSource, UI
 
         dataSource.append(
             ComponentPresentation(
+                description: "CircleButtonView"
+            ) {
+                let viewController = ComponentViewController<UIView>()
+                viewController.configureElement = { element in
+                    guard let superView = element.superview else {
+                        return
+                    }
+
+                    element.centerYAnchor ~= superView.centerYAnchor
+                    element.centerXAnchor ~= superView.centerXAnchor
+                    element.widthAnchor ~= superView.widthAnchor
+                    element.heightAnchor ~= superView.heightAnchor
+
+                    let model = CircleButtonView.Model(
+                        identifier: "myLocationButton",
+                        viewType: CircleButtonView.self,
+                        icon: Asset.Images.findLocation.image
+                    )
+                    let buttonsFactory = ButtonViewFactory()
+                    let myLocationButton = buttonsFactory.makeMyLocationButton()
+                    myLocationButton.condifure(model)
+                    myLocationButton.onTap = { identifier in
+                        print(identifier)
+                    }
+                    element.addSubview(myLocationButton.prepareForAutoLayout())
+                    myLocationButton.centerXAnchor ~= element.centerXAnchor
+                    myLocationButton.centerYAnchor ~= element.centerYAnchor
+                }
+                return viewController
+            }
+        )
+
+        dataSource.append(
+            ComponentPresentation(
                 description: "SegmentedControl"
             ) {
                 let viewController = ComponentViewController<SegmentedControl>()
@@ -155,17 +189,17 @@ class ComponentsTableViewController: UIViewController, UITableViewDataSource, UI
                     element.centerYAnchor ~= superView.centerYAnchor
                     element.centerXAnchor ~= superView.centerXAnchor
                     element.widthAnchor ~= 226
-                    let action = { identifier in
-                        print(identifier)
-                    }
                     element.configure(
                         SegmentedControl.Model(
                             items: [
-                                SegmentedControl.Item(identifier: 0, title: "Dogs", action: action),
-                                SegmentedControl.Item(identifier: 1, title: "Cats", action: action)
+                                SegmentedControl.Item(identifier: 0, title: "Dogs"),
+                                SegmentedControl.Item(identifier: 1, title: "Cats")
                             ]
                         )
                     )
+                    element.onTap = { identifier in
+                        print(identifier)
+                    }
                 }
                 return viewController
             }
