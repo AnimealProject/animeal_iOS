@@ -17,6 +17,11 @@ public final class StyleColor {
     /// - Returns: A concrete instance of ``UIColor``.
     public let uiColor: UIColor
 
+    /// Provides an instance of CGColor if the instanstance already exists.
+    ///
+    /// - Returns: A concrete instance of ``CGColor``.
+    public let cgColor: CGColor
+
     /// Provides an instance of Color.
     ///
     /// - Returns: A concrete instance of ``Color``.
@@ -30,5 +35,6 @@ public final class StyleColor {
     ///   - uiColor:  A concrete instance of ``UIColor``.
     public init(_ uiColor: UIColor) {
         self.uiColor = uiColor
+        self.cgColor = uiColor.cgColor
     }
 }
