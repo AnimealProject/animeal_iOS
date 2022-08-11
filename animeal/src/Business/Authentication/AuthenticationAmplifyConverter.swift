@@ -4,6 +4,7 @@ import Foundation
 // SDK
 import Services
 import Amplify
+import AWSCognitoAuthPlugin
 
 protocol AuthenticationAmplifyConverting {
     func convertAmplifyError(_ amplifyError: AuthError) -> AuthenticationError
@@ -14,25 +15,84 @@ protocol AuthenticationAmplifyConverting {
     func converAuthUserAttributeKey(_ authUserAttributeKey: AuthUserAttributeKey?) -> AuthenticationUserAttributeKey?
 }
 
+// swiftlint: disable cyclomatic_complexity
 struct AuthenticationAmplifyConverter: AuthenticationAmplifyConverting {
     func convertAmplifyError(_ amplifyError: AuthError) -> AuthenticationError {
         switch amplifyError {
         case let .configuration(errorDescription, recoverySuggestion, originalError):
-            return AuthenticationError.configuration(errorDescription, recoverySuggestion, originalError)
+            let convertedOriginalError = convertOriginalError(originalError)
+            return AuthenticationError.configuration(errorDescription, recoverySuggestion, convertedOriginalError)
         case let .service(errorDescription, recoverySuggestion, originalError):
-            return AuthenticationError.service(errorDescription, recoverySuggestion, originalError)
+            let convertedOriginalError = convertOriginalError(originalError)
+            return AuthenticationError.service(errorDescription, recoverySuggestion, convertedOriginalError)
         case let .unknown(errorDescription, originalError):
-            return AuthenticationError.unknown(errorDescription, originalError)
+            let convertedOriginalError = convertOriginalError(originalError)
+            return AuthenticationError.unknown(errorDescription, convertedOriginalError)
         case let .validation(field, errorDescription, recoverySuggestion, originalError):
-            return AuthenticationError.validation(field, errorDescription, recoverySuggestion, originalError)
+            let convertedOriginalError = convertOriginalError(originalError)
+            return AuthenticationError.validation(field, errorDescription, recoverySuggestion, convertedOriginalError)
         case let .notAuthorized(errorDescription, recoverySuggestion, originalError):
-            return AuthenticationError.notAuthorized(errorDescription, recoverySuggestion, originalError)
+            let convertedOriginalError = convertOriginalError(originalError)
+            return AuthenticationError.notAuthorized(errorDescription, recoverySuggestion, convertedOriginalError)
         case let .invalidState(errorDescription, recoverySuggestion, originalError):
-            return AuthenticationError.invalidState(errorDescription, recoverySuggestion, originalError)
+            let convertedOriginalError = convertOriginalError(originalError)
+            return AuthenticationError.invalidState(errorDescription, recoverySuggestion, convertedOriginalError)
         case let .signedOut(errorDescription, recoverySuggestion, originalError):
-            return AuthenticationError.signedOut(errorDescription, recoverySuggestion, originalError)
+            let convertedOriginalError = convertOriginalError(originalError)
+            return AuthenticationError.signedOut(errorDescription, recoverySuggestion, convertedOriginalError)
         case let .sessionExpired(errorDescription, recoverySuggestion, originalError):
-            return AuthenticationError.sessionExpired(errorDescription, recoverySuggestion, originalError)
+            let convertedOriginalError = convertOriginalError(originalError)
+            return AuthenticationError.sessionExpired(errorDescription, recoverySuggestion, convertedOriginalError)
+        }
+    }
+    
+    func convertOriginalError(_ originalError: Error?) -> AuthenticationDetailedError? {
+        guard let originalError = originalError as? AWSCognitoAuthError else { return nil }
+        switch originalError {
+        case .userNotFound:
+            return AuthenticationDetailedError.userNotFound
+        case .userNotConfirmed:
+            return AuthenticationDetailedError.userNotConfirmed
+        case .usernameExists:
+            return AuthenticationDetailedError.usernameExists
+        case .aliasExists:
+            return AuthenticationDetailedError.aliasExists
+        case .codeDelivery:
+            return AuthenticationDetailedError.codeDelivery
+        case .codeMismatch:
+            return AuthenticationDetailedError.codeMismatch
+        case .codeExpired:
+            return AuthenticationDetailedError.codeExpired
+        case .invalidParameter:
+            return AuthenticationDetailedError.invalidParameter
+        case .invalidPassword:
+            return AuthenticationDetailedError.invalidPassword
+        case .limitExceeded:
+            return AuthenticationDetailedError.limitExceeded
+        case .mfaMethodNotFound:
+            return AuthenticationDetailedError.mfaMethodNotFound
+        case .softwareTokenMFANotEnabled:
+            return AuthenticationDetailedError.softwareTokenMFANotEnabled
+        case .passwordResetRequired:
+            return AuthenticationDetailedError.passwordResetRequired
+        case .resourceNotFound:
+            return AuthenticationDetailedError.resourceNotFound
+        case .failedAttemptsLimitExceeded:
+            return AuthenticationDetailedError.failedAttemptsLimitExceeded
+        case .requestLimitExceeded:
+            return AuthenticationDetailedError.requestLimitExceeded
+        case .lambda:
+            return nil
+        case .deviceNotTracked:
+            return AuthenticationDetailedError.deviceNotTracked
+        case .errorLoadingUI:
+            return AuthenticationDetailedError.errorLoadingUI
+        case .userCancelled:
+            return AuthenticationDetailedError.userCancelled
+        case .invalidAccountTypeException:
+            return AuthenticationDetailedError.invalidAccountTypeException
+        case .network:
+            return AuthenticationDetailedError.network
         }
     }
 

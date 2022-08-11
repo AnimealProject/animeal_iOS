@@ -2,6 +2,7 @@ import UIKit
 
 public extension TextFieldView {
     struct Model {
+        public let identifier: String
         public let description: String
         public let placeholderText: String?
         public let defaultText: String?
@@ -9,12 +10,14 @@ public extension TextFieldView {
         public let textInputKind: TextFieldKind
 
         public init(
+            identifier: String,
             description: String,
             placeholderText: String? = nil,
             defaultText: String? = nil,
             isEnabled: Bool = true,
             textInputKind: TextFieldKind
         ) {
+            self.identifier = identifier
             self.description = description
             self.placeholderText = placeholderText
             self.defaultText = defaultText
@@ -24,7 +27,7 @@ public extension TextFieldView {
     }
 }
 
-public final class TextFieldView: UIView {
+public final class TextFieldView: UIView, TextFieldContainable {
 
     // MARK: - UI properties
     private lazy var titleLabel: UILabel = {
@@ -40,24 +43,30 @@ public final class TextFieldView: UIView {
         textField.setPadding()
         textField.layer.cornerRadius = 12.0
         textField.clipsToBounds = true
-        textField.delegate = delegate
+        textField.delegate = textFieldDelegate
         textField.isEnabled = model.isEnabled
         textField.isUserInteractionEnabled = model.isEnabled
         return textField
     }()
+    
+    // MARK: - Identifier
+    public var identifier: String
+    
+    // MARK: - Delegate
+    public var textFieldDelegate: UITextFieldDelegate?
 
     // MARK: - Dependencies
     private let model: TextFieldView.Model
     private let textFieldFactory = TextFieldFactory()
-    private weak var delegate: UITextFieldDelegate?
 
     // MARK: - Initialization
     public init(
         model: TextFieldView.Model,
         delegate: UITextFieldDelegate?
     ) {
+        self.identifier = model.identifier
         self.model = model
-        self.delegate = delegate
+        self.textFieldDelegate = delegate
 
         super.init(frame: .zero)
         setup()

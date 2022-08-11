@@ -54,7 +54,13 @@ public final class TextBigTitleSubtitleView: UIView {
     // MARK: - Configuration
     public func configure(_ model: Model) {
         titleView.text = model.title
-        subtitleView.text = model.subtitle
+        if let subtitle = model.subtitle {
+            subtitleView.text = subtitle
+            subtitleView.isHidden = false
+        } else {
+            subtitleView.text = nil
+            subtitleView.isHidden = true
+        }
     }
 
     // MARK: - Setup

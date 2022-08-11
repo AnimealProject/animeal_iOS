@@ -29,18 +29,20 @@ final class LoginCoordinator: LoginCoordinatable {
             window: presentingWindow
         ).assemble()
         loginViewController.modalPresentationStyle = .overCurrentContext
-        navigator.present(loginViewController, animated: true, completion: nil)
+        navigator.push(loginViewController, animated: true, completion: nil)
     }
 
     func stop() {
-        navigator.dismiss(animated: true, completion: nil)
+        navigator.pop(animated: true, completion: nil)
     }
 
     // MARK: - Routing
     func move(_ route: LoginRoute) {
         switch route {
         case .customAuthentication:
-            break
+            guard let childNavigator = navigator.makeChildNavigator() else { return }
+            let phoneAuthCoordinator = PhoneAuthCoordinator(navigator: childNavigator, completion: nil)
+            phoneAuthCoordinator.start()
         case .codeConfirmation:
             break
         case .profileFilling:

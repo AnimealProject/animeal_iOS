@@ -1,8 +1,9 @@
 "tabBar.search"                    = "ძიება";
 "tabBar.favourites"                = "რჩეულები";
 "tabBar.leaderBoard"               = "ლიდერთა საბჭო";
-"tabBar.Mode"                      = "მეტი";
-"addPetScreen.header.info"         = "შესაძლებელია მაქსიმუმ სამი ფოტოს დამატება, ფოტოს დამატება სავალდებულოა";
+"tabBar.more"                      = "მეტი";
+"segment.dogs"                     = "ძაღლები";
+"segment.cats"                     = "კატები";
 "loginScreen.signInViaMobilePhone" = "შედით მობილურით";
 "loginScreen.signInViaFacebook"    = "Ფეისბუქზე შესვლა";
 "loginScreen.signInViaApple"       = "შედით Apple-ით";
@@ -14,3 +15,8 @@
 "profile.done"                     = "შესრულებულია";
 "profile.header"                   = "პროფილი";
 "profile.subHeader"                = "გთხოვთ შეავსოთ პროფილის ინფორმაცია";
+"phone.title"                      = "გთხოვთ შეიყვანოთ თქვენი ტელეფონის ნომერი\n";
+"phone.fields.phoneTitlle"         = "Ტელეფონის ნომერი";
+"phone.fields.passwordTitlle"      = "პაროლი";
+"phone.errors.incorrectPhone"      = "ტელეფონის ნომრის ფორმატი არასწორია";
+"phone.errors.empty"               = "აუცილებელი ველები ცარიელია";

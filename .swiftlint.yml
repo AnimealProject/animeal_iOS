@@ -75,7 +75,7 @@ legacy_hashing: error
 
 identifier_name:
   min_length: # only min_length
-    error: 3 # only error
+    error: 2 # only error
   excluded: # excluded via string array
     - sut
     - tag

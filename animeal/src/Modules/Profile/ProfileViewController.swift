@@ -7,6 +7,7 @@ final class ProfileViewController: BaseViewController, ProfileViewModelOutput {
     private lazy var firstNameTextFieldView: TextFieldView = {
         return TextFieldView(
             model: TextFieldView.Model(
+                identifier: UUID().uuidString,
                 description: L10n.Profile.name,
                 placeholderText: L10n.Profile.name,
                 defaultText: viewModel.userFirstName,
@@ -19,6 +20,7 @@ final class ProfileViewController: BaseViewController, ProfileViewModelOutput {
     private lazy var lastNameTextFieldView: TextFieldView = {
         return TextFieldView(
             model: TextFieldView.Model(
+                identifier: UUID().uuidString,
                 description: L10n.Profile.surname,
                 placeholderText: L10n.Profile.surname,
                 defaultText: viewModel.userLastName,
@@ -31,6 +33,7 @@ final class ProfileViewController: BaseViewController, ProfileViewModelOutput {
     private lazy var emailTextFieldView: TextFieldView = {
         return TextFieldView(
             model: TextFieldView.Model(
+                identifier: UUID().uuidString,
                 description: L10n.Profile.email,
                 placeholderText: L10n.Profile.email,
                 defaultText: viewModel.userEmail,
@@ -43,6 +46,7 @@ final class ProfileViewController: BaseViewController, ProfileViewModelOutput {
     private lazy var phoneTextFieldView: TextFieldView = {
         return TextFieldView(
             model: TextFieldView.Model(
+                identifier: UUID().uuidString,
                 description: L10n.Profile.phoneNumber,
                 defaultText: viewModel.processedPhoneNumber,
                 isEnabled: false,
