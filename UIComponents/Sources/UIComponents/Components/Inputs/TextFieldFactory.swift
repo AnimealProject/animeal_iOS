@@ -12,6 +12,17 @@ public enum TextFieldKind {
     case name
     case phone
     case email
+    case password
+}
+
+public enum TextFieldState {
+    case normal
+    case error(String?)
+}
+
+public protocol TextFieldContainable: UIView {
+    var identifier: String { get }
+    var textFieldDelegate: UITextFieldDelegate? { get set }
 }
 
 public struct TextFieldFactory: StyleEngineContainable, TextFieldGenerating {
@@ -25,6 +36,8 @@ public struct TextFieldFactory: StyleEngineContainable, TextFieldGenerating {
             return makeEmailTextField()
         case .phone:
             return makePhoneTextField()
+        case .password:
+            return makePasswordTextField()
         }
     }
 
@@ -32,7 +45,6 @@ public struct TextFieldFactory: StyleEngineContainable, TextFieldGenerating {
         let textField = UITextField()
         textField.font = designEngine.fonts.primary.medium(16.0).uiFont
         textField.textColor = designEngine.colors.textSecondary.uiColor
-        textField.backgroundColor = designEngine.colors.secondary.uiColor
         textField.autocorrectionType = .no
         textField.spellCheckingType = .no
 
@@ -41,6 +53,7 @@ public struct TextFieldFactory: StyleEngineContainable, TextFieldGenerating {
 
     public func makeNameTextField() -> UITextField {
         let textField = makeDefaultTextField()
+        textField.backgroundColor = designEngine.colors.secondary.uiColor
         textField.keyboardType = .namePhonePad
         textField.autocapitalizationType = .words
 
@@ -49,6 +62,7 @@ public struct TextFieldFactory: StyleEngineContainable, TextFieldGenerating {
 
     public func makeEmailTextField() -> UITextField {
         let textField = makeDefaultTextField()
+        textField.backgroundColor = designEngine.colors.secondary.uiColor
         textField.keyboardType = .emailAddress
         textField.autocapitalizationType = .none
 
@@ -57,7 +71,17 @@ public struct TextFieldFactory: StyleEngineContainable, TextFieldGenerating {
 
     public func makePhoneTextField() -> UITextField {
         let textField = makeDefaultTextField()
+        textField.returnKeyType = .done
         textField.keyboardType = .phonePad
+        textField.autocapitalizationType = .none
+
+        return textField
+    }
+
+    public func makePasswordTextField() -> UITextField {
+        let textField = makeDefaultTextField()
+        textField.backgroundColor = designEngine.colors.secondary.uiColor
+        textField.isSecureTextEntry = true
         textField.autocapitalizationType = .none
 
         return textField

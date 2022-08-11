@@ -1,8 +1,9 @@
 "tabBar.search"                    = "Search";
 "tabBar.favourites"                = "Favourites";
 "tabBar.leaderBoard"               = "Leader Board";
-"tabBar.Mode"                      = "More";
-"addPetScreen.header.info"         = "It is possible to add a maximum of three photos, adding a photo is required";
+"tabBar.more"                      = "More";
+"segment.dogs"                     = "Dogs";
+"segment.cats"                     = "Cats";
 "loginScreen.signInViaMobilePhone" = "Sign in with Mobile";
 "loginScreen.signInViaFacebook"    = "Sign in with Facebook";
 "loginScreen.signInViaApple"       = "Sign in with Apple";
@@ -14,3 +15,8 @@
 "profile.done"                     = "Done";
 "profile.header"                   = "Profile";
 "profile.subHeader"                = "please fill out the profile information";
+"phone.title"                      = "Please, enter your phone";
+"phone.fields.phoneTitlle"         = "Phone Number";
+"phone.fields.passwordTitlle"      = "Password";
+"phone.errors.incorrectPhone"      = "Format of the phone number isn't correct";
+"phone.errors.empty"               = "Required fields are empty";

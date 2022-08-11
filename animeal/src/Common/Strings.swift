@@ -11,13 +11,6 @@ import Foundation
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 internal enum L10n {
 
-  internal enum AddPetScreen {
-    internal enum Header {
-      /// It is possible to add a maximum of three photos, adding a photo is required
-      internal static let info = L10n.tr("Localizable", "addPetScreen.header.info")
-    }
-  }
-
   internal enum LoginScreen {
     /// Sign in with Apple
     internal static let signInViaApple = L10n.tr("Localizable", "loginScreen.signInViaApple")
@@ -25,6 +18,23 @@ internal enum L10n {
     internal static let signInViaFacebook = L10n.tr("Localizable", "loginScreen.signInViaFacebook")
     /// Sign in with Mobile
     internal static let signInViaMobilePhone = L10n.tr("Localizable", "loginScreen.signInViaMobilePhone")
+  }
+
+  internal enum Phone {
+    /// Please, enter your phone
+    internal static let title = L10n.tr("Localizable", "phone.title")
+    internal enum Errors {
+      /// Required fields are empty
+      internal static let empty = L10n.tr("Localizable", "phone.errors.empty")
+      /// Format of the phone number isn't correct
+      internal static let incorrectPhone = L10n.tr("Localizable", "phone.errors.incorrectPhone")
+    }
+    internal enum Fields {
+      /// Password
+      internal static let passwordTitlle = L10n.tr("Localizable", "phone.fields.passwordTitlle")
+      /// Phone Number
+      internal static let phoneTitlle = L10n.tr("Localizable", "phone.fields.phoneTitlle")
+    }
   }
 
   internal enum Profile {
@@ -46,13 +56,20 @@ internal enum L10n {
     internal static let surname = L10n.tr("Localizable", "profile.surname")
   }
 
+  internal enum Segment {
+    /// Cats
+    internal static let cats = L10n.tr("Localizable", "segment.cats")
+    /// Dogs
+    internal static let dogs = L10n.tr("Localizable", "segment.dogs")
+  }
+
   internal enum TabBar {
     /// Favourites
     internal static let favourites = L10n.tr("Localizable", "tabBar.favourites")
     /// Leader Board
     internal static let leaderBoard = L10n.tr("Localizable", "tabBar.leaderBoard")
     /// More
-    internal static let mode = L10n.tr("Localizable", "tabBar.Mode")
+    internal static let more = L10n.tr("Localizable", "tabBar.more")
     /// Search
     internal static let search = L10n.tr("Localizable", "tabBar.search")
   }

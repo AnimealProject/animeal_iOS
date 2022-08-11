@@ -36,6 +36,23 @@
 		8372CCAE289B271E0085C6D1 /* LoginModelStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCAD289B271E0085C6D1 /* LoginModelStatus.swift */; };
 		8372CCB2289B7F4B0085C6D1 /* LoginCoordintator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCB1289B7F4B0085C6D1 /* LoginCoordintator.swift */; };
 		8372CCB5289B81D90085C6D1 /* LoginRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCB4289B81D90085C6D1 /* LoginRoute.swift */; };
+		8372CCB928A0298B0085C6D1 /* PhoneAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCB828A0298B0085C6D1 /* PhoneAuthViewController.swift */; };
+		8372CCBB28A029990085C6D1 /* PhoneAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCBA28A029990085C6D1 /* PhoneAuthViewModel.swift */; };
+		8372CCBD28A029A50085C6D1 /* PhoneAuthAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCBC28A029A50085C6D1 /* PhoneAuthAssembler.swift */; };
+		8372CCBF28A029B60085C6D1 /* PhoneAuthContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCBE28A029B60085C6D1 /* PhoneAuthContract.swift */; };
+		8372CCC728A02A1E0085C6D1 /* PhoneAuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCC628A02A1E0085C6D1 /* PhoneAuthModel.swift */; };
+		8372CCC928A02A2C0085C6D1 /* PhoneAuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCC828A02A2C0085C6D1 /* PhoneAuthCoordinator.swift */; };
+		8372CCCB28A02BAA0085C6D1 /* PhoneAuthRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCCA28A02BAA0085C6D1 /* PhoneAuthRoute.swift */; };
+		8372CCCD28A02BD70085C6D1 /* PhoneAuthViewTextEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCCC28A02BD70085C6D1 /* PhoneAuthViewTextEvent.swift */; };
+		8372CCCF28A02F300085C6D1 /* PhoneAuthModelItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCCE28A02F300085C6D1 /* PhoneAuthModelItem.swift */; };
+		8372CCD228A031280085C6D1 /* PhoneAuthViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCD128A031280085C6D1 /* PhoneAuthViewItem.swift */; };
+		8372CCD828A034370085C6D1 /* PhoneAuthViewItemMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCD728A034370085C6D1 /* PhoneAuthViewItemMapper.swift */; };
+		8372CCDA28A03A210085C6D1 /* PhoneAuthViewItem+PhoneTextFieldViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCD928A03A210085C6D1 /* PhoneAuthViewItem+PhoneTextFieldViewModel.swift */; };
+		8372CCDC28A03B640085C6D1 /* PhoneAuthViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCDB28A03B640085C6D1 /* PhoneAuthViewHeader.swift */; };
+		8372CCDE28A03F460085C6D1 /* PhoneAuthViewHeader+TextBigTitleSubtitleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCDD28A03F460085C6D1 /* PhoneAuthViewHeader+TextBigTitleSubtitleViewModel.swift */; };
+		8372CCE128A18B030085C6D1 /* PhotoAuthViewText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCE028A18B030085C6D1 /* PhotoAuthViewText.swift */; };
+		8372CCFF28A437250085C6D1 /* PhoneAuthModelNextStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCFE28A437240085C6D1 /* PhoneAuthModelNextStep.swift */; };
+		8372CD0128A4AEAE0085C6D1 /* PhoneAuthValidationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CD0028A4AEAE0085C6D1 /* PhoneAuthValidationError.swift */; };
 		837F1FB328868C3A001FABC5 /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837F1FB228868C3A001FABC5 /* AuthenticationService.swift */; };
 		837F1FB528869B29001FABC5 /* AuthenticationAmplifyConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837F1FB428869B29001FABC5 /* AuthenticationAmplifyConverter.swift */; };
 		838B6B6C2868B011001DD111 /* VerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838B6B6B2868B011001DD111 /* VerificationViewController.swift */; };
@@ -175,6 +192,23 @@
 		8372CCAD289B271E0085C6D1 /* LoginModelStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModelStatus.swift; sourceTree = "<group>"; };
 		8372CCB1289B7F4B0085C6D1 /* LoginCoordintator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordintator.swift; sourceTree = "<group>"; };
 		8372CCB4289B81D90085C6D1 /* LoginRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRoute.swift; sourceTree = "<group>"; };
+		8372CCB828A0298B0085C6D1 /* PhoneAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthViewController.swift; sourceTree = "<group>"; };
+		8372CCBA28A029990085C6D1 /* PhoneAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthViewModel.swift; sourceTree = "<group>"; };
+		8372CCBC28A029A50085C6D1 /* PhoneAuthAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthAssembler.swift; sourceTree = "<group>"; };
+		8372CCBE28A029B60085C6D1 /* PhoneAuthContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthContract.swift; sourceTree = "<group>"; };
+		8372CCC628A02A1E0085C6D1 /* PhoneAuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthModel.swift; sourceTree = "<group>"; };
+		8372CCC828A02A2C0085C6D1 /* PhoneAuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthCoordinator.swift; sourceTree = "<group>"; };
+		8372CCCA28A02BAA0085C6D1 /* PhoneAuthRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthRoute.swift; sourceTree = "<group>"; };
+		8372CCCC28A02BD70085C6D1 /* PhoneAuthViewTextEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthViewTextEvent.swift; sourceTree = "<group>"; };
+		8372CCCE28A02F300085C6D1 /* PhoneAuthModelItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthModelItem.swift; sourceTree = "<group>"; };
+		8372CCD128A031280085C6D1 /* PhoneAuthViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthViewItem.swift; sourceTree = "<group>"; };
+		8372CCD728A034370085C6D1 /* PhoneAuthViewItemMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthViewItemMapper.swift; sourceTree = "<group>"; };
+		8372CCD928A03A210085C6D1 /* PhoneAuthViewItem+PhoneTextFieldViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhoneAuthViewItem+PhoneTextFieldViewModel.swift"; sourceTree = "<group>"; };
+		8372CCDB28A03B640085C6D1 /* PhoneAuthViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthViewHeader.swift; sourceTree = "<group>"; };
+		8372CCDD28A03F460085C6D1 /* PhoneAuthViewHeader+TextBigTitleSubtitleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhoneAuthViewHeader+TextBigTitleSubtitleViewModel.swift"; sourceTree = "<group>"; };
+		8372CCE028A18B030085C6D1 /* PhotoAuthViewText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAuthViewText.swift; sourceTree = "<group>"; };
+		8372CCFE28A437240085C6D1 /* PhoneAuthModelNextStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthModelNextStep.swift; sourceTree = "<group>"; };
+		8372CD0028A4AEAE0085C6D1 /* PhoneAuthValidationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthValidationError.swift; sourceTree = "<group>"; };
 		837F1FB228868C3A001FABC5 /* AuthenticationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationService.swift; sourceTree = "<group>"; };
 		837F1FB428869B29001FABC5 /* AuthenticationAmplifyConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationAmplifyConverter.swift; sourceTree = "<group>"; };
 		838B6B6B2868B011001DD111 /* VerificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationViewController.swift; sourceTree = "<group>"; };
@@ -326,6 +360,94 @@
 			path = Coordinator;
 			sourceTree = "<group>";
 		};
+		8372CCB728A029750085C6D1 /* PhoneAuth */ = {
+			isa = PBXGroup;
+			children = (
+				8372CCC528A029FC0085C6D1 /* Coordinator */,
+				8372CCC328A029F00085C6D1 /* View */,
+				8372CCC028A029C00085C6D1 /* Model */,
+				8372CCB828A0298B0085C6D1 /* PhoneAuthViewController.swift */,
+				8372CCBA28A029990085C6D1 /* PhoneAuthViewModel.swift */,
+				8372CCBC28A029A50085C6D1 /* PhoneAuthAssembler.swift */,
+				8372CCBE28A029B60085C6D1 /* PhoneAuthContract.swift */,
+			);
+			path = PhoneAuth;
+			sourceTree = "<group>";
+		};
+		8372CCC028A029C00085C6D1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8372CCC228A029EA0085C6D1 /* Items */,
+				8372CCC628A02A1E0085C6D1 /* PhoneAuthModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		8372CCC228A029EA0085C6D1 /* Items */ = {
+			isa = PBXGroup;
+			children = (
+				8372CCCE28A02F300085C6D1 /* PhoneAuthModelItem.swift */,
+				8372CCFE28A437240085C6D1 /* PhoneAuthModelNextStep.swift */,
+				8372CD0028A4AEAE0085C6D1 /* PhoneAuthValidationError.swift */,
+			);
+			path = Items;
+			sourceTree = "<group>";
+		};
+		8372CCC328A029F00085C6D1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8372CCD328A032700085C6D1 /* Utils */,
+				8372CCC428A029F40085C6D1 /* Items */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		8372CCC428A029F40085C6D1 /* Items */ = {
+			isa = PBXGroup;
+			children = (
+				8372CCCC28A02BD70085C6D1 /* PhoneAuthViewTextEvent.swift */,
+				8372CCD128A031280085C6D1 /* PhoneAuthViewItem.swift */,
+				8372CCDB28A03B640085C6D1 /* PhoneAuthViewHeader.swift */,
+				8372CCE028A18B030085C6D1 /* PhotoAuthViewText.swift */,
+			);
+			path = Items;
+			sourceTree = "<group>";
+		};
+		8372CCC528A029FC0085C6D1 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				8372CCC828A02A2C0085C6D1 /* PhoneAuthCoordinator.swift */,
+				8372CCCA28A02BAA0085C6D1 /* PhoneAuthRoute.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		8372CCD328A032700085C6D1 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				8372CCD628A0328D0085C6D1 /* Extensions */,
+				8372CCD428A0327D0085C6D1 /* Mappers */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		8372CCD428A0327D0085C6D1 /* Mappers */ = {
+			isa = PBXGroup;
+			children = (
+				8372CCD728A034370085C6D1 /* PhoneAuthViewItemMapper.swift */,
+			);
+			path = Mappers;
+			sourceTree = "<group>";
+		};
+		8372CCD628A0328D0085C6D1 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8372CCD928A03A210085C6D1 /* PhoneAuthViewItem+PhoneTextFieldViewModel.swift */,
+				8372CCDD28A03F460085C6D1 /* PhoneAuthViewHeader+TextBigTitleSubtitleViewModel.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		837F1FB028868BF4001FABC5 /* Business */ = {
 			isa = PBXGroup;
 			children = (
@@ -433,6 +555,7 @@
 		83F3CC0B2847702900C05298 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				8372CCB728A029750085C6D1 /* PhoneAuth */,
 				DB5A838F285D00B100F3C3A5 /* Home */,
 				838B6B6A2868AFFA001DD111 /* Verification */,
 				FB0014472859FBE000943360 /* Profile */,
@@ -1054,9 +1177,12 @@
 				83F3CC12284771CA00C05298 /* LoginAssembler.swift in Sources */,
 				8372CCA52895DAC60085C6D1 /* RegistrationModel.swift in Sources */,
 				83C24F7E286D994A0086330B /* VerificationViewHeader+TextBigTitleSubtitleView.swift in Sources */,
+				8372CCDA28A03A210085C6D1 /* PhoneAuthViewItem+PhoneTextFieldViewModel.swift in Sources */,
 				83C24F80286D994A0086330B /* VerificationViewCode+VerificationInputView.swift in Sources */,
 				83C24F81286D994A0086330B /* VerificationViewCode.swift in Sources */,
 				8372CCB2289B7F4B0085C6D1 /* LoginCoordintator.swift in Sources */,
+				8372CCBB28A029990085C6D1 /* PhoneAuthViewModel.swift in Sources */,
+				8372CCE128A18B030085C6D1 /* PhotoAuthViewText.swift in Sources */,
 				837F1FB328868C3A001FABC5 /* AuthenticationService.swift in Sources */,
 				83F3CC1D2847808200C05298 /* LoginModelAction.swift in Sources */,
 				DBDB50182887FBBA003C6FF0 /* HomeContract.swift in Sources */,
@@ -1064,14 +1190,19 @@
 				DB5A838E285CEC4B00F3C3A5 /* Log.swift in Sources */,
 				83C24F70286D99280086330B /* LoginViewActionMapper.swift in Sources */,
 				838B6B702868B039001DD111 /* VerificationModel.swift in Sources */,
+				8372CCBD28A029A50085C6D1 /* PhoneAuthAssembler.swift in Sources */,
 				DB6B07C628450A380009397B /* AppDelegate.swift in Sources */,
+				8372CCD228A031280085C6D1 /* PhoneAuthViewItem.swift in Sources */,
 				DB0D671928466E7700930564 /* Strings.swift in Sources */,
 				83F3CC1B28477ECE00C05298 /* LoginModel.swift in Sources */,
 				83F3CC102847713400C05298 /* LoginViewModel.swift in Sources */,
 				FB00144B2859FC1800943360 /* ProfileViewController.swift in Sources */,
+				8372CD0128A4AEAE0085C6D1 /* PhoneAuthValidationError.swift in Sources */,
 				8372CCAB289AFC3E0085C6D1 /* LoginProviding.swift in Sources */,
+				8372CCCD28A02BD70085C6D1 /* PhoneAuthViewTextEvent.swift in Sources */,
 				8360D1A3284E954900ACDEDB /* LoginModelOnboardingStep.swift in Sources */,
 				FB001451285A097E00943360 /* ProfileAssembler.swift in Sources */,
+				8372CCB928A0298B0085C6D1 /* PhoneAuthViewController.swift in Sources */,
 				8360D1A9284E9A9600ACDEDB /* LoginViewOnboardingStep.swift in Sources */,
 				83F3CC0E2847704300C05298 /* LoginViewController.swift in Sources */,
 				FBE017612874611600A79DB2 /* Navigator.swift in Sources */,
@@ -1085,6 +1216,7 @@
 				8E8DC17FBCBFDAEA975F74C0 /* CategoryI18n.swift in Sources */,
 				704192811E47C576AE584354 /* Favourites+Schema.swift in Sources */,
 				4C682BBEC221AEFF0609E936 /* Favourites.swift in Sources */,
+				8372CCDE28A03F460085C6D1 /* PhoneAuthViewHeader+TextBigTitleSubtitleViewModel.swift in Sources */,
 				DB0D4A882886AC92001750BC /* HomeAssembler.swift in Sources */,
 				8EE189223EA6C7236079CEFD /* Feeding+Schema.swift in Sources */,
 				9522C3FA58BF89826BB2D27F /* Feeding.swift in Sources */,
@@ -1093,6 +1225,8 @@
 				FBEB291F802113F2A65D62C9 /* FeedingPointConnection+Schema.swift in Sources */,
 				55C7A18C565F680A28DBA276 /* FeedingPointConnection.swift in Sources */,
 				DBDB501B2887FE00003C6FF0 /* HomeModel+DTO.swift in Sources */,
+				8372CCC728A02A1E0085C6D1 /* PhoneAuthModel.swift in Sources */,
+				8372CCD828A034370085C6D1 /* PhoneAuthViewItemMapper.swift in Sources */,
 				83C24F89286D9D060086330B /* VerificationModelCode.swift in Sources */,
 				88EA22371FFB6AF061D88A0F /* FeedingPointI18n+Schema.swift in Sources */,
 				916158A01E8C9CF111B616B4 /* FeedingPointI18n.swift in Sources */,
@@ -1121,6 +1255,10 @@
 				0028E02D831362905A72161A /* PetI18n+Schema.swift in Sources */,
 				6826AB850FFAF4CC13D042F3 /* PetI18n.swift in Sources */,
 				0DC7F17C09E9C3EA296C308D /* Point+Schema.swift in Sources */,
+				8372CCCF28A02F300085C6D1 /* PhoneAuthModelItem.swift in Sources */,
+				8372CCDC28A03B640085C6D1 /* PhoneAuthViewHeader.swift in Sources */,
+				8372CCFF28A437250085C6D1 /* PhoneAuthModelNextStep.swift in Sources */,
+				8372CCC928A02A2C0085C6D1 /* PhoneAuthCoordinator.swift in Sources */,
 				83C24F84286D994A0086330B /* VerificationViewHeader.swift in Sources */,
 				B8E9C0526B1932D00ECDB596 /* Point.swift in Sources */,
 				1F770667D42E31D263AE67AB /* RelationPetFeedingPoint+Schema.swift in Sources */,
@@ -1128,11 +1266,13 @@
 				8372CCB5289B81D90085C6D1 /* LoginRoute.swift in Sources */,
 				838B6B732868B052001DD111 /* VerificationContract.swift in Sources */,
 				B8A233D7B15B4A46582895E9 /* RelationPetFeedingPoint.swift in Sources */,
+				8372CCBF28A029B60085C6D1 /* PhoneAuthContract.swift in Sources */,
 				83C24F83286D994A0086330B /* VerificationViewActionEvent.swift in Sources */,
 				83C24F73286D99280086330B /* LoginViewOnboardingStep+OnboardingViewStep.swift in Sources */,
 				74DE171718857E1BDAA82A57 /* RelationUserFeedingPoint+Schema.swift in Sources */,
 				837F1FB528869B29001FABC5 /* AuthenticationAmplifyConverter.swift in Sources */,
 				83C24F82286D994A0086330B /* VereficationViewResendCode.swift in Sources */,
+				8372CCCB28A02BAA0085C6D1 /* PhoneAuthRoute.swift in Sources */,
 				838B6B6C2868B011001DD111 /* VerificationViewController.swift in Sources */,
 				C059A696D2F75AE49A266D33 /* RelationUserFeedingPoint.swift in Sources */,
 				FF0D1A35DECA7017DE49AF15 /* RelationUserPet+Schema.swift in Sources */,
