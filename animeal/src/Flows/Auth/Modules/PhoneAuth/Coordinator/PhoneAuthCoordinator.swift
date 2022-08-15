@@ -25,7 +25,7 @@ final class PhoneAuthCoordinator: PhoneAuthCoordinatable {
     }
 
     // MARK: - Routing
-    func move(_ route: PhoneAuthRoute) {
+    func moveFromPhoneAuth(to route: PhoneAuthRoute) {
         switch route {
         case .codeConfirmation:
             break

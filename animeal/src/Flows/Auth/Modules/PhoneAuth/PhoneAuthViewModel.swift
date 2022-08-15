@@ -101,13 +101,13 @@ private extension PhoneAuthViewModel {
         case .success(let nextStep):
             switch nextStep {
             case .setNewPassword:
-                coordinator.move(PhoneAuthRoute.setNewPassword)
+                coordinator.moveFromPhoneAuth(to: PhoneAuthRoute.setNewPassword)
             case .resetPassword:
-                coordinator.move(PhoneAuthRoute.resetPassword)
+                coordinator.moveFromPhoneAuth(to: PhoneAuthRoute.resetPassword)
             case .done:
-                coordinator.move(PhoneAuthRoute.done)
+                coordinator.moveFromPhoneAuth(to: PhoneAuthRoute.done)
             case .confirm:
-                coordinator.move(PhoneAuthRoute.codeConfirmation)
+                coordinator.moveFromPhoneAuth(to: PhoneAuthRoute.codeConfirmation)
             case .unknown:
                 break
             }

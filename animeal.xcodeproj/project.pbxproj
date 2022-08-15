@@ -78,6 +78,10 @@
 		83C24F84286D994A0086330B /* VerificationViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C24F7D286D994A0086330B /* VerificationViewHeader.swift */; };
 		83C24F88286D9D060086330B /* VerificationModelTimeLeft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C24F86286D9D060086330B /* VerificationModelTimeLeft.swift */; };
 		83C24F89286D9D060086330B /* VerificationModelCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C24F87286D9D060086330B /* VerificationModelCode.swift */; };
+		83E83A4328A97C5500B40FC4 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E83A4228A97C5500B40FC4 /* AppCoordinator.swift */; };
+		83E83A4828A984D700B40FC4 /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E83A4728A984D700B40FC4 /* AuthCoordinator.swift */; };
+		83E83A4E28A98E2700B40FC4 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E83A4D28A98E2700B40FC4 /* MainCoordinator.swift */; };
+		83E83A5228AABE8200B40FC4 /* VerificationModelInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E83A5128AABE8200B40FC4 /* VerificationModelInput.swift */; };
 		83F3CC0E2847704300C05298 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F3CC0D2847704300C05298 /* LoginViewController.swift */; };
 		83F3CC102847713400C05298 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F3CC0F2847713400C05298 /* LoginViewModel.swift */; };
 		83F3CC12284771CA00C05298 /* LoginAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F3CC11284771CA00C05298 /* LoginAssembler.swift */; };
@@ -230,6 +234,10 @@
 		83C24F7D286D994A0086330B /* VerificationViewHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationViewHeader.swift; sourceTree = "<group>"; };
 		83C24F86286D9D060086330B /* VerificationModelTimeLeft.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationModelTimeLeft.swift; sourceTree = "<group>"; };
 		83C24F87286D9D060086330B /* VerificationModelCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationModelCode.swift; sourceTree = "<group>"; };
+		83E83A4228A97C5500B40FC4 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		83E83A4728A984D700B40FC4 /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
+		83E83A4D28A98E2700B40FC4 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		83E83A5128AABE8200B40FC4 /* VerificationModelInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationModelInput.swift; sourceTree = "<group>"; };
 		83F3CC0D2847704300C05298 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		83F3CC0F2847713400C05298 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		83F3CC11284771CA00C05298 /* LoginAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAssembler.swift; sourceTree = "<group>"; };
@@ -550,20 +558,71 @@
 			children = (
 				83C24F86286D9D060086330B /* VerificationModelTimeLeft.swift */,
 				83C24F87286D9D060086330B /* VerificationModelCode.swift */,
+				83E83A5128AABE8200B40FC4 /* VerificationModelInput.swift */,
 			);
 			path = Items;
 			sourceTree = "<group>";
 		};
-		83F3CC0B2847702900C05298 /* Modules */ = {
+		83E83A4428A9844D00B40FC4 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				83E83A4628A984C800B40FC4 /* Coordinator */,
+				83E83A4528A984BE00B40FC4 /* Modules */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		83E83A4528A984BE00B40FC4 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
 				8372CCB728A029750085C6D1 /* PhoneAuth */,
-				DB5A838F285D00B100F3C3A5 /* Home */,
 				838B6B6A2868AFFA001DD111 /* Verification */,
-				FB0014472859FBE000943360 /* Profile */,
 				83F3CC0C2847703100C05298 /* Login */,
 			);
 			path = Modules;
+			sourceTree = "<group>";
+		};
+		83E83A4628A984C800B40FC4 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				83E83A4728A984D700B40FC4 /* AuthCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		83E83A4928A98DD900B40FC4 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				83E83A4C28A98E0A00B40FC4 /* Coordinator */,
+				83E83A4B28A98DFD00B40FC4 /* Modules */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		83E83A4B28A98DFD00B40FC4 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				DB5A838F285D00B100F3C3A5 /* Home */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		83E83A4C28A98E0A00B40FC4 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				83E83A4D28A98E2700B40FC4 /* MainCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		83F3CC0B2847702900C05298 /* Flows */ = {
+			isa = PBXGroup;
+			children = (
+				83E83A4928A98DD900B40FC4 /* Main */,
+				83E83A4428A9844D00B40FC4 /* Auth */,
+				FB0014472859FBE000943360 /* Profile */,
+			);
+			path = Flows;
 			sourceTree = "<group>";
 		};
 		83F3CC0C2847703100C05298 /* Login */ = {
@@ -651,7 +710,7 @@
 				837F1FB028868BF4001FABC5 /* Business */,
 				FBE0175F287460FA00A79DB2 /* Navigation */,
 				DB5A838A285CEB8C00F3C3A5 /* App */,
-				83F3CC0B2847702900C05298 /* Modules */,
+				83F3CC0B2847702900C05298 /* Flows */,
 				DB0D66BB2846676100930564 /* Common */,
 			);
 			path = src;
@@ -683,6 +742,7 @@
 				DB5A8388285CEB5400F3C3A5 /* AppContext.swift */,
 				DB5A838B285CEB9D00F3C3A5 /* AppInfo.swift */,
 				DB5A838D285CEC4B00F3C3A5 /* Log.swift */,
+				83E83A4228A97C5500B40FC4 /* AppCoordinator.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -1178,8 +1238,8 @@
 				DB0D4A842886A9C4001750BC /* HomeViewModel.swift in Sources */,
 				8372CCAE289B271E0085C6D1 /* LoginModelStatus.swift in Sources */,
 				83F3CC12284771CA00C05298 /* LoginAssembler.swift in Sources */,
-				8372CCA52895DAC60085C6D1 /* RegistrationModel.swift in Sources */,
 				83C24F7E286D994A0086330B /* VerificationViewHeader+TextBigTitleSubtitleView.swift in Sources */,
+				83E83A4328A97C5500B40FC4 /* AppCoordinator.swift in Sources */,
 				8372CCDA28A03A210085C6D1 /* PhoneAuthViewItem+PhoneTextFieldViewModel.swift in Sources */,
 				83C24F80286D994A0086330B /* VerificationViewCode+VerificationInputView.swift in Sources */,
 				83C24F81286D994A0086330B /* VerificationViewCode.swift in Sources */,
@@ -1218,6 +1278,7 @@
 				ADCE2C70056E504714AF994F /* CategoryI18n+Schema.swift in Sources */,
 				8E8DC17FBCBFDAEA975F74C0 /* CategoryI18n.swift in Sources */,
 				704192811E47C576AE584354 /* Favourites+Schema.swift in Sources */,
+				83E83A4E28A98E2700B40FC4 /* MainCoordinator.swift in Sources */,
 				4C682BBEC221AEFF0609E936 /* Favourites.swift in Sources */,
 				8372CCDE28A03F460085C6D1 /* PhoneAuthViewHeader+TextBigTitleSubtitleViewModel.swift in Sources */,
 				DB0D4A882886AC92001750BC /* HomeAssembler.swift in Sources */,
@@ -1225,6 +1286,7 @@
 				9522C3FA58BF89826BB2D27F /* Feeding.swift in Sources */,
 				14AB2108BFE313718FA8AF13 /* FeedingPoint+Schema.swift in Sources */,
 				894C53219C7197F7610E9C6D /* FeedingPoint.swift in Sources */,
+				83E83A5228AABE8200B40FC4 /* VerificationModelInput.swift in Sources */,
 				FBEB291F802113F2A65D62C9 /* FeedingPointConnection+Schema.swift in Sources */,
 				55C7A18C565F680A28DBA276 /* FeedingPointConnection.swift in Sources */,
 				DBDB501B2887FE00003C6FF0 /* HomeModel+DTO.swift in Sources */,
@@ -1250,6 +1312,7 @@
 				B86954F5AEDAFD695ADFC5A6 /* Medication.swift in Sources */,
 				1EE4E0FF2FF2EEB607AEC220 /* MedicationI18n+Schema.swift in Sources */,
 				83C24F7F286D994A0086330B /* VereficationViewResendCode+TextClickableLeftIconTitleView.swift in Sources */,
+				83E83A4828A984D700B40FC4 /* AuthCoordinator.swift in Sources */,
 				47EF15E3C330DD9F407C5F35 /* MedicationI18n.swift in Sources */,
 				1F6824D22EE9243547B83894 /* Pet+Schema.swift in Sources */,
 				FB00144F2859FCDD00943360 /* ProfileModel.swift in Sources */,

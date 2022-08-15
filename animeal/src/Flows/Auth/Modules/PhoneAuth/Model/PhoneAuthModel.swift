@@ -9,7 +9,7 @@ final class PhoneAuthModel: PhoneAuthModelProtocol {
     // MARK: - Constants
     private enum Constants {
         static let phoneNumberPrefix = "+995"
-        static let maxDigitsNumber = 9
+        static let maxDigitsNumber = 12
     }
 
     // MARK: - Private properties
@@ -95,8 +95,10 @@ final class PhoneAuthModel: PhoneAuthModelProtocol {
             self?.proceedAuthenticationResponse?(result.mapError { $0 as Error })
         }
 
-        operationQueue.addOperation(signUpOperation)
-        operationQueue.addOperation(signInOperation)
+        operationQueue.addOperations(
+            [signUpOperation, signInOperation],
+            waitUntilFinished: false
+        )
     }
 
     func validateItems() -> Bool {
@@ -139,7 +141,7 @@ final class PhoneAuthModel: PhoneAuthModelProtocol {
             throw PhoneAuthValidationError.empty
         }
 
-        if phone.count != Constants.maxDigitsNumber {
+        if phone.replacingOccurrences(of: "+", with: "").count != Constants.maxDigitsNumber {
             throw PhoneAuthValidationError.incorrectPhoneNumber
         }
     }
@@ -202,9 +204,8 @@ private extension PhoneAuthModel {
 
         // swiftlint:disable cyclomatic_complexity
         override func main() {
-            defer { finish() }
             guard let signUpResult = dataStore?.result else {
-                return
+                return finish()
             }
             switch signUpResult {
             case .failure(let error) where error.detailedError == .usernameExists:
@@ -249,13 +250,16 @@ private extension PhoneAuthModel {
                     authenticationHandler?(
                         .success(PhoneAuthModelNextStep.confirm(details?.destination ?? .unknown(nil)))
                     )
+                    finish()
                 case .done:
                     authenticationHandler?(
                         .success(PhoneAuthModelNextStep.done)
                     )
+                    finish()
                 }
             case .failure(let error):
-                self.authenticationHandler?(.failure(error))
+                authenticationHandler?(.failure(error))
+                finish()
             }
         }
     }

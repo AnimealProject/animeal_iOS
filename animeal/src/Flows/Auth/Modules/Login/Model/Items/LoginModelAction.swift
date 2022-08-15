@@ -11,6 +11,17 @@ enum LoginActionType: String {
     case signInViaPhoneNumber
     case signInViaFacebook
     case signInViaAppleID
+    
+    var priority: Int {
+        switch self {
+        case .signInViaPhoneNumber:
+            return 0
+        case .signInViaFacebook:
+            return 1
+        case .signInViaAppleID:
+            return 2
+        }
+    }
 }
 
 struct LoginModelAction {

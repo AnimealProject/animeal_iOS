@@ -44,5 +44,5 @@ protocol PhoneAuthModelProtocol: AnyObject {
 
 // MARK: - Coordinator
 protocol PhoneAuthCoordinatable: Coordinatable {
-    func move(_ route: PhoneAuthRoute)
+    func moveFromPhoneAuth(to route: PhoneAuthRoute)
 }

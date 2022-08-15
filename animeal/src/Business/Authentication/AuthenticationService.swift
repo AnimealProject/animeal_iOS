@@ -7,19 +7,31 @@ import Amplify
 import AWSCognitoAuthPlugin
 
 final class AuthenticationService: AuthenticationServiceProtocol {
-    private let converter: AuthenticationAmplifyConverting
+    // MARK: - Private properties
+    private let converter: AuthenticationAmplifyConverting & AmplifyAuthenticationConverting
 
-    init(converter: AuthenticationAmplifyConverting = AuthenticationAmplifyConverter()) {
+    // MARK: - Accessible properties
+    var isSignedIn: Bool { Amplify.Auth.getCurrentUser() != nil }
+
+    // MARK: - Initialization
+    init(converter: AuthenticationAmplifyConverting & AmplifyAuthenticationConverting = AuthenticationAmplifyConverter()) {
         self.converter = converter
     }
 
+    // MARK: - Main methods
     func signUp(
         username: String,
         password: String,
         options: [AuthenticationUserAttribute]?,
         handler: @escaping AuthenticationSignUpHandler
     ) {
-        Amplify.Auth.signUp(username: username, password: password) { [weak self] result in
+        var signUpOptions: AuthSignUpRequest.Options?
+        if let options = options {
+            let userAttributes = options.map(converter.convertAuthenticationAttribute)
+            signUpOptions = AuthSignUpRequest.Options(userAttributes: userAttributes)
+        }
+
+        Amplify.Auth.signUp(username: username, password: password, options: signUpOptions) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let state):
