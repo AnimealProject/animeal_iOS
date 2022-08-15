@@ -200,6 +200,7 @@ private extension PhoneAuthModel {
             self.password = passwword
         }
 
+        // swiftlint:disable cyclomatic_complexity
         override func main() {
             defer { finish() }
             guard let signUpResult = dataStore?.result else {
@@ -258,4 +259,5 @@ private extension PhoneAuthModel {
             }
         }
     }
+    // swiftlint:enable cyclomatic_complexity
 }

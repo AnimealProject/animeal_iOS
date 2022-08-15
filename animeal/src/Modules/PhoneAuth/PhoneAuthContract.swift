@@ -31,14 +31,14 @@ protocol PhoneAuthViewState: AnyObject {
 protocol PhoneAuthModelProtocol: AnyObject {
     var fetchItemsResponse: (([PhoneAuthModelItem]) -> Void)? { get set }
     var proceedAuthenticationResponse: ((Result<PhoneAuthModelNextStep, Error>) -> Void)? { get set }
-    
+
     func fetchItems()
     func fetchItem(_ identifier: String) -> PhoneAuthModelItem?
-    
+
     func validateItems() -> Bool
-    
+
     func updateItem(_ text: String?, forIdentifier identifier: String)
-    
+
     func proceedAuthentication()
 }
 

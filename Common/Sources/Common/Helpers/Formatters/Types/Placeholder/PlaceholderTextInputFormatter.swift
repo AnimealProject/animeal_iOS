@@ -5,11 +5,11 @@ open class PlaceholderTextInputFormatter: TextInputFormatter, TextFormatter, Tex
     private let caretPositionCorrector: PlaceholderCaretPositionCalculator
     private let textFormatter: PlaceholderTextFormatter
     private let rangeCalculator: PlaceholderRangeCalculator
-    
+
     // MARK: - Properties
     var textPattern: String { textFormatter.textPattern }
     var patternSymbol: Character { textFormatter.patternSymbol }
-    
+
     // MARK: - Life cycle
     public init(
         textPattern: String,
@@ -25,12 +25,12 @@ open class PlaceholderTextInputFormatter: TextInputFormatter, TextFormatter, Tex
         )
         self.rangeCalculator = PlaceholderRangeCalculator()
     }
-    
+
     // MARK: - TextInputFormatter
     open func formatInput(currentText: String, range: NSRange, replacementString text: String) -> TextFormattedValue {
         guard let swiftRange = Range(range, in: currentText) else { return .zero }
         let oldUnformattedText = textFormatter.unformat(currentText) ?? ""
-        
+
         let unformattedCurrentTextRange = rangeCalculator.unformattedRange(
             currentText: currentText,
             textPattern: textPattern,
@@ -40,21 +40,21 @@ open class PlaceholderTextInputFormatter: TextInputFormatter, TextFormatter, Tex
             asIn: currentText,
             sourceRange: unformattedCurrentTextRange
         )
-        
+
         let newText = oldUnformattedText.replacingCharacters(in: unformattedRange, with: text)
-        
+
         let formattedText = textFormatter.format(newText) ?? ""
         let formattedTextRange = formattedText.getSameRange(
             asIn: currentText,
             sourceRange: swiftRange
         )
-        
+
         let caretOffset = getCorrectedCaretPosition(
             newText: formattedText,
             range: formattedTextRange,
             replacementString: text
         )
-        
+
         return TextFormattedValue(
             formattedText: formattedText,
             caretBeginOffset: caretOffset

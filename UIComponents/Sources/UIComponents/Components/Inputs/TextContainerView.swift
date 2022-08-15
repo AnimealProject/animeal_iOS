@@ -35,7 +35,7 @@ open class TextContainerView: UIView {
     // MARK: - Setup
     private func setup() {
         addSubview(contentView.prepareForAutoLayout())
-        
+
         if let leftView = leftView {
             addSubview(leftView.prepareForAutoLayout())
             leftView.leadingAnchor ~= leadingAnchor
@@ -45,7 +45,7 @@ open class TextContainerView: UIView {
         } else {
             contentView.leadingAnchor ~= leadingAnchor
         }
-        
+
         contentView.topAnchor ~= topAnchor
         contentView.bottomAnchor ~= bottomAnchor
 

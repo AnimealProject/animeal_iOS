@@ -29,7 +29,7 @@ extension PhoneAuthViewItem {
             )
         }
     }
-    
+
     var passwordModel: TextFieldView.Model {
         TextFieldView.Model(
             identifier: identifier,

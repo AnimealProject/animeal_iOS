@@ -1,7 +1,6 @@
 // Generated using Sourcery 1.8.1 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
-// swiftlint:disable vertical_whitespace
-// swiftlint:disable vertical_whitespace_closing_braces
+// swiftlint:disable all
 
 import Foundation
 #if os(iOS) || os(tvOS) || os(watchOS)
@@ -54,6 +53,31 @@ class FeedingPointViewMappableMock: FeedingPointViewMappable {
     }
 
 }
+class FilterViewMappableMock: FilterViewMappable {
+
+    // MARK: - mapFilterModel
+
+    var mapFilterModelCallsCount = 0
+    var mapFilterModelCalled: Bool {
+        return mapFilterModelCallsCount > 0
+    }
+    var mapFilterModelReceivedInput: [HomeModel.FilterItem]?
+    var mapFilterModelReceivedInvocations: [[HomeModel.FilterItem]] = []
+    var mapFilterModelReturnValue: FilterModel!
+    var mapFilterModelClosure: (([HomeModel.FilterItem]) -> FilterModel)?
+
+    func mapFilterModel(_ input: [HomeModel.FilterItem]) -> FilterModel {
+        mapFilterModelCallsCount += 1
+        mapFilterModelReceivedInput = input
+        mapFilterModelReceivedInvocations.append(input)
+        if let mapFilterModelClosure = mapFilterModelClosure {
+            return mapFilterModelClosure(input)
+        } else {
+            return mapFilterModelReturnValue
+        }
+    }
+
+}
 class HomeModelProtocolMock: HomeModelProtocol {
 
     // MARK: - fetchFeedingPoints
@@ -71,6 +95,40 @@ class HomeModelProtocolMock: HomeModelProtocol {
         fetchFeedingPointsReceivedCompletion = completion
         fetchFeedingPointsReceivedInvocations.append(completion)
         fetchFeedingPointsClosure?(completion)
+    }
+
+    // MARK: - fetchFilterItems
+
+    var fetchFilterItemsCallsCount = 0
+    var fetchFilterItemsCalled: Bool {
+        return fetchFilterItemsCallsCount > 0
+    }
+    var fetchFilterItemsReceivedCompletion: ((([HomeModel.FilterItem]) -> Void))?
+    var fetchFilterItemsReceivedInvocations: [((([HomeModel.FilterItem]) -> Void))?] = []
+    var fetchFilterItemsClosure: (((([HomeModel.FilterItem]) -> Void)?) -> Void)?
+
+    func fetchFilterItems(_ completion: (([HomeModel.FilterItem]) -> Void)?) {
+        fetchFilterItemsCallsCount += 1
+        fetchFilterItemsReceivedCompletion = completion
+        fetchFilterItemsReceivedInvocations.append(completion)
+        fetchFilterItemsClosure?(completion)
+    }
+
+    // MARK: - proceedFilter
+
+    var proceedFilterCallsCount = 0
+    var proceedFilterCalled: Bool {
+        return proceedFilterCallsCount > 0
+    }
+    var proceedFilterReceivedIdentifier: HomeModel.FilterItemIdentifier?
+    var proceedFilterReceivedInvocations: [HomeModel.FilterItemIdentifier] = []
+    var proceedFilterClosure: ((HomeModel.FilterItemIdentifier) -> Void)?
+
+    func proceedFilter(_ identifier: HomeModel.FilterItemIdentifier) {
+        proceedFilterCallsCount += 1
+        proceedFilterReceivedIdentifier = identifier
+        proceedFilterReceivedInvocations.append(identifier)
+        proceedFilterClosure?(identifier)
     }
 
 }
@@ -312,6 +370,141 @@ class LoginViewOnboardingStepsMappableMock: LoginViewOnboardingStepsMappable {
             return mapStepsClosure(input)
         } else {
             return mapStepsReturnValue
+        }
+    }
+
+}
+class PhoneAuthModelProtocolMock: PhoneAuthModelProtocol {
+    var fetchItemsResponse: (([PhoneAuthModelItem]) -> Void)?
+    var proceedAuthenticationResponse: ((Result<PhoneAuthModelNextStep, Error>) -> Void)?
+
+    // MARK: - fetchItems
+
+    var fetchItemsCallsCount = 0
+    var fetchItemsCalled: Bool {
+        return fetchItemsCallsCount > 0
+    }
+    var fetchItemsClosure: (() -> Void)?
+
+    func fetchItems() {
+        fetchItemsCallsCount += 1
+        fetchItemsClosure?()
+    }
+
+    // MARK: - fetchItem
+
+    var fetchItemCallsCount = 0
+    var fetchItemCalled: Bool {
+        return fetchItemCallsCount > 0
+    }
+    var fetchItemReceivedIdentifier: String?
+    var fetchItemReceivedInvocations: [String] = []
+    var fetchItemReturnValue: PhoneAuthModelItem?
+    var fetchItemClosure: ((String) -> PhoneAuthModelItem?)?
+
+    func fetchItem(_ identifier: String) -> PhoneAuthModelItem? {
+        fetchItemCallsCount += 1
+        fetchItemReceivedIdentifier = identifier
+        fetchItemReceivedInvocations.append(identifier)
+        if let fetchItemClosure = fetchItemClosure {
+            return fetchItemClosure(identifier)
+        } else {
+            return fetchItemReturnValue
+        }
+    }
+
+    // MARK: - validateItems
+
+    var validateItemsCallsCount = 0
+    var validateItemsCalled: Bool {
+        return validateItemsCallsCount > 0
+    }
+    var validateItemsReturnValue: Bool!
+    var validateItemsClosure: (() -> Bool)?
+
+    func validateItems() -> Bool {
+        validateItemsCallsCount += 1
+        if let validateItemsClosure = validateItemsClosure {
+            return validateItemsClosure()
+        } else {
+            return validateItemsReturnValue
+        }
+    }
+
+    // MARK: - updateItem
+
+    var updateItemForIdentifierCallsCount = 0
+    var updateItemForIdentifierCalled: Bool {
+        return updateItemForIdentifierCallsCount > 0
+    }
+    var updateItemForIdentifierReceivedArguments: (text: String?, identifier: String)?
+    var updateItemForIdentifierReceivedInvocations: [(text: String?, identifier: String)] = []
+    var updateItemForIdentifierClosure: ((String?, String) -> Void)?
+
+    func updateItem(_ text: String?, forIdentifier identifier: String) {
+        updateItemForIdentifierCallsCount += 1
+        updateItemForIdentifierReceivedArguments = (text: text, identifier: identifier)
+        updateItemForIdentifierReceivedInvocations.append((text: text, identifier: identifier))
+        updateItemForIdentifierClosure?(text, identifier)
+    }
+
+    // MARK: - proceedAuthentication
+
+    var proceedAuthenticationCallsCount = 0
+    var proceedAuthenticationCalled: Bool {
+        return proceedAuthenticationCallsCount > 0
+    }
+    var proceedAuthenticationClosure: (() -> Void)?
+
+    func proceedAuthentication() {
+        proceedAuthenticationCallsCount += 1
+        proceedAuthenticationClosure?()
+    }
+
+}
+class PhoneAuthViewItemMappableMock: PhoneAuthViewItemMappable {
+
+    // MARK: - mapItem
+
+    var mapItemCallsCount = 0
+    var mapItemCalled: Bool {
+        return mapItemCallsCount > 0
+    }
+    var mapItemReceivedInput: PhoneAuthModelItem?
+    var mapItemReceivedInvocations: [PhoneAuthModelItem] = []
+    var mapItemReturnValue: PhoneAuthViewItem!
+    var mapItemClosure: ((PhoneAuthModelItem) -> PhoneAuthViewItem)?
+
+    func mapItem(_ input: PhoneAuthModelItem) -> PhoneAuthViewItem {
+        mapItemCallsCount += 1
+        mapItemReceivedInput = input
+        mapItemReceivedInvocations.append(input)
+        if let mapItemClosure = mapItemClosure {
+            return mapItemClosure(input)
+        } else {
+            return mapItemReturnValue
+        }
+    }
+
+    // MARK: - mapItems
+
+    var mapItemsCallsCount = 0
+    var mapItemsCalled: Bool {
+        return mapItemsCallsCount > 0
+    }
+    var mapItemsReceivedInput: [PhoneAuthModelItem]?
+    var mapItemsReceivedInvocations: [[PhoneAuthModelItem]] = []
+    var mapItemsReturnValue: [PhoneAuthViewItem]!
+    var mapItemsClosure: (([PhoneAuthModelItem]) -> [PhoneAuthViewItem])?
+
+    func mapItems(_ input: [PhoneAuthModelItem]) -> [PhoneAuthViewItem] {
+        mapItemsCallsCount += 1
+        mapItemsReceivedInput = input
+        mapItemsReceivedInvocations.append(input)
+        if let mapItemsClosure = mapItemsClosure {
+            return mapItemsClosure(input)
+        } else {
+            return mapItemsReturnValue
         }
     }
 

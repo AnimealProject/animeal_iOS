@@ -83,7 +83,7 @@ public final class PhoneTextFieldView: UIView, TextFieldContainable {
         item.textAlignment = .right
         return item
     }()
-    
+
     // MARK: - Identifier
     public var identifier: String
 

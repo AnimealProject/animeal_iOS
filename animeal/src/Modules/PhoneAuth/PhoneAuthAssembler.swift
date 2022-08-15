@@ -15,7 +15,7 @@ enum PhoneAuthAssembler {
             mapper: PhoneAuthViewItemMapper()
         )
         let view = PhoneAuthViewController(viewModel: viewModel)
-        
+
         viewModel.setup()
 
         return view

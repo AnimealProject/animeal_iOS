@@ -35,7 +35,7 @@ public final class FeedingPointView: UIView {
 
         if circleLayer.superlayer == nil {
             circleLayer.isHidden = true
-            circleLayer.frame =  CGRect(x: -57, y: -57, width: 174, height: 174)
+            circleLayer.frame = CGRect(x: -57, y: -57, width: 174, height: 174)
             layer.insertSublayer(circleLayer, at: 0)
         }
     }
@@ -53,7 +53,7 @@ private extension FeedingPointView {
     }
 
     @objc func handleTapAction() {
-        circleLayer.isHidden = !circleLayer.isHidden
+        circleLayer.isHidden.toggle()
         guard let identifier = model?.identifier else { return }
         tapAction?(identifier)
     }

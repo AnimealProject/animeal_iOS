@@ -16,14 +16,14 @@ class PlaceholderRangeCalculator {
             text: currentText,
             in: range
         )
-        
+
         return currentText.getRangeWithOffsets(
             sourceRange: range,
             lowerBoundOffset: -numberOfFormatCharsBeforeRange,
             upperBoundOffset: -numberOfFormatCharsInRange
         )
     }
-    
+
     private func getNumberOfFormatChars(
         textPattern: String,
         text: String,
@@ -33,11 +33,13 @@ class PlaceholderRangeCalculator {
         let patternLeftSlice = textPattern.leftSlice(limit: textLeftSlice.count)
         var result = 0
         for (textSliceChar, patternSliceChar) in zip(textLeftSlice, patternLeftSlice) {
-            if textSliceChar == patternSliceChar { result += 1 }
+            if textSliceChar == patternSliceChar {
+                result += 1
+            }
         }
         return result
     }
-    
+
     private func getNumberOfFormatChars(
         textPattern: String,
         text: String,
@@ -46,7 +48,7 @@ class PlaceholderRangeCalculator {
         let textSlice = text.slice(in: range)
         let textPatternRange = textPattern.getSameRange(asIn: text, sourceRange: range)
         let patternSlice = textPattern.slice(in: textPatternRange)
-        
+
         var result = 0
         for (textSliceCharIndex, textSliceChar) in textSlice.enumerated() {
             let isSameCharacter = patternSlice.isSameCharacter(

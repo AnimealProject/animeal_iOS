@@ -5,7 +5,7 @@ class PlaceholderCaretPositionCalculator {
     let textPattern: String
     let patternSymbol: Character
     private let defaultFormatter: DefaultTextFormatter
-    
+
     // MARK: - Life Cycle
     init(textPattern: String, patternSymbol: Character) {
         self.textPattern = textPattern
@@ -15,12 +15,12 @@ class PlaceholderCaretPositionCalculator {
             patternSymbol: patternSymbol
         )
     }
-    
+
     func calculateCaretPositionOffset(currentText: String) -> Int {
         let diff = currentText.getRemovingMatches(toMatch: textPattern)
         return diff.utf16Length
     }
-    
+
     func calculateCaretPositionOffset(
         newText: String,
         originalRange range: Range<String.Index>,
@@ -41,7 +41,7 @@ class PlaceholderCaretPositionCalculator {
         }
         return offset
     }
-    
+
     private func offsetForRemove(newText: String, lowerBound: String.Index) -> Int {
         let textPatternLowerBound = textPattern.getSameIndex(asIn: newText, sourceIndex: lowerBound)
         let textPatternIndex = textPattern.findIndexBefore(
@@ -52,7 +52,7 @@ class PlaceholderCaretPositionCalculator {
         let leftSlice = newText.leftSlice(end: index)
         return leftSlice.utf16Length
     }
-    
+
     private func offsetForInsert(newText: String, lowerBound: String.Index, replacementLength: Int) -> Int {
         let textPatternLowerBound = textPattern.getSameIndex(
             asIn: newText,

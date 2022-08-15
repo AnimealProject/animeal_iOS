@@ -48,10 +48,10 @@ public final class TextFieldView: UIView, TextFieldContainable {
         textField.isUserInteractionEnabled = model.isEnabled
         return textField
     }()
-    
+
     // MARK: - Identifier
     public var identifier: String
-    
+
     // MARK: - Delegate
     public var textFieldDelegate: UITextFieldDelegate?
 

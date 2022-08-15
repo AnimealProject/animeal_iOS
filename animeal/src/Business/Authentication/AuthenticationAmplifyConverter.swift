@@ -45,7 +45,7 @@ struct AuthenticationAmplifyConverter: AuthenticationAmplifyConverting {
             return AuthenticationError.sessionExpired(errorDescription, recoverySuggestion, convertedOriginalError)
         }
     }
-    
+
     func convertOriginalError(_ originalError: Error?) -> AuthenticationDetailedError? {
         guard let originalError = originalError as? AWSCognitoAuthError else { return nil }
         switch originalError {

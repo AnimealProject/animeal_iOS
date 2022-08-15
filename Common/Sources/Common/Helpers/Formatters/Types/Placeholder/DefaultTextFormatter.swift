@@ -4,7 +4,7 @@ open class DefaultTextFormatter: TextFormatter, TextUnformatter {
     // MARK: - Properties
     public let textPattern: String
     public let patternSymbol: Character
-  
+
     // MARK: - Life cycle
     public init(
         textPattern: String,
@@ -19,7 +19,7 @@ open class DefaultTextFormatter: TextFormatter, TextUnformatter {
         var formatted = ""
         var unformattedIndex = 0
         var patternIndex = 0
-    
+
         while patternIndex < textPattern.count && unformattedIndex < unformattedText.count {
             guard let patternCharacter = textPattern.characterAt(patternIndex) else { break }
             if patternCharacter == patternSymbol {
@@ -39,7 +39,7 @@ open class DefaultTextFormatter: TextFormatter, TextUnformatter {
         guard let formatted = formatted else { return nil }
         var unformatted = String()
         var formattedIndex = 0
-    
+
         while formattedIndex < formatted.count {
             if let formattedCharacter = formatted.characterAt(formattedIndex) {
                 if formattedIndex >= textPattern.count {
@@ -53,8 +53,8 @@ open class DefaultTextFormatter: TextFormatter, TextUnformatter {
         }
         return unformatted
     }
-  
-    public struct Constants {
+
+    public enum Constants {
         public static let defaultPatternSymbol: Character = "#"
     }
 }
