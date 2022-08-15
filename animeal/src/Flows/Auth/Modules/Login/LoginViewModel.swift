@@ -33,20 +33,23 @@ final class LoginViewModel: LoginViewModelLifeCycle, LoginViewInteraction, Login
         self.actionsMapper = actionsMapper
         self.onboardingMapper = onboardingMapper
         self.viewActions = []
+        setup()
     }
 
     // MARK: - Life cycle
     func setup() {
         model.proceedAuthentificationResponse = { [weak self] status in
-            switch status {
-            case .confirmationCodeSent:
-                self?.coordinator.move(LoginRoute.codeConfirmation)
-            case .authentificated:
-                self?.coordinator.move(LoginRoute.profileFilling)
-            case .resetPassword:
-                break
-            case .failure:
-                break
+            DispatchQueue.main.async {
+                switch status {
+                case .confirmationCodeSent:
+                    self?.coordinator.moveFromLogin(to: LoginRoute.codeConfirmation)
+                case .authentificated:
+                    self?.coordinator.moveFromLogin(to: LoginRoute.done)
+                case .resetPassword:
+                    break
+                case .failure:
+                    break
+                }
             }
         }
     }
@@ -72,7 +75,7 @@ final class LoginViewModel: LoginViewModelLifeCycle, LoginViewInteraction, Login
             else { return }
 
             if modelAction.isCustomAuthenticationSupported {
-                coordinator.move(LoginRoute.customAuthentication)
+                coordinator.moveFromLogin(to: LoginRoute.customAuthentication)
             } else {
                 let type = modelAction.type
                 model.proceedAuthentication(type)

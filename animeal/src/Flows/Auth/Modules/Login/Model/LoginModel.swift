@@ -49,7 +49,9 @@ final class LoginModel: LoginModelProtocol {
 
     func fetchActions() -> [LoginModelAction] {
         let types = Array(providers.keys)
-        return types.map { LoginModelAction(type: $0) }
+        return types
+            .sorted { $0.priority < $1.priority }
+            .map { LoginModelAction(type: $0) }
     }
 
     func proceedAuthentication(_ type: LoginActionType) {

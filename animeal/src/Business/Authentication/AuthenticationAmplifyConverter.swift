@@ -15,8 +15,47 @@ protocol AuthenticationAmplifyConverting {
     func converAuthUserAttributeKey(_ authUserAttributeKey: AuthUserAttributeKey?) -> AuthenticationUserAttributeKey?
 }
 
+protocol AmplifyAuthenticationConverting {
+    func convertAuthenticationAttribute(_ attribute: AuthenticationUserAttribute) -> AuthUserAttribute
+}
+
 // swiftlint:disable cyclomatic_complexity
-struct AuthenticationAmplifyConverter: AuthenticationAmplifyConverting {
+struct AuthenticationAmplifyConverter: AuthenticationAmplifyConverting, AmplifyAuthenticationConverting {
+    func convertAuthenticationAttribute(_ attribute: AuthenticationUserAttribute) -> AuthUserAttribute {
+        switch attribute.key {
+        case .address:
+            return AuthUserAttribute.init(AuthUserAttributeKey.address, value: attribute.value)
+        case .birthDate:
+            return AuthUserAttribute.init(AuthUserAttributeKey.birthDate, value: attribute.value)
+        case .email:
+            return AuthUserAttribute.init(AuthUserAttributeKey.email, value: attribute.value)
+        case .familyName:
+            return AuthUserAttribute.init(AuthUserAttributeKey.familyName, value: attribute.value)
+        case .gender:
+            return AuthUserAttribute.init(AuthUserAttributeKey.gender, value: attribute.value)
+        case .givenName:
+            return AuthUserAttribute.init(AuthUserAttributeKey.givenName, value: attribute.value)
+        case .locale:
+            return AuthUserAttribute.init(AuthUserAttributeKey.locale, value: attribute.value)
+        case .middleName:
+            return AuthUserAttribute.init(AuthUserAttributeKey.middleName, value: attribute.value)
+        case .name:
+            return AuthUserAttribute.init(AuthUserAttributeKey.name, value: attribute.value)
+        case .nickname:
+            return AuthUserAttribute.init(AuthUserAttributeKey.nickname, value: attribute.value)
+        case .phoneNumber:
+            return AuthUserAttribute.init(AuthUserAttributeKey.phoneNumber, value: attribute.value)
+        case .picture:
+            return AuthUserAttribute.init(AuthUserAttributeKey.picture, value: attribute.value)
+        case .preferredUsername:
+            return AuthUserAttribute.init(AuthUserAttributeKey.preferredUsername, value: attribute.value)
+        case .custom(let key):
+            return AuthUserAttribute.init(AuthUserAttributeKey.custom(key), value: attribute.value)
+        case .unknown(let key):
+            return AuthUserAttribute.init(AuthUserAttributeKey.unknown(key), value: attribute.value)
+        }
+    }
+
     func convertAmplifyError(_ amplifyError: AuthError) -> AuthenticationError {
         switch amplifyError {
         case let .configuration(errorDescription, recoverySuggestion, originalError):

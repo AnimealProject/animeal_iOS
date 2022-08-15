@@ -84,15 +84,16 @@ public final class OnboardingView: UIView {
     // MARK: - Setup
     private func setup() {
         addSubview(collectionView)
-        collectionView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        collectionView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        collectionView.leadingAnchor ~= leadingAnchor
+        collectionView.topAnchor ~= topAnchor
+        collectionView.trailingAnchor ~= trailingAnchor
 
         addSubview(stepperView)
-        stepperView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        stepperView.topAnchor.constraint(equalTo: collectionView.bottomAnchor).isActive = true
-        stepperView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        stepperView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        stepperView.leadingAnchor ~= leadingAnchor
+        stepperView.topAnchor ~= collectionView.bottomAnchor + 16.0
+        stepperView.trailingAnchor ~= trailingAnchor
+        stepperView.bottomAnchor ~= bottomAnchor
+        stepperView.heightAnchor ~= 3.0
 
         collectionView.register(
             OnboardingImageStepCell.self,

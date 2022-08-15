@@ -38,5 +38,5 @@ protocol LoginModelProtocol: AnyObject {
 
 // MARK: - Coordinator
 protocol LoginCoordinatable: Coordinatable {
-    func move(_ route: LoginRoute)
+    func moveFromLogin(to route: LoginRoute)
 }

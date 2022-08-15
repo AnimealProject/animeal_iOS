@@ -37,7 +37,7 @@ final class LoginCoordinator: LoginCoordinatable {
     }
 
     // MARK: - Routing
-    func move(_ route: LoginRoute) {
+    func moveFromLogin(to route: LoginRoute) {
         switch route {
         case .customAuthentication:
             guard let childNavigator = navigator.makeChildNavigator() else { return }
@@ -45,7 +45,7 @@ final class LoginCoordinator: LoginCoordinatable {
             phoneAuthCoordinator.start()
         case .codeConfirmation:
             break
-        case .profileFilling:
+        case .done:
             break
         }
     }
