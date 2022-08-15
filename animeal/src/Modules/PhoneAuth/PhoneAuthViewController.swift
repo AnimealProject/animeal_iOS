@@ -9,7 +9,7 @@ final class PhoneAuthViewController: BaseViewController, PhoneAuthViewable {
     private let headerView = TextBigTitleSubtitleView().prepareForAutoLayout()
     private let scrollView = UIScrollView().prepareForAutoLayout()
     private let contentView = UIStackView().prepareForAutoLayout()
-    private var inputViews = [TextFieldContainable]()
+    private var inputViews: [TextFieldContainable] = []
 
     // MARK: - Dependencies
     private let viewModel: PhoneAuthViewModelProtocol

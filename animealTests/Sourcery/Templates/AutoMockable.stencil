@@ -1,5 +1,4 @@
-// swiftlint:disable vertical_whitespace
-// swiftlint:disable vertical_whitespace_closing_braces
+// swiftlint:disable all
 
 import Foundation
 #if os(iOS) || os(tvOS) || os(watchOS)

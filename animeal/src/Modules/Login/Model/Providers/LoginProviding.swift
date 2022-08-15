@@ -35,7 +35,7 @@ final class FacebookLoginProvider: LoginProviding {
         self.presentationAnchor = presentationAnchor
         self.authenticationService = authenticationService
     }
-    
+
     func authenticate(_ listener: @escaping LoginListener) {
         authenticationService.signIn(
             provider: AuthenticationProvider.facebook(presentationAnchor),

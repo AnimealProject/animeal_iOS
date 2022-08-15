@@ -89,7 +89,11 @@ extension String {
             limitedBy: self.endIndex
         ) ?? self.endIndex
         let endIndexDistance = source.distance(from: source.startIndex, to: sourceRange.upperBound)
-        let endIndex = self.index(self.startIndex, offsetBy: endIndexDistance, limitedBy: self.endIndex) ?? self.endIndex
+        let endIndex = self.index(
+            self.startIndex,
+            offsetBy: endIndexDistance,
+            limitedBy: self.endIndex
+        ) ?? self.endIndex
         return startIndex..<endIndex
     }
 

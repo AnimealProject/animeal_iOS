@@ -12,7 +12,7 @@ public protocol AuthenticationServiceHolder {
 
 public protocol AuthenticationServiceProtocol {
     func signUp(username: String, password: String, options: [AuthenticationUserAttribute]?, handler: @escaping AuthenticationSignUpHandler)
-    
+
     func signIn(username: String, password: String, options: [AuthenticationUserAttribute]?, handler: @escaping AuthenticationSignInHanler)
 
     func signIn(provider: AuthenticationProvider, options: [AuthenticationUserAttribute]?, handler: @escaping AuthenticationSignInHanler)

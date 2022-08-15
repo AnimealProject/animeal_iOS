@@ -74,7 +74,7 @@ extension AuthenticationError: Error {
             return "An unknown error occurred"
         }
     }
-    
+
     public var detailedError: AuthenticationDetailedError? {
         guard let error = underlyingError as? AuthenticationDetailedError
         else { return nil }
