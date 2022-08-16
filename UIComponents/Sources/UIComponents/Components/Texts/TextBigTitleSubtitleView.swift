@@ -82,10 +82,6 @@ public final class TextBigTitleSubtitleView: UIView {
             UILayoutPriority.required,
             for: NSLayoutConstraint.Axis.vertical
         )
-        subtitleView.setContentCompressionResistancePriority(
-            UILayoutPriority.required,
-            for: NSLayoutConstraint.Axis.vertical
-        )
         subtitleView.setContentHuggingPriority(
             UILayoutPriority.required,
             for: NSLayoutConstraint.Axis.vertical

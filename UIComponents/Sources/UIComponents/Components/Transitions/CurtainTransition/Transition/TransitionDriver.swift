@@ -4,6 +4,10 @@ import UIKit
 final class TransitionDriver: UIPercentDrivenInteractiveTransition {
     private weak var presentedController: UIViewController?
     private var panRecognizer: UIPanGestureRecognizer?
+    
+    private var cancelledOtherGestureRecognizers = NSHashTable<UIGestureRecognizer>(
+        options: [.weakMemory, .objectPointerPersonality]
+    )
 
     // MARK: - Direction
     var direction: TransitionDirection = .present
@@ -13,6 +17,7 @@ final class TransitionDriver: UIPercentDrivenInteractiveTransition {
         presentedController = controller
 
         panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handle(recognizer:)))
+        panRecognizer?.delegate = self
         presentedController?.view.addGestureRecognizer(panRecognizer!)
     }
 
@@ -38,13 +43,14 @@ final class TransitionDriver: UIPercentDrivenInteractiveTransition {
         case .dismiss:
             handleDismiss(recognizer: r)
         }
+        handleCancelledGestureRecognersState(recognizer: r)
     }
 }
 
 // MARK: - Gesture Handling
-extension TransitionDriver {
+private extension TransitionDriver {
 
-    private func handlePresentation(recognizer r: UIPanGestureRecognizer) {
+    func handlePresentation(recognizer r: UIPanGestureRecognizer) {
         switch r.state {
         case .began:
             pause()
@@ -67,7 +73,7 @@ extension TransitionDriver {
         }
     }
 
-    private func handleDismiss(recognizer r: UIPanGestureRecognizer) {
+    func handleDismiss(recognizer r: UIPanGestureRecognizer) {
         switch r.state {
         case .began:
             pause() // Pause allows to detect isRunning
@@ -93,14 +99,58 @@ extension TransitionDriver {
             break
         }
     }
+    
+    func handleCancelledGestureRecognersState(recognizer r: UIPanGestureRecognizer) {
+        switch r.state {
+        case .began, .changed:
+            break
+        default:
+            cancelledOtherGestureRecognizers.allObjects
+                .forEach { $0.isEnabled = true }
+        }
+    }
 
     var maxTranslation: CGFloat {
         return presentedController?.view.frame.height ?? 0
     }
 
     /// `pause()` before call `isRunning`
-    private var isRunning: Bool {
+    var isRunning: Bool {
         return percentComplete != 0
+    }
+}
+
+// MARK: - UIGestureRecognizerDelegate
+extension TransitionDriver: UIGestureRecognizerDelegate {
+    func gestureRecognizer(
+        _ gestureRecognizer: UIGestureRecognizer,
+        shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer
+    ) -> Bool {
+        let scrollViewContainableRepresentation = "scrollView"
+        let selector = Selector(stringLiteral: scrollViewContainableRepresentation)
+        guard
+            let container = presentedController?.view,
+            let panGestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer,
+            otherGestureRecognizer is UIPanGestureRecognizer,
+            otherGestureRecognizer.responds(to: selector),
+            let otherScrollView = otherGestureRecognizer.perform(selector).takeUnretainedValue() as? UIScrollView
+        else { return true }
+        
+        let velocity = panGestureRecognizer.velocity(in: container).y
+        guard velocity != 0.0 else { return false }
+        let isGestureDown = velocity > 0.0
+        
+        let isEdgePanGestureDown = isGestureDown && otherScrollView.contentOffset.y <= 0.0
+        let isEdgePanGestureUp = !isGestureDown &&
+            (otherScrollView.contentOffset.y + otherScrollView.bounds.size.height) >= otherScrollView.contentSize.height
+        
+        if isEdgePanGestureDown || isEdgePanGestureUp {
+            otherGestureRecognizer.isEnabled = false
+            cancelledOtherGestureRecognizers.add(otherGestureRecognizer)
+            return true
+        } else {
+            return false
+        }
     }
 }
 
