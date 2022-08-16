@@ -5,4 +5,5 @@ public enum TransitionDetent {
     case custom(CGFloat)
     case medium
     case large
+    case selfSizable
 }
