@@ -1,10 +1,14 @@
 import UIKit
-import MapboxMaps
+import Style
 import UIComponents
+@_spi(Experimental) import MapboxMaps
 
 class HomeViewController: UIViewController {
+    // MARK: - Private properties
     private var mapView: MapView!
-    private var segmentedControl = SegmentedControl()
+    private let segmentedControl = SegmentedControl()
+    private let userLocationButton = CircleButtonView.make()
+    private var lacationButtonBottomAnchor: NSLayoutConstraint?
 
     // MARK: - Dependencies
     private let viewModel: HomeCombinedViewModel
@@ -24,17 +28,6 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         setup()
         viewModel.load()
-    }
-
-    public func mapInitOptions() -> MapInitOptions {
-        let resourceOptions = ResourceOptions(
-            accessToken: ResourceOptionsManager.default.resourceOptions.accessToken
-        )
-
-        return MapInitOptions(
-            resourceOptions: resourceOptions,
-            styleURI: .light
-        )
     }
 }
 
@@ -69,17 +62,67 @@ extension HomeViewController: HomeViewModelOutput {
 // MARK: - Private API
 private extension HomeViewController {
     func setup() {
-        // Fake coordinates for testing needs
-        let fakeLocationCoordinates = CLLocationCoordinate2D(latitude: 41.73156045955432, longitude: 44.785400636556204)
-        let mapInitOptions = MapInitOptions(cameraOptions: CameraOptions(center: fakeLocationCoordinates, zoom: 15))
-        // Add a map view
-        mapView = MapView(frame: view.bounds, mapInitOptions: mapInitOptions)
-        mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.addSubview(mapView)
+        setupMapView()
 
         view.addSubview(segmentedControl.prepareForAutoLayout())
         segmentedControl.topAnchor ~= view.safeAreaLayoutGuide.topAnchor + 66
         segmentedControl.centerXAnchor ~= view.centerXAnchor
         segmentedControl.widthAnchor ~= 226
+
+        view.addSubview(userLocationButton.prepareForAutoLayout())
+        userLocationButton.trailingAnchor ~= view.trailingAnchor - 30
+        lacationButtonBottomAnchor = userLocationButton.bottomAnchor ~= view.safeAreaLayoutGuide.bottomAnchor - 38
+        userLocationButton.onTap = { [weak self] _ in
+            self?.easeToUserLocation()
+        }
+    }
+
+    func setupMapView() {
+        mapView = MapView(frame: view.bounds, mapInitOptions: mapInitOptions())
+        mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(mapView)
+
+        mapView.location.options.puckType = .puck2D(.makeDefault(showBearing: true))
+    }
+
+    func easeToUserLocation() {
+        mapView.camera.ease(
+            to: CameraOptions(
+                center: mapView.location.latestLocation?.coordinate,
+                zoom: 15
+            ),
+            duration: 1.3
+        )
+    }
+
+    func mapInitOptions() -> MapInitOptions {
+        let resourceOptions = ResourceOptions(
+            accessToken: ResourceOptionsManager.default.resourceOptions.accessToken
+        )
+        // Fake coordinates for testing needs
+        let fakeLocationCoordinates = CLLocationCoordinate2D(
+            latitude: 41.73156045955432,
+            longitude: 44.785400636556204
+        )
+
+        return MapInitOptions(
+            resourceOptions: resourceOptions,
+            cameraOptions: CameraOptions(center: fakeLocationCoordinates, zoom: 15),
+            styleURI: .streets
+        )
+    }
+}
+
+private extension CircleButtonView {
+    static func make() -> ButtonView {
+        let factory = ButtonViewFactory()
+        let myLocationButton = factory.makeMyLocationButton()
+        let model = CircleButtonView.Model(
+            identifier: UUID().uuidString,
+            viewType: CircleButtonView.self,
+            icon: Asset.Images.findLocation.image
+        )
+        myLocationButton.condifure(model)
+        return myLocationButton
     }
 }
