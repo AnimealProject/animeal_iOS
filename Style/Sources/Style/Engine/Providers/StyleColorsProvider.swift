@@ -22,4 +22,7 @@ public protocol StyleColorsProvider {
     var destructive: StyleColor { get }
     var alwaysLight: StyleColor { get }
     var alwaysDark: StyleColor { get }
+    var success: StyleColor { get }
+    var attention: StyleColor { get }
+    var error: StyleColor { get }
 }

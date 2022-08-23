@@ -26,11 +26,14 @@ public enum Asset {
     public static let blueWhale = ColorAsset(name: "BlueWhale")
     public static let carminePink = ColorAsset(name: "CarminePink")
     public static let dark = ColorAsset(name: "Dark")
+    public static let darkMint = ColorAsset(name: "DarkMint")
     public static let darkSkyBlue = ColorAsset(name: "DarkSkyBlue")
     public static let darkTurquoise = ColorAsset(name: "DarkTurquoise")
     public static let desertStorm = ColorAsset(name: "DesertStorm")
     public static let light = ColorAsset(name: "Light")
+    public static let orangePeel = ColorAsset(name: "OrangePeel")
     public static let osloGrey = ColorAsset(name: "OsloGrey")
+    public static let watermelon = ColorAsset(name: "Watermelon")
   }
   public enum Images {
     public static let refreshIcon = ImageAsset(name: "refresh_icon")
@@ -50,11 +53,15 @@ public enum Asset {
     public static let signInApple = ImageAsset(name: "sign_in_apple")
     public static let signInFacebook = ImageAsset(name: "sign_in_facebook")
     public static let signInMobile = ImageAsset(name: "sign_in_mobile")
+    public static let attentionStatus = ImageAsset(name: "attention_status")
+    public static let errorStatus = ImageAsset(name: "error_status")
+    public static let successStatus = ImageAsset(name: "success_status")
     public static let glass = ImageAsset(name: "glass")
     public static let heart = ImageAsset(name: "heart")
     public static let home = ImageAsset(name: "home")
     public static let more = ImageAsset(name: "more")
     public static let podium = ImageAsset(name: "podium")
+    public static let cityLogo = ImageAsset(name: "city_logo")
     public static let animealLogo = ImageAsset(name: "animeal_logo")
   }
 }
