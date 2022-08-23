@@ -41,6 +41,15 @@ public struct StyleDefaultColorsProvider: StyleColorsProvider {
     public var alwaysDark: StyleColor {
         StyleColor(Asset.Colors.dark.color)
     }
+    public var success: StyleColor {
+        StyleColor(Asset.Colors.darkMint.color)
+    }
+    public var attention: StyleColor {
+        StyleColor(Asset.Colors.orangePeel.color)
+    }
+    public var error: StyleColor {
+        StyleColor(Asset.Colors.watermelon.color)
+    }
 
     public init() { }
 }

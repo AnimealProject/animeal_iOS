@@ -230,6 +230,31 @@ class ComponentsTableViewController: UIViewController, UITableViewDataSource, UI
                 return viewController
             }
         )
+
+        dataSource.append(
+            ComponentPresentation(
+                description: "PlaceInfoView"
+            ) {
+                let viewController = ComponentViewController<PlaceInfoView>()
+                viewController.configureElement = { element in
+                    guard let superView = element.superview else {
+                        return
+                    }
+
+                    element.leadingAnchor ~= superView.leadingAnchor + 20
+                    element.trailingAnchor ~= superView.trailingAnchor - 20
+                    element.centerYAnchor ~= superView.centerYAnchor
+                    element.centerXAnchor ~= superView.centerXAnchor
+
+                    element.configure(PlaceInfoView.Model(
+                        icon: Asset.Images.cityLogo.image,
+                        title: "Near to Bukia Garden M.S Technical University",
+                        status: StatusModel(status: .attention("There is no food"))
+                    ))
+                }
+                return viewController
+            }
+        )
     }
 
     private func showAlert(title: String = "Title", message: String = "Message") {
