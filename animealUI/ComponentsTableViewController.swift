@@ -233,24 +233,42 @@ class ComponentsTableViewController: UIViewController, UITableViewDataSource, UI
 
         dataSource.append(
             ComponentPresentation(
-                description: "PlaceInfoView"
+                description: "FeedingPointViews"
             ) {
-                let viewController = ComponentViewController<PlaceInfoView>()
-                viewController.configureElement = { element in
-                    guard let superView = element.superview else {
+                let viewController = ComponentViewController<UIStackView>()
+                viewController.configureElement = { stack in
+                    guard
+                        let superView = stack.superview,
+                        let stackView = stack as? UIStackView
+                    else {
                         return
                     }
 
-                    element.leadingAnchor ~= superView.leadingAnchor + 20
-                    element.trailingAnchor ~= superView.trailingAnchor - 20
-                    element.centerYAnchor ~= superView.centerYAnchor
-                    element.centerXAnchor ~= superView.centerXAnchor
+                    stackView.leadingAnchor ~= superView.leadingAnchor + 20
+                    stackView.trailingAnchor ~= superView.trailingAnchor - 20
+                    stackView.centerYAnchor ~= superView.centerYAnchor
+                    stackView.centerXAnchor ~= superView.centerXAnchor
+                    stackView.axis = .vertical
+                    stackView.spacing = 16
 
-                    element.configure(PlaceInfoView.Model(
+                    let infoView = PlaceInfoView()
+                    stackView.addArrangedSubview(infoView)
+                    infoView.configure(PlaceInfoView.Model(
                         icon: Asset.Images.cityLogo.image,
                         title: "Near to Bukia Garden M.S Technical University",
                         status: StatusModel(status: .attention("There is no food"))
                     ))
+
+                    let paragraphView = ParagraphView()
+                    stackView.addArrangedSubview(paragraphView)
+                    paragraphView.configure(
+                        ParagraphView.Model(
+                            title: "This area covers about 100 sq.m. -S,"
+                            + " it starts with Bukia Garden and Sports At the palace."
+                            + " There are about 1000 homeless people here The dog lives with the habit"
+                            + "of helping You need."
+                        )
+                    )
                 }
                 return viewController
             }
@@ -273,6 +291,7 @@ class ComponentsTableViewController: UIViewController, UITableViewDataSource, UI
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.accessoryType = .disclosureIndicator
         cell.textLabel?.text = dataSource[indexPath.row].description
+        cell.backgroundColor = designEngine.colors.primary.uiColor
         return cell
     }
 

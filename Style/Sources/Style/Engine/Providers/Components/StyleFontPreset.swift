@@ -15,6 +15,7 @@ public protocol StyleFontNamePreset {
     var medium: String { get }
     var semibold: String { get }
     var regular: String { get }
+    var light: String { get }
 }
 
 /// Describes font presets used by the StyleDefaultFontsProvider.
@@ -43,6 +44,10 @@ extension StyleFontPreset {
     public var regular: String {
         return "\(familyName)-\(FontName.regular.rawValue)"
     }
+
+    public var light: String {
+        return "\(familyName)-\(FontName.light.rawValue)"
+    }
 }
 
 private enum FontName: String {
@@ -50,4 +55,5 @@ private enum FontName: String {
     case medium = "Medium"
     case semibold = "Semibold"
     case regular = "Regular"
+    case light = "Light"
 }

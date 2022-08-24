@@ -60,4 +60,12 @@ public final class StyleTypography {
         let uiFont = UIFont(name: preset.regular, size: size)
         return StyleFont(uiFont)
     }
+
+    /// Provides an instance of StyleFont in a light style that contains concreate UIFont or Font you need.
+    ///
+    /// - Returns: A concrete instance of ``StyleFont``.
+    public func light(_ size: CGFloat) -> StyleFont {
+        let uiFont = UIFont(name: preset.light, size: size)
+        return StyleFont(uiFont)
+    }
 }
