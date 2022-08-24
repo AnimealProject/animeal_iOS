@@ -36,18 +36,19 @@ final class AppCoordinator: AppCoordinatable {
 
     // MARK: - Life cycle
     func start() {
-        if authentificationService.isSignedIn {
+        // Authentication flow temporarily disabled since backend are not ready
+        // if authentificationService.isSignedIn {
             let mainCoordinator = MainCoordinator(presentingWindow: mainWindow) { }
             childCoordinators.append(mainCoordinator)
             mainCoordinator.start()
-        } else {
-            let authenticationCoordinator = AuthCoordinator(presentingWindow: authWindow) { [weak self] in
-                self?.childCoordinators.removeAll()
-                self?.start()
-            }
-            childCoordinators.append(authenticationCoordinator)
-            authenticationCoordinator.start()
-        }
+        // } else {
+            // let authenticationCoordinator = AuthCoordinator(presentingWindow: authWindow) { [weak self] in
+                // self?.childCoordinators.removeAll()
+                // self?.start()
+            // }
+            // childCoordinators.append(authenticationCoordinator)
+            // authenticationCoordinator.start()
+        // }
     }
 
     func stop() { }
