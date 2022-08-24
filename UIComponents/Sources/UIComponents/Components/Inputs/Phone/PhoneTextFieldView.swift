@@ -78,7 +78,7 @@ public final class PhoneTextFieldView: UIView, TextFieldContainable {
     private lazy var descriptionView: UILabel = {
         let item = UILabel().prepareForAutoLayout()
         item.font = designEngine.fonts.primary.medium(10.0).uiFont
-        item.textColor = designEngine.colors.textDescriptive.uiColor
+        item.textColor = designEngine.colors.error.uiColor
         item.numberOfLines = 1
         item.textAlignment = .right
         return item
@@ -130,14 +130,14 @@ public final class PhoneTextFieldView: UIView, TextFieldContainable {
         switch textFieldState {
         case .normal:
             textFieldView.font = designEngine.fonts.primary.medium(16.0).uiFont
-            textFieldView.textColor = designEngine.colors.textSecondary.uiColor
-            lineView.backgroundColor = designEngine.colors.secondary.uiColor
-            descriptionView.textColor = designEngine.colors.textDescriptive.uiColor
+            textFieldView.textColor = designEngine.colors.textPrimary.uiColor
+            lineView.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+            descriptionView.textColor = designEngine.colors.error.uiColor
         case .error:
             textFieldView.font = designEngine.fonts.primary.medium(16.0).uiFont
-            textFieldView.textColor = designEngine.colors.textSecondary.uiColor
-            lineView.backgroundColor = designEngine.colors.destructive.uiColor
-            descriptionView.textColor = designEngine.colors.destructive.uiColor
+            textFieldView.textColor = designEngine.colors.textPrimary.uiColor
+            lineView.backgroundColor = designEngine.colors.error.uiColor
+            descriptionView.textColor = designEngine.colors.error.uiColor
         }
     }
 

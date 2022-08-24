@@ -70,7 +70,7 @@ final class LoginViewController: UIViewController, LoginViewable {
 
     // MARK: - Setup
     private func setup() {
-        view.backgroundColor = designEngine.colors.primary.uiColor
+        view.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
 
         view.addSubview(onboardingView)
         onboardingView.topAnchor.constraint(

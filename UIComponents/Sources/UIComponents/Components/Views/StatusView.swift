@@ -93,7 +93,7 @@ public struct StatusMapper: StatusMapperProtocol {
         case .attention:
             return Asset.Colors.orangePeel.color
         case .error:
-            return Asset.Colors.watermelon.color
+            return Asset.Colors.carminePink.color
         }
     }
 }

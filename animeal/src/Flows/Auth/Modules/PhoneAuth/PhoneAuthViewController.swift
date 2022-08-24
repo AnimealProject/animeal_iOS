@@ -70,7 +70,7 @@ final class PhoneAuthViewController: BaseViewController, PhoneAuthViewable {
 private extension PhoneAuthViewController {
     // MARK: - Setup
     func setup() {
-        view.backgroundColor = designEngine.colors.primary.uiColor
+        view.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
 
         view.addSubview(scrollView)
         scrollView.leadingAnchor ~= view.leadingAnchor + 16.0
@@ -169,7 +169,7 @@ private extension UITextField {
     var placeholderTextAttributes: [NSAttributedString.Key: Any]? {
         [
             .font: designEngine.fonts.primary.medium(16.0).uiFont as Any,
-            .foregroundColor: designEngine.colors.textDescriptive.uiColor
+            .foregroundColor: designEngine.colors.error.uiColor
         ]
     }
 }

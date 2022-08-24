@@ -54,5 +54,6 @@ final class OnboardingStepperView: UIView {
         hostingViewController.view.topAnchor.constraint(equalTo: topAnchor).isActive = true
         hostingViewController.view.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         hostingViewController.view.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        hostingViewController.view.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
     }
 }

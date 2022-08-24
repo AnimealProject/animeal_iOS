@@ -14,7 +14,7 @@ class ComponentsTableViewController: UIViewController, UITableViewDataSource, UI
         super.viewDidLoad()
 
         title = "UI Components"
-        view.backgroundColor = designEngine.colors.primary.uiColor
+        view.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
         addSubviews()
         composeDataSource()
     }

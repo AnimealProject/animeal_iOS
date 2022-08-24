@@ -11,18 +11,16 @@ import Foundation
 ///
 /// - Note: Instances of this type are used by ``StyleEngine``.
 public protocol StyleColorsProvider {
-    var primary: StyleColor { get }
-    var secondary: StyleColor { get }
-    var textPrimary: StyleColor { get }
-    var textSecondary: StyleColor { get }
-    var textDescriptive: StyleColor { get }
-    var accentTint: StyleColor { get }
-    var secondaryAccentTint: StyleColor { get }
-    var disableTint: StyleColor { get }
-    var destructive: StyleColor { get }
+    var backgroundPrimary: StyleColor { get }
+    var backgroundSecondary: StyleColor { get }
     var alwaysLight: StyleColor { get }
     var alwaysDark: StyleColor { get }
+    var accent: StyleColor { get }
+    var textPrimary: StyleColor { get }
+    var textSecondary: StyleColor { get }
     var success: StyleColor { get }
     var attention: StyleColor { get }
     var error: StyleColor { get }
+    var disabled: StyleColor { get }
+    var elementSpecial: StyleColor { get }
 }

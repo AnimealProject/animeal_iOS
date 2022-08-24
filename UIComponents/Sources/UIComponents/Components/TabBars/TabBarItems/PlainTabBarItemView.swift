@@ -30,7 +30,7 @@ extension PlainTabBarItemView: TabBarItemView {
         UIView.animate(withDuration: 0.2) {
             if isSelected {
                 self.imageView.image = self.model.icon?.withTintColor(
-                    self.designEngine.colors.accentTint.uiColor
+                    self.designEngine.colors.accent.uiColor
                 )
             } else {
                 self.imageView.image = self.model.icon?.withTintColor(
@@ -66,6 +66,6 @@ private extension PlainTabBarItemView {
         imageView.image = model.icon
         titleLabel.text = model.title
         titleLabel.font = designEngine.fonts.primary.semibold(10).uiFont
-        titleLabel.textColor = designEngine.colors.accentTint.uiColor
+        titleLabel.textColor = designEngine.colors.accent.uiColor
     }
 }

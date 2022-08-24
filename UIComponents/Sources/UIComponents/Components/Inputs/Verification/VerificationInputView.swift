@@ -92,7 +92,7 @@ private final class _VerificationElementInputView: _BackwardListenerInputView,
     private func setupStyle() {
         switch fieldState {
         case .normal:
-            backgroundColor = designEngine.colors.primary.uiColor
+            backgroundColor = designEngine.colors.backgroundPrimary.uiColor
             textColor = designEngine.colors.textPrimary.uiColor
             font = designEngine.fonts.primary.medium(28.0).uiFont
             cornerRadius()
@@ -101,18 +101,18 @@ private final class _VerificationElementInputView: _BackwardListenerInputView,
                 color: .clear,
                 width: 0.0
             )
-            tintColor = designEngine.colors.accentTint.uiColor
+            tintColor = designEngine.colors.accent.uiColor
         case .error:
-            backgroundColor = designEngine.colors.primary.uiColor
+            backgroundColor = designEngine.colors.backgroundPrimary.uiColor
             textColor = designEngine.colors.textPrimary.uiColor
             font = designEngine.fonts.primary.medium(28.0).uiFont
             cornerRadius()
-            shadow(color: designEngine.colors.destructive.uiColor)
+            shadow(color: designEngine.colors.error.uiColor)
             border(
-                color: designEngine.colors.destructive.uiColor,
+                color: designEngine.colors.error.uiColor,
                 width: 1.0
             )
-            tintColor = designEngine.colors.destructive.uiColor
+            tintColor = designEngine.colors.error.uiColor
         }
     }
 

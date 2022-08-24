@@ -21,7 +21,7 @@ public final class DateTextFieldView: UIView {
     // MARK: - UI properties
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = designEngine.colors.textSecondary.uiColor
+        label.textColor = designEngine.colors.textPrimary.uiColor
         label.numberOfLines = 1
         label.font = designEngine.fonts.primary.medium(14.0).uiFont
         return label
@@ -34,6 +34,7 @@ public final class DateTextFieldView: UIView {
         textField.clipsToBounds = true
         textField.inputView = datePickerView
         textField.delegate = delegate
+        textField.backgroundColor = designEngine.colors.backgroundSecondary.uiColor
         return textField
     }()
 

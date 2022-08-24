@@ -53,7 +53,7 @@ public class TabBarController: UIViewController {
     // MARK: - Lifecycle
     public override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = designEngine.colors.primary.uiColor
+        view.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
 
         view.addSubview(contentView)
         contentView.prepareForAutoLayout()

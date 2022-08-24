@@ -84,8 +84,8 @@ final class ProfileViewController: BaseViewController, ProfileViewModelOutput {
                 self?.onDoneButtonDidTap()
             }
         )
-        button.backgroundColor = designEngine.colors.accentTint.uiColor
-        button.tintColor = designEngine.colors.primary.uiColor
+        button.backgroundColor = designEngine.colors.accent.uiColor
+        button.tintColor = designEngine.colors.backgroundPrimary.uiColor
         button.titleLabel?.font = designEngine.fonts.primary.bold(16.0).uiFont
         button.layer.cornerRadius = 30.0
         button.clipsToBounds = true
@@ -127,19 +127,19 @@ final class ProfileViewController: BaseViewController, ProfileViewModelOutput {
     }
 
     private func setup() {
-        view.backgroundColor = designEngine.colors.primary.uiColor
+        view.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
 
         let contentView = UIView().prepareForAutoLayout()
 
         let headerLabel = UILabel()
         headerLabel.font = designEngine.fonts.primary.bold(34.0).uiFont
-        headerLabel.textColor = designEngine.colors.textSecondary.uiColor
+        headerLabel.textColor = designEngine.colors.textPrimary.uiColor
         headerLabel.numberOfLines = 1
         headerLabel.text = L10n.Profile.header
 
         let descriptionLabel = UILabel()
         descriptionLabel.font = designEngine.fonts.primary.bold(16.0).uiFont
-        descriptionLabel.textColor = designEngine.colors.textSecondary.uiColor
+        descriptionLabel.textColor = designEngine.colors.textPrimary.uiColor
         descriptionLabel.numberOfLines = 1
         descriptionLabel.text = L10n.Profile.subHeader
 

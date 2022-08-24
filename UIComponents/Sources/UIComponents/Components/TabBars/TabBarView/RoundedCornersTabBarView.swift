@@ -26,7 +26,7 @@ public class RoundedCornersTabBarView: UIView {
         super.init(frame: frame)
 
         let roundedConersView = UIView().prepareForAutoLayout()
-        roundedConersView.backgroundColor = designEngine.colors.primary.uiColor
+        roundedConersView.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
         addSubview(roundedConersView)
         roundedConersView.leadingAnchor ~= leadingAnchor
         roundedConersView.trailingAnchor ~= trailingAnchor
