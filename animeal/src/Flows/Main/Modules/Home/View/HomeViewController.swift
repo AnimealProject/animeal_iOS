@@ -9,6 +9,10 @@ class HomeViewController: UIViewController {
     private let segmentedControl = SegmentedControl()
     private let userLocationButton = CircleButtonView.make()
     private var lacationButtonBottomAnchor: NSLayoutConstraint?
+    private var styleURI: StyleURI {
+        return UITraitCollection.current.userInterfaceStyle == .dark
+        ? StyleURI.dark : StyleURI.streets
+    }
 
     // MARK: - Dependencies
     private let viewModel: HomeCombinedViewModel
@@ -56,6 +60,11 @@ extension HomeViewController: HomeViewModelOutput {
         segmentedControl.onTap = { [weak self] selectedSegmentIndex in
             self?.viewModel.handleActionEvent(.tapFilterControl(selectedSegmentIndex))
         }
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard let mapView = mapView else { return }
+        mapView.mapboxMap.loadStyleURI(styleURI)
     }
 }
 
@@ -108,7 +117,7 @@ private extension HomeViewController {
         return MapInitOptions(
             resourceOptions: resourceOptions,
             cameraOptions: CameraOptions(center: fakeLocationCoordinates, zoom: 15),
-            styleURI: .streets
+            styleURI: styleURI
         )
     }
 }

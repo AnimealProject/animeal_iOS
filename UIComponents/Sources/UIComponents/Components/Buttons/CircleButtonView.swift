@@ -11,7 +11,10 @@ open class CircleButtonView: ButtonView {
     // MARK: - Configuration
     public override func condifure(_ model: ButtonView.Model) {
         identifier = model.identifier
-        contentView.setImage(model.icon, for: UIControl.State.normal)
+        contentView.setImage(
+            model.icon?.withTintColor(designEngine.colors.textPrimary.uiColor),
+            for: UIControl.State.normal
+        )
         contentView.setImage(
             model.icon?.withTintColor(designEngine.colors.accent.uiColor),
             for: UIControl.State.highlighted
@@ -28,10 +31,10 @@ open class CircleButtonView: ButtonView {
         contentView.heightAnchor ~= Constants.height
         contentView.widthAnchor ~= Constants.width
         contentView.layer.cornerRadius = Constants.cornerRadius
-        contentView.backgroundColor = designEngine.colors.alwaysLight.uiColor
+        contentView.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
 
         contentView.layer.masksToBounds = false
-        contentView.layer.shadowColor = designEngine.colors.alwaysDark.cgColor
+        contentView.layer.shadowColor = designEngine.colors.backgroundPrimary.cgColor
         contentView.layer.shadowOpacity = 0.16
         contentView.layer.shadowOffset = CGSize(width: 0, height: 3)
         contentView.layer.shadowRadius = 6
