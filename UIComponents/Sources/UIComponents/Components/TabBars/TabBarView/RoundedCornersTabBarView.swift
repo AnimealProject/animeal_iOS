@@ -44,7 +44,7 @@ public class RoundedCornersTabBarView: UIView {
         stackView.bottomAnchor ~= bottomAnchor - 10
         stackView.topAnchor ~= topAnchor + 8
 
-        backgroundColor = .white
+        backgroundColor = designEngine.colors.backgroundPrimary.uiColor
     }
 
     @available(*, unavailable)
