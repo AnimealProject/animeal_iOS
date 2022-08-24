@@ -48,7 +48,7 @@ public final class OnboardingImageStepView: UIView {
     private lazy var titleView: UILabel = {
         let item = UILabel()
         item.translatesAutoresizingMaskIntoConstraints = false
-        item.textColor = designEngine.colors.textSecondary.uiColor
+        item.textColor = designEngine.colors.textPrimary.uiColor
         item.font = designEngine.fonts.primary.bold(24.0).uiFont
         item.textAlignment = .center
         item.numberOfLines = 0
@@ -58,7 +58,7 @@ public final class OnboardingImageStepView: UIView {
     private lazy var textView: UILabel = {
         let item = UILabel()
         item.translatesAutoresizingMaskIntoConstraints = false
-        item.textColor = designEngine.colors.textDescriptive.uiColor
+        item.textColor = designEngine.colors.textPrimary.uiColor
         item.font = designEngine.fonts.primary.medium(16.0).uiFont
         item.textAlignment = .center
         item.numberOfLines = 0

@@ -8,47 +8,41 @@
 import Foundation
 
 public struct StyleDefaultColorsProvider: StyleColorsProvider {
-    public var primary: StyleColor {
-        StyleColor(Asset.Colors.light.color)
+    public var backgroundPrimary: StyleColor {
+        return StyleColor(Asset.Colors.backgroundPrimary.color)
     }
-    public var secondary: StyleColor {
-        StyleColor(Asset.Colors.desertStorm.color)
-    }
-    public var textPrimary: StyleColor {
-        StyleColor(Asset.Colors.dark.color)
-    }
-    public var textSecondary: StyleColor {
-        StyleColor(Asset.Colors.blueWhale.color)
-    }
-    public var textDescriptive: StyleColor {
-        StyleColor(Asset.Colors.osloGrey.color)
-    }
-    public var accentTint: StyleColor {
-        StyleColor(Asset.Colors.darkTurquoise.color)
-    }
-    public var secondaryAccentTint: StyleColor {
-        StyleColor(Asset.Colors.darkSkyBlue.color)
-    }
-    public var disableTint: StyleColor {
-        StyleColor(Asset.Colors.battleshipGrey.color)
-    }
-    public var destructive: StyleColor {
-        StyleColor(Asset.Colors.carminePink.color)
+    public var backgroundSecondary: StyleColor {
+        return StyleColor(Asset.Colors.backgroundSecondary.color)
     }
     public var alwaysLight: StyleColor {
-        StyleColor(Asset.Colors.light.color)
+        return StyleColor(Asset.Colors.light.color)
     }
     public var alwaysDark: StyleColor {
-        StyleColor(Asset.Colors.dark.color)
+        return StyleColor(Asset.Colors.dark.color)
+    }
+    public var accent: StyleColor {
+        return StyleColor(Asset.Colors.darkTurquoise.color)
+    }
+    public var textPrimary: StyleColor {
+        return StyleColor(Asset.Colors.blueWhale.color)
+    }
+    public var textSecondary: StyleColor {
+        return StyleColor(Asset.Colors.battleshipGrey.color)
     }
     public var success: StyleColor {
-        StyleColor(Asset.Colors.darkMint.color)
+        return StyleColor(Asset.Colors.darkMint.color)
     }
     public var attention: StyleColor {
-        StyleColor(Asset.Colors.orangePeel.color)
+        return StyleColor(Asset.Colors.orangePeel.color)
     }
     public var error: StyleColor {
-        StyleColor(Asset.Colors.watermelon.color)
+        return StyleColor(Asset.Colors.carminePink.color)
+    }
+    public var disabled: StyleColor {
+        return StyleColor(Asset.Colors.geyser.color)
+    }
+    public var elementSpecial: StyleColor {
+        return StyleColor(Asset.Colors.darkSkyBlue.color)
     }
 
     public init() { }

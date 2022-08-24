@@ -36,7 +36,7 @@ public final class TextClickableLeftIconTitleView: UIView {
             for: UIControl.State.normal
         )
         item.setTitleColor(
-            designEngine.colors.textDescriptive.uiColor,
+            designEngine.colors.error.uiColor,
             for: UIControl.State.highlighted
         )
         item.titleLabel?.font =

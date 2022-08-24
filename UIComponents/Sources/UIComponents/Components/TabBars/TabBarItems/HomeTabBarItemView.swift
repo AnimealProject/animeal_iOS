@@ -53,11 +53,11 @@ extension HomeTabBarItemView: TabBarItemView {
     // MARK: - Public interface
     public func setSelected(_ isSelected: Bool) {
         if isSelected {
-            self.circleView.fill(self.designEngine.colors.accentTint.uiColor)
+            self.circleView.fill(self.designEngine.colors.accent.uiColor)
             self.imageView.image = self.model.icon
-            circleView.addShadow(designEngine.colors.accentTint.uiColor)
+            circleView.addShadow(designEngine.colors.accent.uiColor)
         } else {
-            self.circleView.fill(designEngine.colors.primary.uiColor)
+            self.circleView.fill(designEngine.colors.backgroundPrimary.uiColor)
             self.imageView.image = self.model.icon?.withTintColor(
                 designEngine.colors.textPrimary.uiColor
             )

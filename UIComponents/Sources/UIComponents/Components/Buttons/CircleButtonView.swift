@@ -13,7 +13,7 @@ open class CircleButtonView: ButtonView {
         identifier = model.identifier
         contentView.setImage(model.icon, for: UIControl.State.normal)
         contentView.setImage(
-            model.icon?.withTintColor(designEngine.colors.accentTint.uiColor),
+            model.icon?.withTintColor(designEngine.colors.accent.uiColor),
             for: UIControl.State.highlighted
         )
     }
@@ -28,6 +28,7 @@ open class CircleButtonView: ButtonView {
         contentView.heightAnchor ~= Constants.height
         contentView.widthAnchor ~= Constants.width
         contentView.layer.cornerRadius = Constants.cornerRadius
+        contentView.backgroundColor = designEngine.colors.alwaysLight.uiColor
 
         contentView.layer.masksToBounds = false
         contentView.layer.shadowColor = designEngine.colors.alwaysDark.cgColor

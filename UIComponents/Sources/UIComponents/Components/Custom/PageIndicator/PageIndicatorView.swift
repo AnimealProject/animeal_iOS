@@ -71,7 +71,7 @@ public struct PageIndicatorView: View {
             ForEach((Int.zero..<model.numberOfPages), id: \.self) { index in
                 let isActive = index == model.activePageIndex
                 let width = isActive ? maximumWidth : minimumWidth
-                let color = isActive ? designEngine.colors.destructive.color : designEngine.colors.disableTint.color
+                let color = isActive ? designEngine.colors.error.color : designEngine.colors.disabled.color
                 Capsule()
                     .fill(color)
                     .frame(width: width, height: normalHeight)
@@ -79,7 +79,7 @@ public struct PageIndicatorView: View {
         }
         .overlay(
             Capsule()
-                .fill(designEngine.colors.destructive.color)
+                .fill(designEngine.colors.error.color)
                 .frame(width: maximumWidth, height: normalHeight)
                 .offset(x: animationOffset),
             alignment: .leading

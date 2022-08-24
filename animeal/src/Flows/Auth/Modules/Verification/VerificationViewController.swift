@@ -64,7 +64,7 @@ final class VerificationViewController: BaseViewController {
 
     // MARK: - Setup
     private func setup() {
-        view.backgroundColor = designEngine.colors.primary.uiColor
+        view.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
 
         view.addSubview(headerView)
         headerView.leadingAnchor ~= view.safeAreaLayoutGuide.leadingAnchor + 32.0

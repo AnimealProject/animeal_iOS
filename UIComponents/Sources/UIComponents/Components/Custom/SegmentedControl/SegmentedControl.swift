@@ -49,10 +49,10 @@ private extension SegmentedControl {
     }
 
     func setup() {
-        backgroundColor = designEngine.colors.primary.uiColor
-        selectedSegmentTintColor = designEngine.colors.accentTint.uiColor
+        backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+        selectedSegmentTintColor = designEngine.colors.accent.uiColor
         setTitleTextAttributes(
-            [NSAttributedString.Key.foregroundColor: designEngine.colors.primary.uiColor],
+            [NSAttributedString.Key.foregroundColor: designEngine.colors.textPrimary.uiColor],
             for: .selected
         )
     }

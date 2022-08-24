@@ -53,7 +53,7 @@ public struct TextFieldFactory: StyleEngineContainable, TextFieldGenerating {
 
     public func makeNameTextField() -> UITextField {
         let textField = makeDefaultTextField()
-        textField.backgroundColor = designEngine.colors.secondary.uiColor
+        textField.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
         textField.keyboardType = .namePhonePad
         textField.autocapitalizationType = .words
 
@@ -62,7 +62,7 @@ public struct TextFieldFactory: StyleEngineContainable, TextFieldGenerating {
 
     public func makeEmailTextField() -> UITextField {
         let textField = makeDefaultTextField()
-        textField.backgroundColor = designEngine.colors.secondary.uiColor
+        textField.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
         textField.keyboardType = .emailAddress
         textField.autocapitalizationType = .none
 
@@ -80,7 +80,7 @@ public struct TextFieldFactory: StyleEngineContainable, TextFieldGenerating {
 
     public func makePasswordTextField() -> UITextField {
         let textField = makeDefaultTextField()
-        textField.backgroundColor = designEngine.colors.secondary.uiColor
+        textField.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
         textField.isSecureTextEntry = true
         textField.autocapitalizationType = .none
 
