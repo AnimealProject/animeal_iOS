@@ -131,7 +131,7 @@ private extension CircleButtonView {
             viewType: CircleButtonView.self,
             icon: Asset.Images.findLocation.image
         )
-        myLocationButton.condifure(model)
+        myLocationButton.configure(model)
         return myLocationButton
     }
 }

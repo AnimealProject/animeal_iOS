@@ -78,6 +78,7 @@ final class VerificationViewController: BaseViewController {
 
         view.addSubview(resendView)
         resendView.leadingAnchor >= headerView.leadingAnchor
+        resendView.topAnchor >= codeInputView.bottomAnchor + 32.0
         resendView.trailingAnchor <= headerView.trailingAnchor
         resendView.centerXAnchor ~= view.safeAreaLayoutGuide.centerXAnchor
         resendView.topAnchor ~= view.safeAreaLayoutGuide.bottomAnchor - 32.0

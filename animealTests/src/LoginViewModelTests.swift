@@ -1,6 +1,6 @@
 import Quick
 import Nimble
-
+import UIKit
 @testable import animeal
 
 class LoginViewModelTestsSpec: QuickSpec {
@@ -27,8 +27,8 @@ class LoginViewModelTestsSpec: QuickSpec {
 
                 sut = LoginViewModel(
                     model: model,
-                    coordinator: LoginCoordinator(
-                        navigator: Navigator(),
+                    coordinator: AuthCoordinator(
+                        presentingWindow: UIWindow(),
                         completion: nil
                     ),
                     actionsMapper: actionsMapper,

@@ -55,7 +55,7 @@ open class ButtonView: UIView {
     }
 
     // MARK: - Configuration
-    public func condifure(_ model: Model) {
+    public func configure(_ model: Model) {
         identifier = model.identifier
         contentView.setTitle(model.title, for: UIControl.State.normal)
         contentView.setImage(model.icon, for: UIControl.State.normal)
