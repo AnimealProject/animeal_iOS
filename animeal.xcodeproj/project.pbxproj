@@ -34,14 +34,12 @@
 		8360D1AF284F2A5E00ACDEDB /* LoginViewActionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8360D1AE284F2A5E00ACDEDB /* LoginViewActionEvent.swift */; };
 		8372CCAB289AFC3E0085C6D1 /* LoginProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCAA289AFC3E0085C6D1 /* LoginProviding.swift */; };
 		8372CCAE289B271E0085C6D1 /* LoginModelStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCAD289B271E0085C6D1 /* LoginModelStatus.swift */; };
-		8372CCB2289B7F4B0085C6D1 /* LoginCoordintator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCB1289B7F4B0085C6D1 /* LoginCoordintator.swift */; };
 		8372CCB5289B81D90085C6D1 /* LoginRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCB4289B81D90085C6D1 /* LoginRoute.swift */; };
 		8372CCB928A0298B0085C6D1 /* PhoneAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCB828A0298B0085C6D1 /* PhoneAuthViewController.swift */; };
 		8372CCBB28A029990085C6D1 /* PhoneAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCBA28A029990085C6D1 /* PhoneAuthViewModel.swift */; };
 		8372CCBD28A029A50085C6D1 /* PhoneAuthAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCBC28A029A50085C6D1 /* PhoneAuthAssembler.swift */; };
 		8372CCBF28A029B60085C6D1 /* PhoneAuthContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCBE28A029B60085C6D1 /* PhoneAuthContract.swift */; };
 		8372CCC728A02A1E0085C6D1 /* PhoneAuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCC628A02A1E0085C6D1 /* PhoneAuthModel.swift */; };
-		8372CCC928A02A2C0085C6D1 /* PhoneAuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCC828A02A2C0085C6D1 /* PhoneAuthCoordinator.swift */; };
 		8372CCCB28A02BAA0085C6D1 /* PhoneAuthRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCCA28A02BAA0085C6D1 /* PhoneAuthRoute.swift */; };
 		8372CCCD28A02BD70085C6D1 /* PhoneAuthViewTextEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCCC28A02BD70085C6D1 /* PhoneAuthViewTextEvent.swift */; };
 		8372CCCF28A02F300085C6D1 /* PhoneAuthModelItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCCE28A02F300085C6D1 /* PhoneAuthModelItem.swift */; };
@@ -184,10 +182,10 @@
 		526788734ABC76D2329D30A7 /* Pet+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "Pet+Schema.swift"; path = "amplify/generated/models/Pet+Schema.swift"; sourceTree = "<group>"; };
 		536B40393A9F76F900523AE3 /* Settings+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "Settings+Schema.swift"; path = "amplify/generated/models/Settings+Schema.swift"; sourceTree = "<group>"; };
 		53F2F2B14E76EE035EDE1673 /* FeedingPoint.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = FeedingPoint.swift; path = amplify/generated/models/FeedingPoint.swift; sourceTree = "<group>"; };
-		5A014CFAC080E8E6D9884035 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; lastKnownFileType = text.json; name = amplifyconfiguration.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
+		5A014CFAC080E8E6D9884035 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 		6918D9E98B7A31C94E11F61A /* Feeding.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Feeding.swift; path = amplify/generated/models/Feeding.swift; sourceTree = "<group>"; };
 		6A0B545C01B304B77CD48DF3 /* CategoryI18n.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = CategoryI18n.swift; path = amplify/generated/models/CategoryI18n.swift; sourceTree = "<group>"; };
-		6FE750BC24EF1983DF08B736 /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; lastKnownFileType = text.json; name = awsconfiguration.json; path = awsconfiguration.json; sourceTree = "<group>"; };
+		6FE750BC24EF1983DF08B736 /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = awsconfiguration.json; sourceTree = "<group>"; };
 		761104F96C616340746249C7 /* FeedingPointStatus.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = FeedingPointStatus.swift; path = amplify/generated/models/FeedingPointStatus.swift; sourceTree = "<group>"; };
 		832B4C337074B295E887E7E6 /* Caretaker.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Caretaker.swift; path = amplify/generated/models/Caretaker.swift; sourceTree = "<group>"; };
 		8360D1A2284E954900ACDEDB /* LoginModelOnboardingStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModelOnboardingStep.swift; sourceTree = "<group>"; };
@@ -195,14 +193,12 @@
 		8360D1AE284F2A5E00ACDEDB /* LoginViewActionEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewActionEvent.swift; sourceTree = "<group>"; };
 		8372CCAA289AFC3E0085C6D1 /* LoginProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginProviding.swift; sourceTree = "<group>"; };
 		8372CCAD289B271E0085C6D1 /* LoginModelStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModelStatus.swift; sourceTree = "<group>"; };
-		8372CCB1289B7F4B0085C6D1 /* LoginCoordintator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordintator.swift; sourceTree = "<group>"; };
 		8372CCB4289B81D90085C6D1 /* LoginRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRoute.swift; sourceTree = "<group>"; };
 		8372CCB828A0298B0085C6D1 /* PhoneAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthViewController.swift; sourceTree = "<group>"; };
 		8372CCBA28A029990085C6D1 /* PhoneAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthViewModel.swift; sourceTree = "<group>"; };
 		8372CCBC28A029A50085C6D1 /* PhoneAuthAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthAssembler.swift; sourceTree = "<group>"; };
 		8372CCBE28A029B60085C6D1 /* PhoneAuthContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthContract.swift; sourceTree = "<group>"; };
 		8372CCC628A02A1E0085C6D1 /* PhoneAuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthModel.swift; sourceTree = "<group>"; };
-		8372CCC828A02A2C0085C6D1 /* PhoneAuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthCoordinator.swift; sourceTree = "<group>"; };
 		8372CCCA28A02BAA0085C6D1 /* PhoneAuthRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthRoute.swift; sourceTree = "<group>"; };
 		8372CCCC28A02BD70085C6D1 /* PhoneAuthViewTextEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthViewTextEvent.swift; sourceTree = "<group>"; };
 		8372CCCE28A02F300085C6D1 /* PhoneAuthModelItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthModelItem.swift; sourceTree = "<group>"; };
@@ -364,7 +360,6 @@
 		8372CCB3289B814C0085C6D1 /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
-				8372CCB1289B7F4B0085C6D1 /* LoginCoordintator.swift */,
 				8372CCB4289B81D90085C6D1 /* LoginRoute.swift */,
 			);
 			path = Coordinator;
@@ -426,7 +421,6 @@
 		8372CCC528A029FC0085C6D1 /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
-				8372CCC828A02A2C0085C6D1 /* PhoneAuthCoordinator.swift */,
 				8372CCCA28A02BAA0085C6D1 /* PhoneAuthRoute.swift */,
 			);
 			path = Coordinator;
@@ -1243,7 +1237,6 @@
 				8372CCDA28A03A210085C6D1 /* PhoneAuthViewItem+PhoneTextFieldViewModel.swift in Sources */,
 				83C24F80286D994A0086330B /* VerificationViewCode+VerificationInputView.swift in Sources */,
 				83C24F81286D994A0086330B /* VerificationViewCode.swift in Sources */,
-				8372CCB2289B7F4B0085C6D1 /* LoginCoordintator.swift in Sources */,
 				8372CCBB28A029990085C6D1 /* PhoneAuthViewModel.swift in Sources */,
 				8372CCE128A18B030085C6D1 /* PhotoAuthViewText.swift in Sources */,
 				837F1FB328868C3A001FABC5 /* AuthenticationService.swift in Sources */,
@@ -1324,7 +1317,6 @@
 				8372CCCF28A02F300085C6D1 /* PhoneAuthModelItem.swift in Sources */,
 				8372CCDC28A03B640085C6D1 /* PhoneAuthViewHeader.swift in Sources */,
 				8372CCFF28A437250085C6D1 /* PhoneAuthModelNextStep.swift in Sources */,
-				8372CCC928A02A2C0085C6D1 /* PhoneAuthCoordinator.swift in Sources */,
 				83C24F84286D994A0086330B /* VerificationViewHeader.swift in Sources */,
 				B8E9C0526B1932D00ECDB596 /* Point.swift in Sources */,
 				1F770667D42E31D263AE67AB /* RelationPetFeedingPoint+Schema.swift in Sources */,

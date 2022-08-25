@@ -5,37 +5,45 @@ import UIKit
 import UIComponents
 
 extension PhoneAuthViewItem {
-    var phoneModel: PhoneTextFieldView.Model {
+    var phoneModel: PhoneInputView.Model {
         switch state {
         case .normal:
-            return PhoneTextFieldView.Model(
+            return PhoneInputView.Model(
                 identifier: identifier,
                 title: title,
-                icon: UIImage(named: "flag_georgia"),
-                prefix: "+995",
-                placeholder: placeholder,
-                text: text,
-                state: TextFieldState.normal
+                state: TextInputView.State.normal,
+                content: PhoneTextContentView.Model(
+                    icon: UIImage(named: "flag_georgia"),
+                    prefix: "+995",
+                    placeholder: placeholder,
+                    text: text
+                )
             )
         case .error(let error):
-            return PhoneTextFieldView.Model(
+            return PhoneInputView.Model(
                 identifier: identifier,
                 title: title,
-                icon: UIImage(named: "flag_georgia"),
-                prefix: "+995",
-                placeholder: placeholder,
-                text: text,
-                state: TextFieldState.error(error)
+                state: TextInputView.State.error(error),
+                content: PhoneTextContentView.Model(
+                    icon: UIImage(named: "flag_georgia"),
+                    prefix: "+995",
+                    placeholder: placeholder,
+                    text: text
+                )
             )
         }
     }
 
-    var passwordModel: TextFieldView.Model {
-        TextFieldView.Model(
+    var passwordModel: DefaultInputView.Model {
+        DefaultInputView.Model(
             identifier: identifier,
-            description: title,
-            placeholderText: placeholder,
-            textInputKind: .password
+            title: title,
+            state: TextInputView.State.normal,
+            content: DefaultTextContentView.Model(
+                placeholder: placeholder,
+                text: text,
+                isSecure: true
+            )
         )
     }
 }

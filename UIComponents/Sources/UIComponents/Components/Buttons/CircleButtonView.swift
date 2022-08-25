@@ -9,7 +9,7 @@ open class CircleButtonView: ButtonView {
     }
 
     // MARK: - Configuration
-    public override func condifure(_ model: ButtonView.Model) {
+    public override func configure(_ model: ButtonView.Model) {
         identifier = model.identifier
         contentView.setImage(
             model.icon?.withTintColor(designEngine.colors.textPrimary.uiColor),

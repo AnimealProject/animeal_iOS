@@ -11,7 +11,7 @@ enum LoginActionType: String {
     case signInViaPhoneNumber
     case signInViaFacebook
     case signInViaAppleID
-    
+
     var priority: Int {
         switch self {
         case .signInViaPhoneNumber:

@@ -108,7 +108,7 @@ class ComponentsTableViewController: UIViewController, UITableViewDataSource, UI
                         title: "Sign in with Apple"
                     )
                     let signInWithAppleButtonView = buttonsFactory.makeSignInWithAppleButton()
-                    signInWithAppleButtonView.condifure(signInWithAppleModel)
+                    signInWithAppleButtonView.configure(signInWithAppleModel)
 
                     let signInWithMobileModel = ButtonView.Model(
                         identifier: "signInWithMobileButton",
@@ -117,7 +117,7 @@ class ComponentsTableViewController: UIViewController, UITableViewDataSource, UI
                         title: "Sign in with Mobile"
                     )
                     let signInWithMobileButton = buttonsFactory.makeSignInWithMobileButton()
-                    signInWithMobileButton.condifure(signInWithMobileModel)
+                    signInWithMobileButton.configure(signInWithMobileModel)
 
                     let signInWithFacebookModel = ButtonView.Model(
                         identifier: "signInWithFacebookButton",
@@ -126,7 +126,7 @@ class ComponentsTableViewController: UIViewController, UITableViewDataSource, UI
                         title: "Sign in with Facebook"
                     )
                     let signInWithFacebookButton = buttonsFactory.makeSignInWithFacebookButton()
-                    signInWithFacebookButton.condifure(signInWithFacebookModel)
+                    signInWithFacebookButton.configure(signInWithFacebookModel)
 
                     element.configure([
                         signInWithAppleButtonView,
@@ -164,7 +164,7 @@ class ComponentsTableViewController: UIViewController, UITableViewDataSource, UI
                     )
                     let buttonsFactory = ButtonViewFactory()
                     let myLocationButton = buttonsFactory.makeMyLocationButton()
-                    myLocationButton.condifure(model)
+                    myLocationButton.configure(model)
                     myLocationButton.onTap = { identifier in
                         print(identifier)
                     }

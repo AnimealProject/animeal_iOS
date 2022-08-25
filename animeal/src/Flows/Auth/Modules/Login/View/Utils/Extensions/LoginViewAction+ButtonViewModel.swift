@@ -24,7 +24,7 @@ extension LoginViewAction {
                 title: title
             )
             let buttonView = buttonsFactory.makeSignInWithMobileButton()
-            buttonView.condifure(model)
+            buttonView.configure(model)
             return buttonView
         case .signInViaFacebook:
             let model = ButtonView.Model(
@@ -34,7 +34,7 @@ extension LoginViewAction {
                 title: title
             )
             let buttonView = buttonsFactory.makeSignInWithFacebookButton()
-            buttonView.condifure(model)
+            buttonView.configure(model)
             return buttonView
         case .signInViaAppleID:
             let model = ButtonView.Model(
@@ -44,7 +44,7 @@ extension LoginViewAction {
                 title: title
             )
             let buttonView = buttonsFactory.makeSignInWithAppleButton()
-            buttonView.condifure(model)
+            buttonView.configure(model)
             return buttonView
         }
     }

@@ -9,7 +9,7 @@ final class PhoneAuthViewController: BaseViewController, PhoneAuthViewable {
     private let headerView = TextBigTitleSubtitleView().prepareForAutoLayout()
     private let scrollView = UIScrollView().prepareForAutoLayout()
     private let contentView = UIStackView().prepareForAutoLayout()
-    private var inputViews: [TextFieldContainable] = []
+    private var inputViews: [TextInputDecoratable] = []
 
     // MARK: - Dependencies
     private let viewModel: PhoneAuthViewModelProtocol
@@ -53,13 +53,55 @@ final class PhoneAuthViewController: BaseViewController, PhoneAuthViewable {
         viewItems.forEach { item in
             switch item.type {
             case .phone:
-                let inputView = PhoneTextFieldView(identifier: item.identifier)
-                inputView.textFieldDelegate = self
+                let inputView = PhoneInputView()
                 inputView.configure(item.phoneModel)
+                inputView.shouldReturn = { [weak self] textInput in
+                    textInput.resignFirstResponder()
+                    self?.viewModel.handleReturnTapped()
+                    return true
+                }
+                inputView.shouldChangeCharacters = { [weak self] textInput, range, string in
+                    guard let self = self else { return true }
+                    let text = textInput.text
+                    let result = self.viewModel.handleTextEvent(
+                        PhoneAuthViewTextEvent.shouldChangeCharactersIn(
+                            item.identifier, text, range, string
+                        )
+                    )
+                    textInput.setCursorLocation(result.caretOffset)
+
+                    guard let text = result.formattedText else { return true }
+                    let attributedText = NSMutableAttributedString()
+                    let filledTextIndex = text.index(text.startIndex, offsetBy: result.caretOffset)
+                    let filledText = NSAttributedString(
+                        string: String(text.prefix(upTo: filledTextIndex)),
+                        attributes: textInput.activeTextAttributes
+                    )
+                    attributedText.append(filledText)
+                    let placeholderText = NSAttributedString(
+                        string: String(text.suffix(from: filledTextIndex)),
+                        attributes: textInput.placeholderTextAttributes
+                    )
+                    attributedText.append(placeholderText)
+                    textInput.attributedText = attributedText
+
+                    return false
+                }
+                inputView.didEndEditing = { [weak self] textInput in
+                    self?.viewModel.handleTextEvent(
+                        PhoneAuthViewTextEvent.endEditing(item.identifier, textInput.text)
+                    )
+                }
                 inputViews.append(inputView)
                 contentView.addArrangedSubview(inputView)
             case .password:
-                let inputView = TextFieldView(model: item.passwordModel, delegate: self)
+                let inputView = DefaultInputView()
+                inputView.configure(item.passwordModel)
+                inputView.shouldReturn = { [weak self] textInput in
+                    textInput.resignFirstResponder()
+                    self?.viewModel.handleReturnTapped()
+                    return true
+                }
                 inputViews.append(inputView)
                 contentView.addArrangedSubview(inputView)
             }
@@ -108,68 +150,18 @@ private extension PhoneAuthViewController {
     }
 }
 
-extension PhoneAuthViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        viewModel.handleReturnTapped()
-        return true
-    }
-
-    func textField(
-        _ textField: UITextField,
-        shouldChangeCharactersIn range: NSRange,
-        replacementString string: String
-    ) -> Bool {
-        let text = textField.text
-        guard let identifier = (textField.superview as? TextFieldContainable)?.identifier
-        else { return true }
-
-        let result = viewModel.handleTextEvent(
-            PhoneAuthViewTextEvent.shouldChangeCharactersIn(
-                identifier, text, range, string
-            )
-        )
-        textField.setCursorLocation(result.caretOffset)
-
-        guard let text = result.formattedText else { return true }
-        let attributedText = NSMutableAttributedString()
-        let filledTextIndex = text.index(text.startIndex, offsetBy: result.caretOffset)
-        let filledText = NSAttributedString(
-            string: String(text.prefix(upTo: filledTextIndex)),
-            attributes: textField.activeTextAttributes
-        )
-        attributedText.append(filledText)
-        let placeholderText = NSAttributedString(
-            string: String(text.suffix(from: filledTextIndex)),
-            attributes: textField.placeholderTextAttributes
-        )
-        attributedText.append(placeholderText)
-        textField.attributedText = attributedText
-
-        return false
-    }
-
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        guard let identifier = (textField.superview as? TextFieldContainable)?.identifier
-        else { return }
-        viewModel.handleTextEvent(
-            PhoneAuthViewTextEvent.endEditing(identifier, textField.text)
-        )
-    }
-}
-
-private extension UITextField {
+private extension TextFieldContainable {
     var activeTextAttributes: [NSAttributedString.Key: Any]? {
         [
             .font: designEngine.fonts.primary.medium(16.0).uiFont as Any,
-            .foregroundColor: designEngine.colors.textSecondary.uiColor
+            .foregroundColor: designEngine.colors.textPrimary.uiColor
         ]
     }
 
     var placeholderTextAttributes: [NSAttributedString.Key: Any]? {
         [
             .font: designEngine.fonts.primary.medium(16.0).uiFont as Any,
-            .foregroundColor: designEngine.colors.error.uiColor
+            .foregroundColor: designEngine.colors.textSecondary.uiColor
         ]
     }
 }

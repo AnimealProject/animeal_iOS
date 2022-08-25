@@ -1,70 +1,93 @@
 import UIKit
 import UIComponents
+import Style
 
 final class ProfileViewController: BaseViewController, ProfileViewModelOutput {
-
     // MARK: - UI properties
-    private lazy var firstNameTextFieldView: TextFieldView = {
-        return TextFieldView(
-            model: TextFieldView.Model(
+    private lazy var firstNameTextFieldView: DefaultInputView = {
+        let item = DefaultInputView().prepareForAutoLayout()
+        item.configure(
+            DefaultInputView.Model(
                 identifier: UUID().uuidString,
-                description: L10n.Profile.name,
-                placeholderText: L10n.Profile.name,
-                defaultText: viewModel.userFirstName,
-                textInputKind: .name
-            ),
-            delegate: self
+                title: L10n.Profile.name,
+                state: .normal,
+                content: DefaultTextContentView.Model(
+                    placeholder: L10n.Profile.name,
+                    text: viewModel.userFirstName
+                )
+            )
         )
+        return item
     }()
 
-    private lazy var lastNameTextFieldView: TextFieldView = {
-        return TextFieldView(
-            model: TextFieldView.Model(
+    private lazy var lastNameTextFieldView: DefaultInputView = {
+        let item = DefaultInputView().prepareForAutoLayout()
+        item.configure(
+            DefaultInputView.Model(
                 identifier: UUID().uuidString,
-                description: L10n.Profile.surname,
-                placeholderText: L10n.Profile.surname,
-                defaultText: viewModel.userLastName,
-                textInputKind: .name
-            ),
-            delegate: self
+                title: L10n.Profile.surname,
+                state: .normal,
+                content: DefaultTextContentView.Model(
+                    placeholder: L10n.Profile.surname,
+                    text: viewModel.userLastName
+                )
+            )
         )
+        return item
     }()
 
-    private lazy var emailTextFieldView: TextFieldView = {
-        return TextFieldView(
-            model: TextFieldView.Model(
+    private lazy var emailTextFieldView: DefaultInputView = {
+        let item = DefaultInputView().prepareForAutoLayout()
+        item.configure(
+            DefaultInputView.Model(
                 identifier: UUID().uuidString,
-                description: L10n.Profile.email,
-                placeholderText: L10n.Profile.email,
-                defaultText: viewModel.userEmail,
-                textInputKind: .email
-            ),
-            delegate: self
+                title: L10n.Profile.email,
+                state: .normal,
+                content: DefaultTextContentView.Model(
+                    placeholder: L10n.Profile.email,
+                    text: viewModel.userEmail
+                )
+            )
         )
+        return item
     }()
 
-    private lazy var phoneTextFieldView: TextFieldView = {
-        return TextFieldView(
-            model: TextFieldView.Model(
+    private lazy var phoneTextFieldView: DefaultInputView = {
+        let item = DefaultInputView().prepareForAutoLayout()
+        item.configure(
+            DefaultInputView.Model(
                 identifier: UUID().uuidString,
-                description: L10n.Profile.phoneNumber,
-                defaultText: viewModel.processedPhoneNumber,
-                isEnabled: false,
-                textInputKind: .phone
-            ),
-            delegate: self
+                title: L10n.Profile.phoneNumber,
+                state: .normal,
+                content: DefaultTextContentView.Model(
+                    placeholder: L10n.Profile.phoneNumber,
+                    text: viewModel.processedPhoneNumber
+                )
+            )
         )
+        return item
     }()
 
-    private lazy var calendarView: DateTextFieldView = {
-        return DateTextFieldView(
-            model: DateTextFieldView.Model(
-                description: L10n.Profile.birthDate,
-                textFieldText: viewModel.formattedBirthdate
-            ),
-            datePickerView: datePickerView,
-            delegate: self
+    private lazy var calendarView: DefaultInputView = {
+        let item = DefaultInputView().prepareForAutoLayout()
+        item.configure(
+            DefaultInputView.Model(
+                identifier: UUID().uuidString,
+                title: L10n.Profile.birthDate,
+                state: .normal,
+                content: DefaultTextContentView.Model(
+                    placeholder: L10n.Profile.birthDate,
+                    text: viewModel.formattedBirthdate,
+                    rightActions: [
+                        .init(identifier: UUID().uuidString, icon: Asset.Images.calendar.image, action: { identifier in
+                            print(identifier)
+                        })
+                    ]
+                )
+            )
         )
+        item.inputView = datePickerView
+        return item
     }()
 
     private lazy var datePickerView: UIDatePicker = {
@@ -201,14 +224,30 @@ final class ProfileViewController: BaseViewController, ProfileViewModelOutput {
     // MARK: - Handlers
     @objc private func onBirthdateDidChange() {
         viewModel.setUserBirthdate(datePickerView.date) { [weak self] formattedDate in
-            self?.calendarView.setText(formattedDate)
+            self?.calendarView.configure(
+                DefaultInputView.Model(
+                    identifier: UUID().uuidString,
+                    title: L10n.Profile.birthDate,
+                    state: .normal,
+                    content: DefaultTextContentView.Model(
+                        placeholder: L10n.Profile.birthDate,
+                        text: formattedDate,
+                        rightActions: [
+                            .init(
+                                identifier: UUID().uuidString,
+                                icon: Asset.Images.calendar.image,
+                                action: { identifier in
+                                    print(identifier)
+                                }
+                            )
+                        ]
+                    )
+                )
+            )
         }
     }
 
     private func onDoneButtonDidTap() {
         viewModel.onDoneButtonDidTap()
     }
-}
-
-extension ProfileViewController: UITextFieldDelegate {
 }
