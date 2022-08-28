@@ -8,7 +8,6 @@ public final class StatusView: UILabel {
     private let mapper: StatusMapperProtocol
 
     // MARK: - Initialization
-
     init(mapper: StatusMapperProtocol = StatusMapper()) {
         self.mapper = mapper
         super.init(frame: .zero)

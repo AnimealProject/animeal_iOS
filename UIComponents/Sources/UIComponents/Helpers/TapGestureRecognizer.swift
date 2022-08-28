@@ -23,3 +23,23 @@ public class TapGestureRecognizer: UITapGestureRecognizer {
         }
     }
 }
+
+public class LongPressGestureRecognizer: UILongPressGestureRecognizer {
+    private let tapAction: ((UILongPressGestureRecognizer) -> Void)?
+
+    public init(
+        minPressDuration: TimeInterval = 0,
+        action: ((UILongPressGestureRecognizer) -> Void)?
+    ) {
+        self.tapAction = action
+        super.init(target: nil, action: nil)
+
+        minimumPressDuration = minPressDuration
+
+        addTarget(self, action: #selector(LongPressGestureRecognizer.didTap(_:)))
+    }
+
+    @objc public func didTap(_ tapGesture: UILongPressGestureRecognizer) {
+        tapAction?(tapGesture)
+    }
+}

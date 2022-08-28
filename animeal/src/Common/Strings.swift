@@ -20,6 +20,19 @@ internal enum L10n {
     internal static let signInViaMobilePhone = L10n.tr("Localizable", "loginScreen.signInViaMobilePhone")
   }
 
+  internal enum More {
+    /// About (terms and conditions)
+    internal static let about = L10n.tr("Localizable", "more.about")
+    /// Account
+    internal static let account = L10n.tr("Localizable", "more.account")
+    /// Donate
+    internal static let donate = L10n.tr("Localizable", "more.donate")
+    /// Help
+    internal static let help = L10n.tr("Localizable", "more.help")
+    /// Profile Page
+    internal static let profilePage = L10n.tr("Localizable", "more.profilePage")
+  }
+
   internal enum Phone {
     /// Please, enter your phone
     internal static let title = L10n.tr("Localizable", "phone.title")

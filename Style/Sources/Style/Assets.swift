@@ -48,6 +48,7 @@ public enum Asset {
     public static let favouriteHungryMedium = ImageAsset(name: "favourite_hungry_medium")
     public static let findLocation = ImageAsset(name: "find_location")
     public static let myLocation = ImageAsset(name: "my_location")
+    public static let arrowRight = ImageAsset(name: "arrow_right")
     public static let onboardingFeed = ImageAsset(name: "onboarding_feed")
     public static let calendar = ImageAsset(name: "calendar")
     public static let signInApple = ImageAsset(name: "sign_in_apple")

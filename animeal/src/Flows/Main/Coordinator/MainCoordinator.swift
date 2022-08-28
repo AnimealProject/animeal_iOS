@@ -16,14 +16,16 @@ final class MainCoordinator: Coordinatable {
         let yellowVC = UIViewController()
         yellowVC.view.backgroundColor = .yellow
 
-        let orangeVC = UIViewController()
-        orangeVC.view.backgroundColor = .orange
-
         let purpleVC = UIViewController()
         purpleVC.view.backgroundColor = .purple
 
-        let greenVC = UIViewController()
-        greenVC.view.backgroundColor = .white
+        let moreNavigtionController = UINavigationController()
+        let moreCoordinator = MoreCoordinator(
+            navigator: Navigator(
+                navigationController: moreNavigtionController
+            )
+        )
+        moreCoordinator.start()
 
         return TabBarController(items: [
             TabBarControllerItem(
@@ -64,7 +66,7 @@ final class MainCoordinator: Coordinatable {
                         icon: Asset.Images.more.image,
                         title: L10n.TabBar.more
                     )
-                ), viewController: greenVC
+                ), viewController: moreNavigtionController
             )
         ])
     }()
