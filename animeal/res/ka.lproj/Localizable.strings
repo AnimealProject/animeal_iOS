@@ -20,3 +20,8 @@
 "phone.fields.passwordTitlle"      = "პაროლი";
 "phone.errors.incorrectPhone"      = "ტელეფონის ნომრის ფორმატი არასწორია";
 "phone.errors.empty"               = "აუცილებელი ველები ცარიელია";
+"more.profilePage"                 = "პროფილის გვერდი";
+"more.donate"                      = "შემოწირულობა";
+"more.help"                        = "დახმარება";
+"more.about"                       = "შესახებ (წესები და პირობები)";
+"more.account"                     = "ანგარიში";

@@ -20,3 +20,8 @@
 "phone.fields.passwordTitlle"      = "Password";
 "phone.errors.incorrectPhone"      = "Format of the phone number isn't correct";
 "phone.errors.empty"               = "Required fields are empty";
+"more.profilePage"                 = "Profile Page";
+"more.donate"                      = "Donate";
+"more.help"                        = "Help";
+"more.about"                       = "About (terms and conditions)";
+"more.account"                     = "Account";
