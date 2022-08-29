@@ -62,6 +62,7 @@ public enum Asset {
     public static let more = ImageAsset(name: "more")
     public static let podium = ImageAsset(name: "podium")
     public static let cityLogo = ImageAsset(name: "city_logo")
+    public static let dogWhileEating = ImageAsset(name: "dog_while_eating")
     public static let animealLogo = ImageAsset(name: "animeal_logo")
   }
 }

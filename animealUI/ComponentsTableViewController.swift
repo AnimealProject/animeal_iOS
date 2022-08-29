@@ -4,6 +4,12 @@ import Style
 
 // swiftlint:disable function_body_length
 
+// MARK: - ComponentPresentation
+private struct ComponentPresentation {
+    let description: String
+    let viewController: (() -> UIViewController)
+}
+
 class ComponentsTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     // MARK: - Private props
     private let tableView = UITableView()
@@ -34,6 +40,41 @@ class ComponentsTableViewController: UIViewController, UITableViewDataSource, UI
     }
 
     private func composeDataSource() {
+        dataSource.append(
+            ComponentPresentation(
+                description: "AlertViewController"
+            ) { [weak self] in
+                guard let self = self else { fatalError() }
+                let viewController = ComponentViewController<UIStackView>()
+                viewController.configureElement = { element in
+                    guard let superView = element.superview else {
+                        return
+                    }
+                    element.centerYAnchor ~= superView.centerYAnchor
+                    element.centerXAnchor ~= superView.centerXAnchor
+                    element.axis = .vertical
+                    element.spacing = 30
+
+                    let doubleActionButton = UIButton(type: .system)
+                    doubleActionButton.setTitle("doubleActionAlert", for: .normal)
+                    doubleActionButton.addTarget(self, action: #selector(self.doubleActionAlert), for: .touchUpInside)
+
+                    let singleActionButton = UIButton(type: .system)
+                    singleActionButton.setTitle("singleActionAlert", for: .normal)
+                    singleActionButton.addTarget(self, action: #selector(self.singleActionAlert), for: .touchUpInside)
+
+                    let imageWithActionsButton = UIButton(type: .system)
+                    imageWithActionsButton.setTitle("imagesWithActionsAlert", for: .normal)
+                    imageWithActionsButton.addTarget(self, action: #selector(self.imageWithActionsAlert), for: .touchUpInside)
+
+                    element.addArrangedSubview(doubleActionButton)
+                    element.addArrangedSubview(singleActionButton)
+                    element.addArrangedSubview(imageWithActionsButton)
+                }
+                return viewController
+            }
+        )
+
         dataSource.append(
             ComponentPresentation(
                 description: "TabBarController"
@@ -291,7 +332,7 @@ class ComponentsTableViewController: UIViewController, UITableViewDataSource, UI
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.accessoryType = .disclosureIndicator
         cell.textLabel?.text = dataSource[indexPath.row].description
-        cell.backgroundColor = designEngine.colors.primary.uiColor
+        cell.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
         return cell
     }
 
@@ -303,8 +344,43 @@ class ComponentsTableViewController: UIViewController, UITableViewDataSource, UI
     }
 }
 
-// MARK: - ComponentPresentation
-private struct ComponentPresentation {
-    let description: String
-    let viewController: (() -> UIViewController)
+// MARK: - AlertViewController helpers
+private extension ComponentsTableViewController {
+    @objc func doubleActionAlert() {
+        let alert = AlertViewController(title: "Do you really want to discard the changes?")
+        alert.addAction(AlertAction(title: "No", style: AlertAction.Style.inverted, handler: {
+            print("No")
+            alert.dismiss(animated: true)
+        }))
+        alert.addAction(AlertAction(title: "Yes", style: AlertAction.Style.accent, handler: {
+            print("yes")
+            alert.dismiss(animated: true)
+        }))
+        present(alert, animated: true)
+    }
+
+    @objc func singleActionAlert() {
+        let alert = AlertViewController(title: "Your feeding timer is over.You can book a new feeding from the home page.")
+        alert.addAction(AlertAction(title: "Got it", style: AlertAction.Style.accent, handler: {
+            print("Got it")
+            alert.dismiss(animated: true)
+        }))
+        present(alert, animated: true)
+    }
+
+    @objc func imageWithActionsAlert() {
+        let alert = AlertViewController(
+            title: "Are you sure you want to delete this photo? ",
+            image: Asset.Images.dogWhileEating.image
+        )
+        alert.addAction(AlertAction(title: "No", style: AlertAction.Style.inverted, handler: {
+            print("No")
+            alert.dismiss(animated: true)
+        }))
+        alert.addAction(AlertAction(title: "Yes", style: AlertAction.Style.accent, handler: {
+            print("yes")
+            alert.dismiss(animated: true)
+        }))
+        present(alert, animated: true)
+    }
 }

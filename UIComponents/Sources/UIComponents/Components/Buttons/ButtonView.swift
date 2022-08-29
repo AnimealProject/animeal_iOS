@@ -18,7 +18,7 @@ public extension ButtonView {
         public init(
             identifier: String,
             viewType: ButtonView.Type,
-            icon: UIImage?,
+            icon: UIImage? = nil,
             title: String = String.empty
         ) {
             self.identifier = identifier
