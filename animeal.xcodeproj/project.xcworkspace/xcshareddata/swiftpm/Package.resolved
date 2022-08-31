@@ -12,10 +12,10 @@
     {
       "identity" : "amplify-ios",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/aws-amplify/amplify-ios",
+      "location" : "https://github.com/ihartsimafeichyk/amplify-ios",
       "state" : {
-        "revision" : "b10b7e4fe5f36b95f4aa5904c47ee962071d9895",
-        "version" : "1.26.2"
+        "branch" : "fix/has-one-association",
+        "revision" : "6f2f1cb3cb809ecd36f84fd0833eaafd677ab783"
       }
     },
     {
@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/aws-amplify/aws-sdk-ios-spm.git",
       "state" : {
-        "revision" : "443e35abb0646fb685e0754db74249d3242625ab",
-        "version" : "2.27.10"
+        "revision" : "e2228349798d289aa728dc489388d242214ba869",
+        "version" : "2.27.15"
       }
     },
     {
@@ -212,8 +212,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/stephencelis/SQLite.swift.git",
       "state" : {
-        "revision" : "5f5ad81ac0d0a0f3e56e39e646e8423c617df523",
-        "version" : "0.13.2"
+        "revision" : "0a9893ec030501a3956bee572d6b4fdd3ae158a1",
+        "version" : "0.12.2"
       }
     },
     {
