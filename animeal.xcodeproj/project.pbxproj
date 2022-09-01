@@ -126,6 +126,7 @@
 		DB6B07C828450A380009397B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07C728450A380009397B /* SceneDelegate.swift */; };
 		DB6B07CA28450A380009397B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07C928450A380009397B /* HomeViewController.swift */; };
 		DB6B07D228450A390009397B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB6B07D028450A390009397B /* LaunchScreen.storyboard */; };
+		DB73B47A28C0E67E00363FB8 /* PartitionContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB73B47928C0E67E00363FB8 /* PartitionContentModel.swift */; };
 		DBA3C7E728575CAF00B30A78 /* MapboxMaps in Frameworks */ = {isa = PBXBuildFile; productRef = DBA3C7E628575CAF00B30A78 /* MapboxMaps */; };
 		DBBABB1F28BF51250052E91C /* AWSAPIPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = DBBABB1E28BF51250052E91C /* AWSAPIPlugin */; };
 		DBBABB2128BF51250052E91C /* AWSCognitoAuthPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = DBBABB2028BF51250052E91C /* AWSCognitoAuthPlugin */; };
@@ -136,6 +137,11 @@
 		DBBABB2B28BF51250052E91C /* AWSS3StoragePlugin in Frameworks */ = {isa = PBXBuildFile; productRef = DBBABB2A28BF51250052E91C /* AWSS3StoragePlugin */; };
 		DBBABB2D28BF51250052E91C /* Amplify in Frameworks */ = {isa = PBXBuildFile; productRef = DBBABB2C28BF51250052E91C /* Amplify */; };
 		DBBDE72A28BB8C2A006EEBA3 /* MoreItemViewMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBBDE72928BB8C2A006EEBA3 /* MoreItemViewMapper.swift */; };
+		DBC2BB4228BBAD2B0086EF52 /* MorePartitionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC2BB3D28BBAD2B0086EF52 /* MorePartitionModel.swift */; };
+		DBC2BB4328BBAD2B0086EF52 /* MorePartitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC2BB3E28BBAD2B0086EF52 /* MorePartitionViewController.swift */; };
+		DBC2BB4428BBAD2B0086EF52 /* MorePartitionAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC2BB3F28BBAD2B0086EF52 /* MorePartitionAssembler.swift */; };
+		DBC2BB4528BBAD2B0086EF52 /* MorePartitionContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC2BB4028BBAD2B0086EF52 /* MorePartitionContract.swift */; };
+		DBC2BB4628BBAD2B0086EF52 /* MorePartitionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC2BB4128BBAD2B0086EF52 /* MorePartitionViewModel.swift */; };
 		DBDB50182887FBBA003C6FF0 /* HomeContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB50172887FBBA003C6FF0 /* HomeContract.swift */; };
 		DBDB501B2887FE00003C6FF0 /* HomeModel+DTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB501A2887FE00003C6FF0 /* HomeModel+DTO.swift */; };
 		DBDB50212889725C003C6FF0 /* FeedingPointViewMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB50202889725C003C6FF0 /* FeedingPointViewMapper.swift */; };
@@ -297,7 +303,13 @@
 		DB6B07D128450A390009397B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DB6B07D328450A390009397B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DB6B07D828450A3A0009397B /* animealTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = animealTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DB73B47928C0E67E00363FB8 /* PartitionContentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartitionContentModel.swift; sourceTree = "<group>"; };
 		DBBDE72928BB8C2A006EEBA3 /* MoreItemViewMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreItemViewMapper.swift; sourceTree = "<group>"; };
+		DBC2BB3D28BBAD2B0086EF52 /* MorePartitionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MorePartitionModel.swift; sourceTree = "<group>"; };
+		DBC2BB3E28BBAD2B0086EF52 /* MorePartitionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MorePartitionViewController.swift; sourceTree = "<group>"; };
+		DBC2BB3F28BBAD2B0086EF52 /* MorePartitionAssembler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MorePartitionAssembler.swift; sourceTree = "<group>"; };
+		DBC2BB4028BBAD2B0086EF52 /* MorePartitionContract.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MorePartitionContract.swift; sourceTree = "<group>"; };
+		DBC2BB4128BBAD2B0086EF52 /* MorePartitionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MorePartitionViewModel.swift; sourceTree = "<group>"; };
 		DBDB50172887FBBA003C6FF0 /* HomeContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContract.swift; sourceTree = "<group>"; };
 		DBDB501A2887FE00003C6FF0 /* HomeModel+DTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeModel+DTO.swift"; sourceTree = "<group>"; };
 		DBDB50202889725C003C6FF0 /* FeedingPointViewMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingPointViewMapper.swift; sourceTree = "<group>"; };
@@ -609,6 +621,7 @@
 		83E83A4928A98DD900B40FC4 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				DBC2BB3C28BBAD2B0086EF52 /* MorePartition */,
 				83E83A4C28A98E0A00B40FC4 /* Coordinator */,
 				83E83A4B28A98DFD00B40FC4 /* Modules */,
 			);
@@ -840,6 +853,15 @@
 			path = animealTests;
 			sourceTree = "<group>";
 		};
+		DB73B47828C0E60700363FB8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				DBC2BB3D28BBAD2B0086EF52 /* MorePartitionModel.swift */,
+				DB73B47928C0E67E00363FB8 /* PartitionContentModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		DBBDE72628BB7A3D006EEBA3 /* More */ = {
 			isa = PBXGroup;
 			children = (
@@ -868,6 +890,18 @@
 				DB127E8428B9648200012B53 /* MoreViewModel.swift */,
 			);
 			path = Mappers;
+			sourceTree = "<group>";
+		};
+		DBC2BB3C28BBAD2B0086EF52 /* MorePartition */ = {
+			isa = PBXGroup;
+			children = (
+				DB73B47828C0E60700363FB8 /* Model */,
+				DBC2BB3E28BBAD2B0086EF52 /* MorePartitionViewController.swift */,
+				DBC2BB3F28BBAD2B0086EF52 /* MorePartitionAssembler.swift */,
+				DBC2BB4028BBAD2B0086EF52 /* MorePartitionContract.swift */,
+				DBC2BB4128BBAD2B0086EF52 /* MorePartitionViewModel.swift */,
+			);
+			path = MorePartition;
 			sourceTree = "<group>";
 		};
 		DBDB50192887FC0C003C6FF0 /* Model */ = {
@@ -1346,12 +1380,14 @@
 				15EAA597F39959DC3C622A81 /* Category.swift in Sources */,
 				ADCE2C70056E504714AF994F /* CategoryI18n+Schema.swift in Sources */,
 				8E8DC17FBCBFDAEA975F74C0 /* CategoryI18n.swift in Sources */,
+				DBC2BB4228BBAD2B0086EF52 /* MorePartitionModel.swift in Sources */,
 				704192811E47C576AE584354 /* Favourites+Schema.swift in Sources */,
 				83E83A4E28A98E2700B40FC4 /* MainCoordinator.swift in Sources */,
 				4C682BBEC221AEFF0609E936 /* Favourites.swift in Sources */,
 				8372CCDE28A03F460085C6D1 /* PhoneAuthViewHeader+TextBigTitleSubtitleViewModel.swift in Sources */,
 				DB0D4A882886AC92001750BC /* HomeAssembler.swift in Sources */,
 				8EE189223EA6C7236079CEFD /* Feeding+Schema.swift in Sources */,
+				DBC2BB4628BBAD2B0086EF52 /* MorePartitionViewModel.swift in Sources */,
 				9522C3FA58BF89826BB2D27F /* Feeding.swift in Sources */,
 				14AB2108BFE313718FA8AF13 /* FeedingPoint+Schema.swift in Sources */,
 				894C53219C7197F7610E9C6D /* FeedingPoint.swift in Sources */,
@@ -1391,6 +1427,9 @@
 				FB00144F2859FCDD00943360 /* ProfileModel.swift in Sources */,
 				11B8413D8AEA96EA29A0FF17 /* Pet.swift in Sources */,
 				FB00144D2859FC7700943360 /* ProfileViewModel.swift in Sources */,
+				DB73B47A28C0E67E00363FB8 /* PartitionContentModel.swift in Sources */,
+				DBC2BB4328BBAD2B0086EF52 /* MorePartitionViewController.swift in Sources */,
+				DBC2BB4428BBAD2B0086EF52 /* MorePartitionAssembler.swift in Sources */,
 				0028E02D831362905A72161A /* PetI18n+Schema.swift in Sources */,
 				6826AB850FFAF4CC13D042F3 /* PetI18n.swift in Sources */,
 				0DC7F17C09E9C3EA296C308D /* Point+Schema.swift in Sources */,
@@ -1405,6 +1444,7 @@
 				8372CCB5289B81D90085C6D1 /* LoginRoute.swift in Sources */,
 				838B6B732868B052001DD111 /* VerificationContract.swift in Sources */,
 				B8A233D7B15B4A46582895E9 /* RelationPetFeedingPoint.swift in Sources */,
+				DBC2BB4528BBAD2B0086EF52 /* MorePartitionContract.swift in Sources */,
 				8372CCBF28A029B60085C6D1 /* PhoneAuthContract.swift in Sources */,
 				83C24F83286D994A0086330B /* VerificationViewActionEvent.swift in Sources */,
 				83C24F73286D99280086330B /* LoginViewOnboardingStep+OnboardingViewStep.swift in Sources */,
