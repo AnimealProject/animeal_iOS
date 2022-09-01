@@ -43,7 +43,7 @@ public final class AlertViewController: UIViewController {
             button = factory.makeAccentInvertedButton()
         }
 
-        button.condifure(
+        button.configure(
             ButtonView.Model(
                 identifier: UUID().uuidString,
                 viewType: ButtonView.self,

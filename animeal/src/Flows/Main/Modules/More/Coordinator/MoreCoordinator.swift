@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 final class MoreCoordinator: Coordinatable {
     // MARK: - Private properties
@@ -29,20 +30,21 @@ final class MoreCoordinator: Coordinatable {
 
 extension MoreCoordinator: MoreCoordinatable {
     func moveFromLogin(to route: MoreRoute) {
+        var viewController: UIViewController
         switch route {
         case .profilePage:
-            let profile = ProfileModuleAssembler.assemble()
-            navigator.navigationController?.customTabBarController?.setTabBarHidden(true, animated: true)
-            navigator.navigationController?.setNavigationBarHidden(false, animated: false)
-            navigator.push(profile, animated: true, completion: nil)
+            viewController = ProfileModuleAssembler.assemble()
         case .donate:
-            break
+            viewController = MorePartitionModuleAssembler.assemble(.donate)
         case .help:
-            break
+            viewController = MorePartitionModuleAssembler.assemble(.help)
         case .about:
-            break
+            viewController = MorePartitionModuleAssembler.assemble(.about)
         case .account:
-            break
+            viewController = MorePartitionModuleAssembler.assemble(.account)
         }
+        navigator.navigationController?.customTabBarController?.setTabBarHidden(true, animated: true)
+        navigator.navigationController?.setNavigationBarHidden(false, animated: false)
+        navigator.push(viewController, animated: true, completion: nil)
     }
 }
