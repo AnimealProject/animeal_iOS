@@ -89,7 +89,7 @@ public struct ButtonViewFactory: ButtonViewGenerating, StyleEngineContainable {
             for: UIControl.State.normal
         )
         button.setTitleColor(
-            designEngine.colors.error.uiColor,
+            designEngine.colors.textSecondary.uiColor,
             for: UIControl.State.highlighted
         )
 

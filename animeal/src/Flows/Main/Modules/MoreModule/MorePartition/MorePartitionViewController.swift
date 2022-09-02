@@ -86,7 +86,7 @@ private extension MorePartitionViewController {
     }
 
     @objc func barButtonItemTapped() {
-        navigationController?.popViewController(animated: true)
+        viewModel.handleActionEvent(.back)
     }
 
     func applyHeader(_ model: PartitionContentModel.Header) {
@@ -151,8 +151,12 @@ private extension MorePartitionViewController {
             if let alert = self.makeAlertView(footer.action.dialog) {
                 self.present(alert, animated: true)
             } else {
-                // TODO: Handle actionsID here
-                print(footer.action.actionId)
+                switch footer.action.actionId {
+                case .none:
+                    break
+                case .copyIBAN:
+                    self.viewModel.handleActionEvent(.copyIBAN)
+                }
             }
         }
 
@@ -173,9 +177,16 @@ private extension MorePartitionViewController {
                 style = .inverted
             }
             alertViewController.addAction(
-                AlertAction(title: action.title, style: style) {
-                    // TODO: Handle action here
-                    print(action.actionId)
+                AlertAction(title: action.title, style: style) { [weak self] in
+                    guard let self = self else { return }
+                    switch action.actionId {
+                    case .delete:
+                        self.viewModel.handleActionEvent(.deleteAccount)
+                    case .logout:
+                        self.viewModel.handleActionEvent(.logout)
+                    case .cancel:
+                        break
+                    }
                     alertViewController.dismiss(animated: true)
                 }
             )

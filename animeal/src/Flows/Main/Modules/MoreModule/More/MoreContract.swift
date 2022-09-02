@@ -31,7 +31,7 @@ protocol MoreModelProtocol: AnyObject {
 
 // MARK: - Coordinator
 protocol MoreCoordinatable: Coordinatable {
-    func moveFromLogin(to route: MoreRoute)
+    func routeTo(_ route: MoreRoute)
 }
 
 // MARK: - Enums

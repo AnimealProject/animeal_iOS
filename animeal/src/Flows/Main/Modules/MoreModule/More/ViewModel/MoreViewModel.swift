@@ -38,7 +38,7 @@ final class MoreViewModel: MoreViewModelLifeCycle, MoreViewInteraction, MoreView
             guard let route = MoreRoute(rawValue: identifier) else {
                 return
             }
-            coordinator.moveFromLogin(to: route)
+            coordinator.routeTo(route)
         }
     }
 }
