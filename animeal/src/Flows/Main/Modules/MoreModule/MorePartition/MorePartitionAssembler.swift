@@ -1,12 +1,19 @@
 import UIKit
 import Common
 
-enum MorePartitionModuleAssembler {
-    static func assemble(_ mode: PartitionMode) -> UIViewController {
-        let model = MorePartitionModel()
+final class MorePartitionModuleAssembler {
+    private let coordinator: MorePartitionCoordinatable
+
+    init(coordinator: MorePartitionCoordinatable) {
+        self.coordinator = coordinator
+    }
+
+    func assemble(_ mode: PartitionMode) -> UIViewController {
+        let model = MorePartitionModel(AppDelegate.shared.context)
         let viewModel = MorePartitionViewModel(
             model: model,
-            mode: mode
+            mode: mode,
+            coordinator: coordinator
         )
         let view = MorePartitionViewController(viewModel: viewModel)
 

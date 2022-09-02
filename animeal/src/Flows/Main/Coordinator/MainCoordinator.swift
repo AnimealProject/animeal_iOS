@@ -8,6 +8,7 @@ import Style
 final class MainCoordinator: Coordinatable {
     // MARK: - Private properties
     private let navigator: Navigating
+    private var childCoordinators: [Coordinatable]
 
     private(set) lazy var rootTabBarController: TabBarController = {
         let redVC = UIViewController()
@@ -21,12 +22,12 @@ final class MainCoordinator: Coordinatable {
 
         let moreNavigtionController = UINavigationController()
         let moreCoordinator = MoreCoordinator(
-            navigator: Navigator(
-                navigationController: moreNavigtionController
-            )
-        )
+            navigator: Navigator(navigationController: moreNavigtionController)
+        ) { [weak self] in
+            self?.stop()
+        }
         moreCoordinator.start()
-
+        childCoordinators = [moreCoordinator]
         return TabBarController(items: [
             TabBarControllerItem(
                 tabBarItemView: PlainTabBarItemView(
@@ -84,6 +85,7 @@ final class MainCoordinator: Coordinatable {
         self.completion = completion
         let navigationController = UINavigationController()
         self.navigator = Navigator(navigationController: navigationController)
+        self.childCoordinators = []
     }
 
     // MARK: - Life cycle
@@ -99,6 +101,7 @@ final class MainCoordinator: Coordinatable {
     }
 
     func stop() {
-        presentingWindow.resignKey()
+        childCoordinators.removeAll()
+        completion?()
     }
 }

@@ -38,7 +38,10 @@ final class AppCoordinator: AppCoordinatable {
     func start() {
         // Authentication flow temporarily disabled since backend are not ready
         // if authentificationService.isSignedIn {
-            let mainCoordinator = MainCoordinator(presentingWindow: mainWindow) { }
+            let mainCoordinator = MainCoordinator(presentingWindow: mainWindow) { [weak self] in
+                self?.childCoordinators.removeAll()
+                self?.start()
+            }
             childCoordinators.append(mainCoordinator)
             mainCoordinator.start()
         // } else {

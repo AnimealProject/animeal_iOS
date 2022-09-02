@@ -1,10 +1,15 @@
 import Foundation
+import Services
+import UIKit
 
 final class MorePartitionModel: MorePartitionModelProtocol {
-    // MARK: - Private properties
+    // MARK: - Dependencies
+    private let authenticationService: AuthenticationServiceProtocol
 
     // MARK: - Initialization
-    init() { }
+    init(_ context: AuthenticationServiceHolder) {
+        self.authenticationService = context.authenticationService
+    }
 
     // MARK: MorePartitionModelProtocol
     func fetchContentModel(_ mode: PartitionMode) -> PartitionContentModel {
@@ -78,5 +83,23 @@ final class MorePartitionModel: MorePartitionModelProtocol {
                 footer: nil
             )
         }
+    }
+
+    func handleSignOut(completion: ((Result<Void, Error>) -> Void)?) {
+        authenticationService.signOut { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success:
+                    completion?(.success(()))
+                case .failure(let error):
+                    logError("\(error)")
+                    completion?(.failure(error))
+                }
+            }
+        }
+    }
+
+    func handleCopyIBAN() {
+        UIPasteboard.general.string = "Animeal IBAN placeholder"
     }
 }
