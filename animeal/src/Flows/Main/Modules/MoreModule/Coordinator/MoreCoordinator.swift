@@ -29,7 +29,7 @@ final class MoreCoordinator: Coordinatable {
     private func presentError(_ error: String) {
         let alertViewController = AlertViewController(title: error)
         alertViewController.addAction(
-            AlertAction(title: "OK", style: .accent) {
+            AlertAction(title: L10n.Action.ok, style: .accent) {
                 alertViewController.dismiss(animated: true)
             }
         )

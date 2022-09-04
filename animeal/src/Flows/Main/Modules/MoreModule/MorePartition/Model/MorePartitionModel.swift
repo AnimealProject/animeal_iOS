@@ -17,12 +17,12 @@ final class MorePartitionModel: MorePartitionModelProtocol {
         switch mode {
         case .donate:
             return PartitionContentModel(
-                header: PartitionContentModel.Header(title: "Donate"),
+                header: PartitionContentModel.Header(title: L10n.More.donate),
                 content: PartitionContentModel.Content(actions: nil),
                 footer: PartitionContentModel.Footer(
                     action: PartitionContentModel.Action(
                         actionId: PartitionContentModel.Action.ActionID.copyIBAN,
-                        title: "Copy IBAN",
+                        title: L10n.Action.copyIBAN,
                         type: PartitionContentModel.FooterType.accent,
                         dialog: nil
                     )
@@ -30,21 +30,21 @@ final class MorePartitionModel: MorePartitionModelProtocol {
             )
         case .account:
             return PartitionContentModel(
-                header: PartitionContentModel.Header(title: "Account"),
+                header: PartitionContentModel.Header(title: L10n.More.account),
                 content: PartitionContentModel.Content(
                     actions: [
                         PartitionContentModel.Action(
                             actionId: PartitionContentModel.Action.ActionID.none,
-                            title: "Delete Account",
+                            title: L10n.Action.deleteAccount,
                             type: PartitionContentModel.FooterType.inverted,
                             dialog: PartitionContentModel.Dialog(
-                                title: "Are you sure you want to delete your account?",
+                                title: L10n.Question.deleteAccount,
                                 actions: [
                                     PartitionContentModel.Dialog.Action(
-                                        actionId: .cancel, title: "Cancel", style: .inverted
+                                        actionId: .cancel, title: L10n.Action.cancel, style: .inverted
                                     ),
                                     PartitionContentModel.Dialog.Action(
-                                        actionId: .delete, title: "Delete", style: .accent
+                                        actionId: .delete, title: L10n.Action.delete, style: .accent
                                     )
                                 ]
                             )
@@ -54,16 +54,16 @@ final class MorePartitionModel: MorePartitionModelProtocol {
                 footer: PartitionContentModel.Footer(
                     action: PartitionContentModel.Action(
                         actionId: PartitionContentModel.Action.ActionID.none,
-                        title: "Log out",
+                        title: L10n.Action.logOut,
                         type: PartitionContentModel.FooterType.inverted,
                         dialog: PartitionContentModel.Dialog(
-                            title: "Are you sure you want to log out of your account?",
+                            title: L10n.Question.logoutAccount,
                             actions: [
                                 PartitionContentModel.Dialog.Action(
-                                    actionId: .cancel, title: "Cancel", style: .inverted
+                                    actionId: .cancel, title: L10n.Action.cancel, style: .inverted
                                 ),
                                 PartitionContentModel.Dialog.Action(
-                                    actionId: .logout, title: "Log out", style: .accent
+                                    actionId: .logout, title: L10n.Action.logOut, style: .accent
                                 )
                             ]
                         )
@@ -72,13 +72,13 @@ final class MorePartitionModel: MorePartitionModelProtocol {
             )
         case .help:
             return PartitionContentModel(
-                header: PartitionContentModel.Header(title: "Help"),
+                header: PartitionContentModel.Header(title: L10n.More.help),
                 content: PartitionContentModel.Content(actions: nil),
                 footer: nil
             )
         case .about:
             return PartitionContentModel(
-                header: PartitionContentModel.Header(title: "About"),
+                header: PartitionContentModel.Header(title: L10n.More.about),
                 content: PartitionContentModel.Content(actions: nil),
                 footer: nil
             )
