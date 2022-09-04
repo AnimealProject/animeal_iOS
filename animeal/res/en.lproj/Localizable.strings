@@ -25,3 +25,11 @@
 "more.help"                        = "Help";
 "more.about"                       = "About (terms and conditions)";
 "more.account"                     = "Account";
+"action.logOut"                    = "Log out";
+"action.cancel"                    = "Cancel";
+"action.delete"                    = "Delete";
+"action.ok"                        = "Ok";
+"action.copyIBAN"                  = "Copy IBAN";
+"action.deleteAccount"             = "Delete Account";
+"question.logoutAccount"           = "Are you sure you want to log out of your account?";
+"question.deleteAccount"           = "Are you sure you want to delete your account?";

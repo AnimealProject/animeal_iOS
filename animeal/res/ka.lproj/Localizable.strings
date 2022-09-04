@@ -25,3 +25,11 @@
 "more.help"                        = "დახმარება";
 "more.about"                       = "შესახებ (წესები და პირობები)";
 "more.account"                     = "ანგარიში";
+"action.logOut"                    = "გასვლა";
+"action.cancel"                    = "გაუქმება";
+"action.delete"                    = "წაშლა";
+"action.ok"                        = "Კარგი";
+"action.copyIBAN"                  = "კოპირება IBAN";
+"action.deleteAccount"             = "Ანგარიშის წაშლა";
+"question.logoutAccount"           = "დარწმუნებული ხართ, რომ გსურთ თქვენი ანგარიშიდან გამოსვლა?";
+"question.deleteAccount"           = "დარწმუნებული ხართ, რომ გსურთ თქვენი ანგარიშის წაშლა?";

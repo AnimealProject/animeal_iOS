@@ -11,6 +11,21 @@ import Foundation
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 internal enum L10n {
 
+  internal enum Action {
+    /// Cancel
+    internal static let cancel = L10n.tr("Localizable", "action.cancel")
+    /// Copy IBAN
+    internal static let copyIBAN = L10n.tr("Localizable", "action.copyIBAN")
+    /// Delete
+    internal static let delete = L10n.tr("Localizable", "action.delete")
+    /// Delete Account
+    internal static let deleteAccount = L10n.tr("Localizable", "action.deleteAccount")
+    /// Log out
+    internal static let logOut = L10n.tr("Localizable", "action.logOut")
+    /// Ok
+    internal static let ok = L10n.tr("Localizable", "action.ok")
+  }
+
   internal enum LoginScreen {
     /// Sign in with Apple
     internal static let signInViaApple = L10n.tr("Localizable", "loginScreen.signInViaApple")
@@ -67,6 +82,13 @@ internal enum L10n {
     internal static let subHeader = L10n.tr("Localizable", "profile.subHeader")
     /// Surname
     internal static let surname = L10n.tr("Localizable", "profile.surname")
+  }
+
+  internal enum Question {
+    /// Are you sure you want to delete your account?
+    internal static let deleteAccount = L10n.tr("Localizable", "question.deleteAccount")
+    /// Are you sure you want to log out of your account?
+    internal static let logoutAccount = L10n.tr("Localizable", "question.logoutAccount")
   }
 
   internal enum Segment {
