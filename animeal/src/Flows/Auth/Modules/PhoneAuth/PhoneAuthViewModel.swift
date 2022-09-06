@@ -37,10 +37,6 @@ final class PhoneAuthViewModel: PhoneAuthViewModelProtocol {
             let viewItems = self.mapper.mapItems(modelItems)
             self.onItemsHaveBeenPrepared?(viewItems)
         }
-
-        model.proceedAuthenticationResponse = { [weak self] result in
-            self?.processAuthenticationFeedback(result)
-        }
     }
 
     func load() {
@@ -89,29 +85,32 @@ final class PhoneAuthViewModel: PhoneAuthViewModelProtocol {
 
     func handleReturnTapped() {
         guard model.validateItems() else { return }
-        model.proceedAuthentication()
+        Task { @MainActor [weak self] in
+            do {
+                guard let self = self else { return }
+                let result = try await self.model.proceedAuthentication()
+                self.processAuthenticationFeedback(result)
+            } catch {
+                // show alert with error
+            }
+        }
     }
 }
 
 private extension PhoneAuthViewModel {
     private func processAuthenticationFeedback(
-        _ result: Result<PhoneAuthModelNextStep, Error>
+        _ nextStep: PhoneAuthModelNextStep
     ) {
-        switch result {
-        case .success(let nextStep):
-            switch nextStep {
-            case .setNewPassword:
-                coordinator.moveFromPhoneAuth(to: PhoneAuthRoute.setNewPassword)
-            case .resetPassword:
-                coordinator.moveFromPhoneAuth(to: PhoneAuthRoute.resetPassword)
-            case .done:
-                coordinator.moveFromPhoneAuth(to: PhoneAuthRoute.done)
-            case .confirm:
-                coordinator.moveFromPhoneAuth(to: PhoneAuthRoute.codeConfirmation)
-            case .unknown:
-                break
-            }
-        case .failure:
+        switch nextStep {
+        case .setNewPassword:
+            coordinator.moveFromPhoneAuth(to: PhoneAuthRoute.setNewPassword)
+        case .resetPassword:
+            coordinator.moveFromPhoneAuth(to: PhoneAuthRoute.resetPassword)
+        case .done:
+            coordinator.moveFromPhoneAuth(to: PhoneAuthRoute.done)
+        case .confirm:
+            coordinator.moveFromPhoneAuth(to: PhoneAuthRoute.codeConfirmation)
+        case .unknown:
             break
         }
     }

@@ -19,8 +19,7 @@ final class AppleLoginProvider: LoginProviding {
 
     func authenticate(_ listener: @escaping LoginListener) {
         authenticationService.signIn(
-            provider: AuthenticationProvider.apple(presentationAnchor),
-            options: nil
+            provider: AuthenticationProvider.apple(presentationAnchor)
         ) { result in
             listener(result)
         }
@@ -38,8 +37,7 @@ final class FacebookLoginProvider: LoginProviding {
 
     func authenticate(_ listener: @escaping LoginListener) {
         authenticationService.signIn(
-            provider: AuthenticationProvider.facebook(presentationAnchor),
-            options: nil
+            provider: AuthenticationProvider.facebook(presentationAnchor)
         ) { result in
             listener(result)
         }

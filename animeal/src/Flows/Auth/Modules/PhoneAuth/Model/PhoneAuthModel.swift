@@ -21,9 +21,7 @@ final class PhoneAuthModel: PhoneAuthModelProtocol {
         return Constants.phoneNumberPrefix + phoneNumber
     }
 
-    private var password: String? {
-        items.first(where: { $0.type == .password })?.text
-    }
+    private var password: String? { items.first(where: { $0.type == .password })?.text }
 
     private lazy var operationQueue = OperationQueue()
 
@@ -32,7 +30,6 @@ final class PhoneAuthModel: PhoneAuthModelProtocol {
 
     // MARK: - Responses
     var fetchItemsResponse: (([PhoneAuthModelItem]) -> Void)?
-    var proceedAuthenticationResponse: ((Result<PhoneAuthModelNextStep, Error>) -> Void)?
 
     // MARK: - Initializations
     init(authenticationService: AuthenticationServiceProtocol) {
@@ -74,31 +71,25 @@ final class PhoneAuthModel: PhoneAuthModelProtocol {
         items[itemIndex].text = text
     }
 
-    func proceedAuthentication() {
+    func proceedAuthentication() async throws -> PhoneAuthModelNextStep {
         guard let phone = phone, let password = password else {
-            return
+            throw PhoneAuthValidationError.empty
         }
 
-        let signUpOperation = PhoneAuthSignUpOperation(
-            authenticationService: authenticationService,
-            phone: phone,
-            passwword: password
-        )
-        let signInOperation = PhoneAuthSignInOperation(
-            authenticationService: authenticationService,
-            phone: phone,
-            passwword: password
-        )
-        signInOperation.dataStore = signUpOperation
-        signInOperation.addDependency(signUpOperation)
-        signInOperation.authenticationHandler = { [weak self] result in
-            self?.proceedAuthenticationResponse?(result.mapError { $0 as Error })
+        do {
+            let signUpResult = try await authenticationService.signUp(
+                username: phone,
+                password: password,
+                options: [AuthenticationUserAttribute(.phoneNumber, value: phone)]
+            )
+            return PhoneAuthModelNextStep.afterSignUp(signUpResult)
+        } catch AuthenticationError.service(_, _, let error)
+                    where (error as? AuthenticationDetailedError) == .usernameExists {
+            let signInResult = try await authenticationService.signIn(username: phone)
+            return PhoneAuthModelNextStep.afterSignIn(signInResult)
+        } catch {
+            throw error
         }
-
-        operationQueue.addOperations(
-            [signUpOperation, signInOperation],
-            waitUntilFinished: false
-        )
     }
 
     func validateItems() -> Bool {
@@ -147,121 +138,28 @@ final class PhoneAuthModel: PhoneAuthModelProtocol {
     }
 }
 
-protocol PhoneAuthSignInDataStore: AnyObject {
-    var result: Result<AuthenticationSignUpState, AuthenticationError>? { get }
-}
-
-private extension PhoneAuthModel {
-
-    final class PhoneAuthSignUpOperation: AsyncOperation, PhoneAuthSignInDataStore {
-        private let authenticationService: AuthenticationServiceProtocol
-        private let phone: String
-        private let password: String
-
-        var result: Result<AuthenticationSignUpState, AuthenticationError>?
-
-        init(
-            authenticationService: AuthenticationServiceProtocol,
-            phone: String,
-            passwword: String
-        ) {
-            self.authenticationService = authenticationService
-            self.phone = phone
-            self.password = passwword
-        }
-
-        override func main() {
-            let userAttributes = [AuthenticationUserAttribute(.phoneNumber, value: phone)]
-            authenticationService.signUp(
-                username: phone,
-                password: password,
-                options: userAttributes
-            ) { [weak self] result in
-                defer { self?.finish() }
-                guard let self = self else { return }
-                self.result = result
-            }
+private extension PhoneAuthModelNextStep {
+    static func afterSignUp(_ result: AuthenticationSignUpState) -> Self {
+        switch result.nextStep {
+        case .confirmUser(let details, _):
+            return PhoneAuthModelNextStep.confirm(details?.destination ?? .unknown(nil))
+        case .done:
+            return PhoneAuthModelNextStep.done
         }
     }
-
-    final class PhoneAuthSignInOperation: AsyncOperation {
-        private let authenticationService: AuthenticationServiceProtocol
-        private let phone: String
-        private let password: String
-
-        var dataStore: PhoneAuthSignInDataStore?
-        var authenticationHandler: ((Result<PhoneAuthModelNextStep, AuthenticationError>) -> Void)?
-
-        init(
-            authenticationService: AuthenticationServiceProtocol,
-            phone: String,
-            passwword: String
-        ) {
-            self.authenticationService = authenticationService
-            self.phone = phone
-            self.password = passwword
-        }
-
-        // swiftlint:disable cyclomatic_complexity
-        override func main() {
-            guard let signUpResult = dataStore?.result else {
-                return finish()
-            }
-            switch signUpResult {
-            case .failure(let error) where error.detailedError == .usernameExists:
-                authenticationService.signIn(
-                    username: phone,
-                    password: password,
-                    options: nil
-                ) { [weak self] result in
-                    defer { self?.finish() }
-                    guard let self = self else { return }
-                    switch result {
-                    case .success(let state):
-                        switch state.nextStep {
-                        case .confirmSignInWithSMSCode(let details, _):
-                            self.authenticationHandler?(
-                                .success(PhoneAuthModelNextStep.confirm(details.destination))
-                            )
-                        case .resetPassword:
-                            self.authenticationHandler?(
-                                .success(PhoneAuthModelNextStep.resetPassword)
-                            )
-                        case .done:
-                            self.authenticationHandler?(
-                                .success(PhoneAuthModelNextStep.done)
-                            )
-                        case .confirmSignInWithNewPassword:
-                            self.authenticationHandler?(
-                                .success(PhoneAuthModelNextStep.setNewPassword)
-                            )
-                        default:
-                            self.authenticationHandler?(
-                                .success(PhoneAuthModelNextStep.unknown)
-                            )
-                        }
-                    case .failure(let error):
-                        self.authenticationHandler?(.failure(error))
-                    }
-                }
-            case .success(let state):
-                switch state.nextStep {
-                case .confirmUser(let details, _):
-                    authenticationHandler?(
-                        .success(PhoneAuthModelNextStep.confirm(details?.destination ?? .unknown(nil)))
-                    )
-                    finish()
-                case .done:
-                    authenticationHandler?(
-                        .success(PhoneAuthModelNextStep.done)
-                    )
-                    finish()
-                }
-            case .failure(let error):
-                authenticationHandler?(.failure(error))
-                finish()
-            }
+    
+    static func afterSignIn(_ result: AuthenticationSignInState) -> Self {
+        switch result.nextStep {
+        case .confirmSignInWithSMSCode(let details, _):
+            return PhoneAuthModelNextStep.confirm(details.destination)
+        case .resetPassword:
+            return PhoneAuthModelNextStep.resetPassword
+        case .done:
+            return PhoneAuthModelNextStep.done
+        case .confirmSignInWithNewPassword:
+            return PhoneAuthModelNextStep.setNewPassword
+        default:
+            return PhoneAuthModelNextStep.unknown
         }
     }
-    // swiftlint:enable cyclomatic_complexity
 }

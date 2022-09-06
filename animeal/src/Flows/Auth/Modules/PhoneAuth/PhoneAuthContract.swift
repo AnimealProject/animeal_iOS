@@ -30,7 +30,6 @@ protocol PhoneAuthViewState: AnyObject {
 // sourcery: AutoMockable
 protocol PhoneAuthModelProtocol: AnyObject {
     var fetchItemsResponse: (([PhoneAuthModelItem]) -> Void)? { get set }
-    var proceedAuthenticationResponse: ((Result<PhoneAuthModelNextStep, Error>) -> Void)? { get set }
 
     func fetchItems()
     func fetchItem(_ identifier: String) -> PhoneAuthModelItem?
@@ -39,7 +38,7 @@ protocol PhoneAuthModelProtocol: AnyObject {
 
     func updateItem(_ text: String?, forIdentifier identifier: String)
 
-    func proceedAuthentication()
+    func proceedAuthentication() async throws -> PhoneAuthModelNextStep
 }
 
 // MARK: - Coordinator
