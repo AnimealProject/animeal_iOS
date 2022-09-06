@@ -15,9 +15,11 @@ public protocol AuthenticationServiceProtocol {
 
     func signUp(username: String, password: String, options: [AuthenticationUserAttribute]?, handler: @escaping AuthenticationSignUpHandler)
 
-    func signIn(username: String, password: String, options: [AuthenticationUserAttribute]?, handler: @escaping AuthenticationSignInHanler)
+    func signIn(username: String, password: String, handler: @escaping AuthenticationSignInHanler)
 
-    func signIn(provider: AuthenticationProvider, options: [AuthenticationUserAttribute]?, handler: @escaping AuthenticationSignInHanler)
+    func signIn(username: String, handler: @escaping AuthenticationSignInHanler)
+
+    func signIn(provider: AuthenticationProvider, handler: @escaping AuthenticationSignInHanler)
 
     func signOut(handler: @escaping AuthenticationSignOutHanler)
 
@@ -35,17 +37,25 @@ extension AuthenticationServiceProtocol {
         }
     }
 
-    public func signIn(username: String, password: String, options: [AuthenticationUserAttribute]?) async throws -> AuthenticationSignInState {
+    public func signIn(username: String, password: String) async throws -> AuthenticationSignInState {
         try await withCheckedThrowingContinuation { continuation in
-            signIn(username: username, password: password, options: options) {
+            signIn(username: username, password: password) {
                 continuation.resume(with: $0)
             }
         }
     }
 
-    public func signIn(provider: AuthenticationProvider, options: [AuthenticationUserAttribute]?) async throws -> AuthenticationSignInState {
+    public func signIn(username: String) async throws -> AuthenticationSignInState {
         try await withCheckedThrowingContinuation { continuation in
-            signIn(provider: provider, options: options) {
+            signIn(username: username) {
+                continuation.resume(with: $0)
+            }
+        }
+    }
+
+    public func signIn(provider: AuthenticationProvider) async throws -> AuthenticationSignInState {
+        try await withCheckedThrowingContinuation { continuation in
+            signIn(provider: provider) {
                 continuation.resume(with: $0)
             }
         }

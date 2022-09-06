@@ -49,7 +49,6 @@ final class AuthenticationService: AuthenticationServiceProtocol {
     func signIn(
         username: String,
         password: String,
-        options: [AuthenticationUserAttribute]?,
         handler: @escaping AuthenticationSignInHanler
     ) {
         Amplify.Auth.signIn(username: username, password: password) { [weak self] result in
@@ -64,8 +63,25 @@ final class AuthenticationService: AuthenticationServiceProtocol {
     }
 
     func signIn(
+        username: String,
+        handler: @escaping AuthenticationSignInHanler
+    ) {
+        let options = AuthSignInRequest.Options(
+            pluginOptions: AWSAuthSignInOptions(authFlowType: .custom)
+        )
+        Amplify.Auth.signIn(username: username, options: options) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let state):
+                handler(.success(self.converter.convertAmplifySignInState(state)))
+            case .failure(let error):
+                handler(.failure(self.converter.convertAmplifyError(error)))
+            }
+        }
+    }
+
+    func signIn(
         provider: AuthenticationProvider,
-        options: [AuthenticationUserAttribute]?,
         handler: @escaping AuthenticationSignInHanler
     ) {
         switch provider {
@@ -99,7 +115,7 @@ final class AuthenticationService: AuthenticationServiceProtocol {
                 ))
                 return
             }
-            self.signIn(username: username, password: password, options: nil, handler: handler)
+            self.signIn(username: username, password: password, handler: handler)
         }
     }
 
