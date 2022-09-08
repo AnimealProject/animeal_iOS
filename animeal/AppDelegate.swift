@@ -1,12 +1,6 @@
-//
-//  AppDelegate.swift
-//  animeal
-//
-//  Created by Ihar Tsimafeichyk on 30/05/2022.
-//
-
 import UIKit
 import Services
+import Amplify
 
 protocol AppDelegateProtocol {
     var context: AppContext! { get }
@@ -27,6 +21,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateProtocol {
         context.applicationDelegateServices.forEach {
             _ = $0.registerApplication(application, didFinishLaunchingWithOptions: launchOptions)
         }
+
+        do {
+            try Amplify.configure()
+            logInfo("Amplify configured")
+        } catch {
+            logError("Failed to initialize Amplify with \(error)")
+        }
+
         logInfo("[APP] \(#function)")
         return true
     }
