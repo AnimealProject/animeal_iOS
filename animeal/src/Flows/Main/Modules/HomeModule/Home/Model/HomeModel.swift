@@ -1,65 +1,45 @@
 import Foundation
 import Services
+import Amplify
+import AWSDataStorePlugin
+import AWSAPIPlugin
+import AWSPluginsCore
 
 final class HomeModel: HomeModelProtocol {
-    private let context: DefaultsServiceHolder
+    typealias Context = DefaultsServiceHolder & NetworkServiceHolder
+    private let context: Context
     private var cashedFeedingPoints: [FeedingPoint] = []
 
     // MARK: - Initialization
-    init(context: DefaultsServiceHolder = AppDelegate.shared.context) {
+    init(context: Context = AppDelegate.shared.context) {
         self.context = context
     }
 
     // MARK: - Requests
     func fetchFeedingPoints(_ completion: (([FeedingPoint]) -> Void)?) {
-        // Fake data used here
-        let points = [
-            // Akaki Tsereteli Avenue 7, 0119 Tbilisi, Georgia
-            FeedingPoint(
-                identifier: UUID().uuidString,
-                location: Location(latitude: 41.73252135744818, longitude: 44.784740558407265),
-                pet: .dog,
-                hungerLevel: .low
-            ),
-            // Spiridon Kedia Street, 0119 Tbilisi, Georgia
-            FeedingPoint(
-                identifier: UUID().uuidString,
-                location: Location(latitude: 41.73234080910943, longitude: 44.78767936105234),
-                pet: .dog,
-                hungerLevel: .high
-            ),
-            // Megaline, Razhden Gvetadze St, 0154 Tbilisi, Georgia
-            FeedingPoint(
-                identifier: UUID().uuidString,
-                location: Location(latitude: 41.72941679186787, longitude: 44.78358255002624),
-                pet: .dog,
-                hungerLevel: .mid
-            ),
-            // Akaki Tsereteli Avenue 2, 0154 Tbilisi, Georgia
-            FeedingPoint(
-                identifier: UUID().uuidString,
-                location: Location(latitude: 41.731819746852416, longitude: 44.784159255086905),
-                pet: .dog,
-                hungerLevel: .low
-            ),
-            // Megaline, Razhden Gvetadze St, 0154 Tbilisi, Georgia
-            FeedingPoint(
-                identifier: UUID().uuidString,
-                location: Location(latitude: 41.72941679186787, longitude: 44.78358255002624),
-                pet: .cat,
-                hungerLevel: .mid
-            ),
-            // Akaki Tsereteli Avenue 2, 0154 Tbilisi, Georgia
-            FeedingPoint(
-                identifier: UUID().uuidString,
-                location: Location(latitude: 41.731819746852416, longitude: 44.784159255086905),
-                pet: .cat,
-                hungerLevel: .low
-            )
-        ]
-        cashedFeedingPoints = points
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            completion?(self.applyFilter(self.cashedFeedingPoints))
+        context.networkService.query(request: .list(animeal.FeedingPoint.self)) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let points):
+                let feedingPoints = points.map { point in
+                    FeedingPoint(
+                        identifier: point.id,
+                        location: Location(
+                            latitude: point.location.lat,
+                            longitude: point.location.lon
+                        ),
+                        pet: point.category.i18n?.first(where: { $0.locale == "en" })?.name == "Dog" ? .dog : .cat,
+                        hungerLevel: .high // TODO: Fix hungerLevel
+                    )
+                }
+                self.cashedFeedingPoints = feedingPoints
+                DispatchQueue.main.async {
+                    completion?(self.applyFilter(self.cashedFeedingPoints))
+                }
+            case .failure:
+                // TODO: Add error handling here
+                break
+            }
         }
     }
 

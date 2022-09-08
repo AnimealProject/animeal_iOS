@@ -167,10 +167,9 @@ extension AuthenticationService: ApplicationDelegateService {
     ) -> Bool {
         do {
             try Amplify.add(plugin: AWSCognitoAuthPlugin())
-            try Amplify.configure()
-            logInfo("Amplify configured with auth plugin")
+            logInfo("Amplify add AWSCognitoAuthPlugin plugin")
         } catch {
-            logInfo("Failed to initialize Amplify with \(error)")
+            logInfo("Failed to add AWSCognitoAuthPlugin plugin with \(error)")
         }
 
         return true

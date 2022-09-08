@@ -6,7 +6,8 @@ import Services
     LocationServiceHolder &
     AnalyticsServiceHolder &
     AuthenticationServiceHolder &
-    DefaultsServiceHolder
+    DefaultsServiceHolder &
+    NetworkServiceHolder
 
 struct AppContext: AppContextProtocol {
     let analyticsService: AnalyticsServiceProtocol
@@ -14,6 +15,7 @@ struct AppContext: AppContextProtocol {
     let locationService: LocationServiceProtocol
     let authenticationService: AuthenticationServiceProtocol
     let defaultsService: DefaultsServiceProtocol
+    let networkService: NetworkServiceProtocol
     var applicationDelegateServices: [ApplicationDelegateService]
 
     static func context() -> AppContext {
@@ -22,6 +24,7 @@ struct AppContext: AppContextProtocol {
         let locationService = LocationService(locationManager: LocationManager(), logger: Log.shared)
         let authenticationService = AuthenticationService()
         let defaultsService = DefaultsService()
+        let networkService = NetworkService()
 
         let context = AppContext(
             analyticsService: analyticsService,
@@ -29,12 +32,14 @@ struct AppContext: AppContextProtocol {
             locationService: locationService,
             authenticationService: authenticationService,
             defaultsService: defaultsService,
+            networkService: networkService,
             applicationDelegateServices: [
                 analyticsService,
                 devLoggerService,
                 locationService,
                 authenticationService,
-                defaultsService
+                defaultsService,
+                networkService
             ]
         )
 

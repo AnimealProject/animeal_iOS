@@ -1,4 +1,5 @@
 import Services
+import Amplify
 
 final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeViewState {
     // MARK: - Dependencies

@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ihartsimafeichyk/amplify-ios",
       "state" : {
-        "branch" : "fix/has-one-association",
-        "revision" : "6f2f1cb3cb809ecd36f84fd0833eaafd677ab783"
+        "branch" : "fixed-animeal-issues",
+        "revision" : "2a046f2e12c22d8cf44c867d72aa3c8a670181cb"
       }
     },
     {
@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/aws-amplify/aws-appsync-realtime-client-ios.git",
       "state" : {
-        "revision" : "28f61d7ca362699941cc8844d34d082f1eb49602",
-        "version" : "1.10.0"
+        "revision" : "da88cf1cab82e281e7277cd9feb9efc87a057041",
+        "version" : "2.1.1"
       }
     },
     {
@@ -212,8 +212,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/stephencelis/SQLite.swift.git",
       "state" : {
-        "revision" : "0a9893ec030501a3956bee572d6b4fdd3ae158a1",
-        "version" : "0.12.2"
+        "revision" : "5f5ad81ac0d0a0f3e56e39e646e8423c617df523",
+        "version" : "0.13.2"
       }
     },
     {
