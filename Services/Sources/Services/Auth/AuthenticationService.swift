@@ -5,6 +5,7 @@ public typealias AuthenticationSignInHanler = (Result<AuthenticationSignInState,
 public typealias AuthenticationSignOutHanler = (Result<Void, AuthenticationError>) -> Void
 public typealias AuthenticationConfirmSignUpHanler = AuthenticationSignUpHandler
 public typealias AuthenticationConfirmSignInHanler = AuthenticationSignInHanler
+public typealias DeleteUserHandler = AuthenticationSignOutHanler
 
 public protocol AuthenticationServiceHolder {
     var authenticationService: AuthenticationServiceProtocol { get }
@@ -26,6 +27,8 @@ public protocol AuthenticationServiceProtocol {
     func confirmSignUp(for username: String, otp: String, handler: @escaping AuthenticationConfirmSignUpHanler)
 
     func confirmSignIn(otp: String, handler: @escaping AuthenticationConfirmSignInHanler)
+
+    func deleteUser(handler: @escaping DeleteUserHandler)
 }
 
 extension AuthenticationServiceProtocol {
@@ -78,6 +81,14 @@ extension AuthenticationServiceProtocol {
     public func confirmSignIn(otp: String) async throws -> AuthenticationSignInState {
         try await withCheckedThrowingContinuation { continuation in
             confirmSignIn(otp: otp) {
+                continuation.resume(with: $0)
+            }
+        }
+    }
+
+    public func deleteUser() async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            deleteUser() {
                 continuation.resume(with: $0)
             }
         }

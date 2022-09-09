@@ -112,12 +112,8 @@ private extension MorePartitionViewController {
                 )
                 actionView.actionHandler = { [weak self] in
                     guard let self = self else { return }
-                    // TODO: Handle routing here
                     if let alert = self.makeAlertView(action.dialog) {
                         self.present(alert, animated: true)
-                    } else {
-                        // TODO: Handle actionsID here
-                        print(action.actionId)
                     }
                 }
                 contentContainerView.addArrangedSubview(actionView)

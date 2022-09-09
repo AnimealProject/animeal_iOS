@@ -25,6 +25,7 @@
 "more.help"                        = "Help";
 "more.about"                       = "About (terms and conditions)";
 "more.account"                     = "Account";
+"more.aboutShort"                  = "About";
 "action.logOut"                    = "Log out";
 "action.cancel"                    = "Cancel";
 "action.delete"                    = "Delete";

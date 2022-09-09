@@ -1,8 +1,6 @@
 import UIKit
 
 
-// TODO:  Add Model
-
 class CircleView: UIView {
     private let colorLayer = CALayer()
     private let shadow = UIView()

@@ -25,6 +25,7 @@
 "more.help"                        = "დახმარება";
 "more.about"                       = "შესახებ (წესები და პირობები)";
 "more.account"                     = "ანგარიში";
+"more.aboutShort"                  = "შესახებ";
 "action.logOut"                    = "გასვლა";
 "action.cancel"                    = "გაუქმება";
 "action.delete"                    = "წაშლა";

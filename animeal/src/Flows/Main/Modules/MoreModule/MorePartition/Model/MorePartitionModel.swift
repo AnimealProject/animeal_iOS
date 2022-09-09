@@ -13,7 +13,6 @@ final class MorePartitionModel: MorePartitionModelProtocol {
 
     // MARK: MorePartitionModelProtocol
     func fetchContentModel(_ mode: PartitionMode) -> PartitionContentModel {
-        // TODO: Localize strings!!!
         switch mode {
         case .donate:
             return PartitionContentModel(
@@ -78,7 +77,7 @@ final class MorePartitionModel: MorePartitionModelProtocol {
             )
         case .about:
             return PartitionContentModel(
-                header: PartitionContentModel.Header(title: L10n.More.about),
+                header: PartitionContentModel.Header(title: L10n.More.aboutShort),
                 content: PartitionContentModel.Content(actions: nil),
                 footer: nil
             )
@@ -87,6 +86,20 @@ final class MorePartitionModel: MorePartitionModelProtocol {
 
     func handleSignOut(completion: ((Result<Void, Error>) -> Void)?) {
         authenticationService.signOut { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success:
+                    completion?(.success(()))
+                case .failure(let error):
+                    logError("\(error)")
+                    completion?(.failure(error))
+                }
+            }
+        }
+    }
+
+    func handleDeleteUser(completion: ((Result<Void, Error>) -> Void)?) {
+        authenticationService.deleteUser { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success:
