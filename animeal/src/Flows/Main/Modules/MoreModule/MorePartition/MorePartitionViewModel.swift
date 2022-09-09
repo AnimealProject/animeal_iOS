@@ -30,8 +30,18 @@ final class MorePartitionViewModel: MorePartitionViewModelLifeCycle,
     // MARK: - Interaction
     func handleActionEvent(_ event: MorePartitionViewActionEvent) {
         switch event {
-        case .logout, .deleteAccount:
+        case .logout:
             model.handleSignOut { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .success:
+                    self.coordinator.routeTo(.logout)
+                case .failure(let error):
+                    self.coordinator.routeTo(.error(error.localizedDescription))
+                }
+            }
+        case .deleteAccount:
+            self.model.handleDeleteUser { [weak self] result in
                 guard let self = self else { return }
                 switch result {
                 case .success:

@@ -38,6 +38,8 @@ internal enum L10n {
   internal enum More {
     /// About (terms and conditions)
     internal static let about = L10n.tr("Localizable", "more.about")
+    /// About
+    internal static let aboutShort = L10n.tr("Localizable", "more.aboutShort")
     /// Account
     internal static let account = L10n.tr("Localizable", "more.account")
     /// Donate

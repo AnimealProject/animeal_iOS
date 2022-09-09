@@ -158,6 +158,18 @@ final class AuthenticationService: AuthenticationServiceProtocol {
             }
         }
     }
+
+    func deleteUser(handler: @escaping DeleteUserHandler) {
+        Amplify.Auth.deleteUser() { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success:
+                handler(.success(()))
+            case .failure(let error):
+                handler(.failure(self.converter.convertAmplifyError(error)))
+            }
+        }
+    }
 }
 
 extension AuthenticationService: ApplicationDelegateService {

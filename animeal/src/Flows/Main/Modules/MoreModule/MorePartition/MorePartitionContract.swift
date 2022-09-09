@@ -27,6 +27,7 @@ protocol MorePartitionModelProtocol: AnyObject {
     func fetchContentModel(_ mode: PartitionMode) -> PartitionContentModel
 
     func handleSignOut(completion: ((Result<Void, Error>) -> Void)?)
+    func handleDeleteUser(completion: ((Result<Void, Error>) -> Void)?)
     func handleCopyIBAN()
 }
 
