@@ -1,11 +1,19 @@
 #!/bin/bash
 
 name=$1
+file_module_name=$2
+
+if [ "$file_module_name" == "" ]; then
+    file_module_name=$(echo "$name")
+fi
 
 if [ "$name" != "" ]; then
     module_name=$(echo "$name")
-    mkdir -p "$module_name"
-    cd $module_name
+fi
+
+if [ "$module_name" != "" ]; then
+    mkdir -p "$file_module_name"
+    cd $file_module_name
 
 echo "import UIKit
 
@@ -33,8 +41,8 @@ protocol ${module_name}ViewState: AnyObject {
 
 // sourcery: AutoMockable
 protocol ${module_name}ModelProtocol: AnyObject {
-}" > ${module_name}Contract.swift
-echo "${module_name}Contract was created"
+}" > ${file_module_name}Contract.swift
+echo "${file_module_name}Contract was created"
 
 
 echo "import UIKit
@@ -50,8 +58,8 @@ final class ${module_name}ModuleAssembler: Assembling {
 
         return view
     }
-}" > ${module_name}Assembler.swift
-echo "${module_name}Assembler was created"
+}" > ${file_module_name}Assembler.swift
+echo "${file_module_name}Assembler was created"
 
 echo "import Foundation
 
@@ -74,8 +82,8 @@ final class ${module_name}ViewModel: ${module_name}ViewModelLifeCycle, ${module_
 
     func load() {
     }
-}" > ${module_name}ViewModel.swift
-echo "${module_name}ViewModel was created"
+}" > ${file_module_name}ViewModel.swift
+echo "${file_module_name}ViewModel was created"
 
 echo "import UIKit
 import UIComponents
@@ -104,8 +112,8 @@ final class ${module_name}ViewController: UIViewController, ${module_name}Viewab
     // MARK: - Setup
     private func setup() {
     }
-}" > ${module_name}ViewController.swift
-echo "${module_name}ViewController was created"
+}" > ${file_module_name}ViewController.swift
+echo "${file_module_name}ViewController was created"
 
 echo "import Foundation
 
@@ -114,8 +122,8 @@ final class ${module_name}Model: ${module_name}ModelProtocol {
 
     // MARK: - Initialization
     init() { }
-}" > ${module_name}Model.swift
-echo "${module_name}Model was created"
+}" > ${file_module_name}Model.swift
+echo "${file_module_name}Model was created"
     open .
 else
     echo "[ERROR] Provide screen name"
