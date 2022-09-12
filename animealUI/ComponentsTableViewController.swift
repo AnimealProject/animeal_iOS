@@ -37,6 +37,8 @@ class ComponentsTableViewController: UIViewController, UITableViewDataSource, UI
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.dataSource = self
         tableView.delegate = self
+
+        tableView.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
     }
 
     private func composeDataSource() {
@@ -277,11 +279,8 @@ class ComponentsTableViewController: UIViewController, UITableViewDataSource, UI
                 description: "FeedingPointViews"
             ) {
                 let viewController = ComponentViewController<UIStackView>()
-                viewController.configureElement = { stack in
-                    guard
-                        let superView = stack.superview,
-                        let stackView = stack as? UIStackView
-                    else {
+                viewController.configureElement = { stackView in
+                    guard let superView = stackView.superview else {
                         return
                     }
 
@@ -300,16 +299,58 @@ class ComponentsTableViewController: UIViewController, UITableViewDataSource, UI
                         status: StatusModel(status: .attention("There is no food"))
                     ))
 
-                    let paragraphView = ParagraphView()
+                    let paragraphView = TextParagraphView()
                     stackView.addArrangedSubview(paragraphView)
                     paragraphView.configure(
-                        ParagraphView.Model(
+                        TextParagraphView.Model(
                             title: "This area covers about 100 sq.m. -S,"
                             + " it starts with Bukia Garden and Sports At the palace."
                             + " There are about 1000 homeless people here The dog lives with the habit"
                             + "of helping You need."
                         )
                     )
+
+                    let title = TextTitleView()
+                    title.configure(TextTitleView.Model(title: "Last feeder"))
+                    stackView.addArrangedSubview(title)
+
+                    let feeder = FeederView()
+                    stackView.addArrangedSubview(feeder)
+                    feeder.configure(
+                        FeederView.Model(
+                            title: "Giorgi Abutidze",
+                            subtitle: "14 hours ago",
+                            icon: Asset.Images.feederPlaceholderIcon.image
+                        )
+                    )
+                    let feeder1 = FeederView()
+                    stackView.addArrangedSubview(feeder1)
+                    feeder1.configure(
+                        FeederView.Model(
+                            title: "Giorgi Abutidze",
+                            subtitle: "14 hours ago",
+                            icon: Asset.Images.feederPlaceholderIcon.image
+                        )
+                    )
+                    let feeder2 = FeederView()
+                    stackView.addArrangedSubview(feeder2)
+                    feeder2.configure(
+                        FeederView.Model(
+                            title: "Giorgi Abutidze",
+                            subtitle: "14 hours ago",
+                            icon: Asset.Images.feederPlaceholderIcon.image
+                        )
+                    )
+                    let feeder3 = FeederView()
+                    stackView.addArrangedSubview(feeder3)
+                    feeder3.configure(
+                        FeederView.Model(
+                            title: "Giorgi Abutidze",
+                            subtitle: "14 hours ago",
+                            icon: Asset.Images.feederPlaceholderIcon.image
+                        )
+                    )
+
                 }
                 return viewController
             }
