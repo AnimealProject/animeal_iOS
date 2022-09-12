@@ -1,6 +1,7 @@
 excluded:
   - ${PWD}/Pods
   - ${PWD}/DerivedData
+  - Tools
 
 disabled_rules:
   - discarded_notification_center_observer
