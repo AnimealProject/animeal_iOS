@@ -1,6 +1,6 @@
 import UIKit
 
-public extension ParagraphView {
+public extension TextParagraphView {
     struct Model {
         public let title: String
 
@@ -12,12 +12,13 @@ public extension ParagraphView {
     }
 }
 
-public final class ParagraphView: UIView {
+public final class TextParagraphView: UIView {
     // MARK: - Private properties
     private lazy var titleView: UITextView = {
         let view = UITextView().prepareForAutoLayout()
         view.textColor = designEngine.colors.textPrimary.uiColor
         view.font = designEngine.fonts.primary.light(14).uiFont
+        view.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
         view.textAlignment = .left
         view.sizeToFit()
         view.isScrollEnabled = false
