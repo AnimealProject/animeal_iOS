@@ -147,6 +147,12 @@
 		DBDB501B2887FE00003C6FF0 /* HomeModel+DTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB501A2887FE00003C6FF0 /* HomeModel+DTO.swift */; };
 		DBDB50212889725C003C6FF0 /* FeedingPointViewMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB50202889725C003C6FF0 /* FeedingPointViewMapper.swift */; };
 		DBDC6E7028C73E8F001B359D /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDC6E6F28C73E8F001B359D /* NetworkService.swift */; };
+		DBF56B5628CF40E300AB0BDF /* FeedingPointDetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF56B5128CF40E300AB0BDF /* FeedingPointDetailsModel.swift */; };
+		DBF56B5728CF40E300AB0BDF /* FeedingPointDetailsContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF56B5228CF40E300AB0BDF /* FeedingPointDetailsContract.swift */; };
+		DBF56B5828CF40E300AB0BDF /* FeedingPointDetailsAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF56B5328CF40E300AB0BDF /* FeedingPointDetailsAssembler.swift */; };
+		DBF56B5928CF40E300AB0BDF /* FeedingPointDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF56B5428CF40E300AB0BDF /* FeedingPointDetailsViewController.swift */; };
+		DBF56B5A28CF40E300AB0BDF /* FeedingPointDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF56B5528CF40E300AB0BDF /* FeedingPointDetailsViewModel.swift */; };
+		DBF56B5C28CF4A5700AB0BDF /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF56B5B28CF4A5700AB0BDF /* HomeCoordinator.swift */; };
 		DCE1CAAC12C918FB62B0BA8B /* LanguagesSetting+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6536D50A446F5742969183 /* LanguagesSetting+Schema.swift */; };
 		FB00144B2859FC1800943360 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB00144A2859FC1800943360 /* ProfileViewController.swift */; };
 		FB00144D2859FC7700943360 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB00144C2859FC7700943360 /* ProfileViewModel.swift */; };
@@ -317,6 +323,12 @@
 		DBDB501A2887FE00003C6FF0 /* HomeModel+DTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeModel+DTO.swift"; sourceTree = "<group>"; };
 		DBDB50202889725C003C6FF0 /* FeedingPointViewMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingPointViewMapper.swift; sourceTree = "<group>"; };
 		DBDC6E6F28C73E8F001B359D /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		DBF56B5128CF40E300AB0BDF /* FeedingPointDetailsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedingPointDetailsModel.swift; sourceTree = "<group>"; };
+		DBF56B5228CF40E300AB0BDF /* FeedingPointDetailsContract.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedingPointDetailsContract.swift; sourceTree = "<group>"; };
+		DBF56B5328CF40E300AB0BDF /* FeedingPointDetailsAssembler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedingPointDetailsAssembler.swift; sourceTree = "<group>"; };
+		DBF56B5428CF40E300AB0BDF /* FeedingPointDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedingPointDetailsViewController.swift; sourceTree = "<group>"; };
+		DBF56B5528CF40E300AB0BDF /* FeedingPointDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedingPointDetailsViewModel.swift; sourceTree = "<group>"; };
+		DBF56B5B28CF4A5700AB0BDF /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		DEFE643B8BEBAC315C0A9518 /* Pet.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Pet.swift; path = amplify/generated/models/Pet.swift; sourceTree = "<group>"; };
 		E1877F1460B58C5A5A0F72E5 /* LanguagesSetting.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = LanguagesSetting.swift; path = amplify/generated/models/LanguagesSetting.swift; sourceTree = "<group>"; };
 		E423FC6DE22260CD3829A2BE /* MedicationI18n+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "MedicationI18n+Schema.swift"; path = "amplify/generated/models/MedicationI18n+Schema.swift"; sourceTree = "<group>"; };
@@ -737,6 +749,30 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
+		DB0E43C328D077C7007A1EB1 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				DBF56B5B28CF4A5700AB0BDF /* HomeCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		DB0E43C428D07D53007A1EB1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				DBF56B5428CF40E300AB0BDF /* FeedingPointDetailsViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		DB0E43C528D07D60007A1EB1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				DBF56B5128CF40E300AB0BDF /* FeedingPointDetailsModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		DB127E8C28B97CE100012B53 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -801,6 +837,8 @@
 		DB5A838F285D00B100F3C3A5 /* HomeModule */ = {
 			isa = PBXGroup;
 			children = (
+				DB0E43C328D077C7007A1EB1 /* Coordinator */,
+				DBF56B5028CF40E300AB0BDF /* FeedingPointDetails */,
 				DB73B47C28C1ED0700363FB8 /* Home */,
 			);
 			path = HomeModule;
@@ -959,6 +997,18 @@
 				DB84B31428CA13A60083D98C /* NetworkRequest.swift */,
 			);
 			path = Networking;
+			sourceTree = "<group>";
+		};
+		DBF56B5028CF40E300AB0BDF /* FeedingPointDetails */ = {
+			isa = PBXGroup;
+			children = (
+				DB0E43C428D07D53007A1EB1 /* View */,
+				DB0E43C528D07D60007A1EB1 /* Model */,
+				DBF56B5528CF40E300AB0BDF /* FeedingPointDetailsViewModel.swift */,
+				DBF56B5328CF40E300AB0BDF /* FeedingPointDetailsAssembler.swift */,
+				DBF56B5228CF40E300AB0BDF /* FeedingPointDetailsContract.swift */,
+			);
+			path = FeedingPointDetails;
 			sourceTree = "<group>";
 		};
 		EC5A724E54B251047A4A70CA /* AmplifyModels */ = {
@@ -1377,6 +1427,7 @@
 				83C24F81286D994A0086330B /* VerificationViewCode.swift in Sources */,
 				8372CCBB28A029990085C6D1 /* PhoneAuthViewModel.swift in Sources */,
 				8372CCE128A18B030085C6D1 /* PhotoAuthViewText.swift in Sources */,
+				DBF56B5728CF40E300AB0BDF /* FeedingPointDetailsContract.swift in Sources */,
 				837F1FB328868C3A001FABC5 /* AuthenticationService.swift in Sources */,
 				83F3CC1D2847808200C05298 /* LoginModelAction.swift in Sources */,
 				DBDB50182887FBBA003C6FF0 /* HomeContract.swift in Sources */,
@@ -1412,6 +1463,7 @@
 				ADCE2C70056E504714AF994F /* CategoryI18n+Schema.swift in Sources */,
 				8E8DC17FBCBFDAEA975F74C0 /* CategoryI18n.swift in Sources */,
 				DBC2BB4228BBAD2B0086EF52 /* MorePartitionModel.swift in Sources */,
+				DBF56B5628CF40E300AB0BDF /* FeedingPointDetailsModel.swift in Sources */,
 				704192811E47C576AE584354 /* Favourites+Schema.swift in Sources */,
 				83E83A4E28A98E2700B40FC4 /* MainCoordinator.swift in Sources */,
 				4C682BBEC221AEFF0609E936 /* Favourites.swift in Sources */,
@@ -1429,6 +1481,7 @@
 				DB127E8928B9648200012B53 /* MoreViewModel.swift in Sources */,
 				DB127E8628B9648200012B53 /* MoreViewController.swift in Sources */,
 				8372CCC728A02A1E0085C6D1 /* PhoneAuthModel.swift in Sources */,
+				DBF56B5A28CF40E300AB0BDF /* FeedingPointDetailsViewModel.swift in Sources */,
 				8372CCD828A034370085C6D1 /* PhoneAuthViewItemMapper.swift in Sources */,
 				83C24F89286D9D060086330B /* VerificationModelCode.swift in Sources */,
 				DBBDE72A28BB8C2A006EEBA3 /* MoreItemViewMapper.swift in Sources */,
@@ -1449,6 +1502,7 @@
 				715F8D7B404E4EECCD15081A /* Location.swift in Sources */,
 				83FA79410E174D738434A8AD /* Medication+Schema.swift in Sources */,
 				DB127E8528B9648200012B53 /* MoreModel.swift in Sources */,
+				DBF56B5828CF40E300AB0BDF /* FeedingPointDetailsAssembler.swift in Sources */,
 				B86954F5AEDAFD695ADFC5A6 /* Medication.swift in Sources */,
 				1EE4E0FF2FF2EEB607AEC220 /* MedicationI18n+Schema.swift in Sources */,
 				83C24F7F286D994A0086330B /* VereficationViewResendCode+TextClickableLeftIconTitleView.swift in Sources */,
@@ -1463,6 +1517,7 @@
 				DBC2BB4428BBAD2B0086EF52 /* MorePartitionAssembler.swift in Sources */,
 				0028E02D831362905A72161A /* PetI18n+Schema.swift in Sources */,
 				6826AB850FFAF4CC13D042F3 /* PetI18n.swift in Sources */,
+				DBF56B5C28CF4A5700AB0BDF /* HomeCoordinator.swift in Sources */,
 				0DC7F17C09E9C3EA296C308D /* Point+Schema.swift in Sources */,
 				8372CCCF28A02F300085C6D1 /* PhoneAuthModelItem.swift in Sources */,
 				DB127E8F28B9E9BA00012B53 /* MoreCoordinator.swift in Sources */,
@@ -1493,6 +1548,7 @@
 				8A6AAAE674342B5D7F37A670 /* Settings.swift in Sources */,
 				83F3CC202847851300C05298 /* LoginViewAction.swift in Sources */,
 				83C24F72286D99280086330B /* LoginViewAction+ButtonViewModel.swift in Sources */,
+				DBF56B5928CF40E300AB0BDF /* FeedingPointDetailsViewController.swift in Sources */,
 				DB5A838C285CEB9D00F3C3A5 /* AppInfo.swift in Sources */,
 				FB1C7E28286F1E1A0024EBDD /* ProfileContract.swift in Sources */,
 			);

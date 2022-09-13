@@ -1,11 +1,18 @@
 import UIKit
 import Common
 
-final class HomeModuleAssembler: Assembling {
-    static func assemble() -> UIViewController {
+final class HomeModuleAssembler {
+    private let coordinator: HomeCoordinatable
+
+    init(coordinator: HomeCoordinatable) {
+        self.coordinator = coordinator
+    }
+
+    func assemble() -> UIViewController {
         let model = HomeModel()
         let viewModel = HomeViewModel(
-            model: model
+            model: model,
+            coordinator: coordinator
         )
         let view = HomeViewController(viewModel: viewModel)
 

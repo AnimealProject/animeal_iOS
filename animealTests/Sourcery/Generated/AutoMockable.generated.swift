@@ -28,6 +28,9 @@ import CoreLocation
 
 
 
+class FeedingPointDetailsModelProtocolMock: FeedingPointDetailsModelProtocol {
+
+}
 class FeedingPointViewMappableMock: FeedingPointViewMappable {
 
     // MARK: - mapFeedingPoint
@@ -374,9 +377,54 @@ class LoginViewOnboardingStepsMappableMock: LoginViewOnboardingStepsMappable {
     }
 
 }
+class MoreItemViewMappableMock: MoreItemViewMappable {
+
+    // MARK: - mapActionModel
+
+    var mapActionModelCallsCount = 0
+    var mapActionModelCalled: Bool {
+        return mapActionModelCallsCount > 0
+    }
+    var mapActionModelReceivedInput: MoreActionModel?
+    var mapActionModelReceivedInvocations: [MoreActionModel] = []
+    var mapActionModelReturnValue: MoreItemView!
+    var mapActionModelClosure: ((MoreActionModel) -> MoreItemView)?
+
+    func mapActionModel(_ input: MoreActionModel) -> MoreItemView {
+        mapActionModelCallsCount += 1
+        mapActionModelReceivedInput = input
+        mapActionModelReceivedInvocations.append(input)
+        if let mapActionModelClosure = mapActionModelClosure {
+            return mapActionModelClosure(input)
+        } else {
+            return mapActionModelReturnValue
+        }
+    }
+
+}
+class MoreModelProtocolMock: MoreModelProtocol {
+
+    // MARK: - fetchActions
+
+    var fetchActionsCallsCount = 0
+    var fetchActionsCalled: Bool {
+        return fetchActionsCallsCount > 0
+    }
+    var fetchActionsReturnValue: [MoreActionModel]!
+    var fetchActionsClosure: (() -> [MoreActionModel])?
+
+    func fetchActions() -> [MoreActionModel] {
+        fetchActionsCallsCount += 1
+        if let fetchActionsClosure = fetchActionsClosure {
+            return fetchActionsClosure()
+        } else {
+            return fetchActionsReturnValue
+        }
+    }
+
+}
 class PhoneAuthModelProtocolMock: PhoneAuthModelProtocol {
     var fetchItemsResponse: (([PhoneAuthModelItem]) -> Void)?
-    var proceedAuthenticationResponse: ((Result<PhoneAuthModelNextStep, Error>) -> Void)?
 
     // MARK: - fetchItems
 
@@ -450,15 +498,24 @@ class PhoneAuthModelProtocolMock: PhoneAuthModelProtocol {
 
     // MARK: - proceedAuthentication
 
+    var proceedAuthenticationThrowableError: Error?
     var proceedAuthenticationCallsCount = 0
     var proceedAuthenticationCalled: Bool {
         return proceedAuthenticationCallsCount > 0
     }
-    var proceedAuthenticationClosure: (() -> Void)?
+    var proceedAuthenticationReturnValue: PhoneAuthModelNextStep!
+    var proceedAuthenticationClosure: (() async throws -> PhoneAuthModelNextStep)?
 
-    func proceedAuthentication() {
+    func proceedAuthentication() async throws -> PhoneAuthModelNextStep {
+        if let error = proceedAuthenticationThrowableError {
+            throw error
+        }
         proceedAuthenticationCallsCount += 1
-        proceedAuthenticationClosure?()
+        if let proceedAuthenticationClosure = proceedAuthenticationClosure {
+            return try await proceedAuthenticationClosure()
+        } else {
+            return proceedAuthenticationReturnValue
+        }
     }
 
 }

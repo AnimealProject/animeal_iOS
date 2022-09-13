@@ -9,6 +9,9 @@ final class MainCoordinator: Coordinatable {
     // MARK: - Private properties
     private let navigator: Navigating
     private var childCoordinators: [Coordinatable]
+    private enum Constant {
+        static let homeViewIndex = 2
+    }
 
     private(set) lazy var rootTabBarController: TabBarController = {
         let redVC = UIViewController()
@@ -27,7 +30,16 @@ final class MainCoordinator: Coordinatable {
             self?.stop()
         }
         moreCoordinator.start()
-        childCoordinators = [moreCoordinator]
+
+        let homeNavigtionController = UINavigationController()
+        let homeCoordinator = HomeCoordinator(
+            navigator: Navigator(navigationController: homeNavigtionController)
+        ) { [weak self] in
+            self?.stop()
+        }
+        homeCoordinator.start()
+
+        childCoordinators = [moreCoordinator, homeCoordinator]
         return TabBarController(items: [
             TabBarControllerItem(
                 tabBarItemView: PlainTabBarItemView(
@@ -51,7 +63,7 @@ final class MainCoordinator: Coordinatable {
                     model: TabBarItemViewModel(
                         icon: Asset.Images.home.image
                     )
-                ), viewController: HomeModuleAssembler.assemble()
+                ), viewController: homeNavigtionController
             ),
             TabBarControllerItem(
                 tabBarItemView: PlainTabBarItemView(
@@ -91,11 +103,7 @@ final class MainCoordinator: Coordinatable {
     // MARK: - Life cycle
     func start() {
         presentingWindow.rootViewController = rootTabBarController
-        rootTabBarController.selectedViewController(
-            index: rootTabBarController.items.firstIndex {
-                $0.viewController is HomeViewController
-            }
-        )
+        rootTabBarController.selectedViewController(index: Constant.homeViewIndex)
         navigator.push(rootTabBarController, animated: false, completion: nil)
         presentingWindow.makeKeyAndVisible()
     }

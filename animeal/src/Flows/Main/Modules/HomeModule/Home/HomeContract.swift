@@ -39,3 +39,12 @@ enum HomeViewActionEvent {
     case tapFeedingPoint(String)
     case tapFilterControl(Int)
 }
+
+// MARK: - Coordinator
+protocol HomeCoordinatable {
+    func routeTo(_ route: HomeRoute)
+}
+
+enum HomeRoute {
+    case details
+}
