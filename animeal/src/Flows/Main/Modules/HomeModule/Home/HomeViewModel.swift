@@ -7,6 +7,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     private let locationService: LocationServiceProtocol
     private let feedingPointViewMapper: FeedingPointViewMappable
     private let segmentsViewMapper: FilterViewMappable
+    private let coordinator: HomeCoordinatable
 
     // MARK: - State
     var onFeedingPointsHaveBeenPrepared: (([FeedingPointViewItem]) -> Void)?
@@ -15,6 +16,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     // MARK: - Initialization
     init(
         model: HomeModelProtocol,
+        coordinator: HomeCoordinatable,
         locationService: LocationServiceProtocol = AppDelegate.shared.context.locationService,
         feedingPointViewMapper: FeedingPointViewMappable = FeedingPointViewMapper(),
         segmentsViewMapper: FilterViewMappable = SegmentedControlMapper()
@@ -23,6 +25,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
         self.locationService = locationService
         self.feedingPointViewMapper = feedingPointViewMapper
         self.segmentsViewMapper = segmentsViewMapper
+        self.coordinator = coordinator
     }
 
     // MARK: - Life cycle
@@ -38,6 +41,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
         switch event {
         case .tapFeedingPoint(let pointId):
             print(pointId)
+            coordinator.routeTo(.details)
         case .tapFilterControl(let filterItemId):
             guard let itemIdentifier = HomeModel.FilterItemIdentifier(rawValue: filterItemId) else {
                 logError("[APP] \(#function) no filter with \(filterItemId)")
