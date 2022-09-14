@@ -2,6 +2,7 @@ import Foundation
 import UIKit
 import UIComponents
 
+@MainActor
 final class MoreCoordinator: Coordinatable {
     // MARK: - Dependencies
     private var navigator: Navigating

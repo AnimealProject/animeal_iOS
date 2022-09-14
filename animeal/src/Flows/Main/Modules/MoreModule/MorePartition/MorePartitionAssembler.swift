@@ -1,6 +1,7 @@
 import UIKit
 import Common
 
+@MainActor
 final class MorePartitionModuleAssembler {
     private let coordinator: MorePartitionCoordinatable
 

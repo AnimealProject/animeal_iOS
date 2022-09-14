@@ -4,7 +4,7 @@ import Foundation
 // SDK
 import UIComponents
 
-extension PhoneAuthViewHeader {
+extension CustomAuthViewHeader {
     var model: TextBigTitleSubtitleView.Model {
         return TextBigTitleSubtitleView.Model(
             title: title,

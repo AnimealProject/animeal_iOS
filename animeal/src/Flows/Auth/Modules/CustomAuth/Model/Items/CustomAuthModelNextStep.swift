@@ -4,7 +4,7 @@ import Foundation
 // SDK
 import Services
 
-enum PhoneAuthModelNextStep {
+enum CustomAuthModelNextStep {
     case confirm(AuthenticationDeliveryDestination)
     case setNewPassword
     case resetPassword

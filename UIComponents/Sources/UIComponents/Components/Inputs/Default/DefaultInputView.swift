@@ -42,7 +42,7 @@ public extension DefaultTextContentView {
 public final class DefaultTextContentView: TextFieldContainerView {
     // MARK: - Constants
     private enum Constants {
-        static let insets: UIEdgeInsets = .init(top: 0.0, left: 8.0, bottom: 0.0, right: 16.0)
+        static let insets: UIEdgeInsets = .init(top: 0.0, left: 8.0, bottom: 0.0, right: 8.0)
         static let spacing: CGFloat = 8.0
     }
 

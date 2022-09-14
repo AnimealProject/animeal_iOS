@@ -14,10 +14,12 @@ protocol MorePartitionViewModelLifeCycle: AnyObject {
     func load()
 }
 
+@MainActor
 protocol MorePartitionViewInteraction: AnyObject {
     func handleActionEvent(_ event: MorePartitionViewActionEvent)
 }
 
+@MainActor
 protocol MorePartitionViewState: AnyObject {
     var onContentHaveBeenPrepared: ((PartitionContentModel) -> Void)? { get set }
 }
@@ -32,6 +34,7 @@ protocol MorePartitionModelProtocol: AnyObject {
 }
 
 // MARK: - Coordinator
+@MainActor
 protocol MorePartitionCoordinatable: Coordinatable {
     func routeTo(_ route: MorePartitionRoute)
 }

@@ -28,6 +28,166 @@ import CoreLocation
 
 
 
+class CustomAuthModelProtocolMock: CustomAuthModelProtocol {
+
+    // MARK: - fetchItems
+
+    var fetchItemsCallsCount = 0
+    var fetchItemsCalled: Bool {
+        return fetchItemsCallsCount > 0
+    }
+    var fetchItemsReturnValue: [CustomAuthModelItem]!
+    var fetchItemsClosure: (() -> [CustomAuthModelItem])?
+
+    func fetchItems() -> [CustomAuthModelItem] {
+        fetchItemsCallsCount += 1
+        if let fetchItemsClosure = fetchItemsClosure {
+            return fetchItemsClosure()
+        } else {
+            return fetchItemsReturnValue
+        }
+    }
+
+    // MARK: - fetchItem
+
+    var fetchItemCallsCount = 0
+    var fetchItemCalled: Bool {
+        return fetchItemCallsCount > 0
+    }
+    var fetchItemReceivedIdentifier: String?
+    var fetchItemReceivedInvocations: [String] = []
+    var fetchItemReturnValue: CustomAuthModelItem?
+    var fetchItemClosure: ((String) -> CustomAuthModelItem?)?
+
+    func fetchItem(_ identifier: String) -> CustomAuthModelItem? {
+        fetchItemCallsCount += 1
+        fetchItemReceivedIdentifier = identifier
+        fetchItemReceivedInvocations.append(identifier)
+        if let fetchItemClosure = fetchItemClosure {
+            return fetchItemClosure(identifier)
+        } else {
+            return fetchItemReturnValue
+        }
+    }
+
+    // MARK: - updateItem
+
+    var updateItemForIdentifierCallsCount = 0
+    var updateItemForIdentifierCalled: Bool {
+        return updateItemForIdentifierCallsCount > 0
+    }
+    var updateItemForIdentifierReceivedArguments: (text: String?, identifier: String)?
+    var updateItemForIdentifierReceivedInvocations: [(text: String?, identifier: String)] = []
+    var updateItemForIdentifierClosure: ((String?, String) -> Void)?
+
+    func updateItem(_ text: String?, forIdentifier identifier: String) {
+        updateItemForIdentifierCallsCount += 1
+        updateItemForIdentifierReceivedArguments = (text: text, identifier: identifier)
+        updateItemForIdentifierReceivedInvocations.append((text: text, identifier: identifier))
+        updateItemForIdentifierClosure?(text, identifier)
+    }
+
+    // MARK: - clearErrors
+
+    var clearErrorsCallsCount = 0
+    var clearErrorsCalled: Bool {
+        return clearErrorsCallsCount > 0
+    }
+    var clearErrorsClosure: (() -> Void)?
+
+    func clearErrors() {
+        clearErrorsCallsCount += 1
+        clearErrorsClosure?()
+    }
+
+    // MARK: - validate
+
+    var validateCallsCount = 0
+    var validateCalled: Bool {
+        return validateCallsCount > 0
+    }
+    var validateReturnValue: Bool!
+    var validateClosure: (() -> Bool)?
+
+    func validate() -> Bool {
+        validateCallsCount += 1
+        if let validateClosure = validateClosure {
+            return validateClosure()
+        } else {
+            return validateReturnValue
+        }
+    }
+
+    // MARK: - authenticate
+
+    var authenticateThrowableError: Error?
+    var authenticateCallsCount = 0
+    var authenticateCalled: Bool {
+        return authenticateCallsCount > 0
+    }
+    var authenticateReturnValue: CustomAuthModelNextStep!
+    var authenticateClosure: (() async throws -> CustomAuthModelNextStep)?
+
+    func authenticate() async throws -> CustomAuthModelNextStep {
+        if let error = authenticateThrowableError {
+            throw error
+        }
+        authenticateCallsCount += 1
+        if let authenticateClosure = authenticateClosure {
+            return try await authenticateClosure()
+        } else {
+            return authenticateReturnValue
+        }
+    }
+
+}
+class CustomAuthViewItemMappableMock: CustomAuthViewItemMappable {
+
+    // MARK: - mapItem
+
+    var mapItemCallsCount = 0
+    var mapItemCalled: Bool {
+        return mapItemCallsCount > 0
+    }
+    var mapItemReceivedInput: CustomAuthModelItem?
+    var mapItemReceivedInvocations: [CustomAuthModelItem] = []
+    var mapItemReturnValue: CustomAuthViewItem!
+    var mapItemClosure: ((CustomAuthModelItem) -> CustomAuthViewItem)?
+
+    func mapItem(_ input: CustomAuthModelItem) -> CustomAuthViewItem {
+        mapItemCallsCount += 1
+        mapItemReceivedInput = input
+        mapItemReceivedInvocations.append(input)
+        if let mapItemClosure = mapItemClosure {
+            return mapItemClosure(input)
+        } else {
+            return mapItemReturnValue
+        }
+    }
+
+    // MARK: - mapItems
+
+    var mapItemsCallsCount = 0
+    var mapItemsCalled: Bool {
+        return mapItemsCallsCount > 0
+    }
+    var mapItemsReceivedInput: [CustomAuthModelItem]?
+    var mapItemsReceivedInvocations: [[CustomAuthModelItem]] = []
+    var mapItemsReturnValue: [CustomAuthViewItem]!
+    var mapItemsClosure: (([CustomAuthModelItem]) -> [CustomAuthViewItem])?
+
+    func mapItems(_ input: [CustomAuthModelItem]) -> [CustomAuthViewItem] {
+        mapItemsCallsCount += 1
+        mapItemsReceivedInput = input
+        mapItemsReceivedInvocations.append(input)
+        if let mapItemsClosure = mapItemsClosure {
+            return mapItemsClosure(input)
+        } else {
+            return mapItemsReturnValue
+        }
+    }
+
+}
 class FeedingPointDetailsModelProtocolMock: FeedingPointDetailsModelProtocol {
 
 }
@@ -226,6 +386,54 @@ class LocationServiceProtocolMock: LocationServiceProtocol {
     }
 
 }
+class LoginCoordinatableMock: LoginCoordinatable {
+
+    // MARK: - moveFromLogin
+
+    var moveFromLoginToCallsCount = 0
+    var moveFromLoginToCalled: Bool {
+        return moveFromLoginToCallsCount > 0
+    }
+    var moveFromLoginToReceivedRoute: LoginRoute?
+    var moveFromLoginToReceivedInvocations: [LoginRoute] = []
+    var moveFromLoginToClosure: ((LoginRoute) -> Void)?
+
+    func moveFromLogin(to route: LoginRoute) {
+        moveFromLoginToCallsCount += 1
+        moveFromLoginToReceivedRoute = route
+        moveFromLoginToReceivedInvocations.append(route)
+        moveFromLoginToClosure?(route)
+    }
+
+    // MARK: - start
+
+    var startCallsCount = 0
+    var startCalled: Bool {
+        return startCallsCount > 0
+    }
+    var startClosure: (() -> Void)?
+
+    @MainActor
+    func start() {
+        startCallsCount += 1
+        startClosure?()
+    }
+
+    // MARK: - stop
+
+    var stopCallsCount = 0
+    var stopCalled: Bool {
+        return stopCallsCount > 0
+    }
+    var stopClosure: (() -> Void)?
+
+    @MainActor
+    func stop() {
+        stopCallsCount += 1
+        stopClosure?()
+    }
+
+}
 class LoginModelProtocolMock: LoginModelProtocol {
     var proceedAuthentificationResponse: ((LoginModelStatus) -> Void)?
 
@@ -419,149 +627,6 @@ class MoreModelProtocolMock: MoreModelProtocol {
             return fetchActionsClosure()
         } else {
             return fetchActionsReturnValue
-        }
-    }
-
-}
-class PhoneAuthModelProtocolMock: PhoneAuthModelProtocol {
-    var fetchItemsResponse: (([PhoneAuthModelItem]) -> Void)?
-
-    // MARK: - fetchItems
-
-    var fetchItemsCallsCount = 0
-    var fetchItemsCalled: Bool {
-        return fetchItemsCallsCount > 0
-    }
-    var fetchItemsClosure: (() -> Void)?
-
-    func fetchItems() {
-        fetchItemsCallsCount += 1
-        fetchItemsClosure?()
-    }
-
-    // MARK: - fetchItem
-
-    var fetchItemCallsCount = 0
-    var fetchItemCalled: Bool {
-        return fetchItemCallsCount > 0
-    }
-    var fetchItemReceivedIdentifier: String?
-    var fetchItemReceivedInvocations: [String] = []
-    var fetchItemReturnValue: PhoneAuthModelItem?
-    var fetchItemClosure: ((String) -> PhoneAuthModelItem?)?
-
-    func fetchItem(_ identifier: String) -> PhoneAuthModelItem? {
-        fetchItemCallsCount += 1
-        fetchItemReceivedIdentifier = identifier
-        fetchItemReceivedInvocations.append(identifier)
-        if let fetchItemClosure = fetchItemClosure {
-            return fetchItemClosure(identifier)
-        } else {
-            return fetchItemReturnValue
-        }
-    }
-
-    // MARK: - validateItems
-
-    var validateItemsCallsCount = 0
-    var validateItemsCalled: Bool {
-        return validateItemsCallsCount > 0
-    }
-    var validateItemsReturnValue: Bool!
-    var validateItemsClosure: (() -> Bool)?
-
-    func validateItems() -> Bool {
-        validateItemsCallsCount += 1
-        if let validateItemsClosure = validateItemsClosure {
-            return validateItemsClosure()
-        } else {
-            return validateItemsReturnValue
-        }
-    }
-
-    // MARK: - updateItem
-
-    var updateItemForIdentifierCallsCount = 0
-    var updateItemForIdentifierCalled: Bool {
-        return updateItemForIdentifierCallsCount > 0
-    }
-    var updateItemForIdentifierReceivedArguments: (text: String?, identifier: String)?
-    var updateItemForIdentifierReceivedInvocations: [(text: String?, identifier: String)] = []
-    var updateItemForIdentifierClosure: ((String?, String) -> Void)?
-
-    func updateItem(_ text: String?, forIdentifier identifier: String) {
-        updateItemForIdentifierCallsCount += 1
-        updateItemForIdentifierReceivedArguments = (text: text, identifier: identifier)
-        updateItemForIdentifierReceivedInvocations.append((text: text, identifier: identifier))
-        updateItemForIdentifierClosure?(text, identifier)
-    }
-
-    // MARK: - proceedAuthentication
-
-    var proceedAuthenticationThrowableError: Error?
-    var proceedAuthenticationCallsCount = 0
-    var proceedAuthenticationCalled: Bool {
-        return proceedAuthenticationCallsCount > 0
-    }
-    var proceedAuthenticationReturnValue: PhoneAuthModelNextStep!
-    var proceedAuthenticationClosure: (() async throws -> PhoneAuthModelNextStep)?
-
-    func proceedAuthentication() async throws -> PhoneAuthModelNextStep {
-        if let error = proceedAuthenticationThrowableError {
-            throw error
-        }
-        proceedAuthenticationCallsCount += 1
-        if let proceedAuthenticationClosure = proceedAuthenticationClosure {
-            return try await proceedAuthenticationClosure()
-        } else {
-            return proceedAuthenticationReturnValue
-        }
-    }
-
-}
-class PhoneAuthViewItemMappableMock: PhoneAuthViewItemMappable {
-
-    // MARK: - mapItem
-
-    var mapItemCallsCount = 0
-    var mapItemCalled: Bool {
-        return mapItemCallsCount > 0
-    }
-    var mapItemReceivedInput: PhoneAuthModelItem?
-    var mapItemReceivedInvocations: [PhoneAuthModelItem] = []
-    var mapItemReturnValue: PhoneAuthViewItem!
-    var mapItemClosure: ((PhoneAuthModelItem) -> PhoneAuthViewItem)?
-
-    func mapItem(_ input: PhoneAuthModelItem) -> PhoneAuthViewItem {
-        mapItemCallsCount += 1
-        mapItemReceivedInput = input
-        mapItemReceivedInvocations.append(input)
-        if let mapItemClosure = mapItemClosure {
-            return mapItemClosure(input)
-        } else {
-            return mapItemReturnValue
-        }
-    }
-
-    // MARK: - mapItems
-
-    var mapItemsCallsCount = 0
-    var mapItemsCalled: Bool {
-        return mapItemsCallsCount > 0
-    }
-    var mapItemsReceivedInput: [PhoneAuthModelItem]?
-    var mapItemsReceivedInvocations: [[PhoneAuthModelItem]] = []
-    var mapItemsReturnValue: [PhoneAuthViewItem]!
-    var mapItemsClosure: (([PhoneAuthModelItem]) -> [PhoneAuthViewItem])?
-
-    func mapItems(_ input: [PhoneAuthModelItem]) -> [PhoneAuthViewItem] {
-        mapItemsCallsCount += 1
-        mapItemsReceivedInput = input
-        mapItemsReceivedInvocations.append(input)
-        if let mapItemsClosure = mapItemsClosure {
-            return mapItemsClosure(input)
-        } else {
-            return mapItemsReturnValue
         }
     }
 

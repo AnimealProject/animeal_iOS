@@ -1,10 +1,3 @@
-//
-//  LoginViewAction.swift
-//  animeal
-//
-//  Created by Диана Тынкован on 1.06.22.
-//
-
 import Foundation
 
 struct LoginViewAction {

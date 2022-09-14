@@ -1,5 +1,5 @@
 import Foundation
 
-struct PhoneAuthViewHeader {
+struct CustomAuthViewHeader {
     let title: String
 }

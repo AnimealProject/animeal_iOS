@@ -5,6 +5,7 @@ import UIKit
 import UIComponents
 import Style
 
+@MainActor
 final class MainCoordinator: Coordinatable {
     // MARK: - Private properties
     private let navigator: Navigating

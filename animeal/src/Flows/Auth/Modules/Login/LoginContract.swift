@@ -37,6 +37,7 @@ protocol LoginModelProtocol: AnyObject {
 }
 
 // MARK: - Coordinator
+// sourcery: AutoMockable
 protocol LoginCoordinatable: Coordinatable {
     func moveFromLogin(to route: LoginRoute)
 }
