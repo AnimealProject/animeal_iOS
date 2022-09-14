@@ -155,7 +155,7 @@ extension String {
     }
 
     func getRemovingMatches(toMatch: String) -> String {
-        guard self != toMatch else { return "" }
+        guard self != toMatch, !self.isEmpty else { return "" }
         var stringIndex = self.index(before: self.endIndex)
         var toMatchIndex = toMatch.index(before: toMatch.endIndex)
         while stringIndex > self.startIndex && toMatchIndex > toMatch.startIndex {

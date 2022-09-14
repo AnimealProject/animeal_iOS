@@ -1,5 +1,6 @@
 import UIKit
 
+@MainActor
 final class AuthCoordinator: Coordinatable {
     // MARK: - Private properties
     private let navigator: Navigating
@@ -40,7 +41,7 @@ extension AuthCoordinator: LoginCoordinatable {
     func moveFromLogin(to route: LoginRoute) {
         switch route {
         case .customAuthentication:
-            let viewController = PhoneAuthAssembler.assembly(coordinator: self)
+            let viewController = CustomAuthAssembler.assembly(coordinator: self)
             navigator.push(viewController, animated: true, completion: nil)
         case .codeConfirmation:
             break
@@ -50,8 +51,8 @@ extension AuthCoordinator: LoginCoordinatable {
     }
 }
 
-extension AuthCoordinator: PhoneAuthCoordinatable {
-    func moveFromPhoneAuth(to route: PhoneAuthRoute) {
+extension AuthCoordinator: CustomAuthCoordinatable {
+    func moveFromCustomAuth(to route: CustomAuthRoute) {
         switch route {
         case .codeConfirmation:
             break

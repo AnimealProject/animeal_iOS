@@ -1,6 +1,6 @@
 import Foundation
 
-enum PhoneAuthRoute {
+enum CustomAuthRoute {
     case codeConfirmation
     case resetPassword
     case setNewPassword

@@ -1,6 +1,6 @@
 import UIKit
 
-public final class PhoneInputView: TextInputUnderlinedDecorator<PhoneTextContentView> {
+public final class PhoneInputView: TextInputFilledDecorator<PhoneTextContentView> {
     public init() {
         super.init(contentView: PhoneTextContentView())
     }
@@ -35,6 +35,7 @@ public final class PhoneTextContentView: TextFieldContainerView {
     // MARK: - Constants
     private enum Constants {
         static let spacing: CGFloat = 8.0
+        static let insets: UIEdgeInsets = .init(top: 0.0, left: 8.0, bottom: 0.0, right: 8.0)
         static let imageSideSize: CGFloat = 26.0
     }
 
@@ -49,6 +50,8 @@ public final class PhoneTextContentView: TextFieldContainerView {
     private let textFieldLeftView: UIStackView = {
         let item = UIStackView().prepareForAutoLayout()
         item.axis = .horizontal
+        item.alignment = .center
+        item.distribution = .fillProportionally
         item.spacing = 16.0
         return item
     }()
@@ -102,7 +105,8 @@ public final class PhoneTextContentView: TextFieldContainerView {
         super.init(
             textView: textFieldView,
             leftView: textFieldLeftView,
-            spacing: Constants.spacing
+            spacing: Constants.spacing,
+            insets: Constants.insets
         )
         setup()
     }
@@ -122,6 +126,9 @@ public final class PhoneTextContentView: TextFieldContainerView {
 
     // MARK: - Setup
     private func setup() {
+        clipsToBounds = true
+        cornerRadius(12.0)
+
         textFieldPrefixView.setContentCompressionResistancePriority(
             UILayoutPriority.required,
             for: NSLayoutConstraint.Axis.horizontal

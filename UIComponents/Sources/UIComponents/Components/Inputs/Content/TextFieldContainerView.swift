@@ -49,7 +49,7 @@ open class TextFieldContainerView: UIView {
             addSubview(leftView.prepareForAutoLayout())
             leftView.leadingAnchor ~= leadingAnchor + insets.left
             leftView.topAnchor ~= topAnchor + insets.top
-            leftView.bottomAnchor <= bottomAnchor - insets.bottom
+            leftView.bottomAnchor ~= bottomAnchor - insets.bottom
             textView.leadingAnchor ~= leftView.trailingAnchor + spacing
             leftView.setContentCompressionResistancePriority(.required, for: .horizontal)
             let widthConstraint = leftView.widthAnchor.constraint(equalToConstant: 0.0)
@@ -67,7 +67,7 @@ open class TextFieldContainerView: UIView {
             rightView.leadingAnchor ~= textView.trailingAnchor + spacing
             rightView.topAnchor ~= topAnchor + insets.top
             rightView.trailingAnchor ~= trailingAnchor - insets.right
-            rightView.bottomAnchor <= bottomAnchor - insets.bottom
+            rightView.bottomAnchor ~= bottomAnchor - insets.bottom
             rightView.setContentCompressionResistancePriority(.required, for: .horizontal)
             let widthConstraint = rightView.widthAnchor.constraint(equalToConstant: 0.0)
             widthConstraint.priority = .defaultHigh

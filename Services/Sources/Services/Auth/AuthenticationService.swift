@@ -14,17 +14,17 @@ public protocol AuthenticationServiceHolder {
 public protocol AuthenticationServiceProtocol {
     var isSignedIn: Bool { get }
 
-    func signUp(username: String, password: String, options: [AuthenticationUserAttribute]?, handler: @escaping AuthenticationSignUpHandler)
+    func signUp(username: AuthenticationInput, password: AuthenticationInput, options: [AuthenticationUserAttribute]?, handler: @escaping AuthenticationSignUpHandler)
 
-    func signIn(username: String, password: String, handler: @escaping AuthenticationSignInHanler)
+    func signIn(username: AuthenticationInput, password: AuthenticationInput?, handler: @escaping AuthenticationSignInHanler)
 
-    func signIn(username: String, handler: @escaping AuthenticationSignInHanler)
+    func signIn(username: AuthenticationInput, handler: @escaping AuthenticationSignInHanler)
 
     func signIn(provider: AuthenticationProvider, handler: @escaping AuthenticationSignInHanler)
 
     func signOut(handler: @escaping AuthenticationSignOutHanler)
 
-    func confirmSignUp(for username: String, otp: String, handler: @escaping AuthenticationConfirmSignUpHanler)
+    func confirmSignUp(for username: AuthenticationInput, otp: String, handler: @escaping AuthenticationConfirmSignUpHanler)
 
     func confirmSignIn(otp: String, handler: @escaping AuthenticationConfirmSignInHanler)
 
@@ -32,7 +32,7 @@ public protocol AuthenticationServiceProtocol {
 }
 
 extension AuthenticationServiceProtocol {
-    public func signUp(username: String, password: String, options: [AuthenticationUserAttribute]?) async throws -> AuthenticationSignUpState {
+    public func signUp(username: AuthenticationInput, password: AuthenticationInput, options: [AuthenticationUserAttribute]?) async throws -> AuthenticationSignUpState {
         try await withCheckedThrowingContinuation { continuation in
             signUp(username: username, password: password, options: options) {
                 continuation.resume(with: $0)
@@ -40,7 +40,7 @@ extension AuthenticationServiceProtocol {
         }
     }
 
-    public func signIn(username: String, password: String) async throws -> AuthenticationSignInState {
+    public func signIn(username: AuthenticationInput, password: AuthenticationInput?) async throws -> AuthenticationSignInState {
         try await withCheckedThrowingContinuation { continuation in
             signIn(username: username, password: password) {
                 continuation.resume(with: $0)
@@ -48,7 +48,7 @@ extension AuthenticationServiceProtocol {
         }
     }
 
-    public func signIn(username: String) async throws -> AuthenticationSignInState {
+    public func signIn(username: AuthenticationInput) async throws -> AuthenticationSignInState {
         try await withCheckedThrowingContinuation { continuation in
             signIn(username: username) {
                 continuation.resume(with: $0)
@@ -70,7 +70,7 @@ extension AuthenticationServiceProtocol {
         }
     }
 
-    public func confirmSignUp(for username: String, otp: String) async throws -> AuthenticationSignUpState {
+    public func confirmSignUp(for username: AuthenticationInput, otp: String) async throws -> AuthenticationSignUpState {
         try await withCheckedThrowingContinuation { continuation in
             confirmSignUp(for: username, otp: otp) {
                 continuation.resume(with: $0)

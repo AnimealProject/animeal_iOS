@@ -27,10 +27,7 @@ class LoginViewModelTestsSpec: QuickSpec {
 
                 sut = LoginViewModel(
                     model: model,
-                    coordinator: AuthCoordinator(
-                        presentingWindow: UIWindow(),
-                        completion: nil
-                    ),
+                    coordinator: LoginCoordinatableMock(),
                     actionsMapper: actionsMapper,
                     onboardingMapper: onboardingMapper
                 )

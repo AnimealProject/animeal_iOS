@@ -1,6 +1,6 @@
 import Foundation
 
-struct PhotoAuthViewText {
+struct CustomAuthViewText {
     let caretOffset: Int
     let formattedText: String?
 }

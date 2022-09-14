@@ -20,8 +20,8 @@ final class AuthenticationService: AuthenticationServiceProtocol {
 
     // MARK: - Main methods
     func signUp(
-        username: String,
-        password: String,
+        username: AuthenticationInput,
+        password: AuthenticationInput,
         options: [AuthenticationUserAttribute]?,
         handler: @escaping AuthenticationSignUpHandler
     ) {
@@ -31,7 +31,11 @@ final class AuthenticationService: AuthenticationServiceProtocol {
             signUpOptions = AuthSignUpRequest.Options(userAttributes: userAttributes)
         }
 
-        Amplify.Auth.signUp(username: username, password: password, options: signUpOptions) { [weak self] result in
+        Amplify.Auth.signUp(
+            username: username.value,
+            password: password.value,
+            options: signUpOptions
+        ) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let state):
@@ -47,11 +51,15 @@ final class AuthenticationService: AuthenticationServiceProtocol {
     }
 
     func signIn(
-        username: String,
-        password: String,
+        username: AuthenticationInput,
+        password: AuthenticationInput?,
         handler: @escaping AuthenticationSignInHanler
     ) {
-        Amplify.Auth.signIn(username: username, password: password) { [weak self] result in
+        guard let password = password else {
+            return signIn(username: username, handler: handler)
+        }
+
+        Amplify.Auth.signIn(username: username.value, password: password.value) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let state):
@@ -63,13 +71,13 @@ final class AuthenticationService: AuthenticationServiceProtocol {
     }
 
     func signIn(
-        username: String,
+        username: AuthenticationInput,
         handler: @escaping AuthenticationSignInHanler
     ) {
         let options = AuthSignInRequest.Options(
             pluginOptions: AWSAuthSignInOptions(authFlowType: .custom)
         )
-        Amplify.Auth.signIn(username: username, options: options) { [weak self] result in
+        Amplify.Auth.signIn(username: username.value, options: options) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let state):
@@ -96,7 +104,7 @@ final class AuthenticationService: AuthenticationServiceProtocol {
                 }
             }
         case .facebook(let presentationAnchor):
-            Amplify.Auth.signInWithWebUI(for: .apple, presentationAnchor: presentationAnchor) { [weak self] result in
+            Amplify.Auth.signInWithWebUI(for: .facebook, presentationAnchor: presentationAnchor) { [weak self] result in
                 guard let self = self else { return }
                 switch result {
                 case .success(let state):
@@ -105,17 +113,7 @@ final class AuthenticationService: AuthenticationServiceProtocol {
                     handler(.failure(self.converter.convertAmplifyError(error)))
                 }
             }
-        case .custom(let userAttributes):
-            guard
-                let username = userAttributes[.username],
-                let password = userAttributes[.password]
-            else {
-                handler(.failure(
-                    AuthenticationError.unknown("Username or password field is nil", nil)
-                ))
-                return
-            }
-            self.signIn(username: username, password: password, handler: handler)
+        default: return
         }
     }
 
@@ -131,8 +129,8 @@ final class AuthenticationService: AuthenticationServiceProtocol {
         }
     }
 
-    func confirmSignUp(for username: String, otp: String, handler: @escaping AuthenticationConfirmSignUpHanler) {
-        Amplify.Auth.confirmSignUp(for: username, confirmationCode: otp) { [weak self] result in
+    func confirmSignUp(for username: AuthenticationInput, otp: String, handler: @escaping AuthenticationConfirmSignUpHanler) {
+        Amplify.Auth.confirmSignUp(for: username.value, confirmationCode: otp) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let state):
