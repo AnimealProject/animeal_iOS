@@ -10,9 +10,9 @@ extension Pet {
     case images
     case breed
     case color
-    case age
     case chipNumber
     case vaccinatedAt
+    case yearOfBirth
     case caretaker
     case i18n
     case createdAt
@@ -50,9 +50,9 @@ extension Pet {
       .field(pet.images, is: .required, ofType: .embeddedCollection(of: String.self)),
       .field(pet.breed, is: .required, ofType: .string),
       .field(pet.color, is: .required, ofType: .string),
-      .field(pet.age, is: .required, ofType: .int),
       .field(pet.chipNumber, is: .required, ofType: .string),
       .field(pet.vaccinatedAt, is: .required, ofType: .dateTime),
+      .field(pet.yearOfBirth, is: .required, ofType: .dateTime),
       .field(pet.caretaker, is: .optional, ofType: .embedded(type: Caretaker.self)),
       .field(pet.i18n, is: .optional, ofType: .embeddedCollection(of: PetI18n.self)),
       .field(pet.createdAt, is: .required, ofType: .dateTime),

@@ -1,5 +1,4 @@
 {
-  "lambdaLayers": [],
   "permissions": {
     "api": {
       "animeal": [
@@ -7,5 +6,6 @@
         "Mutation"
       ]
     }
-  }
+  },
+  "lambdaLayers": []
 }

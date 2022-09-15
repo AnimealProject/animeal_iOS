@@ -55,9 +55,9 @@ type Pet
   images: [String!]!
   breed: String!
   color: String!
-  age: Int!
   chipNumber: String!
   vaccinatedAt: AWSDateTime!
+  yearOfBirth: AWSDateTime!
   caretaker: Caretaker
   i18n: [PetI18n!]
   createdAt: AWSDateTime!
