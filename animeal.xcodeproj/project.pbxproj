@@ -12,11 +12,7 @@
 		8360D1A3284E954900ACDEDB /* LoginModelOnboardingStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8360D1A2284E954900ACDEDB /* LoginModelOnboardingStep.swift */; };
 		8360D1A9284E9A9600ACDEDB /* LoginViewOnboardingStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8360D1A8284E9A9600ACDEDB /* LoginViewOnboardingStep.swift */; };
 		8360D1AF284F2A5E00ACDEDB /* LoginViewActionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8360D1AE284F2A5E00ACDEDB /* LoginViewActionEvent.swift */; };
-		836840E728CA3B4100E1044E /* AWSAPIPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 836840E628CA3B4100E1044E /* AWSAPIPlugin */; };
-		836840E928CA3B4100E1044E /* AWSCognitoAuthPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 836840E828CA3B4100E1044E /* AWSCognitoAuthPlugin */; };
-		836840EB28CA3B4100E1044E /* AWSDataStorePlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 836840EA28CA3B4100E1044E /* AWSDataStorePlugin */; };
-		836840ED28CA3B4100E1044E /* AWSPluginsCore in Frameworks */ = {isa = PBXBuildFile; productRef = 836840EC28CA3B4100E1044E /* AWSPluginsCore */; };
-		836840EF28CA3B4100E1044E /* Amplify in Frameworks */ = {isa = PBXBuildFile; productRef = 836840EE28CA3B4100E1044E /* Amplify */; };
+		836840ED28CA3B4100E1044E /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		836840F128D1A1A800E1044E /* CustomAuthModelComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836840F028D1A1A800E1044E /* CustomAuthModelComponent.swift */; };
 		836840F328D1A7FE00E1044E /* CustomAuthModelItemError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836840F228D1A7FE00E1044E /* CustomAuthModelItemError.swift */; };
 		836840F528D1C50400E1044E /* CustomAuthModelOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836840F428D1C50400E1044E /* CustomAuthModelOptions.swift */; };
@@ -114,6 +110,49 @@
 		DBC2BB4428BBAD2B0086EF52 /* MorePartitionAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC2BB3F28BBAD2B0086EF52 /* MorePartitionAssembler.swift */; };
 		DBC2BB4528BBAD2B0086EF52 /* MorePartitionContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC2BB4028BBAD2B0086EF52 /* MorePartitionContract.swift */; };
 		DBC2BB4628BBAD2B0086EF52 /* MorePartitionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC2BB4128BBAD2B0086EF52 /* MorePartitionViewModel.swift */; };
+		DBDB3F3128D3356600B285D7 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F0628D3356300B285D7 /* Settings.swift */; };
+		DBDB3F3228D3356600B285D7 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F0728D3356300B285D7 /* Language.swift */; };
+		DBDB3F3328D3356600B285D7 /* RelationUserPet+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F0828D3356300B285D7 /* RelationUserPet+Schema.swift */; };
+		DBDB3F3428D3356600B285D7 /* FeedingPointI18n.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F0928D3356300B285D7 /* FeedingPointI18n.swift */; };
+		DBDB3F3528D3356600B285D7 /* Pet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F0A28D3356300B285D7 /* Pet.swift */; };
+		DBDB3F3628D3356600B285D7 /* Caretaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F0B28D3356400B285D7 /* Caretaker.swift */; };
+		DBDB3F3728D3356600B285D7 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F0C28D3356400B285D7 /* Category.swift */; };
+		DBDB3F3828D3356600B285D7 /* RelationPetFeedingPoint+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F0D28D3356400B285D7 /* RelationPetFeedingPoint+Schema.swift */; };
+		DBDB3F3928D3356600B285D7 /* AmplifyModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F0E28D3356400B285D7 /* AmplifyModels.swift */; };
+		DBDB3F3A28D3356600B285D7 /* MedicationI18n+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F0F28D3356400B285D7 /* MedicationI18n+Schema.swift */; };
+		DBDB3F3B28D3356600B285D7 /* Point+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F1028D3356400B285D7 /* Point+Schema.swift */; };
+		DBDB3F3C28D3356600B285D7 /* FeedingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F1128D3356400B285D7 /* FeedingStatus.swift */; };
+		DBDB3F3D28D3356600B285D7 /* RelationUserFeedingPoint+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F1228D3356400B285D7 /* RelationUserFeedingPoint+Schema.swift */; };
+		DBDB3F3E28D3356600B285D7 /* Feeding.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F1328D3356400B285D7 /* Feeding.swift */; };
+		DBDB3F3F28D3356600B285D7 /* FeedingPointI18n+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F1428D3356400B285D7 /* FeedingPointI18n+Schema.swift */; };
+		DBDB3F4028D3356600B285D7 /* Favourites+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F1528D3356400B285D7 /* Favourites+Schema.swift */; };
+		DBDB3F4128D3356600B285D7 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F1628D3356400B285D7 /* Point.swift */; };
+		DBDB3F4228D3356600B285D7 /* RelationUserFeedingPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F1728D3356400B285D7 /* RelationUserFeedingPoint.swift */; };
+		DBDB3F4328D3356600B285D7 /* Medication+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F1828D3356400B285D7 /* Medication+Schema.swift */; };
+		DBDB3F4428D3356700B285D7 /* FeedingPoint+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F1928D3356400B285D7 /* FeedingPoint+Schema.swift */; };
+		DBDB3F4528D3356700B285D7 /* FeedingPointConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F1A28D3356400B285D7 /* FeedingPointConnection.swift */; };
+		DBDB3F4628D3356700B285D7 /* LanguagesSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F1B28D3356400B285D7 /* LanguagesSetting.swift */; };
+		DBDB3F4728D3356700B285D7 /* Category+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F1C28D3356500B285D7 /* Category+Schema.swift */; };
+		DBDB3F4828D3356700B285D7 /* Language+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F1D28D3356500B285D7 /* Language+Schema.swift */; };
+		DBDB3F4928D3356700B285D7 /* Medication.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F1E28D3356500B285D7 /* Medication.swift */; };
+		DBDB3F4A28D3356700B285D7 /* RelationUserPet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F1F28D3356500B285D7 /* RelationUserPet.swift */; };
+		DBDB3F4B28D3356700B285D7 /* PetI18n.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F2028D3356500B285D7 /* PetI18n.swift */; };
+		DBDB3F4C28D3356700B285D7 /* Settings+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F2128D3356500B285D7 /* Settings+Schema.swift */; };
+		DBDB3F4D28D3356700B285D7 /* Caretaker+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F2228D3356500B285D7 /* Caretaker+Schema.swift */; };
+		DBDB3F4E28D3356700B285D7 /* CategoryI18n+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F2328D3356500B285D7 /* CategoryI18n+Schema.swift */; };
+		DBDB3F4F28D3356700B285D7 /* Favourites.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F2428D3356500B285D7 /* Favourites.swift */; };
+		DBDB3F5028D3356700B285D7 /* Location+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F2528D3356500B285D7 /* Location+Schema.swift */; };
+		DBDB3F5128D3356700B285D7 /* Pet+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F2628D3356600B285D7 /* Pet+Schema.swift */; };
+		DBDB3F5228D3356700B285D7 /* FeedingPointConnection+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F2728D3356600B285D7 /* FeedingPointConnection+Schema.swift */; };
+		DBDB3F5328D3356700B285D7 /* FeedingPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F2828D3356600B285D7 /* FeedingPoint.swift */; };
+		DBDB3F5428D3356700B285D7 /* LanguagesSetting+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F2928D3356600B285D7 /* LanguagesSetting+Schema.swift */; };
+		DBDB3F5528D3356700B285D7 /* MedicationI18n.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F2A28D3356600B285D7 /* MedicationI18n.swift */; };
+		DBDB3F5628D3356700B285D7 /* Feeding+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F2B28D3356600B285D7 /* Feeding+Schema.swift */; };
+		DBDB3F5728D3356700B285D7 /* CategoryI18n.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F2C28D3356600B285D7 /* CategoryI18n.swift */; };
+		DBDB3F5828D3356700B285D7 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F2D28D3356600B285D7 /* Location.swift */; };
+		DBDB3F5928D3356700B285D7 /* FeedingPointStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F2E28D3356600B285D7 /* FeedingPointStatus.swift */; };
+		DBDB3F5A28D3356700B285D7 /* PetI18n+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F2F28D3356600B285D7 /* PetI18n+Schema.swift */; };
+		DBDB3F5B28D3356700B285D7 /* RelationPetFeedingPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F3028D3356600B285D7 /* RelationPetFeedingPoint.swift */; };
 		DBDB50182887FBBA003C6FF0 /* HomeContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB50172887FBBA003C6FF0 /* HomeContract.swift */; };
 		DBDB501B2887FE00003C6FF0 /* HomeModel+DTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB501A2887FE00003C6FF0 /* HomeModel+DTO.swift */; };
 		DBDB50212889725C003C6FF0 /* FeedingPointViewMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB50202889725C003C6FF0 /* FeedingPointViewMapper.swift */; };
@@ -124,7 +163,6 @@
 		DBF56B5928CF40E300AB0BDF /* FeedingPointDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF56B5428CF40E300AB0BDF /* FeedingPointDetailsViewController.swift */; };
 		DBF56B5A28CF40E300AB0BDF /* FeedingPointDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF56B5528CF40E300AB0BDF /* FeedingPointDetailsViewModel.swift */; };
 		DBF56B5C28CF4A5700AB0BDF /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF56B5B28CF4A5700AB0BDF /* HomeCoordinator.swift */; };
-		DCE1CAAC12C918FB62B0BA8B /* LanguagesSetting+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6536D50A446F5742969183 /* LanguagesSetting+Schema.swift */; };
 		FB00144B2859FC1800943360 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB00144A2859FC1800943360 /* ProfileViewController.swift */; };
 		FB00144D2859FC7700943360 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB00144C2859FC7700943360 /* ProfileViewModel.swift */; };
 		FB00144F2859FCDD00943360 /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB00144E2859FCDD00943360 /* ProfileModel.swift */; };
@@ -257,6 +295,49 @@
 		DBC2BB3F28BBAD2B0086EF52 /* MorePartitionAssembler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MorePartitionAssembler.swift; sourceTree = "<group>"; };
 		DBC2BB4028BBAD2B0086EF52 /* MorePartitionContract.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MorePartitionContract.swift; sourceTree = "<group>"; };
 		DBC2BB4128BBAD2B0086EF52 /* MorePartitionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MorePartitionViewModel.swift; sourceTree = "<group>"; };
+		DBDB3F0628D3356300B285D7 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Settings.swift; path = amplify/generated/models/Settings.swift; sourceTree = "<group>"; };
+		DBDB3F0728D3356300B285D7 /* Language.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Language.swift; path = amplify/generated/models/Language.swift; sourceTree = "<group>"; };
+		DBDB3F0828D3356300B285D7 /* RelationUserPet+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "RelationUserPet+Schema.swift"; path = "amplify/generated/models/RelationUserPet+Schema.swift"; sourceTree = "<group>"; };
+		DBDB3F0928D3356300B285D7 /* FeedingPointI18n.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedingPointI18n.swift; path = amplify/generated/models/FeedingPointI18n.swift; sourceTree = "<group>"; };
+		DBDB3F0A28D3356300B285D7 /* Pet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Pet.swift; path = amplify/generated/models/Pet.swift; sourceTree = "<group>"; };
+		DBDB3F0B28D3356400B285D7 /* Caretaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Caretaker.swift; path = amplify/generated/models/Caretaker.swift; sourceTree = "<group>"; };
+		DBDB3F0C28D3356400B285D7 /* Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Category.swift; path = amplify/generated/models/Category.swift; sourceTree = "<group>"; };
+		DBDB3F0D28D3356400B285D7 /* RelationPetFeedingPoint+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "RelationPetFeedingPoint+Schema.swift"; path = "amplify/generated/models/RelationPetFeedingPoint+Schema.swift"; sourceTree = "<group>"; };
+		DBDB3F0E28D3356400B285D7 /* AmplifyModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AmplifyModels.swift; path = amplify/generated/models/AmplifyModels.swift; sourceTree = "<group>"; };
+		DBDB3F0F28D3356400B285D7 /* MedicationI18n+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "MedicationI18n+Schema.swift"; path = "amplify/generated/models/MedicationI18n+Schema.swift"; sourceTree = "<group>"; };
+		DBDB3F1028D3356400B285D7 /* Point+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Point+Schema.swift"; path = "amplify/generated/models/Point+Schema.swift"; sourceTree = "<group>"; };
+		DBDB3F1128D3356400B285D7 /* FeedingStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedingStatus.swift; path = amplify/generated/models/FeedingStatus.swift; sourceTree = "<group>"; };
+		DBDB3F1228D3356400B285D7 /* RelationUserFeedingPoint+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "RelationUserFeedingPoint+Schema.swift"; path = "amplify/generated/models/RelationUserFeedingPoint+Schema.swift"; sourceTree = "<group>"; };
+		DBDB3F1328D3356400B285D7 /* Feeding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Feeding.swift; path = amplify/generated/models/Feeding.swift; sourceTree = "<group>"; };
+		DBDB3F1428D3356400B285D7 /* FeedingPointI18n+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "FeedingPointI18n+Schema.swift"; path = "amplify/generated/models/FeedingPointI18n+Schema.swift"; sourceTree = "<group>"; };
+		DBDB3F1528D3356400B285D7 /* Favourites+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Favourites+Schema.swift"; path = "amplify/generated/models/Favourites+Schema.swift"; sourceTree = "<group>"; };
+		DBDB3F1628D3356400B285D7 /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Point.swift; path = amplify/generated/models/Point.swift; sourceTree = "<group>"; };
+		DBDB3F1728D3356400B285D7 /* RelationUserFeedingPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RelationUserFeedingPoint.swift; path = amplify/generated/models/RelationUserFeedingPoint.swift; sourceTree = "<group>"; };
+		DBDB3F1828D3356400B285D7 /* Medication+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Medication+Schema.swift"; path = "amplify/generated/models/Medication+Schema.swift"; sourceTree = "<group>"; };
+		DBDB3F1928D3356400B285D7 /* FeedingPoint+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "FeedingPoint+Schema.swift"; path = "amplify/generated/models/FeedingPoint+Schema.swift"; sourceTree = "<group>"; };
+		DBDB3F1A28D3356400B285D7 /* FeedingPointConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedingPointConnection.swift; path = amplify/generated/models/FeedingPointConnection.swift; sourceTree = "<group>"; };
+		DBDB3F1B28D3356400B285D7 /* LanguagesSetting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LanguagesSetting.swift; path = amplify/generated/models/LanguagesSetting.swift; sourceTree = "<group>"; };
+		DBDB3F1C28D3356500B285D7 /* Category+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Category+Schema.swift"; path = "amplify/generated/models/Category+Schema.swift"; sourceTree = "<group>"; };
+		DBDB3F1D28D3356500B285D7 /* Language+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Language+Schema.swift"; path = "amplify/generated/models/Language+Schema.swift"; sourceTree = "<group>"; };
+		DBDB3F1E28D3356500B285D7 /* Medication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Medication.swift; path = amplify/generated/models/Medication.swift; sourceTree = "<group>"; };
+		DBDB3F1F28D3356500B285D7 /* RelationUserPet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RelationUserPet.swift; path = amplify/generated/models/RelationUserPet.swift; sourceTree = "<group>"; };
+		DBDB3F2028D3356500B285D7 /* PetI18n.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PetI18n.swift; path = amplify/generated/models/PetI18n.swift; sourceTree = "<group>"; };
+		DBDB3F2128D3356500B285D7 /* Settings+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Settings+Schema.swift"; path = "amplify/generated/models/Settings+Schema.swift"; sourceTree = "<group>"; };
+		DBDB3F2228D3356500B285D7 /* Caretaker+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Caretaker+Schema.swift"; path = "amplify/generated/models/Caretaker+Schema.swift"; sourceTree = "<group>"; };
+		DBDB3F2328D3356500B285D7 /* CategoryI18n+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CategoryI18n+Schema.swift"; path = "amplify/generated/models/CategoryI18n+Schema.swift"; sourceTree = "<group>"; };
+		DBDB3F2428D3356500B285D7 /* Favourites.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Favourites.swift; path = amplify/generated/models/Favourites.swift; sourceTree = "<group>"; };
+		DBDB3F2528D3356500B285D7 /* Location+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Location+Schema.swift"; path = "amplify/generated/models/Location+Schema.swift"; sourceTree = "<group>"; };
+		DBDB3F2628D3356600B285D7 /* Pet+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Pet+Schema.swift"; path = "amplify/generated/models/Pet+Schema.swift"; sourceTree = "<group>"; };
+		DBDB3F2728D3356600B285D7 /* FeedingPointConnection+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "FeedingPointConnection+Schema.swift"; path = "amplify/generated/models/FeedingPointConnection+Schema.swift"; sourceTree = "<group>"; };
+		DBDB3F2828D3356600B285D7 /* FeedingPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedingPoint.swift; path = amplify/generated/models/FeedingPoint.swift; sourceTree = "<group>"; };
+		DBDB3F2928D3356600B285D7 /* LanguagesSetting+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "LanguagesSetting+Schema.swift"; path = "amplify/generated/models/LanguagesSetting+Schema.swift"; sourceTree = "<group>"; };
+		DBDB3F2A28D3356600B285D7 /* MedicationI18n.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MedicationI18n.swift; path = amplify/generated/models/MedicationI18n.swift; sourceTree = "<group>"; };
+		DBDB3F2B28D3356600B285D7 /* Feeding+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Feeding+Schema.swift"; path = "amplify/generated/models/Feeding+Schema.swift"; sourceTree = "<group>"; };
+		DBDB3F2C28D3356600B285D7 /* CategoryI18n.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategoryI18n.swift; path = amplify/generated/models/CategoryI18n.swift; sourceTree = "<group>"; };
+		DBDB3F2D28D3356600B285D7 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Location.swift; path = amplify/generated/models/Location.swift; sourceTree = "<group>"; };
+		DBDB3F2E28D3356600B285D7 /* FeedingPointStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedingPointStatus.swift; path = amplify/generated/models/FeedingPointStatus.swift; sourceTree = "<group>"; };
+		DBDB3F2F28D3356600B285D7 /* PetI18n+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "PetI18n+Schema.swift"; path = "amplify/generated/models/PetI18n+Schema.swift"; sourceTree = "<group>"; };
+		DBDB3F3028D3356600B285D7 /* RelationPetFeedingPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RelationPetFeedingPoint.swift; path = amplify/generated/models/RelationPetFeedingPoint.swift; sourceTree = "<group>"; };
 		DBDB50172887FBBA003C6FF0 /* HomeContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContract.swift; sourceTree = "<group>"; };
 		DBDB501A2887FE00003C6FF0 /* HomeModel+DTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeModel+DTO.swift"; sourceTree = "<group>"; };
 		DBDB50202889725C003C6FF0 /* FeedingPointViewMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingPointViewMapper.swift; sourceTree = "<group>"; };
@@ -267,12 +348,6 @@
 		DBF56B5428CF40E300AB0BDF /* FeedingPointDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedingPointDetailsViewController.swift; sourceTree = "<group>"; };
 		DBF56B5528CF40E300AB0BDF /* FeedingPointDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedingPointDetailsViewModel.swift; sourceTree = "<group>"; };
 		DBF56B5B28CF4A5700AB0BDF /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
-		DEFE643B8BEBAC315C0A9518 /* Pet.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Pet.swift; path = amplify/generated/models/Pet.swift; sourceTree = "<group>"; };
-		E1877F1460B58C5A5A0F72E5 /* LanguagesSetting.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = LanguagesSetting.swift; path = amplify/generated/models/LanguagesSetting.swift; sourceTree = "<group>"; };
-		E423FC6DE22260CD3829A2BE /* MedicationI18n+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "MedicationI18n+Schema.swift"; path = "amplify/generated/models/MedicationI18n+Schema.swift"; sourceTree = "<group>"; };
-		E7755CAA75F8797C1A590B38 /* Category+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "Category+Schema.swift"; path = "amplify/generated/models/Category+Schema.swift"; sourceTree = "<group>"; };
-		F51C75C31E8D0F3CD7FEA2BB /* RelationUserFeedingPoint+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "RelationUserFeedingPoint+Schema.swift"; path = "amplify/generated/models/RelationUserFeedingPoint+Schema.swift"; sourceTree = "<group>"; };
-		FA4AB87F5303920447B46AFE /* Caretaker+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "Caretaker+Schema.swift"; path = "amplify/generated/models/Caretaker+Schema.swift"; sourceTree = "<group>"; };
 		FB00144A2859FC1800943360 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		FB00144C2859FC7700943360 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		FB00144E2859FCDD00943360 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
@@ -310,7 +385,7 @@
 				DB234D7A28CA627A0078452F /* AWSPinpointAnalyticsPlugin in Frameworks */,
 				DB234D7E28CA627A0078452F /* AWSS3StoragePlugin in Frameworks */,
 				FBE4295E287442B800D1BD26 /* Common in Frameworks */,
-				836840ED28CA3B4100E1044E /* AWSPluginsCore in Frameworks */,
+				836840ED28CA3B4100E1044E /* (null) in Frameworks */,
 				FBCAE51D28687467008E3AC7 /* Services in Frameworks */,
 				DB234D8028CA627A0078452F /* Amplify in Frameworks */,
 				DB234D7428CA627A0078452F /* AWSCognitoAuthPlugin in Frameworks */,
@@ -967,6 +1042,49 @@
 		EC5A724E54B251047A4A70CA /* AmplifyModels */ = {
 			isa = PBXGroup;
 			children = (
+				DBDB3F0E28D3356400B285D7 /* AmplifyModels.swift */,
+				DBDB3F0B28D3356400B285D7 /* Caretaker.swift */,
+				DBDB3F2228D3356500B285D7 /* Caretaker+Schema.swift */,
+				DBDB3F0C28D3356400B285D7 /* Category.swift */,
+				DBDB3F1C28D3356500B285D7 /* Category+Schema.swift */,
+				DBDB3F2C28D3356600B285D7 /* CategoryI18n.swift */,
+				DBDB3F2328D3356500B285D7 /* CategoryI18n+Schema.swift */,
+				DBDB3F2428D3356500B285D7 /* Favourites.swift */,
+				DBDB3F1528D3356400B285D7 /* Favourites+Schema.swift */,
+				DBDB3F1328D3356400B285D7 /* Feeding.swift */,
+				DBDB3F2B28D3356600B285D7 /* Feeding+Schema.swift */,
+				DBDB3F2828D3356600B285D7 /* FeedingPoint.swift */,
+				DBDB3F1928D3356400B285D7 /* FeedingPoint+Schema.swift */,
+				DBDB3F1A28D3356400B285D7 /* FeedingPointConnection.swift */,
+				DBDB3F2728D3356600B285D7 /* FeedingPointConnection+Schema.swift */,
+				DBDB3F0928D3356300B285D7 /* FeedingPointI18n.swift */,
+				DBDB3F1428D3356400B285D7 /* FeedingPointI18n+Schema.swift */,
+				DBDB3F2E28D3356600B285D7 /* FeedingPointStatus.swift */,
+				DBDB3F1128D3356400B285D7 /* FeedingStatus.swift */,
+				DBDB3F0728D3356300B285D7 /* Language.swift */,
+				DBDB3F1D28D3356500B285D7 /* Language+Schema.swift */,
+				DBDB3F1B28D3356400B285D7 /* LanguagesSetting.swift */,
+				DBDB3F2928D3356600B285D7 /* LanguagesSetting+Schema.swift */,
+				DBDB3F2D28D3356600B285D7 /* Location.swift */,
+				DBDB3F2528D3356500B285D7 /* Location+Schema.swift */,
+				DBDB3F1E28D3356500B285D7 /* Medication.swift */,
+				DBDB3F1828D3356400B285D7 /* Medication+Schema.swift */,
+				DBDB3F2A28D3356600B285D7 /* MedicationI18n.swift */,
+				DBDB3F0F28D3356400B285D7 /* MedicationI18n+Schema.swift */,
+				DBDB3F0A28D3356300B285D7 /* Pet.swift */,
+				DBDB3F2628D3356600B285D7 /* Pet+Schema.swift */,
+				DBDB3F2028D3356500B285D7 /* PetI18n.swift */,
+				DBDB3F2F28D3356600B285D7 /* PetI18n+Schema.swift */,
+				DBDB3F1628D3356400B285D7 /* Point.swift */,
+				DBDB3F1028D3356400B285D7 /* Point+Schema.swift */,
+				DBDB3F3028D3356600B285D7 /* RelationPetFeedingPoint.swift */,
+				DBDB3F0D28D3356400B285D7 /* RelationPetFeedingPoint+Schema.swift */,
+				DBDB3F1728D3356400B285D7 /* RelationUserFeedingPoint.swift */,
+				DBDB3F1228D3356400B285D7 /* RelationUserFeedingPoint+Schema.swift */,
+				DBDB3F1F28D3356500B285D7 /* RelationUserPet.swift */,
+				DBDB3F0828D3356300B285D7 /* RelationUserPet+Schema.swift */,
+				DBDB3F0628D3356300B285D7 /* Settings.swift */,
+				DBDB3F2128D3356500B285D7 /* Settings+Schema.swift */,
 			);
 			name = AmplifyModels;
 			sourceTree = "<group>";
@@ -1322,25 +1440,34 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DBDB3F3A28D3356600B285D7 /* MedicationI18n+Schema.swift in Sources */,
 				83F3CC14284771FB00C05298 /* LoginContract.swift in Sources */,
+				DBDB3F5028D3356700B285D7 /* Location+Schema.swift in Sources */,
 				DB6B07CA28450A380009397B /* HomeViewController.swift in Sources */,
 				DBDB50212889725C003C6FF0 /* FeedingPointViewMapper.swift in Sources */,
 				DB127E8828B9648200012B53 /* MoreAssembler.swift in Sources */,
+				DBDB3F5A28D3356700B285D7 /* PetI18n+Schema.swift in Sources */,
 				8360D1AF284F2A5E00ACDEDB /* LoginViewActionEvent.swift in Sources */,
 				DB0D4A842886A9C4001750BC /* HomeViewModel.swift in Sources */,
 				8372CCAE289B271E0085C6D1 /* LoginModelStatus.swift in Sources */,
 				83F3CC12284771CA00C05298 /* LoginAssembler.swift in Sources */,
 				83C24F7E286D994A0086330B /* VerificationViewHeader+TextBigTitleSubtitleView.swift in Sources */,
+				DBDB3F5728D3356700B285D7 /* CategoryI18n.swift in Sources */,
 				83E83A4328A97C5500B40FC4 /* AppCoordinator.swift in Sources */,
 				83C24F80286D994A0086330B /* VerificationViewCode+VerificationInputView.swift in Sources */,
 				83C24F81286D994A0086330B /* VerificationViewCode.swift in Sources */,
+				DBDB3F3228D3356600B285D7 /* Language.swift in Sources */,
 				DBF56B5728CF40E300AB0BDF /* FeedingPointDetailsContract.swift in Sources */,
 				8372CCBB28A029990085C6D1 /* CustomAuthViewModel.swift in Sources */,
 				8372CCE128A18B030085C6D1 /* CustomAuthViewText.swift in Sources */,
+				DBDB3F4228D3356600B285D7 /* RelationUserFeedingPoint.swift in Sources */,
 				837F1FB328868C3A001FABC5 /* AuthenticationService.swift in Sources */,
 				83F3CC1D2847808200C05298 /* LoginModelAction.swift in Sources */,
+				DBDB3F4E28D3356700B285D7 /* CategoryI18n+Schema.swift in Sources */,
+				DBDB3F3E28D3356600B285D7 /* Feeding.swift in Sources */,
 				DBDB50182887FBBA003C6FF0 /* HomeContract.swift in Sources */,
 				83C24F71286D99280086330B /* LoginViewOnboardingStepsMapper.swift in Sources */,
+				DBDB3F5628D3356700B285D7 /* Feeding+Schema.swift in Sources */,
 				836840F528D1C50400E1044E /* CustomAuthModelOptions.swift in Sources */,
 				836840F328D1A7FE00E1044E /* CustomAuthModelItemError.swift in Sources */,
 				DB5A838E285CEC4B00F3C3A5 /* Log.swift in Sources */,
@@ -1349,87 +1476,115 @@
 				DBDC6E7028C73E8F001B359D /* NetworkService.swift in Sources */,
 				DB127E8B28B97B5700012B53 /* MoreActionModel.swift in Sources */,
 				8372CCBD28A029A50085C6D1 /* CustomAuthAssembler.swift in Sources */,
+				DBDB3F3828D3356600B285D7 /* RelationPetFeedingPoint+Schema.swift in Sources */,
 				DB6B07C628450A380009397B /* AppDelegate.swift in Sources */,
 				8372CCD228A031280085C6D1 /* CustomAuthViewItem.swift in Sources */,
 				DB0D671928466E7700930564 /* Strings.swift in Sources */,
 				83F3CC1B28477ECE00C05298 /* LoginModel.swift in Sources */,
+				DBDB3F4628D3356700B285D7 /* LanguagesSetting.swift in Sources */,
 				83F3CC102847713400C05298 /* LoginViewModel.swift in Sources */,
 				FB00144B2859FC1800943360 /* ProfileViewController.swift in Sources */,
+				DBDB3F5328D3356700B285D7 /* FeedingPoint.swift in Sources */,
 				8372CCAB289AFC3E0085C6D1 /* LoginProviding.swift in Sources */,
 				8372CCCD28A02BD70085C6D1 /* CustomAuthViewTextEvent.swift in Sources */,
 				836840F828D1ED3D00E1044E /* BaseError.swift in Sources */,
+				DBDB3F4F28D3356700B285D7 /* Favourites.swift in Sources */,
+				DBDB3F4728D3356700B285D7 /* Category+Schema.swift in Sources */,
+				DBDB3F4528D3356700B285D7 /* FeedingPointConnection.swift in Sources */,
+				DBDB3F3B28D3356600B285D7 /* Point+Schema.swift in Sources */,
 				8360D1A3284E954900ACDEDB /* LoginModelOnboardingStep.swift in Sources */,
 				FB001451285A097E00943360 /* ProfileAssembler.swift in Sources */,
+				DBDB3F3C28D3356600B285D7 /* FeedingStatus.swift in Sources */,
 				DB127E8728B9648200012B53 /* MoreContract.swift in Sources */,
 				8372CCB928A0298B0085C6D1 /* CustomAuthViewController.swift in Sources */,
 				8360D1A9284E9A9600ACDEDB /* LoginViewOnboardingStep.swift in Sources */,
 				83F3CC0E2847704300C05298 /* LoginViewController.swift in Sources */,
 				FBE017612874611600A79DB2 /* Navigator.swift in Sources */,
 				DB6B07C828450A380009397B /* SceneDelegate.swift in Sources */,
+				DBDB3F4028D3356600B285D7 /* Favourites+Schema.swift in Sources */,
+				DBDB3F4A28D3356700B285D7 /* RelationUserPet.swift in Sources */,
+				DBDB3F3328D3356600B285D7 /* RelationUserPet+Schema.swift in Sources */,
 				DBC2BB4228BBAD2B0086EF52 /* MorePartitionModel.swift in Sources */,
+				DBDB3F3D28D3356600B285D7 /* RelationUserFeedingPoint+Schema.swift in Sources */,
 				DBF56B5628CF40E300AB0BDF /* FeedingPointDetailsModel.swift in Sources */,
-				704192811E47C576AE584354 /* Favourites+Schema.swift in Sources */,
+				DBDB3F5528D3356700B285D7 /* MedicationI18n.swift in Sources */,
 				83E83A4E28A98E2700B40FC4 /* MainCoordinator.swift in Sources */,
 				8372CCDE28A03F460085C6D1 /* CustomAuthViewHeader+TextBigTitleSubtitleViewModel.swift in Sources */,
 				DB0D4A882886AC92001750BC /* HomeAssembler.swift in Sources */,
+				DBDB3F4C28D3356700B285D7 /* Settings+Schema.swift in Sources */,
 				DBC2BB4628BBAD2B0086EF52 /* MorePartitionViewModel.swift in Sources */,
 				83E83A5228AABE8200B40FC4 /* VerificationModelInput.swift in Sources */,
 				DBDB501B2887FE00003C6FF0 /* HomeModel+DTO.swift in Sources */,
+				DBDB3F5228D3356700B285D7 /* FeedingPointConnection+Schema.swift in Sources */,
 				DB127E8928B9648200012B53 /* MoreViewModel.swift in Sources */,
+				DBDB3F3728D3356600B285D7 /* Category.swift in Sources */,
 				836840FA28D204A900E1044E /* CustomAuthViewItem+PhoneInputViewModel.swift in Sources */,
 				DB127E8628B9648200012B53 /* MoreViewController.swift in Sources */,
+				DBDB3F5928D3356700B285D7 /* FeedingPointStatus.swift in Sources */,
 				DBF56B5A28CF40E300AB0BDF /* FeedingPointDetailsViewModel.swift in Sources */,
 				8372CCC728A02A1E0085C6D1 /* CustomAuthModel.swift in Sources */,
 				8372CCD828A034370085C6D1 /* CustomAuthViewItemMapper.swift in Sources */,
 				83C24F89286D9D060086330B /* VerificationModelCode.swift in Sources */,
 				DBBDE72A28BB8C2A006EEBA3 /* MoreItemViewMapper.swift in Sources */,
 				DB5A8389285CEB5400F3C3A5 /* AppContext.swift in Sources */,
+				DBDB3F4828D3356700B285D7 /* Language+Schema.swift in Sources */,
 				838B6B752868B061001DD111 /* VerificationAssembler.swift in Sources */,
 				838B6B6E2868B021001DD111 /* VerificationViewModel.swift in Sources */,
+				DBDB3F3528D3356600B285D7 /* Pet.swift in Sources */,
 				83C24F88286D9D060086330B /* VerificationModelTimeLeft.swift in Sources */,
+				DBDB3F3128D3356600B285D7 /* Settings.swift in Sources */,
 				DB0D4A862886AB6B001750BC /* HomeModel.swift in Sources */,
 				DB127E8528B9648200012B53 /* MoreModel.swift in Sources */,
 				DBF56B5828CF40E300AB0BDF /* FeedingPointDetailsAssembler.swift in Sources */,
-				B86954F5AEDAFD695ADFC5A6 /* Medication.swift in Sources */,
-				1EE4E0FF2FF2EEB607AEC220 /* MedicationI18n+Schema.swift in Sources */,
 				83C24F7F286D994A0086330B /* VereficationViewResendCode+TextClickableLeftIconTitleView.swift in Sources */,
 				83E83A4828A984D700B40FC4 /* AuthCoordinator.swift in Sources */,
 				FB00144F2859FCDD00943360 /* ProfileModel.swift in Sources */,
+				DBDB3F3928D3356600B285D7 /* AmplifyModels.swift in Sources */,
 				FB00144D2859FC7700943360 /* ProfileViewModel.swift in Sources */,
+				DBDB3F5128D3356700B285D7 /* Pet+Schema.swift in Sources */,
+				DBDB3F3428D3356600B285D7 /* FeedingPointI18n.swift in Sources */,
 				DB73B47A28C0E67E00363FB8 /* PartitionContentModel.swift in Sources */,
 				836840F128D1A1A800E1044E /* CustomAuthModelComponent.swift in Sources */,
 				DBC2BB4328BBAD2B0086EF52 /* MorePartitionViewController.swift in Sources */,
 				DBC2BB4428BBAD2B0086EF52 /* MorePartitionAssembler.swift in Sources */,
-				0028E02D831362905A72161A /* PetI18n+Schema.swift in Sources */,
-				6826AB850FFAF4CC13D042F3 /* PetI18n.swift in Sources */,
 				DBF56B5C28CF4A5700AB0BDF /* HomeCoordinator.swift in Sources */,
-				0DC7F17C09E9C3EA296C308D /* Point+Schema.swift in Sources */,
-				8372CCCF28A02F300085C6D1 /* PhoneAuthModelItem.swift in Sources */,
-				DB127E8F28B9E9BA00012B53 /* MoreCoordinator.swift in Sources */,
-				8372CCDC28A03B640085C6D1 /* PhoneAuthViewHeader.swift in Sources */,
-				DB84B31528CA13A60083D98C /* NetworkRequest.swift in Sources */,
 				8372CCCF28A02F300085C6D1 /* CustomAuthModelItem.swift in Sources */,
 				DB127E8F28B9E9BA00012B53 /* MoreCoordinator.swift in Sources */,
 				8372CCDC28A03B640085C6D1 /* CustomAuthViewHeader.swift in Sources */,
+				DBDB3F3628D3356600B285D7 /* Caretaker.swift in Sources */,
+				DB84B31528CA13A60083D98C /* NetworkRequest.swift in Sources */,
+				DBDB3F4B28D3356700B285D7 /* PetI18n.swift in Sources */,
+				8372CCCF28A02F300085C6D1 /* CustomAuthModelItem.swift in Sources */,
+				DB127E8F28B9E9BA00012B53 /* MoreCoordinator.swift in Sources */,
+				DBDB3F5428D3356700B285D7 /* LanguagesSetting+Schema.swift in Sources */,
+				8372CCDC28A03B640085C6D1 /* CustomAuthViewHeader.swift in Sources */,
 				8372CCFF28A437250085C6D1 /* CustomAuthModelNextStep.swift in Sources */,
+				DBDB3F5B28D3356700B285D7 /* RelationPetFeedingPoint.swift in Sources */,
 				83C24F84286D994A0086330B /* VerificationViewHeader.swift in Sources */,
 				FBE017632874666000A79DB2 /* Coordinatable.swift in Sources */,
 				8372CCB5289B81D90085C6D1 /* LoginRoute.swift in Sources */,
 				838B6B732868B052001DD111 /* VerificationContract.swift in Sources */,
 				DBC2BB4528BBAD2B0086EF52 /* MorePartitionContract.swift in Sources */,
+				DBDB3F5828D3356700B285D7 /* Location.swift in Sources */,
 				8372CCBF28A029B60085C6D1 /* CustomAuthContract.swift in Sources */,
 				83C24F83286D994A0086330B /* VerificationViewActionEvent.swift in Sources */,
 				836840FE28D2083200E1044E /* CustomAuthViewAction+ButtonViewModel.swift in Sources */,
 				8368410028D2096100E1044E /* CustomAuthViewActionEvent.swift in Sources */,
 				83C24F73286D99280086330B /* LoginViewOnboardingStep+OnboardingViewStep.swift in Sources */,
 				837F1FB528869B29001FABC5 /* AuthenticationAmplifyConverter.swift in Sources */,
+				DBDB3F4428D3356700B285D7 /* FeedingPoint+Schema.swift in Sources */,
+				DBDB3F4D28D3356700B285D7 /* Caretaker+Schema.swift in Sources */,
+				DBDB3F4328D3356600B285D7 /* Medication+Schema.swift in Sources */,
 				83C24F82286D994A0086330B /* VereficationViewResendCode.swift in Sources */,
 				8372CCCB28A02BAA0085C6D1 /* CustomAuthRoute.swift in Sources */,
 				DB0AD32928A26FB6007FD750 /* SegmentedControlMapper.swift in Sources */,
+				DBDB3F4928D3356700B285D7 /* Medication.swift in Sources */,
+				DBDB3F3F28D3356600B285D7 /* FeedingPointI18n+Schema.swift in Sources */,
 				838B6B6C2868B011001DD111 /* VerificationViewController.swift in Sources */,
 				836840FC28D2077F00E1044E /* CustomAuthViewAction.swift in Sources */,
 				83F3CC202847851300C05298 /* LoginViewAction.swift in Sources */,
 				83C24F72286D99280086330B /* LoginViewAction+ButtonViewModel.swift in Sources */,
+				DBDB3F4128D3356600B285D7 /* Point.swift in Sources */,
 				DBF56B5928CF40E300AB0BDF /* FeedingPointDetailsViewController.swift in Sources */,
 				DB5A838C285CEB9D00F3C3A5 /* AppInfo.swift in Sources */,
 				FB1C7E28286F1E1A0024EBDD /* ProfileContract.swift in Sources */,

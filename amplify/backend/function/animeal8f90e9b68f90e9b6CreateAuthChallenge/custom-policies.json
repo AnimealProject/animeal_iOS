@@ -1,0 +1,6 @@
+[
+  {
+    "Action": ["sns:Publish"],
+    "Resource": ["*"]
+  }
+]

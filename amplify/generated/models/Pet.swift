@@ -8,9 +8,9 @@ public struct Pet: Model {
   public var images: [String]
   public var breed: String
   public var color: String
-  public var age: Int
   public var chipNumber: String
   public var vaccinatedAt: Temporal.DateTime
+  public var yearOfBirth: Temporal.DateTime
   public var caretaker: Caretaker?
   public var i18n: [PetI18n]?
   public var createdAt: Temporal.DateTime
@@ -29,9 +29,9 @@ public struct Pet: Model {
       images: [String] = [],
       breed: String,
       color: String,
-      age: Int,
       chipNumber: String,
       vaccinatedAt: Temporal.DateTime,
+      yearOfBirth: Temporal.DateTime,
       caretaker: Caretaker? = nil,
       i18n: [PetI18n]? = nil,
       createdAt: Temporal.DateTime,
@@ -49,9 +49,9 @@ public struct Pet: Model {
       self.images = images
       self.breed = breed
       self.color = color
-      self.age = age
       self.chipNumber = chipNumber
       self.vaccinatedAt = vaccinatedAt
+      self.yearOfBirth = yearOfBirth
       self.caretaker = caretaker
       self.i18n = i18n
       self.createdAt = createdAt

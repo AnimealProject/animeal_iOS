@@ -1,10 +1,14 @@
 {
-  "resourceName": "animealstorage",
-  "policyUUID": "9710b9f5",
-  "bucketName": "animeal",
+  "resourceName": "animeal",
+  "policyUUID": "d40b08a3",
+  "bucketName": "animealstorage",
   "storageAccess": "auth",
   "guestAccess": [],
-  "authAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
   "groupAccess": {
     "Administrator": [
       "CREATE_AND_UPDATE",

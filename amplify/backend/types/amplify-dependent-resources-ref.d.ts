@@ -1,52 +1,52 @@
 export type AmplifyDependentResourcesAttributes = {
     "auth": {
-        "animeald4b890d7": {
-            "IdentityPoolId": "string",
-            "IdentityPoolName": "string",
-            "UserPoolId": "string",
-            "UserPoolArn": "string",
-            "UserPoolName": "string",
-            "AppClientIDWeb": "string",
-            "AppClientID": "string",
-            "CreatedSNSRole": "string"
-        },
         "userPoolGroups": {
             "AdministratorGroupRole": "string",
             "ModeratorGroupRole": "string",
             "VolunteerGroupRole": "string"
-        }
-    },
-    "storage": {
-        "animealstorage": {
-            "BucketName": "string",
-            "Region": "string"
-        }
-    },
-    "api": {
-        "animeal": {
-            "GraphQLAPIKeyOutput": "string",
-            "GraphQLAPIIdOutput": "string",
-            "GraphQLAPIEndpointOutput": "string"
         },
-        "AdminQueries": {
-            "RootUrl": "string",
-            "ApiName": "string",
-            "ApiId": "string"
-        }
-    },
-    "geo": {
-        "animealplaceindex": {
-            "Name": "string",
-            "Region": "string",
-            "Arn": "string"
+        "animeal8f90e9b68f90e9b6": {
+            "IdentityPoolId": "string",
+            "IdentityPoolName": "string",
+            "HostedUIDomain": "string",
+            "OAuthMetadata": "string",
+            "UserPoolId": "string",
+            "UserPoolArn": "string",
+            "UserPoolName": "string",
+            "AppClientIDWeb": "string",
+            "AppClientID": "string"
         }
     },
     "function": {
-        "AdminQueries9b7a2344": {
+        "AdminQueriesdbb0bdc6": {
             "Name": "string",
             "Arn": "string",
             "Region": "string",
             "LambdaExecutionRole": "string"
+        },
+        "animeal8f90e9b68f90e9b6CreateAuthChallenge": {
+            "Name": "string",
+            "Arn": "string",
+            "LambdaExecutionRole": "string",
+            "Region": "string"
+        },
+        "animeal8f90e9b68f90e9b6DefineAuthChallenge": {
+            "Name": "string",
+            "Arn": "string",
+            "LambdaExecutionRole": "string",
+            "Region": "string"
+        },
+        "animeal8f90e9b68f90e9b6PreSignup": {
+            "Name": "string",
+            "Arn": "string",
+            "LambdaExecutionRole": "string",
+            "Region": "string"
+        },
+        "animeal8f90e9b68f90e9b6VerifyAuthChallengeResponse": {
+            "Name": "string",
+            "Arn": "string",
+            "LambdaExecutionRole": "string",
+            "Region": "string"
         },
         "translate": {
             "Name": "string",
@@ -59,6 +59,31 @@ export type AmplifyDependentResourcesAttributes = {
             "Arn": "string",
             "Region": "string",
             "LambdaExecutionRole": "string"
+        }
+    },
+    "api": {
+        "AdminQueries": {
+            "RootUrl": "string",
+            "ApiName": "string",
+            "ApiId": "string"
+        },
+        "animeal": {
+            "GraphQLAPIKeyOutput": "string",
+            "GraphQLAPIIdOutput": "string",
+            "GraphQLAPIEndpointOutput": "string"
+        }
+    },
+    "geo": {
+        "animealindex": {
+            "Name": "string",
+            "Region": "string",
+            "Arn": "string"
+        }
+    },
+    "storage": {
+        "animeal": {
+            "BucketName": "string",
+            "Region": "string"
         }
     }
 }

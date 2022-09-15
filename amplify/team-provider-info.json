@@ -1,41 +1,63 @@
 {
-    "dev": {
-        "awscloudformation": {
-            "AuthRoleName": "amplify-animeal-dev-171201-authRole",
-            "UnauthRoleArn": "arn:aws:iam::027735239009:role/amplify-animeal-dev-171201-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::027735239009:role/amplify-animeal-dev-171201-authRole",
-            "Region": "us-east-1",
-            "DeploymentBucketName": "amplify-animeal-dev-171201-deployment",
-            "UnauthRoleName": "amplify-animeal-dev-171201-unauthRole",
-            "StackName": "amplify-animeal-dev-171201",
-            "StackId": "arn:aws:cloudformation:us-east-1:027735239009:stack/amplify-animeal-dev-171201/aa198700-d2c6-11ec-9434-0eefc3705b7f",
-            "AmplifyAppId": "d3uobbjnmsxou"
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-animeal-dev-142117-authRole",
+      "UnauthRoleArn": "arn:aws:iam::027735239009:role/amplify-animeal-dev-142117-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::027735239009:role/amplify-animeal-dev-142117-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-animeal-dev-142117-deployment",
+      "UnauthRoleName": "amplify-animeal-dev-142117-unauthRole",
+      "StackName": "amplify-animeal-dev-142117",
+      "StackId": "arn:aws:cloudformation:us-east-1:027735239009:stack/amplify-animeal-dev-142117/5d7c60d0-2f68-11ed-af58-1258446b72c3",
+      "AmplifyAppId": "d3u3uizwwbsxuy",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-animeal-dev-142117-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
+    },
+    "categories": {
+      "auth": {
+        "animeald4b890d7": {},
+        "userPoolGroups": {},
+        "animeal8f90e9b68f90e9b6": {}
+      },
+      "function": {
+        "AdminQueries9b7a2344": {
+          "deploymentBucketName": "amplify-animeal-dev-171201-deployment",
+          "s3Key": "amplify-builds/AdminQueries9b7a2344-586269547878306b664c-build.zip"
         },
-        "categories": {
-            "auth": {
-                "animeald4b890d7": {},
-                "userPoolGroups": {}
-            },
-            "function": {
-                "AdminQueries9b7a2344": {
-                    "deploymentBucketName": "amplify-animeal-dev-171201-deployment",
-                    "s3Key": "amplify-builds/AdminQueries9b7a2344-586269547878306b664c-build.zip"
-                },
-                "translate": {
-                    "deploymentBucketName": "amplify-animeal-dev-171201-deployment",
-                    "s3Key": "amplify-builds/translate-6c38346c566e38616e58-build.zip"
-                },
-                "updateTranslationsTrigger": {
-                    "deploymentBucketName": "amplify-animeal-dev-171201-deployment",
-                    "s3Key": "amplify-builds/updateTranslationsTrigger-35492f486a6f65783065-build.zip"
-                }
-            },
-            "hosting": {
-                "amplifyhosting": {
-                    "appId": "d3uobbjnmsxou",
-                    "type": "cicd"
-                }
-            }
+        "translate": {
+          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
+          "s3Key": "amplify-builds/translate-6b46754d586543315a63-build.zip"
+        },
+        "updateTranslationsTrigger": {
+          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
+          "s3Key": "amplify-builds/updateTranslationsTrigger-765a396f322b6f68696d-build.zip"
+        },
+        "AdminQueriesdbb0bdc6": {
+          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
+          "s3Key": "amplify-builds/AdminQueriesdbb0bdc6-4766792b4d5468543037-build.zip"
+        },
+        "animeal8f90e9b68f90e9b6CreateAuthChallenge": {
+          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
+          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6CreateAuthChallenge-456d6f4c4a45625a4e72-build.zip"
+        },
+        "animeal8f90e9b68f90e9b6DefineAuthChallenge": {
+          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
+          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6DefineAuthChallenge-4a357043467034393639-build.zip"
+        },
+        "animeal8f90e9b68f90e9b6PreSignup": {
+          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
+          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6PreSignup-76725757666c43774352-build.zip"
+        },
+        "animeal8f90e9b68f90e9b6VerifyAuthChallengeResponse": {
+          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
+          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6VerifyAuthChallengeResponse-4c772b6b51393468764f-build.zip"
         }
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d3uobbjnmsxou",
+          "type": "cicd"
+        }
+      }
     }
+  }
 }

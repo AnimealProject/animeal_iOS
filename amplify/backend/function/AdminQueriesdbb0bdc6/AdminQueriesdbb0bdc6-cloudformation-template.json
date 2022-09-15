@@ -5,9 +5,9 @@
     "env": {
       "Type": "String"
     },
-    "authanimeald4b890d7UserPoolId": {
+    "authanimeal8f90e9b68f90e9b6UserPoolId": {
       "Type": "String",
-      "Default": "authanimeald4b890d7UserPoolId"
+      "Default": "authanimeal8f90e9b68f90e9b6UserPoolId"
     },
     "deploymentBucketName": {
       "Type": "String"
@@ -38,12 +38,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "AdminQueries9b7a2344",
+            "AdminQueriesdbb0bdc6",
             {
               "Fn::Join": [
                 "",
                 [
-                  "AdminQueries9b7a2344",
+                  "AdminQueriesdbb0bdc6",
                   "-",
                   {
                     "Ref": "env"
@@ -60,7 +60,7 @@
             },
             "GROUP": "Administrator",
             "USERPOOL": {
-              "Ref": "authanimeald4b890d7UserPoolId"
+              "Ref": "authanimeal8f90e9b68f90e9b6UserPoolId"
             }
           }
         },
@@ -88,12 +88,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "AdminQueries9b7a2344LambdaRole",
+            "AdminQueriesdbb0bdc6LambdaRole",
             {
               "Fn::Join": [
                 "",
                 [
-                  "AdminQueries9b7a2344LambdaRole",
+                  "AdminQueriesdbb0bdc6LambdaRole",
                   "-",
                   {
                     "Ref": "env"
@@ -193,7 +193,7 @@
                     },
                     ":userpool/",
                     {
-                      "Ref": "authanimeald4b890d7UserPoolId"
+                      "Ref": "authanimeal8f90e9b68f90e9b6UserPoolId"
                     }
                   ]
                 ]
