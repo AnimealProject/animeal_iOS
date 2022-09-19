@@ -14,6 +14,7 @@ protocol HomeModelProtocol: AnyObject {
     func fetchFilterItems(_ completion: (([HomeModel.FilterItem]) -> Void)?)
 
     func proceedFilter(_ identifier: HomeModel.FilterItemIdentifier)
+    func proceedFeedingPointSelection(_ identifier: String, completion: (([HomeModel.FeedingPoint]) -> Void)?)
 }
 
 // MARK: - ViewModel

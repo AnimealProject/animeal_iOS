@@ -40,8 +40,12 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     func handleActionEvent(_ event: HomeViewActionEvent) {
         switch event {
         case .tapFeedingPoint(let pointId):
-            print(pointId)
-            coordinator.routeTo(.details)
+            model.proceedFeedingPointSelection(pointId) { [weak self] points in
+                guard let self = self else { return }
+                let viewItems = points.map { self.feedingPointViewMapper.mapFeedingPoint($0) }
+                self.onFeedingPointsHaveBeenPrepared?(viewItems)
+                self.coordinator.routeTo(.details)
+            }
         case .tapFilterControl(let filterItemId):
             guard let itemIdentifier = HomeModel.FilterItemIdentifier(rawValue: filterItemId) else {
                 logError("[APP] \(#function) no filter with \(filterItemId)")

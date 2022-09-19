@@ -50,11 +50,21 @@ extension HomeCoordinator: HomeCoordinatable {
     func routeTo(_ route: HomeRoute) {
         switch route {
         case .details:
-            let transition = CurtainTransitionController(detent: TransitionDetent.custom(400))
-            let view = FeedingPointDetailsModuleAssembler.assemble()
+            // TODO: Fix transitionController height
+            let transition = CurtainTransitionController(detent: TransitionDetent.custom(315))
+            let view = FeedingPointDetailsModuleAssembler(coordinator: self).assemble()
             view.transitioningDelegate = transition
             view.modalPresentationStyle = .custom
             navigator.present(view, animated: true, completion: nil)
+        }
+    }
+}
+
+extension HomeCoordinator: FeedingPointCoordinatable {
+    func routeTo(_ route: FeedingPointRoute) {
+        switch route {
+        case .dismiss:
+            navigator.topViewController?.dismiss(animated: true, completion: nil)
         }
     }
 }

@@ -34,10 +34,14 @@ public final class FeedingPointView: UIView {
         button.setImage(model.kind.image, for: .normal)
 
         if circleLayer.superlayer == nil {
-            circleLayer.isHidden = true
             circleLayer.frame = CGRect(x: -57, y: -57, width: 174, height: 174)
             layer.insertSublayer(circleLayer, at: 0)
         }
+        circleLayer.isHidden = !model.isSelected
+    }
+
+    public func toggleSelection() {
+        circleLayer.isHidden.toggle()
     }
 }
 
@@ -53,7 +57,6 @@ private extension FeedingPointView {
     }
 
     @objc func handleTapAction() {
-        circleLayer.isHidden.toggle()
         guard let identifier = model?.identifier else { return }
         tapAction?(identifier)
     }

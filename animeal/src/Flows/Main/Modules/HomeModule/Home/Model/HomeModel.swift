@@ -61,6 +61,20 @@ final class HomeModel: HomeModelProtocol {
     func proceedFilter(_ identifier: HomeModel.FilterItemIdentifier) {
         context.defaultsService.write(key: Filter.selectedId, value: identifier.rawValue)
     }
+
+    func proceedFeedingPointSelection(_ identifier: String, completion: (([FeedingPoint]) -> Void)?) {
+        let modifiedPoints = cashedFeedingPoints.map { point in
+            FeedingPoint(
+                identifier: point.identifier,
+                isSelected: point.identifier == identifier,
+                location: point.location,
+                pet: point.pet,
+                hungerLevel: point.hungerLevel
+            )
+        }
+        cashedFeedingPoints = modifiedPoints
+        completion?(self.applyFilter(self.cashedFeedingPoints))
+    }
 }
 
 // MARK: Private API
