@@ -108,15 +108,14 @@ private extension HomeViewController {
         let resourceOptions = ResourceOptions(
             accessToken: ResourceOptionsManager.default.resourceOptions.accessToken
         )
-        // Fake coordinates for testing needs
-        let fakeLocationCoordinates = CLLocationCoordinate2D(
-            latitude: 41.73156045955432,
-            longitude: 44.785400636556204
+        let tbilisiCoordinates = CLLocationCoordinate2D(
+            latitude: 41.719545681547245,
+            longitude: 44.78956025041992
         )
 
         return MapInitOptions(
             resourceOptions: resourceOptions,
-            cameraOptions: CameraOptions(center: fakeLocationCoordinates, zoom: 15),
+            cameraOptions: CameraOptions(center: tbilisiCoordinates, zoom: 15),
             styleURI: styleURI
         )
     }

@@ -32,5 +32,6 @@
 "action.ok"                        = "Კარგი";
 "action.copyIBAN"                  = "კოპირება IBAN";
 "action.deleteAccount"             = "Ანგარიშის წაშლა";
+"action.iWillFeed"                 = "ვაჭმევ";
 "question.logoutAccount"           = "დარწმუნებული ხართ, რომ გსურთ თქვენი ანგარიშიდან გამოსვლა?";
 "question.deleteAccount"           = "დარწმუნებული ხართ, რომ გსურთ თქვენი ანგარიშის წაშლა?";

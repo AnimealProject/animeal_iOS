@@ -20,6 +20,8 @@ internal enum L10n {
     internal static let delete = L10n.tr("Localizable", "action.delete")
     /// Delete Account
     internal static let deleteAccount = L10n.tr("Localizable", "action.deleteAccount")
+    /// I will feed
+    internal static let iWillFeed = L10n.tr("Localizable", "action.iWillFeed")
     /// Log out
     internal static let logOut = L10n.tr("Localizable", "action.logOut")
     /// Ok

@@ -4,13 +4,16 @@ import Style
 extension FeedingPointView {
     public struct Model {
         public let identifier: String
+        public let isSelected: Bool
         public let kind: FeedingPointView.Kind
 
         public init(
             identifier: String,
+            isSelected: Bool,
             kind: FeedingPointView.Kind
         ) {
             self.identifier = identifier
+            self.isSelected = isSelected
             self.kind = kind
         }
     }

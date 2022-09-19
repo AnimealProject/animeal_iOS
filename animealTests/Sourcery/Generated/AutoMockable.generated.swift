@@ -190,6 +190,48 @@ class CustomAuthViewItemMappableMock: CustomAuthViewItemMappable {
 }
 class FeedingPointDetailsModelProtocolMock: FeedingPointDetailsModelProtocol {
 
+    // MARK: - fetchFeedingPoints
+
+    var fetchFeedingPointsCallsCount = 0
+    var fetchFeedingPointsCalled: Bool {
+        return fetchFeedingPointsCallsCount > 0
+    }
+    var fetchFeedingPointsReceivedCompletion: (((FeedingPointDetailsModel.PointContent) -> Void))?
+    var fetchFeedingPointsReceivedInvocations: [(((FeedingPointDetailsModel.PointContent) -> Void))?] = []
+    var fetchFeedingPointsClosure: ((((FeedingPointDetailsModel.PointContent) -> Void)?) -> Void)?
+
+    func fetchFeedingPoints(_ completion: ((FeedingPointDetailsModel.PointContent) -> Void)?) {
+        fetchFeedingPointsCallsCount += 1
+        fetchFeedingPointsReceivedCompletion = completion
+        fetchFeedingPointsReceivedInvocations.append(completion)
+        fetchFeedingPointsClosure?(completion)
+    }
+
+}
+class FeedingPointDetailsViewMappableMock: FeedingPointDetailsViewMappable {
+
+    // MARK: - mapFeedingPoint
+
+    var mapFeedingPointCallsCount = 0
+    var mapFeedingPointCalled: Bool {
+        return mapFeedingPointCallsCount > 0
+    }
+    var mapFeedingPointReceivedInput: FeedingPointDetailsModel.PointContent?
+    var mapFeedingPointReceivedInvocations: [FeedingPointDetailsModel.PointContent] = []
+    var mapFeedingPointReturnValue: FeedingPointDetailsViewItem!
+    var mapFeedingPointClosure: ((FeedingPointDetailsModel.PointContent) -> FeedingPointDetailsViewItem)?
+
+    func mapFeedingPoint(_ input: FeedingPointDetailsModel.PointContent) -> FeedingPointDetailsViewItem {
+        mapFeedingPointCallsCount += 1
+        mapFeedingPointReceivedInput = input
+        mapFeedingPointReceivedInvocations.append(input)
+        if let mapFeedingPointClosure = mapFeedingPointClosure {
+            return mapFeedingPointClosure(input)
+        } else {
+            return mapFeedingPointReturnValue
+        }
+    }
+
 }
 class FeedingPointViewMappableMock: FeedingPointViewMappable {
 
@@ -292,6 +334,23 @@ class HomeModelProtocolMock: HomeModelProtocol {
         proceedFilterReceivedIdentifier = identifier
         proceedFilterReceivedInvocations.append(identifier)
         proceedFilterClosure?(identifier)
+    }
+
+    // MARK: - handleFeedingPointSelection
+
+    var handleFeedingPointSelectionCompletionCallsCount = 0
+    var handleFeedingPointSelectionCompletionCalled: Bool {
+        return handleFeedingPointSelectionCompletionCallsCount > 0
+    }
+    var handleFeedingPointSelectionCompletionReceivedArguments: (identifier: String, completion: (([HomeModel.FeedingPoint]) -> Void)?)?
+    var handleFeedingPointSelectionCompletionReceivedInvocations: [(identifier: String, completion: (([HomeModel.FeedingPoint]) -> Void)?)] = []
+    var handleFeedingPointSelectionCompletionClosure: ((String, (([HomeModel.FeedingPoint]) -> Void)?) -> Void)?
+
+    func handleFeedingPointSelection(_ identifier: String, completion: (([HomeModel.FeedingPoint]) -> Void)?) {
+        handleFeedingPointSelectionCompletionCallsCount += 1
+        handleFeedingPointSelectionCompletionReceivedArguments = (identifier: identifier, completion: completion)
+        handleFeedingPointSelectionCompletionReceivedInvocations.append((identifier: identifier, completion: completion))
+        handleFeedingPointSelectionCompletionClosure?(identifier, completion)
     }
 
 }

@@ -17,7 +17,8 @@ final class FeedingPointViewMapper: FeedingPointViewMappable {
                 longitude: input.location.longitude
             ),
             viewModel: FeedingPointView.Model(
-                identifier: UUID().uuidString,
+                identifier: input.identifier,
+                isSelected: input.isSelected,
                 kind: convert(input)
             )
         )
