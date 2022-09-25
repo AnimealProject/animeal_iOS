@@ -13,7 +13,7 @@ import UIKit
 ///     paarent.present(child, animated: true)
 ///
 ///
-@available(swift, deprecated: 16.0, message: "Use UISheetPresentationController instead")
+@available(iOS, deprecated: 16.0, message: "Use UISheetPresentationController instead")
 public final class CurtainTransitionController: NSObject, UIViewControllerTransitioningDelegate {
     private let driver = TransitionDriver()
     private var detent: TransitionDetent
