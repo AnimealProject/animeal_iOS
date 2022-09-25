@@ -38,7 +38,6 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
 
     // MARK: - Setup
     private func setup() {
-        view.layer.cornerRadius = 30
         view.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
 
         let pullBarView = UIView()
@@ -71,9 +70,14 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
     }
 
     func applyFeedingPointContent(_ content: FeedingPointDetailsViewItem) {
-        let infoView = PlaceInfoView()
-        contentContainer.addArrangedSubview(infoView)
-        infoView.configure(content.placeInfo)
+        let pointDetailsView = FeedingPointDetailsView()
+        pointDetailsView.configure(
+            FeedingPointDetailsView.Model(
+                placeInfoViewModel: content.placeInfo,
+                isHighlighted: false
+            )
+        )
+        contentContainer.addArrangedSubview(pointDetailsView)
 
         let paragraphView = TextParagraphView()
         contentContainer.addArrangedSubview(paragraphView)

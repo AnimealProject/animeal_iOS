@@ -9,6 +9,7 @@ final class HomeCoordinator: Coordinatable {
     // MARK: - Dependencies
     private let navigator: Navigating
     private let completion: (() -> Void)?
+    private var bottomSheetController: BottomSheetPresentationController?
 
     // MARK: - Initialization
     init(
@@ -50,12 +51,11 @@ extension HomeCoordinator: HomeCoordinatable {
     func routeTo(_ route: HomeRoute) {
         switch route {
         case .details:
-            // TODO: Fix transitionController height
-            let transition = CurtainTransitionController(detent: TransitionDetent.custom(315))
-            let view = FeedingPointDetailsModuleAssembler(coordinator: self).assemble()
-            view.transitioningDelegate = transition
-            view.modalPresentationStyle = .custom
-            navigator.present(view, animated: true, completion: nil)
+            let viewController = FeedingPointDetailsModuleAssembler(coordinator: self).assemble()
+            let controller = BottomSheetPresentationController(controller: viewController)
+            controller.modalPresentationStyle = .overFullScreen
+            navigator.present(controller, animated: false, completion: nil)
+            bottomSheetController = controller
         }
     }
 }
@@ -64,7 +64,7 @@ extension HomeCoordinator: FeedingPointCoordinatable {
     func routeTo(_ route: FeedingPointRoute) {
         switch route {
         case .dismiss:
-            navigator.topViewController?.dismiss(animated: true, completion: nil)
+            bottomSheetController?.dismissView()
         }
     }
 }

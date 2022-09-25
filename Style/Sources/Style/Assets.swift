@@ -36,7 +36,9 @@ public enum Asset {
     public static let orangePeel = ColorAsset(name: "OrangePeel")
   }
   public enum Images {
+    public static let heartIcon = ImageAsset(name: "heart_icon")
     public static let refreshIcon = ImageAsset(name: "refresh_icon")
+    public static let feederPlaceholderIcon = ImageAsset(name: "feeder_placeholder_icon")
     public static let catHungryHigh = ImageAsset(name: "cat_hungry_high")
     public static let catHungryLow = ImageAsset(name: "cat_hungry_low")
     public static let catHungryMedium = ImageAsset(name: "cat_hungry_medium")
@@ -65,7 +67,6 @@ public enum Asset {
     public static let cityLogo = ImageAsset(name: "city_logo")
     public static let dogWhileEating = ImageAsset(name: "dog_while_eating")
     public static let animealLogo = ImageAsset(name: "animeal_logo")
-    public static let feederPlaceholderIcon = ImageAsset(name: "feeder_placeholder_icon")
   }
 }
 // swiftlint:enable identifier_name line_length nesting type_body_length type_name
