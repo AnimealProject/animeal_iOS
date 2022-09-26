@@ -101,5 +101,15 @@ final class VerificationViewController: BaseViewController {
                 VerificationViewActionEvent.tapResendCode
             )
         }
+        
+        viewModel.onHeaderHasBeenPrepared = { [weak self] viewHeader in
+            self?.applyHeader(viewHeader)
+        }
+        viewModel.onCodeHasBeenPrepared = { [weak self] viewCode, applyDiff in
+            self?.applyCode(viewCode, applyDiff)
+        }
+        viewModel.onResendCodeHasBeenPrepared = { [weak self] viewResendCode in
+            self?.applyResendCode(viewResendCode)
+        }
     }
 }

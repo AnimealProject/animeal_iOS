@@ -1,44 +1,56 @@
+// System
 import Foundation
 import Combine
 
-final class VerificationModel: VerificationModelProtocol {
-    // MARK: - Private properties
-    private var code: VerificationModelCode
-    private var expectedCode: String
+// SDK
+import Services
 
-    @Published private var isResendActive = false {
-        didSet {
-            fetchNewCodeResponse?(code)
-        }
+final class VerificationModel: VerificationModelProtocol {
+    // MARK: - Constants
+    enum Constants {
+        static let timeInterval = 1
+        static let timerTimeout = 30
     }
 
+    // MARK: - Private properties
+    private var code: VerificationModelCode
+
+    @Published
+    private var isResendActive = false
     private let timeLeft: CurrentValueSubject<Int, Never>
+    private let timerInterval: Int
     private let timerTimeout: Int
     private var timer: Cancellable?
 
     private var cancellables: Set<AnyCancellable>
 
     // MARK: - Dependencies
+    private let attribute: VerificationModelAttribute
+    private let deliveryDestination: VerificationModelDeliveryDestination
+    private let worker: VerificationModelWorker
 
     // MARK: - Responses
-    var fetchNewCodeResponse: ((VerificationModelCode) -> Void)?
-    var fetchNewCodeResponseTimeLeft: ((VerificationModelTimeLeft) -> Void)?
+    var requestNewCodeTimeLeft: ((VerificationModelTimeLeft) -> Void)?
 
     // MARK: - Initialization
-    init() {
-        self.timeLeft = CurrentValueSubject<Int, Never>(30)
-        self.timerTimeout = 30
+    init(
+        worker: VerificationModelWorker,
+        attribute: VerificationModelAttribute,
+        deliveryDestination: VerificationModelDeliveryDestination,
+        code: VerificationModelCode = .empty(),
+        timerInterval: Int = Constants.timeInterval,
+        timerTimeout: Int = Constants.timerTimeout
+    ) {
+        self.worker = worker
+        self.attribute = attribute
+        self.deliveryDestination = deliveryDestination
+        self.timeLeft = CurrentValueSubject<Int, Never>(timerTimeout)
+        self.timerInterval = timerInterval
+        self.timerTimeout = timerTimeout
         self.cancellables = []
-        self.expectedCode = "1111"
-        self.code = VerificationModelCode(
-            items: [
-                VerificationModelCodeItem(identifier: UUID().uuidString, text: nil),
-                VerificationModelCodeItem(identifier: UUID().uuidString, text: nil),
-                VerificationModelCodeItem(identifier: UUID().uuidString, text: nil),
-                VerificationModelCodeItem(identifier: UUID().uuidString, text: nil)
-            ]
-        )
+        self.code = code
         setup()
+        schedule()
     }
 
     // MARK: - Deinit
@@ -47,34 +59,43 @@ final class VerificationModel: VerificationModelProtocol {
     }
 
     // MARK: - Requests
-    func isValidationNeeded(_ code: VerificationModelCode) -> Bool {
-        let candidate = code.items.compactMap { $0.text }
-        let expected = self.expectedCode
-        return candidate.count == expected.count
+    func fetchDestination() -> VerificationModelDeliveryDestination { deliveryDestination }
+
+    func fetchCode() -> VerificationModelCode { code }
+
+    func requestNewCode() async throws {
+        guard isResendActive else { throw VerificationModelCodeError.codeRequestTimeLimitExceeded }
+        schedule()
+        try await worker.resendCode(forAttribute: attribute)
     }
 
-    func validateCode(_ code: VerificationModelCode) -> Bool {
-        let candidate = code.items
-            .compactMap { $0.text }
-            .joined()
-        return candidate == expectedCode
-    }
-
-    func fetchInitialCode() {
-        fetchNewCodeResponse?(code)
-    }
-
-    func fetchNewCode() {
-        timeLeft.send(timerTimeout)
-        scheduleExpiration()
+    func verifyCode(_ code: VerificationModelCode) async throws {
+        do {
+            let nextStep = try await worker.confirmCode(code, forAttribute: attribute)
+            switch nextStep {
+            case .confirmSignInWithSMSMFACode,
+                    .confirmSignInWithCustomChallenge,
+                    .confirmSignInWithNewPassword,
+                    .resetPassword,
+                    .confirmSignUp:
+                throw VerificationModelCodeError.codeUnsupportedNextStep
+            case .done: return
+            }
+        } catch VerificationModelCodeError.codeDigitsCountDoesNotFit {
+            // ignore that error
+            return
+        } catch {
+            throw error
+        }
     }
 }
 
 private extension VerificationModel {
-    func scheduleExpiration() {
+    func schedule() {
+        timeLeft.send(timerTimeout)
         timer?.cancel()
         timer = Timer
-            .publish(every: 1.0, on: .main, in: .common)
+            .publish(every: TimeInterval(timerInterval), on: .main, in: .common)
             .autoconnect()
             .sink { [weak self] _ in
                 guard
@@ -84,7 +105,7 @@ private extension VerificationModel {
                     self?.timer?.cancel()
                     return
                 }
-                self.timeLeft.value -= 1
+                self.timeLeft.value -= self.timerInterval
             }
     }
 
@@ -94,7 +115,7 @@ private extension VerificationModel {
             .assign(to: &$isResendActive)
         timeLeft
             .sink { [weak self] time in
-                self?.fetchNewCodeResponseTimeLeft?(
+                self?.requestNewCodeTimeLeft?(
                     VerificationModelTimeLeft(time: time)
                 )
             }

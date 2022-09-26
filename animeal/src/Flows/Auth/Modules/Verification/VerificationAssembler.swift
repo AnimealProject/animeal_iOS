@@ -1,22 +1,22 @@
 import UIKit
 
-enum VerificationModuleAssembler: VerificationAssembler {
-    static func assembly() -> UIViewController {
-        let model = VerificationModel()
+@MainActor
+enum VerificationAfterCustomAuthAssembler: VerificationAssembler {
+    static func assembly(
+        deliveryDestination: VerificationModelDeliveryDestination
+    ) -> UIViewController {
+        let model = VerificationModel(
+            worker: VerificationAfterCustomAuthWorker(),
+            attribute: VerificationModelAttribute(
+                key: VerificationModelAttributeKey.preferredUsername,
+                value: deliveryDestination.value ?? .empty
+            ),
+            deliveryDestination: deliveryDestination
+        )
         let viewModel = VerificationViewModel(
             model: model
         )
         let view = VerificationViewController(viewModel: viewModel)
-
-        viewModel.onHeaderHasBeenPrepared = { [weak view] viewHeader in
-            view?.applyHeader(viewHeader)
-        }
-        viewModel.onCodeHasBeenPrepared = { [weak view] viewCode, applyDiff in
-            view?.applyCode(viewCode, applyDiff)
-        }
-        viewModel.onResendCodeHasBeenPrepared = { [weak view] viewResendCode in
-            view?.applyResendCode(viewResendCode)
-        }
 
         return view
     }

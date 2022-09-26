@@ -135,7 +135,7 @@ private extension CustomAuthModelNextStep {
     static func afterSignUp(_ result: AuthenticationSignUpState) -> Self {
         switch result.nextStep {
         case .confirmUser(let details, _):
-            return CustomAuthModelNextStep.confirm(details?.destination ?? .unknown(nil))
+            return CustomAuthModelNextStep.confirm(details ?? .init(destination: .unknown(nil)))
         case .done:
             return CustomAuthModelNextStep.done
         }
@@ -144,7 +144,7 @@ private extension CustomAuthModelNextStep {
     static func afterSignIn(_ result: AuthenticationSignInState) -> Self {
         switch result.nextStep {
         case .confirmSignInWithSMSCode(let details, _):
-            return CustomAuthModelNextStep.confirm(details.destination)
+            return CustomAuthModelNextStep.confirm(details)
         case .resetPassword:
             return CustomAuthModelNextStep.resetPassword
         case .done:

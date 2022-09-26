@@ -13,43 +13,25 @@ final class VerificationViewModel: VerificationViewModelLifeCycle, VerificationV
     // MARK: - Dependencies
     private let model: VerificationModelProtocol
 
-
     // MARK: - State
     var onHeaderHasBeenPrepared: ((VerificationViewHeader) -> Void)?
     var onCodeHasBeenPrepared: ((VerificationViewCode, Bool) -> Void)?
     var onResendCodeHasBeenPrepared: ((VereficationViewResendCode) -> Void)?
 
-
     // MARK: - Initialization
-    init(
-        model: VerificationModelProtocol
-    ) {
+    init(model: VerificationModelProtocol) {
         self.model = model
         setup()
     }
 
     // MARK: - Life cycle
     func setup() {
-        model.fetchNewCodeResponse = { [weak self] modelCode in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
-                self.onCodeHasBeenPrepared?(
-                    VerificationViewCode(
-                        state: VerificationViewCodeState.normal,
-                        items: modelCode.items.map {
-                            VerificationViewCodeItem(identifier: $0.identifier, text: $0.text)
-                        }
-                    ),
-                    true
-                )
-            }
-        }
-        model.fetchNewCodeResponseTimeLeft = { [weak self] modelTimeLeft in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
+        model.requestNewCodeTimeLeft = { modelTimeLeft in
+            Task { [weak self] in
+                guard let self = self else { return }
                 self.onResendCodeHasBeenPrepared?(
                     VereficationViewResendCode(
-                        title: "Resend code in",
+                        title: L10n.Verification.ResendCode.title,
                         timeLeft: self.timeFormatter.string(
                             from: TimeInterval(modelTimeLeft.time)
                         )
@@ -60,38 +42,77 @@ final class VerificationViewModel: VerificationViewModelLifeCycle, VerificationV
     }
 
     func load() {
-        onHeaderHasBeenPrepared?(
-            VerificationViewHeader(
-                title: "Enter verification code",
-                subtitle: "Code was sent to: 558 49-99-69"
-            )
+        let modelDeliveryDestination = model.fetchDestination()
+        onHeaderHasBeenPrepared?(.default(modelDeliveryDestination))
+
+        let modelCode = model.fetchCode()
+        onCodeHasBeenPrepared?(
+            VerificationViewCode(
+                state: VerificationViewCodeState.normal,
+                items: modelCode.items.map {
+                    VerificationViewCodeItem(identifier: $0.identifier, text: $0.text)
+                }
+            ),
+            true
         )
-        model.fetchInitialCode()
-        model.fetchNewCode()
     }
 
     // MARK: - Interaction
     func handleActionEvent(_ event: VerificationViewActionEvent) {
         switch event {
         case .tapResendCode:
-            model.fetchNewCode()
+            Task { [weak self] in
+                do {
+                    try await self?.model.requestNewCode()
+                } catch VerificationModelCodeError.codeRequestTimeLimitExceeded {
+                    // ignore
+                    return
+                } catch {
+                    // display alert
+                }
+            }
         case .changeCode(let viewCodeItems):
             let modelCode = VerificationModelCode(
                 items: viewCodeItems.map {
                     VerificationModelCodeItem(identifier: $0.identifier, text: $0.text)
                 }
             )
-            guard model.isValidationNeeded(modelCode) else { return }
-            let isValid = model.validateCode(modelCode)
-            let state = isValid ?
-                VerificationViewCodeState.normal : VerificationViewCodeState.error
-            onCodeHasBeenPrepared?(
-                VerificationViewCode(
-                    state: state,
-                    items: viewCodeItems
-                ),
-                false
-            )
+            Task { [weak self] in
+                do {
+                    try await self?.model.verifyCode(modelCode)
+                    onCodeHasBeenPrepared?(
+                        VerificationViewCode(
+                            state: VerificationViewCodeState.normal,
+                            items: viewCodeItems
+                        ),
+                        false
+                    )
+                } catch {
+                    onCodeHasBeenPrepared?(
+                        VerificationViewCode(
+                            state: VerificationViewCodeState.error,
+                            items: viewCodeItems
+                        ),
+                        false
+                    )
+                }
+            }
         }
+    }
+}
+
+private extension VerificationViewHeader {
+    static func `default`(_ destination: VerificationModelDeliveryDestination? = nil) -> VerificationViewHeader {
+        let subtitle: String
+        if let destination = destination?.value {
+            subtitle = "\(L10n.Verification.Subtitle.filled) \(destination)"
+        } else {
+            subtitle = L10n.Verification.Subtitle.empty
+        }
+
+        return VerificationViewHeader(
+            title: L10n.Verification.title,
+            subtitle: subtitle
+        )
     }
 }

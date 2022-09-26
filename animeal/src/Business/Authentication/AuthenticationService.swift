@@ -129,8 +129,12 @@ final class AuthenticationService: AuthenticationServiceProtocol {
         }
     }
 
-    func confirmSignUp(for username: AuthenticationInput, otp: String, handler: @escaping AuthenticationConfirmSignUpHanler) {
-        Amplify.Auth.confirmSignUp(for: username.value, confirmationCode: otp) { [weak self] result in
+    func confirmSignUp(
+        for username: AuthenticationInput,
+        otp: AuthenticationInput,
+        handler: @escaping AuthenticationConfirmSignUpHanler
+    ) {
+        Amplify.Auth.confirmSignUp(for: username.value, confirmationCode: otp.value) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let state):
@@ -145,8 +149,8 @@ final class AuthenticationService: AuthenticationServiceProtocol {
         }
     }
 
-    func confirmSignIn(otp: String, handler: @escaping AuthenticationConfirmSignInHanler) {
-        Amplify.Auth.confirmSignIn(challengeResponse: otp) { [weak self] result in
+    func confirmSignIn(otp: AuthenticationInput, handler: @escaping AuthenticationConfirmSignInHanler) {
+        Amplify.Auth.confirmSignIn(challengeResponse: otp.value) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let state):
@@ -157,8 +161,20 @@ final class AuthenticationService: AuthenticationServiceProtocol {
         }
     }
 
+    func resendSignUpCode(for username: AuthenticationInput, handler: @escaping AuthenticationResendCodeHandler) {
+        Amplify.Auth.resendSignUpCode(for: username.value) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let state):
+                handler(.success(self.converter.convertCodeDeliveryDetails(state)))
+            case .failure(let error):
+                handler(.failure(self.converter.convertAmplifyError(error)))
+            }
+        }
+    }
+
     func deleteUser(handler: @escaping DeleteUserHandler) {
-        Amplify.Auth.deleteUser() { [weak self] result in
+        Amplify.Auth.deleteUser { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success:

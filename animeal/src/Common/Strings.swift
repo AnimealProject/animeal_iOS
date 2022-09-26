@@ -119,6 +119,29 @@ internal enum L10n {
       internal static let lastFeeder = L10n.tr("Localizable", "text.header.lastFeeder")
     }
   }
+
+  internal enum Verification {
+    /// Enter verification code
+    internal static let title = L10n.tr("Localizable", "verification.title")
+    internal enum Error {
+      /// Code digits count doesn’t fit
+      internal static let codeDigitsCountDoesNotFit = L10n.tr("Localizable", "verification.error.codeDigitsCountDoesNotFit")
+      /// Code request time limit exceeded
+      internal static let codeRequestTimeLimitExceeded = L10n.tr("Localizable", "verification.error.codeRequestTimeLimitExceeded")
+      /// Code unsupported next step
+      internal static let codeUnsupportedNextStep = L10n.tr("Localizable", "verification.error.codeUnsupportedNextStep")
+    }
+    internal enum ResendCode {
+      /// Resend code in
+      internal static let title = L10n.tr("Localizable", "verification.resendCode.title")
+    }
+    internal enum Subtitle {
+      /// Code was sent to destination
+      internal static let empty = L10n.tr("Localizable", "verification.subtitle.empty")
+      /// Code was sent to:
+      internal static let filled = L10n.tr("Localizable", "verification.subtitle.filled")
+    }
+  }
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:enable nesting type_body_length type_name vertical_whitespace_opening_braces
