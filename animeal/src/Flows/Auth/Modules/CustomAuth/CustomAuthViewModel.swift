@@ -152,8 +152,10 @@ private extension CustomAuthViewModel {
             coordinator.moveFromCustomAuth(to: CustomAuthRoute.resetPassword)
         case .done:
             coordinator.moveFromCustomAuth(to: CustomAuthRoute.done)
-        case .confirm:
-            coordinator.moveFromCustomAuth(to: CustomAuthRoute.codeConfirmation)
+        case .confirm(let details):
+            coordinator.moveFromCustomAuth(
+                to: CustomAuthRoute.codeConfirmation(details)
+            )
         case .unknown:
             break
         }

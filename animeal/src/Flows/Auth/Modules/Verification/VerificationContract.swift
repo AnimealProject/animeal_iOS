@@ -1,6 +1,7 @@
 import UIKit
 
 // MARK: - View
+@MainActor
 protocol VerificationViewModelOutput: AnyObject {
     func applyHeader(_ viewHeader: VerificationViewHeader)
     func applyCode(_ viewCode: VerificationViewCode, _ applyDifference: Bool)
@@ -17,10 +18,12 @@ protocol VerificationViewModelLifeCycle: AnyObject {
     func load()
 }
 
+@MainActor
 protocol VerificationViewInteraction: AnyObject {
     func handleActionEvent(_ event: VerificationViewActionEvent)
 }
 
+@MainActor
 protocol VerificationViewState: AnyObject {
     var onHeaderHasBeenPrepared: ((VerificationViewHeader) -> Void)? { get set }
     var onCodeHasBeenPrepared: ((VerificationViewCode, Bool) -> Void)? { get set }
@@ -31,16 +34,23 @@ protocol VerificationViewState: AnyObject {
 
 // sourcery: AutoMockable
 protocol VerificationModelProtocol: AnyObject {
-    var fetchNewCodeResponse: ((VerificationModelCode) -> Void)? { get set }
-    var fetchNewCodeResponseTimeLeft: ((VerificationModelTimeLeft) -> Void)? { get set }
+    var requestNewCodeTimeLeft: ((VerificationModelTimeLeft) -> Void)? { get set }
 
-    func isValidationNeeded(_ code: VerificationModelCode) -> Bool
-    func validateCode(_ code: VerificationModelCode) -> Bool
-    func fetchInitialCode()
-    func fetchNewCode()
+    func fetchDestination() -> VerificationModelDeliveryDestination
+    func fetchCode() -> VerificationModelCode
+
+    func requestNewCode() async throws
+    func verifyCode(_ code: VerificationModelCode) async throws
 }
 
 // MARK: - Assembler
 protocol VerificationAssembler {
-    static func assembly() -> UIViewController
+    static func assembly(
+        deliveryDestination: VerificationModelDeliveryDestination
+    ) -> UIViewController
+}
+
+// MARK: - Coordinator
+protocol VerificationCoordinatable: Coordinatable {
+    func moveFromVerification(to route: VerificationRoute)
 }

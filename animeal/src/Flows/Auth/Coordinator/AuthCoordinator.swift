@@ -54,13 +54,25 @@ extension AuthCoordinator: LoginCoordinatable {
 extension AuthCoordinator: CustomAuthCoordinatable {
     func moveFromCustomAuth(to route: CustomAuthRoute) {
         switch route {
-        case .codeConfirmation:
-            break
+        case .codeConfirmation(let details):
+            let viewController = VerificationAfterCustomAuthAssembler.assembly(
+                deliveryDestination: details.destination
+            )
+            navigator.push(viewController, animated: true, completion: nil)
         case .setNewPassword:
             break
         case .resetPassword:
             break
         case .done:
+            break
+        }
+    }
+}
+
+extension AuthCoordinator: VerificationCoordinatable {
+    func moveFromVerification(to route: VerificationRoute) {
+        switch route {
+        case .fillProfile:
             break
         }
     }

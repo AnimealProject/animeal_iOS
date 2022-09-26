@@ -1,0 +1,4 @@
+import Foundation
+
+public typealias UserProfileAttributeKey = AuthenticationUserAttributeKey
+public typealias UserProfileAttribute = AuthenticationUserAttribute

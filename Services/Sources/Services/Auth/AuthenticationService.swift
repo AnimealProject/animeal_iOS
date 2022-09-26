@@ -5,6 +5,7 @@ public typealias AuthenticationSignInHanler = (Result<AuthenticationSignInState,
 public typealias AuthenticationSignOutHanler = (Result<Void, AuthenticationError>) -> Void
 public typealias AuthenticationConfirmSignUpHanler = AuthenticationSignUpHandler
 public typealias AuthenticationConfirmSignInHanler = AuthenticationSignInHanler
+public typealias AuthenticationResendCodeHandler = (Result<AuthenticationCodeDeliveryDetails, AuthenticationError>) -> Void
 public typealias DeleteUserHandler = AuthenticationSignOutHanler
 
 public protocol AuthenticationServiceHolder {
@@ -24,9 +25,11 @@ public protocol AuthenticationServiceProtocol {
 
     func signOut(handler: @escaping AuthenticationSignOutHanler)
 
-    func confirmSignUp(for username: AuthenticationInput, otp: String, handler: @escaping AuthenticationConfirmSignUpHanler)
+    func confirmSignUp(for username: AuthenticationInput, otp: AuthenticationInput, handler: @escaping AuthenticationConfirmSignUpHanler)
 
-    func confirmSignIn(otp: String, handler: @escaping AuthenticationConfirmSignInHanler)
+    func confirmSignIn(otp: AuthenticationInput, handler: @escaping AuthenticationConfirmSignInHanler)
+
+    func resendSignUpCode(for username: AuthenticationInput, handler: @escaping AuthenticationResendCodeHandler)
 
     func deleteUser(handler: @escaping DeleteUserHandler)
 }
@@ -70,7 +73,7 @@ extension AuthenticationServiceProtocol {
         }
     }
 
-    public func confirmSignUp(for username: AuthenticationInput, otp: String) async throws -> AuthenticationSignUpState {
+    public func confirmSignUp(for username: AuthenticationInput, otp: AuthenticationInput) async throws -> AuthenticationSignUpState {
         try await withCheckedThrowingContinuation { continuation in
             confirmSignUp(for: username, otp: otp) {
                 continuation.resume(with: $0)
@@ -78,7 +81,7 @@ extension AuthenticationServiceProtocol {
         }
     }
 
-    public func confirmSignIn(otp: String) async throws -> AuthenticationSignInState {
+    public func confirmSignIn(otp: AuthenticationInput) async throws -> AuthenticationSignInState {
         try await withCheckedThrowingContinuation { continuation in
             confirmSignIn(otp: otp) {
                 continuation.resume(with: $0)
@@ -86,9 +89,17 @@ extension AuthenticationServiceProtocol {
         }
     }
 
+    public func resendSignUpCode(for username: AuthenticationInput) async throws -> AuthenticationCodeDeliveryDetails {
+        try await withCheckedThrowingContinuation { continuation in
+            resendSignUpCode(for: username) {
+                continuation.resume(with: $0)
+            }
+        }
+    }
+
     public func deleteUser() async throws {
         try await withCheckedThrowingContinuation { continuation in
-            deleteUser() {
+            deleteUser {
                 continuation.resume(with: $0)
             }
         }

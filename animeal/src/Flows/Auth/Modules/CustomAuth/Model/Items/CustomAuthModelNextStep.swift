@@ -5,7 +5,7 @@ import Foundation
 import Services
 
 enum CustomAuthModelNextStep {
-    case confirm(AuthenticationDeliveryDestination)
+    case confirm(AuthenticationCodeDeliveryDetails)
     case setNewPassword
     case resetPassword
     case done

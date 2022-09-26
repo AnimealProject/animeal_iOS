@@ -45,6 +45,14 @@
 		838B6B702868B039001DD111 /* VerificationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838B6B6F2868B039001DD111 /* VerificationModel.swift */; };
 		838B6B732868B052001DD111 /* VerificationContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838B6B722868B052001DD111 /* VerificationContract.swift */; };
 		838B6B752868B061001DD111 /* VerificationAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838B6B742868B061001DD111 /* VerificationAssembler.swift */; };
+		83A9A21E28E1731000858190 /* VerificationModelWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A9A21D28E1731000858190 /* VerificationModelWorker.swift */; };
+		83A9A22028E1746700858190 /* VerificationModelNextStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A9A21F28E1746700858190 /* VerificationModelNextStep.swift */; };
+		83A9A22228E176A200858190 /* VerificationAfterCustomAuthWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A9A22128E176A200858190 /* VerificationAfterCustomAuthWorker.swift */; };
+		83A9A22428E1801000858190 /* VerificationAfterChangingUserAttributeWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A9A22328E1801000858190 /* VerificationAfterChangingUserAttributeWorker.swift */; };
+		83A9A22628E189D700858190 /* VerificationModelAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A9A22528E189D700858190 /* VerificationModelAttribute.swift */; };
+		83A9A22828E19A5200858190 /* VerificationModelCodeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A9A22728E19A5200858190 /* VerificationModelCodeError.swift */; };
+		83A9A22A28E1A61800858190 /* VerificationModelDeliveryDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A9A22928E1A61800858190 /* VerificationModelDeliveryDestination.swift */; };
+		83A9A22D28E1F05F00858190 /* VerificationRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A9A22C28E1F05F00858190 /* VerificationRoute.swift */; };
 		83C24F70286D99280086330B /* LoginViewActionMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C24F6B286D99280086330B /* LoginViewActionMapper.swift */; };
 		83C24F71286D99280086330B /* LoginViewOnboardingStepsMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C24F6C286D99280086330B /* LoginViewOnboardingStepsMapper.swift */; };
 		83C24F72286D99280086330B /* LoginViewAction+ButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C24F6E286D99280086330B /* LoginViewAction+ButtonViewModel.swift */; };
@@ -236,6 +244,14 @@
 		838B6B6F2868B039001DD111 /* VerificationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationModel.swift; sourceTree = "<group>"; };
 		838B6B722868B052001DD111 /* VerificationContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationContract.swift; sourceTree = "<group>"; };
 		838B6B742868B061001DD111 /* VerificationAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationAssembler.swift; sourceTree = "<group>"; };
+		83A9A21D28E1731000858190 /* VerificationModelWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationModelWorker.swift; sourceTree = "<group>"; };
+		83A9A21F28E1746700858190 /* VerificationModelNextStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationModelNextStep.swift; sourceTree = "<group>"; };
+		83A9A22128E176A200858190 /* VerificationAfterCustomAuthWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationAfterCustomAuthWorker.swift; sourceTree = "<group>"; };
+		83A9A22328E1801000858190 /* VerificationAfterChangingUserAttributeWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationAfterChangingUserAttributeWorker.swift; sourceTree = "<group>"; };
+		83A9A22528E189D700858190 /* VerificationModelAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationModelAttribute.swift; sourceTree = "<group>"; };
+		83A9A22728E19A5200858190 /* VerificationModelCodeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationModelCodeError.swift; sourceTree = "<group>"; };
+		83A9A22928E1A61800858190 /* VerificationModelDeliveryDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationModelDeliveryDestination.swift; sourceTree = "<group>"; };
+		83A9A22C28E1F05F00858190 /* VerificationRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationRoute.swift; sourceTree = "<group>"; };
 		83C24F6B286D99280086330B /* LoginViewActionMapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewActionMapper.swift; sourceTree = "<group>"; };
 		83C24F6C286D99280086330B /* LoginViewOnboardingStepsMapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewOnboardingStepsMapper.swift; sourceTree = "<group>"; };
 		83C24F6E286D99280086330B /* LoginViewAction+ButtonViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LoginViewAction+ButtonViewModel.swift"; sourceTree = "<group>"; };
@@ -552,6 +568,7 @@
 		838B6B6A2868AFFA001DD111 /* Verification */ = {
 			isa = PBXGroup;
 			children = (
+				83A9A22B28E1F02000858190 /* Coordinator */,
 				838B6B762868E7DC001DD111 /* View */,
 				838B6B712868B03E001DD111 /* Model */,
 				838B6B6B2868B011001DD111 /* VerificationViewController.swift */,
@@ -565,6 +582,7 @@
 		838B6B712868B03E001DD111 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				83A9A21C28E172F500858190 /* Workers */,
 				83C24F85286D9D060086330B /* Items */,
 				838B6B6F2868B039001DD111 /* VerificationModel.swift */,
 			);
@@ -578,6 +596,24 @@
 				83C24F74286D994A0086330B /* Utils */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		83A9A21C28E172F500858190 /* Workers */ = {
+			isa = PBXGroup;
+			children = (
+				83A9A21D28E1731000858190 /* VerificationModelWorker.swift */,
+				83A9A22128E176A200858190 /* VerificationAfterCustomAuthWorker.swift */,
+				83A9A22328E1801000858190 /* VerificationAfterChangingUserAttributeWorker.swift */,
+			);
+			path = Workers;
+			sourceTree = "<group>";
+		};
+		83A9A22B28E1F02000858190 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				83A9A22C28E1F05F00858190 /* VerificationRoute.swift */,
+			);
+			path = Coordinator;
 			sourceTree = "<group>";
 		};
 		83C24F6A286D99280086330B /* Mappers */ = {
@@ -633,6 +669,10 @@
 				83C24F86286D9D060086330B /* VerificationModelTimeLeft.swift */,
 				83C24F87286D9D060086330B /* VerificationModelCode.swift */,
 				83E83A5128AABE8200B40FC4 /* VerificationModelInput.swift */,
+				83A9A21F28E1746700858190 /* VerificationModelNextStep.swift */,
+				83A9A22528E189D700858190 /* VerificationModelAttribute.swift */,
+				83A9A22728E19A5200858190 /* VerificationModelCodeError.swift */,
+				83A9A22928E1A61800858190 /* VerificationModelDeliveryDestination.swift */,
 			);
 			path = Items;
 			sourceTree = "<group>";
@@ -1457,6 +1497,7 @@
 				83C24F7E286D994A0086330B /* VerificationViewHeader+TextBigTitleSubtitleView.swift in Sources */,
 				DBDB3F5728D3356700B285D7 /* CategoryI18n.swift in Sources */,
 				83E83A4328A97C5500B40FC4 /* AppCoordinator.swift in Sources */,
+				83A9A22228E176A200858190 /* VerificationAfterCustomAuthWorker.swift in Sources */,
 				83C24F80286D994A0086330B /* VerificationViewCode+VerificationInputView.swift in Sources */,
 				83C24F81286D994A0086330B /* VerificationViewCode.swift in Sources */,
 				DBDB3F3228D3356600B285D7 /* Language.swift in Sources */,
@@ -1480,7 +1521,9 @@
 				DB127E8B28B97B5700012B53 /* MoreActionModel.swift in Sources */,
 				8372CCBD28A029A50085C6D1 /* CustomAuthAssembler.swift in Sources */,
 				DBDB3F3828D3356600B285D7 /* RelationPetFeedingPoint+Schema.swift in Sources */,
+				83A9A22028E1746700858190 /* VerificationModelNextStep.swift in Sources */,
 				DB6B07C628450A380009397B /* AppDelegate.swift in Sources */,
+				83A9A22D28E1F05F00858190 /* VerificationRoute.swift in Sources */,
 				8372CCD228A031280085C6D1 /* CustomAuthViewItem.swift in Sources */,
 				DB0D671928466E7700930564 /* Strings.swift in Sources */,
 				83F3CC1B28477ECE00C05298 /* LoginModel.swift in Sources */,
@@ -1493,6 +1536,8 @@
 				836840F828D1ED3D00E1044E /* BaseError.swift in Sources */,
 				DBDB3F4F28D3356700B285D7 /* Favourites.swift in Sources */,
 				DBDB3F4728D3356700B285D7 /* Category+Schema.swift in Sources */,
+				83A9A21E28E1731000858190 /* VerificationModelWorker.swift in Sources */,
+				83A9A22828E19A5200858190 /* VerificationModelCodeError.swift in Sources */,
 				DBDB3F4528D3356700B285D7 /* FeedingPointConnection.swift in Sources */,
 				DBC5670528D879D100172FD5 /* FeedingPointDetailsViewMapper.swift in Sources */,
 				DBDB3F3B28D3356600B285D7 /* Point+Schema.swift in Sources */,
@@ -1511,6 +1556,7 @@
 				DBC2BB4228BBAD2B0086EF52 /* MorePartitionModel.swift in Sources */,
 				DBDB3F3D28D3356600B285D7 /* RelationUserFeedingPoint+Schema.swift in Sources */,
 				DBF56B5628CF40E300AB0BDF /* FeedingPointDetailsModel.swift in Sources */,
+				83A9A22628E189D700858190 /* VerificationModelAttribute.swift in Sources */,
 				DBDB3F5528D3356700B285D7 /* MedicationI18n.swift in Sources */,
 				83E83A4E28A98E2700B40FC4 /* MainCoordinator.swift in Sources */,
 				8372CCDE28A03F460085C6D1 /* CustomAuthViewHeader+TextBigTitleSubtitleViewModel.swift in Sources */,
@@ -1565,6 +1611,7 @@
 				8372CCFF28A437250085C6D1 /* CustomAuthModelNextStep.swift in Sources */,
 				DBDB3F5B28D3356700B285D7 /* RelationPetFeedingPoint.swift in Sources */,
 				83C24F84286D994A0086330B /* VerificationViewHeader.swift in Sources */,
+				83A9A22428E1801000858190 /* VerificationAfterChangingUserAttributeWorker.swift in Sources */,
 				FBE017632874666000A79DB2 /* Coordinatable.swift in Sources */,
 				8372CCB5289B81D90085C6D1 /* LoginRoute.swift in Sources */,
 				838B6B732868B052001DD111 /* VerificationContract.swift in Sources */,
@@ -1576,6 +1623,7 @@
 				8368410028D2096100E1044E /* CustomAuthViewActionEvent.swift in Sources */,
 				83C24F73286D99280086330B /* LoginViewOnboardingStep+OnboardingViewStep.swift in Sources */,
 				837F1FB528869B29001FABC5 /* AuthenticationAmplifyConverter.swift in Sources */,
+				83A9A22A28E1A61800858190 /* VerificationModelDeliveryDestination.swift in Sources */,
 				DBDB3F4428D3356700B285D7 /* FeedingPoint+Schema.swift in Sources */,
 				DBDB3F4D28D3356700B285D7 /* Caretaker+Schema.swift in Sources */,
 				DBDB3F4328D3356600B285D7 /* Medication+Schema.swift in Sources */,

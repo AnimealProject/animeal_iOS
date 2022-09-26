@@ -25,18 +25,18 @@ public final class TextClickableLeftIconTitleView: UIView {
         let item = UIStackView().prepareForAutoLayout()
         item.axis = .horizontal
         item.alignment = .center
-        item.spacing = 16.0
+        item.spacing = 6.0
         return item
     }()
 
     private lazy var titleView: UIButton = {
         let item = UIButton()
         item.setTitleColor(
-            designEngine.colors.textSecondary.uiColor,
+            designEngine.colors.textPrimary.uiColor,
             for: UIControl.State.normal
         )
         item.setTitleColor(
-            designEngine.colors.error.uiColor,
+            designEngine.colors.textSecondary.uiColor,
             for: UIControl.State.highlighted
         )
         item.titleLabel?.font =
@@ -46,7 +46,7 @@ public final class TextClickableLeftIconTitleView: UIView {
 
     private lazy var subtitleView: UILabel = {
         let item = UILabel()
-        item.textColor = designEngine.colors.textSecondary.uiColor
+        item.textColor = designEngine.colors.textPrimary.uiColor
         item.font = designEngine.fonts.primary.medium(14.0).uiFont
         item.textAlignment = .left
         return item
