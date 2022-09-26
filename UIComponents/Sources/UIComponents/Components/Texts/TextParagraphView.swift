@@ -22,6 +22,7 @@ public final class TextParagraphView: UIView {
         view.textAlignment = .left
         view.sizeToFit()
         view.isScrollEnabled = false
+        view.isEditable = false
         return view
     }()
 

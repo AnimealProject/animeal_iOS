@@ -35,3 +35,4 @@
 "action.iWillFeed"                 = "ვაჭმევ";
 "question.logoutAccount"           = "დარწმუნებული ხართ, რომ გსურთ თქვენი ანგარიშიდან გამოსვლა?";
 "question.deleteAccount"           = "დარწმუნებული ხართ, რომ გსურთ თქვენი ანგარიშის წაშლა?";
+"text.header.lastFeeder"           = "ბოლო მიმწოდებელი";
