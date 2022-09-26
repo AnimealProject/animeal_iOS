@@ -27,6 +27,7 @@ public class BottomSheetPresentationController: UIViewController {
         view.backgroundColor = .white
         view.layer.cornerRadius = 16
         view.clipsToBounds = true
+        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         return view
     }()
     private lazy var dimmedView: UIView = {

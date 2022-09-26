@@ -21,7 +21,7 @@ public struct BottomSheetConfiguration {
     public static var `default`: BottomSheetConfiguration {
         return .init(
             maxDimmedAlpha: 0.6,
-            defaultHeight: 220,
+            defaultHeight: 240,
             dismissibleHeight: 150,
             maximumContainerHeight: UIScreen.main.bounds.height / 2
         )

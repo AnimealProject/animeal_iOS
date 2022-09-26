@@ -53,7 +53,7 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
         view.addSubview(buttonContainer.prepareForAutoLayout())
         buttonContainer.leadingAnchor ~= view.leadingAnchor + 20
         buttonContainer.trailingAnchor ~= view.trailingAnchor - 20
-        buttonContainer.bottomAnchor ~= view.safeAreaLayoutGuide.bottomAnchor
+        buttonContainer.bottomAnchor ~= view.safeAreaLayoutGuide.bottomAnchor - 20
 
         let scrollView = UIScrollView()
         view.addSubview(scrollView.prepareForAutoLayout())
@@ -82,6 +82,25 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
         let paragraphView = TextParagraphView()
         contentContainer.addArrangedSubview(paragraphView)
         paragraphView.configure(content.placeDescription)
+
+        if !content.feedingPointFeeders.feeders.isEmpty {
+            let title = TextTitleView()
+            title.configure(TextTitleView.Model(title: content.feedingPointFeeders.title))
+            contentContainer.addArrangedSubview(title)
+
+            content.feedingPointFeeders.feeders.forEach { feeder in
+                let view = FeederView()
+                view.configure(
+                    FeederView.Model(
+                        title: feeder.name,
+                        subtitle: feeder.lastFeeded,
+                        icon: Asset.Images.feederPlaceholderIcon.image
+                    )
+                )
+                contentContainer.addArrangedSubview(view)
+            }
+        }
+
         contentContainer.addArrangedSubview(UIView())
 
         let button = ButtonViewFactory().makeAccentButton()

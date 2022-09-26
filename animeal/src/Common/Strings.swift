@@ -112,6 +112,13 @@ internal enum L10n {
     /// Search
     internal static let search = L10n.tr("Localizable", "tabBar.search")
   }
+
+  internal enum Text {
+    internal enum Header {
+      /// Last feeder
+      internal static let lastFeeder = L10n.tr("Localizable", "text.header.lastFeeder")
+    }
+  }
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:enable nesting type_body_length type_name vertical_whitespace_opening_braces

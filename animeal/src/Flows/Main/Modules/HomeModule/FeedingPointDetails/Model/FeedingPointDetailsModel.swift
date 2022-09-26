@@ -17,7 +17,13 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol {
                     + " it starts with Bukia Garden and Sports At the palace."
                     + " There are about 1000 homeless people here The dog lives with the habit"
                     + " of helping You need."
-                )
+                ),
+                feeders: [
+                    Feeder(
+                        name: "Giorgi Abutidze",
+                        lastFeeded: "14 hours ago"
+                    )
+                ]
             ), action: Action(
                 identifier: UUID().uuidString, title: L10n.Action.iWillFeed
             )
@@ -35,6 +41,12 @@ extension FeedingPointDetailsModel {
     struct Content {
         let header: Header
         let description: Description
+        let feeders: [Feeder]
+    }
+
+    struct Feeder {
+        let name: String
+        let lastFeeded: String
     }
 
     struct Header {

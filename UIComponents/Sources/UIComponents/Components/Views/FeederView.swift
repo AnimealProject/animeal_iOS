@@ -22,7 +22,6 @@ public final class FeederView: UIView {
         subtitle.text = model.subtitle
         imageView.image = model.icon
     }
-
 }
 
 private extension FeederView {

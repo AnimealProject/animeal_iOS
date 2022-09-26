@@ -35,3 +35,4 @@
 "action.iWillFeed"                 = "I will feed";
 "question.logoutAccount"           = "Are you sure you want to log out of your account?";
 "question.deleteAccount"           = "Are you sure you want to delete your account?";
+"text.header.lastFeeder"           = "Last feeder";
