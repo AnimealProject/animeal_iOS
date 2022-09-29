@@ -23,7 +23,7 @@ open class TextInputFilledDecorator<ContentView: TextFieldContainerView>: UIView
 
     // MARK: - UI properties
     private(set) var contentView: ContentView
-    private var textView: TextFieldContainable { contentView.textView }
+    var textView: TextFieldContainable { contentView.textView }
 
     private lazy var titleView: UILabel = {
         let item = UILabel().prepareForAutoLayout()
@@ -110,17 +110,17 @@ open class TextInputFilledDecorator<ContentView: TextFieldContainerView>: UIView
         configureStyle(model.state)
     }
 
-    private func configureStyle(_ textFieldState: TextInputView.State) {
+    open func configureStyle(_ textFieldState: TextInputView.State) {
         contentView.backgroundColor = designEngine.colors.backgroundSecondary.uiColor
         switch textFieldState {
         case .normal:
             textView.font = designEngine.fonts.primary.medium(16.0).uiFont
-            textView.textColor = designEngine.colors.textSecondary.uiColor
+            textView.textColor = designEngine.colors.textPrimary.uiColor
             contentView.border(width: 0.0)
             descriptionView.textColor = designEngine.colors.textSecondary.uiColor
         case .error:
             textView.font = designEngine.fonts.primary.medium(16.0).uiFont
-            textView.textColor = designEngine.colors.textSecondary.uiColor
+            textView.textColor = designEngine.colors.textPrimary.uiColor
             contentView.border(color: designEngine.colors.error.uiColor, width: 1.0)
             descriptionView.textColor = designEngine.colors.error.uiColor
         }

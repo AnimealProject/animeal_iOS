@@ -12,9 +12,13 @@
 "profile.phoneNumber"                             = "Ტელეფონის ნომერი";
 "profile.email"                                   = "ელ.ფოსტა";
 "profile.birthDate"                               = "Დაბადების თარიღი";
+"profile.edit"                                    = "რედაქტირება";
+"profile.save"                                    = "Გადარჩენა";
 "profile.done"                                    = "შესრულებულია";
 "profile.header"                                  = "პროფილი";
 "profile.subHeader"                               = "გთხოვთ შეავსოთ პროფილის ინფორმაცია";
+"profile.errors.empty"                            = "ველი ცარიელია";
+"profile.errors.incorrectFormat"                  = "ფორმატი არასწორია";
 "phone.title"                                     = "გთხოვთ შეიყვანოთ თქვენი ტელეფონის ნომერი\n";
 "phone.fields.phoneTitlle"                        = "Ტელეფონის ნომერი";
 "phone.fields.passwordTitlle"                     = "პაროლი";

@@ -25,9 +25,7 @@ final class CustomAuthModel: CustomAuthModelProtocol {
     }
 
     // MARK: - Requests
-    func fetchItems() -> [CustomAuthModelItem] {
-        items.values.map { $0 }
-    }
+    func fetchItems() -> [CustomAuthModelItem] { items.values.map { $0 } }
 
     func fetchItem(_ identifier: String) -> CustomAuthModelItem? {
         guard
@@ -143,6 +141,8 @@ private extension CustomAuthModelNextStep {
 
     static func afterSignIn(_ result: AuthenticationSignInState) -> Self {
         switch result.nextStep {
+        case .confirmSignInWithCustomChallenge:
+            return CustomAuthModelNextStep.confirm(.init(destination: .sms(nil)))
         case .confirmSignInWithSMSCode(let details, _):
             return CustomAuthModelNextStep.confirm(details)
         case .resetPassword:

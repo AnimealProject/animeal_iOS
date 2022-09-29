@@ -12,6 +12,7 @@ final class VerificationViewModel: VerificationViewModelLifeCycle, VerificationV
 
     // MARK: - Dependencies
     private let model: VerificationModelProtocol
+    private let coordinator: VerificationCoordinatable
 
     // MARK: - State
     var onHeaderHasBeenPrepared: ((VerificationViewHeader) -> Void)?
@@ -19,8 +20,9 @@ final class VerificationViewModel: VerificationViewModelLifeCycle, VerificationV
     var onResendCodeHasBeenPrepared: ((VereficationViewResendCode) -> Void)?
 
     // MARK: - Initialization
-    init(model: VerificationModelProtocol) {
+    init(model: VerificationModelProtocol, coordinator: VerificationCoordinatable) {
         self.model = model
+        self.coordinator = coordinator
         setup()
     }
 
@@ -87,6 +89,7 @@ final class VerificationViewModel: VerificationViewModelLifeCycle, VerificationV
                         ),
                         false
                     )
+                    self?.coordinator.moveFromVerification(to: .fillProfile)
                 } catch {
                     onCodeHasBeenPrepared?(
                         VerificationViewCode(

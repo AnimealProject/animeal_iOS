@@ -16,6 +16,7 @@ struct AppContext: AppContextProtocol {
     let authenticationService: AuthenticationServiceProtocol
     let defaultsService: DefaultsServiceProtocol
     let networkService: NetworkServiceProtocol
+    let profileService: UserProfileServiceProtocol
     var applicationDelegateServices: [ApplicationDelegateService]
 
     static func context() -> AppContext {
@@ -25,6 +26,7 @@ struct AppContext: AppContextProtocol {
         let authenticationService = AuthenticationService()
         let defaultsService = DefaultsService()
         let networkService = NetworkService()
+        let profileService = UserProfileService()
 
         let context = AppContext(
             analyticsService: analyticsService,
@@ -33,6 +35,7 @@ struct AppContext: AppContextProtocol {
             authenticationService: authenticationService,
             defaultsService: defaultsService,
             networkService: networkService,
+            profileService: profileService,
             applicationDelegateServices: [
                 analyticsService,
                 devLoggerService,

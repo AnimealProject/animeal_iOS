@@ -1,30 +1,50 @@
 import Foundation
 
 // MARK: - View
-protocol ProfileViewModelOutput: AnyObject {
+@MainActor
+protocol ProfileViewable: AnyObject {
+    func applyHeader(_ viewHeader: ProfileViewHeader)
+    func applyItems(_ viewItems: [ProfileViewItem])
+    func applyActions(_ viewActions: [ProfileViewAction])
 }
 
 // MARK: - ViewModel
-protocol ProfileViewModelProtocol {
-    var userFirstName: String { get set }
-    var userLastName: String { get set }
-    var userEmail: String { get set }
-    var processedPhoneNumber: String { get }
-    var formattedBirthdate: String { get }
+typealias ProfileViewModelProtocol = ProfileViewModelLifeCycle
+    & ProfileViewInteraction
+    & ProfileViewState
 
-    func setUserBirthdate(_ date: Date, completion: ((String) -> Void)?)
-    func onDoneButtonDidTap()
+protocol ProfileViewModelLifeCycle: AnyObject {
+    func setup()
+    func load()
+}
+
+@MainActor
+protocol ProfileViewInteraction: AnyObject {
+    @discardableResult func handleItemEvent(_ event: ProfileViewItemEvent) -> ProfileViewText
+    func handleActionEvent(_ event: ProfileViewActionEvent)
+}
+
+@MainActor
+protocol ProfileViewState: AnyObject {
+    var onHeaderHasBeenPrepared: ((ProfileViewHeader) -> Void)? { get set }
+    var onItemsHaveBeenPrepared: (([ProfileViewItem]) -> Void)? { get set }
+    var onActionsHaveBeenPrepared: (([ProfileViewAction]) -> Void)? { get set }
 }
 
 // MARK: - Model
 protocol ProfileModelProtocol {
-    func getUserFirstName() -> String
-    func setUserFirstName(_ name: String)
-    func getUserLastName() -> String
-    func setUserLastName(_ name: String)
-    func getUserEmail() -> String
-    func setUserEmail(_ email: String)
-    func getUserBirthDate() -> Date
-    func setUserBirthDate(_ date: Date)
-    func getUserPhoneNumber() -> String
+    func fetchPlaceholderItems() -> [ProfileModelItem]
+    func fetchItems() async throws -> [ProfileModelItem]
+    func fetchItem(_ identifier: String) -> ProfileModelItem?
+    func updateItem(_ text: String?, forIdentifier identifier: String)
+    func validateItems() -> Bool
+
+    func fetchActions() -> [ProfileModelAction]
+    func executeAction(_ identifier: String) -> ProfileModelIntermediateStep?
+    func proceedAction(_ identifier: String) async throws -> ProfileModelNextStep
+}
+
+// MARK: - Coordinator
+protocol ProfileCoordinatable: Coordinatable {
+    func move(to route: ProfileRoute)
 }

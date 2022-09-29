@@ -49,7 +49,7 @@ extension MoreCoordinator: MoreCoordinatable {
         var viewController: UIViewController
         switch route {
         case .profilePage:
-            viewController = ProfileModuleAssembler.assemble()
+            viewController = ProfileChangeableAssembler.assembly(coordinator: self)
         case .donate:
             viewController = MorePartitionModuleAssembler(coordinator: self).assemble(.donate)
         case .help:
@@ -74,6 +74,32 @@ extension MoreCoordinator: MorePartitionCoordinatable {
             navigator.pop(animated: true, completion: nil)
         case .error(let errorDescription):
             presentError(errorDescription)
+        }
+    }
+}
+
+extension MoreCoordinator: VerificationCoordinatable {
+    func moveFromVerification(to route: VerificationRoute) {
+        switch route {
+        case .fillProfile:
+            navigator.pop(animated: true, completion: nil)
+        }
+    }
+}
+
+extension MoreCoordinator: ProfileCoordinatable {
+    func move(to route: ProfileRoute) {
+        switch route {
+        case .done:
+            navigator.pop(animated: true, completion: nil)
+        case .cancel:
+            navigator.pop(animated: true, completion: nil)
+        case .confirm(let details):
+            let viewController = VerificationAfterCustomAuthAssembler.assembly(
+                coordinator: self,
+                deliveryDestination: details.destination
+            )
+            navigator.push(viewController, animated: true, completion: nil)
         }
     }
 }

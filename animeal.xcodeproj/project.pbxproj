@@ -66,6 +66,24 @@
 		83C24F84286D994A0086330B /* VerificationViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C24F7D286D994A0086330B /* VerificationViewHeader.swift */; };
 		83C24F88286D9D060086330B /* VerificationModelTimeLeft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C24F86286D9D060086330B /* VerificationModelTimeLeft.swift */; };
 		83C24F89286D9D060086330B /* VerificationModelCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C24F87286D9D060086330B /* VerificationModelCode.swift */; };
+		83C7A98428E42A9700F3D219 /* UserProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7A98328E42A9700F3D219 /* UserProfileService.swift */; };
+		83C7A98628E42AB100F3D219 /* UserProfileAmplifyConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7A98528E42AB100F3D219 /* UserProfileAmplifyConverter.swift */; };
+		83C7A98828E45AFE00F3D219 /* ProfileModelItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7A98728E45AFE00F3D219 /* ProfileModelItem.swift */; };
+		83C7A98A28E4637000F3D219 /* ProfileModelItemError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7A98928E4637000F3D219 /* ProfileModelItemError.swift */; };
+		83C7A98C28E46BBF00F3D219 /* ProfileViewTextEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7A98B28E46BBF00F3D219 /* ProfileViewTextEvent.swift */; };
+		83C7A98E28E46BEF00F3D219 /* ProfileViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7A98D28E46BEF00F3D219 /* ProfileViewItem.swift */; };
+		83C7A99028E46C2000F3D219 /* ProfileViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7A98F28E46C2000F3D219 /* ProfileViewHeader.swift */; };
+		83C7A99228E46C6500F3D219 /* ProfileViewText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7A99128E46C6500F3D219 /* ProfileViewText.swift */; };
+		83C7A99428E46C8C00F3D219 /* ProfileViewActionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7A99328E46C8C00F3D219 /* ProfileViewActionEvent.swift */; };
+		83C7A99628E46CB200F3D219 /* ProfileViewAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7A99528E46CB200F3D219 /* ProfileViewAction.swift */; };
+		83C7A99828E46D0E00F3D219 /* ProfileViewItemMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7A99728E46D0E00F3D219 /* ProfileViewItemMapper.swift */; };
+		83C7A99A28E46F2300F3D219 /* ProfileViewHeader+TextBigTitleSubtitleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7A99928E46F2300F3D219 /* ProfileViewHeader+TextBigTitleSubtitleViewModel.swift */; };
+		83C7A99C28E46F4E00F3D219 /* ProfileViewItem+TextInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7A99B28E46F4E00F3D219 /* ProfileViewItem+TextInputViewModel.swift */; };
+		83C7A99F28E4A11A00F3D219 /* ProfileRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7A99E28E4A11A00F3D219 /* ProfileRoute.swift */; };
+		83C7A9A128E4D39A00F3D219 /* ProfileModelAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7A9A028E4D39A00F3D219 /* ProfileModelAction.swift */; };
+		83C7A9A328E4D7A100F3D219 /* ProfileModelNextStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7A9A228E4D7A100F3D219 /* ProfileModelNextStep.swift */; };
+		83C7A9A528E4DB4200F3D219 /* ProfileViewAction+ButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7A9A428E4DB4200F3D219 /* ProfileViewAction+ButtonViewModel.swift */; };
+		83C7A9A928E4EEC000F3D219 /* ProfileModelIntermediateStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7A9A828E4EEC000F3D219 /* ProfileModelIntermediateStep.swift */; };
 		83E83A4328A97C5500B40FC4 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E83A4228A97C5500B40FC4 /* AppCoordinator.swift */; };
 		83E83A4828A984D700B40FC4 /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E83A4728A984D700B40FC4 /* AuthCoordinator.swift */; };
 		83E83A4E28A98E2700B40FC4 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E83A4D28A98E2700B40FC4 /* MainCoordinator.swift */; };
@@ -265,6 +283,24 @@
 		83C24F7D286D994A0086330B /* VerificationViewHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationViewHeader.swift; sourceTree = "<group>"; };
 		83C24F86286D9D060086330B /* VerificationModelTimeLeft.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationModelTimeLeft.swift; sourceTree = "<group>"; };
 		83C24F87286D9D060086330B /* VerificationModelCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationModelCode.swift; sourceTree = "<group>"; };
+		83C7A98328E42A9700F3D219 /* UserProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileService.swift; sourceTree = "<group>"; };
+		83C7A98528E42AB100F3D219 /* UserProfileAmplifyConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileAmplifyConverter.swift; sourceTree = "<group>"; };
+		83C7A98728E45AFE00F3D219 /* ProfileModelItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModelItem.swift; sourceTree = "<group>"; };
+		83C7A98928E4637000F3D219 /* ProfileModelItemError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModelItemError.swift; sourceTree = "<group>"; };
+		83C7A98B28E46BBF00F3D219 /* ProfileViewTextEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewTextEvent.swift; sourceTree = "<group>"; };
+		83C7A98D28E46BEF00F3D219 /* ProfileViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewItem.swift; sourceTree = "<group>"; };
+		83C7A98F28E46C2000F3D219 /* ProfileViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewHeader.swift; sourceTree = "<group>"; };
+		83C7A99128E46C6500F3D219 /* ProfileViewText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewText.swift; sourceTree = "<group>"; };
+		83C7A99328E46C8C00F3D219 /* ProfileViewActionEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewActionEvent.swift; sourceTree = "<group>"; };
+		83C7A99528E46CB200F3D219 /* ProfileViewAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewAction.swift; sourceTree = "<group>"; };
+		83C7A99728E46D0E00F3D219 /* ProfileViewItemMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewItemMapper.swift; sourceTree = "<group>"; };
+		83C7A99928E46F2300F3D219 /* ProfileViewHeader+TextBigTitleSubtitleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProfileViewHeader+TextBigTitleSubtitleViewModel.swift"; sourceTree = "<group>"; };
+		83C7A99B28E46F4E00F3D219 /* ProfileViewItem+TextInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProfileViewItem+TextInputViewModel.swift"; sourceTree = "<group>"; };
+		83C7A99E28E4A11A00F3D219 /* ProfileRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRoute.swift; sourceTree = "<group>"; };
+		83C7A9A028E4D39A00F3D219 /* ProfileModelAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModelAction.swift; sourceTree = "<group>"; };
+		83C7A9A228E4D7A100F3D219 /* ProfileModelNextStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModelNextStep.swift; sourceTree = "<group>"; };
+		83C7A9A428E4DB4200F3D219 /* ProfileViewAction+ButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProfileViewAction+ButtonViewModel.swift"; sourceTree = "<group>"; };
+		83C7A9A828E4EEC000F3D219 /* ProfileModelIntermediateStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModelIntermediateStep.swift; sourceTree = "<group>"; };
 		83E83A4228A97C5500B40FC4 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		83E83A4728A984D700B40FC4 /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
 		83E83A4D28A98E2700B40FC4 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
@@ -550,8 +586,8 @@
 		837F1FB028868BF4001FABC5 /* Business */ = {
 			isa = PBXGroup;
 			children = (
+				83C7A98228E429F900F3D219 /* Services */,
 				836840F628D1ED1900E1044E /* Errors */,
-				837F1FB128868C19001FABC5 /* Authentication */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -675,6 +711,93 @@
 				83A9A22928E1A61800858190 /* VerificationModelDeliveryDestination.swift */,
 			);
 			path = Items;
+			sourceTree = "<group>";
+		};
+		83C7A97B28E38B8600F3D219 /* Items */ = {
+			isa = PBXGroup;
+			children = (
+				83C7A98728E45AFE00F3D219 /* ProfileModelItem.swift */,
+				83C7A98928E4637000F3D219 /* ProfileModelItemError.swift */,
+				83C7A9A028E4D39A00F3D219 /* ProfileModelAction.swift */,
+				83C7A9A228E4D7A100F3D219 /* ProfileModelNextStep.swift */,
+				83C7A9A828E4EEC000F3D219 /* ProfileModelIntermediateStep.swift */,
+			);
+			path = Items;
+			sourceTree = "<group>";
+		};
+		83C7A97C28E391D900F3D219 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				83C7A97D28E391DF00F3D219 /* Items */,
+				83C7A97E28E391E600F3D219 /* Utils */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		83C7A97D28E391DF00F3D219 /* Items */ = {
+			isa = PBXGroup;
+			children = (
+				83C7A98B28E46BBF00F3D219 /* ProfileViewTextEvent.swift */,
+				83C7A98D28E46BEF00F3D219 /* ProfileViewItem.swift */,
+				83C7A98F28E46C2000F3D219 /* ProfileViewHeader.swift */,
+				83C7A99128E46C6500F3D219 /* ProfileViewText.swift */,
+				83C7A99328E46C8C00F3D219 /* ProfileViewActionEvent.swift */,
+				83C7A99528E46CB200F3D219 /* ProfileViewAction.swift */,
+			);
+			path = Items;
+			sourceTree = "<group>";
+		};
+		83C7A97E28E391E600F3D219 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				83C7A97F28E391F000F3D219 /* Extensions */,
+				83C7A98028E391F600F3D219 /* Mappers */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		83C7A97F28E391F000F3D219 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				83C7A99928E46F2300F3D219 /* ProfileViewHeader+TextBigTitleSubtitleViewModel.swift */,
+				83C7A99B28E46F4E00F3D219 /* ProfileViewItem+TextInputViewModel.swift */,
+				83C7A9A428E4DB4200F3D219 /* ProfileViewAction+ButtonViewModel.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		83C7A98028E391F600F3D219 /* Mappers */ = {
+			isa = PBXGroup;
+			children = (
+				83C7A99728E46D0E00F3D219 /* ProfileViewItemMapper.swift */,
+			);
+			path = Mappers;
+			sourceTree = "<group>";
+		};
+		83C7A98128E429ED00F3D219 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				83C7A98328E42A9700F3D219 /* UserProfileService.swift */,
+				83C7A98528E42AB100F3D219 /* UserProfileAmplifyConverter.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		83C7A98228E429F900F3D219 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				83C7A98128E429ED00F3D219 /* Profile */,
+				837F1FB128868C19001FABC5 /* Authentication */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		83C7A99D28E4A10000F3D219 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				83C7A99E28E4A11A00F3D219 /* ProfileRoute.swift */,
+			);
+			path = Coordinator;
 			sourceTree = "<group>";
 		};
 		83E83A4428A9844D00B40FC4 /* Auth */ = {
@@ -1135,6 +1258,8 @@
 		FB0014472859FBE000943360 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				83C7A99D28E4A10000F3D219 /* Coordinator */,
+				83C7A97C28E391D900F3D219 /* View */,
 				FB0014482859FBF200943360 /* Model */,
 				FB00144A2859FC1800943360 /* ProfileViewController.swift */,
 				FB00144C2859FC7700943360 /* ProfileViewModel.swift */,
@@ -1147,6 +1272,7 @@
 		FB0014482859FBF200943360 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				83C7A97B28E38B8600F3D219 /* Items */,
 				FB00144E2859FCDD00943360 /* ProfileModel.swift */,
 			);
 			path = Model;
@@ -1492,8 +1618,10 @@
 				DBDB3F5A28D3356700B285D7 /* PetI18n+Schema.swift in Sources */,
 				8360D1AF284F2A5E00ACDEDB /* LoginViewActionEvent.swift in Sources */,
 				DB0D4A842886A9C4001750BC /* HomeViewModel.swift in Sources */,
+				83C7A99A28E46F2300F3D219 /* ProfileViewHeader+TextBigTitleSubtitleViewModel.swift in Sources */,
 				8372CCAE289B271E0085C6D1 /* LoginModelStatus.swift in Sources */,
 				83F3CC12284771CA00C05298 /* LoginAssembler.swift in Sources */,
+				83C7A99C28E46F4E00F3D219 /* ProfileViewItem+TextInputViewModel.swift in Sources */,
 				83C24F7E286D994A0086330B /* VerificationViewHeader+TextBigTitleSubtitleView.swift in Sources */,
 				DBDB3F5728D3356700B285D7 /* CategoryI18n.swift in Sources */,
 				83E83A4328A97C5500B40FC4 /* AppCoordinator.swift in Sources */,
@@ -1501,7 +1629,9 @@
 				83C24F80286D994A0086330B /* VerificationViewCode+VerificationInputView.swift in Sources */,
 				83C24F81286D994A0086330B /* VerificationViewCode.swift in Sources */,
 				DBDB3F3228D3356600B285D7 /* Language.swift in Sources */,
+				83C7A99228E46C6500F3D219 /* ProfileViewText.swift in Sources */,
 				DBF56B5728CF40E300AB0BDF /* FeedingPointDetailsContract.swift in Sources */,
+				83C7A99028E46C2000F3D219 /* ProfileViewHeader.swift in Sources */,
 				8372CCBB28A029990085C6D1 /* CustomAuthViewModel.swift in Sources */,
 				8372CCE128A18B030085C6D1 /* CustomAuthViewText.swift in Sources */,
 				DBDB3F4228D3356600B285D7 /* RelationUserFeedingPoint.swift in Sources */,
@@ -1512,11 +1642,13 @@
 				DBDB50182887FBBA003C6FF0 /* HomeContract.swift in Sources */,
 				83C24F71286D99280086330B /* LoginViewOnboardingStepsMapper.swift in Sources */,
 				DBDB3F5628D3356700B285D7 /* Feeding+Schema.swift in Sources */,
+				83C7A9A528E4DB4200F3D219 /* ProfileViewAction+ButtonViewModel.swift in Sources */,
 				836840F528D1C50400E1044E /* CustomAuthModelOptions.swift in Sources */,
 				836840F328D1A7FE00E1044E /* CustomAuthModelItemError.swift in Sources */,
 				DB5A838E285CEC4B00F3C3A5 /* Log.swift in Sources */,
 				83C24F70286D99280086330B /* LoginViewActionMapper.swift in Sources */,
 				838B6B702868B039001DD111 /* VerificationModel.swift in Sources */,
+				83C7A98628E42AB100F3D219 /* UserProfileAmplifyConverter.swift in Sources */,
 				DBDC6E7028C73E8F001B359D /* NetworkService.swift in Sources */,
 				DB127E8B28B97B5700012B53 /* MoreActionModel.swift in Sources */,
 				8372CCBD28A029A50085C6D1 /* CustomAuthAssembler.swift in Sources */,
@@ -1534,10 +1666,12 @@
 				8372CCAB289AFC3E0085C6D1 /* LoginProviding.swift in Sources */,
 				8372CCCD28A02BD70085C6D1 /* CustomAuthViewTextEvent.swift in Sources */,
 				836840F828D1ED3D00E1044E /* BaseError.swift in Sources */,
+				83C7A98A28E4637000F3D219 /* ProfileModelItemError.swift in Sources */,
 				DBDB3F4F28D3356700B285D7 /* Favourites.swift in Sources */,
 				DBDB3F4728D3356700B285D7 /* Category+Schema.swift in Sources */,
 				83A9A21E28E1731000858190 /* VerificationModelWorker.swift in Sources */,
 				83A9A22828E19A5200858190 /* VerificationModelCodeError.swift in Sources */,
+				83C7A99F28E4A11A00F3D219 /* ProfileRoute.swift in Sources */,
 				DBDB3F4528D3356700B285D7 /* FeedingPointConnection.swift in Sources */,
 				DBC5670528D879D100172FD5 /* FeedingPointDetailsViewMapper.swift in Sources */,
 				DBDB3F3B28D3356600B285D7 /* Point+Schema.swift in Sources */,
@@ -1546,6 +1680,7 @@
 				DBDB3F3C28D3356600B285D7 /* FeedingStatus.swift in Sources */,
 				DB127E8728B9648200012B53 /* MoreContract.swift in Sources */,
 				8372CCB928A0298B0085C6D1 /* CustomAuthViewController.swift in Sources */,
+				83C7A98E28E46BEF00F3D219 /* ProfileViewItem.swift in Sources */,
 				8360D1A9284E9A9600ACDEDB /* LoginViewOnboardingStep.swift in Sources */,
 				83F3CC0E2847704300C05298 /* LoginViewController.swift in Sources */,
 				FBE017612874611600A79DB2 /* Navigator.swift in Sources */,
@@ -1557,10 +1692,12 @@
 				DBDB3F3D28D3356600B285D7 /* RelationUserFeedingPoint+Schema.swift in Sources */,
 				DBF56B5628CF40E300AB0BDF /* FeedingPointDetailsModel.swift in Sources */,
 				83A9A22628E189D700858190 /* VerificationModelAttribute.swift in Sources */,
+				83C7A98428E42A9700F3D219 /* UserProfileService.swift in Sources */,
 				DBDB3F5528D3356700B285D7 /* MedicationI18n.swift in Sources */,
 				83E83A4E28A98E2700B40FC4 /* MainCoordinator.swift in Sources */,
 				8372CCDE28A03F460085C6D1 /* CustomAuthViewHeader+TextBigTitleSubtitleViewModel.swift in Sources */,
 				DB0D4A882886AC92001750BC /* HomeAssembler.swift in Sources */,
+				83C7A9A128E4D39A00F3D219 /* ProfileModelAction.swift in Sources */,
 				DBDB3F4C28D3356700B285D7 /* Settings+Schema.swift in Sources */,
 				DBC2BB4628BBAD2B0086EF52 /* MorePartitionViewModel.swift in Sources */,
 				83E83A5228AABE8200B40FC4 /* VerificationModelInput.swift in Sources */,
@@ -1577,8 +1714,10 @@
 				83C24F89286D9D060086330B /* VerificationModelCode.swift in Sources */,
 				DBBDE72A28BB8C2A006EEBA3 /* MoreItemViewMapper.swift in Sources */,
 				DB5A8389285CEB5400F3C3A5 /* AppContext.swift in Sources */,
+				83C7A9A328E4D7A100F3D219 /* ProfileModelNextStep.swift in Sources */,
 				DBDB3F4828D3356700B285D7 /* Language+Schema.swift in Sources */,
 				838B6B752868B061001DD111 /* VerificationAssembler.swift in Sources */,
+				83C7A98828E45AFE00F3D219 /* ProfileModelItem.swift in Sources */,
 				838B6B6E2868B021001DD111 /* VerificationViewModel.swift in Sources */,
 				DBDB3F3528D3356600B285D7 /* Pet.swift in Sources */,
 				83C24F88286D9D060086330B /* VerificationModelTimeLeft.swift in Sources */,
@@ -1589,6 +1728,7 @@
 				83C24F7F286D994A0086330B /* VereficationViewResendCode+TextClickableLeftIconTitleView.swift in Sources */,
 				83E83A4828A984D700B40FC4 /* AuthCoordinator.swift in Sources */,
 				FB00144F2859FCDD00943360 /* ProfileModel.swift in Sources */,
+				83C7A99628E46CB200F3D219 /* ProfileViewAction.swift in Sources */,
 				DBDB3F3928D3356600B285D7 /* AmplifyModels.swift in Sources */,
 				FB00144D2859FC7700943360 /* ProfileViewModel.swift in Sources */,
 				DBDB3F5128D3356700B285D7 /* Pet+Schema.swift in Sources */,
@@ -1605,14 +1745,17 @@
 				DB84B31528CA13A60083D98C /* NetworkRequest.swift in Sources */,
 				DBDB3F4B28D3356700B285D7 /* PetI18n.swift in Sources */,
 				8372CCCF28A02F300085C6D1 /* CustomAuthModelItem.swift in Sources */,
+				83C7A9A928E4EEC000F3D219 /* ProfileModelIntermediateStep.swift in Sources */,
 				DB127E8F28B9E9BA00012B53 /* MoreCoordinator.swift in Sources */,
 				DBDB3F5428D3356700B285D7 /* LanguagesSetting+Schema.swift in Sources */,
 				8372CCDC28A03B640085C6D1 /* CustomAuthViewHeader.swift in Sources */,
 				8372CCFF28A437250085C6D1 /* CustomAuthModelNextStep.swift in Sources */,
+				83C7A99828E46D0E00F3D219 /* ProfileViewItemMapper.swift in Sources */,
 				DBDB3F5B28D3356700B285D7 /* RelationPetFeedingPoint.swift in Sources */,
 				83C24F84286D994A0086330B /* VerificationViewHeader.swift in Sources */,
 				83A9A22428E1801000858190 /* VerificationAfterChangingUserAttributeWorker.swift in Sources */,
 				FBE017632874666000A79DB2 /* Coordinatable.swift in Sources */,
+				83C7A98C28E46BBF00F3D219 /* ProfileViewTextEvent.swift in Sources */,
 				8372CCB5289B81D90085C6D1 /* LoginRoute.swift in Sources */,
 				838B6B732868B052001DD111 /* VerificationContract.swift in Sources */,
 				DBC2BB4528BBAD2B0086EF52 /* MorePartitionContract.swift in Sources */,
@@ -1630,6 +1773,7 @@
 				83C24F82286D994A0086330B /* VereficationViewResendCode.swift in Sources */,
 				8372CCCB28A02BAA0085C6D1 /* CustomAuthRoute.swift in Sources */,
 				DB0AD32928A26FB6007FD750 /* SegmentedControlMapper.swift in Sources */,
+				83C7A99428E46C8C00F3D219 /* ProfileViewActionEvent.swift in Sources */,
 				DBDB3F4928D3356700B285D7 /* Medication.swift in Sources */,
 				DBDB3F3F28D3356600B285D7 /* FeedingPointI18n+Schema.swift in Sources */,
 				838B6B6C2868B011001DD111 /* VerificationViewController.swift in Sources */,

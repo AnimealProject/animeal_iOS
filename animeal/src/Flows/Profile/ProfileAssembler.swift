@@ -1,16 +1,55 @@
 import UIKit
-import Common
 
-final class ProfileModuleAssembler: Assembling {
-    static func assemble() -> UIViewController {
-        let model = ProfileModel()
+@MainActor
+enum ProfileAfterCustomAuthAssembler {
+    static func assembly(coordinator: ProfileCoordinatable) -> UIViewController {
+        let model = ProfileModel(
+            items: .editableExceptPhone,
+            actions: .completable
+        )
 
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd MMM, yyyy"
         let viewModel = ProfileViewModel(
             model: model,
-            stringProcessor: PhoneNumberProcessor(),
-            dateFormatter: dateFormatter
+            coordinator: coordinator,
+            mapper: ProfileViewItemMapper()
+        )
+        let view = ProfileViewController(viewModel: viewModel)
+
+        return view
+    }
+}
+
+@MainActor
+enum ProfileAfterSocialAuthAssembler {
+    static func assembly(coordinator: ProfileCoordinatable) -> UIViewController {
+        let model = ProfileModel(
+            items: .editable,
+            actions: .completable
+        )
+
+        let viewModel = ProfileViewModel(
+            model: model,
+            coordinator: coordinator,
+            mapper: ProfileViewItemMapper()
+        )
+        let view = ProfileViewController(viewModel: viewModel)
+
+        return view
+    }
+}
+
+@MainActor
+enum ProfileChangeableAssembler {
+    static func assembly(coordinator: ProfileCoordinatable) -> UIViewController {
+        let model = ProfileModel(
+            items: .readonly,
+            actions: .editable
+        )
+
+        let viewModel = ProfileViewModel(
+            model: model,
+            coordinator: coordinator,
+            mapper: ProfileViewItemMapper()
         )
         let view = ProfileViewController(viewModel: viewModel)
 

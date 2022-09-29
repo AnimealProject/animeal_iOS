@@ -1,8 +1,9 @@
 import UIKit
 
 @MainActor
-enum VerificationAfterCustomAuthAssembler: VerificationAssembler {
+enum VerificationAfterCustomAuthAssembler {
     static func assembly(
+        coordinator: VerificationCoordinatable,
         deliveryDestination: VerificationModelDeliveryDestination
     ) -> UIViewController {
         let model = VerificationModel(
@@ -14,7 +15,8 @@ enum VerificationAfterCustomAuthAssembler: VerificationAssembler {
             deliveryDestination: deliveryDestination
         )
         let viewModel = VerificationViewModel(
-            model: model
+            model: model,
+            coordinator: coordinator
         )
         let view = VerificationViewController(viewModel: viewModel)
 
