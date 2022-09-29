@@ -1,120 +1,16 @@
+// System
 import UIKit
+
+// SDK
 import UIComponents
-import Style
 
-final class ProfileViewController: BaseViewController, ProfileViewModelOutput {
-    // MARK: - UI properties
-    private lazy var firstNameTextFieldView: DefaultInputView = {
-        let item = DefaultInputView().prepareForAutoLayout()
-        item.configure(
-            DefaultInputView.Model(
-                identifier: UUID().uuidString,
-                title: L10n.Profile.name,
-                state: .normal,
-                content: DefaultTextContentView.Model(
-                    placeholder: L10n.Profile.name,
-                    text: viewModel.userFirstName
-                )
-            )
-        )
-        return item
-    }()
-
-    private lazy var lastNameTextFieldView: DefaultInputView = {
-        let item = DefaultInputView().prepareForAutoLayout()
-        item.configure(
-            DefaultInputView.Model(
-                identifier: UUID().uuidString,
-                title: L10n.Profile.surname,
-                state: .normal,
-                content: DefaultTextContentView.Model(
-                    placeholder: L10n.Profile.surname,
-                    text: viewModel.userLastName
-                )
-            )
-        )
-        return item
-    }()
-
-    private lazy var emailTextFieldView: DefaultInputView = {
-        let item = DefaultInputView().prepareForAutoLayout()
-        item.configure(
-            DefaultInputView.Model(
-                identifier: UUID().uuidString,
-                title: L10n.Profile.email,
-                state: .normal,
-                content: DefaultTextContentView.Model(
-                    placeholder: L10n.Profile.email,
-                    text: viewModel.userEmail
-                )
-            )
-        )
-        return item
-    }()
-
-    private lazy var phoneTextFieldView: DefaultInputView = {
-        let item = DefaultInputView().prepareForAutoLayout()
-        item.configure(
-            DefaultInputView.Model(
-                identifier: UUID().uuidString,
-                title: L10n.Profile.phoneNumber,
-                state: .normal,
-                content: DefaultTextContentView.Model(
-                    placeholder: L10n.Profile.phoneNumber,
-                    text: viewModel.processedPhoneNumber
-                )
-            )
-        )
-        return item
-    }()
-
-    private lazy var calendarView: DefaultInputView = {
-        let item = DefaultInputView().prepareForAutoLayout()
-        item.configure(
-            DefaultInputView.Model(
-                identifier: UUID().uuidString,
-                title: L10n.Profile.birthDate,
-                state: .normal,
-                content: DefaultTextContentView.Model(
-                    placeholder: L10n.Profile.birthDate,
-                    text: viewModel.formattedBirthdate,
-                    rightActions: [
-                        .init(identifier: UUID().uuidString, icon: Asset.Images.calendar.image, action: { identifier in
-                            print(identifier)
-                        })
-                    ]
-                )
-            )
-        )
-        item.inputView = datePickerView
-        return item
-    }()
-
-    private lazy var datePickerView: UIDatePicker = {
-        let datePicker = UIDatePicker()
-        datePicker.date = Date()
-        datePicker.locale = .current
-        datePicker.preferredDatePickerStyle = .inline
-        datePicker.datePickerMode = .date
-        datePicker.addTarget(self, action: #selector(onBirthdateDidChange), for: .valueChanged)
-        return datePicker
-    }()
-
-    private lazy var doneButton: UIButton = {
-        let button = UIButton(
-            frame: .zero,
-            primaryAction: .init { [weak self] _ in
-                self?.onDoneButtonDidTap()
-            }
-        )
-        button.backgroundColor = designEngine.colors.accent.uiColor
-        button.tintColor = designEngine.colors.backgroundPrimary.uiColor
-        button.titleLabel?.font = designEngine.fonts.primary.bold(16.0).uiFont
-        button.layer.cornerRadius = 30.0
-        button.clipsToBounds = true
-        button.setTitle(L10n.Profile.done, for: .normal)
-        return button
-    }()
+final class ProfileViewController: BaseViewController, ProfileViewable {
+    // MARK: - Private properties
+    private let headerView = TextBigTitleSubtitleView().prepareForAutoLayout()
+    private let scrollView = UIScrollView().prepareForAutoLayout()
+    private let contentView = UIStackView().prepareForAutoLayout()
+    private var inputViews: [TextInputDecoratable] = []
+    private let buttonsView = ButtonContainerView().prepareForAutoLayout()
 
     // MARK: - Dependencies
     private let viewModel: ProfileViewModelProtocol
@@ -122,7 +18,6 @@ final class ProfileViewController: BaseViewController, ProfileViewModelOutput {
     // MARK: - Initialization
     init(viewModel: ProfileViewModelProtocol) {
         self.viewModel = viewModel
-
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -134,11 +29,11 @@ final class ProfileViewController: BaseViewController, ProfileViewModelOutput {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        setupKeyboardHandling()
+        bind()
     }
 
-    // MARK: - Setup
     override func handleKeyboardNotification(keyboardData: KeyboardData) {
+        super.handleKeyboardNotification(keyboardData: keyboardData)
         UIView.animate(
             withDuration: keyboardData.animationDuration,
             delay: 0.0,
@@ -149,105 +44,167 @@ final class ProfileViewController: BaseViewController, ProfileViewModelOutput {
         }
     }
 
-    private func setup() {
-        view.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
-
-        let contentView = UIView().prepareForAutoLayout()
-
-        let headerLabel = UILabel()
-        headerLabel.font = designEngine.fonts.primary.bold(34.0).uiFont
-        headerLabel.textColor = designEngine.colors.textPrimary.uiColor
-        headerLabel.numberOfLines = 1
-        headerLabel.text = L10n.Profile.header
-
-        let descriptionLabel = UILabel()
-        descriptionLabel.font = designEngine.fonts.primary.bold(16.0).uiFont
-        descriptionLabel.textColor = designEngine.colors.textPrimary.uiColor
-        descriptionLabel.numberOfLines = 1
-        descriptionLabel.text = L10n.Profile.subHeader
-
-        let headerStackView = UIStackView(
-            arrangedSubviews: [
-                headerLabel,
-                descriptionLabel
-            ]
-        )
-        headerStackView.axis = .vertical
-        headerStackView.spacing = 16.0
-
-        let textfieldStackView = UIStackView(
-            arrangedSubviews: [
-                firstNameTextFieldView,
-                lastNameTextFieldView,
-                emailTextFieldView,
-                phoneTextFieldView,
-                calendarView
-            ]
-        )
-        textfieldStackView.spacing = 32.0
-        textfieldStackView.axis = .vertical
-
-        let scrollView = UIScrollView().prepareForAutoLayout()
-
-        contentView.addSubview(headerStackView.prepareForAutoLayout())
-        contentView.addSubview(textfieldStackView.prepareForAutoLayout())
-        contentView.addSubview(doneButton.prepareForAutoLayout())
-        scrollView.addSubview(contentView)
-        view.addSubview(scrollView)
-
-        scrollView.topAnchor ~= view.safeAreaLayoutGuide.topAnchor
-        scrollView.leadingAnchor ~= view.safeAreaLayoutGuide.leadingAnchor
-        scrollView.trailingAnchor ~= view.safeAreaLayoutGuide.trailingAnchor
-        scrollView.bottomAnchor ~= view.safeAreaLayoutGuide.bottomAnchor
-
-        contentView.topAnchor ~= scrollView.topAnchor
-        contentView.leadingAnchor ~= scrollView.leadingAnchor
-        contentView.trailingAnchor ~= scrollView.trailingAnchor
-        contentView.bottomAnchor ~= scrollView.bottomAnchor
-        contentView.widthAnchor ~= scrollView.widthAnchor
-
-        headerStackView.topAnchor ~= contentView.topAnchor + 57.0
-        headerStackView.leadingAnchor ~= contentView.leadingAnchor + 26.0
-        headerStackView.trailingAnchor ~= contentView.trailingAnchor - 26.0
-
-        textfieldStackView.topAnchor ~= headerStackView.bottomAnchor + 28.0
-        textfieldStackView.leadingAnchor ~= scrollView.leadingAnchor + 26.0
-        textfieldStackView.trailingAnchor ~= scrollView.trailingAnchor - 26.0
-
-        doneButton.topAnchor ~= textfieldStackView.bottomAnchor + 52.0
-        doneButton.trailingAnchor ~= contentView.trailingAnchor - 26.0
-        doneButton.heightAnchor ~= 60.0
-        doneButton.widthAnchor ~= 181.0
-        doneButton.bottomAnchor ~= contentView.bottomAnchor - 55.0
+    // MARK: - State
+    func applyHeader(_ viewHeader: ProfileViewHeader) {
+        headerView.configure(viewHeader.model)
     }
 
-    // MARK: - Handlers
-    @objc private func onBirthdateDidChange() {
-        viewModel.setUserBirthdate(datePickerView.date) { [weak self] formattedDate in
-            self?.calendarView.configure(
-                DefaultInputView.Model(
-                    identifier: UUID().uuidString,
-                    title: L10n.Profile.birthDate,
-                    state: .normal,
-                    content: DefaultTextContentView.Model(
-                        placeholder: L10n.Profile.birthDate,
-                        text: formattedDate,
-                        rightActions: [
-                            .init(
-                                identifier: UUID().uuidString,
-                                icon: Asset.Images.calendar.image,
-                                action: { identifier in
-                                    print(identifier)
-                                }
-                            )
-                        ]
+    func applyItems(_ viewItems: [ProfileViewItem]) {
+        inputViews.forEach { $0.removeFromSuperview() }
+        viewItems.forEach { item in
+            switch item.type {
+            case .phone:
+                let inputView = PhoneInputView()
+                inputView.configure(item.phoneModel)
+                inputView.didBeginEditing = { [weak self] textInput in
+                    guard let self = self else { return }
+                    let text = textInput.text
+                    let result = self.viewModel.handleItemEvent(
+                        .changeText(.beginEditing(item.identifier, text))
                     )
-                )
+                    textInput.setCursorLocation(result.caretOffset)
+                }
+                inputView.shouldChangeCharacters = { [weak self] textInput, range, string in
+                    guard let self = self else { return true }
+                    let text = textInput.text
+                    let result = self.viewModel.handleItemEvent(
+                        .changeText(
+                            .shouldChangeCharactersIn(item.identifier, text, range, string)
+                        )
+                    )
+                    textInput.setCursorLocation(result.caretOffset)
+
+                    guard let text = result.formattedText else { return true }
+                    let attributedText = NSMutableAttributedString()
+                    let filledTextIndex = text.index(text.startIndex, offsetBy: result.caretOffset)
+                    let filledText = NSAttributedString(
+                        string: String(text.prefix(upTo: filledTextIndex)),
+                        attributes: textInput.activeTextAttributes
+                    )
+                    attributedText.append(filledText)
+                    let placeholderText = NSAttributedString(
+                        string: String(text.suffix(from: filledTextIndex)),
+                        attributes: textInput.placeholderTextAttributes
+                    )
+                    attributedText.append(placeholderText)
+                    textInput.attributedText = attributedText
+
+                    self.viewModel.handleItemEvent(
+                        .changeText(.didChange(item.identifier, text))
+                    )
+
+                    return false
+                }
+                inputView.didEndEditing = { [weak self] textInput in
+                    self?.viewModel.handleItemEvent(
+                        .changeText(.endEditing(item.identifier, textInput.text))
+                    )
+                }
+                inputViews.append(inputView)
+                contentView.addArrangedSubview(inputView)
+            case .birthday:
+                let inputView = DateInputView()
+                inputView.configure(item.dateModel)
+                inputViews.append(inputView)
+                contentView.addArrangedSubview(inputView)
+                inputView.valueWasChanged = { [weak self] textInput, date in
+                    let result = self?.viewModel.handleItemEvent(.changeDate(item.identifier, date))
+                    textInput.text = result?.formattedText
+                }
+                inputView.didEndEditing = { [weak self] textInput in
+                    self?.viewModel.handleItemEvent(
+                        .changeText(.endEditing(item.identifier, textInput.text))
+                    )
+                }
+            default:
+                let inputView = DefaultInputView()
+                inputView.configure(item.model)
+                inputViews.append(inputView)
+                contentView.addArrangedSubview(inputView)
+                inputView.didEndEditing = { [weak self] textInput in
+                    self?.viewModel.handleItemEvent(
+                        .changeText(.endEditing(item.identifier, textInput.text))
+                    )
+                }
+            }
+        }
+    }
+
+    func applyActions(_ viewActions: [ProfileViewAction]) {
+        buttonsView.configure(viewActions.map { $0.buttonView })
+    }
+}
+
+private extension ProfileViewController {
+    // MARK: - Setup
+    func setup() {
+        view.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+        setupKeyboardHandling()
+
+        view.addSubview(scrollView)
+        scrollView.leadingAnchor ~= view.leadingAnchor + 16.0
+        scrollView.topAnchor ~= view.safeAreaLayoutGuide.topAnchor
+        scrollView.trailingAnchor ~= view.trailingAnchor - 16.0
+        scrollView.bottomAnchor ~= view.bottomAnchor
+        scrollView.canCancelContentTouches = false
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.contentInset.bottom = 100.0
+
+        scrollView.addSubview(contentView)
+        contentView.leadingAnchor ~= scrollView.contentLayoutGuide.leadingAnchor
+        contentView.topAnchor ~= scrollView.contentLayoutGuide.topAnchor
+        contentView.trailingAnchor ~= scrollView.contentLayoutGuide.trailingAnchor
+        contentView.bottomAnchor ~= scrollView.contentLayoutGuide.bottomAnchor
+
+        contentView.widthAnchor ~= scrollView.frameLayoutGuide.widthAnchor
+        let contentHeightConstraint = contentView.heightAnchor.constraint(
+            equalTo: scrollView.frameLayoutGuide.heightAnchor
+        )
+        contentHeightConstraint.priority = UILayoutPriority.defaultHigh
+        contentHeightConstraint.isActive = true
+        contentView.axis = .vertical
+        contentView.spacing = 32.0
+
+        contentView.addArrangedSubview(headerView)
+
+        view.addSubview(buttonsView)
+        buttonsView.leadingAnchor ~= view.leadingAnchor
+        buttonsView.trailingAnchor ~= view.trailingAnchor
+        buttonsView.bottomAnchor ~= view.bottomAnchor
+        buttonsView.onTap = { [weak self] identifier in
+            self?.viewModel.handleActionEvent(
+                ProfileViewActionEvent.tapInside(identifier)
             )
         }
     }
 
-    private func onDoneButtonDidTap() {
-        viewModel.onDoneButtonDidTap()
+    // MARK: - Binding
+    func bind() {
+        viewModel.onHeaderHasBeenPrepared = { [weak self] viewHeader in
+            self?.applyHeader(viewHeader)
+        }
+        viewModel.onItemsHaveBeenPrepared = { [weak self] viewItems in
+            self?.applyItems(viewItems)
+        }
+        viewModel.onActionsHaveBeenPrepared = { [weak self] viewActions in
+            self?.applyActions(viewActions)
+        }
+        viewModel.load()
+    }
+}
+
+private extension TextFieldContainable {
+    var activeTextAttributes: [NSAttributedString.Key: Any]? {
+        [
+            .font: designEngine.fonts.primary.medium(16.0).uiFont as Any,
+            .foregroundColor: designEngine.colors.textPrimary.uiColor
+        ]
+    }
+
+    var placeholderTextAttributes: [NSAttributedString.Key: Any]? {
+        [
+            .font: designEngine.fonts.primary.medium(16.0).uiFont as Any,
+            .foregroundColor: designEngine.colors.disabled.uiColor
+        ]
     }
 }

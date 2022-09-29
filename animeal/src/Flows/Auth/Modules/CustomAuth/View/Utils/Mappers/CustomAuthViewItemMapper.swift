@@ -57,13 +57,13 @@ struct CustomAuthViewItemMapper: CustomAuthViewItemMappable {
     }
 }
 
-private extension PlaceholderTextInputFormatter {
+extension PlaceholderTextInputFormatter {
     static func phoneNumberFormatter(_ format: String) -> PlaceholderTextInputFormatter {
         PlaceholderTextInputFormatter(textPattern: format)
     }
 }
 
-private extension Region {
+extension Region {
     var phoneNumberPlaceholder: String {
         switch self {
         case .GE:

@@ -8,6 +8,11 @@ public final class PhoneInputView: TextInputFilledDecorator<PhoneTextContentView
     public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    override public func configureStyle(_ textFieldState: TextInputView.State) {
+        super.configureStyle(textFieldState)
+        textView.textColor = designEngine.colors.textSecondary.uiColor
+    }
 }
 
 public extension PhoneTextContentView {
@@ -16,17 +21,20 @@ public extension PhoneTextContentView {
         public let prefix: String
         public let placeholder: String?
         public let text: String?
+        public let isEditable: Bool
 
         public init(
             icon: UIImage?,
             prefix: String,
             placeholder: String?,
-            text: String?
+            text: String?,
+            isEditable: Bool = true
         ) {
             self.icon = icon
             self.prefix = prefix
             self.placeholder = placeholder
             self.text = text
+            self.isEditable = isEditable
         }
     }
 }
@@ -122,6 +130,7 @@ public final class PhoneTextContentView: TextFieldContainerView {
         textFieldPrefixView.text = model.prefix
         textFieldView.placeholder = model.placeholder
         textFieldView.text = model.text
+        textFieldView.isUserInteractionEnabled = model.isEditable
     }
 
     // MARK: - Setup

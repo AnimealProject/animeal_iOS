@@ -74,6 +74,8 @@ internal enum L10n {
     internal static let birthDate = L10n.tr("Localizable", "profile.birthDate")
     /// Done
     internal static let done = L10n.tr("Localizable", "profile.done")
+    /// Edit
+    internal static let edit = L10n.tr("Localizable", "profile.edit")
     /// E-mail
     internal static let email = L10n.tr("Localizable", "profile.email")
     /// Profile
@@ -82,10 +84,18 @@ internal enum L10n {
     internal static let name = L10n.tr("Localizable", "profile.name")
     /// Phone Number
     internal static let phoneNumber = L10n.tr("Localizable", "profile.phoneNumber")
+    /// Save
+    internal static let save = L10n.tr("Localizable", "profile.save")
     /// please fill out the profile information
     internal static let subHeader = L10n.tr("Localizable", "profile.subHeader")
     /// Surname
     internal static let surname = L10n.tr("Localizable", "profile.surname")
+    internal enum Errors {
+      /// Field is empty
+      internal static let empty = L10n.tr("Localizable", "profile.errors.empty")
+      /// Format is incorrect
+      internal static let incorrectFormat = L10n.tr("Localizable", "profile.errors.incorrectFormat")
+    }
   }
 
   internal enum Question {

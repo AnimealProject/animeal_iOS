@@ -46,7 +46,8 @@ extension AuthCoordinator: LoginCoordinatable {
         case .codeConfirmation:
             break
         case .done:
-            stop()
+            let viewController = ProfileAfterSocialAuthAssembler.assembly(coordinator: self)
+            navigator.push(viewController, animated: true, completion: nil)
         }
     }
 }
@@ -56,6 +57,7 @@ extension AuthCoordinator: CustomAuthCoordinatable {
         switch route {
         case .codeConfirmation(let details):
             let viewController = VerificationAfterCustomAuthAssembler.assembly(
+                coordinator: self,
                 deliveryDestination: details.destination
             )
             navigator.push(viewController, animated: true, completion: nil)
@@ -64,7 +66,8 @@ extension AuthCoordinator: CustomAuthCoordinatable {
         case .resetPassword:
             break
         case .done:
-            break
+            let viewController = ProfileAfterCustomAuthAssembler.assembly(coordinator: self)
+            navigator.push(viewController, animated: true, completion: nil)
         }
     }
 }
@@ -73,7 +76,25 @@ extension AuthCoordinator: VerificationCoordinatable {
     func moveFromVerification(to route: VerificationRoute) {
         switch route {
         case .fillProfile:
-            break
+            let viewController = ProfileAfterCustomAuthAssembler.assembly(coordinator: self)
+            navigator.push(viewController, animated: true, completion: nil)
+        }
+    }
+}
+
+extension AuthCoordinator: ProfileCoordinatable {
+    func move(to route: ProfileRoute) {
+        switch route {
+        case .done:
+            stop()
+        case .cancel:
+            navigator.popToRoot(animated: true)
+        case .confirm(let details):
+            let viewController = VerificationAfterCustomAuthAssembler.assembly(
+                coordinator: self,
+                deliveryDestination: details.destination
+            )
+            navigator.push(viewController, animated: true, completion: nil)
         }
     }
 }

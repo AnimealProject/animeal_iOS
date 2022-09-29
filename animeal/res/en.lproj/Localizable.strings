@@ -12,9 +12,13 @@
 "profile.phoneNumber"                             = "Phone Number";
 "profile.email"                                   = "E-mail";
 "profile.birthDate"                               = "Birth Date";
+"profile.edit"                                    = "Edit";
+"profile.save"                                    = "Save";
 "profile.done"                                    = "Done";
 "profile.header"                                  = "Profile";
 "profile.subHeader"                               = "please fill out the profile information";
+"profile.errors.empty"                            = "Field is empty";
+"profile.errors.incorrectFormat"                  = "Format is incorrect";
 "phone.title"                                     = "Please, enter your phone";
 "phone.fields.phoneTitlle"                        = "Phone Number";
 "phone.fields.passwordTitlle"                     = "Password";

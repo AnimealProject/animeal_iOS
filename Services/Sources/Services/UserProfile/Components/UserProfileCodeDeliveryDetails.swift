@@ -1,3 +1,5 @@
 import Foundation
 
+public typealias UserProfileDeliveryDestination = AuthenticationDeliveryDestination
+
 public typealias UserProfileCodeDeliveryDetails = AuthenticationCodeDeliveryDetails

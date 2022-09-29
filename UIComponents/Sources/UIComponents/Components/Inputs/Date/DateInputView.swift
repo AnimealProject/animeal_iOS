@@ -1,13 +1,18 @@
 import UIKit
 
-public final class DefaultInputView: TextInputFilledDecorator<DefaultTextContentView> {
+public final class DateInputView: TextInputFilledDecorator<DateTextContentView> {
     public override var inputView: UIView? {
         get { contentView.inputView }
         set { contentView.inputView = newValue }
     }
 
+    public var valueWasChanged: ((TextFieldContainable, Date) -> Void)? {
+        get { contentView.valueWasChanged }
+        set { contentView.valueWasChanged = newValue }
+    }
+
     public init() {
-        super.init(contentView: DefaultTextContentView())
+        super.init(contentView: DateTextContentView())
     }
 
     public required init?(coder: NSCoder) {
@@ -15,11 +20,10 @@ public final class DefaultInputView: TextInputFilledDecorator<DefaultTextContent
     }
 }
 
-public extension DefaultTextContentView {
+public extension DateTextContentView {
     struct Model: TextFieldContainerView.Model {
         public let placeholder: String?
         public let text: String?
-        public let isSecure: Bool
         public let isEditable: Bool
         public let leftActions: [TextInputView.Action]
         public let rightActions: [TextInputView.Action]
@@ -27,14 +31,12 @@ public extension DefaultTextContentView {
         public init(
             placeholder: String?,
             text: String?,
-            isSecure: Bool = false,
             isEditable: Bool = true,
             leftActions: [TextInputView.Action] = [],
             rightActions: [TextInputView.Action] = []
         ) {
             self.placeholder = placeholder
             self.text = text
-            self.isSecure = isSecure
             self.isEditable = isEditable
             self.leftActions = leftActions
             self.rightActions = rightActions
@@ -42,7 +44,7 @@ public extension DefaultTextContentView {
     }
 }
 
-public final class DefaultTextContentView: TextFieldContainerView {
+public final class DateTextContentView: TextFieldContainerView {
     // MARK: - Constants
     private enum Constants {
         static let insets: UIEdgeInsets = .init(top: 0.0, left: 8.0, bottom: 0.0, right: 8.0)
@@ -65,6 +67,13 @@ public final class DefaultTextContentView: TextFieldContainerView {
     private let textFieldView = TextFieldViewFactory()
         .makeDefaultTextField()
         .prepareForAutoLayout()
+
+    private lazy var datePickerView: UIDatePicker = {
+        let item = UIDatePicker()
+        item.datePickerMode = .date
+        item.preferredDatePickerStyle = .wheels
+        return item
+    }()
 
     public override var inputView: UIView? {
         get { textFieldView.inputView }
@@ -112,6 +121,8 @@ public final class DefaultTextContentView: TextFieldContainerView {
         set { textFieldView.shouldReturn = newValue }
     }
 
+    public var valueWasChanged: ((TextFieldContainable, Date) -> Void)?
+
     // MARK: - Initialization
     public init() {
         super.init(
@@ -135,7 +146,6 @@ public final class DefaultTextContentView: TextFieldContainerView {
         textFieldRightView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         textFieldView.placeholder = model.placeholder
         textFieldView.text = model.text
-        textFieldView.isSecureTextEntry = model.isSecure
         textFieldView.isUserInteractionEnabled = model.isEditable
         model.leftActions
             .map { $0.buttonView }
@@ -154,22 +164,17 @@ public final class DefaultTextContentView: TextFieldContainerView {
             UILayoutPriority.required,
             for: NSLayoutConstraint.Axis.vertical
         )
-    }
-}
+        textFieldView.inputView = datePickerView
 
-extension TextInputView.Action {
-    var buttonView: ButtonView {
-        let button = UIButton()
-        let view = ButtonView(contentView: button)
-        view.configure(
-            ButtonView.Model(
-                identifier: identifier,
-                viewType: ButtonView.self,
-                icon: icon,
-                title: .empty
-            )
+        datePickerView.addTarget(
+            self,
+            action: #selector(dateWasChanged(_:)),
+            for: .valueChanged
         )
-        view.onTap = action
-        return view
+    }
+
+    // MARK: - Actions
+    @objc private func dateWasChanged(_ sender: UIDatePicker) {
+        valueWasChanged?(textFieldView, sender.date)
     }
 }
