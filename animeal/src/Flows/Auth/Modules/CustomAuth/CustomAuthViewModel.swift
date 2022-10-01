@@ -18,6 +18,7 @@ final class CustomAuthViewModel: CustomAuthViewModelProtocol {
     var onHeaderHasBeenPrepared: ((CustomAuthViewHeader) -> Void)?
     var onItemsHaveBeenPrepared: (([CustomAuthViewItem]) -> Void)?
     var onActionsHaveBeenPrepared: (([CustomAuthViewAction]) -> Void)?
+    var onActivityIsNeededToDisplay: ((@escaping @MainActor () async throws -> Void) -> Void)?
 
     // MARK: - Initialization
     init(
@@ -126,17 +127,13 @@ final class CustomAuthViewModel: CustomAuthViewModelProtocol {
     func handleActionEvent(_ event: CustomAuthViewActionEvent) {
         switch event {
         case .tapInside:
-            Task { [weak self] in
-                do {
-                    guard let self = self else { return }
-                    self.model.clearErrors()
-                    self.updateViewItems()
-                    let result = try await self.model.authenticate()
-                    self.processAuthenticationFeedback(result)
-                } catch {
-                    // show alert with error
-                }
-            }
+            onActivityIsNeededToDisplay?({ [weak self] in
+                guard let self else { return }
+                self.model.clearErrors()
+                self.updateViewItems()
+                let result = try await self.model.authenticate()
+                self.processAuthenticationFeedback(result)
+            })
         }
     }
 }

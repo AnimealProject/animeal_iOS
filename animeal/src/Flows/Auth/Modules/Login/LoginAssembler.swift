@@ -1,6 +1,7 @@
 import UIKit
 import Common
 
+@MainActor
 final class LoginModuleAssembler {
     private let coordinator: LoginCoordinatable
     private let window: UIWindow
@@ -31,13 +32,6 @@ final class LoginModuleAssembler {
             onboardingMapper: LoginViewOnboardingStepsMapper()
         )
         let view = LoginViewController(viewModel: viewModel)
-
-        viewModel.onOnboardingStepsHaveBeenPrepared = { [weak view] viewSteps in
-            view?.applyOnboarding(viewSteps)
-        }
-        viewModel.onActionsHaveBeenPrepaped = { [weak view] viewActions in
-            view?.applyActions(viewActions)
-        }
 
         return view
     }

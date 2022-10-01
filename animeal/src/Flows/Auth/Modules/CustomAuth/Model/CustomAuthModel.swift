@@ -71,7 +71,7 @@ final class CustomAuthModel: CustomAuthModelProtocol {
 
     func authenticate() async throws -> CustomAuthModelNextStep {
         do {
-            guard let usernameItem = items[.username] else { throw "".asBaseError() }
+            guard let usernameItem = items[.username] else { throw "Username cannot be nil".asBaseError() }
             let username = try AuthenticationInput(usernameItem.validate)
             let password: AuthenticationInput? = try {
                 guard !options.contains(.passwordless), let passwordItem = items[.password] else {
@@ -115,14 +115,23 @@ private extension CustomAuthModel {
                 password: password ?? AuthenticationInput { UUID().uuidString },
                 options: attributes
             )
-            return CustomAuthModelNextStep.afterSignUp(signUpResult)
+            switch signUpResult.nextStep {
+            case .done:
+                let signInResult = try await authenticationService.signIn(
+                    username: username,
+                    password: password
+                )
+                return try CustomAuthModelNextStep.afterSignIn(signInResult)
+            case .confirmUser:
+                throw "Unsupported next step".asBaseError()
+            }
         } catch AuthenticationError.service(_, _, let error)
                     where (error as? AuthenticationDetailedError) == .usernameExists {
             let signInResult = try await authenticationService.signIn(
                 username: username,
                 password: password
             )
-            return CustomAuthModelNextStep.afterSignIn(signInResult)
+            return try CustomAuthModelNextStep.afterSignIn(signInResult)
         } catch {
             throw error
         }
@@ -130,29 +139,16 @@ private extension CustomAuthModel {
 }
 
 private extension CustomAuthModelNextStep {
-    static func afterSignUp(_ result: AuthenticationSignUpState) -> Self {
-        switch result.nextStep {
-        case .confirmUser(let details, _):
-            return CustomAuthModelNextStep.confirm(details ?? .init(destination: .unknown(nil)))
-        case .done:
-            return CustomAuthModelNextStep.done
-        }
-    }
-
-    static func afterSignIn(_ result: AuthenticationSignInState) -> Self {
+    static func afterSignIn(_ result: AuthenticationSignInState) throws -> Self {
         switch result.nextStep {
         case .confirmSignInWithCustomChallenge:
             return CustomAuthModelNextStep.confirm(.init(destination: .sms(nil)))
         case .confirmSignInWithSMSCode(let details, _):
             return CustomAuthModelNextStep.confirm(details)
-        case .resetPassword:
-            return CustomAuthModelNextStep.resetPassword
         case .done:
             return CustomAuthModelNextStep.done
-        case .confirmSignInWithNewPassword:
-            return CustomAuthModelNextStep.setNewPassword
         default:
-            return CustomAuthModelNextStep.unknown
+            throw "Unsupported next step".asBaseError()
         }
     }
 }

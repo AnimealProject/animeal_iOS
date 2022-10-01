@@ -18,6 +18,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     var onHeaderHasBeenPrepared: ((ProfileViewHeader) -> Void)?
     var onItemsHaveBeenPrepared: (([ProfileViewItem]) -> Void)?
     var onActionsHaveBeenPrepared: (([ProfileViewAction]) -> Void)?
+    var onActivityIsNeededToDisplay: ((@escaping @MainActor () async throws -> Void) -> Void)?
 
     // MARK: - Initialization
     init(
@@ -153,13 +154,11 @@ final class ProfileViewModel: ProfileViewModelProtocol {
                 }
                 updateViewItems(model.fetchPlaceholderItems)
                 updateViewActions()
-                Task { [weak self] in
+                onActivityIsNeededToDisplay?({ [weak self] in
                     guard let self else { return }
-                    do {
-                        let nextStep = try await self.model.proceedAction(identifier)
-                        self.processNextStep(nextStep)
-                    } catch { }
-                }
+                    let nextStep = try await self.model.proceedAction(identifier)
+                    self.processNextStep(nextStep)
+                })
             }
         }
     }
@@ -180,15 +179,12 @@ private extension ProfileViewModel {
     private func updateViewItems(
         _ operation: @escaping () async throws -> [ProfileModelItem]
     ) {
-        Task { [weak self] in
+        onActivityIsNeededToDisplay?({ [weak self] in
             guard let self else { return }
-            do {
-                let modelItems = try await operation()
-                self.viewItems = self.mapper.mapItems(modelItems)
-                self.onItemsHaveBeenPrepared?(self.viewItems)
-            } catch {
-            }
-        }
+            let modelItems = try await operation()
+            self.viewItems = self.mapper.mapItems(modelItems)
+            self.onItemsHaveBeenPrepared?(self.viewItems)
+        })
     }
 
     private func updateViewActions() {
