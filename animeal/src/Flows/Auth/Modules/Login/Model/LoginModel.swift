@@ -8,13 +8,8 @@
 import Foundation
 
 final class LoginModel: LoginModelProtocol {
-    // MARK: - Private properties
-
     // MARK: - Dependencies
     private let providers: [LoginActionType: LoginProviding?]
-
-    // MARK: - Responses
-    var proceedAuthentificationResponse: ((LoginModelStatus) -> Void)?
 
     // MARK: - Initialization
     init(providers: [LoginActionType: LoginProviding?]) {
@@ -54,29 +49,33 @@ final class LoginModel: LoginModelProtocol {
             .map { LoginModelAction(type: $0) }
     }
 
-    func proceedAuthentication(_ type: LoginActionType) {
+    func proceedAuthentication(_ type: LoginActionType) async throws -> LoginModelStatus {
         switch type {
         case .signInViaPhoneNumber:
-            return
+            return .proceedWithCustomAuth
         case .signInViaFacebook, .signInViaAppleID:
-            guard let provider = providers[type] else { return }
-            provider?.authenticate { [weak self] result in
-                switch result {
-                case .success(let state):
-                    switch state.nextStep {
-                    case .confirmSignInWithSMSCode, .confirmSignUp:
-                        self?.proceedAuthentificationResponse?(.confirmationCodeSent)
-                    case .done:
-                        self?.proceedAuthentificationResponse?(.authentificated)
-                    case .resetPassword:
-                        self?.proceedAuthentificationResponse?(.resetPassword)
-                    default:
-                        return
+            guard let provider = providers[type] else {
+                throw "There is now provider for type \(type)".asBaseError()
+            }
+            return try await withCheckedThrowingContinuation { continuation in
+                provider?.authenticate { result in
+                    switch result {
+                    case .success(let state):
+                        switch state.nextStep {
+                        case .confirmSignInWithSMSCode, .confirmSignUp:
+                            continuation.resume(returning: .confirmationCodeSent)
+                        case .done:
+                            return continuation.resume(returning: .authentificated)
+                        case .resetPassword:
+                            return continuation.resume(throwing: "Unsupported authorization state".asBaseError())
+                        default:
+                            return continuation.resume(throwing: "Unsupported authorization state".asBaseError())
+                        }
+                    case .failure(let error):
+                        return continuation.resume(
+                            throwing: error.recoverySuggestion.asBaseError()
+                        )
                     }
-                case .failure(let error):
-                    self?.proceedAuthentificationResponse?(
-                        .failure(error.errorDescription.description)
-                    )
                 }
             }
         }

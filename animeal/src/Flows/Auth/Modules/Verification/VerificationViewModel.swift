@@ -18,6 +18,7 @@ final class VerificationViewModel: VerificationViewModelLifeCycle, VerificationV
     var onHeaderHasBeenPrepared: ((VerificationViewHeader) -> Void)?
     var onCodeHasBeenPrepared: ((VerificationViewCode, Bool) -> Void)?
     var onResendCodeHasBeenPrepared: ((VereficationViewResendCode) -> Void)?
+    var onActivityIsNeededToDisplay: ((@escaping @MainActor () async throws -> Void) -> Void)?
 
     // MARK: - Initialization
     init(model: VerificationModelProtocol, coordinator: VerificationCoordinatable) {
@@ -63,26 +64,25 @@ final class VerificationViewModel: VerificationViewModelLifeCycle, VerificationV
     func handleActionEvent(_ event: VerificationViewActionEvent) {
         switch event {
         case .tapResendCode:
-            Task { [weak self] in
+            onActivityIsNeededToDisplay?({ [weak self] in
                 do {
                     try await self?.model.requestNewCode()
                 } catch VerificationModelCodeError.codeRequestTimeLimitExceeded {
-                    // ignore
                     return
                 } catch {
-                    // display alert
+                    throw error
                 }
-            }
+            })
         case .changeCode(let viewCodeItems):
             let modelCode = VerificationModelCode(
                 items: viewCodeItems.map {
                     VerificationModelCodeItem(identifier: $0.identifier, text: $0.text)
                 }
             )
-            Task { [weak self] in
+            onActivityIsNeededToDisplay?({ [weak self] in
                 do {
                     try await self?.model.verifyCode(modelCode)
-                    onCodeHasBeenPrepared?(
+                    self?.onCodeHasBeenPrepared?(
                         VerificationViewCode(
                             state: VerificationViewCodeState.normal,
                             items: viewCodeItems
@@ -91,7 +91,7 @@ final class VerificationViewModel: VerificationViewModelLifeCycle, VerificationV
                     )
                     self?.coordinator.moveFromVerification(to: .fillProfile)
                 } catch {
-                    onCodeHasBeenPrepared?(
+                    self?.onCodeHasBeenPrepared?(
                         VerificationViewCode(
                             state: VerificationViewCodeState.error,
                             items: viewCodeItems
@@ -99,7 +99,7 @@ final class VerificationViewModel: VerificationViewModelLifeCycle, VerificationV
                         false
                     )
                 }
-            }
+            })
         }
     }
 }

@@ -20,6 +20,7 @@ final class LoginViewModel: LoginViewModelLifeCycle, LoginViewInteraction, Login
     // MARK: - State
     var onOnboardingStepsHaveBeenPrepared: (([LoginViewOnboardingStep]) -> Void)?
     var onActionsHaveBeenPrepaped: (([LoginViewAction]) -> Void)?
+    var onErrorIsNeededToDisplay: ((String) -> Void)?
 
     // MARK: - Initialization
     init(
@@ -37,22 +38,7 @@ final class LoginViewModel: LoginViewModelLifeCycle, LoginViewInteraction, Login
     }
 
     // MARK: - Life cycle
-    func setup() {
-        model.proceedAuthentificationResponse = { [weak self] status in
-            DispatchQueue.main.async {
-                switch status {
-                case .confirmationCodeSent:
-                    self?.coordinator.moveFromLogin(to: LoginRoute.codeConfirmation)
-                case .authentificated:
-                    self?.coordinator.moveFromLogin(to: LoginRoute.done)
-                case .resetPassword:
-                    break
-                case .failure:
-                    break
-                }
-            }
-        }
-    }
+    func setup() { }
 
     func load() {
         let modelOnboardingSteps = model.fetchOnboardingSteps()
@@ -73,12 +59,22 @@ final class LoginViewModel: LoginViewModelLifeCycle, LoginViewInteraction, Login
             guard let modelAction = modelActions
                 .first(where: { $0.identifier == identifier })
             else { return }
-
-            if modelAction.isCustomAuthenticationSupported {
-                coordinator.moveFromLogin(to: LoginRoute.customAuthentication)
-            } else {
-                let type = modelAction.type
-                model.proceedAuthentication(type)
+            let type = modelAction.type
+            Task { [weak self] in
+                guard let self else { return }
+                do {
+                    let result = try await self.model.proceedAuthentication(type)
+                    switch result {
+                    case .proceedWithCustomAuth:
+                        self.coordinator.moveFromLogin(to: LoginRoute.customAuthentication)
+                    case .confirmationCodeSent:
+                        self.coordinator.moveFromLogin(to: LoginRoute.codeConfirmation)
+                    case .authentificated:
+                        self.coordinator.moveFromLogin(to: LoginRoute.done)
+                    }
+                } catch {
+                    self.onErrorIsNeededToDisplay?(error.localizedDescription)
+                }
             }
         }
     }

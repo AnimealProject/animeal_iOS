@@ -336,21 +336,21 @@ class HomeModelProtocolMock: HomeModelProtocol {
         proceedFilterClosure?(identifier)
     }
 
-    // MARK: - handleFeedingPointSelection
+    // MARK: - proceedFeedingPointSelection
 
-    var handleFeedingPointSelectionCompletionCallsCount = 0
-    var handleFeedingPointSelectionCompletionCalled: Bool {
-        return handleFeedingPointSelectionCompletionCallsCount > 0
+    var proceedFeedingPointSelectionCompletionCallsCount = 0
+    var proceedFeedingPointSelectionCompletionCalled: Bool {
+        return proceedFeedingPointSelectionCompletionCallsCount > 0
     }
-    var handleFeedingPointSelectionCompletionReceivedArguments: (identifier: String, completion: (([HomeModel.FeedingPoint]) -> Void)?)?
-    var handleFeedingPointSelectionCompletionReceivedInvocations: [(identifier: String, completion: (([HomeModel.FeedingPoint]) -> Void)?)] = []
-    var handleFeedingPointSelectionCompletionClosure: ((String, (([HomeModel.FeedingPoint]) -> Void)?) -> Void)?
+    var proceedFeedingPointSelectionCompletionReceivedArguments: (identifier: String, completion: (([HomeModel.FeedingPoint]) -> Void)?)?
+    var proceedFeedingPointSelectionCompletionReceivedInvocations: [(identifier: String, completion: (([HomeModel.FeedingPoint]) -> Void)?)] = []
+    var proceedFeedingPointSelectionCompletionClosure: ((String, (([HomeModel.FeedingPoint]) -> Void)?) -> Void)?
 
-    func handleFeedingPointSelection(_ identifier: String, completion: (([HomeModel.FeedingPoint]) -> Void)?) {
-        handleFeedingPointSelectionCompletionCallsCount += 1
-        handleFeedingPointSelectionCompletionReceivedArguments = (identifier: identifier, completion: completion)
-        handleFeedingPointSelectionCompletionReceivedInvocations.append((identifier: identifier, completion: completion))
-        handleFeedingPointSelectionCompletionClosure?(identifier, completion)
+    func proceedFeedingPointSelection(_ identifier: String, completion: (([HomeModel.FeedingPoint]) -> Void)?) {
+        proceedFeedingPointSelectionCompletionCallsCount += 1
+        proceedFeedingPointSelectionCompletionReceivedArguments = (identifier: identifier, completion: completion)
+        proceedFeedingPointSelectionCompletionReceivedInvocations.append((identifier: identifier, completion: completion))
+        proceedFeedingPointSelectionCompletionClosure?(identifier, completion)
     }
 
 }
@@ -494,7 +494,6 @@ class LoginCoordinatableMock: LoginCoordinatable {
 
 }
 class LoginModelProtocolMock: LoginModelProtocol {
-    var proceedAuthentificationResponse: ((LoginModelStatus) -> Void)?
 
     // MARK: - fetchOnboardingSteps
 
@@ -534,19 +533,28 @@ class LoginModelProtocolMock: LoginModelProtocol {
 
     // MARK: - proceedAuthentication
 
+    var proceedAuthenticationThrowableError: Error?
     var proceedAuthenticationCallsCount = 0
     var proceedAuthenticationCalled: Bool {
         return proceedAuthenticationCallsCount > 0
     }
     var proceedAuthenticationReceivedType: LoginActionType?
     var proceedAuthenticationReceivedInvocations: [LoginActionType] = []
-    var proceedAuthenticationClosure: ((LoginActionType) -> Void)?
+    var proceedAuthenticationReturnValue: LoginModelStatus!
+    var proceedAuthenticationClosure: ((LoginActionType) async throws -> LoginModelStatus)?
 
-    func proceedAuthentication(_ type: LoginActionType) {
+    func proceedAuthentication(_ type: LoginActionType) async throws -> LoginModelStatus {
+        if let error = proceedAuthenticationThrowableError {
+            throw error
+        }
         proceedAuthenticationCallsCount += 1
         proceedAuthenticationReceivedType = type
         proceedAuthenticationReceivedInvocations.append(type)
-        proceedAuthenticationClosure?(type)
+        if let proceedAuthenticationClosure = proceedAuthenticationClosure {
+            return try await proceedAuthenticationClosure(type)
+        } else {
+            return proceedAuthenticationReturnValue
+        }
     }
 
 }
@@ -690,78 +698,128 @@ class MoreModelProtocolMock: MoreModelProtocol {
     }
 
 }
+class ProfileViewItemMappableMock: ProfileViewItemMappable {
+
+    // MARK: - mapItem
+
+    var mapItemCallsCount = 0
+    var mapItemCalled: Bool {
+        return mapItemCallsCount > 0
+    }
+    var mapItemReceivedInput: ProfileModelItem?
+    var mapItemReceivedInvocations: [ProfileModelItem] = []
+    var mapItemReturnValue: ProfileViewItem!
+    var mapItemClosure: ((ProfileModelItem) -> ProfileViewItem)?
+
+    func mapItem(_ input: ProfileModelItem) -> ProfileViewItem {
+        mapItemCallsCount += 1
+        mapItemReceivedInput = input
+        mapItemReceivedInvocations.append(input)
+        if let mapItemClosure = mapItemClosure {
+            return mapItemClosure(input)
+        } else {
+            return mapItemReturnValue
+        }
+    }
+
+    // MARK: - mapItems
+
+    var mapItemsCallsCount = 0
+    var mapItemsCalled: Bool {
+        return mapItemsCallsCount > 0
+    }
+    var mapItemsReceivedInput: [ProfileModelItem]?
+    var mapItemsReceivedInvocations: [[ProfileModelItem]] = []
+    var mapItemsReturnValue: [ProfileViewItem]!
+    var mapItemsClosure: (([ProfileModelItem]) -> [ProfileViewItem])?
+
+    func mapItems(_ input: [ProfileModelItem]) -> [ProfileViewItem] {
+        mapItemsCallsCount += 1
+        mapItemsReceivedInput = input
+        mapItemsReceivedInvocations.append(input)
+        if let mapItemsClosure = mapItemsClosure {
+            return mapItemsClosure(input)
+        } else {
+            return mapItemsReturnValue
+        }
+    }
+
+}
 class VerificationModelProtocolMock: VerificationModelProtocol {
-    var fetchNewCodeResponse: ((VerificationModelCode) -> Void)?
-    var fetchNewCodeResponseTimeLeft: ((VerificationModelTimeLeft) -> Void)?
+    var requestNewCodeTimeLeft: ((VerificationModelTimeLeft) -> Void)?
 
-    // MARK: - isValidationNeeded
+    // MARK: - fetchDestination
 
-    var isValidationNeededCallsCount = 0
-    var isValidationNeededCalled: Bool {
-        return isValidationNeededCallsCount > 0
+    var fetchDestinationCallsCount = 0
+    var fetchDestinationCalled: Bool {
+        return fetchDestinationCallsCount > 0
     }
-    var isValidationNeededReceivedCode: VerificationModelCode?
-    var isValidationNeededReceivedInvocations: [VerificationModelCode] = []
-    var isValidationNeededReturnValue: Bool!
-    var isValidationNeededClosure: ((VerificationModelCode) -> Bool)?
+    var fetchDestinationReturnValue: VerificationModelDeliveryDestination!
+    var fetchDestinationClosure: (() -> VerificationModelDeliveryDestination)?
 
-    func isValidationNeeded(_ code: VerificationModelCode) -> Bool {
-        isValidationNeededCallsCount += 1
-        isValidationNeededReceivedCode = code
-        isValidationNeededReceivedInvocations.append(code)
-        if let isValidationNeededClosure = isValidationNeededClosure {
-            return isValidationNeededClosure(code)
+    func fetchDestination() -> VerificationModelDeliveryDestination {
+        fetchDestinationCallsCount += 1
+        if let fetchDestinationClosure = fetchDestinationClosure {
+            return fetchDestinationClosure()
         } else {
-            return isValidationNeededReturnValue
+            return fetchDestinationReturnValue
         }
     }
 
-    // MARK: - validateCode
+    // MARK: - fetchCode
 
-    var validateCodeCallsCount = 0
-    var validateCodeCalled: Bool {
-        return validateCodeCallsCount > 0
+    var fetchCodeCallsCount = 0
+    var fetchCodeCalled: Bool {
+        return fetchCodeCallsCount > 0
     }
-    var validateCodeReceivedCode: VerificationModelCode?
-    var validateCodeReceivedInvocations: [VerificationModelCode] = []
-    var validateCodeReturnValue: Bool!
-    var validateCodeClosure: ((VerificationModelCode) -> Bool)?
+    var fetchCodeReturnValue: VerificationModelCode!
+    var fetchCodeClosure: (() -> VerificationModelCode)?
 
-    func validateCode(_ code: VerificationModelCode) -> Bool {
-        validateCodeCallsCount += 1
-        validateCodeReceivedCode = code
-        validateCodeReceivedInvocations.append(code)
-        if let validateCodeClosure = validateCodeClosure {
-            return validateCodeClosure(code)
+    func fetchCode() -> VerificationModelCode {
+        fetchCodeCallsCount += 1
+        if let fetchCodeClosure = fetchCodeClosure {
+            return fetchCodeClosure()
         } else {
-            return validateCodeReturnValue
+            return fetchCodeReturnValue
         }
     }
 
-    // MARK: - fetchInitialCode
+    // MARK: - requestNewCode
 
-    var fetchInitialCodeCallsCount = 0
-    var fetchInitialCodeCalled: Bool {
-        return fetchInitialCodeCallsCount > 0
+    var requestNewCodeThrowableError: Error?
+    var requestNewCodeCallsCount = 0
+    var requestNewCodeCalled: Bool {
+        return requestNewCodeCallsCount > 0
     }
-    var fetchInitialCodeClosure: (() -> Void)?
+    var requestNewCodeClosure: (() async throws -> Void)?
 
-    func fetchInitialCode() {
-        fetchInitialCodeCallsCount += 1
-        fetchInitialCodeClosure?()
+    func requestNewCode() async throws {
+        if let error = requestNewCodeThrowableError {
+            throw error
+        }
+        requestNewCodeCallsCount += 1
+        try await requestNewCodeClosure?()
     }
 
-    // MARK: - fetchNewCode
+    // MARK: - verifyCode
 
-    var fetchNewCodeCallsCount = 0
-    var fetchNewCodeCalled: Bool {
-        return fetchNewCodeCallsCount > 0
+    var verifyCodeThrowableError: Error?
+    var verifyCodeCallsCount = 0
+    var verifyCodeCalled: Bool {
+        return verifyCodeCallsCount > 0
     }
-    var fetchNewCodeClosure: (() -> Void)?
+    var verifyCodeReceivedCode: VerificationModelCode?
+    var verifyCodeReceivedInvocations: [VerificationModelCode] = []
+    var verifyCodeClosure: ((VerificationModelCode) async throws -> Void)?
 
-    func fetchNewCode() {
-        fetchNewCodeCallsCount += 1
-        fetchNewCodeClosure?()
+    func verifyCode(_ code: VerificationModelCode) async throws {
+        if let error = verifyCodeThrowableError {
+            throw error
+        }
+        verifyCodeCallsCount += 1
+        verifyCodeReceivedCode = code
+        verifyCodeReceivedInvocations.append(code)
+        try await verifyCodeClosure?(code)
     }
 
 }

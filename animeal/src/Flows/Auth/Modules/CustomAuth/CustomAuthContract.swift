@@ -1,6 +1,6 @@
 // MARK: - View
 @MainActor
-protocol CustomAuthViewable: AnyObject {
+protocol CustomAuthViewable: ActivityDisplayable, ErrorDisplayable {
     func applyHeader(_ viewHeader: CustomAuthViewHeader)
     func applyItems(_ viewItems: [CustomAuthViewItem])
 }
@@ -23,7 +23,7 @@ protocol CustomAuthViewInteraction: AnyObject {
 }
 
 @MainActor
-protocol CustomAuthViewState: AnyObject {
+protocol CustomAuthViewState: ActivityDisplayCompatible {
     var onHeaderHasBeenPrepared: ((CustomAuthViewHeader) -> Void)? { get set }
     var onItemsHaveBeenPrepared: (([CustomAuthViewItem]) -> Void)? { get set }
     var onActionsHaveBeenPrepared: (([CustomAuthViewAction]) -> Void)? { get set }

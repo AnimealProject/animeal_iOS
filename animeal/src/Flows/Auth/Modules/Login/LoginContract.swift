@@ -1,7 +1,7 @@
 import UIKit
 
 // MARK: - View
-protocol LoginViewable: AnyObject {
+protocol LoginViewable: ErrorDisplayable {
     func applyOnboarding(_ onboardingSteps: [LoginViewOnboardingStep])
     func applyActions(_ actions: [LoginViewAction])
 }
@@ -20,7 +20,7 @@ protocol LoginViewInteraction: AnyObject {
     func handleActionEvent(_ event: LoginViewActionEvent)
 }
 
-protocol LoginViewState: AnyObject {
+protocol LoginViewState: ErrorDisplayCompatible {
     var onOnboardingStepsHaveBeenPrepared: (([LoginViewOnboardingStep]) -> Void)? { get set }
     var onActionsHaveBeenPrepaped: (([LoginViewAction]) -> Void)? { get set }
 }
@@ -29,11 +29,9 @@ protocol LoginViewState: AnyObject {
 
 // sourcery: AutoMockable
 protocol LoginModelProtocol: AnyObject {
-    var proceedAuthentificationResponse: ((LoginModelStatus) -> Void)? { get set }
-
     func fetchOnboardingSteps() -> [LoginModelOnboardingStep]
     func fetchActions() -> [LoginModelAction]
-    func proceedAuthentication(_ type: LoginActionType)
+    func proceedAuthentication(_ type: LoginActionType) async throws -> LoginModelStatus
 }
 
 // MARK: - Coordinator

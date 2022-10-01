@@ -50,6 +50,7 @@ final class LoginViewController: UIViewController, LoginViewable {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        bind()
         viewModel.load()
     }
 
@@ -89,6 +90,19 @@ final class LoginViewController: UIViewController, LoginViewable {
             self?.viewModel.handleActionEvent(
                 LoginViewActionEvent.tapInside(identifier)
             )
+        }
+    }
+
+    // MARK: - Binding
+    private func bind() {
+        viewModel.onOnboardingStepsHaveBeenPrepared = { [weak self] viewSteps in
+            self?.applyOnboarding(viewSteps)
+        }
+        viewModel.onActionsHaveBeenPrepaped = { [weak self] viewActions in
+            self?.applyActions(viewActions)
+        }
+        viewModel.onErrorIsNeededToDisplay = { [weak self] viewError in
+            self?.displayError(viewError)
         }
     }
 }

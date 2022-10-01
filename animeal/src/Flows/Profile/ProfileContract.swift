@@ -2,7 +2,7 @@ import Foundation
 
 // MARK: - View
 @MainActor
-protocol ProfileViewable: AnyObject {
+protocol ProfileViewable: ActivityDisplayable, ErrorDisplayable {
     func applyHeader(_ viewHeader: ProfileViewHeader)
     func applyItems(_ viewItems: [ProfileViewItem])
     func applyActions(_ viewActions: [ProfileViewAction])
@@ -20,12 +20,13 @@ protocol ProfileViewModelLifeCycle: AnyObject {
 
 @MainActor
 protocol ProfileViewInteraction: AnyObject {
-    @discardableResult func handleItemEvent(_ event: ProfileViewItemEvent) -> ProfileViewText
+    @discardableResult
+    func handleItemEvent(_ event: ProfileViewItemEvent) -> ProfileViewText
     func handleActionEvent(_ event: ProfileViewActionEvent)
 }
 
 @MainActor
-protocol ProfileViewState: AnyObject {
+protocol ProfileViewState: ActivityDisplayCompatible {
     var onHeaderHasBeenPrepared: ((ProfileViewHeader) -> Void)? { get set }
     var onItemsHaveBeenPrepared: (([ProfileViewItem]) -> Void)? { get set }
     var onActionsHaveBeenPrepared: (([ProfileViewAction]) -> Void)? { get set }
