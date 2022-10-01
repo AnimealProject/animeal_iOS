@@ -58,7 +58,7 @@ jobs:
       - name: Set Xcode version
         uses: maxim-lobanov/setup-xcode@v1
         with: 
-          xcode-version: '13.4.1'
+          xcode-version: '14.0.1'
       - name: Set Default Scheme
         run: |
           scheme_list=$(xcodebuild -list -json | tr -d "\n")
