@@ -18,7 +18,7 @@ extension FeedingPointView {
         }
     }
 
-    public enum Kind {
+    public enum Kind: Equatable {
         case dog(FeedingPointView.HungerLevel)
         case cat(FeedingPointView.HungerLevel)
         case fav(FeedingPointView.HungerLevel)
@@ -56,7 +56,7 @@ extension FeedingPointView {
         }
     }
 
-    public enum HungerLevel {
+    public enum HungerLevel: Equatable {
         case high
         case medium
         case low

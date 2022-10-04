@@ -1,6 +1,7 @@
 import UIKit
 import Style
 import UIComponents
+import Common
 @_spi(Experimental) import MapboxMaps
 
 class HomeViewController: UIViewController {
@@ -53,6 +54,10 @@ extension HomeViewController: HomeViewModelOutput {
             }
             try? mapView.viewAnnotations.add(feedingPointView, options: options)
         }
+
+        DispatchQueue.main.async {
+            self.easeToClosesFeedingPointOnce(feedingPoints)
+        }
     }
 
     func applyFilter(_ filter: FilterModel) {
@@ -81,43 +86,106 @@ private extension HomeViewController {
         view.addSubview(userLocationButton.prepareForAutoLayout())
         userLocationButton.trailingAnchor ~= view.trailingAnchor - 30
         lacationButtonBottomAnchor = userLocationButton.bottomAnchor ~= view.safeAreaLayoutGuide.bottomAnchor - 38
+        userLocationButton.isUserInteractionEnabled = false
         userLocationButton.onTap = { [weak self] _ in
             self?.easeToUserLocation()
         }
     }
+}
 
+// MARK: - MapBox helpers
+private extension HomeViewController {
     func setupMapView() {
         mapView = MapView(frame: view.bounds, mapInitOptions: mapInitOptions())
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        mapView.location.options.puckType = .puck2D(.makeDefault(showBearing: true))
         view.addSubview(mapView)
 
-        mapView.location.options.puckType = .puck2D(.makeDefault(showBearing: true))
-    }
-
-    func easeToUserLocation() {
-        mapView.camera.ease(
-            to: CameraOptions(
-                center: mapView.location.latestLocation?.coordinate,
-                zoom: 15
-            ),
-            duration: 1.3
-        )
+        mapView.mapboxMap.onNext(.mapLoaded) { [weak self] _ in
+            self?.updateMapBoxCameraSettings()
+        }
     }
 
     func mapInitOptions() -> MapInitOptions {
         let resourceOptions = ResourceOptions(
             accessToken: ResourceOptionsManager.default.resourceOptions.accessToken
         )
-        let tbilisiCoordinates = CLLocationCoordinate2D(
-            latitude: 41.719545681547245,
-            longitude: 44.78956025041992
-        )
 
         return MapInitOptions(
             resourceOptions: resourceOptions,
-            cameraOptions: CameraOptions(center: tbilisiCoordinates, zoom: 15),
             styleURI: styleURI
         )
+    }
+
+    func updateMapBoxCameraSettings() {
+        switch mapView.location.locationProvider.authorizationStatus {
+        case .authorizedAlways, .authorizedWhenInUse:
+            easeToUserLocation()
+            userLocationButton.isUserInteractionEnabled = true
+        default:
+            // Without a location permissions we ease the camera to center of Tbilisi
+            let tbilisiCenterCoordinates = CLLocationCoordinate2D(
+                latitude: 41.719545681547245,
+                longitude: 44.78956025041992
+            )
+            easeToLocation(tbilisiCenterCoordinates, duration: 0)
+            userLocationButton.isUserInteractionEnabled = false
+        }
+    }
+
+    func easeToUserLocation() {
+        easeToLocation(mapView.location.latestLocation?.coordinate, duration: 0)
+    }
+
+    func easeToLocation(
+        _ locationCoordinate: CLLocationCoordinate2D?,
+        duration: TimeInterval,
+        curve: UIView.AnimationCurve = .easeOut,
+        completion: AnimationCompletion? = nil
+    ) {
+        mapView.camera.ease(
+            to: CameraOptions(
+                center: locationCoordinate,
+                zoom: 15
+            ),
+            duration: duration,
+            curve: curve,
+            completion: completion
+        )
+    }
+
+    func easeToClosesFeedingPointOnce(_ items: [FeedingPointViewItem]) {
+        DispatchQueue.once {
+                let coordinates = items.filter { viewItem in
+                    viewItem.viewModel.kind == FeedingPointView.Kind.dog(.high)
+                    || viewItem.viewModel.kind == FeedingPointView.Kind.cat(.high)
+                }
+                self.easeToLocation(
+                    self.findClosesLocation(coordinates.map { $0.coordinates }),
+                    duration: 0
+                )
+        }
+    }
+
+    func findClosesLocation(_ locationCoordinates: [CLLocationCoordinate2D]) -> CLLocationCoordinate2D? {
+        let currentLocation = mapView.location.latestLocation?.location
+
+        var closestLocation: CLLocation?
+        var smallestDistance: CLLocationDistance?
+
+        locationCoordinates.forEach { locationCoordinate in
+            let location = CLLocation(
+                latitude: locationCoordinate.latitude,
+                longitude: locationCoordinate.longitude
+            )
+            // TODO: Sort by distance < 10km
+            if let distance = currentLocation?.distance(from: location),
+               smallestDistance == nil || distance < smallestDistance ?? 0 {
+                closestLocation = location
+                smallestDistance = distance
+            }
+        }
+        return closestLocation?.coordinate
     }
 }
 
