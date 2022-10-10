@@ -76,8 +76,8 @@ public class BottomSheetPresentationController: UIViewController {
     }
 
     // MARK: - Public API
-    public func dismissView() {
-        animateDismissView()
+    public func dismissView(completion: (() -> Void)?) {
+        animateDismissView(completion: completion)
     }
 }
 
@@ -136,7 +136,7 @@ private extension BottomSheetPresentationController {
     }
 
     @objc func handleCloseAction() {
-        animateDismissView()
+        animateDismissView(completion: nil)
     }
 
     // MARK: - Pan gesture handler
@@ -165,7 +165,7 @@ private extension BottomSheetPresentationController {
 
             // Condition 1: If new height is below min, dismiss controller
             if newHeight < configuration.dismissibleHeight {
-                self.animateDismissView()
+                self.animateDismissView(completion: nil)
             } else if newHeight < configuration.defaultHeight {
                 // Condition 2: If new height is below default, animate back to default
                 animateContainerHeight(configuration.defaultHeight)
@@ -209,14 +209,14 @@ private extension BottomSheetPresentationController {
          }
     }
 
-    func animateDismissView() {
+    func animateDismissView(completion: (() -> Void)?) {
         // hide blur view
         dimmedView.alpha = configuration.maxDimmedAlpha
         UIView.animate(withDuration: 0.4) {
             self.dimmedView.alpha = 0
         } completion: { _ in
             // once done, dismiss without animation
-            self.dismiss(animated: false)
+            self.dismiss(animated: false, completion: completion)
         }
         // hide main view by updating bottom constraint in animation block
         UIView.animate(withDuration: 0.3) {

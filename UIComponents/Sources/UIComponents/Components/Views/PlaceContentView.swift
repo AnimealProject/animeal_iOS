@@ -53,12 +53,12 @@ public extension PlaceInfoView {
     struct Model {
         let icon: UIImage?
         let title: String
-        let status: StatusModel
+        let status: StatusView.Model
 
         public init(
             icon: UIImage,
             title: String,
-            status: StatusModel
+            status: StatusView.Model
         ) {
             self.icon = icon
             self.title = title

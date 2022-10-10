@@ -1,34 +1,49 @@
 import Foundation
+import Services
 
 final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol {
     // MARK: - Private properties
+    private let pointId: String
+    private let mapper: FeedingPointDetailsModelMapperProtocol
+
+    typealias Context = NetworkServiceHolder
+    private let context: Context
 
     // MARK: - Initialization
-    init() { }
+    init(
+        pointId: String,
+        mapper: FeedingPointDetailsModelMapperProtocol = FeedingPointDetailsModelMapper(),
+        context: Context = AppDelegate.shared.context
+    ) {
+        self.pointId = pointId
+        self.mapper = mapper
+        self.context = context
+    }
 
     func fetchFeedingPoints(_ completion: ((FeedingPointDetailsModel.PointContent) -> Void)?) {
-        // TODO: Replace below with real data
-        let content = PointContent(
-            content: Content(
-                header: Header(
-                    title: "Near to Bukia Garden M.S Technical University"
-                ), description: Description(
-                    text: "This area covers about 100 sq.m. -S,"
-                    + " it starts with Bukia Garden and Sports At the palace."
-                    + " There are about 1000 homeless people here The dog lives with the habit"
-                    + " of helping You need."
-                ),
-                feeders: [
-                    Feeder(
-                        name: "Giorgi Abutidze",
-                        lastFeeded: "14 hours ago"
-                    )
-                ]
-            ), action: Action(
-                identifier: UUID().uuidString, title: L10n.Action.iWillFeed
-            )
-        )
-        completion?(content)
+        context.networkService.query(request: .get(FeedingPoint.self, byId: pointId)) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let point):
+                guard let point = point else {
+                    return
+                }
+                DispatchQueue.main.async {
+                    completion?(self.mapper.map(point))
+                }
+            case .failure(let error):
+                // TODO: Handele error
+                print(error)
+            }
+        }
+    }
+
+    func fetchFeedingPoints() async throws -> FeedingPointDetailsModel.PointContent {
+        try await withCheckedThrowingContinuation { continuation in
+            fetchFeedingPoints {
+                continuation.resume(with: .success($0))
+            }
+        }
     }
 }
 
@@ -41,6 +56,7 @@ extension FeedingPointDetailsModel {
     struct Content {
         let header: Header
         let description: Description
+        let status: Status
         let feeders: [Feeder]
     }
 
@@ -60,5 +76,11 @@ extension FeedingPointDetailsModel {
     struct Action {
         let identifier: String
         let title: String
+    }
+
+    enum Status {
+        case success(String)
+        case attention(String)
+        case error(String)
     }
 }

@@ -30,8 +30,9 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
     func load() {
         model.fetchFeedingPoints { [weak self] content in
             guard let self = self else { return }
-            let content = self.contentMapper.mapFeedingPoint(content)
-            self.onContentHaveBeenPrepared?(content)
+            self.onContentHaveBeenPrepared?(
+                self.contentMapper.mapFeedingPoint(content)
+            )
         }
     }
 

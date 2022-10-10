@@ -125,12 +125,18 @@
 		DB5A8389285CEB5400F3C3A5 /* AppContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5A8388285CEB5400F3C3A5 /* AppContext.swift */; };
 		DB5A838C285CEB9D00F3C3A5 /* AppInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5A838B285CEB9D00F3C3A5 /* AppInfo.swift */; };
 		DB5A838E285CEC4B00F3C3A5 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5A838D285CEC4B00F3C3A5 /* Log.swift */; };
+		DB5F694228ED6CD000D8714E /* FeedingBookingAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5F693D28ED6CD000D8714E /* FeedingBookingAssembler.swift */; };
+		DB5F694328ED6CD000D8714E /* FeedingBookingContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5F693E28ED6CD000D8714E /* FeedingBookingContract.swift */; };
+		DB5F694428ED6CD000D8714E /* FeedingBookingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5F693F28ED6CD000D8714E /* FeedingBookingViewController.swift */; };
+		DB5F694528ED6CD000D8714E /* FeedingBookingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5F694028ED6CD000D8714E /* FeedingBookingModel.swift */; };
+		DB5F694628ED6CD000D8714E /* FeedingBookingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5F694128ED6CD000D8714E /* FeedingBookingViewModel.swift */; };
 		DB6B07C628450A380009397B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07C528450A380009397B /* AppDelegate.swift */; };
 		DB6B07C828450A380009397B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07C728450A380009397B /* SceneDelegate.swift */; };
 		DB6B07CA28450A380009397B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07C928450A380009397B /* HomeViewController.swift */; };
 		DB6B07D228450A390009397B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB6B07D028450A390009397B /* LaunchScreen.storyboard */; };
 		DB73B47A28C0E67E00363FB8 /* PartitionContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB73B47928C0E67E00363FB8 /* PartitionContentModel.swift */; };
 		DB84B31528CA13A60083D98C /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB84B31428CA13A60083D98C /* NetworkRequest.swift */; };
+		DB916D0828F40A3F00DA8AA9 /* FeedingPointDetailsModelMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB916D0728F40A3F00DA8AA9 /* FeedingPointDetailsModelMapper.swift */; };
 		DBA3C7E728575CAF00B30A78 /* MapboxMaps in Frameworks */ = {isa = PBXBuildFile; productRef = DBA3C7E628575CAF00B30A78 /* MapboxMaps */; };
 		DBBDE72A28BB8C2A006EEBA3 /* MoreItemViewMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBBDE72928BB8C2A006EEBA3 /* MoreItemViewMapper.swift */; };
 		DBC2BB4228BBAD2B0086EF52 /* MorePartitionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC2BB3D28BBAD2B0086EF52 /* MorePartitionModel.swift */; };
@@ -337,6 +343,11 @@
 		DB5A8388285CEB5400F3C3A5 /* AppContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContext.swift; sourceTree = "<group>"; };
 		DB5A838B285CEB9D00F3C3A5 /* AppInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfo.swift; sourceTree = "<group>"; };
 		DB5A838D285CEC4B00F3C3A5 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+		DB5F693D28ED6CD000D8714E /* FeedingBookingAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingBookingAssembler.swift; sourceTree = "<group>"; };
+		DB5F693E28ED6CD000D8714E /* FeedingBookingContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingBookingContract.swift; sourceTree = "<group>"; };
+		DB5F693F28ED6CD000D8714E /* FeedingBookingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingBookingViewController.swift; sourceTree = "<group>"; };
+		DB5F694028ED6CD000D8714E /* FeedingBookingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingBookingModel.swift; sourceTree = "<group>"; };
+		DB5F694128ED6CD000D8714E /* FeedingBookingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingBookingViewModel.swift; sourceTree = "<group>"; };
 		DB6B07C228450A380009397B /* animeal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = animeal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB6B07C528450A380009397B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DB6B07C728450A380009397B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -346,6 +357,7 @@
 		DB6B07D828450A3A0009397B /* animealTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = animealTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB73B47928C0E67E00363FB8 /* PartitionContentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartitionContentModel.swift; sourceTree = "<group>"; };
 		DB84B31428CA13A60083D98C /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
+		DB916D0728F40A3F00DA8AA9 /* FeedingPointDetailsModelMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingPointDetailsModelMapper.swift; sourceTree = "<group>"; };
 		DBBDE72928BB8C2A006EEBA3 /* MoreItemViewMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreItemViewMapper.swift; sourceTree = "<group>"; };
 		DBC2BB3D28BBAD2B0086EF52 /* MorePartitionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MorePartitionModel.swift; sourceTree = "<group>"; };
 		DBC2BB3E28BBAD2B0086EF52 /* MorePartitionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MorePartitionViewController.swift; sourceTree = "<group>"; };
@@ -978,6 +990,7 @@
 			isa = PBXGroup;
 			children = (
 				DBF56B5128CF40E300AB0BDF /* FeedingPointDetailsModel.swift */,
+				DB916D0728F40A3F00DA8AA9 /* FeedingPointDetailsModelMapper.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1047,9 +1060,22 @@
 			children = (
 				DB0E43C328D077C7007A1EB1 /* Coordinator */,
 				DBF56B5028CF40E300AB0BDF /* FeedingPointDetails */,
+				DB5F693C28ED6C9000D8714E /* FeedingBooking */,
 				DB73B47C28C1ED0700363FB8 /* Home */,
 			);
 			path = HomeModule;
+			sourceTree = "<group>";
+		};
+		DB5F693C28ED6C9000D8714E /* FeedingBooking */ = {
+			isa = PBXGroup;
+			children = (
+				DB5F693D28ED6CD000D8714E /* FeedingBookingAssembler.swift */,
+				DB5F693E28ED6CD000D8714E /* FeedingBookingContract.swift */,
+				DB5F693F28ED6CD000D8714E /* FeedingBookingViewController.swift */,
+				DB5F694028ED6CD000D8714E /* FeedingBookingModel.swift */,
+				DB5F694128ED6CD000D8714E /* FeedingBookingViewModel.swift */,
+			);
+			path = FeedingBooking;
 			sourceTree = "<group>";
 		};
 		DB6B07B928450A380009397B = {
@@ -1212,8 +1238,8 @@
 			children = (
 				DB0E43C428D07D53007A1EB1 /* View */,
 				DB0E43C528D07D60007A1EB1 /* Model */,
-				DBF56B5528CF40E300AB0BDF /* FeedingPointDetailsViewModel.swift */,
 				DBF56B5328CF40E300AB0BDF /* FeedingPointDetailsAssembler.swift */,
+				DBF56B5528CF40E300AB0BDF /* FeedingPointDetailsViewModel.swift */,
 				DBF56B5228CF40E300AB0BDF /* FeedingPointDetailsContract.swift */,
 			);
 			path = FeedingPointDetails;
@@ -1624,6 +1650,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DBDB3F3A28D3356600B285D7 /* MedicationI18n+Schema.swift in Sources */,
+				DB5F694228ED6CD000D8714E /* FeedingBookingAssembler.swift in Sources */,
 				83F3CC14284771FB00C05298 /* LoginContract.swift in Sources */,
 				DBDB3F5028D3356700B285D7 /* Location+Schema.swift in Sources */,
 				DB6B07CA28450A380009397B /* HomeViewController.swift in Sources */,
@@ -1649,6 +1676,7 @@
 				8372CCBB28A029990085C6D1 /* CustomAuthViewModel.swift in Sources */,
 				8372CCE128A18B030085C6D1 /* CustomAuthViewText.swift in Sources */,
 				DBDB3F4228D3356600B285D7 /* RelationUserFeedingPoint.swift in Sources */,
+				DB5F694428ED6CD000D8714E /* FeedingBookingViewController.swift in Sources */,
 				837F1FB328868C3A001FABC5 /* AuthenticationService.swift in Sources */,
 				83F3CC1D2847808200C05298 /* LoginModelAction.swift in Sources */,
 				DBDB3F4E28D3356700B285D7 /* CategoryI18n+Schema.swift in Sources */,
@@ -1699,17 +1727,20 @@
 				83F3CC0E2847704300C05298 /* LoginViewController.swift in Sources */,
 				FBE017612874611600A79DB2 /* Navigator.swift in Sources */,
 				DB6B07C828450A380009397B /* SceneDelegate.swift in Sources */,
+				DB916D0828F40A3F00DA8AA9 /* FeedingPointDetailsModelMapper.swift in Sources */,
 				DBDB3F4028D3356600B285D7 /* Favourites+Schema.swift in Sources */,
 				DBDB3F4A28D3356700B285D7 /* RelationUserPet.swift in Sources */,
 				DBDB3F3328D3356600B285D7 /* RelationUserPet+Schema.swift in Sources */,
 				DBC2BB4228BBAD2B0086EF52 /* MorePartitionModel.swift in Sources */,
 				DBDB3F3D28D3356600B285D7 /* RelationUserFeedingPoint+Schema.swift in Sources */,
+				DB5F694528ED6CD000D8714E /* FeedingBookingModel.swift in Sources */,
 				DBF56B5628CF40E300AB0BDF /* FeedingPointDetailsModel.swift in Sources */,
 				83A9A22628E189D700858190 /* VerificationModelAttribute.swift in Sources */,
 				83C7A98428E42A9700F3D219 /* UserProfileService.swift in Sources */,
 				DBDB3F5528D3356700B285D7 /* MedicationI18n.swift in Sources */,
 				83E83A4E28A98E2700B40FC4 /* MainCoordinator.swift in Sources */,
 				8372CCDE28A03F460085C6D1 /* CustomAuthViewHeader+TextBigTitleSubtitleViewModel.swift in Sources */,
+				DB5F694328ED6CD000D8714E /* FeedingBookingContract.swift in Sources */,
 				DB0D4A882886AC92001750BC /* HomeAssembler.swift in Sources */,
 				83C7A9A128E4D39A00F3D219 /* ProfileModelAction.swift in Sources */,
 				DBDB3F4C28D3356700B285D7 /* Settings+Schema.swift in Sources */,
@@ -1750,6 +1781,7 @@
 				DB73B47A28C0E67E00363FB8 /* PartitionContentModel.swift in Sources */,
 				836840F128D1A1A800E1044E /* CustomAuthModelComponent.swift in Sources */,
 				DBC2BB4328BBAD2B0086EF52 /* MorePartitionViewController.swift in Sources */,
+				DB5F694628ED6CD000D8714E /* FeedingBookingViewModel.swift in Sources */,
 				DBC2BB4428BBAD2B0086EF52 /* MorePartitionAssembler.swift in Sources */,
 				DBF56B5C28CF4A5700AB0BDF /* HomeCoordinator.swift in Sources */,
 				8372CCCF28A02F300085C6D1 /* CustomAuthModelItem.swift in Sources */,
@@ -2009,7 +2041,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.4;
+				MARKETING_VERSION = 0.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animeal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2045,7 +2077,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.4;
+				MARKETING_VERSION = 0.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animealApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Epam Animeal Prod App Store Distribution";

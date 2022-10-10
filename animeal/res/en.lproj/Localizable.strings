@@ -33,6 +33,7 @@
 "action.logOut"                                   = "Log out";
 "action.cancel"                                   = "Cancel";
 "action.delete"                                   = "Delete";
+"action.agree"                                    = "Agree";
 "action.ok"                                       = "Ok";
 "action.copyIBAN"                                 = "Copy IBAN";
 "action.deleteAccount"                            = "Delete Account";
@@ -40,6 +41,7 @@
 "question.logoutAccount"                          = "Are you sure you want to log out of your account?";
 "question.deleteAccount"                          = "Are you sure you want to delete your account?";
 "text.header.lastFeeder"                          = "Last feeder";
+"text.oneHourToFeed"                              = "You will have 1 hour to feed the point";
 "verification.title"                              = "Enter verification code";
 "verification.subtitle.filled"                    = "Code was sent to:";
 "verification.subtitle.empty"                     = "Code was sent to destination";
@@ -47,3 +49,6 @@
 "verification.error.codeDigitsCountDoesNotFit"    = "Code digits count doesn’t fit";
 "verification.error.codeRequestTimeLimitExceeded" = "Code request time limit exceeded";
 "verification.error.codeUnsupportedNextStep"      = "Code unsupported next step";
+"feeding.status.fed"                              = "Newly fed";
+"feeding.status.starved"                          = "There is no food";
+"feeding.status.pending.pattern"                  = "%s sice not fed";

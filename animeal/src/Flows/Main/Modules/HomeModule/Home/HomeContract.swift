@@ -47,5 +47,5 @@ protocol HomeCoordinatable {
 }
 
 enum HomeRoute {
-    case details
+    case details(String)
 }

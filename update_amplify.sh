@@ -31,7 +31,7 @@ do
 			FACEBOOK_CLIENT_SECRET=${OPTARG}
 			;;
 		?|h)
-      		echo "Usage: $(basename $0) [a arg] [s arg] [i arg] [e arg] [f arg] [r arg]"
+      		echo "Usage: $(basename $0) [a arg] [s arg] [i arg] [e arg] [t arg] [r arg]"
       		exit 1
       		;;
     esac

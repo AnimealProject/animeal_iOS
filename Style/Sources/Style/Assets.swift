@@ -39,6 +39,8 @@ public enum Asset {
     public static let heartIcon = ImageAsset(name: "heart_icon")
     public static let refreshIcon = ImageAsset(name: "refresh_icon")
     public static let feederPlaceholderIcon = ImageAsset(name: "feeder_placeholder_icon")
+    public static let attentionSign = ImageAsset(name: "attention_sign")
+    public static let bigDogAtBowlIcon = ImageAsset(name: "big_dog_at_bowl_icon")
     public static let catHungryHigh = ImageAsset(name: "cat_hungry_high")
     public static let catHungryLow = ImageAsset(name: "cat_hungry_low")
     public static let catHungryMedium = ImageAsset(name: "cat_hungry_medium")
