@@ -65,10 +65,12 @@ type Pet
   createdBy: String
   updatedBy: String
   owner: String
-  feedingPoints: [RelationPetFeedingPoint!] @hasMany(indexName: "byPetId", fields: ["id"])
+  feedingPoints: [RelationPetFeedingPoint!]
+    @hasMany(indexName: "byPetId", fields: ["id"])
   category: Category! @hasOne
-  medications: [Medication!] @hasMany
+  medications: [Medication!] @hasMany(indexName: "byPetId", fields: ["id"])
   users: [RelationUserPet!] @hasMany(indexName: "byPetId", fields: ["id"])
+  cover: String
 }
 
 type CategoryI18n @aws_api_key @aws_cognito_user_pools {
@@ -165,11 +167,13 @@ type FeedingPoint
   createdBy: String
   updatedBy: String
   owner: String
-  pets: [RelationPetFeedingPoint!] @hasMany(indexName: "byFeedingPointId", fields: ["id"])
+  pets: [RelationPetFeedingPoint!]
+    @hasMany(indexName: "byFeedingPointId", fields: ["id"])
   category: Category! @hasOne
   users: [RelationUserFeedingPoint!]
     @hasMany(indexName: "byFeedingPointId", fields: ["id"])
   feedings: [Feeding!] @hasMany
+  cover: String
 }
 
 type Feeding
@@ -334,6 +338,8 @@ type Medication
   ) {
   id: ID!
   name: String!
+  petId: ID! @index(name: "byPetId", sortKeyFields: ["date"])
+  pet: Pet! @belongsTo(fields: ["petId"])
   date: AWSDateTime!
   i18n: [MedicationI18n!]
 }

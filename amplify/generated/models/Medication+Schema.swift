@@ -7,11 +7,11 @@ extension Medication {
    public enum CodingKeys: String, ModelKey {
     case id
     case name
+    case pet
     case date
     case i18n
     case createdAt
     case updatedAt
-    case petMedicationsId
   }
   
   public static let keys = CodingKeys.self
@@ -31,14 +31,18 @@ extension Medication {
     
     model.pluralName = "Medications"
     
+    model.attributes(
+      .index(fields: ["petId", "date"], name: "byPetId")
+    )
+    
     model.fields(
       .id(),
       .field(medication.name, is: .required, ofType: .string),
+      .belongsTo(medication.pet, is: .required, ofType: Pet.self, targetName: "petId"),
       .field(medication.date, is: .required, ofType: .dateTime),
       .field(medication.i18n, is: .optional, ofType: .embeddedCollection(of: MedicationI18n.self)),
       .field(medication.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(medication.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(medication.petMedicationsId, is: .optional, ofType: .string)
+      .field(medication.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
 }
