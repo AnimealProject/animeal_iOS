@@ -33,7 +33,15 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        bind()
         viewModel.load()
+    }
+
+    // MARK: - Binding
+    private func bind() {
+        viewModel.onContentHaveBeenPrepared = { [weak self] content in
+            self?.applyFeedingPointContent(content)
+        }
     }
 
     // MARK: - Setup

@@ -12,6 +12,8 @@ import Foundation
 internal enum L10n {
 
   internal enum Action {
+    /// Agree
+    internal static let agree = L10n.tr("Localizable", "action.agree")
     /// Cancel
     internal static let cancel = L10n.tr("Localizable", "action.cancel")
     /// Copy IBAN
@@ -26,6 +28,21 @@ internal enum L10n {
     internal static let logOut = L10n.tr("Localizable", "action.logOut")
     /// Ok
     internal static let ok = L10n.tr("Localizable", "action.ok")
+  }
+
+  internal enum Feeding {
+    internal enum Status {
+      /// Newly fed
+      internal static let fed = L10n.tr("Localizable", "feeding.status.fed")
+      /// There is no food
+      internal static let starved = L10n.tr("Localizable", "feeding.status.starved")
+      internal enum Pending {
+        /// %s sice not fed
+        internal static func pattern(_ p1: UnsafePointer<CChar>) -> String {
+          return L10n.tr("Localizable", "feeding.status.pending.pattern", p1)
+        }
+      }
+    }
   }
 
   internal enum LoginScreen {
@@ -124,6 +141,8 @@ internal enum L10n {
   }
 
   internal enum Text {
+    /// You will have 1 hour to feed the point
+    internal static let oneHourToFeed = L10n.tr("Localizable", "text.oneHourToFeed")
     internal enum Header {
       /// Last feeder
       internal static let lastFeeder = L10n.tr("Localizable", "text.header.lastFeeder")

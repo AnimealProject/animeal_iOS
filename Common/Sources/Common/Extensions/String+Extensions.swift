@@ -6,7 +6,7 @@ public extension String {
     }
 }
 
-extension String {
+public extension String {
     func characterAt(_ index: Int) -> Character? {
         guard index < count else { return nil }
         return self[self.index(self.startIndex, offsetBy: index)]
@@ -172,5 +172,9 @@ extension String {
 
     var utf16Length: Int {
         return self.utf16.count
+    }
+
+    func removeHtmlTags() -> String {
+        return replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
     }
 }

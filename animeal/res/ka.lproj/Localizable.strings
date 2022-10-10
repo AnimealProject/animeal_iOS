@@ -33,6 +33,7 @@
 "action.logOut"                                   = "გასვლა";
 "action.cancel"                                   = "გაუქმება";
 "action.delete"                                   = "წაშლა";
+"action.agree"                                    = "ვეთანხმები";
 "action.ok"                                       = "Კარგი";
 "action.copyIBAN"                                 = "კოპირება IBAN";
 "action.deleteAccount"                            = "Ანგარიშის წაშლა";
@@ -40,6 +41,7 @@
 "question.logoutAccount"                          = "დარწმუნებული ხართ, რომ გსურთ თქვენი ანგარიშიდან გამოსვლა?";
 "question.deleteAccount"                          = "დარწმუნებული ხართ, რომ გსურთ თქვენი ანგარიშის წაშლა?";
 "text.header.lastFeeder"                          = "ბოლო მიმწოდებელი";
+"text.oneHourToFeed"                              = "თქვენ გექნებათ 1 საათი წერტილის შესანახად";
 "verification.title"                              = "შეიყვანეთ დამადასტურებელი კოდი";
 "verification.subtitle.filled"                    = "კოდი გაიგზავნა:";
 "verification.subtitle.empty"                     = "კოდი გაიგზავნა დანიშნულების ადგილზე";
@@ -47,3 +49,6 @@
 "verification.error.codeDigitsCountDoesNotFit"    = "კოდის ციფრების რაოდენობა არ ჯდება";
 "verification.error.codeRequestTimeLimitExceeded" = "კოდის მოთხოვნის დროის ლიმიტი გადაჭარბებულია";
 "verification.error.codeUnsupportedNextStep"      = "შემდეგი ნაბიჯის კოდი მხარდაუჭერელია";
+"feeding.status.fed"                              = "ახლად ყელში";
+"feeding.status.starved"                          = "საჭმელი არ არის";
+"feeding.status.pending.pattern"                  = "sice არ იკვებება";

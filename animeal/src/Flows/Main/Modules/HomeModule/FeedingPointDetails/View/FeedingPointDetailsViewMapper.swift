@@ -9,15 +9,14 @@ protocol FeedingPointDetailsViewMappable {
 final class FeedingPointDetailsViewMapper: FeedingPointDetailsViewMappable {
     func mapFeedingPoint(_ input: FeedingPointDetailsModel.PointContent) -> FeedingPointDetailsViewItem {
         let feeders = input.content.feeders.map { feeder in
-            FeedingPointFeeders.Feeder(name: feeder.name,lastFeeded: feeder.lastFeeded)
+            FeedingPointFeeders.Feeder(name: feeder.name, lastFeeded: feeder.lastFeeded)
         }
 
         return FeedingPointDetailsViewItem(
-            // TODO: fix icon and  status with real data
             placeInfo: PlaceInfoView.Model(
                 icon: Asset.Images.cityLogo.image,
                 title: input.content.header.title,
-                status: StatusModel(status: .attention("There is no food"))
+                status: convert(input.content.status)
             ),
             placeDescription: TextParagraphView.Model(title: input.content.description.text),
             action: ButtonView.Model(
@@ -30,6 +29,17 @@ final class FeedingPointDetailsViewMapper: FeedingPointDetailsViewMappable {
                 feeders: feeders
             )
         )
+    }
+
+    private func convert(_ status: FeedingPointDetailsModel.Status) -> StatusView.Model {
+        switch status {
+        case .attention(let message):
+            return StatusView.Model(status: StatusView.Status.attention(message))
+        case .success(let message):
+            return StatusView.Model(status: StatusView.Status.success(message))
+        case .error(let message):
+            return StatusView.Model(status: StatusView.Status.error(message))
+        }
     }
 }
 

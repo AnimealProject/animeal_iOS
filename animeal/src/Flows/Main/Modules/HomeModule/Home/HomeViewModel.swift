@@ -44,7 +44,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
                 guard let self = self else { return }
                 let viewItems = points.map { self.feedingPointViewMapper.mapFeedingPoint($0) }
                 self.onFeedingPointsHaveBeenPrepared?(viewItems)
-                self.coordinator.routeTo(.details)
+                self.coordinator.routeTo(.details(pointId))
             }
         case .tapFilterControl(let filterItemId):
             guard let itemIdentifier = HomeModel.FilterItemIdentifier(rawValue: filterItemId) else {

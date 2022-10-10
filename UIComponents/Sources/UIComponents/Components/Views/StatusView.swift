@@ -19,7 +19,7 @@ public final class StatusView: UILabel {
     }
 
     // MARK: - Configuration
-    public func configure(_ model: StatusModel) {
+    public func configure(_ model: StatusView.Model) {
         label.text = model.title
         statusImageView.image = mapper.map(model.status)
         label.textColor = mapper.map(model.status)
@@ -39,42 +39,44 @@ public final class StatusView: UILabel {
     }
 }
 
-// MARK: - Status model
-public struct StatusModel {
-    public let status: Status
+// MARK: - Model
+public extension StatusView {
+    struct Model {
+        public let status: Status
 
-    public init(
-        status: Status
-    ) {
-        self.status = status
-    }
+        public init(
+            status: Status
+        ) {
+            self.status = status
+        }
 
-    public var title: String {
-        switch status {
-        case .success(let text),
-                .attention(let text),
-                .error(let text):
-            return text
+        public var title: String {
+            switch status {
+            case .success(let text),
+                    .attention(let text),
+                    .error(let text):
+                return text
+            }
         }
     }
-}
 
-public enum Status {
-    case success(String)
-    case attention(String)
-    case error(String)
+    enum Status {
+        case success(String)
+        case attention(String)
+        case error(String)
+    }
 }
 
 // MARK: - SatatusImageProviderProtocol
 public protocol StatusMapperProtocol {
-    func map(_ status: Status) -> UIImage
-    func map(_ status: Status) -> UIColor
+    func map(_ status: StatusView.Status) -> UIImage
+    func map(_ status: StatusView.Status) -> UIColor
 }
 
 public struct StatusMapper: StatusMapperProtocol {
     public init() {}
 
-    public func map(_ status: Status) -> UIImage {
+    public func map(_ status: StatusView.Status) -> UIImage {
         switch status {
         case .success:
             return Asset.Images.successStatus.image
@@ -85,7 +87,7 @@ public struct StatusMapper: StatusMapperProtocol {
         }
     }
 
-    public func map(_ status: Status) -> UIColor {
+    public func map(_ status: StatusView.Status) -> UIColor {
         switch status {
         case .success:
             return Asset.Colors.darkMint.color
