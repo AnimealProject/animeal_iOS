@@ -171,8 +171,8 @@ private extension ProfileViewModel {
         switch nextStep {
         case .done:
             coordinator.move(to: ProfileRoute.done)
-        case .confirm(let details):
-            coordinator.move(to: ProfileRoute.confirm(details))
+        case let .confirm(details, attribute):
+            coordinator.move(to: ProfileRoute.confirm(details, attribute))
         }
     }
 

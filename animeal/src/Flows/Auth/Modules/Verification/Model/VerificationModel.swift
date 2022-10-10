@@ -68,24 +68,21 @@ final class VerificationModel: VerificationModelProtocol {
         schedule()
         try await worker.resendCode(forAttribute: attribute)
     }
+    
+    func validateCode(_ code: VerificationModelCode) throws {
+       try code.validate()
+    }
 
     func verifyCode(_ code: VerificationModelCode) async throws {
-        do {
-            let nextStep = try await worker.confirmCode(code, forAttribute: attribute)
-            switch nextStep {
-            case .confirmSignInWithSMSMFACode,
-                    .confirmSignInWithCustomChallenge,
-                    .confirmSignInWithNewPassword,
-                    .resetPassword,
-                    .confirmSignUp:
-                throw VerificationModelCodeError.codeUnsupportedNextStep
-            case .done: return
-            }
-        } catch VerificationModelCodeError.codeDigitsCountDoesNotFit {
-            // ignore that error
-            return
-        } catch {
-            throw error
+        let nextStep = try await worker.confirmCode(code, forAttribute: attribute)
+        switch nextStep {
+        case .confirmSignInWithSMSMFACode,
+                .confirmSignInWithCustomChallenge,
+                .confirmSignInWithNewPassword,
+                .resetPassword,
+                .confirmSignUp:
+            throw VerificationModelCodeError.codeUnsupportedNextStep
+        case .done: return
         }
     }
 }

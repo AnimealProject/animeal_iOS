@@ -40,6 +40,7 @@ protocol VerificationModelProtocol: AnyObject {
     func fetchCode() -> VerificationModelCode
 
     func requestNewCode() async throws
+    func validateCode(_ code: VerificationModelCode) throws
     func verifyCode(_ code: VerificationModelCode) async throws
 }
 

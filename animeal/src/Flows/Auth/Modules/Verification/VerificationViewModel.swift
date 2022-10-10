@@ -79,27 +79,30 @@ final class VerificationViewModel: VerificationViewModelLifeCycle, VerificationV
                     VerificationModelCodeItem(identifier: $0.identifier, text: $0.text)
                 }
             )
-            onActivityIsNeededToDisplay?({ [weak self] in
-                do {
-                    try await self?.model.verifyCode(modelCode)
-                    self?.onCodeHasBeenPrepared?(
-                        VerificationViewCode(
-                            state: VerificationViewCodeState.normal,
-                            items: viewCodeItems
-                        ),
-                        false
-                    )
-                    self?.coordinator.moveFromVerification(to: .fillProfile)
-                } catch {
-                    self?.onCodeHasBeenPrepared?(
-                        VerificationViewCode(
-                            state: VerificationViewCodeState.error,
-                            items: viewCodeItems
-                        ),
-                        false
-                    )
-                }
-            })
+            do {
+                try model.validateCode(modelCode)
+                onActivityIsNeededToDisplay?({ [weak self] in
+                    do {
+                        try await self?.model.verifyCode(modelCode)
+                        self?.onCodeHasBeenPrepared?(
+                            VerificationViewCode(
+                                state: VerificationViewCodeState.normal,
+                                items: viewCodeItems
+                            ),
+                            false
+                        )
+                        self?.coordinator.moveFromVerification(to: .fillProfile)
+                    } catch {
+                        self?.onCodeHasBeenPrepared?(
+                            VerificationViewCode(
+                                state: VerificationViewCodeState.error,
+                                items: viewCodeItems
+                            ),
+                            false
+                        )
+                    }
+                })
+            } catch { }
         }
     }
 }

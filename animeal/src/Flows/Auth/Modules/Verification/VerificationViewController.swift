@@ -4,11 +4,13 @@ import UIKit
 // SDK
 import UIComponents
 
-final class VerificationViewController: BaseViewController {
+final class VerificationViewController: BaseViewController, VerificationViewModelOutput {
     // MARK: - UI properties
     private let headerView = TextBigTitleSubtitleView().prepareForAutoLayout()
     private let codeInputView = VerificationInputView().prepareForAutoLayout()
     private let resendView = TextClickableLeftIconTitleView().prepareForAutoLayout()
+
+    let activityPresenter = ActivityIndicatorPresenter()
 
     // MARK: - Dependencies
     private let viewModel: VerificationCombinedViewModel
@@ -101,7 +103,7 @@ final class VerificationViewController: BaseViewController {
                 VerificationViewActionEvent.tapResendCode
             )
         }
-        
+
         viewModel.onHeaderHasBeenPrepared = { [weak self] viewHeader in
             self?.applyHeader(viewHeader)
         }
@@ -110,6 +112,9 @@ final class VerificationViewController: BaseViewController {
         }
         viewModel.onResendCodeHasBeenPrepared = { [weak self] viewResendCode in
             self?.applyResendCode(viewResendCode)
+        }
+        viewModel.onActivityIsNeededToDisplay = { [weak self] viewOperation in
+            self?.displayActivityIndicator(waitUntil: viewOperation, completion: nil)
         }
     }
 }

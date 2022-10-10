@@ -3,6 +3,7 @@ import Foundation
 struct VerificationModelCode {
     var items: [VerificationModelCodeItem]
 
+    @discardableResult
     func validate() throws -> String {
         let expectedCodeDigitsCount = items.count
         let codeCandidate = items

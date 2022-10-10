@@ -44,17 +44,50 @@ struct ProfileModelItem: Hashable, ProfileModelValidatable {
     let type: ProfileItemType
     var style: ProfileItemStyle
     var state: ProfileItemState
-    var text: String?
+    var text: String? {
+        get { _value }
+        set {
+            _value = transform(newValue)
+        }
+    }
+    private var _value: String?
+
+    init(
+        identifier: String,
+        type: ProfileItemType,
+        style: ProfileItemStyle,
+        state: ProfileItemState,
+        text: String? = nil
+    ) {
+        self.identifier = identifier
+        self.type = type
+        self.style = style
+        self.state = state
+        self.text = text
+    }
 
     @discardableResult
     func validate() throws -> String {
         switch type {
-        case .name, .surname, .birthday:
+        case .name, .surname:
             return try validateForEmptiness()
         case .email:
             return try validateEmail()
         case .phone(let region):
             return try validatePhone(region)
+        case .birthday:
+            return try validateDate()
+        }
+    }
+
+    func transform(_ text: String?) -> String? {
+        switch type {
+        case .name, .surname, .email:
+            return text
+        case .phone(let region):
+            return trasformPhone(text, region: region)
+        case .birthday:
+            return transformDate(text)
         }
     }
 }
@@ -108,4 +141,48 @@ extension ProfileModelItem {
 
         return region.phoneNumberCode + text
     }
+
+    func validateDate() throws -> String {
+        let text = try validateForEmptiness()
+
+        guard let date = DateFormatter.input.date(from: text) else {
+            throw ProfileModelItemError(
+                itemIdentifier: identifier,
+                errorDescription: L10n.Profile.Errors.empty
+            )
+        }
+
+        return DateFormatter.output.string(from: date)
+    }
+
+    func transformDate(_ text: String?) -> String? {
+        guard let text else { return nil }
+
+        guard let outputDate = DateFormatter.output.date(from: text) else {
+            return text
+        }
+        let dateInInputFormat = DateFormatter.input.string(from: outputDate)
+        return dateInInputFormat
+    }
+
+    func trasformPhone(_ text: String?, region: Region) -> String? {
+        guard let text else { return nil }
+
+        guard text.hasPrefix(region.phoneNumberCode) else { return text }
+        return String(text.dropFirst(region.phoneNumberCode.count))
+    }
+}
+
+private extension DateFormatter {
+    static let input: DateFormatter = {
+        let item = DateFormatter()
+        item.dateFormat = "dd MMM, yyyy"
+        return item
+    }()
+
+    static let output: DateFormatter = {
+        let item = DateFormatter()
+        item.dateFormat = "dd/MM/yyyy"
+        return item
+    }()
 }
