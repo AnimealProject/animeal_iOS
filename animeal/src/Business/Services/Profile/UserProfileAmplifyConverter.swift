@@ -211,7 +211,7 @@ struct UserProfileAmplifyConverter: UserProfileAmplifyConverting, AmplifyUserPro
         case .email:
             return UserProfileAttributeKey.email
         case .familyName:
-            return UserProfileAttributeKey.email
+            return UserProfileAttributeKey.familyName
         case .gender:
             return UserProfileAttributeKey.gender
         case .givenName:

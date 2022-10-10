@@ -121,7 +121,10 @@ private extension CustomAuthModel {
                     username: username,
                     password: password
                 )
-                return try CustomAuthModelNextStep.afterSignIn(signInResult)
+                return try CustomAuthModelNextStep.afterSignIn(
+                    signInResult,
+                    username: username.value
+                )
             case .confirmUser:
                 throw "Unsupported next step".asBaseError()
             }
@@ -131,7 +134,10 @@ private extension CustomAuthModel {
                 username: username,
                 password: password
             )
-            return try CustomAuthModelNextStep.afterSignIn(signInResult)
+            return try CustomAuthModelNextStep.afterSignIn(
+                signInResult,
+                username: username.value
+            )
         } catch {
             throw error
         }
@@ -139,10 +145,10 @@ private extension CustomAuthModel {
 }
 
 private extension CustomAuthModelNextStep {
-    static func afterSignIn(_ result: AuthenticationSignInState) throws -> Self {
+    static func afterSignIn(_ result: AuthenticationSignInState, username: String) throws -> Self {
         switch result.nextStep {
         case .confirmSignInWithCustomChallenge:
-            return CustomAuthModelNextStep.confirm(.init(destination: .sms(nil)))
+            return CustomAuthModelNextStep.confirm(.init(destination: .sms(username)))
         case .confirmSignInWithSMSCode(let details, _):
             return CustomAuthModelNextStep.confirm(details)
         case .done:

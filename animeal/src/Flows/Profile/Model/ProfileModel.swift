@@ -113,18 +113,25 @@ final class ProfileModel: ProfileModelProtocol {
             result[item.type] = item
             return result
         }
-        let changedAttributes = changedItemsTypes.map { type in
+        let changedAttributes = try changedItemsTypes.map { type in
             let item = allItems[type]
             return UserProfileAttribute(
                 type.userAttributeKey,
-                value: item?.text ?? .empty
+                value: try item?.validate() ?? .empty
             )
         }
         let result = try await profileService.update(userAttributes: changedAttributes)
-        if let step = result.values.first(
-            where: { if case .confirmAttributeWithCode = $0.nextStep { return true }; return false }
-        ), case .confirmAttributeWithCode(let details, _) = step.nextStep {
-            return .confirm(details)
+        if let step = result.first(
+            where: { if case .confirmAttributeWithCode = $0.value.nextStep { return true }; return false }
+        ), case .confirmAttributeWithCode(let details, _) = step.value.nextStep {
+            return .confirm(
+                details,
+                UserProfileAttribute(
+                    step.key,
+                    value: allItems
+                        .first(where: { $0.key.userAttributeKey == step.key})?.value.text ?? .empty
+                )
+            )
         } else {
             return .done
         }
@@ -253,7 +260,8 @@ extension ProfileModelAction {
         ) { _ in
             [
                 .changeSource({ modelItems in return modelItems.toReadonly() }),
-                .changeActions({ _ in return [.edit] })
+                .changeActions({ _ in return [.edit] }),
+                .complete
             ]
         }
     }

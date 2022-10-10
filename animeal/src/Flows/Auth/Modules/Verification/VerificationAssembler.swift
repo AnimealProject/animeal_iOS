@@ -23,3 +23,27 @@ enum VerificationAfterCustomAuthAssembler {
         return view
     }
 }
+
+@MainActor
+enum VerificationAfterProfileAuthAssembler {
+    static func assembly(
+        coordinator: VerificationCoordinatable,
+        deliveryDestination: VerificationModelDeliveryDestination,
+        attribute: VerificationModelAttribute
+    ) -> UIViewController {
+        let model = VerificationModel(
+            worker: VerificationAfterChangingUserAttributeWorker(
+                userProfileService: AppDelegate.shared.context.profileService
+            ),
+            attribute: attribute,
+            deliveryDestination: deliveryDestination
+        )
+        let viewModel = VerificationViewModel(
+            model: model,
+            coordinator: coordinator
+        )
+        let view = VerificationViewController(viewModel: viewModel)
+
+        return view
+    }
+}
