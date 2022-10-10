@@ -22,6 +22,7 @@ public struct Pet: Model {
   public var category: Category
   public var medications: List<Medication>?
   public var users: List<RelationUserPet>?
+  public var cover: String?
   public var petCategoryId: String
   
   public init(id: String = UUID().uuidString,
@@ -43,6 +44,7 @@ public struct Pet: Model {
       category: Category,
       medications: List<Medication> = [],
       users: List<RelationUserPet> = [],
+      cover: String? = nil,
       petCategoryId: String) {
       self.id = id
       self.name = name
@@ -63,6 +65,7 @@ public struct Pet: Model {
       self.category = category
       self.medications = medications
       self.users = users
+      self.cover = cover
       self.petCategoryId = petCategoryId
   }
 }

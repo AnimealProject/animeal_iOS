@@ -5,81 +5,48 @@
     "allowUnauthenticatedIdentities": false,
     "resourceNameTruncated": "animea8f90e9b6",
     "userPoolName": "animeal8f90e9b6_userpool_8f90e9b6",
-    "autoVerifiedAttributes": [
-      "email"
-    ],
+    "autoVerifiedAttributes": ["email"],
     "mfaConfiguration": "OFF",
-    "mfaTypes": [
-      "SMS Text Message"
-    ],
+    "mfaTypes": ["SMS Text Message"],
     "smsAuthenticationMessage": "Your authentication code is {####}",
     "smsVerificationMessage": "Your verification code is {####}",
     "emailVerificationSubject": "Your verification code",
     "emailVerificationMessage": "Your verification code is {####}",
-    "defaultPasswordPolicy": true,
+    "defaultPasswordPolicy": false,
     "passwordPolicyMinLength": 8,
-    "passwordPolicyCharacters": [
-      "Requires Lowercase",
-      "Requires Uppercase",
-      "Requires Numbers",
-      "Requires Symbols"
-    ],
+    "passwordPolicyCharacters": [],
     "requiredAttributes": [],
     "aliasAttributes": [],
     "userpoolClientGenerateSecret": false,
     "userpoolClientRefreshTokenValidity": "1",
-    "userpoolClientWriteAttributes": [
-      "email"
-    ],
-    "userpoolClientReadAttributes": [
-      "email"
-    ],
+    "userpoolClientWriteAttributes": ["email"],
+    "userpoolClientReadAttributes": ["email"],
     "userpoolClientLambdaRole": "animea8f90e9b6_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
     "sharedId": "8f90e9b6",
     "resourceName": "animeal8f90e9b68f90e9b6",
     "authSelections": "identityPoolAndUserPool",
     "useDefault": "manual",
-    "usernameAttributes": [
-      "email, phone_number"
-    ],
+    "usernameAttributes": ["email, phone_number"],
     "userPoolGroups": true,
     "adminQueries": true,
     "triggers": {
-      "CreateAuthChallenge": [
-        "boilerplate-create-challenge"
-      ],
-      "DefineAuthChallenge": [
-        "boilerplate-define-challenge"
-      ],
-      "PreSignup": [
-        "custom"
-      ],
-      "VerifyAuthChallengeResponse": [
-        "boilerplate-verify"
-      ]
+      "CreateAuthChallenge": ["boilerplate-create-challenge"],
+      "DefineAuthChallenge": ["boilerplate-define-challenge"],
+      "PreSignup": ["custom"],
+      "VerifyAuthChallengeResponse": ["boilerplate-verify"]
     },
     "hostedUI": true,
-    "userPoolGroupList": [
-      "Administrator",
-      "Moderator",
-      "Volunteer"
-    ],
+    "userPoolGroupList": ["Administrator", "Moderator", "Volunteer"],
     "adminQueryGroup": "Administrator",
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,
     "useEnabledMfas": true,
     "authRoleArn": {
-      "Fn::GetAtt": [
-        "AuthRole",
-        "Arn"
-      ]
+      "Fn::GetAtt": ["AuthRole", "Arn"]
     },
     "unauthRoleArn": {
-      "Fn::GetAtt": [
-        "UnauthRole",
-        "Arn"
-      ]
+      "Fn::GetAtt": ["UnauthRole", "Arn"]
     },
     "breakCircularDependency": true,
     "dependsOn": [
@@ -87,37 +54,25 @@
         "category": "function",
         "resourceName": "animeal8f90e9b68f90e9b6CreateAuthChallenge",
         "triggerProvider": "Cognito",
-        "attributes": [
-          "Arn",
-          "Name"
-        ]
+        "attributes": ["Arn", "Name"]
       },
       {
         "category": "function",
         "resourceName": "animeal8f90e9b68f90e9b6DefineAuthChallenge",
         "triggerProvider": "Cognito",
-        "attributes": [
-          "Arn",
-          "Name"
-        ]
+        "attributes": ["Arn", "Name"]
       },
       {
         "category": "function",
         "resourceName": "animeal8f90e9b68f90e9b6PreSignup",
         "triggerProvider": "Cognito",
-        "attributes": [
-          "Arn",
-          "Name"
-        ]
+        "attributes": ["Arn", "Name"]
       },
       {
         "category": "function",
         "resourceName": "animeal8f90e9b68f90e9b6VerifyAuthChallengeResponse",
         "triggerProvider": "Cognito",
-        "attributes": [
-          "Arn",
-          "Name"
-        ]
+        "attributes": ["Arn", "Name"]
       }
     ],
     "parentStack": {
@@ -126,15 +81,10 @@
     "permissions": [],
     "authTriggerConnections": "[\n  {\n    \"triggerType\": \"CreateAuthChallenge\",\n    \"lambdaFunctionName\": \"animeal8f90e9b68f90e9b6CreateAuthChallenge\"\n  },\n  {\n    \"triggerType\": \"DefineAuthChallenge\",\n    \"lambdaFunctionName\": \"animeal8f90e9b68f90e9b6DefineAuthChallenge\"\n  },\n  {\n    \"triggerType\": \"PreSignUp\",\n    \"lambdaFunctionName\": \"animeal8f90e9b68f90e9b6PreSignup\"\n  },\n  {\n    \"triggerType\": \"VerifyAuthChallengeResponse\",\n    \"lambdaFunctionName\": \"animeal8f90e9b68f90e9b6VerifyAuthChallengeResponse\"\n  }\n]",
     "hostedUIDomainName": "animealauth",
-    "authProvidersUserPool": [
-      "Facebook",
-      "SignInWithApple"
-    ],
-    "hostedUIProviderMeta": "[{\"ProviderName\":\"Facebook\",\"authorize_scopes\":\"public_profile\",\"AttributeMapping\":{\"username\":\"id\"}},{\"ProviderName\":\"SignInWithApple\",\"authorize_scopes\":\"email\",\"AttributeMapping\":{}}]",
+    "authProvidersUserPool": ["Facebook", "SignInWithApple"],
+    "hostedUIProviderMeta": "[{\"ProviderName\":\"Facebook\",\"authorize_scopes\":\"email,public_profile,user_birthday\",\"api_version\":\"14\", \"AttributeMapping\":{\"email\":\"email\",\"family_name\":\"last_name\",\"given_name\":\"first_name\",\"username\":\"id\",\"birthdate\":\"birthday\"}},{\"ProviderName\":\"SignInWithApple\",\"authorize_scopes\":\"email\",\"AttributeMapping\":{}}]",
     "authProviders": [],
-    "signinwithappleAuthorizeScopes": [
-      ""
-    ],
+    "signinwithappleAuthorizeScopes": [""],
     "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"animeal://\"],\"LogoutURLs\":[\"animeal://signout/\"]}"
   }
 }

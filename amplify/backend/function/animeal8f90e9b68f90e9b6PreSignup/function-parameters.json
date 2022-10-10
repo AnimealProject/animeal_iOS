@@ -8,7 +8,7 @@
   "resourceName": "animeal8f90e9b68f90e9b6PreSignup",
   "parentStack": "auth",
   "triggerEnvs": "[]",
-  "triggerDir": "C:\\Users\\Maryia_Krauchanka\\AppData\\Roaming\\nvm\\v17.4.0\\node_modules\\@aws-amplify\\cli\\node_modules\\@aws-amplify\\amplify-category-auth\\provider-utils\\awscloudformation\\triggers\\PreSignup",
+  "triggerDir": "C:\\snapshot\\repo\\build\\node_modules\\@aws-amplify\\amplify-category-auth\\provider-utils\\awscloudformation\\triggers\\PreSignup",
   "triggerTemplate": "PreSignup.json.ejs",
   "triggerEventPath": "PreSignup.event.json",
   "roleName": "animeal8f90e9b68f90e9b6PreSignup",

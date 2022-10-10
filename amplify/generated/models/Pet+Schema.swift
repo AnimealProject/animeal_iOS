@@ -24,6 +24,7 @@ extension Pet {
     case category
     case medications
     case users
+    case cover
     case petCategoryId
   }
   
@@ -62,8 +63,9 @@ extension Pet {
       .field(pet.owner, is: .optional, ofType: .string),
       .hasMany(pet.feedingPoints, is: .optional, ofType: RelationPetFeedingPoint.self, associatedWith: RelationPetFeedingPoint.keys.pet),
       .hasOne(pet.category, is: .required, ofType: Category.self, associatedWith: Category.keys.id, targetName: "petCategoryId"),
-      .hasMany(pet.medications, is: .optional, ofType: Medication.self, associatedWith: Medication.keys.petMedicationsId),
+      .hasMany(pet.medications, is: .optional, ofType: Medication.self, associatedWith: Medication.keys.pet),
       .hasMany(pet.users, is: .optional, ofType: RelationUserPet.self, associatedWith: RelationUserPet.keys.pet),
+      .field(pet.cover, is: .optional, ofType: .string),
       .field(pet.petCategoryId, is: .required, ofType: .string)
     )
     }

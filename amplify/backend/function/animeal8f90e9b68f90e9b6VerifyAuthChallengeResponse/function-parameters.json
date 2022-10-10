@@ -8,7 +8,7 @@
   "resourceName": "animeal8f90e9b68f90e9b6VerifyAuthChallengeResponse",
   "parentStack": "auth",
   "triggerEnvs": "[]",
-  "triggerDir": "C:\\Users\\Maryia_Krauchanka\\AppData\\Roaming\\nvm\\v17.4.0\\node_modules\\@aws-amplify\\cli\\node_modules\\@aws-amplify\\amplify-category-auth\\provider-utils\\awscloudformation\\triggers\\VerifyAuthChallengeResponse",
+  "triggerDir": "C:\\snapshot\\repo\\build\\node_modules\\@aws-amplify\\amplify-category-auth\\provider-utils\\awscloudformation\\triggers\\VerifyAuthChallengeResponse",
   "triggerTemplate": "VerifyAuthChallengeResponse.json.ejs",
   "triggerEventPath": "VerifyAuthChallengeResponse.event.json",
   "roleName": "animeal8f90e9b68f90e9b6VerifyAuthChallengeResponse",

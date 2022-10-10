@@ -4,11 +4,7 @@
   "bucketName": "animealstorage",
   "storageAccess": "auth",
   "guestAccess": [],
-  "authAccess": [
-    "CREATE_AND_UPDATE",
-    "READ",
-    "DELETE"
-  ],
+  "authAccess": [],
   "groupAccess": {
     "Administrator": [
       "CREATE_AND_UPDATE",
