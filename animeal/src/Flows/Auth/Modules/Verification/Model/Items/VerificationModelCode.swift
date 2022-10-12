@@ -24,7 +24,7 @@ struct VerificationModelCodeItem {
 
 extension VerificationModelCode {
     enum Constants {
-        static let digitsCount = 4
+        static let digitsCount = 6
     }
 
     static func empty(digitsCount: Int = Constants.digitsCount) -> VerificationModelCode {

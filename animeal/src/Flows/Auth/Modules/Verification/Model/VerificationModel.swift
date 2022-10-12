@@ -68,7 +68,7 @@ final class VerificationModel: VerificationModelProtocol {
         schedule()
         try await worker.resendCode(forAttribute: attribute)
     }
-    
+
     func validateCode(_ code: VerificationModelCode) throws {
        try code.validate()
     }
