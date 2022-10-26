@@ -24,8 +24,13 @@ final class MainCoordinator: Coordinatable {
     }
 
     private(set) lazy var rootTabBarController: TabBarController = {
-        let redVC = UIViewController()
-        redVC.view.backgroundColor = .red
+        let searchNavigationController = UINavigationController()
+        let searchCoordinator = SearchCoordinator(
+            navigator: Navigator(navigationController: searchNavigationController)
+        ) { [weak self] in
+            self?.stop()
+        }
+        searchCoordinator.start()
 
         let yellowVC = UIViewController()
         yellowVC.view.backgroundColor = .yellow
@@ -60,23 +65,25 @@ final class MainCoordinator: Coordinatable {
                         icon: Asset.Images.glass.image,
                         title: L10n.TabBar.search
                     )
-                ), viewController: redVC
+                ),
+                viewController: searchNavigationController
             ),
-
             TabBarControllerItem(
                 tabBarItemView: PlainTabBarItemView(
                     model: TabBarItemViewModel(
                         icon: Asset.Images.heart.image,
                         title: L10n.TabBar.favourites
                     )
-                ), viewController: yellowVC
+                ),
+                viewController: yellowVC
             ),
             TabBarControllerItem(
                 tabBarItemView: HomeTabBarItemView(
                     model: TabBarItemViewModel(
                         icon: Asset.Images.home.image
                     )
-                ), viewController: homeNavigtionController
+                ),
+                viewController: homeNavigtionController
             ),
             TabBarControllerItem(
                 tabBarItemView: PlainTabBarItemView(
@@ -84,7 +91,8 @@ final class MainCoordinator: Coordinatable {
                         icon: Asset.Images.podium.image,
                         title: L10n.TabBar.leaderBoard
                     )
-                ), viewController: purpleVC
+                ),
+                viewController: purpleVC
             ),
             TabBarControllerItem(
                 tabBarItemView: PlainTabBarItemView(
@@ -92,7 +100,8 @@ final class MainCoordinator: Coordinatable {
                         icon: Asset.Images.more.image,
                         title: L10n.TabBar.more
                     )
-                ), viewController: moreNavigtionController
+                ),
+                viewController: moreNavigtionController
             )
         ])
     }()

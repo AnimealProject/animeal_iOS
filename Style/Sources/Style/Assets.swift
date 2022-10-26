@@ -37,8 +37,11 @@ public enum Asset {
   }
   public enum Images {
     public static let crosIcon = ImageAsset(name: "cros_icon")
+    public static let arrowDown = ImageAsset(name: "arrow_down")
+    public static let arrowUp = ImageAsset(name: "arrow_up")
     public static let heartIcon = ImageAsset(name: "heart_icon")
     public static let refreshIcon = ImageAsset(name: "refresh_icon")
+    public static let search = ImageAsset(name: "search")
     public static let feederPlaceholderIcon = ImageAsset(name: "feeder_placeholder_icon")
     public static let attentionSign = ImageAsset(name: "attention_sign")
     public static let bigDogAtBowlIcon = ImageAsset(name: "big_dog_at_bowl_icon")

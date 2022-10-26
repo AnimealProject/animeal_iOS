@@ -36,29 +36,32 @@ private extension PlaceInfoView {
         imageView.leadingAnchor ~= leadingAnchor
         imageView.topAnchor ~= topAnchor
         imageView.bottomAnchor ~= bottomAnchor
-        imageView.layer.cornerRadius = 10
+        imageView.cornerRadius(10.0)
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
-        imageView.heightAnchor ~= 81
-        imageView.widthAnchor ~= 81
+        imageView.heightAnchor ~= 82.0
+        imageView.widthAnchor ~= 82.0
 
         addSubview(statusView.prepareForAutoLayout())
         statusView.bottomAnchor ~= bottomAnchor - 8
         statusView.leadingAnchor ~= imageView.trailingAnchor + 10
 
         addSubview(titleview.prepareForAutoLayout())
-        titleview.leadingAnchor ~= imageView.trailingAnchor + 10
+        titleview.leadingAnchor ~= imageView.trailingAnchor + 10.0
         titleview.trailingAnchor ~= trailingAnchor
-        titleview.topAnchor ~= imageView.topAnchor + 2
-        titleview.bottomAnchor ~= statusView.topAnchor - 6
-        titleview.font = designEngine.fonts.primary.bold(16).uiFont
+        titleview.topAnchor ~= imageView.topAnchor
+        titleview.font = designEngine.fonts.primary.medium(16.0).uiFont
         titleview.numberOfLines = 2
+
+        addSubview(statusView.prepareForAutoLayout())
+        statusView.bottomAnchor ~= bottomAnchor - 8.0
+        statusView.leadingAnchor ~= imageView.trailingAnchor + 10.0
     }
 }
 
 // MARK: - Model
 public extension PlaceInfoView {
-    struct Model {
+    struct Model: Hashable {
         let icon: UIImage?
         let title: String
         let status: StatusView.Model
