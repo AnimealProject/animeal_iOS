@@ -67,7 +67,7 @@ private extension FeedingPointDetailsView {
 
 // MARK: - Model
 public extension FeedingPointDetailsView {
-    struct Model {
+    struct Model: Hashable {
         public let placeInfoViewModel: PlaceInfoView.Model
         public let isHighlighted: Bool
 

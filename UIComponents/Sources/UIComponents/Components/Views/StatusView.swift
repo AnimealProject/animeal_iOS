@@ -41,7 +41,7 @@ public final class StatusView: UILabel {
 
 // MARK: - Model
 public extension StatusView {
-    struct Model {
+    struct Model: Hashable {
         public let status: Status
 
         public init(
@@ -60,7 +60,7 @@ public extension StatusView {
         }
     }
 
-    enum Status {
+    enum Status: Hashable {
         case success(String)
         case attention(String)
         case error(String)
