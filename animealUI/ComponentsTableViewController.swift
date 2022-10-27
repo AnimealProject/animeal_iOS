@@ -263,6 +263,7 @@ class ComponentsTableViewController: UIViewController, UITableViewDataSource, UI
                     element.configure(
                         FeedingPointView.Model(
                             identifier: UUID().uuidString,
+                            isSelected: false,
                             kind: FeedingPointView.Kind.dog(.high)
                         )
                     )
@@ -296,7 +297,7 @@ class ComponentsTableViewController: UIViewController, UITableViewDataSource, UI
                     infoView.configure(PlaceInfoView.Model(
                         icon: Asset.Images.cityLogo.image,
                         title: "Near to Bukia Garden M.S Technical University",
-                        status: StatusModel(status: .attention("There is no food"))
+                        status: StatusView.Model(status: .attention("There is no food"))
                     ))
 
                     let paragraphView = TextParagraphView()

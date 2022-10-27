@@ -21,9 +21,9 @@ public struct Style<Component: Stylable> {
         process(component)
     }
 
-    public func apply(to views: Component...) {
-        for view in views {
-            apply(to: view)
+    public func apply(to components: Component...) {
+        for component in components {
+            apply(to: component)
         }
     }
 }

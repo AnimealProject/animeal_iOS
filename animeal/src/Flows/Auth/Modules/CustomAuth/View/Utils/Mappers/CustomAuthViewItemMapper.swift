@@ -16,8 +16,25 @@ struct CustomAuthViewItemMapper: CustomAuthViewItemMappable {
     func mapItem(_ input: CustomAuthModelItem) -> CustomAuthViewItem {
         switch input.type {
         case .phone(let region):
+            guard let placeholder = region.phoneNumberPlaceholder else {
+                let viewItem = CustomAuthViewItem(
+                    identifier: input.identifier,
+                    type: input.type,
+                    state: input.state,
+                    formatter: nil,
+                    isEditable: input.isEditable,
+                    title: input.type.title,
+                    content: PhoneTextContentView.Model(
+                        icon: region.flag,
+                        prefix: region.phoneNumberCode,
+                        placeholder: .empty,
+                        text: input.text
+                    )
+                )
+                return viewItem
+            }
             let formatter = PlaceholderTextInputFormatter.phoneNumberFormatter(
-                region.phoneNumberPlaceholder
+                placeholder
             )
             let viewItem = CustomAuthViewItem(
                 identifier: input.identifier,
@@ -29,7 +46,7 @@ struct CustomAuthViewItemMapper: CustomAuthViewItemMappable {
                 content: PhoneTextContentView.Model(
                     icon: region.flag,
                     prefix: region.phoneNumberCode,
-                    placeholder: region.phoneNumberPlaceholder,
+                    placeholder: placeholder,
                     text: formatter.format(input.text)
                 )
             )
@@ -64,17 +81,18 @@ extension PlaceholderTextInputFormatter {
 }
 
 extension Region {
-    var phoneNumberPlaceholder: String {
+    var phoneNumberPlaceholder: String? {
         switch self {
         case .GE:
             return "xxx xx-xx-xx"
+        default:
+            guard let digitsCount = phoneNumberDigitsCount.max()
+            else { return nil }
+            return (0..<digitsCount).reduce("", { partialResult, _ in partialResult + "x" })
         }
     }
 
     var flag: UIImage? {
-        switch self {
-        case .GE:
-            return UIImage(named: "flag_georgia")
-        }
+        UIImage(named: rawValue.lowercased())
     }
 }

@@ -58,6 +58,11 @@ final class CustomAuthViewController: BaseViewController, CustomAuthViewable {
             case .phone:
                 let inputView = PhoneInputView()
                 inputView.configure(item.phoneModel)
+                inputView.codeWasTapped = { [weak self] textInput in
+                    self?.viewModel.handleActionEvent(
+                        CustomAuthViewActionEvent.itemWasTapped(item.identifier)
+                    )
+                }
                 inputView.didBeginEditing = { [weak self] textInput in
                     guard let self = self else { return }
                     let text = textInput.text

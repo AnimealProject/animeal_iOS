@@ -16,8 +16,26 @@ struct ProfileViewItemMapper: ProfileViewItemMappable {
     func mapItem(_ input: ProfileModelItem) -> ProfileViewItem {
         switch input.type {
         case .phone(let region):
+            guard let placeholder = region.phoneNumberPlaceholder else {
+                let viewItem = ProfileViewItem(
+                    identifier: input.identifier,
+                    type: input.type,
+                    state: input.state,
+                    formatter: nil,
+                    isEditable: input.isEditable,
+                    title: input.type.title,
+                    content: PhoneTextContentView.Model(
+                        icon: region.flag,
+                        prefix: region.phoneNumberCode,
+                        placeholder: .empty,
+                        text: input.text,
+                        isEditable: input.isEditable
+                    )
+                )
+                return viewItem
+            }
             let formatter = PlaceholderTextInputFormatter.phoneNumberFormatter(
-                region.phoneNumberPlaceholder
+                placeholder
             )
             let viewItem = ProfileViewItem(
                 identifier: input.identifier,
@@ -29,7 +47,7 @@ struct ProfileViewItemMapper: ProfileViewItemMappable {
                 content: PhoneTextContentView.Model(
                     icon: region.flag,
                     prefix: region.phoneNumberCode,
-                    placeholder: region.phoneNumberPlaceholder,
+                    placeholder: placeholder,
                     text: formatter.format(input.text),
                     isEditable: input.isEditable
                 )

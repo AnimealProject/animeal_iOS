@@ -1,11 +1,6 @@
-import Foundation
+import UIKit
 
-public protocol Stylable {
-    @discardableResult
-    func apply(style: Style<Self>) -> Self
-    @discardableResult
-    func apply(styles: Style<Self>...) -> Self
-}
+public typealias Stylable = UIAppearance
 
 public extension Stylable {
     @discardableResult

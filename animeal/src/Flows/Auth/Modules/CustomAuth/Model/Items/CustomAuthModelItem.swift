@@ -31,7 +31,7 @@ protocol CustomAuthModelValidatable {
 
 struct CustomAuthModelItem: CustomAuthModelValidatable {
     let identifier: String
-    let type: CustomAuthItemType
+    var type: CustomAuthItemType
     let style: CustomAuthItemStyle
     var state: CustomAuthItemState
     var text: String?
@@ -62,7 +62,7 @@ extension CustomAuthModelItem {
             )
         }
 
-        guard text.count == region.phoneNumberDigitsCount else {
+        guard region.phoneNumberDigitsCount.contains(text.count) else {
             throw CustomAuthModelItemError(
                 itemIdentifier: identifier,
                 errorDescription: L10n.Phone.Errors.empty
