@@ -22,3 +22,4 @@ public extension StyleEngineContainable {
 
 extension UIView: StyleEngineContainable {}
 extension UIViewController: StyleEngineContainable {}
+extension Style: StyleEngineContainable {}

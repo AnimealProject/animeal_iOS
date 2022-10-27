@@ -44,6 +44,22 @@ final class CustomAuthModel: CustomAuthModelProtocol {
         }
     }
 
+    func fetchRequiredAction(forIdentifier identifier: String) -> CustomAuthModelRequiredAction? {
+        guard
+            let item = items.first(where: { $0.value.identifier == identifier })?.value
+        else { return nil }
+        switch item.type {
+        case .phone:
+            let components: CustomAuthModelRequiredAction.OpenPickerComponents =
+                .phoneComponents(item) { [weak self] updatedRegion in
+                    self?.updateItem(.phone(updatedRegion), forIdentifier: item.identifier)
+                }
+            return CustomAuthModelRequiredAction.openPicker(components)
+        case .password:
+            return nil
+        }
+    }
+
     func clearErrors() {
         items.values.forEach {
             updateItem(.normal, forIdentifier: $0.identifier)
@@ -100,6 +116,16 @@ private extension CustomAuthModel {
         else { return }
         if var value = items[item.key] {
             value.state = state
+            items[item.key] = value
+        }
+    }
+
+    func updateItem(_ type: CustomAuthItemType, forIdentifier identifier: String) {
+        guard
+            let item = items.first(where: { $0.value.identifier == identifier })
+        else { return }
+        if var value = items[item.key] {
+            value.type = type
             items[item.key] = value
         }
     }

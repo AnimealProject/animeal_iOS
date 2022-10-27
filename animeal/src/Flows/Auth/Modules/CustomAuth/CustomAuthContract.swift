@@ -37,6 +37,8 @@ protocol CustomAuthModelProtocol: AnyObject {
     func fetchItem(_ identifier: String) -> CustomAuthModelItem?
     func updateItem(_ text: String?, forIdentifier identifier: String)
 
+    func fetchRequiredAction(forIdentifier identifier: String) -> CustomAuthModelRequiredAction?
+
     func clearErrors()
     func validate() -> Bool
     func authenticate() async throws -> CustomAuthModelNextStep

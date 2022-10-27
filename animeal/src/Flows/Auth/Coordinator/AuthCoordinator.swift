@@ -68,6 +68,9 @@ extension AuthCoordinator: CustomAuthCoordinatable {
         case .done:
             let viewController = ProfileAfterCustomAuthAssembler.assembly(coordinator: self)
             navigator.push(viewController, animated: true, completion: nil)
+        case let .picker(make):
+            guard let viewController = make() else { return }
+            navigator.present(viewController, animated: false, completion: nil)
         }
     }
 }

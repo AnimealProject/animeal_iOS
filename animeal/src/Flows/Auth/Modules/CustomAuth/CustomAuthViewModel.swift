@@ -134,6 +134,18 @@ final class CustomAuthViewModel: CustomAuthViewModelProtocol {
                 let result = try await self.model.authenticate()
                 self.processAuthenticationFeedback(result)
             })
+        case .itemWasTapped(let identifier):
+            guard let requiredAction = model.fetchRequiredAction(forIdentifier: identifier) else { return }
+            switch requiredAction {
+            case .openPicker(let openPickerComponents):
+                let completion = { [weak self] in
+                    self?.model.updateItem(nil, forIdentifier: identifier)
+                    self?.updateViewItems()
+                }
+                coordinator.moveFromCustomAuth(
+                    to: .picker({ openPickerComponents.maker(completion) })
+                )
+            }
         }
     }
 }

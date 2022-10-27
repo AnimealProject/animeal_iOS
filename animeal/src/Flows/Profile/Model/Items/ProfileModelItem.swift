@@ -132,7 +132,7 @@ extension ProfileModelItem {
     func validatePhone(_ region: Region) throws -> String {
         let text = try validateForEmptiness()
 
-        guard text.count == region.phoneNumberDigitsCount else {
+        guard region.phoneNumberDigitsCount.contains(text.count) else {
             throw ProfileModelItemError(
                 itemIdentifier: identifier,
                 errorDescription: L10n.Profile.Errors.empty

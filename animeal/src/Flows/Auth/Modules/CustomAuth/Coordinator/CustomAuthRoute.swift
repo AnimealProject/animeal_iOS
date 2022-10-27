@@ -1,5 +1,5 @@
 // System
-import Foundation
+import UIKit
 
 // SDK
 import Services
@@ -9,4 +9,5 @@ enum CustomAuthRoute {
     case resetPassword
     case setNewPassword
     case done
+    case picker(@MainActor () -> UIViewController?)
 }

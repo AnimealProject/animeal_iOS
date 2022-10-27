@@ -1,6 +1,11 @@
 import UIKit
 
 public final class PhoneInputView: TextInputFilledDecorator<PhoneTextContentView> {
+    public var codeWasTapped: ((TextFieldContainable) -> Void)? {
+        get { contentView.codeWasTapped }
+        set { contentView.codeWasTapped = newValue }
+    }
+
     public init() {
         super.init(contentView: PhoneTextContentView())
     }
@@ -67,6 +72,11 @@ public final class PhoneTextContentView: TextFieldContainerView {
         .makePhoneTextField()
         .prepareForAutoLayout()
 
+    private lazy var leftViewTapRecognizer = UITapGestureRecognizer(
+        target: self,
+        action: #selector(leftViewWasTapped(_:))
+    )
+
     // MARK: - Handlers
     public var shouldBeginEditing: ((TextFieldContainable) -> Bool)? {
         get { textFieldView.shouldBeginEditing }
@@ -107,6 +117,8 @@ public final class PhoneTextContentView: TextFieldContainerView {
         get { textFieldView.shouldReturn }
         set { textFieldView.shouldReturn = newValue }
     }
+
+    public var codeWasTapped: ((TextFieldContainable) -> Void)?
 
     // MARK: - Initialization
     public init() {
@@ -159,8 +171,16 @@ public final class PhoneTextContentView: TextFieldContainerView {
 
         textFieldLeftView.addArrangedSubview(iconView)
         textFieldLeftView.addArrangedSubview(textFieldPrefixView)
+        textFieldLeftView.addGestureRecognizer(leftViewTapRecognizer)
 
         textFieldPrefixView.font = designEngine.fonts.primary.medium(16.0).uiFont
         textFieldPrefixView.textColor = designEngine.colors.textPrimary.uiColor
+
+        iconView.contentMode = .scaleAspectFit
+    }
+
+    // MARK: - Handlers
+    @objc private func leftViewWasTapped(_ sender: UITapGestureRecognizer) {
+        codeWasTapped?(textFieldView)
     }
 }
