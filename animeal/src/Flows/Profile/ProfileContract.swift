@@ -39,6 +39,8 @@ protocol ProfileModelProtocol {
     func fetchItem(_ identifier: String) -> ProfileModelItem?
     func updateItem(_ text: String?, forIdentifier identifier: String)
     func validateItems() -> Bool
+    
+    func fetchRequiredAction(forIdentifier identifier: String) -> PhoneModelRequiredAction?
 
     func fetchActions() -> [ProfileModelAction]
     func executeAction(_ identifier: String) -> ProfileModelIntermediateStep?

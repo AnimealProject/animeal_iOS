@@ -72,7 +72,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
                     formattedText: text
                 )
             }
-            let offset = formatter.getCaretOffset(for: text ?? "")
+            let offset = formatter.getCaretOffset(for: text ?? .empty)
             return ProfileViewText(caretOffset: offset, formattedText: text)
         case let .didChange(identifier, text):
             guard let formatter = viewItems.first(where: { $0.identifier == identifier })?.formatter
@@ -90,7 +90,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
             }
             defer {
                 Task { [weak self] in
-                    let unformattedText = formatter.unformat(text ?? "")
+                    let unformattedText = formatter.unformat(text ?? .empty)
                     self?.model.updateItem(unformattedText, forIdentifier: identifier)
                     self?.updateViewActions()
                 }
@@ -102,14 +102,14 @@ final class ProfileViewModel: ProfileViewModelProtocol {
         case let .shouldChangeCharactersIn(identifier, text, range, replacementString):
             guard let formatter = viewItems.first(where: { $0.identifier == identifier })?.formatter
             else {
-                let text = (text ?? "") + replacementString
+                let text = (text ?? .empty) + replacementString
                 return ProfileViewText(
                     caretOffset: text.count,
                     formattedText: text
                 )
             }
             let result = formatter.formatInput(
-                currentText: text ?? "",
+                currentText: text ?? .empty,
                 range: range,
                 replacementString: replacementString
             )
@@ -129,11 +129,11 @@ final class ProfileViewModel: ProfileViewModelProtocol {
                 )
             }
             defer {
-                let unformattedText = formatter.unformat(text ?? "")
+                let unformattedText = formatter.unformat(text ?? .empty)
                 model.updateItem(unformattedText, forIdentifier: identifier)
                 updateViewActions()
             }
-            let offset = formatter.getCaretOffset(for: text ?? "")
+            let offset = formatter.getCaretOffset(for: text ?? .empty)
             return ProfileViewText(caretOffset: offset, formattedText: text)
         }
     }
@@ -159,6 +159,17 @@ final class ProfileViewModel: ProfileViewModelProtocol {
                     let nextStep = try await self.model.proceedAction(identifier)
                     self.processNextStep(nextStep)
                 })
+            }
+        case .itemWasTapped(let identifier):
+            guard let requiredAction = model.fetchRequiredAction(forIdentifier: identifier) else { return }
+            switch requiredAction {
+            case .openPicker(let openPickerComponents):
+                let completion = { [weak self] in
+                    guard let self = self else { return }
+                    self.model.updateItem(nil, forIdentifier: identifier)
+                    self.updateViewItems(self.model.fetchPlaceholderItems)
+                }
+                coordinator.move(to: .picker({ openPickerComponents.maker(completion) }))
             }
         }
     }

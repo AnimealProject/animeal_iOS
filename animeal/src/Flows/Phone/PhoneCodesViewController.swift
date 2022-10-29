@@ -7,7 +7,7 @@ import UIComponents
 final class PhoneCodesViewController: UIViewController, PhoneCodesViewable {
     // MARK: - Constants
     private enum Constants {
-        static let itemHeight: CGFloat = 56.0
+        static let itemHeight: CGFloat = 58.0
         static let offset: CGFloat = 16.0
         static let collectionTopOffset: CGFloat = 8.0
     }
