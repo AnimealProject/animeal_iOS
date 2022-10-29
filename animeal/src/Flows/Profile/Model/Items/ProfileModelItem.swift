@@ -41,7 +41,7 @@ protocol ProfileModelValidatable {
 
 struct ProfileModelItem: Hashable, ProfileModelValidatable {
     let identifier: String
-    let type: ProfileItemType
+    var type: ProfileItemType
     var style: ProfileItemStyle
     var state: ProfileItemState
     var text: String? {

@@ -11,6 +11,7 @@
 		70BCFD97A37256084C0CD67A /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 6FE750BC24EF1983DF08B736 /* awsconfiguration.json */; };
 		8312A5C1290AFE8F005C85CB /* PhoneCodesViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8312A5C0290AFE8F005C85CB /* PhoneCodesViewCell.swift */; };
 		8312A5C3290B0CA8005C85CB /* CustomAuthModelRequiredAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8312A5C2290B0CA8005C85CB /* CustomAuthModelRequiredAction.swift */; };
+		8312A5C5290DB689005C85CB /* PhoneModelRequiredAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8312A5C4290DB689005C85CB /* PhoneModelRequiredAction.swift */; };
 		83541356290AED0700884430 /* PhoneCodesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83541355290AED0700884430 /* PhoneCodesViewController.swift */; };
 		83541358290AED1000884430 /* PhoneCodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83541357290AED1000884430 /* PhoneCodeViewModel.swift */; };
 		8354135A290AED1C00884430 /* PhoneCodesAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83541359290AED1C00884430 /* PhoneCodesAssembler.swift */; };
@@ -246,6 +247,7 @@
 		6FE750BC24EF1983DF08B736 /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = awsconfiguration.json; sourceTree = "<group>"; };
 		8312A5C0290AFE8F005C85CB /* PhoneCodesViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCodesViewCell.swift; sourceTree = "<group>"; };
 		8312A5C2290B0CA8005C85CB /* CustomAuthModelRequiredAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAuthModelRequiredAction.swift; sourceTree = "<group>"; };
+		8312A5C4290DB689005C85CB /* PhoneModelRequiredAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneModelRequiredAction.swift; sourceTree = "<group>"; };
 		83541355290AED0700884430 /* PhoneCodesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCodesViewController.swift; sourceTree = "<group>"; };
 		83541357290AED1000884430 /* PhoneCodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCodeViewModel.swift; sourceTree = "<group>"; };
 		83541359290AED1C00884430 /* PhoneCodesAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCodesAssembler.swift; sourceTree = "<group>"; };
@@ -796,6 +798,7 @@
 				83C7A9A028E4D39A00F3D219 /* ProfileModelAction.swift */,
 				83C7A9A228E4D7A100F3D219 /* ProfileModelNextStep.swift */,
 				83C7A9A828E4EEC000F3D219 /* ProfileModelIntermediateStep.swift */,
+				8312A5C4290DB689005C85CB /* PhoneModelRequiredAction.swift */,
 			);
 			path = Items;
 			sourceTree = "<group>";
@@ -1848,6 +1851,7 @@
 				DB73B47A28C0E67E00363FB8 /* PartitionContentModel.swift in Sources */,
 				836840F128D1A1A800E1044E /* CustomAuthModelComponent.swift in Sources */,
 				DBC2BB4328BBAD2B0086EF52 /* MorePartitionViewController.swift in Sources */,
+				8312A5C5290DB689005C85CB /* PhoneModelRequiredAction.swift in Sources */,
 				DB5F694628ED6CD000D8714E /* FeedingBookingViewModel.swift in Sources */,
 				DBC2BB4428BBAD2B0086EF52 /* MorePartitionAssembler.swift in Sources */,
 				DBF56B5C28CF4A5700AB0BDF /* HomeCoordinator.swift in Sources */,

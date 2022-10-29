@@ -3,6 +3,7 @@ import Foundation
 
 // SDK
 import Services
+import Common
 
 final class ProfileModel: ProfileModelProtocol {
     // MARK: - Private properties
@@ -11,17 +12,20 @@ final class ProfileModel: ProfileModelProtocol {
     private var changedItemsTypes: Set<ProfileItemType>
 
     // MARK: - Dependencies
+    private let phoneNumberProcessor: PhoneNumberRegionRecognizable
     private let profileService: UserProfileServiceProtocol
 
     // MARK: - Initialization
     init(
         items: [ProfileModelItem] = .editable,
         actions: [ProfileModelAction] = .completable,
+        phoneNumberProcessor: PhoneNumberRegionRecognizable = PhoneNumberRegionProcessor(),
         profileService: UserProfileServiceProtocol = AppDelegate.shared.context.profileService
     ) {
         self.items = items
         self.actions = actions
-        self.changedItemsTypes = []
+        self.changedItemsTypes = .init()
+        self.phoneNumberProcessor = phoneNumberProcessor
         self.profileService = profileService
     }
 
@@ -40,7 +44,18 @@ final class ProfileModel: ProfileModelProtocol {
         let filledItems = items.map {
             let key = $0.type.userAttributeKey
             var item = $0
-            item.text = knownAttributes[key]?.value
+            switch item.type {
+            case .phone:
+                let value = knownAttributes[key]?.value ?? .empty
+                if let region = phoneNumberProcessor.processRegion(value) {
+                    item.type = .phone(region)
+                    item.text = phoneNumberProcessor.processNumber(value)
+                } else {
+                    item.text = nil
+                }
+            default:
+                item.text = knownAttributes[key]?.value
+            }
             return item
         }
         self.items = filledItems
@@ -78,6 +93,22 @@ final class ProfileModel: ProfileModelProtocol {
     }
 
     func fetchActions() -> [ProfileModelAction] { actions }
+    
+    func fetchRequiredAction(forIdentifier identifier: String) -> PhoneModelRequiredAction? {
+        guard
+            let item = items.first(where: { $0.identifier == identifier })
+        else { return nil }
+        switch item.type {
+        case .phone:
+            let components: PhoneModelRequiredAction.OpenPickerComponents =
+                .phoneComponents(item) { [weak self] updatedRegion in
+                    self?.updateItem(.phone(updatedRegion), forIdentifier: item.identifier)
+                }
+            return PhoneModelRequiredAction.openPicker(components)
+        default:
+            return nil
+        }
+    }
 
     func executeAction(_ identifier: String) -> ProfileModelIntermediateStep? {
         guard
@@ -128,8 +159,9 @@ final class ProfileModel: ProfileModelProtocol {
                 details,
                 UserProfileAttribute(
                     step.key,
-                    value: allItems
-                        .first(where: { $0.key.userAttributeKey == step.key})?.value.text ?? .empty
+                    value: allItems.first(
+                        where: { $0.key.userAttributeKey == step.key}
+                    )?.value.text ?? .empty
                 )
             )
         } else {
@@ -147,6 +179,15 @@ private extension ProfileModel {
         value.state = state
         items[itemIndex] = value
     }
+
+    func updateItem(_ type: ProfileItemType, forIdentifier identifier: String) {
+        guard
+            let itemIndex = items.firstIndex(where: { $0.identifier == identifier })
+        else { return }
+        var value = items[itemIndex]
+        value.type = type
+        items[itemIndex] = value
+    }
 }
 
 extension Array where Element == ProfileModelItem {
@@ -155,7 +196,17 @@ extension Array where Element == ProfileModelItem {
             ProfileModelItem(identifier: UUID().uuidString, type: .name, style: .editable, state: .normal),
             ProfileModelItem(identifier: UUID().uuidString, type: .surname, style: .editable, state: .normal),
             ProfileModelItem(identifier: UUID().uuidString, type: .email, style: .editable, state: .normal),
-            ProfileModelItem(identifier: UUID().uuidString, type: .phone(.GE), style: .editable, state: .normal),
+            ProfileModelItem(identifier: UUID().uuidString, type: .phone(.default), style: .editable, state: .normal),
+            ProfileModelItem(identifier: UUID().uuidString, type: .birthday, style: .editable, state: .normal)
+        ]
+    }
+
+    static var editableExceptEmail: [ProfileModelItem] {
+        [
+            ProfileModelItem(identifier: UUID().uuidString, type: .name, style: .editable, state: .normal),
+            ProfileModelItem(identifier: UUID().uuidString, type: .surname, style: .editable, state: .normal),
+            ProfileModelItem(identifier: UUID().uuidString, type: .email, style: .readonly, state: .normal),
+            ProfileModelItem(identifier: UUID().uuidString, type: .phone(.default), style: .editable, state: .normal),
             ProfileModelItem(identifier: UUID().uuidString, type: .birthday, style: .editable, state: .normal)
         ]
     }
@@ -165,7 +216,7 @@ extension Array where Element == ProfileModelItem {
             ProfileModelItem(identifier: UUID().uuidString, type: .name, style: .editable, state: .normal),
             ProfileModelItem(identifier: UUID().uuidString, type: .surname, style: .editable, state: .normal),
             ProfileModelItem(identifier: UUID().uuidString, type: .email, style: .editable, state: .normal),
-            ProfileModelItem(identifier: UUID().uuidString, type: .phone(.GE), style: .readonly, state: .normal),
+            ProfileModelItem(identifier: UUID().uuidString, type: .phone(.default), style: .readonly, state: .normal),
             ProfileModelItem(identifier: UUID().uuidString, type: .birthday, style: .editable, state: .normal)
         ]
     }

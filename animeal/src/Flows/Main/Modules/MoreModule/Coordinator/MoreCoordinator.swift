@@ -94,7 +94,7 @@ extension MoreCoordinator: ProfileCoordinatable {
             navigator.pop(animated: true, completion: nil)
         case .cancel:
             navigator.pop(animated: true, completion: nil)
-        case .confirm(let details, let attribute):
+        case let .confirm(details, attribute):
             let viewController = VerificationAfterProfileAuthAssembler.assembly(
                 coordinator: self,
                 deliveryDestination: details.destination,
@@ -104,6 +104,9 @@ extension MoreCoordinator: ProfileCoordinatable {
                 )
             )
             navigator.push(viewController, animated: true, completion: nil)
+        case .picker(let make):
+            guard let viewController = make() else { return }
+            navigator.present(viewController, animated: false, completion: nil)
         }
     }
 }

@@ -58,6 +58,11 @@ final class ProfileViewController: BaseViewController, ProfileViewable {
             case .phone:
                 let inputView = PhoneInputView()
                 inputView.configure(item.phoneModel)
+                inputView.codeWasTapped = { [weak self] _ in
+                    self?.viewModel.handleActionEvent(
+                        ProfileViewActionEvent.itemWasTapped(item.identifier)
+                    )
+                }
                 inputView.didBeginEditing = { [weak self] textInput in
                     guard let self = self else { return }
                     let text = textInput.text

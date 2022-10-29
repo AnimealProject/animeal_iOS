@@ -23,7 +23,7 @@ enum ProfileAfterCustomAuthAssembler {
 enum ProfileAfterSocialAuthAssembler {
     static func assembly(coordinator: ProfileCoordinatable) -> UIViewController {
         let model = ProfileModel(
-            items: .editable,
+            items: .editableExceptEmail,
             actions: .completable
         )
 
