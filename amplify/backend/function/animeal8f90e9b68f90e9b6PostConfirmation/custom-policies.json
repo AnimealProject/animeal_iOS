@@ -1,0 +1,11 @@
+[
+  {
+    "Action": [
+      "cognito-idp:AdminUpdateUserAttributes",
+      "cognito-idp:CreateGroup",
+      "cognito-idp:GetGroup",
+      "cognito-idp:AdminAddUserToGroup"
+    ],
+    "Resource": ["*"]
+  }
+]
