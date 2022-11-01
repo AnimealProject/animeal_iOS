@@ -13,7 +13,7 @@ async function sendChallengeCode(phoneNumber, passCode) {
 async function createAuthChallenge(event) {
   console.log('RECEIVED Event: ', JSON.stringify(event, null, 2));
   if (event.request.challengeName === 'CUSTOM_CHALLENGE') {
-    const challengeCode = digitGenerator.randomDigits(4).join('');
+    const challengeCode = digitGenerator.randomDigits(6).join('');
     await sendChallengeCode(
       event.request.userAttributes.phone_number,
       challengeCode,

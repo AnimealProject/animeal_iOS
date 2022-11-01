@@ -28,7 +28,7 @@ final class HomeModel: HomeModelProtocol {
                             latitude: point.location.lat,
                             longitude: point.location.lon
                         ),
-                        pet: point.category.i18n?.first(where: { $0.locale == "en" })?.name == "Dogs1" ? .dog : .cat,
+                        pet: point.category.i18n?.first(where: { $0.locale == "en" })?.name == "Dogs" ? .dog : .cat,
                         hungerLevel: .high // TODO: Fix hungerLevel
                     )
                 }
