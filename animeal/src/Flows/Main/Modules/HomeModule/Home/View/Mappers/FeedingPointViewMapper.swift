@@ -36,9 +36,9 @@ final class FeedingPointViewMapper: FeedingPointViewMappable {
         }
 
         switch input.pet {
-        case .cat:
+        case .cats:
             return .cat(hungerLevel)
-        case .dog:
+        case .dogs:
             return .dog(hungerLevel)
         }
     }

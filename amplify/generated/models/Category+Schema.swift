@@ -8,6 +8,7 @@ extension Category {
     case id
     case name
     case icon
+    case tag
     case i18n
     case createdAt
     case updatedAt
@@ -37,6 +38,7 @@ extension Category {
       .id(),
       .field(category.name, is: .required, ofType: .string),
       .field(category.icon, is: .required, ofType: .string),
+      .field(category.tag, is: .required, ofType: .enum(type: CategoryTag.self)),
       .field(category.i18n, is: .optional, ofType: .embeddedCollection(of: CategoryI18n.self)),
       .field(category.createdAt, is: .required, ofType: .dateTime),
       .field(category.updatedAt, is: .required, ofType: .dateTime),

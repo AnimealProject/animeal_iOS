@@ -22,10 +22,10 @@ extension Favourites {
     model.authRules = [
       rule(allow: .groups, groupClaim: "cognito:groups", groups: ["Administrator"], provider: .userPools, operations: [.create, .read, .update, .delete]),
       rule(allow: .groups, groupClaim: "cognito:groups", groups: ["Moderator"], provider: .userPools, operations: [.create, .read, .update, .delete]),
-      rule(allow: .groups, groupClaim: "cognito:groups", groups: ["Volunteer"], provider: .userPools, operations: [.read]),
+      rule(allow: .groups, groupClaim: "cognito:groups", groups: ["Volunteer"], provider: .userPools, operations: [.create, .read, .update, .delete]),
       rule(allow: .owner, ownerField: "owner", identityClaim: "cognito:username", provider: .userPools, operations: [.create, .read, .update, .delete]),
       rule(allow: .public, provider: .apiKey, operations: [.create, .update, .delete, .read]),
-      rule(allow: .private, operations: [.read])
+      rule(allow: .private, operations: [.create, .read, .update, .delete])
     ]
     
     model.pluralName = "Favourites"

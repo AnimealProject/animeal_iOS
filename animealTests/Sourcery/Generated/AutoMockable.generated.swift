@@ -87,6 +87,28 @@ class CustomAuthModelProtocolMock: CustomAuthModelProtocol {
         updateItemForIdentifierClosure?(text, identifier)
     }
 
+    // MARK: - fetchRequiredAction
+
+    var fetchRequiredActionForIdentifierCallsCount = 0
+    var fetchRequiredActionForIdentifierCalled: Bool {
+        return fetchRequiredActionForIdentifierCallsCount > 0
+    }
+    var fetchRequiredActionForIdentifierReceivedIdentifier: String?
+    var fetchRequiredActionForIdentifierReceivedInvocations: [String] = []
+    var fetchRequiredActionForIdentifierReturnValue: CustomAuthModelRequiredAction?
+    var fetchRequiredActionForIdentifierClosure: ((String) -> CustomAuthModelRequiredAction?)?
+
+    func fetchRequiredAction(forIdentifier identifier: String) -> CustomAuthModelRequiredAction? {
+        fetchRequiredActionForIdentifierCallsCount += 1
+        fetchRequiredActionForIdentifierReceivedIdentifier = identifier
+        fetchRequiredActionForIdentifierReceivedInvocations.append(identifier)
+        if let fetchRequiredActionForIdentifierClosure = fetchRequiredActionForIdentifierClosure {
+            return fetchRequiredActionForIdentifierClosure(identifier)
+        } else {
+            return fetchRequiredActionForIdentifierReturnValue
+        }
+    }
+
     // MARK: - clearErrors
 
     var clearErrorsCallsCount = 0
@@ -188,6 +210,9 @@ class CustomAuthViewItemMappableMock: CustomAuthViewItemMappable {
     }
 
 }
+class FeedingBookingModelProtocolMock: FeedingBookingModelProtocol {
+
+}
 class FeedingPointDetailsModelProtocolMock: FeedingPointDetailsModelProtocol {
 
     // MARK: - fetchFeedingPoints
@@ -222,6 +247,31 @@ class FeedingPointDetailsViewMappableMock: FeedingPointDetailsViewMappable {
     var mapFeedingPointClosure: ((FeedingPointDetailsModel.PointContent) -> FeedingPointDetailsViewItem)?
 
     func mapFeedingPoint(_ input: FeedingPointDetailsModel.PointContent) -> FeedingPointDetailsViewItem {
+        mapFeedingPointCallsCount += 1
+        mapFeedingPointReceivedInput = input
+        mapFeedingPointReceivedInvocations.append(input)
+        if let mapFeedingPointClosure = mapFeedingPointClosure {
+            return mapFeedingPointClosure(input)
+        } else {
+            return mapFeedingPointReturnValue
+        }
+    }
+
+}
+class FeedingPointMappableMock: FeedingPointMappable {
+
+    // MARK: - mapFeedingPoint
+
+    var mapFeedingPointCallsCount = 0
+    var mapFeedingPointCalled: Bool {
+        return mapFeedingPointCallsCount > 0
+    }
+    var mapFeedingPointReceivedInput: animeal.FeedingPoint?
+    var mapFeedingPointReceivedInvocations: [animeal.FeedingPoint] = []
+    var mapFeedingPointReturnValue: HomeModel.FeedingPoint!
+    var mapFeedingPointClosure: ((animeal.FeedingPoint) -> HomeModel.FeedingPoint)?
+
+    func mapFeedingPoint(_ input: animeal.FeedingPoint) -> HomeModel.FeedingPoint {
         mapFeedingPointCallsCount += 1
         mapFeedingPointReceivedInput = input
         mapFeedingPointReceivedInvocations.append(input)
@@ -799,6 +849,27 @@ class VerificationModelProtocolMock: VerificationModelProtocol {
         }
         requestNewCodeCallsCount += 1
         try await requestNewCodeClosure?()
+    }
+
+    // MARK: - validateCode
+
+    var validateCodeThrowableError: Error?
+    var validateCodeCallsCount = 0
+    var validateCodeCalled: Bool {
+        return validateCodeCallsCount > 0
+    }
+    var validateCodeReceivedCode: VerificationModelCode?
+    var validateCodeReceivedInvocations: [VerificationModelCode] = []
+    var validateCodeClosure: ((VerificationModelCode) throws -> Void)?
+
+    func validateCode(_ code: VerificationModelCode) throws {
+        if let error = validateCodeThrowableError {
+            throw error
+        }
+        validateCodeCallsCount += 1
+        validateCodeReceivedCode = code
+        validateCodeReceivedInvocations.append(code)
+        try validateCodeClosure?(code)
     }
 
     // MARK: - verifyCode

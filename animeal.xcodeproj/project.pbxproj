@@ -144,6 +144,7 @@
 		DB6B07C828450A380009397B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07C728450A380009397B /* SceneDelegate.swift */; };
 		DB6B07CA28450A380009397B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B07C928450A380009397B /* HomeViewController.swift */; };
 		DB6B07D228450A390009397B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB6B07D028450A390009397B /* LaunchScreen.storyboard */; };
+		DB6ED5B929190E9700D92379 /* FeedingPointMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6ED5B829190E9700D92379 /* FeedingPointMapper.swift */; };
 		DB73B47A28C0E67E00363FB8 /* PartitionContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB73B47928C0E67E00363FB8 /* PartitionContentModel.swift */; };
 		DB84B31528CA13A60083D98C /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB84B31428CA13A60083D98C /* NetworkRequest.swift */; };
 		DB916D0828F40A3F00DA8AA9 /* FeedingPointDetailsModelMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB916D0728F40A3F00DA8AA9 /* FeedingPointDetailsModelMapper.swift */; };
@@ -208,6 +209,7 @@
 		DBF56B5928CF40E300AB0BDF /* FeedingPointDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF56B5428CF40E300AB0BDF /* FeedingPointDetailsViewController.swift */; };
 		DBF56B5A28CF40E300AB0BDF /* FeedingPointDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF56B5528CF40E300AB0BDF /* FeedingPointDetailsViewModel.swift */; };
 		DBF56B5C28CF4A5700AB0BDF /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF56B5B28CF4A5700AB0BDF /* HomeCoordinator.swift */; };
+		EB49BAEA015C8CB7F6AFC97A /* CategoryTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE732E81739360CA2DC5F8B /* CategoryTag.swift */; };
 		FB00144B2859FC1800943360 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB00144A2859FC1800943360 /* ProfileViewController.swift */; };
 		FB00144D2859FC7700943360 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB00144C2859FC7700943360 /* ProfileViewModel.swift */; };
 		FB00144F2859FCDD00943360 /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB00144E2859FCDD00943360 /* ProfileModel.swift */; };
@@ -375,6 +377,7 @@
 		DB6B07D128450A390009397B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DB6B07D328450A390009397B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DB6B07D828450A3A0009397B /* animealTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = animealTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DB6ED5B829190E9700D92379 /* FeedingPointMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingPointMapper.swift; sourceTree = "<group>"; };
 		DB73B47928C0E67E00363FB8 /* PartitionContentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartitionContentModel.swift; sourceTree = "<group>"; };
 		DB84B31428CA13A60083D98C /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		DB916D0728F40A3F00DA8AA9 /* FeedingPointDetailsModelMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingPointDetailsModelMapper.swift; sourceTree = "<group>"; };
@@ -438,6 +441,7 @@
 		DBF56B5428CF40E300AB0BDF /* FeedingPointDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedingPointDetailsViewController.swift; sourceTree = "<group>"; };
 		DBF56B5528CF40E300AB0BDF /* FeedingPointDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedingPointDetailsViewModel.swift; sourceTree = "<group>"; };
 		DBF56B5B28CF4A5700AB0BDF /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
+		EEE732E81739360CA2DC5F8B /* CategoryTag.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = CategoryTag.swift; path = amplify/generated/models/CategoryTag.swift; sourceTree = "<group>"; };
 		FB00144A2859FC1800943360 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		FB00144C2859FC7700943360 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		FB00144E2859FCDD00943360 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
@@ -1264,6 +1268,7 @@
 			children = (
 				DB0D4A852886AB6B001750BC /* HomeModel.swift */,
 				DBDB501A2887FE00003C6FF0 /* HomeModel+DTO.swift */,
+				DB6ED5B829190E9700D92379 /* FeedingPointMapper.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1353,6 +1358,7 @@
 				DBDB3F0828D3356300B285D7 /* RelationUserPet+Schema.swift */,
 				DBDB3F0628D3356300B285D7 /* Settings.swift */,
 				DBDB3F2128D3356500B285D7 /* Settings+Schema.swift */,
+				EEE732E81739360CA2DC5F8B /* CategoryTag.swift */,
 			);
 			name = AmplifyModels;
 			sourceTree = "<group>";
@@ -1711,6 +1717,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB6ED5B929190E9700D92379 /* FeedingPointMapper.swift in Sources */,
 				DBDB3F3A28D3356600B285D7 /* MedicationI18n+Schema.swift in Sources */,
 				DB5F694228ED6CD000D8714E /* FeedingBookingAssembler.swift in Sources */,
 				83F3CC14284771FB00C05298 /* LoginContract.swift in Sources */,
@@ -1904,6 +1911,7 @@
 				DB5A838C285CEB9D00F3C3A5 /* AppInfo.swift in Sources */,
 				83541358290AED1000884430 /* PhoneCodeViewModel.swift in Sources */,
 				FB1C7E28286F1E1A0024EBDD /* ProfileContract.swift in Sources */,
+				EB49BAEA015C8CB7F6AFC97A /* CategoryTag.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
