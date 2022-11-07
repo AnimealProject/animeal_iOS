@@ -1,9 +1,14 @@
 import UIKit
+import Services
+import Amplify
 
 @MainActor
 final class AuthCoordinator: Coordinatable {
+    typealias Context = AuthenticationServiceHolder & UserProfileServiceHolder
+
     // MARK: - Private properties
     private let navigator: Navigating
+    private let context: Context
 
     // MARK: - Dependencies
     private let presentingWindow: UIWindow
@@ -12,9 +17,11 @@ final class AuthCoordinator: Coordinatable {
     // MARK: - Initialization
     init(
         presentingWindow: UIWindow,
+        context: Context = AppDelegate.shared.context,
         completion: (() -> Void)?
     ) {
         self.presentingWindow = presentingWindow
+        self.context = context
         self.completion = completion
         let navigationController = UINavigationController()
         self.navigator = Navigator(navigationController: navigationController)
@@ -23,17 +30,40 @@ final class AuthCoordinator: Coordinatable {
 
     // MARK: - Life cycle
     func start() {
-        let loginViewController = LoginModuleAssembler(
-            coordinator: self,
-            window: presentingWindow
-        ).assemble()
-        navigator.push(loginViewController, animated: false, completion: nil)
-        presentingWindow.makeKeyAndVisible()
+        switch context.authenticationService.isSignedIn {
+        case true:
+            let validationModel = context.profileService.getCurrentUserValidationModel()
+            validateUser(
+                isPhoneNumberVerified: validationModel.phoneNumberVerified,
+                isEmailVerified: validationModel.emailVerified
+            )
+            presentingWindow.makeKeyAndVisible()
+        case false:
+            let loginViewController = LoginModuleAssembler(
+                coordinator: self,
+                window: presentingWindow
+            ).assemble()
+            navigator.push(loginViewController, animated: false, completion: nil)
+            presentingWindow.makeKeyAndVisible()
+        }
     }
 
     func stop() {
         presentingWindow.resignKey()
         completion?()
+    }
+
+    private func validateUser(isPhoneNumberVerified: Bool, isEmailVerified: Bool) {
+        switch (isPhoneNumberVerified, isEmailVerified) {
+        case (false, _):
+            let viewController = ProfileAfterSocialAuthAssembler.assembly(coordinator: self)
+            navigator.push(viewController, animated: false, completion: nil)
+        case (_, false):
+            let viewController = ProfileAfterCustomAuthAssembler.assembly(coordinator: self)
+            navigator.push(viewController, animated: false, completion: nil)
+        default:
+            logError("[APP] should not be here")
+        }
     }
 }
 

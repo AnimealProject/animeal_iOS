@@ -149,6 +149,7 @@
 		DB84B31528CA13A60083D98C /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB84B31428CA13A60083D98C /* NetworkRequest.swift */; };
 		DB916D0828F40A3F00DA8AA9 /* FeedingPointDetailsModelMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB916D0728F40A3F00DA8AA9 /* FeedingPointDetailsModelMapper.swift */; };
 		DBA3C7E728575CAF00B30A78 /* MapboxMaps in Frameworks */ = {isa = PBXBuildFile; productRef = DBA3C7E628575CAF00B30A78 /* MapboxMaps */; };
+		DBBD5BA028FE950F00825F38 /* UserValidationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBBD5B9F28FE950F00825F38 /* UserValidationModel.swift */; };
 		DBBDE72A28BB8C2A006EEBA3 /* MoreItemViewMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBBDE72928BB8C2A006EEBA3 /* MoreItemViewMapper.swift */; };
 		DBC2BB4228BBAD2B0086EF52 /* MorePartitionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC2BB3D28BBAD2B0086EF52 /* MorePartitionModel.swift */; };
 		DBC2BB4328BBAD2B0086EF52 /* MorePartitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC2BB3E28BBAD2B0086EF52 /* MorePartitionViewController.swift */; };
@@ -381,6 +382,7 @@
 		DB73B47928C0E67E00363FB8 /* PartitionContentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartitionContentModel.swift; sourceTree = "<group>"; };
 		DB84B31428CA13A60083D98C /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		DB916D0728F40A3F00DA8AA9 /* FeedingPointDetailsModelMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingPointDetailsModelMapper.swift; sourceTree = "<group>"; };
+		DBBD5B9F28FE950F00825F38 /* UserValidationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserValidationModel.swift; sourceTree = "<group>"; };
 		DBBDE72928BB8C2A006EEBA3 /* MoreItemViewMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreItemViewMapper.swift; sourceTree = "<group>"; };
 		DBC2BB3D28BBAD2B0086EF52 /* MorePartitionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MorePartitionModel.swift; sourceTree = "<group>"; };
 		DBC2BB3E28BBAD2B0086EF52 /* MorePartitionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MorePartitionViewController.swift; sourceTree = "<group>"; };
@@ -861,6 +863,7 @@
 			children = (
 				83C7A98328E42A9700F3D219 /* UserProfileService.swift */,
 				83C7A98528E42AB100F3D219 /* UserProfileAmplifyConverter.swift */,
+				DBBD5B9F28FE950F00825F38 /* UserValidationModel.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1768,6 +1771,7 @@
 				8372CCBD28A029A50085C6D1 /* CustomAuthAssembler.swift in Sources */,
 				DBDB3F3828D3356600B285D7 /* RelationPetFeedingPoint+Schema.swift in Sources */,
 				83A9A22028E1746700858190 /* VerificationModelNextStep.swift in Sources */,
+				DBBD5BA028FE950F00825F38 /* UserValidationModel.swift in Sources */,
 				DB6B07C628450A380009397B /* AppDelegate.swift in Sources */,
 				8312A5C3290B0CA8005C85CB /* CustomAuthModelRequiredAction.swift in Sources */,
 				83A9A22D28E1F05F00858190 /* VerificationRoute.swift in Sources */,

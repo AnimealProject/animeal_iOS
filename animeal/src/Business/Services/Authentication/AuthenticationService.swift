@@ -185,19 +185,3 @@ final class AuthenticationService: AuthenticationServiceProtocol {
         }
     }
 }
-
-extension AuthenticationService: ApplicationDelegateService {
-    func registerApplication(
-        _: UIApplication,
-        didFinishLaunchingWithOptions _: [AnyHashable: Any]?
-    ) -> Bool {
-        do {
-            try Amplify.add(plugin: AWSCognitoAuthPlugin())
-            logInfo("Amplify add AWSCognitoAuthPlugin plugin")
-        } catch {
-            logInfo("Failed to add AWSCognitoAuthPlugin plugin with \(error)")
-        }
-
-        return true
-    }
-}

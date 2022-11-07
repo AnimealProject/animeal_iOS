@@ -1,9 +1,23 @@
 import Foundation
 
+public protocol UserProfileServiceHolder {
+    var profileService: UserProfileServiceProtocol { get }
+}
+
+public protocol UserProfileValidationModel {
+    var validated: Bool { get }
+    var phoneNumberVerified: Bool { get }
+    var emailVerified: Bool { get }
+}
+
 public protocol UserProfileServiceProtocol {
     /// Returns the currently logged in user.
     ///
     func getCurrentUser() -> UserProfile?
+
+    /// Returns the currently logged in user validation model
+    ///
+    func getCurrentUserValidationModel() -> UserProfileValidationModel
 
     /// Fetch user attributes for the current user.
     ///

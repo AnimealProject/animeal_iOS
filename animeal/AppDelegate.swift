@@ -1,6 +1,10 @@
 import UIKit
 import Services
 import Amplify
+import AWSS3StoragePlugin
+import AWSAPIPlugin
+import AWSCognitoAuthPlugin
+import AWSDataStorePlugin
 
 protocol AppDelegateProtocol {
     var context: AppContext! { get }
@@ -17,18 +21,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateProtocol {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
+        configureAmplify()
+
         context = AppContext.context()
         context.applicationDelegateServices.forEach {
             _ = $0.registerApplication(application, didFinishLaunchingWithOptions: launchOptions)
         }
-
-        do {
-            try Amplify.configure()
-            logInfo("Amplify configured")
-        } catch {
-            logError("Failed to initialize Amplify with \(error)")
-        }
-
         logInfo("[APP] \(#function)")
         return true
     }
@@ -54,5 +52,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateProtocol {
         _ application: UIApplication,
         didDiscardSceneSessions sceneSessions: Set<UISceneSession>
     ) {
+    }
+}
+
+private extension AppDelegate {
+    func configureAmplify() {
+        do {
+            try Amplify.add(plugin: AWSCognitoAuthPlugin())
+            try Amplify.add(plugin: AWSS3StoragePlugin())
+            let dataStorePlugin = AWSDataStorePlugin(modelRegistration: AmplifyModels())
+            try Amplify.add(plugin: dataStorePlugin)
+            try Amplify.add(plugin: AWSAPIPlugin())
+            try Amplify.configure()
+            Amplify.Logging.logLevel = .verbose
+            logInfo("[APP] Amplify configured")
+        } catch {
+            logError("[APP] Failed to initialize Amplify with \(error)")
+        }
     }
 }
