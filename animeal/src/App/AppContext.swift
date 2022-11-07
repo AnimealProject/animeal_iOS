@@ -7,7 +7,8 @@ import Services
     AnalyticsServiceHolder &
     AuthenticationServiceHolder &
     DefaultsServiceHolder &
-    NetworkServiceHolder
+    NetworkServiceHolder &
+    UserProfileServiceHolder
 
 struct AppContext: AppContextProtocol {
     let analyticsService: AnalyticsServiceProtocol
@@ -40,9 +41,7 @@ struct AppContext: AppContextProtocol {
                 analyticsService,
                 devLoggerService,
                 locationService,
-                authenticationService,
-                defaultsService,
-                networkService
+                defaultsService
             ]
         )
 

@@ -4,7 +4,7 @@ class BaseError: NSError, LocalizedError {
     private enum Constants {
         static let domain = "AnimealErrorDomain"
     }
-    
+
     enum Code: Int {
         case unknown
         case unexpected

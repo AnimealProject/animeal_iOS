@@ -4,15 +4,19 @@ import Foundation
 // SDK
 import Services
 import Amplify
-import AWSCognitoAuthPlugin
 
 final class UserProfileService: UserProfileServiceProtocol {
     // MARK: - Private properties
     private let converter: UserProfileAmplifyConverting & AmplifyUserProfileConverting
+    private let userValidationModel: UserProfileValidationModel
 
     // MARK: - Initialization
-    init(converter: UserProfileAmplifyConverting & AmplifyUserProfileConverting = UserProfileAmplifyConverter()) {
+    init(
+        converter: UserProfileAmplifyConverting & AmplifyUserProfileConverting = UserProfileAmplifyConverter(),
+        userValidationModel: UserProfileValidationModel = UserValidationModel()
+    ) {
         self.converter = converter
+        self.userValidationModel = UserValidationModel()
     }
 
     // MARK: - Main methods
@@ -21,6 +25,10 @@ final class UserProfileService: UserProfileServiceProtocol {
             return nil
         }
         return UserProfile(username: user.username, userId: user.userId)
+    }
+
+    func getCurrentUserValidationModel() -> UserProfileValidationModel {
+        return userValidationModel
     }
 
     func fetchUserAttributes(
