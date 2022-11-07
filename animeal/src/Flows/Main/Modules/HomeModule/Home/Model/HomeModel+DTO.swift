@@ -10,8 +10,8 @@ extension HomeModel {
     }
 
     enum Pet {
-        case dog
-        case cat
+        case dogs
+        case cats
     }
 
     enum HungerLevel {

@@ -11,6 +11,11 @@ enum FeedingStatus {
   inProgress
 }
 
+enum CategoryTag {
+  cats
+  dogs
+}
+
 type Location @aws_api_key @aws_cognito_user_pools {
   lat: Float!
   lon: Float!
@@ -102,6 +107,7 @@ type Category
   id: ID!
   name: String!
   icon: String!
+  tag: CategoryTag!
   i18n: [CategoryI18n!]
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
@@ -443,10 +449,10 @@ type Favourites
         groups: ["Moderator"]
         operations: [create, read, update, delete]
       }
-      { allow: groups, groups: ["Volunteer"], operations: [read] }
+      { allow: groups, groups: ["Volunteer"], operations: [create, read, update, delete] }
       { allow: owner, operations: [create, read, update, delete] }
       { allow: public, provider: apiKey }
-      { allow: private, operations: [read] }
+      { allow: private, operations: [create, read, update, delete] }
     ]
   ) {
   id: ID!

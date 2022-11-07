@@ -9,10 +9,15 @@ final class HomeModel: HomeModelProtocol {
     typealias Context = DefaultsServiceHolder & NetworkServiceHolder
     private let context: Context
     private var cashedFeedingPoints: [FeedingPoint] = []
+    private let mapper: FeedingPointMappable
 
     // MARK: - Initialization
-    init(context: Context = AppDelegate.shared.context) {
+    init(
+        context: Context = AppDelegate.shared.context,
+        mapper: FeedingPointMappable = FeedingPointMapper()
+    ) {
         self.context = context
+        self.mapper = mapper
     }
 
     // MARK: - Requests
@@ -22,15 +27,7 @@ final class HomeModel: HomeModelProtocol {
             switch result {
             case .success(let points):
                 let feedingPoints = points.map { point in
-                    FeedingPoint(
-                        identifier: point.id,
-                        location: Location(
-                            latitude: point.location.lat,
-                            longitude: point.location.lon
-                        ),
-                        pet: point.category.i18n?.first(where: { $0.locale == "en" })?.name == "Dogs" ? .dog : .cat,
-                        hungerLevel: .high // TODO: Fix hungerLevel
-                    )
+                    self.mapper.mapFeedingPoint(point)
                 }
                 self.cashedFeedingPoints = feedingPoints
                 DispatchQueue.main.async {
@@ -92,11 +89,11 @@ private extension HomeModel {
         switch selectedFilter {
         case .dogs:
             return points.filter {
-                $0.pet == .dog
+                $0.pet == .dogs
             }
         case .cats:
             return points.filter {
-                $0.pet == .cat
+                $0.pet == .cats
             }
         }
     }
