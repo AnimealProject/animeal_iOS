@@ -5,6 +5,7 @@ public protocol UserProfileServiceHolder {
 }
 
 public protocol UserProfileValidationModel {
+    var isSignedIn: Bool { get }
     var validated: Bool { get }
     var phoneNumberVerified: Bool { get }
     var emailVerified: Bool { get }

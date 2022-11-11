@@ -130,6 +130,7 @@
 		DB234D7E28CA627A0078452F /* AWSS3StoragePlugin in Frameworks */ = {isa = PBXBuildFile; productRef = DB234D7D28CA627A0078452F /* AWSS3StoragePlugin */; };
 		DB234D8028CA627A0078452F /* Amplify in Frameworks */ = {isa = PBXBuildFile; productRef = DB234D7F28CA627A0078452F /* Amplify */; };
 		DB4459E2287330CD00541570 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DB4459E1287330CD00541570 /* GoogleService-Info.plist */; };
+		DB53DFD3291E803F004C86D1 /* AuthChannelEventHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB53DFD2291E803F004C86D1 /* AuthChannelEventHandling.swift */; };
 		DB5A837D285C513700F3C3A5 /* TabBarControllerAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5A837C285C513700F3C3A5 /* TabBarControllerAssembler.swift */; };
 		DB5A837F285C536E00F3C3A5 /* ComponentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5A837E285C536E00F3C3A5 /* ComponentViewController.swift */; };
 		DB5A8389285CEB5400F3C3A5 /* AppContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5A8388285CEB5400F3C3A5 /* AppContext.swift */; };
@@ -361,6 +362,7 @@
 		DB127E8A28B97B5700012B53 /* MoreActionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreActionModel.swift; sourceTree = "<group>"; };
 		DB127E8E28B9E9BA00012B53 /* MoreCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreCoordinator.swift; sourceTree = "<group>"; };
 		DB4459E1287330CD00541570 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		DB53DFD2291E803F004C86D1 /* AuthChannelEventHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthChannelEventHandling.swift; sourceTree = "<group>"; };
 		DB5A837C285C513700F3C3A5 /* TabBarControllerAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarControllerAssembler.swift; sourceTree = "<group>"; };
 		DB5A837E285C536E00F3C3A5 /* ComponentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentViewController.swift; sourceTree = "<group>"; };
 		DB5A8388285CEB5400F3C3A5 /* AppContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContext.swift; sourceTree = "<group>"; };
@@ -873,6 +875,7 @@
 			children = (
 				83C7A98128E429ED00F3D219 /* Profile */,
 				837F1FB128868C19001FABC5 /* Authentication */,
+				DB53DFD2291E803F004C86D1 /* AuthChannelEventHandling.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1753,6 +1756,7 @@
 				837F1FB328868C3A001FABC5 /* AuthenticationService.swift in Sources */,
 				83F3CC1D2847808200C05298 /* LoginModelAction.swift in Sources */,
 				DBDB3F4E28D3356700B285D7 /* CategoryI18n+Schema.swift in Sources */,
+				DB53DFD3291E803F004C86D1 /* AuthChannelEventHandling.swift in Sources */,
 				DBDB3F3E28D3356600B285D7 /* Feeding.swift in Sources */,
 				83541356290AED0700884430 /* PhoneCodesViewController.swift in Sources */,
 				DBDB50182887FBBA003C6FF0 /* HomeContract.swift in Sources */,
@@ -2125,7 +2129,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.8;
+				MARKETING_VERSION = 0.0.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animeal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2161,7 +2165,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.8;
+				MARKETING_VERSION = 0.0.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animealApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Epam Animeal Prod App Store Distribution";
