@@ -12,6 +12,7 @@ extension PhoneCodesViewCommonCell {
         let identifier: String
         let icon: UIImage?
         let title: String
+        let subtitle: String?
         let isSelected: Bool
     }
 }
@@ -21,6 +22,7 @@ final class PhoneCodesViewCommonCell: UICollectionViewCell, PhoneCodesViewCellCo
     private enum Constants {
         static let imageSideSize: CGFloat = 26.0
         static let offset: CGFloat = 16.0
+        static let titleWidth: CGFloat = 60
     }
 
     // MARK: - Reuse identifier
@@ -29,6 +31,7 @@ final class PhoneCodesViewCommonCell: UICollectionViewCell, PhoneCodesViewCellCo
     // MARK: - UI properties
     let iconView = UIImageView().prepareForAutoLayout()
     let titleView = UILabel().prepareForAutoLayout()
+    let subtitleView = UILabel().prepareForAutoLayout()
 
     // MARK: - Initialization
     override init(frame: CGRect) {
@@ -44,6 +47,7 @@ final class PhoneCodesViewCommonCell: UICollectionViewCell, PhoneCodesViewCellCo
     func configure(_ model: Model) {
         iconView.image = model.icon
         titleView.text = model.title
+        subtitleView.text = model.subtitle
 
         if model.isSelected {
             apply(style: .selected)
@@ -64,7 +68,12 @@ final class PhoneCodesViewCommonCell: UICollectionViewCell, PhoneCodesViewCellCo
         contentView.addSubview(titleView)
         titleView.leadingAnchor ~= iconView.trailingAnchor + Constants.offset
         titleView.centerYAnchor ~= iconView.centerYAnchor
-        titleView.trailingAnchor ~= contentView.trailingAnchor - Constants.offset
+        titleView.widthAnchor ~= Constants.titleWidth
+
+        contentView.addSubview(subtitleView)
+        subtitleView.leadingAnchor ~= titleView.trailingAnchor + Constants.offset / 2
+        subtitleView.centerYAnchor ~= titleView.centerYAnchor
+        subtitleView.trailingAnchor ~= contentView.trailingAnchor - Constants.offset
     }
 }
 
@@ -86,8 +95,12 @@ private extension Style where Component == PhoneCodesViewCommonCell {
             view.contentView.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
 
             view.titleView.numberOfLines = Constants.numberOfLines
-            view.titleView.textColor = designEngine.colors.textPrimary.uiColor
+            view.titleView.textColor = designEngine.colors.textSecondary.uiColor
             view.titleView.font = designEngine.fonts.primary.medium(Constants.fontSize).uiFont
+
+            view.subtitleView.numberOfLines = Constants.numberOfLines
+            view.subtitleView.textColor = designEngine.colors.textPrimary.uiColor
+            view.subtitleView.font = designEngine.fonts.primary.medium(Constants.fontSize).uiFont
         }
     }
 
@@ -100,8 +113,12 @@ private extension Style where Component == PhoneCodesViewCommonCell {
             view.contentView.backgroundColor = designEngine.colors.backgroundSecondary.uiColor
 
             view.titleView.numberOfLines = Constants.numberOfLines
-            view.titleView.textColor = designEngine.colors.textPrimary.uiColor
+            view.titleView.textColor = designEngine.colors.textSecondary.uiColor
             view.titleView.font = designEngine.fonts.primary.medium(Constants.fontSize).uiFont
+
+            view.subtitleView.numberOfLines = Constants.numberOfLines
+            view.subtitleView.textColor = designEngine.colors.textPrimary.uiColor
+            view.subtitleView.font = designEngine.fonts.primary.medium(Constants.fontSize).uiFont
         }
     }
 }

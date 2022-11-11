@@ -10,4 +10,5 @@ enum CustomAuthRoute {
     case setNewPassword
     case done
     case picker(@MainActor () -> UIViewController?)
+    case dismiss
 }

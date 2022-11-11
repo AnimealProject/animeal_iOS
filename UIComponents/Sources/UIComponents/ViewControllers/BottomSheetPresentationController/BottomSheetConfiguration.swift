@@ -26,4 +26,13 @@ public struct BottomSheetConfiguration {
             maximumContainerHeight: UIScreen.main.bounds.height / 2
         )
     }
+
+    public static var fullScreen: BottomSheetConfiguration {
+        return .init(
+            maxDimmedAlpha: 0.6,
+            defaultHeight: UIScreen.main.bounds.height / 2,
+            dismissibleHeight: UIScreen.main.bounds.height / 2 - 150,
+            maximumContainerHeight: UIScreen.main.bounds.height - 50
+        )
+    }
 }

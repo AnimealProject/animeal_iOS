@@ -1,5 +1,7 @@
 import Foundation
 
+// swiftlint:disable file_length
+// swiftlint:disable identifier_name
 public enum Region: String, Hashable, CaseIterable {
     case AF
     case AL
@@ -183,6 +185,7 @@ public enum Region: String, Hashable, CaseIterable {
 
     public static var `default`: Region { .GE }
 }
+// swiftlint:enable identifier_name
 
 extension Region {
     public var phoneNumberCode: String {
@@ -910,4 +913,10 @@ extension Region {
             return Array(5...10)
         }
     }
+
+    public var countryName: String? {
+        let current = Locale(identifier: "en_US")
+        return current.localizedString(forRegionCode: self.rawValue)
+    }
 }
+// swiftlint:enable file_length

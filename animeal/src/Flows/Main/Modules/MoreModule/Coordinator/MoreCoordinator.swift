@@ -107,6 +107,10 @@ extension MoreCoordinator: ProfileCoordinatable {
         case .picker(let make):
             guard let viewController = make() else { return }
             navigator.present(viewController, animated: false, completion: nil)
+        case .dismiss:
+            if let bottomSheetVC = navigator.topViewController as? BottomSheetPresentationController {
+                bottomSheetVC.dismissView(completion: nil)
+            }
         }
     }
 }

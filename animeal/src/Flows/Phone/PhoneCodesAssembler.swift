@@ -19,7 +19,10 @@ enum PhoneCodesAssembler {
         )
         let view = PhoneCodesViewController(viewModel: viewModel)
 
-        let presentationController = BottomSheetPresentationController(controller: view)
+        let presentationController = BottomSheetPresentationController(
+            controller: view,
+            configuration: .fullScreen
+        )
         presentationController.modalPresentationStyle = .overFullScreen
 
         return presentationController

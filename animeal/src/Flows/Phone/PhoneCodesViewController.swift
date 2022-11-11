@@ -125,6 +125,7 @@ private extension PhoneCodesViewController {
         collectionView.trailingAnchor ~= headerView.trailingAnchor
         collectionView.bottomAnchor ~= view.bottomAnchor
         collectionView.contentInset.bottom = Constants.offset
+        collectionView.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
 
         collectionView.delegate = self
         collectionView.register(
@@ -152,7 +153,7 @@ private extension PhoneCodesViewController {
         itemIdentifier: PhoneCodesViewItem
     ) -> UICollectionViewCell {
         switch itemIdentifier {
-        case let .common(identifier, isSelected, flag, code):
+        case let .common(identifier, isSelected, flag, code, countryName):
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: PhoneCodesViewCommonCell.reuseIdentifier,
                 for: indexPath
@@ -163,6 +164,7 @@ private extension PhoneCodesViewController {
                     identifier: identifier,
                     icon: flag,
                     title: code,
+                    subtitle: countryName,
                     isSelected: isSelected
                 )
             )
