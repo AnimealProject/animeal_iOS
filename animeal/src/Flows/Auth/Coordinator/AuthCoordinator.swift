@@ -4,7 +4,7 @@ import Amplify
 
 @MainActor
 final class AuthCoordinator: Coordinatable {
-    typealias Context = AuthenticationServiceHolder & UserProfileServiceHolder
+    typealias Context = UserProfileServiceHolder
 
     // MARK: - Private properties
     private let navigator: Navigating
@@ -30,7 +30,7 @@ final class AuthCoordinator: Coordinatable {
 
     // MARK: - Life cycle
     func start() {
-        switch context.authenticationService.isSignedIn {
+        switch context.profileService.getCurrentUserValidationModel().isSignedIn {
         case true:
             let validationModel = context.profileService.getCurrentUserValidationModel()
             validateUser(

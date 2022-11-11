@@ -7,14 +7,13 @@ public typealias AuthenticationConfirmSignUpHanler = AuthenticationSignUpHandler
 public typealias AuthenticationConfirmSignInHanler = AuthenticationSignInHanler
 public typealias AuthenticationResendCodeHandler = (Result<AuthenticationCodeDeliveryDetails, AuthenticationError>) -> Void
 public typealias DeleteUserHandler = AuthenticationSignOutHanler
+public typealias AuthFetchSessionHandler = (Result<AuthenticationSession, AuthenticationError>) -> Void
 
 public protocol AuthenticationServiceHolder {
     var authenticationService: AuthenticationServiceProtocol { get }
 }
 
 public protocol AuthenticationServiceProtocol {
-    var isSignedIn: Bool { get }
-
     func signUp(username: AuthenticationInput, password: AuthenticationInput, options: [AuthenticationUserAttribute]?, handler: @escaping AuthenticationSignUpHandler)
 
     func signIn(username: AuthenticationInput, password: AuthenticationInput?, handler: @escaping AuthenticationSignInHanler)
@@ -32,6 +31,8 @@ public protocol AuthenticationServiceProtocol {
     func resendSignUpCode(for username: AuthenticationInput, handler: @escaping AuthenticationResendCodeHandler)
 
     func deleteUser(handler: @escaping DeleteUserHandler)
+
+    func fetchAuthSession(handler: @escaping AuthFetchSessionHandler)
 }
 
 extension AuthenticationServiceProtocol {
@@ -100,6 +101,14 @@ extension AuthenticationServiceProtocol {
     public func deleteUser() async throws {
         try await withCheckedThrowingContinuation { continuation in
             deleteUser {
+                continuation.resume(with: $0)
+            }
+        }
+    }
+
+    public func fetchAuthSession() async throws -> AuthenticationSession {
+        try await withCheckedThrowingContinuation { continuation in
+            fetchAuthSession {
                 continuation.resume(with: $0)
             }
         }

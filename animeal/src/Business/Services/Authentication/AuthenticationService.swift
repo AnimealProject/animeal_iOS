@@ -10,9 +10,6 @@ final class AuthenticationService: AuthenticationServiceProtocol {
     // MARK: - Private properties
     private let converter: AuthenticationAmplifyConverting & AmplifyAuthenticationConverting
 
-    // MARK: - Accessible properties
-    var isSignedIn: Bool { Amplify.Auth.getCurrentUser() != nil }
-
     // MARK: - Initialization
     init(converter: AuthenticationAmplifyConverting & AmplifyAuthenticationConverting = AuthenticationAmplifyConverter()) {
         self.converter = converter
@@ -179,6 +176,18 @@ final class AuthenticationService: AuthenticationServiceProtocol {
             switch result {
             case .success:
                 handler(.success(()))
+            case .failure(let error):
+                handler(.failure(self.converter.convertAmplifyError(error)))
+            }
+        }
+    }
+
+    func fetchAuthSession(handler: @escaping AuthFetchSessionHandler) {
+        Amplify.Auth.fetchAuthSession { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let session):
+                handler(.success(AuthenticationSession(isSignedIn: session.isSignedIn)))
             case .failure(let error):
                 handler(.failure(self.converter.convertAmplifyError(error)))
             }
