@@ -62,7 +62,8 @@ private extension PhoneCodesViewModel {
                 identifier: region.rawValue,
                 isSelected: region == selectedRegion,
                 flag: region.flag,
-                code: region.phoneNumberCode
+                code: region.phoneNumberCode,
+                countryName: region.countryName ?? .empty
             )
             return item
         }

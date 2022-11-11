@@ -1,11 +1,11 @@
 import UIKit
 
 enum PhoneCodesViewItem: Hashable {
-    case common(identifier: String, isSelected: Bool, flag: UIImage?, code: String)
+    case common(identifier: String, isSelected: Bool, flag: UIImage?, code: String, countryName: String)
 
     var identifier: String {
         switch self {
-        case let .common(identifier, _, _, _):
+        case let .common(identifier, _, _, _, _):
             return identifier
         }
     }

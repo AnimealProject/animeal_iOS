@@ -168,6 +168,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
                     guard let self = self else { return }
                     self.model.updateItem(nil, forIdentifier: identifier)
                     self.updateViewItems(self.model.fetchPlaceholderItems)
+                    self.coordinator.move(to: .dismiss)
                 }
                 coordinator.move(to: .picker({ openPickerComponents.maker(completion) }))
             }

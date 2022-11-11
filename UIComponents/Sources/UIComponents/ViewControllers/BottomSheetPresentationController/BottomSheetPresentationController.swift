@@ -22,9 +22,9 @@ public class BottomSheetPresentationController: UIViewController {
         stackView.spacing = 12.0
         return stackView
     }()
-    private let containerView: UIView = {
+    private lazy var containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
         view.layer.cornerRadius = 16
         view.clipsToBounds = true
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]

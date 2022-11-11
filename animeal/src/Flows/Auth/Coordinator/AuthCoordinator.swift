@@ -1,5 +1,6 @@
 import UIKit
 import Services
+import UIComponents
 import Amplify
 
 @MainActor
@@ -101,6 +102,10 @@ extension AuthCoordinator: CustomAuthCoordinatable {
         case let .picker(make):
             guard let viewController = make() else { return }
             navigator.present(viewController, animated: false, completion: nil)
+        case .dismiss:
+            if let bottomSheetVC = navigator.topViewController as? BottomSheetPresentationController {
+                bottomSheetVC.dismissView(completion: nil)
+            }
         }
     }
 }
@@ -135,6 +140,10 @@ extension AuthCoordinator: ProfileCoordinatable {
         case .picker(let make):
             guard let viewController = make() else { return }
             navigator.present(viewController, animated: false, completion: nil)
+        case .dismiss:
+            if let bottomSheetVC = navigator.topViewController as? BottomSheetPresentationController {
+                bottomSheetVC.dismissView(completion: nil)
+            }
         }
     }
 }

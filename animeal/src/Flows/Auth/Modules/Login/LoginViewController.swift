@@ -19,15 +19,14 @@ final class LoginViewController: UIViewController, LoginViewable {
         return item
     }()
 
-    private let buttonsView: ButtonContainerView = {
+    private lazy var buttonsView: ButtonContainerView = {
         let item = ButtonContainerView()
         item.translatesAutoresizingMaskIntoConstraints = false
-        item.backgroundColor = .white
+        item.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
         item.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         item.layer.cornerRadius = 30.0
-        item.backgroundColor = UIColor.white
-        item.layer.shadowColor = UIColor.black.cgColor
-        item.layer.shadowOpacity = 0.09
+        item.layer.shadowColor = designEngine.colors.textSecondary.cgColor
+        item.layer.shadowOpacity = 0.2
         item.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
         item.layer.shadowRadius = 4.0
         return item

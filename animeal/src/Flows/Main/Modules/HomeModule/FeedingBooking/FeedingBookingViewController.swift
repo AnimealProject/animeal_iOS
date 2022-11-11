@@ -5,13 +5,6 @@ import Style
 final class FeedingBookingViewController: UIViewController, FeedingBookingViewable {
     // MARK: - UI properties
     private let viewModel: FeedingBookingViewModelProtocol
-
-    private let contentContainer: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.spacing = 16
-        return stackView
-    }()
     private let buttonContainer: UIStackView = {
         let stackView = UIStackView()
         stackView.distribution = .fillEqually
@@ -45,20 +38,13 @@ final class FeedingBookingViewController: UIViewController, FeedingBookingViewab
         buttonContainer.trailingAnchor ~= view.trailingAnchor - 20
         buttonContainer.bottomAnchor ~= view.safeAreaLayoutGuide.bottomAnchor - 20
 
-        let scrollView = UIScrollView()
-        view.addSubview(scrollView.prepareForAutoLayout())
-        scrollView.leadingAnchor ~= view.leadingAnchor
-        scrollView.trailingAnchor ~= view.trailingAnchor
-        scrollView.topAnchor ~= view.topAnchor
-        scrollView.bottomAnchor ~= buttonContainer.topAnchor
-
-        scrollView.addSubview(contentContainer.prepareForAutoLayout())
-        contentContainer.leadingAnchor ~= view.leadingAnchor + 20
-        contentContainer.trailingAnchor ~= view.trailingAnchor - 20
-        contentContainer.topAnchor ~= scrollView.topAnchor
-        contentContainer.bottomAnchor ~= scrollView.bottomAnchor
-
         let contentView = UIView()
+        view.addSubview(contentView.prepareForAutoLayout())
+        contentView.leadingAnchor ~= view.leadingAnchor + 20
+        contentView.trailingAnchor ~= view.trailingAnchor - 20
+        contentView.topAnchor ~= view.topAnchor
+        contentView.bottomAnchor ~= buttonContainer.topAnchor
+
         let topImageView = UIImageView(image: Asset.Images.attentionSign.image)
         contentView.addSubview(topImageView.prepareForAutoLayout())
         topImageView.topAnchor ~= contentView.topAnchor + 75
@@ -71,11 +57,12 @@ final class FeedingBookingViewController: UIViewController, FeedingBookingViewab
         header.topAnchor ~= topImageView.bottomAnchor + 40
 
         let centerImageView = UIImageView(image: Asset.Images.bigDogAtBowlIcon.image)
+        centerImageView.contentMode = .scaleAspectFit
+
         contentView.addSubview(centerImageView.prepareForAutoLayout())
         centerImageView.topAnchor ~= header.bottomAnchor + 65
         centerImageView.centerXAnchor ~= contentView.centerXAnchor
-
-        contentContainer.addArrangedSubview(contentView)
+        centerImageView.bottomAnchor <= contentView.bottomAnchor - 100
 
         let cancelButton = ButtonViewFactory().makeAccentInvertedButton()
         cancelButton.configure(
