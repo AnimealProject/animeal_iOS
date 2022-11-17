@@ -8,7 +8,8 @@ import Services
     AuthenticationServiceHolder &
     DefaultsServiceHolder &
     NetworkServiceHolder &
-    UserProfileServiceHolder
+    UserProfileServiceHolder &
+    DataStoreServiceHolder
 
 struct AppContext: AppContextProtocol {
     let analyticsService: AnalyticsServiceProtocol
@@ -18,6 +19,7 @@ struct AppContext: AppContextProtocol {
     let defaultsService: DefaultsServiceProtocol
     let networkService: NetworkServiceProtocol
     let profileService: UserProfileServiceProtocol
+    let dataStoreService: DataStoreServiceProtocol
     var applicationDelegateServices: [ApplicationDelegateService]
 
     static func context() -> AppContext {
@@ -28,6 +30,7 @@ struct AppContext: AppContextProtocol {
         let defaultsService = DefaultsService()
         let networkService = NetworkService()
         let profileService = UserProfileService()
+        let dataStoreService = DataStoreService()
 
         let context = AppContext(
             analyticsService: analyticsService,
@@ -37,6 +40,7 @@ struct AppContext: AppContextProtocol {
             defaultsService: defaultsService,
             networkService: networkService,
             profileService: profileService,
+            dataStoreService: dataStoreService,
             applicationDelegateServices: [
                 analyticsService,
                 devLoggerService,

@@ -6,7 +6,7 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol {
     private let pointId: String
     private let mapper: FeedingPointDetailsModelMapperProtocol
 
-    typealias Context = NetworkServiceHolder
+    typealias Context = NetworkServiceHolder & DataStoreServiceHolder
     private let context: Context
 
     // MARK: - Initialization
@@ -38,10 +38,19 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol {
         }
     }
 
-    func fetchFeedingPoints() async throws -> FeedingPointDetailsModel.PointContent {
-        try await withCheckedThrowingContinuation { continuation in
-            fetchFeedingPoints {
-                continuation.resume(with: .success($0))
+    func fetchMediaContent(key: String, completion: ((Data?) -> Void)?) {
+        context.dataStoreService.downloadData(
+            key: key,
+            options: .init(accessLevel: .guest)
+        ) { result in
+            switch result {
+            case .success(let data):
+                DispatchQueue.main.async {
+                    completion?(data)
+                }
+            case .failure(let error):
+                // TODO: Handele error
+                print(error.localizedDescription)
             }
         }
     }
@@ -66,6 +75,7 @@ extension FeedingPointDetailsModel {
     }
 
     struct Header {
+        let cover: String?
         let title: String
     }
 

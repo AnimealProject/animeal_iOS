@@ -121,6 +121,8 @@
 		DB127E8928B9648200012B53 /* MoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB127E8428B9648200012B53 /* MoreViewModel.swift */; };
 		DB127E8B28B97B5700012B53 /* MoreActionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB127E8A28B97B5700012B53 /* MoreActionModel.swift */; };
 		DB127E8F28B9E9BA00012B53 /* MoreCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB127E8E28B9E9BA00012B53 /* MoreCoordinator.swift */; };
+		DB1F5906292637AD0047D4C5 /* DataStoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB1F5905292637AD0047D4C5 /* DataStoreService.swift */; };
+		DB1F5908292642010047D4C5 /* DataStoreAmplifyConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB1F5907292642010047D4C5 /* DataStoreAmplifyConverter.swift */; };
 		DB234D7228CA627A0078452F /* AWSAPIPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = DB234D7128CA627A0078452F /* AWSAPIPlugin */; };
 		DB234D7428CA627A0078452F /* AWSCognitoAuthPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = DB234D7328CA627A0078452F /* AWSCognitoAuthPlugin */; };
 		DB234D7628CA627A0078452F /* AWSDataStorePlugin in Frameworks */ = {isa = PBXBuildFile; productRef = DB234D7528CA627A0078452F /* AWSDataStorePlugin */; };
@@ -361,6 +363,8 @@
 		DB127E8428B9648200012B53 /* MoreViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreViewModel.swift; sourceTree = "<group>"; };
 		DB127E8A28B97B5700012B53 /* MoreActionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreActionModel.swift; sourceTree = "<group>"; };
 		DB127E8E28B9E9BA00012B53 /* MoreCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreCoordinator.swift; sourceTree = "<group>"; };
+		DB1F5905292637AD0047D4C5 /* DataStoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStoreService.swift; sourceTree = "<group>"; };
+		DB1F5907292642010047D4C5 /* DataStoreAmplifyConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStoreAmplifyConverter.swift; sourceTree = "<group>"; };
 		DB4459E1287330CD00541570 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DB53DFD2291E803F004C86D1 /* AuthChannelEventHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthChannelEventHandling.swift; sourceTree = "<group>"; };
 		DB5A837C285C513700F3C3A5 /* TabBarControllerAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarControllerAssembler.swift; sourceTree = "<group>"; };
@@ -873,6 +877,7 @@
 		83C7A98228E429F900F3D219 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				DB1F5904292637980047D4C5 /* DataStore */,
 				83C7A98128E429ED00F3D219 /* Profile */,
 				837F1FB128868C19001FABC5 /* Authentication */,
 				DB53DFD2291E803F004C86D1 /* AuthChannelEventHandling.swift */,
@@ -1082,6 +1087,15 @@
 				DB127E8E28B9E9BA00012B53 /* MoreCoordinator.swift */,
 			);
 			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		DB1F5904292637980047D4C5 /* DataStore */ = {
+			isa = PBXGroup;
+			children = (
+				DB1F5905292637AD0047D4C5 /* DataStoreService.swift */,
+				DB1F5907292642010047D4C5 /* DataStoreAmplifyConverter.swift */,
+			);
+			path = DataStore;
 			sourceTree = "<group>";
 		};
 		DB4CA51C28450FEE00050EA5 /* src */ = {
@@ -1820,6 +1834,7 @@
 				DBF56B5628CF40E300AB0BDF /* FeedingPointDetailsModel.swift in Sources */,
 				83A9A22628E189D700858190 /* VerificationModelAttribute.swift in Sources */,
 				83C7A98428E42A9700F3D219 /* UserProfileService.swift in Sources */,
+				DB1F5906292637AD0047D4C5 /* DataStoreService.swift in Sources */,
 				DBDB3F5528D3356700B285D7 /* MedicationI18n.swift in Sources */,
 				83E83A4E28A98E2700B40FC4 /* MainCoordinator.swift in Sources */,
 				8372CCDE28A03F460085C6D1 /* CustomAuthViewHeader+TextBigTitleSubtitleViewModel.swift in Sources */,
@@ -1851,6 +1866,7 @@
 				838B6B6E2868B021001DD111 /* VerificationViewModel.swift in Sources */,
 				DBDB3F3528D3356600B285D7 /* Pet.swift in Sources */,
 				83C24F88286D9D060086330B /* VerificationModelTimeLeft.swift in Sources */,
+				DB1F5908292642010047D4C5 /* DataStoreAmplifyConverter.swift in Sources */,
 				DBDB3F3128D3356600B285D7 /* Settings.swift in Sources */,
 				DB0D4A862886AB6B001750BC /* HomeModel.swift in Sources */,
 				DB127E8528B9648200012B53 /* MoreModel.swift in Sources */,
@@ -2129,7 +2145,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.11;
+				MARKETING_VERSION = 0.0.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animeal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2165,7 +2181,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.11;
+				MARKETING_VERSION = 0.0.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animealApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Epam Animeal Prod App Store Distribution";
