@@ -1,9 +1,11 @@
 import UIComponents
 import Style
+import UIKit
 
 // sourcery: AutoMockable
 protocol FeedingPointDetailsViewMappable {
     func mapFeedingPoint(_ input: FeedingPointDetailsModel.PointContent) -> FeedingPointDetailsViewItem
+    func mapFeedingPointMediaContent(_ input: Data?) -> FeedingPointMediaContent?
 }
 
 final class FeedingPointDetailsViewMapper: FeedingPointDetailsViewMappable {
@@ -14,7 +16,7 @@ final class FeedingPointDetailsViewMapper: FeedingPointDetailsViewMappable {
 
         return FeedingPointDetailsViewItem(
             placeInfo: PlaceInfoView.Model(
-                icon: Asset.Images.cityLogo.image,
+                icon: Asset.Images.placeCoverPlaceholder.image,
                 title: input.content.header.title,
                 status: convert(input.content.status)
             ),
@@ -29,6 +31,11 @@ final class FeedingPointDetailsViewMapper: FeedingPointDetailsViewMappable {
                 feeders: feeders
             )
         )
+    }
+
+    func mapFeedingPointMediaContent(_ input: Data?) -> FeedingPointMediaContent? {
+        guard let data = input, let icon = UIImage(data: data) else { return nil }
+        return FeedingPointMediaContent(pointDetailsIcon: icon)
     }
 
     private func convert(_ status: FeedingPointDetailsModel.Status) -> StatusView.Model {
@@ -58,4 +65,8 @@ struct FeedingPointFeeders {
         let name: String
         let lastFeeded: String
     }
+}
+
+struct FeedingPointMediaContent {
+    var pointDetailsIcon: UIImage
 }

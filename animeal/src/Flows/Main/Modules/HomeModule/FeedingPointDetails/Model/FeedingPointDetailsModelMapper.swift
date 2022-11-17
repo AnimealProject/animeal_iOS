@@ -13,6 +13,7 @@ class FeedingPointDetailsModelMapper: FeedingPointDetailsModelMapperProtocol {
         return  FeedingPointDetailsModel.PointContent(
             content: FeedingPointDetailsModel.Content(
                 header: FeedingPointDetailsModel.Header(
+                    cover: item.cover,
                     title: item.localizedName.removeHtmlTags()
                 ), description: FeedingPointDetailsModel.Description(
                     text: item.localizedDescription.removeHtmlTags()

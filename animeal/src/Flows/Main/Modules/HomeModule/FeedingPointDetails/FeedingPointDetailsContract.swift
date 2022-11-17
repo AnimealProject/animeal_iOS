@@ -21,6 +21,7 @@ protocol FeedingPointDetailsViewInteraction: AnyObject {
 
 protocol FeedingPointDetailsViewState: AnyObject {
     var onContentHaveBeenPrepared: ((FeedingPointDetailsViewItem) -> Void)? { get set }
+    var onMediaContentHaveBeenPrepared: ((FeedingPointMediaContent) -> Void)? { get set }
 }
 
 // MARK: - Model
@@ -28,6 +29,7 @@ protocol FeedingPointDetailsViewState: AnyObject {
 // sourcery: AutoMockable
 protocol FeedingPointDetailsModelProtocol: AnyObject {
     func fetchFeedingPoints(_ completion: ((FeedingPointDetailsModel.PointContent) -> Void)?)
+    func fetchMediaContent(key: String, completion: ((Data?) -> Void)?)
 }
 
 // MARK: - Coordinator

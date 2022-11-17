@@ -23,6 +23,10 @@ public final class PlaceInfoView: UIView {
         titleview.text = model.title
         statusView.configure(model.status)
     }
+
+    public func setIcon(_ icon: UIImage) {
+        imageView.image = icon
+    }
 }
 
 // MARK: - Setup
@@ -33,6 +37,10 @@ private extension PlaceInfoView {
         imageView.topAnchor ~= topAnchor
         imageView.bottomAnchor ~= bottomAnchor
         imageView.layer.cornerRadius = 10
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.heightAnchor ~= 81
+        imageView.widthAnchor ~= 81
 
         addSubview(statusView.prepareForAutoLayout())
         statusView.bottomAnchor ~= bottomAnchor - 8

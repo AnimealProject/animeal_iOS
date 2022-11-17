@@ -232,6 +232,23 @@ class FeedingPointDetailsModelProtocolMock: FeedingPointDetailsModelProtocol {
         fetchFeedingPointsClosure?(completion)
     }
 
+    // MARK: - fetchMediaContent
+
+    var fetchMediaContentKeyCompletionCallsCount = 0
+    var fetchMediaContentKeyCompletionCalled: Bool {
+        return fetchMediaContentKeyCompletionCallsCount > 0
+    }
+    var fetchMediaContentKeyCompletionReceivedArguments: (key: String, completion: ((Data?) -> Void)?)?
+    var fetchMediaContentKeyCompletionReceivedInvocations: [(key: String, completion: ((Data?) -> Void)?)] = []
+    var fetchMediaContentKeyCompletionClosure: ((String, ((Data?) -> Void)?) -> Void)?
+
+    func fetchMediaContent(key: String, completion: ((Data?) -> Void)?) {
+        fetchMediaContentKeyCompletionCallsCount += 1
+        fetchMediaContentKeyCompletionReceivedArguments = (key: key, completion: completion)
+        fetchMediaContentKeyCompletionReceivedInvocations.append((key: key, completion: completion))
+        fetchMediaContentKeyCompletionClosure?(key, completion)
+    }
+
 }
 class FeedingPointDetailsViewMappableMock: FeedingPointDetailsViewMappable {
 
@@ -254,6 +271,28 @@ class FeedingPointDetailsViewMappableMock: FeedingPointDetailsViewMappable {
             return mapFeedingPointClosure(input)
         } else {
             return mapFeedingPointReturnValue
+        }
+    }
+
+    // MARK: - mapFeedingPointMediaContent
+
+    var mapFeedingPointMediaContentCallsCount = 0
+    var mapFeedingPointMediaContentCalled: Bool {
+        return mapFeedingPointMediaContentCallsCount > 0
+    }
+    var mapFeedingPointMediaContentReceivedInput: Data?
+    var mapFeedingPointMediaContentReceivedInvocations: [Data?] = []
+    var mapFeedingPointMediaContentReturnValue: FeedingPointMediaContent?
+    var mapFeedingPointMediaContentClosure: ((Data?) -> FeedingPointMediaContent?)?
+
+    func mapFeedingPointMediaContent(_ input: Data?) -> FeedingPointMediaContent? {
+        mapFeedingPointMediaContentCallsCount += 1
+        mapFeedingPointMediaContentReceivedInput = input
+        mapFeedingPointMediaContentReceivedInvocations.append(input)
+        if let mapFeedingPointMediaContentClosure = mapFeedingPointMediaContentClosure {
+            return mapFeedingPointMediaContentClosure(input)
+        } else {
+            return mapFeedingPointMediaContentReturnValue
         }
     }
 

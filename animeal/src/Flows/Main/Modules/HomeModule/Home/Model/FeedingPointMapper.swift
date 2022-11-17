@@ -14,11 +14,22 @@ final class FeedingPointMapper: FeedingPointMappable {
                 longitude: input.location.lon
             ),
             pet: convert(categoryTag: input.category.tag),
-            hungerLevel: .high // TODO: Add hungerLevel
+            hungerLevel: conver(pointStatus: input.status)
         )
     }
 
-    func convert(categoryTag: animeal.CategoryTag) -> HomeModel.Pet {
+    private func conver(pointStatus: FeedingPointStatus) -> HomeModel.HungerLevel {
+        switch pointStatus {
+        case .starved:
+            return .high
+        case .pending:
+            return .mid
+        case .fed:
+            return .low
+        }
+    }
+
+    private func convert(categoryTag: animeal.CategoryTag) -> HomeModel.Pet {
         switch categoryTag {
         case .cats:
             return HomeModel.Pet.cats

@@ -10,6 +10,7 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
 
     // MARK: - State
     var onContentHaveBeenPrepared: ((FeedingPointDetailsViewItem) -> Void)?
+    var onMediaContentHaveBeenPrepared: ((FeedingPointMediaContent) -> Void)?
 
     // MARK: - Initialization
     init(
@@ -30,9 +31,20 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
     func load() {
         model.fetchFeedingPoints { [weak self] content in
             guard let self = self else { return }
+            self.loadMediaContent(content.content.header.cover)
             self.onContentHaveBeenPrepared?(
                 self.contentMapper.mapFeedingPoint(content)
             )
+        }
+    }
+
+    private func loadMediaContent(_ key: String?) {
+        guard let key = key else { return }
+        model.fetchMediaContent(key: key) { [weak self] content in
+            guard let self = self else { return }
+            if let mediaContent = self.contentMapper.mapFeedingPointMediaContent(content) {
+                self.onMediaContentHaveBeenPrepared?(mediaContent)
+            }
         }
     }
 

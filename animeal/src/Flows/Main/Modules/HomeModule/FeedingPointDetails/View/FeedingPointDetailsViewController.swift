@@ -15,6 +15,7 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
         stackView.axis = .vertical
         return stackView
     }()
+    private let pointDetailsView = FeedingPointDetailsView()
 
     // MARK: - Dependencies
     private let viewModel: FeedingPointDetailsViewModelProtocol
@@ -41,6 +42,10 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
     private func bind() {
         viewModel.onContentHaveBeenPrepared = { [weak self] content in
             self?.applyFeedingPointContent(content)
+        }
+
+        viewModel.onMediaContentHaveBeenPrepared = { [weak self] content in
+            self?.applyFeedingPointMediaContent(content)
         }
     }
 
@@ -77,8 +82,11 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
         contentContainer.bottomAnchor ~= scrollView.bottomAnchor
     }
 
+    func applyFeedingPointMediaContent(_ content: FeedingPointMediaContent) {
+        pointDetailsView.setIcon(content.pointDetailsIcon)
+    }
+
     func applyFeedingPointContent(_ content: FeedingPointDetailsViewItem) {
-        let pointDetailsView = FeedingPointDetailsView()
         pointDetailsView.configure(
             FeedingPointDetailsView.Model(
                 placeInfoViewModel: content.placeInfo,
