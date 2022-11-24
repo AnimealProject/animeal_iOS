@@ -6,12 +6,13 @@ import UIComponents
 final class MoreCoordinator: Coordinatable {
     // MARK: - Dependencies
     private var navigator: Navigating
-    private let completion: (() -> Void)?
+    private let completion: ((HomeFlowBackwardEvent?) -> Void)?
+    private var backwardEvent: HomeFlowBackwardEvent?
 
     // MARK: - Initialization
     init(
         navigator: Navigator,
-        completion: (() -> Void)? = nil
+        completion: ((HomeFlowBackwardEvent?) -> Void)? = nil
     ) {
         self.navigator = navigator
         self.completion = completion
@@ -24,7 +25,7 @@ final class MoreCoordinator: Coordinatable {
     }
 
     func stop() {
-        completion?()
+        completion?(backwardEvent)
     }
 
     private func presentError(_ error: String) {
@@ -69,6 +70,14 @@ extension MoreCoordinator: MorePartitionCoordinatable {
     func routeTo(_ route: MorePartitionRoute) {
         switch route {
         case .logout:
+            backwardEvent = HomeFlowBackwardEvent.event(
+                .shouldShowToast(L10n.Toast.successLogout)
+            )
+            stop()
+        case .deleteUser:
+            backwardEvent = HomeFlowBackwardEvent.event(
+                .shouldShowToast(L10n.Toast.userDeleted)
+            )
             stop()
         case .back:
             navigator.pop(animated: true, completion: nil)

@@ -52,3 +52,5 @@
 "feeding.status.fed"                              = "Newly fed";
 "feeding.status.starved"                          = "There is no food";
 "feeding.status.pending.pattern"                  = "%s sice not fed";
+"toast.successLogout"                             = "You have successfully logged out";
+"toast.userDeleted"                               = "Your account have successfully deleted";

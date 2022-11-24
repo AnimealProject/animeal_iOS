@@ -149,6 +149,13 @@ internal enum L10n {
     }
   }
 
+  internal enum Toast {
+    /// You have successfully logged out
+    internal static let successLogout = L10n.tr("Localizable", "toast.successLogout")
+    /// Your account have successfully deleted
+    internal static let userDeleted = L10n.tr("Localizable", "toast.userDeleted")
+  }
+
   internal enum Verification {
     /// Enter verification code
     internal static let title = L10n.tr("Localizable", "verification.title")
