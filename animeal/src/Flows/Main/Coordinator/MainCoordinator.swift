@@ -5,11 +5,20 @@ import UIKit
 import UIComponents
 import Style
 
+enum HomeFlowBackwardEvent {
+    case event(HomeFlowBackwardAction)
+}
+
+enum HomeFlowBackwardAction {
+    case shouldShowToast(String)
+}
+
 @MainActor
 final class MainCoordinator: Coordinatable {
     // MARK: - Private properties
     private let navigator: Navigating
     private var childCoordinators: [Coordinatable]
+    private var backwardEvents: [HomeFlowBackwardEvent] = []
     private enum Constant {
         static let homeViewIndex = 2
     }
@@ -27,7 +36,10 @@ final class MainCoordinator: Coordinatable {
         let moreNavigtionController = UINavigationController()
         let moreCoordinator = MoreCoordinator(
             navigator: Navigator(navigationController: moreNavigtionController)
-        ) { [weak self] in
+        ) { [weak self] event in
+            if let event = event {
+                self?.backwardEvents.append(event)
+            }
             self?.stop()
         }
         moreCoordinator.start()
@@ -87,12 +99,12 @@ final class MainCoordinator: Coordinatable {
 
     // MARK: - Dependencies
     private let presentingWindow: UIWindow
-    private let completion: (() -> Void)?
+    private let completion: (([HomeFlowBackwardEvent]) -> Void)?
 
     // MARK: - Initialization
     init(
         presentingWindow: UIWindow,
-        completion: (() -> Void)?
+        completion: (([HomeFlowBackwardEvent]) -> Void)?
     ) {
         self.presentingWindow = presentingWindow
         self.completion = completion
@@ -111,6 +123,6 @@ final class MainCoordinator: Coordinatable {
 
     func stop() {
         childCoordinators.removeAll()
-        completion?()
+        completion?(backwardEvents)
     }
 }

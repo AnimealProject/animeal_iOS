@@ -52,3 +52,5 @@
 "feeding.status.fed"                              = "ახლად ყელში";
 "feeding.status.starved"                          = "საჭმელი არ არის";
 "feeding.status.pending.pattern"                  = "sice არ იკვებება";
+"toast.successLogout"                             = "თქვენ წარმატებით გამოხვედით სისტემიდან";
+"toast.userDeleted"                               = "თქვენი ანგარიში წარმატებით წაიშალა";

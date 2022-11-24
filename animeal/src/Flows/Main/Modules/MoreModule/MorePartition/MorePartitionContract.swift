@@ -43,6 +43,7 @@ protocol MorePartitionCoordinatable: Coordinatable {
 enum MorePartitionRoute {
     case error(String)
     case logout
+    case deleteUser
     case back
 }
 

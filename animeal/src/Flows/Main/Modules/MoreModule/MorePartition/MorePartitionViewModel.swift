@@ -45,7 +45,7 @@ final class MorePartitionViewModel: MorePartitionViewModelLifeCycle,
                 guard let self = self else { return }
                 switch result {
                 case .success:
-                    self.coordinator.routeTo(.logout)
+                    self.coordinator.routeTo(.deleteUser)
                 case .failure(let error):
                     self.coordinator.routeTo(.error(error.localizedDescription))
                 }

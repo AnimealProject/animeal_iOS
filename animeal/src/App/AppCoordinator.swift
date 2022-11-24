@@ -22,6 +22,7 @@ final class AppCoordinator: AppCoordinatable {
     private lazy var authWindow = UIWindow(windowScene: scene)
     private lazy var mainWindow = UIWindow(windowScene: scene)
     private lazy var loaderWindow = UIWindow(windowScene: scene)
+    private var homeFlowBackwardAction: [HomeFlowBackwardAction] = []
 
     // MARK: - Dependencies
     private let scene: UIWindowScene
@@ -68,6 +69,40 @@ final class AppCoordinator: AppCoordinatable {
         }
     }
 
+    func stop() { }
+}
+
+private extension AppCoordinator {
+    @MainActor
+    private func handler(isSignedIn: Bool, isCurrentUserValidated: Bool) {
+        if isSignedIn, isCurrentUserValidated {
+            let mainCoordinator = MainCoordinator(presentingWindow: mainWindow) { [weak self] events in
+                guard let self = self else { return }
+                self.childCoordinators.removeAll()
+                self.start()
+                events.forEach { event in
+                    switch event {
+                    case .event(let action):
+                        self.homeFlowBackwardAction.append(action)
+                    }
+                }
+            }
+            childCoordinators.append(mainCoordinator)
+            mainCoordinator.start()
+        } else {
+            let authenticationCoordinator = AuthCoordinator(presentingWindow: authWindow) { [weak self] in
+                self?.childCoordinators.removeAll()
+                self?.start()
+            }
+            childCoordinators.append(authenticationCoordinator)
+            authenticationCoordinator.start()
+            homeFlowBackwardAction.forEach { action in
+                handleBackwardAction(action)
+            }
+            homeFlowBackwardAction.removeAll()
+        }
+    }
+
     private func fetchAuthSession(completion: @escaping (Bool) -> Void) {
         context.authenticationService.fetchAuthSession { result in
             do {
@@ -80,26 +115,14 @@ final class AppCoordinator: AppCoordinatable {
         }
     }
 
-    @MainActor
-    private func handler(isSignedIn: Bool, isCurrentUserValidated: Bool) {
-        if isSignedIn, isCurrentUserValidated {
-            let mainCoordinator = MainCoordinator(presentingWindow: mainWindow) { [weak self] in
-                self?.childCoordinators.removeAll()
-                self?.start()
+    func handleBackwardAction(_ action: HomeFlowBackwardAction) {
+        switch action {
+        case .shouldShowToast(let title):
+            if let view = self.authWindow.rootViewController?.view {
+                Toast.show(message: title, anchor: view)
             }
-            childCoordinators.append(mainCoordinator)
-            mainCoordinator.start()
-        } else {
-            let authenticationCoordinator = AuthCoordinator(presentingWindow: authWindow) { [weak self] in
-                self?.childCoordinators.removeAll()
-                self?.start()
-            }
-            childCoordinators.append(authenticationCoordinator)
-            authenticationCoordinator.start()
         }
     }
-
-    func stop() { }
 }
 
 extension AppCoordinator: AuthChannelEventsListener {
