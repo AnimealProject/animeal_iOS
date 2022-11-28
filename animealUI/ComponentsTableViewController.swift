@@ -3,6 +3,7 @@ import UIComponents
 import Style
 
 // swiftlint:disable function_body_length
+// swiftlint:disable type_body_length
 
 // MARK: - ComponentPresentation
 private struct ComponentPresentation {
@@ -10,7 +11,9 @@ private struct ComponentPresentation {
     let viewController: (() -> UIViewController)
 }
 
-class ComponentsTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ComponentsTableViewController: UIViewController,
+                                     UITableViewDataSource,
+                                     UITableViewDelegate {
     // MARK: - Private props
     private let tableView = UITableView()
     private var dataSource: [ComponentPresentation] = []
@@ -46,7 +49,7 @@ class ComponentsTableViewController: UIViewController, UITableViewDataSource, UI
             ComponentPresentation(
                 description: "AlertViewController"
             ) { [weak self] in
-                guard let self = self else { fatalError() }
+                guard let self = self else { return }
                 let viewController = ComponentViewController<UIStackView>()
                 viewController.configureElement = { element in
                     guard let superView = element.superview else {
@@ -67,7 +70,9 @@ class ComponentsTableViewController: UIViewController, UITableViewDataSource, UI
 
                     let imageWithActionsButton = UIButton(type: .system)
                     imageWithActionsButton.setTitle("imagesWithActionsAlert", for: .normal)
-                    imageWithActionsButton.addTarget(self, action: #selector(self.imageWithActionsAlert), for: .touchUpInside)
+                    imageWithActionsButton.addTarget(
+                        self, action: #selector(self.imageWithActionsAlert), for: .touchUpInside
+                    )
 
                     element.addArrangedSubview(doubleActionButton)
                     element.addArrangedSubview(singleActionButton)
@@ -351,7 +356,39 @@ class ComponentsTableViewController: UIViewController, UITableViewDataSource, UI
                             icon: Asset.Images.feederPlaceholderIcon.image
                         )
                     )
+                }
+                return viewController
+            }
+        )
 
+        dataSource.append(
+            ComponentPresentation(
+                description: "FeedingControlView"
+            ) {
+                let viewController = ComponentViewController<UIView>()
+                viewController.configureElement = { element in
+                    guard let superView = element.superview else {
+                        return
+                    }
+                    superView.backgroundColor = .lightGray
+
+                    let feedingControllerView = FeedingControlView(
+                        timerProvider: FeedingTimerProvider(
+                            configuration: FeedingTimerProvider.Configuration(timerInterval: 1, countdownInterval: 239)
+                        )
+                    )
+                    superView.addSubview(feedingControllerView.prepareForAutoLayout())
+                    feedingControllerView.centerYAnchor ~= superView.centerYAnchor
+                    feedingControllerView.centerXAnchor ~= superView.centerXAnchor
+
+                    feedingControllerView.updateDistance(4560)
+
+                    feedingControllerView.onCloseHandler = {
+                        print("onCloseHandler")
+                    }
+                    feedingControllerView.onTimerFinishHandler = {
+                        print("onTimerFinishHandler")
+                    }
                 }
                 return viewController
             }
@@ -390,23 +427,31 @@ class ComponentsTableViewController: UIViewController, UITableViewDataSource, UI
 private extension ComponentsTableViewController {
     @objc func doubleActionAlert() {
         let alert = AlertViewController(title: "Do you really want to discard the changes?")
-        alert.addAction(AlertAction(title: "No", style: AlertAction.Style.inverted, handler: {
-            print("No")
-            alert.dismiss(animated: true)
-        }))
-        alert.addAction(AlertAction(title: "Yes", style: AlertAction.Style.accent, handler: {
-            print("yes")
-            alert.dismiss(animated: true)
-        }))
+        alert.addAction(
+            AlertAction(title: "No", style: AlertAction.Style.inverted) {
+                print("No")
+                alert.dismiss(animated: true)
+            }
+        )
+        alert.addAction(
+            AlertAction( title: "Yes", style: AlertAction.Style.accent) {
+                print("yes")
+                alert.dismiss(animated: true)
+            }
+        )
         present(alert, animated: true)
     }
 
     @objc func singleActionAlert() {
-        let alert = AlertViewController(title: "Your feeding timer is over.You can book a new feeding from the home page.")
-        alert.addAction(AlertAction(title: "Got it", style: AlertAction.Style.accent, handler: {
-            print("Got it")
-            alert.dismiss(animated: true)
-        }))
+        let alert = AlertViewController(
+            title: "Your feeding timer is over.You can book a new feeding from the home page."
+        )
+        alert.addAction(
+            AlertAction(title: "Got it", style: AlertAction.Style.accent) {
+                print("Got it")
+                alert.dismiss(animated: true)
+            }
+        )
         present(alert, animated: true)
     }
 
@@ -415,14 +460,21 @@ private extension ComponentsTableViewController {
             title: "Are you sure you want to delete this photo? ",
             image: Asset.Images.dogWhileEating.image
         )
-        alert.addAction(AlertAction(title: "No", style: AlertAction.Style.inverted, handler: {
-            print("No")
-            alert.dismiss(animated: true)
-        }))
-        alert.addAction(AlertAction(title: "Yes", style: AlertAction.Style.accent, handler: {
-            print("yes")
-            alert.dismiss(animated: true)
-        }))
+        alert.addAction(
+            AlertAction(title: "No", style: AlertAction.Style.inverted) {
+                print("No")
+                alert.dismiss(animated: true)
+            }
+        )
+        alert.addAction(
+            AlertAction(title: "Yes", style: AlertAction.Style.accent) {
+                print("yes")
+                alert.dismiss(animated: true)
+            }
+        )
         present(alert, animated: true)
     }
 }
+
+// swiftlint:enable function_body_length
+// swiftlint:enable type_body_length

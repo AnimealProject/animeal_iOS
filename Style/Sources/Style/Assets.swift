@@ -36,6 +36,7 @@ public enum Asset {
     public static let orangePeel = ColorAsset(name: "OrangePeel")
   }
   public enum Images {
+    public static let crosIcon = ImageAsset(name: "cros_icon")
     public static let heartIcon = ImageAsset(name: "heart_icon")
     public static let refreshIcon = ImageAsset(name: "refresh_icon")
     public static let feederPlaceholderIcon = ImageAsset(name: "feeder_placeholder_icon")
