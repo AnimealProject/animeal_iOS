@@ -63,6 +63,8 @@ internal enum L10n {
     internal static let account = L10n.tr("Localizable", "more.account")
     /// Donate
     internal static let donate = L10n.tr("Localizable", "more.donate")
+    /// FAQ
+    internal static let faq = L10n.tr("Localizable", "more.faq")
     /// Help
     internal static let help = L10n.tr("Localizable", "more.help")
     /// Profile Page

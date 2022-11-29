@@ -69,9 +69,9 @@ final class MorePartitionModel: MorePartitionModelProtocol {
                     )
                 )
             )
-        case .help:
+        case .faq:
             return PartitionContentModel(
-                header: PartitionContentModel.Header(title: L10n.More.help),
+                header: PartitionContentModel.Header(title: L10n.More.faq),
                 content: PartitionContentModel.Content(actions: nil),
                 footer: nil
             )
