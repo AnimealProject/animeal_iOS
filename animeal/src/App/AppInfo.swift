@@ -6,11 +6,15 @@ enum AppInfo {
     }
 
     static var bundle: String {
-        return Bundle.main.infoDictionary?["CFBundleIdentifier"] as? String ?? ""
+        return Bundle.main.infoDictionary?["CFBundleIdentifier"] as? String ?? .empty
     }
 
     static var bundleName: String {
-        return Bundle.main.infoDictionary?["CFBundleName"] as? String ?? ""
+        return Bundle.main.infoDictionary?["CFBundleName"] as? String ?? .empty
+    }
+
+    static var appVersion: String {
+        return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? .empty
     }
 
     static var appStoreShareUrl: String {
