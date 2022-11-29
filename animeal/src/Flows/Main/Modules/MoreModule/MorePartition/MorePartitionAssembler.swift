@@ -28,7 +28,7 @@ final class MorePartitionModuleAssembler {
 
 enum PartitionMode {
     case donate
-    case help
+    case faq
     case about
     case account
 }

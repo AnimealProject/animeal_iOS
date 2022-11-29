@@ -26,10 +26,11 @@
 "phone.errors.empty"                              = "Required fields are empty";
 "more.profilePage"                                = "Profile Page";
 "more.donate"                                     = "Donate";
-"more.help"                                       = "Help";
+"more.faq"                                        = "FAQ";
 "more.about"                                      = "About (terms and conditions)";
 "more.account"                                    = "Account";
 "more.aboutShort"                                 = "About";
+"more.help"                                       = "Help";
 "action.logOut"                                   = "Log out";
 "action.cancel"                                   = "Cancel";
 "action.delete"                                   = "Delete";
