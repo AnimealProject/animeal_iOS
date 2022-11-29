@@ -12,6 +12,16 @@ struct PartitionContentModel {
 
     struct Content {
         let actions: [Action]?
+        let bottomTextBlock: TextBlock?
+
+        init(actions: [Action]? = nil, bottomTextBlock: TextBlock? = nil) {
+            self.actions = actions
+            self.bottomTextBlock = bottomTextBlock
+        }
+    }
+
+    struct TextBlock {
+        let title: String
     }
 
     struct Footer {

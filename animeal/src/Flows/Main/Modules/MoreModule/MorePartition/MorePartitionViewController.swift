@@ -120,6 +120,19 @@ private extension MorePartitionViewController {
                 contentContainerView.addArrangedSubview(UIView())
             }
         }
+
+        if let block = model.bottomTextBlock {
+            let label = UILabel()
+            label.text = block.title
+            label.font = designEngine.fonts.primary.regular(16).uiFont
+            label.textColor = designEngine.colors.textPrimary.uiColor
+            label.textAlignment = .center
+            contentContainerView.addArrangedSubview(UIView())
+            contentContainerView.addArrangedSubview(label)
+
+            contentContainerView.bottomAnchor ~= view.safeAreaLayoutGuide.bottomAnchor - 40
+            footerContainerView.removeFromSuperview()
+        }
     }
 
     func applyFooter(_ model: PartitionContentModel.Footer?) {

@@ -78,7 +78,9 @@ final class MorePartitionModel: MorePartitionModelProtocol {
         case .about:
             return PartitionContentModel(
                 header: PartitionContentModel.Header(title: L10n.More.aboutShort),
-                content: PartitionContentModel.Content(actions: nil),
+                content: PartitionContentModel.Content(
+                    bottomTextBlock: PartitionContentModel.TextBlock(title: "App version \(AppInfo.appVersion)")
+                ),
                 footer: nil
             )
         }
