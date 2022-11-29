@@ -2,15 +2,19 @@ import Foundation
 
 enum AppInfo {
     static var appId: String {
-        return "" // TODO: Add appId
+        return "1641080306"
     }
 
     static var bundle: String {
-        return Bundle.main.infoDictionary?["CFBundleIdentifier"] as? String ?? ""
+        return Bundle.main.infoDictionary?["CFBundleIdentifier"] as? String ?? .empty
     }
 
     static var bundleName: String {
-        return Bundle.main.infoDictionary?["CFBundleName"] as? String ?? ""
+        return Bundle.main.infoDictionary?["CFBundleName"] as? String ?? .empty
+    }
+
+    static var appVersion: String {
+        return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? .empty
     }
 
     static var appStoreShareUrl: String {
@@ -18,7 +22,7 @@ enum AppInfo {
     }
 
     static var appStoreReviewUrl: String {
-        return "" // TODO: Add appAppStoreReviewUrl
+        return "https://apps.apple.com/us/app/animeal/id1641080306"
     }
 
     static var appStoreRateUrl: String {
