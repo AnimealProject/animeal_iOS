@@ -5,11 +5,14 @@ import UIKit
 import UIComponents
 import Style
 
-final class HomeCoordinator: Coordinatable {
+final class HomeCoordinator: Coordinatable, HomeCoordinatorEventHandlerProtocol {
     // MARK: - Dependencies
     private let navigator: Navigating
     private let completion: (() -> Void)?
     private var bottomSheetController: BottomSheetPresentationController?
+
+    // MARK: - Home coordinator events
+    var feedingDidStartedEvent: ((FeedingPointFeedDetails) -> Void)?
 
     // MARK: - Initialization
     init(
@@ -66,9 +69,11 @@ extension HomeCoordinator: HomeCoordinatable {
 extension HomeCoordinator: FeedingPointCoordinatable {
     func routeTo(_ route: FeedingPointRoute) {
         switch route {
-        case .dismiss:
+        case .feed(let feedingDetails):
             bottomSheetController?.dismissView {
-                let screen = FeedingBookingModuleAssembler(coordinator: self).assemble()
+                let screen = FeedingBookingModuleAssembler(
+                    coordinator: self, feedingDetails: feedingDetails
+                ).assemble()
                 screen.modalPresentationStyle = .overFullScreen
                 self.navigator.present(screen, animated: true, completion: nil)
             }
@@ -79,7 +84,10 @@ extension HomeCoordinator: FeedingPointCoordinatable {
 extension HomeCoordinator: FeedingBookingCoordinatable {
     func routeTo(_ route: FeedingBookingRoute) {
         switch route {
-        case .dismiss:
+        case .cancel:
+            navigator.topViewController?.dismiss(animated: true, completion: nil)
+        case .agree(let feedingPoint):
+            feedingDidStartedEvent?(feedingPoint)
             navigator.topViewController?.dismiss(animated: true, completion: nil)
         }
     }

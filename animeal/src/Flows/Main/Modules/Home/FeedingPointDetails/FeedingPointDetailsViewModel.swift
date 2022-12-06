@@ -1,10 +1,11 @@
 import Foundation
+import CoreLocation
 
 final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
                                           FeedingPointDetailsViewInteraction,
                                           FeedingPointDetailsViewState {
     // MARK: - Dependencies
-    private let model: FeedingPointDetailsModelProtocol
+    private let model: (FeedingPointDetailsModelProtocol & FeedingPointDetailsDataStoreProtocol)
     private let coordinator: FeedingPointCoordinatable
     private let contentMapper: FeedingPointDetailsViewMappable
 
@@ -14,7 +15,7 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
 
     // MARK: - Initialization
     init(
-        model: FeedingPointDetailsModelProtocol,
+        model: (FeedingPointDetailsModelProtocol & FeedingPointDetailsDataStoreProtocol),
         contentMapper: FeedingPointDetailsViewMappable,
         coordinator: FeedingPointCoordinatable
     ) {
@@ -52,7 +53,9 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
     func handleActionEvent(_ event: FeedingPointEvent) {
         switch event {
         case .tapAction:
-            coordinator.routeTo(.dismiss)
+            coordinator.routeTo(
+                .feed(FeedingPointFeedDetails(coordinates: model.feedingPointCoordinates))
+            )
         }
     }
 }

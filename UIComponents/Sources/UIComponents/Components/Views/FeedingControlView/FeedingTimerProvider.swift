@@ -41,13 +41,13 @@ public final class FeedingTimerProvider: FeedingTimerProviderProtocol {
                 self.onCountdownTimerChanged?(self.timeLeft)
             } else {
                 self.stop()
+                self.onTimerFinished?()
             }
         }
     }
 
     public func stop() {
         countdownTimer?.invalidate()
-        onTimerFinished?()
     }
 }
 

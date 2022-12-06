@@ -1,4 +1,5 @@
 import Foundation
+import CoreLocation
 
 // MARK: - View
 protocol HomeViewModelOutput: AnyObject {
@@ -34,6 +35,7 @@ protocol HomeViewInteraction: AnyObject {
 protocol HomeViewState: AnyObject {
     var onFeedingPointsHaveBeenPrepared: (([FeedingPointViewItem]) -> Void)? { get set }
     var onSegmentsHaveBeenPrepared: ((FilterModel) -> Void)? { get set }
+    var onRouteRequestHaveBeenPrepared: ((CLLocationCoordinate2D) -> Void)? { get set }
 }
 
 enum HomeViewActionEvent {
@@ -44,6 +46,10 @@ enum HomeViewActionEvent {
 // MARK: - Coordinator
 protocol HomeCoordinatable {
     func routeTo(_ route: HomeRoute)
+}
+
+protocol HomeCoordinatorEventHandlerProtocol {
+    var feedingDidStartedEvent: ((FeedingPointFeedDetails) -> Void)? { get set }
 }
 
 enum HomeRoute {

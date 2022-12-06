@@ -2,9 +2,9 @@ import UIKit
 import Common
 
 final class HomeModuleAssembler {
-    private let coordinator: HomeCoordinatable
+    private let coordinator: HomeCoordinatable & HomeCoordinatorEventHandlerProtocol
 
-    init(coordinator: HomeCoordinatable) {
+    init(coordinator: HomeCoordinatable & HomeCoordinatorEventHandlerProtocol ) {
         self.coordinator = coordinator
     }
 
@@ -15,14 +15,6 @@ final class HomeModuleAssembler {
             coordinator: coordinator
         )
         let view = HomeViewController(viewModel: viewModel)
-
-        viewModel.onFeedingPointsHaveBeenPrepared = { [weak view] points in
-            view?.applyFeedingPoints(points)
-        }
-
-        viewModel.onSegmentsHaveBeenPrepared = { [weak view] model in
-            view?.applyFilter(model)
-        }
 
         viewModel.setup()
 

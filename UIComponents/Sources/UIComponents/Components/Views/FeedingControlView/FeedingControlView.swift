@@ -43,6 +43,14 @@ public final class FeedingControlView: UIView {
         distanceLabel.text = prettyString
     }
 
+    public func stopTimer() {
+        timerProvider.stop()
+    }
+
+    public func startTimer() {
+        timerProvider.start()
+    }
+
     public override var intrinsicContentSize: CGSize {
         return CGSize(width: (UIScreen.main.bounds.width - 40), height: 56)
     }
@@ -97,6 +105,5 @@ private extension FeedingControlView {
         timerProvider.onTimerFinished = { [weak self] in
             self?.onTimerFinishHandler?()
         }
-        timerProvider.start()
     }
 }
