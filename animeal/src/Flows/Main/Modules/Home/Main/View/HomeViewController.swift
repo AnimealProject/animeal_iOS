@@ -6,8 +6,19 @@ import Common
 
 class HomeViewController: UIViewController {
     // MARK: - Private properties
-    private var mapView: MapView!
+    private var mapView: NavigationMapController!
     private let segmentedControl = SegmentedControl()
+    private lazy var feedControl: FeedingControlView = {
+        let feedControl = FeedingControlView()
+        feedControl.onCloseHandler = { [weak self] in
+            guard let self = self else { return }
+            self.feedControl.stopTimer()
+            self.mapView.cancelRouteRequest()
+            self.hideFeedControl(true)
+        }
+        feedControl.onTimerFinishHandler = feedControl.onCloseHandler
+        return feedControl
+    }()
     private let userLocationButton = CircleButtonView.make()
     private var lacationButtonBottomAnchor: NSLayoutConstraint?
     private var styleURI: StyleURI {
@@ -29,9 +40,15 @@ class HomeViewController: UIViewController {
     }
 
     // MARK: - Life cycle
+    override func loadView() {
+        super.loadView()
+        setupMapView()
+    }
+
     override public func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        bind()
         viewModel.load()
     }
 }
@@ -55,7 +72,7 @@ extension HomeViewController: HomeViewModelOutput {
             try? mapView.viewAnnotations.add(feedingPointView, options: options)
         }
 
-        DispatchQueue.main.async {
+        self.mapView.cameraAnimationQueue.append {
             self.easeToClosesFeedingPointOnce(feedingPoints)
         }
     }
@@ -76,116 +93,125 @@ extension HomeViewController: HomeViewModelOutput {
 // MARK: - Private API
 private extension HomeViewController {
     func setup() {
-        setupMapView()
+        let controlsContainer = UIStackView()
+        controlsContainer.axis = .vertical
+        controlsContainer.alignment = .center
 
-        view.addSubview(segmentedControl.prepareForAutoLayout())
-        segmentedControl.topAnchor ~= view.safeAreaLayoutGuide.topAnchor + 66
-        segmentedControl.centerXAnchor ~= view.centerXAnchor
+        view.addSubview(controlsContainer.prepareForAutoLayout())
+        controlsContainer.topAnchor ~= view.safeAreaLayoutGuide.topAnchor
+        controlsContainer.centerXAnchor ~= view.centerXAnchor
+        controlsContainer.distribution = .fillProportionally
+
+        controlsContainer.addArrangedSubview(segmentedControl)
         segmentedControl.widthAnchor ~= 226
+        controlsContainer.addArrangedSubview(feedControl)
+        feedControl.widthAnchor ~= 374
+        hideFeedControl(true)
 
         view.addSubview(userLocationButton.prepareForAutoLayout())
         userLocationButton.trailingAnchor ~= view.trailingAnchor - 30
         lacationButtonBottomAnchor = userLocationButton.bottomAnchor ~= view.safeAreaLayoutGuide.bottomAnchor - 38
         userLocationButton.isUserInteractionEnabled = false
         userLocationButton.onTap = { [weak self] _ in
-            self?.easeToUserLocation()
+            self?.mapView.easeToUserLocation()
         }
+    }
+
+    func bind() {
+        viewModel.onFeedingPointsHaveBeenPrepared = { [weak self] points in
+            self?.applyFeedingPoints(points)
+        }
+
+        viewModel.onSegmentsHaveBeenPrepared = { [weak self] model in
+            self?.applyFilter(model)
+        }
+
+        viewModel.onRouteRequestHaveBeenPrepared = { [weak self] coordinates in
+            self?.handleRouteRequest(coordinates: coordinates)
+        }
+    }
+
+    func handleRouteRequest(coordinates: CLLocationCoordinate2D) {
+        mapView.requestRoute(destination: coordinates)
+        feedControl.startTimer()
+        hideFeedControl(false)
+        mapView.startLocationConsumer()
+
+        handleLocationChange(
+            coordinates,
+            location: mapView.location.latestLocation?.location
+        )
+        mapView.didChangeLocation = { [weak self] location in
+            self?.handleLocationChange(
+                coordinates,
+                location: location
+            )
+        }
+    }
+
+    func handleLocationChange(_ coordinates: CLLocationCoordinate2D, location: CLLocation?) {
+        let feedingPointLocation = CLLocation(
+            latitude: coordinates.latitude,
+            longitude: coordinates.longitude
+        )
+
+        if let distance = location?.distance(from: feedingPointLocation) {
+            feedControl.updateDistance(distance)
+        }
+    }
+
+    func hideFeedControl(_ state: Bool) {
+        segmentedControl.isHidden = !state
+        feedControl.isHidden = state
     }
 }
 
 // MARK: - MapBox helpers
 private extension HomeViewController {
     func setupMapView() {
-        mapView = MapView(frame: view.bounds, mapInitOptions: mapInitOptions())
-        mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        mapView.location.options.puckType = .puck2D(.makeDefault(showBearing: true))
-        view.addSubview(mapView)
+        mapView = NavigationMapController(frame: view.bounds)
+        view.addSubview(mapView.view)
+        mapView.mapboxMap.loadStyleURI(styleURI)
 
-        mapView.mapboxMap.onNext(.mapLoaded) { [weak self] _ in
-            self?.updateMapBoxCameraSettings()
+        mapView.cameraAnimationQueue.append {
+            self.updateCameraSettings()
+        }
+
+        mapView.mapboxMap.onNext(event: .mapIdle) { [weak self] _ in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                self?.mapView.cameraAnimationQueue.forEach { animation in
+                    animation()
+                }
+                self?.mapView.cameraAnimationQueue.removeAll()
+            }
         }
     }
 
-    func mapInitOptions() -> MapInitOptions {
-        let resourceOptions = ResourceOptions(
-            accessToken: ResourceOptionsManager.default.resourceOptions.accessToken
-        )
-
-        return MapInitOptions(
-            resourceOptions: resourceOptions,
-            styleURI: styleURI
-        )
-    }
-
-    func updateMapBoxCameraSettings() {
+    func updateCameraSettings() {
         switch mapView.location.locationProvider.authorizationStatus {
         case .authorizedAlways, .authorizedWhenInUse:
-            easeToUserLocation()
             userLocationButton.isUserInteractionEnabled = true
         default:
-            // Without a location permissions we ease the camera to center of Tbilisi
             let tbilisiCenterCoordinates = CLLocationCoordinate2D(
                 latitude: 41.719545681547245,
                 longitude: 44.78956025041992
             )
-            easeToLocation(tbilisiCenterCoordinates, duration: 0)
+            mapView.easeToLocation(tbilisiCenterCoordinates, duration: 0)
             userLocationButton.isUserInteractionEnabled = false
         }
     }
 
-    func easeToUserLocation() {
-        easeToLocation(mapView.location.latestLocation?.coordinate, duration: 0)
-    }
-
-    func easeToLocation(
-        _ locationCoordinate: CLLocationCoordinate2D?,
-        duration: TimeInterval,
-        curve: UIView.AnimationCurve = .easeOut,
-        completion: AnimationCompletion? = nil
-    ) {
-        mapView.camera.ease(
-            to: CameraOptions(
-                center: locationCoordinate,
-                zoom: 15
-            ),
-            duration: duration,
-            curve: curve,
-            completion: completion
-        )
-    }
-
     func easeToClosesFeedingPointOnce(_ items: [FeedingPointViewItem]) {
         DispatchQueue.once {
-                let coordinates = items.filter { viewItem in
-                    viewItem.viewModel.kind == FeedingPointView.Kind.dog(.high)
-                    || viewItem.viewModel.kind == FeedingPointView.Kind.cat(.high)
-                }
-                self.easeToLocation(
-                    self.findClosesLocation(coordinates.map { $0.coordinates }),
-                    duration: 0
-                )
-        }
-    }
+            let coordinates = items.filter { viewItem in
+                viewItem.viewModel.kind == FeedingPointView.Kind.dog(.high)
+                || viewItem.viewModel.kind == FeedingPointView.Kind.cat(.high)
+            }
 
-    func findClosesLocation(_ locationCoordinates: [CLLocationCoordinate2D]) -> CLLocationCoordinate2D? {
-        let currentLocation = mapView.location.latestLocation?.location
-
-        var closestLocation: CLLocation?
-        var smallestDistance: CLLocationDistance?
-
-        locationCoordinates.forEach { locationCoordinate in
-            let location = CLLocation(
-                latitude: locationCoordinate.latitude,
-                longitude: locationCoordinate.longitude
-            )
-            // TODO: Sort by distance < 10km
-            if let distance = currentLocation?.distance(from: location),
-               smallestDistance == nil || distance < smallestDistance ?? 0 {
-                closestLocation = location
-                smallestDistance = distance
+            if let location = mapView.findClosesLocation(coordinates.map { $0.coordinates }) {
+                self.mapView.easeToLocation(location, duration: 0)
             }
         }
-        return closestLocation?.coordinate
     }
 }
 

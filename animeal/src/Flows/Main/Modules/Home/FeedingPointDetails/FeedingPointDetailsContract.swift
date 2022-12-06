@@ -1,4 +1,5 @@
 import UIKit
+import CoreLocation
 
 // MARK: - View
 protocol FeedingPointDetailsViewable: AnyObject {
@@ -32,6 +33,13 @@ protocol FeedingPointDetailsModelProtocol: AnyObject {
     func fetchMediaContent(key: String, completion: ((Data?) -> Void)?)
 }
 
+typealias FeedingPointCoordinates = CLLocationCoordinate2D
+
+// sourcery: AutoMockable
+protocol FeedingPointDetailsDataStoreProtocol: AnyObject {
+    var feedingPointCoordinates: FeedingPointCoordinates { get }
+}
+
 // MARK: - Coordinator
 protocol FeedingPointCoordinatable {
     func routeTo(_ route: FeedingPointRoute)
@@ -39,7 +47,11 @@ protocol FeedingPointCoordinatable {
 
 // MARK: - Models
 enum FeedingPointRoute {
-    case dismiss
+    case feed(FeedingPointFeedDetails)
+}
+
+struct FeedingPointFeedDetails {
+    let coordinates: FeedingPointCoordinates
 }
 
 enum FeedingPointEvent {

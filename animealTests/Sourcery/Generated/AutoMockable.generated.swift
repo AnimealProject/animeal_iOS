@@ -213,6 +213,14 @@ class CustomAuthViewItemMappableMock: CustomAuthViewItemMappable {
 class FeedingBookingModelProtocolMock: FeedingBookingModelProtocol {
 
 }
+class FeedingPointDetailsDataStoreProtocolMock: FeedingPointDetailsDataStoreProtocol {
+    var feedingPointCoordinates: FeedingPointCoordinates {
+        get { return underlyingFeedingPointCoordinates }
+        set(value) { underlyingFeedingPointCoordinates = value }
+    }
+    var underlyingFeedingPointCoordinates: FeedingPointCoordinates!
+
+}
 class FeedingPointDetailsModelProtocolMock: FeedingPointDetailsModelProtocol {
 
     // MARK: - fetchFeedingPoints

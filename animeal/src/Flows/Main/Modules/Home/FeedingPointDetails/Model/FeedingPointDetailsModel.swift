@@ -1,13 +1,16 @@
 import Foundation
 import Services
 
-final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol {
+final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingPointDetailsDataStoreProtocol {
     // MARK: - Private properties
     private let pointId: String
     private let mapper: FeedingPointDetailsModelMapperProtocol
 
     typealias Context = NetworkServiceHolder & DataStoreServiceHolder
     private let context: Context
+
+    // MARK: - DataStore properties
+    var feedingPointCoordinates = FeedingPointCoordinates()
 
     // MARK: - Initialization
     init(
@@ -28,6 +31,10 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol {
                 guard let point = point else {
                     return
                 }
+                self.feedingPointCoordinates = FeedingPointCoordinates(
+                    latitude: point.location.lat,
+                    longitude: point.location.lon
+                )
                 DispatchQueue.main.async {
                     completion?(self.mapper.map(point))
                 }

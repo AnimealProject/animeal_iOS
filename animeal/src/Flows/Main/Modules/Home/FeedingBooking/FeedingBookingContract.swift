@@ -34,7 +34,8 @@ protocol FeedingBookingCoordinatable {
 
 // MARK: - Models
 enum FeedingBookingRoute {
-    case dismiss
+    case cancel
+    case agree(FeedingPointFeedDetails)
 }
 
 enum FeedingBookingEvent {

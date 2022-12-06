@@ -1,4 +1,5 @@
 import Services
+import CoreLocation
 import Amplify
 
 final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeViewState {
@@ -7,16 +8,17 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     private let locationService: LocationServiceProtocol
     private let feedingPointViewMapper: FeedingPointViewMappable
     private let segmentsViewMapper: FilterViewMappable
-    private let coordinator: HomeCoordinatable
+    private var coordinator: HomeCoordinatable & HomeCoordinatorEventHandlerProtocol
 
     // MARK: - State
     var onFeedingPointsHaveBeenPrepared: (([FeedingPointViewItem]) -> Void)?
     var onSegmentsHaveBeenPrepared: ((FilterModel) -> Void)?
+    var onRouteRequestHaveBeenPrepared: ((CLLocationCoordinate2D) -> Void)?
 
     // MARK: - Initialization
     init(
         model: HomeModelProtocol,
-        coordinator: HomeCoordinatable,
+        coordinator: HomeCoordinatable & HomeCoordinatorEventHandlerProtocol,
         locationService: LocationServiceProtocol = AppDelegate.shared.context.locationService,
         feedingPointViewMapper: FeedingPointViewMappable = FeedingPointViewMapper(),
         segmentsViewMapper: FilterViewMappable = SegmentedControlMapper()
@@ -45,6 +47,9 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
                 let viewItems = points.map { self.feedingPointViewMapper.mapFeedingPoint($0) }
                 self.onFeedingPointsHaveBeenPrepared?(viewItems)
                 self.coordinator.routeTo(.details(pointId))
+                self.coordinator.feedingDidStartedEvent = { request in
+                    self.onRouteRequestHaveBeenPrepared?(request.coordinates)
+                }
             }
         case .tapFilterControl(let filterItemId):
             guard let itemIdentifier = HomeModel.FilterItemIdentifier(rawValue: filterItemId) else {
