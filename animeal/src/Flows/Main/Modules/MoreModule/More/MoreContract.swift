@@ -38,7 +38,7 @@ protocol MoreCoordinatable: Coordinatable {
 enum MoreRoute {
     case profilePage
     case donate
-    case help
+    case faq
     case about
     case account
 
@@ -48,8 +48,8 @@ enum MoreRoute {
             self = .profilePage
         case MoreActionType.donate.rawValue:
             self = .donate
-        case MoreActionType.help.rawValue:
-            self = .help
+        case MoreActionType.faq.rawValue:
+            self = .faq
         case MoreActionType.about.rawValue:
             self = .about
         case MoreActionType.account.rawValue:

@@ -30,7 +30,6 @@
 "more.about"                                      = "About (terms and conditions)";
 "more.account"                                    = "Account";
 "more.aboutShort"                                 = "About";
-"more.help"                                       = "Help";
 "action.logOut"                                   = "Log out";
 "action.cancel"                                   = "Cancel";
 "action.delete"                                   = "Delete";
@@ -54,4 +53,4 @@
 "feeding.status.starved"                          = "There is no food";
 "feeding.status.pending.pattern"                  = "%s sice not fed";
 "toast.successLogout"                             = "You have successfully logged out";
-"toast.userDeleted"                               = "Your account have successfully deleted";
+"toast.userDeleted"                               = "Your account has successfully been deleted";

@@ -65,8 +65,6 @@ internal enum L10n {
     internal static let donate = L10n.tr("Localizable", "more.donate")
     /// FAQ
     internal static let faq = L10n.tr("Localizable", "more.faq")
-    /// Help
-    internal static let help = L10n.tr("Localizable", "more.help")
     /// Profile Page
     internal static let profilePage = L10n.tr("Localizable", "more.profilePage")
   }
@@ -154,7 +152,7 @@ internal enum L10n {
   internal enum Toast {
     /// You have successfully logged out
     internal static let successLogout = L10n.tr("Localizable", "toast.successLogout")
-    /// Your account have successfully deleted
+    /// Your account has successfully been deleted
     internal static let userDeleted = L10n.tr("Localizable", "toast.userDeleted")
   }
 
