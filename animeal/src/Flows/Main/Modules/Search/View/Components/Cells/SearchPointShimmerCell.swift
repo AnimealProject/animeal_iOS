@@ -131,4 +131,3 @@ extension SearchPointShimmerCell: SearchCellContainable {
         innerView.startAnimation(withScheduler: item.scheduler)
     }
 }
-

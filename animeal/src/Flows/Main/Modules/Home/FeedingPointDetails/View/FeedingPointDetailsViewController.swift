@@ -82,11 +82,15 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
         contentContainer.bottomAnchor ~= scrollView.bottomAnchor
     }
 
-    func applyFeedingPointMediaContent(_ content: FeedingPointMediaContent) {
+    func applyFeedingPointMediaContent(
+        _ content: FeedingPointDetailsViewMapper.FeedingPointMediaContent
+    ) {
         pointDetailsView.setIcon(content.pointDetailsIcon)
     }
 
-    func applyFeedingPointContent(_ content: FeedingPointDetailsViewItem) {
+    func applyFeedingPointContent(
+        _ content: FeedingPointDetailsViewMapper.FeedingPointDetailsViewItem
+    ) {
         pointDetailsView.configure(
             FeedingPointDetailsView.Model(
                 placeInfoViewModel: content.placeInfo,
@@ -119,11 +123,16 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
 
         contentContainer.addArrangedSubview(UIView())
 
-        let button = ButtonViewFactory().makeAccentButton()
-        button.configure(content.action)
-        button.onTap = { [weak self] _ in
-            self?.viewModel.handleActionEvent(.tapAction)
+        var button: ButtonView
+        if content.action.isEnabled {
+            button = ButtonViewFactory().makeAccentButton()
+            button.onTap = { [weak self] _ in
+                self?.viewModel.handleActionEvent(.tapAction)
+            }
+        } else {
+            button = ButtonViewFactory().makeDisabledButton()
         }
+        button.configure(content.action.model)
         buttonContainer.addArrangedSubview(button)
     }
 }
