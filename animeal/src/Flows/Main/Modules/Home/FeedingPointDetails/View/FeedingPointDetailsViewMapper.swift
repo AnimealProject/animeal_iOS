@@ -4,8 +4,12 @@ import UIKit
 
 // sourcery: AutoMockable
 protocol FeedingPointDetailsViewMappable {
-    func mapFeedingPoint(_ input: FeedingPointDetailsModel.PointContent) -> FeedingPointDetailsViewItem
-    func mapFeedingPointMediaContent(_ input: Data?) -> FeedingPointMediaContent?
+    func mapFeedingPoint(
+        _ input: FeedingPointDetailsModel.PointContent
+    ) -> FeedingPointDetailsViewMapper.FeedingPointDetailsViewItem
+    func mapFeedingPointMediaContent(
+        _ input: Data?
+    ) -> FeedingPointDetailsViewMapper.FeedingPointMediaContent?
 }
 
 final class FeedingPointDetailsViewMapper: FeedingPointDetailsViewMappable {
@@ -21,10 +25,13 @@ final class FeedingPointDetailsViewMapper: FeedingPointDetailsViewMappable {
                 status: convert(input.content.status)
             ),
             placeDescription: TextParagraphView.Model(title: input.content.description.text),
-            action: ButtonView.Model(
-                identifier: input.action.identifier,
-                viewType: ButtonView.self,
-                title: input.action.title
+            action: Action(
+                model:  ButtonView.Model(
+                    identifier: input.action.identifier,
+                    viewType: ButtonView.self,
+                    title: input.action.title
+                ),
+                isEnabled: input.action.isEnabled
             ),
             feedingPointFeeders: FeedingPointFeeders(
                 title: L10n.Text.Header.lastFeeder,
@@ -50,23 +57,30 @@ final class FeedingPointDetailsViewMapper: FeedingPointDetailsViewMappable {
     }
 }
 
-struct FeedingPointDetailsViewItem {
-    let placeInfo: PlaceInfoView.Model
-    let placeDescription: TextParagraphView.Model
-    let action: ButtonView.Model
-    let feedingPointFeeders: FeedingPointFeeders
-}
-
-struct FeedingPointFeeders {
-    let title: String
-    let feeders: [Feeder]
-
-    struct Feeder {
-        let name: String
-        let lastFeeded: String
+extension FeedingPointDetailsViewMapper {
+    struct FeedingPointDetailsViewItem {
+        let placeInfo: PlaceInfoView.Model
+        let placeDescription: TextParagraphView.Model
+        let action: Action
+        let feedingPointFeeders: FeedingPointFeeders
     }
-}
 
-struct FeedingPointMediaContent {
-    var pointDetailsIcon: UIImage
+    struct FeedingPointFeeders {
+        let title: String
+        let feeders: [Feeder]
+
+        struct Feeder {
+            let name: String
+            let lastFeeded: String
+        }
+    }
+
+    struct FeedingPointMediaContent {
+        var pointDetailsIcon: UIImage
+    }
+
+    struct Action {
+        let model: ButtonView.Model
+        let isEnabled: Bool
+    }
 }

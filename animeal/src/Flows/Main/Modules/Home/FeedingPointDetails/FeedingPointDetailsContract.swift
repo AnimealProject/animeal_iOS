@@ -3,7 +3,7 @@ import CoreLocation
 
 // MARK: - View
 protocol FeedingPointDetailsViewable: AnyObject {
-    func applyFeedingPointContent(_ content: FeedingPointDetailsViewItem)
+    func applyFeedingPointContent(_ content: FeedingPointDetailsViewMapper.FeedingPointDetailsViewItem)
 }
 
 // MARK: - ViewModel
@@ -21,8 +21,8 @@ protocol FeedingPointDetailsViewInteraction: AnyObject {
 }
 
 protocol FeedingPointDetailsViewState: AnyObject {
-    var onContentHaveBeenPrepared: ((FeedingPointDetailsViewItem) -> Void)? { get set }
-    var onMediaContentHaveBeenPrepared: ((FeedingPointMediaContent) -> Void)? { get set }
+    var onContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointDetailsViewItem) -> Void)? { get set }
+    var onMediaContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointMediaContent) -> Void)? { get set }
 }
 
 // MARK: - Model

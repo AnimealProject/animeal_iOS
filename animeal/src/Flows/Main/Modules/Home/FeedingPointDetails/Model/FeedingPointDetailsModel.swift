@@ -93,6 +93,7 @@ extension FeedingPointDetailsModel {
     struct Action {
         let identifier: String
         let title: String
+        let isEnabled: Bool
     }
 
     enum Status {

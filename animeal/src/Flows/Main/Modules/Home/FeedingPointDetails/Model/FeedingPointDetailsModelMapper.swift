@@ -21,7 +21,9 @@ class FeedingPointDetailsModelMapper: FeedingPointDetailsModelMapperProtocol {
                 status: convertStatus(item.status),
                 feeders: feeders
             ), action: FeedingPointDetailsModel.Action(
-                identifier: UUID().uuidString, title: L10n.Action.iWillFeed
+                identifier: UUID().uuidString,
+                title: L10n.Action.iWillFeed,
+                isEnabled: item.status == .starved
             )
         )
     }
@@ -39,7 +41,7 @@ class FeedingPointDetailsModelMapper: FeedingPointDetailsModelMapperProtocol {
     }
 }
 
-private extension FeedingPoint {
+extension FeedingPoint {
     var localizedDescription: String {
         switch Locale.current.languageCode {
         case "ka":

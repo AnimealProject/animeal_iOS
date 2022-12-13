@@ -10,8 +10,8 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
     private let contentMapper: FeedingPointDetailsViewMappable
 
     // MARK: - State
-    var onContentHaveBeenPrepared: ((FeedingPointDetailsViewItem) -> Void)?
-    var onMediaContentHaveBeenPrepared: ((FeedingPointMediaContent) -> Void)?
+    var onContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointDetailsViewItem) -> Void)?
+    var onMediaContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointMediaContent) -> Void)?
 
     // MARK: - Initialization
     init(
