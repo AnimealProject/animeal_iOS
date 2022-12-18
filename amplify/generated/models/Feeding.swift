@@ -13,6 +13,7 @@ public struct Feeding: Model {
   public var updatedBy: String?
   public var owner: String?
   public var feedingPoint: FeedingPoint
+  public var expireAt: Int
   
   public init(id: String = UUID().uuidString,
       userId: String,
@@ -23,7 +24,8 @@ public struct Feeding: Model {
       createdBy: String? = nil,
       updatedBy: String? = nil,
       owner: String? = nil,
-      feedingPoint: FeedingPoint) {
+      feedingPoint: FeedingPoint,
+      expireAt: Int) {
       self.id = id
       self.userId = userId
       self.images = images
@@ -34,5 +36,6 @@ public struct Feeding: Model {
       self.updatedBy = updatedBy
       self.owner = owner
       self.feedingPoint = feedingPoint
+      self.expireAt = expireAt
   }
 }

@@ -14,34 +14,21 @@
     },
     "categories": {
       "auth": {
-        "animeald4b890d7": {},
         "userPoolGroups": {},
         "animeal8f90e9b68f90e9b6": {}
       },
       "function": {
-        "AdminQueries9b7a2344": {
-          "deploymentBucketName": "amplify-animeal-dev-171201-deployment",
-          "s3Key": "amplify-builds/AdminQueries9b7a2344-586269547878306b664c-build.zip"
-        },
-        "translate": {
-          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/translate-6b46754d586543315a63-build.zip"
-        },
-        "updateTranslationsTrigger": {
-          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/updateTranslationsTrigger-765a396f322b6f68696d-build.zip"
-        },
         "AdminQueriesdbb0bdc6": {
           "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/AdminQueriesdbb0bdc6-5449595a4b4863673734-build.zip"
+          "s3Key": "amplify-builds/AdminQueriesdbb0bdc6-77366e6859692b712b46-build.zip"
         },
         "animeal8f90e9b68f90e9b6CreateAuthChallenge": {
           "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6CreateAuthChallenge-3152764d487a776f374c-build.zip"
+          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6CreateAuthChallenge-5963344e4656304f6168-build.zip"
         },
         "animeal8f90e9b68f90e9b6DefineAuthChallenge": {
           "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6DefineAuthChallenge-6d55434969676f444e47-build.zip"
+          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6DefineAuthChallenge-50646f76387841582f76-build.zip"
         },
         "animeal8f90e9b68f90e9b6PreSignup": {
           "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
@@ -51,15 +38,37 @@
           "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
           "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6VerifyAuthChallengeResponse-2b2f394c584a67523570-build.zip"
         },
+        "translate": {
+          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
+          "s3Key": "amplify-builds/translate-6b46754d586543315a63-build.zip"
+        },
+        "updateTranslationsTrigger": {
+          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
+          "s3Key": "amplify-builds/updateTranslationsTrigger-765a396f322b6f68696d-build.zip"
+        },
         "animeal8f90e9b68f90e9b6PostConfirmation": {
           "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6PostConfirmation-54425275377771306351-build.zip"
-        }
-      },
-      "hosting": {
-        "amplifyhosting": {
-          "appId": "d3uobbjnmsxou",
-          "type": "cicd"
+          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6PostConfirmation-59445666794d65394736-build.zip"
+        },
+        "startFeeding": {
+          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
+          "s3Key": "amplify-builds/startFeeding-42614c597973316f7678-build.zip"
+        },
+        "finishFeeding": {
+          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
+          "s3Key": "amplify-builds/finishFeeding-4a677378673367635849-build.zip"
+        },
+        "approveFeeding": {
+          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
+          "s3Key": "amplify-builds/approveFeeding-4b68446b3538376d4d42-build.zip"
+        },
+        "rejectFeeding": {
+          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
+          "s3Key": "amplify-builds/rejectFeeding-375a3750514a6b546537-build.zip"
+        },
+        "feedingStreamTrigger": {
+          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
+          "s3Key": "amplify-builds/feedingStreamTrigger-6f3256694f513730552f-build.zip"
         }
       }
     }

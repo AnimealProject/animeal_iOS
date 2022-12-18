@@ -66,18 +66,28 @@ async function updateUserAttributes(username, userAttributes) {
   const params = {
     UserPoolId: userPoolId,
     Username: username,
-    UserAttributes: userAttributes
+    UserAttributes: userAttributes,
   };
 
-  console.log(`Attempting to update user attributes ${JSON.stringify(userAttributes)} for ${username}`);
+  console.log(
+    `Attempting to update user attributes ${JSON.stringify(
+      userAttributes,
+    )} for ${username}`,
+  );
 
   try {
     const result = await cognitoIdentityServiceProvider
       .adminUpdateUserAttributes(params)
       .promise();
-    console.log(`Update user attributes ${JSON.stringify(userAttributes)} for ${username}`);
+    console.log(
+      `Update user attributes ${JSON.stringify(
+        userAttributes,
+      )} for ${username}`,
+    );
     return {
-      message: `Update user attributes ${JSON.stringify(userAttributes)} for ${username}`,
+      message: `Update user attributes ${JSON.stringify(
+        userAttributes,
+      )} for ${username}`,
     };
   } catch (err) {
     console.log(err);
@@ -146,24 +156,21 @@ async function resetUserPassword(username) {
   }
 }
 
-
-async function createUser(username, userAttributes, messageAction) {
+async function createUser(username, userAttributes, messageAction, optionals) {
   const params = {
     UserPoolId: userPoolId,
     Username: username,
     UserAttributes: userAttributes,
-    DesiredDeliveryMediums: ['EMAIL']
+    DesiredDeliveryMediums: optionals.DesiredDeliveryMediums ?? ['SMS'],
   };
 
-  if(messageAction) {
+  if (messageAction) {
     params.MessageAction = messageAction;
   }
 
   try {
-    const result = await cognitoIdentityServiceProvider
-      .adminCreateUser(params)
-      .promise();
-    await addUserToGroup(username, 'Volunteer');
+    await cognitoIdentityServiceProvider.adminCreateUser(params).promise();
+    await addUserToGroup(username, optionals?.groups ?? 'Volunteer');
     console.log(`Created ${username}`);
     return {
       message: `Created ${username}`,
@@ -375,5 +382,5 @@ module.exports = {
   deleteUser,
   createUser,
   resetUserPassword,
-  updateUserAttributes
+  updateUserAttributes,
 };

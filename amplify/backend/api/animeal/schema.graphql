@@ -213,6 +213,39 @@ type Feeding
   updatedBy: String
   owner: String
   feedingPoint: FeedingPoint! @belongsTo
+  expireAt: AWSTimestamp!
+}
+
+type FeedingHistory
+  @searchable
+  @model
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["Administrator"]
+        operations: [create, read, update, delete]
+      }
+      {
+        allow: groups
+        groups: ["Moderator"]
+        operations: [create, read, update, delete]
+      }
+      { allow: groups, groups: ["Volunteer"], operations: [read] }
+      { allow: owner, operations: [create, read, update, delete] }
+      { allow: public, provider: apiKey }
+      { allow: private, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  userId: String!
+  images: [String!]!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  createdBy: String
+  updatedBy: String
+  owner: String
+  feedingPointId: String!
 }
 
 type RelationPetFeedingPoint
@@ -449,7 +482,11 @@ type Favourites
         groups: ["Moderator"]
         operations: [create, read, update, delete]
       }
-      { allow: groups, groups: ["Volunteer"], operations: [create, read, update, delete] }
+      {
+        allow: groups
+        groups: ["Volunteer"]
+        operations: [create, read, update, delete]
+      }
       { allow: owner, operations: [create, read, update, delete] }
       { allow: public, provider: apiKey }
       { allow: private, operations: [create, read, update, delete] }
@@ -470,6 +507,18 @@ input BoundsInput {
 input LocationInput {
   lat: Float
   lon: Float
+}
+
+input FeedingInput {
+  id: ID
+  userId: String
+  images: [String]
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+  createdBy: String
+  updatedBy: String
+  owner: String
+  feedingPointFeedingsId: String
 }
 
 input SearchableIDFilterInput {
@@ -559,4 +608,31 @@ type Query {
     from: Int
     filter: SearchableFilterInput
   ): FeedingPointConnection @aws_api_key @aws_cognito_user_pools
+}
+
+type Mutation {
+  startFeeding(feedingPointId: String!): String!
+    @function(name: "startFeeding-${env}")
+    @aws_api_key
+    @aws_cognito_user_pools
+
+  finishFeeding(feedingId: String!, images: [String!]!): String!
+    @function(name: "finishFeeding-${env}")
+    @aws_api_key
+    @aws_cognito_user_pools
+
+  rejectFeeding(feedingId: String!, feeding: FeedingInput): String!
+    @function(name: "rejectFeeding-${env}")
+    @aws_api_key
+    @aws_cognito_user_pools
+
+  approveFeeding(feedingId: String!, feeding: FeedingInput): String!
+    @function(name: "approveFeeding-${env}")
+    @aws_api_key
+    @aws_cognito_user_pools
+
+  cancelFeeding(feedingId: String!): String!
+    @function(name: "rejectFeeding-${env}")
+    @aws_api_key
+    @aws_cognito_user_pools
 }

@@ -9,6 +9,11 @@ export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
     }
   });
 
+  resources.models["Feeding"].modelDDBTable.timeToLiveSpecification = {
+    attributeName: "expireAt",
+    enabled: true
+  }
+
   const amplifyMetaJson = require('../../../amplify-meta.json');
   const env = amplifyMetaJson.providers.awscloudformation.StackName.split('-').slice(-2, -1).pop();
   if (env === 'prod') {

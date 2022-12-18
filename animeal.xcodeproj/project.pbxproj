@@ -411,7 +411,7 @@
 		83F3CC1A28477ECE00C05298 /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		83F3CC1C2847808200C05298 /* LoginModelAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModelAction.swift; sourceTree = "<group>"; };
 		83F3CC1F2847851300C05298 /* LoginViewAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewAction.swift; sourceTree = "<group>"; };
-		C189FE7FA4A378D3B032D1DB /* FeedingHistory.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = FeedingHistory.swift; path = amplify/generated/models/FeedingHistory.swift; sourceTree = "<group>"; };
+		C189FE7FA4A378D3B032D1DB /* FeedingHistory.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; lastKnownFileType = sourcecode.swift; name = FeedingHistory.swift; path = amplify/generated/models/FeedingHistory.swift; sourceTree = "<group>"; };
 		DB0AD32828A26FB6007FD750 /* SegmentedControlMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlMapper.swift; sourceTree = "<group>"; };
 		DB0D4A8128856D2C001750BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = animeal/Assets.xcassets; sourceTree = SOURCE_ROOT; };
 		DB0D4A832886A9C4001750BC /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
@@ -515,7 +515,7 @@
 		DBF56B5528CF40E300AB0BDF /* FeedingPointDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedingPointDetailsViewModel.swift; sourceTree = "<group>"; };
 		DBF56B5B28CF4A5700AB0BDF /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		EEE732E81739360CA2DC5F8B /* CategoryTag.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = CategoryTag.swift; path = amplify/generated/models/CategoryTag.swift; sourceTree = "<group>"; };
-		F69D5DD22AC8F6220ADD5221 /* FeedingHistory+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "FeedingHistory+Schema.swift"; path = "amplify/generated/models/FeedingHistory+Schema.swift"; sourceTree = "<group>"; };
+		F69D5DD22AC8F6220ADD5221 /* FeedingHistory+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; lastKnownFileType = sourcecode.swift; name = "FeedingHistory+Schema.swift"; path = "amplify/generated/models/FeedingHistory+Schema.swift"; sourceTree = "<group>"; };
 		FB00144A2859FC1800943360 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		FB00144C2859FC7700943360 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		FB00144E2859FCDD00943360 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
