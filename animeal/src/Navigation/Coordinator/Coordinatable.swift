@@ -10,4 +10,7 @@ protocol Stopable {
     func stop()
 }
 
-protocol Coordinatable: Starting, Stopable { }
+protocol Coordinatable: Starting, Stopable {
+    @MainActor
+    var navigator: Navigating { get }
+}

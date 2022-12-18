@@ -39,7 +39,7 @@ protocol VerificationModelProtocol: AnyObject {
     func fetchDestination() -> VerificationModelDeliveryDestination
     func fetchCode() -> VerificationModelCode
 
-    func requestNewCode() async throws
+    func requestNewCode(force: Bool) async throws
     func validateCode(_ code: VerificationModelCode) throws
     func verifyCode(_ code: VerificationModelCode) async throws
 }
@@ -52,6 +52,6 @@ protocol VerificationAssembler {
 }
 
 // MARK: - Coordinator
-protocol VerificationCoordinatable: Coordinatable {
+protocol VerificationCoordinatable: Coordinatable, AlertCoordinatable {
     func moveFromVerification(to route: VerificationRoute)
 }

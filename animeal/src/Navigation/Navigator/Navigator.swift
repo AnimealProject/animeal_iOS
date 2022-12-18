@@ -5,7 +5,7 @@ protocol Navigating {
     var topViewController: UIViewController? { get }
     var viewControllers: [UIViewController] { get }
 
-    func makeChildNavigator() -> Navigator?
+    func makeChildNavigator() -> Navigating?
     func present(_ viewController: UIViewController, animated: Bool, completion: (() -> Void)?)
     func dismiss(animated: Bool, completion: (() -> Void)?)
     func push(_ viewController: UIViewController, animated: Bool, completion: (() -> Void)?)
@@ -50,7 +50,7 @@ public final class Navigator: Navigating {
     }
 
     // MARK: - Child flow creation
-    func makeChildNavigator() -> Navigator? {
+    func makeChildNavigator() -> Navigating? {
         guard let navigationController = navigationController else {
             return nil
         }

@@ -49,6 +49,9 @@
 "verification.error.codeDigitsCountDoesNotFit"    = "Code digits count doesn’t fit";
 "verification.error.codeRequestTimeLimitExceeded" = "Code request time limit exceeded";
 "verification.error.codeUnsupportedNextStep"      = "Code unsupported next step";
+"verification.error.codeTriesCountLimitExceeded"  = "Attempts to enter the verification code have ended. Try requesting the code again.";
+"verification.alert.resend"                       = "Resend";
+"verification.alert.cancel"                       = "Cancel";
 "feeding.status.fed"                              = "Newly fed";
 "feeding.status.starved"                          = "There is no food";
 "feeding.status.pending.pattern"                  = "%s sice not fed";

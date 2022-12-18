@@ -16,7 +16,7 @@ enum HomeFlowBackwardAction {
 @MainActor
 final class MainCoordinator: Coordinatable {
     // MARK: - Private properties
-    private let navigator: Navigating
+    private let _navigator: Navigating
     private var childCoordinators: [Coordinatable]
     private var backwardEvents: [HomeFlowBackwardEvent] = []
     private enum Constant {
@@ -109,6 +109,8 @@ final class MainCoordinator: Coordinatable {
     // MARK: - Dependencies
     private let presentingWindow: UIWindow
     private let completion: (([HomeFlowBackwardEvent]) -> Void)?
+    
+    var navigator: Navigating { _navigator }
 
     // MARK: - Initialization
     init(
@@ -118,7 +120,7 @@ final class MainCoordinator: Coordinatable {
         self.presentingWindow = presentingWindow
         self.completion = completion
         let navigationController = UINavigationController()
-        self.navigator = Navigator(navigationController: navigationController)
+        self._navigator = Navigator(navigationController: navigationController)
         self.childCoordinators = []
     }
 
@@ -126,7 +128,7 @@ final class MainCoordinator: Coordinatable {
     func start() {
         presentingWindow.rootViewController = rootTabBarController
         rootTabBarController.selectedViewController(index: Constant.homeViewIndex)
-        navigator.push(rootTabBarController, animated: false, completion: nil)
+        _navigator.push(rootTabBarController, animated: false, completion: nil)
         presentingWindow.makeKeyAndVisible()
     }
 
