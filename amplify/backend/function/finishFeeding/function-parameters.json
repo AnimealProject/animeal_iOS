@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "api": {
+      "animeal": [
+        "Query",
+        "Mutation"
+      ]
+    }
+  },
+  "lambdaLayers": [],
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "isApprovalEnabled",
+      "environmentVariableName": "IS_APPROVAL_ENABLED"
+    }
+  ]
+}

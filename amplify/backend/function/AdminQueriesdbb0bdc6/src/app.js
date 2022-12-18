@@ -36,20 +36,30 @@ const {
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(awsServerlessExpressMiddleware.eventContext());
 
 // Enable CORS for all methods
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept',
+  );
   next();
 });
 
 // Only perform tasks if the user is in a specific group
 const allowedGroup = process.env.GROUP;
 
-const checkGroup = function(req, res, next) {
-  if (req.path == '/signUserOut') {
+const checkGroup = function (req, res, next) {
+  if (
+    req.path == '/signUserOut' ||
+    req.path == '/listGroups' ||
+    req.path == '/listUsers' ||
+    req.path == '/getUser' ||
+    req.path == '/listGroupsForUser'
+  ) {
     return next();
   }
 
@@ -59,13 +69,20 @@ const checkGroup = function(req, res, next) {
 
   // Fail if group enforcement is being used
   if (req.apiGateway.event.requestContext.authorizer.claims['cognito:groups']) {
-    const groups = req.apiGateway.event.requestContext.authorizer.claims['cognito:groups'].split(',');
+    const groups =
+      req.apiGateway.event.requestContext.authorizer.claims[
+        'cognito:groups'
+      ].split(',');
     if (!(allowedGroup && groups.indexOf(allowedGroup) > -1)) {
-      const err = new Error(`User does not have permissions to perform administrative tasks`);
+      const err = new Error(
+        `User does not have permissions to perform administrative tasks`,
+      );
       next(err);
     }
   } else {
-    const err = new Error(`User does not have permissions to perform administrative tasks`);
+    const err = new Error(
+      `User does not have permissions to perform administrative tasks`,
+    );
     err.statusCode = 403;
     next(err);
   }
@@ -82,7 +99,10 @@ app.post('/addUserToGroup', async (req, res, next) => {
   }
 
   try {
-    const response = await addUserToGroup(req.body.username, req.body.groupname);
+    const response = await addUserToGroup(
+      req.body.username,
+      req.body.groupname,
+    );
     res.status(200).json(response);
   } catch (err) {
     next(err);
@@ -112,7 +132,15 @@ app.post('/createUser', async (req, res, next) => {
   }
 
   try {
-    const response = await createUser(req.body.username, req.body.userAttributes, req.body.messageAction);
+    const response = await createUser(
+      req.body.username,
+      req.body.userAttributes,
+      req.body.messageAction,
+      {
+        DesiredDeliveryMediums: req.body.desiredDeliveryMediums,
+        groups: req.body.groups,
+      },
+    );
     res.status(200).json(response);
   } catch (err) {
     next(err);
@@ -127,7 +155,10 @@ app.post('/updateAttributesUser', async (req, res, next) => {
   }
 
   try {
-    const response = await updateUserAttributes(req.body.username, req.body.userAttributes);
+    const response = await updateUserAttributes(
+      req.body.username,
+      req.body.userAttributes,
+    );
     res.status(200).json(response);
   } catch (err) {
     next(err);
@@ -142,7 +173,10 @@ app.post('/removeUserFromGroup', async (req, res, next) => {
   }
 
   try {
-    const response = await removeUserFromGroup(req.body.username, req.body.groupname);
+    const response = await removeUserFromGroup(
+      req.body.username,
+      req.body.groupname,
+    );
     res.status(200).json(response);
   } catch (err) {
     next(err);
@@ -266,9 +300,16 @@ app.get('/listGroupsForUser', async (req, res, next) => {
   try {
     let response;
     if (req.query.token) {
-      response = await listGroupsForUser(req.query.username, req.query.limit || 25, req.query.token);
+      response = await listGroupsForUser(
+        req.query.username,
+        req.query.limit || 25,
+        req.query.token,
+      );
     } else if (req.query.limit) {
-      response = await listGroupsForUser(req.query.username, (Limit = req.query.limit));
+      response = await listGroupsForUser(
+        req.query.username,
+        (Limit = req.query.limit),
+      );
     } else {
       response = await listGroupsForUser(req.query.username);
     }
@@ -288,9 +329,16 @@ app.get('/listUsersInGroup', async (req, res, next) => {
   try {
     let response;
     if (req.query.token) {
-      response = await listUsersInGroup(req.query.groupname, req.query.limit || 25, req.query.token);
+      response = await listUsersInGroup(
+        req.query.groupname,
+        req.query.limit || 25,
+        req.query.token,
+      );
     } else if (req.query.limit) {
-      response = await listUsersInGroup(req.query.groupname, (Limit = req.query.limit));
+      response = await listUsersInGroup(
+        req.query.groupname,
+        (Limit = req.query.limit),
+      );
     } else {
       response = await listUsersInGroup(req.query.groupname);
     }
@@ -308,8 +356,10 @@ app.post('/signUserOut', async (req, res, next) => {
    * such as updating an attribute, not services consuming the JWT
    */
   if (
-    req.body.username != req.apiGateway.event.requestContext.authorizer.claims.username &&
-    req.body.username != /[^/]*$/.exec(req.apiGateway.event.requestContext.identity.userArn)[0]
+    req.body.username !=
+      req.apiGateway.event.requestContext.authorizer.claims.username &&
+    req.body.username !=
+      /[^/]*$/.exec(req.apiGateway.event.requestContext.identity.userArn)[0]
   ) {
     const err = new Error('only the user can sign themselves out');
     err.statusCode = 400;
@@ -328,10 +378,7 @@ app.post('/signUserOut', async (req, res, next) => {
 app.use((err, req, res, next) => {
   console.error(err.message);
   if (!err.statusCode) err.statusCode = 500; // If err has no specified error code, set error code to 'Internal Server Error (500)'
-  res
-    .status(err.statusCode)
-    .json({ message: err.message })
-    .end();
+  res.status(err.statusCode).json({ message: err.message }).end();
 });
 
 app.listen(3000, () => {

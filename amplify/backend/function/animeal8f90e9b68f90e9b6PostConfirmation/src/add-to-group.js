@@ -6,7 +6,6 @@ const cognitoidentityserviceprovider = new aws.CognitoIdentityServiceProvider();
  * @type {import('@types/aws-lambda').PostConfirmationTriggerHandler}
  */
 exports.handler = async (event) => {
-  console.log(JSON.stringify(event));
   const groupParams = {
     GroupName: process.env.GROUP,
     UserPoolId: event.userPoolId,
@@ -30,7 +29,6 @@ exports.handler = async (event) => {
       event.request.userAttributes['cognito:user_status'] ===
       'EXTERNAL_PROVIDER'
     ) {
-      console.log('social');
 
       var params = {
         UserAttributes: [
