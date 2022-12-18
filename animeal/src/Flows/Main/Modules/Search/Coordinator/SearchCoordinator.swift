@@ -7,23 +7,25 @@ import Style
 
 final class SearchCoordinator: Coordinatable {
     // MARK: - Dependencies
-    private let navigator: Navigating
+    private let _navigator: Navigating
     private let completion: (() -> Void)?
     private var bottomSheetController: BottomSheetPresentationController?
+    
+    var navigator: Navigating { _navigator }
 
     // MARK: - Initialization
     init(
         navigator: Navigator,
         completion: (() -> Void)? = nil
     ) {
-        self.navigator = navigator
+        self._navigator = navigator
         self.completion = completion
     }
 
     // MARK: - Life cycle
     func start() {
         let viewController = SearchAssembler.assembly(coordinator: self)
-        navigator.push(viewController, animated: false, completion: nil)
+        _navigator.push(viewController, animated: false, completion: nil)
     }
 
     func stop() {
@@ -41,7 +43,7 @@ extension SearchCoordinator: SearchCoordinatable {
             ).assemble()
             let controller = BottomSheetPresentationController(controller: viewController)
             controller.modalPresentationStyle = .overFullScreen
-            navigator.present(controller, animated: false, completion: nil)
+            _navigator.present(controller, animated: false, completion: nil)
             bottomSheetController = controller
         }
     }
@@ -58,7 +60,7 @@ extension SearchCoordinator: FeedingPointCoordinatable {
                     feedingDetails: feedingDetails
                 ).assemble()
                 screen.modalPresentationStyle = .overFullScreen
-                self.navigator.present(screen, animated: true, completion: nil)
+                self._navigator.present(screen, animated: true, completion: nil)
             }
         }
     }
@@ -70,9 +72,9 @@ extension SearchCoordinator: FeedingBookingCoordinatable {
         case .agree(let feedingDetails):
             // TODO: Route to home screen with `feedingDetails` and request to build the route
             print(feedingDetails)
-            navigator.topViewController?.dismiss(animated: true, completion: nil)
+            _navigator.topViewController?.dismiss(animated: true, completion: nil)
         case .cancel:
-            navigator.topViewController?.dismiss(animated: true, completion: nil)
+            _navigator.topViewController?.dismiss(animated: true, completion: nil)
         }
     }
 }

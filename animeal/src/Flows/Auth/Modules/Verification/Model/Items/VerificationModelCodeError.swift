@@ -11,6 +11,7 @@ enum VerificationModelCodeError: LocalizedError {
     case codeDigitsCountDoesNotFit
     case codeRequestTimeLimitExceeded
     case codeUnsupportedNextStep
+    case codeTriesCountLimitExceeded
 
     var errorDescription: String? {
         switch self {
@@ -20,6 +21,8 @@ enum VerificationModelCodeError: LocalizedError {
             return L10n.Verification.Error.codeRequestTimeLimitExceeded
         case .codeUnsupportedNextStep:
             return L10n.Verification.Error.codeUnsupportedNextStep
+        case .codeTriesCountLimitExceeded:
+            return L10n.Verification.Error.codeTriesCountLimitExceeded
         }
     }
 }

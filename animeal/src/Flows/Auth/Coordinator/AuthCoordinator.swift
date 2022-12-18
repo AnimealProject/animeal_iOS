@@ -4,16 +4,18 @@ import UIComponents
 import Amplify
 
 @MainActor
-final class AuthCoordinator: Coordinatable {
+final class AuthCoordinator: Coordinatable, AlertCoordinatable {
     typealias Context = UserProfileServiceHolder
 
     // MARK: - Private properties
-    private let navigator: Navigating
+    private let _navigator: Navigating
     private let context: Context
 
     // MARK: - Dependencies
     private let presentingWindow: UIWindow
     private let completion: (() -> Void)?
+
+    var navigator: Navigating { _navigator }
 
     // MARK: - Initialization
     init(
@@ -25,7 +27,7 @@ final class AuthCoordinator: Coordinatable {
         self.context = context
         self.completion = completion
         let navigationController = UINavigationController()
-        self.navigator = Navigator(navigationController: navigationController)
+        self._navigator = Navigator(navigationController: navigationController)
         self.presentingWindow.rootViewController = navigationController
     }
 
@@ -44,7 +46,7 @@ final class AuthCoordinator: Coordinatable {
                 coordinator: self,
                 window: presentingWindow
             ).assemble()
-            navigator.push(loginViewController, animated: false, completion: nil)
+            _navigator.push(loginViewController, animated: false, completion: nil)
             presentingWindow.makeKeyAndVisible()
         }
     }
@@ -58,10 +60,10 @@ final class AuthCoordinator: Coordinatable {
         switch (isPhoneNumberVerified, isEmailVerified) {
         case (false, _):
             let viewController = ProfileAfterSocialAuthAssembler.assembly(coordinator: self)
-            navigator.push(viewController, animated: false, completion: nil)
+            _navigator.push(viewController, animated: false, completion: nil)
         case (_, false):
             let viewController = ProfileAfterCustomAuthAssembler.assembly(coordinator: self)
-            navigator.push(viewController, animated: false, completion: nil)
+            _navigator.push(viewController, animated: false, completion: nil)
         default:
             logError("[APP] should not be here")
         }
@@ -73,12 +75,12 @@ extension AuthCoordinator: LoginCoordinatable {
         switch route {
         case .customAuthentication:
             let viewController = CustomAuthAssembler.assembly(coordinator: self)
-            navigator.push(viewController, animated: true, completion: nil)
+            _navigator.push(viewController, animated: true, completion: nil)
         case .codeConfirmation:
             break
         case .done:
             let viewController = ProfileAfterSocialAuthAssembler.assembly(coordinator: self)
-            navigator.push(viewController, animated: true, completion: nil)
+            _navigator.push(viewController, animated: true, completion: nil)
         }
     }
 }
@@ -91,19 +93,19 @@ extension AuthCoordinator: CustomAuthCoordinatable {
                 coordinator: self,
                 deliveryDestination: details.destination
             )
-            navigator.push(viewController, animated: true, completion: nil)
+            _navigator.push(viewController, animated: true, completion: nil)
         case .setNewPassword:
             break
         case .resetPassword:
             break
         case .done:
             let viewController = ProfileAfterCustomAuthAssembler.assembly(coordinator: self)
-            navigator.push(viewController, animated: true, completion: nil)
+            _navigator.push(viewController, animated: true, completion: nil)
         case let .picker(make):
             guard let viewController = make() else { return }
-            navigator.present(viewController, animated: false, completion: nil)
+            _navigator.present(viewController, animated: false, completion: nil)
         case .dismiss:
-            if let bottomSheetVC = navigator.topViewController as? BottomSheetPresentationController {
+            if let bottomSheetVC = _navigator.topViewController as? BottomSheetPresentationController {
                 bottomSheetVC.dismissView(completion: nil)
             }
         }
@@ -115,7 +117,7 @@ extension AuthCoordinator: VerificationCoordinatable {
         switch route {
         case .fillProfile:
             let viewController = ProfileAfterCustomAuthAssembler.assembly(coordinator: self)
-            navigator.push(viewController, animated: true, completion: nil)
+            _navigator.push(viewController, animated: true, completion: nil)
         }
     }
 }
@@ -126,7 +128,7 @@ extension AuthCoordinator: ProfileCoordinatable {
         case .done:
             stop()
         case .cancel:
-            navigator.popToRoot(animated: true)
+            _navigator.popToRoot(animated: true)
         case let .confirm(details, attribute):
             let viewController = VerificationAfterProfileAuthAssembler.assembly(
                 coordinator: self,
@@ -136,12 +138,12 @@ extension AuthCoordinator: ProfileCoordinatable {
                     value: attribute.value
                 )
             )
-            navigator.push(viewController, animated: true, completion: nil)
+            _navigator.push(viewController, animated: true, completion: nil)
         case .picker(let make):
             guard let viewController = make() else { return }
-            navigator.present(viewController, animated: false, completion: nil)
+            _navigator.present(viewController, animated: false, completion: nil)
         case .dismiss:
-            if let bottomSheetVC = navigator.topViewController as? BottomSheetPresentationController {
+            if let bottomSheetVC = _navigator.topViewController as? BottomSheetPresentationController {
                 bottomSheetVC.dismissView(completion: nil)
             }
         }

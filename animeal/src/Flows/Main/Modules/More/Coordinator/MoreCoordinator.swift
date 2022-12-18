@@ -5,23 +5,25 @@ import UIComponents
 @MainActor
 final class MoreCoordinator: Coordinatable {
     // MARK: - Dependencies
-    private var navigator: Navigating
+    private var _navigator: Navigating
     private let completion: ((HomeFlowBackwardEvent?) -> Void)?
     private var backwardEvent: HomeFlowBackwardEvent?
+    
+    var navigator: Navigating { _navigator }
 
     // MARK: - Initialization
     init(
         navigator: Navigator,
         completion: ((HomeFlowBackwardEvent?) -> Void)? = nil
     ) {
-        self.navigator = navigator
+        self._navigator = navigator
         self.completion = completion
     }
 
     // MARK: - Life cycle
     func start() {
         let moreViewController = MoreModuleAssembler(coordinator: self).assemble()
-        navigator.push(moreViewController, animated: false, completion: nil)
+        _navigator.push(moreViewController, animated: false, completion: nil)
     }
 
     func stop() {
@@ -36,7 +38,7 @@ final class MoreCoordinator: Coordinatable {
             }
         )
         DispatchQueue.main.async {
-            self.navigator.present(
+            self._navigator.present(
                 alertViewController,
                 animated: true,
                 completion: nil
@@ -60,9 +62,9 @@ extension MoreCoordinator: MoreCoordinatable {
         case .account:
             viewController = MorePartitionModuleAssembler(coordinator: self).assemble(.account)
         }
-        navigator.navigationController?.customTabBarController?.setTabBarHidden(true, animated: true)
-        navigator.navigationController?.setNavigationBarHidden(false, animated: false)
-        navigator.push(viewController, animated: true, completion: nil)
+        _navigator.navigationController?.customTabBarController?.setTabBarHidden(true, animated: true)
+        _navigator.navigationController?.setNavigationBarHidden(false, animated: false)
+        _navigator.push(viewController, animated: true, completion: nil)
     }
 }
 
@@ -80,7 +82,7 @@ extension MoreCoordinator: MorePartitionCoordinatable {
             )
             stop()
         case .back:
-            navigator.pop(animated: true, completion: nil)
+            _navigator.pop(animated: true, completion: nil)
         case .error(let errorDescription):
             presentError(errorDescription)
         }
@@ -91,7 +93,7 @@ extension MoreCoordinator: VerificationCoordinatable {
     func moveFromVerification(to route: VerificationRoute) {
         switch route {
         case .fillProfile:
-            navigator.pop(animated: true, completion: nil)
+            _navigator.pop(animated: true, completion: nil)
         }
     }
 }
@@ -100,9 +102,9 @@ extension MoreCoordinator: ProfileCoordinatable {
     func move(to route: ProfileRoute) {
         switch route {
         case .done:
-            navigator.pop(animated: true, completion: nil)
+            _navigator.pop(animated: true, completion: nil)
         case .cancel:
-            navigator.pop(animated: true, completion: nil)
+            _navigator.pop(animated: true, completion: nil)
         case let .confirm(details, attribute):
             let viewController = VerificationAfterProfileAuthAssembler.assembly(
                 coordinator: self,
@@ -112,12 +114,12 @@ extension MoreCoordinator: ProfileCoordinatable {
                     value: attribute.value
                 )
             )
-            navigator.push(viewController, animated: true, completion: nil)
+            _navigator.push(viewController, animated: true, completion: nil)
         case .picker(let make):
             guard let viewController = make() else { return }
-            navigator.present(viewController, animated: false, completion: nil)
+            _navigator.present(viewController, animated: false, completion: nil)
         case .dismiss:
-            if let bottomSheetVC = navigator.topViewController as? BottomSheetPresentationController {
+            if let bottomSheetVC = _navigator.topViewController as? BottomSheetPresentationController {
                 bottomSheetVC.dismissView(completion: nil)
             }
         }

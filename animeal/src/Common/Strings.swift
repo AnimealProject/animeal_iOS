@@ -159,11 +159,19 @@ internal enum L10n {
   internal enum Verification {
     /// Enter verification code
     internal static let title = L10n.tr("Localizable", "verification.title")
+    internal enum Alert {
+      /// Cancel
+      internal static let cancel = L10n.tr("Localizable", "verification.alert.cancel")
+      /// Resend
+      internal static let resend = L10n.tr("Localizable", "verification.alert.resend")
+    }
     internal enum Error {
       /// Code digits count doesn’t fit
       internal static let codeDigitsCountDoesNotFit = L10n.tr("Localizable", "verification.error.codeDigitsCountDoesNotFit")
       /// Code request time limit exceeded
       internal static let codeRequestTimeLimitExceeded = L10n.tr("Localizable", "verification.error.codeRequestTimeLimitExceeded")
+      /// Attempts to enter the verification code have ended. Try requesting the code again.
+      internal static let codeTriesCountLimitExceeded = L10n.tr("Localizable", "verification.error.codeTriesCountLimitExceeded")
       /// Code unsupported next step
       internal static let codeUnsupportedNextStep = L10n.tr("Localizable", "verification.error.codeUnsupportedNextStep")
     }

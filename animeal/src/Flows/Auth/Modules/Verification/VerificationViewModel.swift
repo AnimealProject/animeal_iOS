@@ -64,51 +64,72 @@ final class VerificationViewModel: VerificationViewModelLifeCycle, VerificationV
     func handleActionEvent(_ event: VerificationViewActionEvent) {
         switch event {
         case .tapResendCode:
+            handleResendNewCode(force: false)
+        case .changeCode(let viewCodeItems):
+            handleChangeCode(viewCodeItems: viewCodeItems)
+        }
+    }
+
+    private func handleResendNewCode(force: Bool) {
+        onActivityIsNeededToDisplay?({ [weak self] in
+            do {
+                try await self?.model.requestNewCode(force: force)
+            } catch VerificationModelCodeError.codeRequestTimeLimitExceeded {
+                return
+            } catch {
+                throw error
+            }
+        })
+    }
+
+    private func handleChangeCode(viewCodeItems: [VerificationViewCodeItem]) {
+        let modelCode = VerificationModelCode(
+            items: viewCodeItems.map {
+                VerificationModelCodeItem(identifier: $0.identifier, text: $0.text)
+            }
+        )
+        do {
+            try model.validateCode(modelCode)
             onActivityIsNeededToDisplay?({ [weak self] in
                 do {
-                    try await self?.model.requestNewCode()
-                } catch VerificationModelCodeError.codeRequestTimeLimitExceeded {
-                    return
+                    try await self?.model.verifyCode(modelCode)
+                    self?.onCodeHasBeenPrepared?(
+                        VerificationViewCode(
+                            state: VerificationViewCodeState.normal,
+                            items: viewCodeItems
+                        ),
+                        false
+                    )
+                    self?.coordinator.moveFromVerification(to: .fillProfile)
+                } catch let error as VerificationModelCodeError where error == .codeTriesCountLimitExceeded {
+                    let viewAlert = ViewAlert(
+                        title: error.localizedDescription,
+                        actions: [
+                            .cancel(),
+                            .resend { [weak self] in
+                                self?.handleResendNewCode(force: false)
+                            }
+                        ]
+                    )
+                    self?.coordinator.displayAlert(viewAlert)
                 } catch {
-                    throw error
+                    self?.onCodeHasBeenPrepared?(
+                        VerificationViewCode(
+                            state: VerificationViewCodeState.error,
+                            items: viewCodeItems
+                        ),
+                        false
+                    )
                 }
             })
-        case .changeCode(let viewCodeItems):
-            let modelCode = VerificationModelCode(
-                items: viewCodeItems.map {
-                    VerificationModelCodeItem(identifier: $0.identifier, text: $0.text)
-                }
-            )
-            do {
-                try model.validateCode(modelCode)
-                onActivityIsNeededToDisplay?({ [weak self] in
-                    do {
-                        try await self?.model.verifyCode(modelCode)
-                        self?.onCodeHasBeenPrepared?(
-                            VerificationViewCode(
-                                state: VerificationViewCodeState.normal,
-                                items: viewCodeItems
-                            ),
-                            false
-                        )
-                        self?.coordinator.moveFromVerification(to: .fillProfile)
-                    } catch {
-                        self?.onCodeHasBeenPrepared?(
-                            VerificationViewCode(
-                                state: VerificationViewCodeState.error,
-                                items: viewCodeItems
-                            ),
-                            false
-                        )
-                    }
-                })
-            } catch { }
-        }
+        } catch { }
     }
 }
 
 private extension VerificationViewHeader {
-    static func `default`(_ destination: VerificationModelDeliveryDestination? = nil) -> VerificationViewHeader {
+    static func `default`(
+        _ destination: VerificationModelDeliveryDestination? = nil
+    ) -> VerificationViewHeader {
         let subtitle: String
         if let destination = destination?.value {
             subtitle = "\(L10n.Verification.Subtitle.filled) \(destination)"
@@ -119,6 +140,24 @@ private extension VerificationViewHeader {
         return VerificationViewHeader(
             title: L10n.Verification.title,
             subtitle: subtitle
+        )
+    }
+}
+
+private extension ViewAlertAction {
+    static func cancel(_ handler: @escaping () -> Void = { }) -> ViewAlertAction {
+        ViewAlertAction(
+            title: L10n.Verification.Alert.cancel,
+            style: .inverted,
+            handler: handler
+        )
+    }
+
+    static func resend(_ handler: @escaping () -> Void = { }) -> ViewAlertAction {
+        ViewAlertAction(
+            title: L10n.Verification.Alert.resend,
+            style: .accent,
+            handler: handler
         )
     }
 }

@@ -16,7 +16,7 @@ final class AppCoordinator: AppCoordinatable {
     typealias Context = AuthenticationServiceHolder & UserProfileServiceHolder
 
     // MARK: - Private properties
-    private let navigator: Navigating
+    private let _navigator: Navigating
 
     private var childCoordinators: [Coordinatable]
     private lazy var authWindow = UIWindow(windowScene: scene)
@@ -29,6 +29,8 @@ final class AppCoordinator: AppCoordinatable {
     private let context: Context
     private let authChannelEventsPublisher: AuthChannelEventsPublisher?
 
+    var navigator: Navigating { _navigator }
+
     // MARK: - Initialization
     init(
         scene: UIWindowScene,
@@ -37,7 +39,7 @@ final class AppCoordinator: AppCoordinatable {
     ) {
         self.scene = scene
         self.context = context
-        self.navigator = Navigator(navigationController: UINavigationController())
+        self._navigator = Navigator(navigationController: UINavigationController())
         self.childCoordinators = []
 
         if authChannelEventsPublisher == nil,

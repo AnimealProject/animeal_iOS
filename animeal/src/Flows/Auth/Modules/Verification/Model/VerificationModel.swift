@@ -63,8 +63,14 @@ final class VerificationModel: VerificationModelProtocol {
 
     func fetchCode() -> VerificationModelCode { code }
 
-    func requestNewCode() async throws {
-        guard isResendActive else { throw VerificationModelCodeError.codeRequestTimeLimitExceeded }
+    func requestNewCode(force: Bool) async throws {
+        let isRequestNewCodeAvailable: Bool = {
+            if force { return true }
+            else { return isResendActive }
+        }()
+        guard isRequestNewCodeAvailable else {
+            throw VerificationModelCodeError.codeRequestTimeLimitExceeded
+        }
         schedule()
         try await worker.resendCode(forAttribute: attribute)
     }
@@ -74,15 +80,22 @@ final class VerificationModel: VerificationModelProtocol {
     }
 
     func verifyCode(_ code: VerificationModelCode) async throws {
-        let nextStep = try await worker.confirmCode(code, forAttribute: attribute)
-        switch nextStep {
-        case .confirmSignInWithSMSMFACode,
-                .confirmSignInWithCustomChallenge,
-                .confirmSignInWithNewPassword,
-                .resetPassword,
-                .confirmSignUp:
-            throw VerificationModelCodeError.codeUnsupportedNextStep
-        case .done: return
+        do {
+            let nextStep = try await worker.confirmCode(code, forAttribute: attribute)
+            switch nextStep {
+            case .confirmSignInWithSMSMFACode,
+                    .confirmSignInWithCustomChallenge,
+                    .confirmSignInWithNewPassword,
+                    .resetPassword,
+                    .confirmSignUp:
+                throw VerificationModelCodeError.codeUnsupportedNextStep
+            case .done: return
+            }
+        } catch AuthenticationError.notAuthorized {
+            throw VerificationModelCodeError.codeTriesCountLimitExceeded
+        } catch {
+            print(error)
+            throw error
         }
     }
 }
