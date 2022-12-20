@@ -25,11 +25,13 @@ final class SearchModel: SearchModelProtocol {
     }
 
     // MARK: - Requests
+    func fetchFilteringText() -> String? { searchString }
+    
     func fetchFeedingPoints(force: Bool) async throws -> [SearchModelSection] {
         guard force else { return await filterFeedingPoints(searchString) }
         let result = try await networkService.query(request: .list(animeal.FeedingPoint.self))
         let sections = result
-            .map { $0.city }
+            .map { $0.localizedCity.removeHtmlTags() }
             .uniqueValues
             .map {
                 SearchModelSection(
@@ -43,12 +45,12 @@ final class SearchModel: SearchModelProtocol {
             var result = partialResult
             let item = SearchModelItem(
                 identifier: point.id,
-                name: point.name,
-                description: point.description,
+                name: point.localizedName.removeHtmlTags(),
+                description: point.localizedDescription.removeHtmlTags(),
                 icon: point.images?.first,
                 status: .init(point.status)
             )
-            let city = point.city
+            let city = point.localizedCity.removeHtmlTags()
             var items = result[city] ?? []
             items.append(item)
             result.updateValue(items, forKey: city)
@@ -89,8 +91,4 @@ final class SearchModel: SearchModelProtocol {
 
         sections[index].toogle()
     }
-}
-
-private extension String {
-    static var defaultLocale: String { "en" }
 }

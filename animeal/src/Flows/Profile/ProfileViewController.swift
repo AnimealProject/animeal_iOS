@@ -11,7 +11,7 @@ final class ProfileViewController: BaseViewController, ProfileViewable {
     private let contentView = UIStackView().prepareForAutoLayout()
     private var inputViews: [TextInputDecoratable] = []
     private let buttonsView = ButtonContainerView().prepareForAutoLayout()
-    
+
     let activityPresenter = ActivityIndicatorPresenter()
 
     // MARK: - Dependencies

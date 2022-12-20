@@ -59,3 +59,5 @@
 "feeding.status.pending.pattern","","%s sice not fed","sice არ იკვებება","","","","","","","","","","","","","","","","","","","","","","",""
 "toast.successLogout","","You have successfully logged out","თქვენ წარმატებით გამოხვედით სისტემიდან","","","","","","","","","","","","","","","","","","","","","","",""
 "toast.userDeleted","","Your account has successfully been deleted","თქვენი ანგარიში წარმატებით წაიშალა","","","","","","","","","","","","","","","","","","","","","","",""
+"search.empty.text","","There are no feedings points for now. Please try again a little bit later","ამ დროისთვის კვების პუნქტები არ არის. გთხოვთ, სცადოთ ხელახლა ცოტა მოგვიანებით","","","","","","","","","","","","","","","","","","","","","","",""
+"search.searchBar.placeholder","","Search here","Აქ მოძებნე","","","","","","","","","","","","","","","","","","","","","","",""

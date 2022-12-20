@@ -16,7 +16,7 @@ final class SearchViewModel: SearchViewModelProtocol {
 
     // MARK: - State
     var onErrorIsNeededToDisplay: ((String) -> Void)?
-    var onSnapshotWasPrepared: ((Snapshot) -> Void)?
+    var onContentStateWasPrepared: ((SearchViewContentState) -> Void)?
     var onSearchInputWasPrepared: ((SearchViewInput) -> Void)?
 
     // MARK: - Initialization
@@ -77,8 +77,8 @@ private extension SearchViewModel {
             state: .normal,
             content: SearchTextContentView.Model(
                 icon: Asset.Images.search.image,
-                placeholder: "Search here",
-                text: .none,
+                placeholder: L10n.Search.SearchBar.placeholder,
+                text: model.fetchFilteringText(),
                 isEditable: true
             )
         )
@@ -92,13 +92,21 @@ private extension SearchViewModel {
             do {
                 let viewSections = try await operation()
 
-                var snapshot = Snapshot()
+                guard !viewSections.isEmpty else {
+                    let viewEmpty = SearchViewEmpty(
+                        text: L10n.Search.Empty.text
+                    )
+                    self?.onContentStateWasPrepared?(.empty(viewEmpty))
+                    return
+                }
+
+                var snapshot = SearchViewSnapshot()
                 snapshot.appendSections(viewSections)
                 viewSections.forEach { viewSection in
                     snapshot.appendItems(viewSection.items, toSection: viewSection)
                 }
 
-                self?.onSnapshotWasPrepared?(snapshot)
+                self?.onContentStateWasPrepared?(.snapshot(snapshot))
             } catch {
                 self?.onErrorIsNeededToDisplay?(error.localizedDescription)
             }

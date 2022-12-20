@@ -57,3 +57,5 @@
 "feeding.status.pending.pattern"                  = "%s sice not fed";
 "toast.successLogout"                             = "You have successfully logged out";
 "toast.userDeleted"                               = "Your account has successfully been deleted";
+"search.empty.text"                               = "There are no feedings points for now. Please try again a little bit later";
+"search.searchBar.placeholder"                    = "Search here";
