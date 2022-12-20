@@ -59,4 +59,13 @@ extension FeedingPoint {
             return i18n?.first(where: { $0.locale == "en" })?.name ?? .empty
         }
     }
+
+    var localizedCity: String {
+        switch Locale.current.languageCode {
+        case "ka":
+            return city
+        default:
+            return i18n?.first(where: { $0.locale == "en" })?.city ?? .empty
+        }
+    }
 }

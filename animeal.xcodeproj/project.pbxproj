@@ -70,6 +70,7 @@
 		837F1FB328868C3A001FABC5 /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837F1FB228868C3A001FABC5 /* AuthenticationService.swift */; };
 		837F1FB528869B29001FABC5 /* AuthenticationAmplifyConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837F1FB428869B29001FABC5 /* AuthenticationAmplifyConverter.swift */; };
 		8385DB9E290EAD2900F64BCC /* SearchModelFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8385DB9D290EAD2900F64BCC /* SearchModelFilter.swift */; };
+		8387508D2952574A00C0224B /* SearchViewContentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8387508C2952574A00C0224B /* SearchViewContentState.swift */; };
 		838B6B6C2868B011001DD111 /* VerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838B6B6B2868B011001DD111 /* VerificationViewController.swift */; };
 		838B6B6E2868B021001DD111 /* VerificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838B6B6D2868B021001DD111 /* VerificationViewModel.swift */; };
 		838B6B702868B039001DD111 /* VerificationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838B6B6F2868B039001DD111 /* VerificationModel.swift */; };
@@ -346,6 +347,7 @@
 		837F1FB228868C3A001FABC5 /* AuthenticationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationService.swift; sourceTree = "<group>"; };
 		837F1FB428869B29001FABC5 /* AuthenticationAmplifyConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationAmplifyConverter.swift; sourceTree = "<group>"; };
 		8385DB9D290EAD2900F64BCC /* SearchModelFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModelFilter.swift; sourceTree = "<group>"; };
+		8387508C2952574A00C0224B /* SearchViewContentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewContentState.swift; sourceTree = "<group>"; };
 		838B6B6B2868B011001DD111 /* VerificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationViewController.swift; sourceTree = "<group>"; };
 		838B6B6D2868B021001DD111 /* VerificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationViewModel.swift; sourceTree = "<group>"; };
 		838B6B6F2868B039001DD111 /* VerificationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationModel.swift; sourceTree = "<group>"; };
@@ -683,6 +685,7 @@
 				838EA96A29425CF1001F4D84 /* SearchViewInput.swift */,
 				838EA96829425C22001F4D84 /* SearchViewTextEvent.swift */,
 				838EA96C29426556001F4D84 /* SearchViewActionEvent.swift */,
+				8387508C2952574A00C0224B /* SearchViewContentState.swift */,
 			);
 			path = Items;
 			sourceTree = "<group>";
@@ -1978,6 +1981,7 @@
 				83F3CC12284771CA00C05298 /* LoginAssembler.swift in Sources */,
 				83C7A99C28E46F4E00F3D219 /* ProfileViewItem+TextInputViewModel.swift in Sources */,
 				83C24F7E286D994A0086330B /* VerificationViewHeader+TextBigTitleSubtitleView.swift in Sources */,
+				8387508D2952574A00C0224B /* SearchViewContentState.swift in Sources */,
 				DBDB3F5728D3356700B285D7 /* CategoryI18n.swift in Sources */,
 				83E83A4328A97C5500B40FC4 /* AppCoordinator.swift in Sources */,
 				83A9A22228E176A200858190 /* VerificationAfterCustomAuthWorker.swift in Sources */,

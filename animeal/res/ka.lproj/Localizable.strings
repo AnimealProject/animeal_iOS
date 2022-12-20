@@ -57,3 +57,5 @@
 "feeding.status.pending.pattern"                  = "sice არ იკვებება";
 "toast.successLogout"                             = "თქვენ წარმატებით გამოხვედით სისტემიდან";
 "toast.userDeleted"                               = "თქვენი ანგარიში წარმატებით წაიშალა";
+"search.empty.text"                               = "ამ დროისთვის კვების პუნქტები არ არის. გთხოვთ, სცადოთ ხელახლა ცოტა მოგვიანებით";
+"search.searchBar.placeholder"                    = "Აქ მოძებნე";

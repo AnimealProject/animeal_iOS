@@ -122,6 +122,17 @@ internal enum L10n {
     internal static let logoutAccount = L10n.tr("Localizable", "question.logoutAccount")
   }
 
+  internal enum Search {
+    internal enum Empty {
+      /// There are no feedings points for now. Please try again a little bit later
+      internal static let text = L10n.tr("Localizable", "search.empty.text")
+    }
+    internal enum SearchBar {
+      /// Search here
+      internal static let placeholder = L10n.tr("Localizable", "search.searchBar.placeholder")
+    }
+  }
+
   internal enum Segment {
     /// Cats
     internal static let cats = L10n.tr("Localizable", "segment.cats")

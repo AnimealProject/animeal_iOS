@@ -34,6 +34,8 @@ final class SearchViewController: UIViewController, SearchViewable {
         return item
     }()
 
+    private lazy var emptyView = EmptyView()
+
     // MARK: - Dependencies
     private let viewModel: SearchViewModelProtocol
 
@@ -52,6 +54,23 @@ final class SearchViewController: UIViewController, SearchViewable {
         super.viewDidLoad()
         setup()
         bind()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.load()
+    }
+
+    // MARK: - State
+    func applyContentState(_ viewContentState: SearchViewContentState) {
+        switch viewContentState {
+        case .snapshot(let viewSnapshot):
+            collectionView.backgroundView = nil
+            dataSource.apply(viewSnapshot)
+        case .empty(let viewEmpty):
+            collectionView.backgroundView = emptyView
+            emptyView.configure(.init(title: viewEmpty.text))
+        }
     }
 }
 
@@ -172,15 +191,14 @@ private extension SearchViewController {
 
     // MARK: - Bind
     private func bind() {
-        viewModel.onSnapshotWasPrepared = { [weak self] viewSnapshot in
-            self?.dataSource.apply(viewSnapshot)
+        viewModel.onContentStateWasPrepared = { [weak self] viewContentState in
+            self?.applyContentState(viewContentState)
         }
         viewModel.onSearchInputWasPrepared = { [weak self] viewSearch in
             self?.searchInputView.configure(viewSearch)
         }
 
         viewModel.setup()
-        viewModel.load()
     }
 
     // MARK: - Supplementary provider

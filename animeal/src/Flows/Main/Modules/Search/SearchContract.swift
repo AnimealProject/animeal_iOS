@@ -23,15 +23,15 @@ protocol SearchViewInteraction: AnyObject {
 
 @MainActor
 protocol SearchViewState: ErrorDisplayCompatible {
-    typealias Snapshot = NSDiffableDataSourceSnapshot<SearchViewSectionWrapper, SearchViewItemlWrapper>
-
-    var onSnapshotWasPrepared: ((Snapshot) -> Void)? { get set }
+    var onContentStateWasPrepared: ((SearchViewContentState) -> Void)? { get set }
     var onSearchInputWasPrepared: ((SearchViewInput) -> Void)? { get set }
 }
 
 // MARK: - Model
 // sourcery: AutoMockable
 protocol SearchModelProtocol: AnyObject {
+    func fetchFilteringText() -> String?
+    
     func fetchFeedingPoints(force: Bool) async throws -> [SearchModelSection]
     func filterFeedingPoints(_ searchString: String?) async -> [SearchModelSection]
 
