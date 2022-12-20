@@ -2,7 +2,7 @@
 import Amplify
 import Foundation
 
-public struct Favourites: Model {
+public struct Favourite: Model {
   public let id: String
   public var userId: String
   public var feedingPointId: String

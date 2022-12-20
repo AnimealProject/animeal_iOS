@@ -136,7 +136,9 @@
 		83F3CC1B28477ECE00C05298 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F3CC1A28477ECE00C05298 /* LoginModel.swift */; };
 		83F3CC1D2847808200C05298 /* LoginModelAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F3CC1C2847808200C05298 /* LoginModelAction.swift */; };
 		83F3CC202847851300C05298 /* LoginViewAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F3CC1F2847851300C05298 /* LoginViewAction.swift */; };
+		8F5C10B2C66F528FEE0C18F4 /* Favourite.swift in Sources */ = {isa = PBXBuildFile; fileRef = E700F57F429C6E6593684341 /* Favourite.swift */; };
 		B70E4F2906C9257892106ABB /* FeedingHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C189FE7FA4A378D3B032D1DB /* FeedingHistory.swift */; };
+		D0B7A01EF14FA17341D022FE /* Favourite+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D88428C28EF7C85C738BFBF /* Favourite+Schema.swift */; };
 		DB0AD32928A26FB6007FD750 /* SegmentedControlMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0AD32828A26FB6007FD750 /* SegmentedControlMapper.swift */; };
 		DB0D4A8228856D2C001750BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB0D4A8128856D2C001750BC /* Assets.xcassets */; };
 		DB0D4A842886A9C4001750BC /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0D4A832886A9C4001750BC /* HomeViewModel.swift */; };
@@ -208,7 +210,6 @@
 		DBDB3F3D28D3356600B285D7 /* RelationUserFeedingPoint+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F1228D3356400B285D7 /* RelationUserFeedingPoint+Schema.swift */; };
 		DBDB3F3E28D3356600B285D7 /* Feeding.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F1328D3356400B285D7 /* Feeding.swift */; };
 		DBDB3F3F28D3356600B285D7 /* FeedingPointI18n+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F1428D3356400B285D7 /* FeedingPointI18n+Schema.swift */; };
-		DBDB3F4028D3356600B285D7 /* Favourites+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F1528D3356400B285D7 /* Favourites+Schema.swift */; };
 		DBDB3F4128D3356600B285D7 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F1628D3356400B285D7 /* Point.swift */; };
 		DBDB3F4228D3356600B285D7 /* RelationUserFeedingPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F1728D3356400B285D7 /* RelationUserFeedingPoint.swift */; };
 		DBDB3F4328D3356600B285D7 /* Medication+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F1828D3356400B285D7 /* Medication+Schema.swift */; };
@@ -223,7 +224,6 @@
 		DBDB3F4C28D3356700B285D7 /* Settings+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F2128D3356500B285D7 /* Settings+Schema.swift */; };
 		DBDB3F4D28D3356700B285D7 /* Caretaker+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F2228D3356500B285D7 /* Caretaker+Schema.swift */; };
 		DBDB3F4E28D3356700B285D7 /* CategoryI18n+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F2328D3356500B285D7 /* CategoryI18n+Schema.swift */; };
-		DBDB3F4F28D3356700B285D7 /* Favourites.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F2428D3356500B285D7 /* Favourites.swift */; };
 		DBDB3F5028D3356700B285D7 /* Location+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F2528D3356500B285D7 /* Location+Schema.swift */; };
 		DBDB3F5128D3356700B285D7 /* Pet+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F2628D3356600B285D7 /* Pet+Schema.swift */; };
 		DBDB3F5228D3356700B285D7 /* FeedingPointConnection+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB3F2728D3356600B285D7 /* FeedingPointConnection+Schema.swift */; };
@@ -283,6 +283,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4D88428C28EF7C85C738BFBF /* Favourite+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "Favourite+Schema.swift"; path = "amplify/generated/models/Favourite+Schema.swift"; sourceTree = "<group>"; };
 		5A014CFAC080E8E6D9884035 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 		6FE750BC24EF1983DF08B736 /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = awsconfiguration.json; sourceTree = "<group>"; };
 		8312A5C0290AFE8F005C85CB /* PhoneCodesViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCodesViewCell.swift; sourceTree = "<group>"; };
@@ -411,7 +412,7 @@
 		83F3CC1A28477ECE00C05298 /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		83F3CC1C2847808200C05298 /* LoginModelAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModelAction.swift; sourceTree = "<group>"; };
 		83F3CC1F2847851300C05298 /* LoginViewAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewAction.swift; sourceTree = "<group>"; };
-		C189FE7FA4A378D3B032D1DB /* FeedingHistory.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; lastKnownFileType = sourcecode.swift; name = FeedingHistory.swift; path = amplify/generated/models/FeedingHistory.swift; sourceTree = "<group>"; };
+		C189FE7FA4A378D3B032D1DB /* FeedingHistory.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = FeedingHistory.swift; path = amplify/generated/models/FeedingHistory.swift; sourceTree = "<group>"; };
 		DB0AD32828A26FB6007FD750 /* SegmentedControlMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlMapper.swift; sourceTree = "<group>"; };
 		DB0D4A8128856D2C001750BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = animeal/Assets.xcassets; sourceTree = SOURCE_ROOT; };
 		DB0D4A832886A9C4001750BC /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
@@ -476,7 +477,6 @@
 		DBDB3F1228D3356400B285D7 /* RelationUserFeedingPoint+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "RelationUserFeedingPoint+Schema.swift"; path = "amplify/generated/models/RelationUserFeedingPoint+Schema.swift"; sourceTree = "<group>"; };
 		DBDB3F1328D3356400B285D7 /* Feeding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Feeding.swift; path = amplify/generated/models/Feeding.swift; sourceTree = "<group>"; };
 		DBDB3F1428D3356400B285D7 /* FeedingPointI18n+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "FeedingPointI18n+Schema.swift"; path = "amplify/generated/models/FeedingPointI18n+Schema.swift"; sourceTree = "<group>"; };
-		DBDB3F1528D3356400B285D7 /* Favourites+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Favourites+Schema.swift"; path = "amplify/generated/models/Favourites+Schema.swift"; sourceTree = "<group>"; };
 		DBDB3F1628D3356400B285D7 /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Point.swift; path = amplify/generated/models/Point.swift; sourceTree = "<group>"; };
 		DBDB3F1728D3356400B285D7 /* RelationUserFeedingPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RelationUserFeedingPoint.swift; path = amplify/generated/models/RelationUserFeedingPoint.swift; sourceTree = "<group>"; };
 		DBDB3F1828D3356400B285D7 /* Medication+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Medication+Schema.swift"; path = "amplify/generated/models/Medication+Schema.swift"; sourceTree = "<group>"; };
@@ -491,7 +491,6 @@
 		DBDB3F2128D3356500B285D7 /* Settings+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Settings+Schema.swift"; path = "amplify/generated/models/Settings+Schema.swift"; sourceTree = "<group>"; };
 		DBDB3F2228D3356500B285D7 /* Caretaker+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Caretaker+Schema.swift"; path = "amplify/generated/models/Caretaker+Schema.swift"; sourceTree = "<group>"; };
 		DBDB3F2328D3356500B285D7 /* CategoryI18n+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CategoryI18n+Schema.swift"; path = "amplify/generated/models/CategoryI18n+Schema.swift"; sourceTree = "<group>"; };
-		DBDB3F2428D3356500B285D7 /* Favourites.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Favourites.swift; path = amplify/generated/models/Favourites.swift; sourceTree = "<group>"; };
 		DBDB3F2528D3356500B285D7 /* Location+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Location+Schema.swift"; path = "amplify/generated/models/Location+Schema.swift"; sourceTree = "<group>"; };
 		DBDB3F2628D3356600B285D7 /* Pet+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Pet+Schema.swift"; path = "amplify/generated/models/Pet+Schema.swift"; sourceTree = "<group>"; };
 		DBDB3F2728D3356600B285D7 /* FeedingPointConnection+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "FeedingPointConnection+Schema.swift"; path = "amplify/generated/models/FeedingPointConnection+Schema.swift"; sourceTree = "<group>"; };
@@ -514,8 +513,9 @@
 		DBF56B5428CF40E300AB0BDF /* FeedingPointDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedingPointDetailsViewController.swift; sourceTree = "<group>"; };
 		DBF56B5528CF40E300AB0BDF /* FeedingPointDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedingPointDetailsViewModel.swift; sourceTree = "<group>"; };
 		DBF56B5B28CF4A5700AB0BDF /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
+		E700F57F429C6E6593684341 /* Favourite.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Favourite.swift; path = amplify/generated/models/Favourite.swift; sourceTree = "<group>"; };
 		EEE732E81739360CA2DC5F8B /* CategoryTag.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = CategoryTag.swift; path = amplify/generated/models/CategoryTag.swift; sourceTree = "<group>"; };
-		F69D5DD22AC8F6220ADD5221 /* FeedingHistory+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; lastKnownFileType = sourcecode.swift; name = "FeedingHistory+Schema.swift"; path = "amplify/generated/models/FeedingHistory+Schema.swift"; sourceTree = "<group>"; };
+		F69D5DD22AC8F6220ADD5221 /* FeedingHistory+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "FeedingHistory+Schema.swift"; path = "amplify/generated/models/FeedingHistory+Schema.swift"; sourceTree = "<group>"; };
 		FB00144A2859FC1800943360 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		FB00144C2859FC7700943360 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		FB00144E2859FCDD00943360 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
@@ -1560,8 +1560,6 @@
 				DBDB3F1C28D3356500B285D7 /* Category+Schema.swift */,
 				DBDB3F2C28D3356600B285D7 /* CategoryI18n.swift */,
 				DBDB3F2328D3356500B285D7 /* CategoryI18n+Schema.swift */,
-				DBDB3F2428D3356500B285D7 /* Favourites.swift */,
-				DBDB3F1528D3356400B285D7 /* Favourites+Schema.swift */,
 				DBDB3F1328D3356400B285D7 /* Feeding.swift */,
 				DBDB3F2B28D3356600B285D7 /* Feeding+Schema.swift */,
 				DBDB3F2828D3356600B285D7 /* FeedingPoint.swift */,
@@ -1599,6 +1597,8 @@
 				EEE732E81739360CA2DC5F8B /* CategoryTag.swift */,
 				F69D5DD22AC8F6220ADD5221 /* FeedingHistory+Schema.swift */,
 				C189FE7FA4A378D3B032D1DB /* FeedingHistory.swift */,
+				4D88428C28EF7C85C738BFBF /* Favourite+Schema.swift */,
+				E700F57F429C6E6593684341 /* Favourite.swift */,
 			);
 			name = AmplifyModels;
 			sourceTree = "<group>";
@@ -2034,7 +2034,6 @@
 				8372CCCD28A02BD70085C6D1 /* CustomAuthViewTextEvent.swift in Sources */,
 				836840F828D1ED3D00E1044E /* BaseError.swift in Sources */,
 				83C7A98A28E4637000F3D219 /* ProfileModelItemError.swift in Sources */,
-				DBDB3F4F28D3356700B285D7 /* Favourites.swift in Sources */,
 				DBDB3F4728D3356700B285D7 /* Category+Schema.swift in Sources */,
 				83A9A21E28E1731000858190 /* VerificationModelWorker.swift in Sources */,
 				DB97C5302927B0180089A9FA /* NavigationMapController.swift in Sources */,
@@ -2060,7 +2059,6 @@
 				FBE017612874611600A79DB2 /* Navigator.swift in Sources */,
 				DB6B07C828450A380009397B /* SceneDelegate.swift in Sources */,
 				DB916D0828F40A3F00DA8AA9 /* FeedingPointDetailsModelMapper.swift in Sources */,
-				DBDB3F4028D3356600B285D7 /* Favourites+Schema.swift in Sources */,
 				835E149828FDD5A40044EC2F /* SearchModelItem.swift in Sources */,
 				DBDB3F4A28D3356700B285D7 /* RelationUserPet.swift in Sources */,
 				DBDB3F3328D3356600B285D7 /* RelationUserPet+Schema.swift in Sources */,
@@ -2191,6 +2189,8 @@
 				EB49BAEA015C8CB7F6AFC97A /* CategoryTag.swift in Sources */,
 				E394F4B5DEDADFBB2D01356D /* FeedingHistory+Schema.swift in Sources */,
 				B70E4F2906C9257892106ABB /* FeedingHistory.swift in Sources */,
+				D0B7A01EF14FA17341D022FE /* Favourite+Schema.swift in Sources */,
+				8F5C10B2C66F528FEE0C18F4 /* Favourite.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

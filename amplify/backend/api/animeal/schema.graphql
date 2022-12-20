@@ -467,7 +467,7 @@ type LanguagesSetting
   updatedBy: String
 }
 
-type Favourites
+type Favourite
   @searchable
   @model
   @auth(

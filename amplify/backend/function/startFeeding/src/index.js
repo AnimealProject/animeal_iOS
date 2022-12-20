@@ -17,19 +17,12 @@ Amplify Params - DO NOT EDIT */
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 
-const {
-  createFeeding,
-  updateFeedingPoint,
-  getFeedingPoint,
-} = require('./query');
-
 const AWS = require('aws-sdk');
 const dynamoDB = new AWS.DynamoDB.DocumentClient({});
 
 exports.handler = async (event, context, callback) => {
   console.log(`EVENT: ${JSON.stringify(event)}`);
   const feedingPointId = event.arguments.feedingPointId;
-  let feeding = null;
   const expireAt = new Date();
   expireAt.setTime(expireAt.getTime() + 60 * 60 * 1000);
 
@@ -76,46 +69,4 @@ exports.handler = async (event, context, callback) => {
   } catch (e) {
     throw new Error(`Failed to start feeding. Erorr: ${e.message}`);
   }
-  // try {
-  //   feeding = await createFeeding({
-  //     input: {
-  //       id: feedingPointId,
-  //       images: [],
-  //       status: 'inProgress',
-  //       feedingPointFeedingsId: feedingPointId,
-  //       userId: event?.identity?.username || 'admin',
-  //       expireAt: Math.floor(expireAt.getTime() / 1000),
-  //     },
-  //   });
-
-  //   const feedingPoint = await getFeedingPoint({
-  //     id: feedingPointId,
-  //   });
-
-  //   const feedingPointUpdater = await updateFeedingPoint({
-  //     input: {
-  //       id: feedingPointId,
-  //       status: 'pending',
-  //       statusUpdatedAt: new Date().toISOString(),
-  //       ...feedingPoint.data.data.getFeedingPoint,
-  //     },
-  //   });
-  //   if (
-  //     feeding?.data?.errors &&
-  //     feeding?.data?.errors.some(
-  //       (error) =>
-  //         error?.errorType?.indexOf('ConditionalCheckFailedException') > -1,
-  //     )
-  //   ) {
-  //     throw new Error('Feeding is already in Progress');
-  //   }
-
-  //   if (feedingPointUpdater.data?.errors?.length) {
-  //     throw new Error('Failed to update Feeding point status');
-  //   }
-  // } catch (e) {
-  //   throw new Error(e.message);
-  // }
-
-  // return feedingPointId;
 };
