@@ -2,7 +2,7 @@
 import Amplify
 import Foundation
 
-extension Favourites {
+extension Favourite {
   // MARK: - CodingKeys 
    public enum CodingKeys: String, ModelKey {
     case id
@@ -17,7 +17,7 @@ extension Favourites {
   //  MARK: - ModelSchema 
   
   public static let schema = defineSchema { model in
-    let favourites = Favourites.keys
+    let favourite = Favourite.keys
     
     model.authRules = [
       rule(allow: .groups, groupClaim: "cognito:groups", groups: ["Administrator"], provider: .userPools, operations: [.create, .read, .update, .delete]),
@@ -37,11 +37,11 @@ extension Favourites {
     
     model.fields(
       .id(),
-      .field(favourites.userId, is: .required, ofType: .string),
-      .field(favourites.feedingPointId, is: .required, ofType: .string),
-      .hasOne(favourites.feedingPoint, is: .required, ofType: FeedingPoint.self, associatedWith: FeedingPoint.keys.id, targetName: "feedingPointId"),
-      .field(favourites.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(favourites.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+      .field(favourite.userId, is: .required, ofType: .string),
+      .field(favourite.feedingPointId, is: .required, ofType: .string),
+      .hasOne(favourite.feedingPoint, is: .required, ofType: FeedingPoint.self, associatedWith: FeedingPoint.keys.id, targetName: "feedingPointId"),
+      .field(favourite.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+      .field(favourite.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
 }
