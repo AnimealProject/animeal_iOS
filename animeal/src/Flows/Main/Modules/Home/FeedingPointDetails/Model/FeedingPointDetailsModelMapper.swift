@@ -3,11 +3,11 @@ import UIComponents
 import Common
 
 protocol FeedingPointDetailsModelMapperProtocol {
-    func map(_ item: FeedingPoint) -> FeedingPointDetailsModel.PointContent
+    func map(_ item: FeedingPoint, isFavorite: Bool) -> FeedingPointDetailsModel.PointContent
 }
 
 class FeedingPointDetailsModelMapper: FeedingPointDetailsModelMapperProtocol {
-    func map(_ item: FeedingPoint) -> FeedingPointDetailsModel.PointContent {
+    func map(_ item: FeedingPoint, isFavorite: Bool) -> FeedingPointDetailsModel.PointContent {
         // Back-end not ready present feeders list yet
         let feeders: [FeedingPointDetailsModel.Feeder] = []
         return  FeedingPointDetailsModel.PointContent(
@@ -19,7 +19,8 @@ class FeedingPointDetailsModelMapper: FeedingPointDetailsModelMapperProtocol {
                     text: item.localizedDescription.removeHtmlTags()
                 ),
                 status: convertStatus(item.status),
-                feeders: feeders
+                feeders: feeders,
+                isFavorite: isFavorite
             ), action: FeedingPointDetailsModel.Action(
                 identifier: UUID().uuidString,
                 title: L10n.Action.iWillFeed,

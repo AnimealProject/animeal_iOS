@@ -12,6 +12,7 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
     // MARK: - State
     var onContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointDetailsViewItem) -> Void)?
     var onMediaContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointMediaContent) -> Void)?
+    var onFavoriteMutationFailed: (() -> Void)?
 
     // MARK: - Initialization
     init(
@@ -56,6 +57,12 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
             coordinator.routeTo(
                 .feed(FeedingPointFeedDetails(coordinates: model.feedingPointCoordinates))
             )
+        case .tapFavorite:
+            model.mutateFavorite { [weak self] sucess in
+                if !sucess {
+                    self?.onFavoriteMutationFailed?()
+                }
+            }
         }
     }
 }
