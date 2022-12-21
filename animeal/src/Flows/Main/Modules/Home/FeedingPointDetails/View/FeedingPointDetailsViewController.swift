@@ -47,6 +47,10 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
         viewModel.onMediaContentHaveBeenPrepared = { [weak self] content in
             self?.applyFeedingPointMediaContent(content)
         }
+
+        viewModel.onFavoriteMutationFailed = { [weak self] in
+            self?.applyFavoriteMutationFailed()
+        }
     }
 
     // MARK: - Setup
@@ -88,15 +92,22 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
         pointDetailsView.setIcon(content.pointDetailsIcon)
     }
 
+    func applyFavoriteMutationFailed() {
+        pointDetailsView.toggleHighlightState()
+    }
+
     func applyFeedingPointContent(
         _ content: FeedingPointDetailsViewMapper.FeedingPointDetailsViewItem
     ) {
         pointDetailsView.configure(
             FeedingPointDetailsView.Model(
                 placeInfoViewModel: content.placeInfo,
-                isHighlighted: false
+                isHighlighted: content.isFavorite
             )
         )
+        pointDetailsView.onTap = { [weak self] in
+            self?.viewModel.handleActionEvent(.tapFavorite)
+        }
         contentContainer.addArrangedSubview(pointDetailsView)
 
         let paragraphView = TextParagraphView()

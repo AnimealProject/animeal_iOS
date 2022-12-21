@@ -24,9 +24,10 @@ final class FeedingPointDetailsViewMapper: FeedingPointDetailsViewMappable {
                 title: input.content.header.title,
                 status: convert(input.content.status)
             ),
+            isFavorite: input.content.isFavorite,
             placeDescription: TextParagraphView.Model(title: input.content.description.text),
             action: Action(
-                model:  ButtonView.Model(
+                model: ButtonView.Model(
                     identifier: input.action.identifier,
                     viewType: ButtonView.self,
                     title: input.action.title
@@ -60,6 +61,7 @@ final class FeedingPointDetailsViewMapper: FeedingPointDetailsViewMappable {
 extension FeedingPointDetailsViewMapper {
     struct FeedingPointDetailsViewItem {
         let placeInfo: PlaceInfoView.Model
+        let isFavorite: Bool
         let placeDescription: TextParagraphView.Model
         let action: Action
         let feedingPointFeeders: FeedingPointFeeders

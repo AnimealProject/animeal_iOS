@@ -1,16 +1,20 @@
 import Foundation
 import Services
+import Amplify
 
 final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingPointDetailsDataStoreProtocol {
     // MARK: - Private properties
     private let pointId: String
     private let mapper: FeedingPointDetailsModelMapperProtocol
 
-    typealias Context = NetworkServiceHolder & DataStoreServiceHolder
+    typealias Context = NetworkServiceHolder & DataStoreServiceHolder & UserProfileServiceHolder
     private let context: Context
 
     // MARK: - DataStore properties
     var feedingPointCoordinates = FeedingPointCoordinates()
+
+    var relatedFavoritePoint: Favourite?
+    var feedingPoint: FeedingPoint?
 
     // MARK: - Initialization
     init(
@@ -35,13 +39,69 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
                     latitude: point.location.lat,
                     longitude: point.location.lon
                 )
-                DispatchQueue.main.async {
-                    completion?(self.mapper.map(point))
+                self.feedingPoint = point
+                Task {
+                    await self.fetchFavorites()
+                    DispatchQueue.main.async {
+                        completion?(
+                            self.mapper.map(
+                                point,
+                                isFavorite: self.relatedFavoritePoint != nil
+                            )
+                        )
+                    }
                 }
             case .failure(let error):
                 // TODO: Handele error
                 print(error)
             }
+        }
+    }
+
+    func mutateFavorite(completion: ((Bool) -> Void)?) {
+        guard let feedingPoint = feedingPoint, let userId = context.profileService.getCurrentUser()?.userId else {
+            completion?(false)
+            return
+        }
+
+        var request: Request<Favourite>
+        if let favoritePoint = relatedFavoritePoint {
+            request = .delete(favoritePoint)
+        } else {
+            let favouritePoint = Favourite(
+                userId: userId,
+                feedingPointId: feedingPoint.id,
+                feedingPoint: feedingPoint
+            )
+            request = .create(favouritePoint)
+        }
+        context.networkService.mutate(request: request) { event in
+            switch event {
+            case .success:
+                DispatchQueue.main.async {
+                    completion?(true)
+                }
+            case .failure:
+                DispatchQueue.main.async {
+                    completion?(false)
+                }
+            }
+        }
+    }
+
+    private func fetchFavorites() async {
+        let userId = context.profileService.getCurrentUser()?.userId ?? ""
+        let fav = Favourite.keys
+        let predicate = fav.userId == userId
+        do {
+            let favorites = try await context.networkService.query(request: .list(Favourite.self, where: predicate))
+            if let identifier = self.feedingPoint?.id {
+                self.relatedFavoritePoint = favorites.first { fav in
+                    fav.feedingPoint.id == identifier
+                }
+            }
+        } catch {
+            logError(error.localizedDescription)
         }
     }
 
@@ -74,6 +134,7 @@ extension FeedingPointDetailsModel {
         let description: Description
         let status: Status
         let feeders: [Feeder]
+        let isFavorite: Bool
     }
 
     struct Feeder {

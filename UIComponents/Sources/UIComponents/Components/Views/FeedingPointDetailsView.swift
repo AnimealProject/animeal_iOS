@@ -28,6 +28,10 @@ public final class FeedingPointDetailsView: UIView {
         imageView.isHighlighted = model.isHighlighted
     }
 
+    public func toggleHighlightState() {
+        imageView.isHighlighted.toggle()
+    }
+
     public func setIcon(_ icon: UIImage) {
         infoView.setIcon(icon)
     }

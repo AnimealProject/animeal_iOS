@@ -86,6 +86,37 @@ extension Request {
             decodePath: document.name
         )
     }
+
+    public static func create<M: Model>(
+        _ model: M,
+        modelSchema: ModelSchema
+    ) -> Request<M> {
+        return mutation(of: model, modelSchema: modelSchema, type: .create)
+    }
+
+    public static func create<M: Model>(_ model: M) -> Request<M> {
+        return create(model, modelSchema: modelSchema(for: model))
+    }
+
+    public static func delete<M: Model>(
+        _ model: M,
+        where predicate: QueryPredicate? = nil
+    ) -> Request<M> {
+        return delete(model, modelSchema: modelSchema(for: model), where: predicate)
+    }
+
+    public static func delete<M: Model>(
+        _ model: M,
+        modelSchema: ModelSchema,
+        where predicate: QueryPredicate? = nil
+    ) -> Request<M> {
+        return mutation(of: model, modelSchema: modelSchema, where: predicate, type: .delete)
+    }
+
+    private static func modelSchema<M: Model>(for model: M) -> ModelSchema {
+        let modelType = ModelRegistry.modelType(from: model.modelName) ?? Swift.type(of: model)
+        return modelType.schema
+    }
 }
 
 extension Request {

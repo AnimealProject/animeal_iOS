@@ -23,6 +23,7 @@ protocol FeedingPointDetailsViewInteraction: AnyObject {
 protocol FeedingPointDetailsViewState: AnyObject {
     var onContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointDetailsViewItem) -> Void)? { get set }
     var onMediaContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointMediaContent) -> Void)? { get set }
+    var onFavoriteMutationFailed: (() -> Void)? { get set }
 }
 
 // MARK: - Model
@@ -31,6 +32,7 @@ protocol FeedingPointDetailsViewState: AnyObject {
 protocol FeedingPointDetailsModelProtocol: AnyObject {
     func fetchFeedingPoints(_ completion: ((FeedingPointDetailsModel.PointContent) -> Void)?)
     func fetchMediaContent(key: String, completion: ((Data?) -> Void)?)
+    func mutateFavorite(completion: ((Bool) -> Void)?)
 }
 
 typealias FeedingPointCoordinates = CLLocationCoordinate2D
@@ -56,4 +58,5 @@ struct FeedingPointFeedDetails {
 
 enum FeedingPointEvent {
     case tapAction
+    case tapFavorite
 }
