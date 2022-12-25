@@ -88,7 +88,8 @@ extension Region {
         default:
             guard let digitsCount = phoneNumberDigitsCount.max()
             else { return nil }
-            return (0..<digitsCount).reduce("", { partialResult, _ in partialResult + "x" })
+            return (0..<digitsCount)
+                .reduce("", { partialResult, _ in partialResult + "x" })
         }
     }
 

@@ -25,7 +25,7 @@ open class TextInputFilledDecorator<ContentView: TextFieldContainerView>: UIView
     private(set) var contentView: ContentView
     var textView: TextFieldContainable { contentView.textView }
 
-    private lazy var titleView: UILabel = {
+    lazy var titleView: UILabel = {
         let item = UILabel().prepareForAutoLayout()
         item.font = designEngine.fonts.primary.medium(14.0).uiFont
         item.textColor = designEngine.colors.textPrimary.uiColor
@@ -34,7 +34,7 @@ open class TextInputFilledDecorator<ContentView: TextFieldContainerView>: UIView
         return item
     }()
 
-    private lazy var descriptionView: UILabel = {
+    lazy var descriptionView: UILabel = {
         let item = UILabel().prepareForAutoLayout()
         item.font = designEngine.fonts.primary.medium(10.0).uiFont
         item.textColor = designEngine.colors.textSecondary.uiColor

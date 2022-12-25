@@ -43,7 +43,7 @@ final class CustomAuthViewModel: CustomAuthViewModelProtocol {
         onHeaderHasBeenPrepared?(viewHeader)
 
         updateViewItems()
-        updateViewActions()
+        updateViewActions { false }
     }
 
     // MARK: - Interaction
@@ -66,7 +66,7 @@ final class CustomAuthViewModel: CustomAuthViewModelProtocol {
                 defer {
                     Task { [weak self] in
                         self?.model.updateItem(text, forIdentifier: identifier)
-                        self?.updateViewActions()
+                        self?.updateViewActions { self?.model.validate() ?? false }
                     }
                 }
                 return CustomAuthViewText(
@@ -78,7 +78,7 @@ final class CustomAuthViewModel: CustomAuthViewModelProtocol {
                 Task { [weak self] in
                     let unformattedText = formatter.unformat(text ?? "")
                     self?.model.updateItem(unformattedText, forIdentifier: identifier)
-                    self?.updateViewActions()
+                    self?.updateViewActions { self?.model.validate() ?? false }
                 }
             }
             return CustomAuthViewText(
@@ -117,10 +117,15 @@ final class CustomAuthViewModel: CustomAuthViewModelProtocol {
             defer {
                 let unformattedText = formatter.unformat(text ?? "")
                 model.updateItem(unformattedText, forIdentifier: identifier)
-                updateViewActions()
+                updateViewActions { [weak self] in self?.model.validate() ?? false }
+                updateViewItems()
             }
-            let offset = formatter.getCaretOffset(for: text ?? "")
-            return CustomAuthViewText(caretOffset: offset, formattedText: text)
+
+            let result = formatter.formatInput(currentText: text ?? "")
+            return CustomAuthViewText(
+                caretOffset: result.caretBeginOffset,
+                formattedText: result.formattedText
+            )
         }
     }
 
@@ -141,6 +146,7 @@ final class CustomAuthViewModel: CustomAuthViewModelProtocol {
                 let completion = { [weak self] in
                     guard let self = self else { return }
                     self.model.updateItem(nil, forIdentifier: identifier)
+                    self.model.clearErrors()
                     self.updateViewItems()
                     self.coordinator.moveFromCustomAuth(to: .dismiss)
                 }
@@ -178,8 +184,8 @@ private extension CustomAuthViewModel {
         onItemsHaveBeenPrepared?(viewItems)
     }
 
-    private func updateViewActions() {
-        let isActionEnabled = model.validate()
+    private func updateViewActions(_ actionsAvailable: @escaping () -> Bool) {
+        let isActionEnabled = actionsAvailable()
         viewActions = viewActions.map {
             var newAction = $0
             newAction.isEnabled = isActionEnabled

@@ -19,7 +19,7 @@ enum CustomAuthModelRequiredAction {
 extension CustomAuthModelRequiredAction.OpenPickerComponents {
     static func phoneComponents(
         _ modelItem: CustomAuthModelItem,
-        handler: @escaping (Region) -> Void
+        handler: @escaping (Region, Region) -> Void
     ) -> Self {
         .init(modelItem: modelItem) { completion -> CustomAuthModelRequiredAction.Picker? in
             switch modelItem.type {
@@ -28,7 +28,7 @@ extension CustomAuthModelRequiredAction.OpenPickerComponents {
             case .phone(let region):
                 return PhoneCodesAssembler.assemble(
                     selectedRegion: region,
-                    handler: handler,
+                    handler: { selectedRegion in handler(region, selectedRegion) },
                     completion: completion
                 )
             }

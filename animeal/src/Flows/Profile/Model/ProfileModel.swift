@@ -93,7 +93,7 @@ final class ProfileModel: ProfileModelProtocol {
     }
 
     func fetchActions() -> [ProfileModelAction] { actions }
-    
+
     func fetchRequiredAction(forIdentifier identifier: String) -> PhoneModelRequiredAction? {
         guard
             let item = items.first(where: { $0.identifier == identifier })
@@ -101,7 +101,8 @@ final class ProfileModel: ProfileModelProtocol {
         switch item.type {
         case .phone:
             let components: PhoneModelRequiredAction.OpenPickerComponents =
-                .phoneComponents(item) { [weak self] updatedRegion in
+                .phoneComponents(item) { [weak self] previousRegion, updatedRegion in
+                    guard updatedRegion != previousRegion else { return }
                     self?.updateItem(.phone(updatedRegion), forIdentifier: item.identifier)
                 }
             return PhoneModelRequiredAction.openPicker(components)

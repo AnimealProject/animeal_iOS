@@ -1,4 +1,8 @@
+// System
 import UIKit
+
+// SDK
+import Style
 
 public final class PhoneInputView: TextInputFilledDecorator<PhoneTextContentView> {
     public var codeWasTapped: ((TextFieldContainable) -> Void)? {
@@ -8,6 +12,7 @@ public final class PhoneInputView: TextInputFilledDecorator<PhoneTextContentView
 
     public init() {
         super.init(contentView: PhoneTextContentView())
+        textView.textColor = designEngine.colors.textSecondary.uiColor
     }
 
     public required init?(coder: NSCoder) {
@@ -15,8 +20,17 @@ public final class PhoneInputView: TextInputFilledDecorator<PhoneTextContentView
     }
 
     override public func configureStyle(_ textFieldState: TextInputView.State) {
-        super.configureStyle(textFieldState)
-        textView.textColor = designEngine.colors.textSecondary.uiColor
+        contentView.backgroundColor = designEngine.colors.backgroundSecondary.uiColor
+        switch textFieldState {
+        case .normal:
+            textView.font = designEngine.fonts.primary.medium(16.0).uiFont
+            contentView.border(width: 0.0)
+            descriptionView.textColor = designEngine.colors.textSecondary.uiColor
+        case .error:
+            textView.font = designEngine.fonts.primary.medium(16.0).uiFont
+            contentView.border(color: designEngine.colors.error.uiColor, width: 1.0)
+            descriptionView.textColor = designEngine.colors.error.uiColor
+        }
     }
 }
 

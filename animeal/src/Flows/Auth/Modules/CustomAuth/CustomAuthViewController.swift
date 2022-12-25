@@ -52,13 +52,17 @@ final class CustomAuthViewController: BaseViewController, CustomAuthViewable {
     }
 
     func applyItems(_ viewItems: [CustomAuthViewItem]) {
-        inputViews.forEach { $0.removeFromSuperview() }
+        inputViews.forEach {
+            $0.removeFromSuperview()
+            contentView.removeArrangedSubview($0)
+        }
         viewItems.forEach { item in
             switch item.type {
             case .phone:
                 let inputView = PhoneInputView()
                 inputView.configure(item.phoneModel)
                 inputView.codeWasTapped = { [weak self] _ in
+                    self?.view.endEditing(true)
                     self?.viewModel.handleActionEvent(
                         CustomAuthViewActionEvent.itemWasTapped(item.identifier)
                     )
@@ -102,9 +106,25 @@ final class CustomAuthViewController: BaseViewController, CustomAuthViewable {
                     return false
                 }
                 inputView.didEndEditing = { [weak self] textInput in
-                    self?.viewModel.handleTextEvent(
+                    guard let result = self?.viewModel.handleTextEvent(
                         CustomAuthViewTextEvent.endEditing(item.identifier, textInput.text)
                     )
+                    else { return }
+
+                    guard let text = result.formattedText else { return }
+                    let attributedText = NSMutableAttributedString()
+                    let filledTextIndex = text.index(text.startIndex, offsetBy: result.caretOffset)
+                    let filledText = NSAttributedString(
+                        string: String(text.prefix(upTo: filledTextIndex)),
+                        attributes: textInput.activeTextAttributes
+                    )
+                    attributedText.append(filledText)
+                    let placeholderText = NSAttributedString(
+                        string: String(text.suffix(from: filledTextIndex)),
+                        attributes: textInput.placeholderTextAttributes
+                    )
+                    attributedText.append(placeholderText)
+                    textInput.attributedText = attributedText
                 }
                 inputViews.append(inputView)
                 contentView.addArrangedSubview(inputView)

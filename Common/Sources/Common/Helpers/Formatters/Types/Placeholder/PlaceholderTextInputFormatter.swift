@@ -60,6 +60,14 @@ open class PlaceholderTextInputFormatter: TextInputFormatter, TextFormatter, Tex
             caretBeginOffset: caretOffset
         )
     }
+    
+    open func formatInput(currentText: String) -> TextFormattedValue {
+        TextFormattedValue(
+            formattedText: currentText,
+            caretBeginOffset: currentText.indexOfDifference(with: textPattern)
+                ?? getCaretOffset(for: currentText)
+        )
+    }
 
     // MARK: - Formatting
     open func format(_ unformattedText: String?) -> String? {
@@ -86,5 +94,31 @@ open class PlaceholderTextInputFormatter: TextInputFormatter, TextFormatter, Tex
             originalRange: range,
             replacementText: replacementString
         )
+    }
+}
+
+extension String {
+    func indexOfDifference(with anotherString: String) -> Int? {
+        let firstStringIndexs = self
+            .enumerated()
+            .reduce([String: Int]()) { partialResult, item in
+                var result = partialResult
+                result[String(item.element)] = item.offset
+                return result
+            }
+        
+        let anotherStringIndexs = anotherString
+            .enumerated()
+            .reduce([String: Int]()) { partialResult, item in
+                var result = partialResult
+                result[String(item.element)] = item.offset
+                return result
+            }
+        
+        let diff = Set(firstStringIndexs.keys).subtracting(Set(anotherStringIndexs.keys))
+        
+        let diffValues = diff.compactMap { firstStringIndexs[$0] }
+        
+        return diffValues.max()
     }
 }
