@@ -35,11 +35,9 @@ protocol FeedingPointDetailsModelProtocol: AnyObject {
     func mutateFavorite(completion: ((Bool) -> Void)?)
 }
 
-typealias FeedingPointCoordinates = CLLocationCoordinate2D
-
 // sourcery: AutoMockable
 protocol FeedingPointDetailsDataStoreProtocol: AnyObject {
-    var feedingPointCoordinates: FeedingPointCoordinates { get }
+    var feedingPointId: String { get }
 }
 
 // MARK: - Coordinator
@@ -53,7 +51,7 @@ enum FeedingPointRoute {
 }
 
 struct FeedingPointFeedDetails {
-    let coordinates: FeedingPointCoordinates
+    let identifier: String
 }
 
 enum FeedingPointEvent {

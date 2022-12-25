@@ -22,6 +22,8 @@ internal enum L10n {
     internal static let delete = L10n.tr("Localizable", "action.delete")
     /// Delete Account
     internal static let deleteAccount = L10n.tr("Localizable", "action.deleteAccount")
+    /// Got it
+    internal static let gotIt = L10n.tr("Localizable", "action.gotIt")
     /// I will feed
     internal static let iWillFeed = L10n.tr("Localizable", "action.iWillFeed")
     /// Log out
@@ -30,6 +32,11 @@ internal enum L10n {
     internal static let no = L10n.tr("Localizable", "action.no")
     /// Ok
     internal static let ok = L10n.tr("Localizable", "action.ok")
+  }
+
+  internal enum Errors {
+    /// Oops something goes wrong!
+    internal static let somthingWrong = L10n.tr("Localizable", "errors.somthingWrong")
   }
 
   internal enum Favourites {
@@ -43,6 +50,8 @@ internal enum L10n {
     internal enum Alert {
       /// Do you really want to cancel feeding?
       internal static let cancelFeeding = L10n.tr("Localizable", "feeding.alert.cancelFeeding")
+      /// Your feeding timer is over. You can book a new feeding from the home page.
+      internal static let feedingTimerOver = L10n.tr("Localizable", "feeding.alert.feedingTimerOver")
     }
     internal enum Status {
       /// Newly fed

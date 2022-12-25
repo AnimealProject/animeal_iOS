@@ -13,9 +13,13 @@ protocol HomeViewModelOutput: AnyObject {
 protocol HomeModelProtocol: AnyObject {
     func fetchFeedingPoints(_ completion: (([HomeModel.FeedingPoint]) -> Void)?)
     func fetchFilterItems(_ completion: (([HomeModel.FilterItem]) -> Void)?)
+    func fetchFeedingAction(request: HomeModel.FeedingActionRequest) -> HomeModel.FeedingAction
+    func fetchFeedingPoint(_ pointId: String) async throws -> HomeModel.FeedingPoint
 
     func proceedFilter(_ identifier: HomeModel.FilterItemIdentifier)
     func proceedFeedingPointSelection(_ identifier: String, completion: (([HomeModel.FeedingPoint]) -> Void)?)
+
+    func processCancelFeeding()
 }
 
 // MARK: - ViewModel
@@ -36,11 +40,16 @@ protocol HomeViewState: AnyObject {
     var onFeedingPointsHaveBeenPrepared: (([FeedingPointViewItem]) -> Void)? { get set }
     var onSegmentsHaveBeenPrepared: ((FilterModel) -> Void)? { get set }
     var onRouteRequestHaveBeenPrepared: ((CLLocationCoordinate2D) -> Void)? { get set }
+    var onFeedingActionHaveBeenPrepared: ((FeedingActionMapper.FeedingAction) -> Void)? { get set }
+    var onErrorHaveBeenPrepared: ((String) -> Void)? { get set }
 }
 
 enum HomeViewActionEvent {
     case tapFeedingPoint(String)
     case tapFilterControl(Int)
+    case tapCancelFeeding
+    case autoCancelFeeding
+    case confirmCancelFeeding
 }
 
 // MARK: - Coordinator

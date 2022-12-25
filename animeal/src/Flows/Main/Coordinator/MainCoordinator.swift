@@ -32,11 +32,17 @@ final class MainCoordinator: Coordinatable {
         }
         searchCoordinator.start()
 
-        let yellowVC = UIViewController()
-        yellowVC.view.backgroundColor = .yellow
-
         let purpleVC = UIViewController()
         purpleVC.view.backgroundColor = .purple
+        
+        let favouritesNavigationController = UINavigationController()
+        let favouritesCoordinator = FavouritesCoordinator(navigator: Navigator(navigationController: favouritesNavigationController)) { [weak self] event in
+            if let event = event {
+                self?.backwardEvents.append(event)
+            }
+            self?.stop()
+        }
+        favouritesCoordinator.start()
 
         let moreNavigtionController = UINavigationController()
         let moreCoordinator = MoreCoordinator(
@@ -57,7 +63,7 @@ final class MainCoordinator: Coordinatable {
         }
         homeCoordinator.start()
 
-        childCoordinators = [moreCoordinator, homeCoordinator]
+        childCoordinators = [moreCoordinator, homeCoordinator, favouritesCoordinator]
         return TabBarController(items: [
             TabBarControllerItem(
                 tabBarItemView: PlainTabBarItemView(
@@ -74,8 +80,7 @@ final class MainCoordinator: Coordinatable {
                         icon: Asset.Images.heart.image,
                         title: L10n.TabBar.favourites
                     )
-                ),
-                viewController: yellowVC
+                ), viewController: favouritesNavigationController
             ),
             TabBarControllerItem(
                 tabBarItemView: HomeTabBarItemView(

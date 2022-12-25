@@ -55,7 +55,11 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
         switch event {
         case .tapAction:
             coordinator.routeTo(
-                .feed(FeedingPointFeedDetails(coordinates: model.feedingPointCoordinates))
+                .feed(
+                    FeedingPointFeedDetails(
+                        identifier: model.feedingPointId
+                    )
+                )
             )
         case .tapFavorite:
             model.mutateFavorite { [weak self] sucess in
