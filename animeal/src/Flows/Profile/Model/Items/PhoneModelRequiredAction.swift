@@ -19,14 +19,14 @@ enum PhoneModelRequiredAction {
 extension PhoneModelRequiredAction.OpenPickerComponents {
     static func phoneComponents(
         _ modelItem: ProfileModelItem,
-        handler: @escaping (Region) -> Void
+        handler: @escaping (Region, Region) -> Void
     ) -> Self {
         .init(modelItem: modelItem) { completion -> PhoneModelRequiredAction.Picker? in
             switch modelItem.type {
             case .phone(let region):
                 return PhoneCodesAssembler.assemble(
                     selectedRegion: region,
-                    handler: handler,
+                    handler: { selectedRegion in handler(region, selectedRegion) },
                     completion: completion
                 )
             default:

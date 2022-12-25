@@ -40,7 +40,7 @@ final class CustomAuthModel: CustomAuthModelProtocol {
         else { return }
         if var value = items[item.key] {
             value.text = text
-            items[item.key] = value
+            items.updateValue(value, forKey: item.key)
         }
     }
 
@@ -51,7 +51,8 @@ final class CustomAuthModel: CustomAuthModelProtocol {
         switch item.type {
         case .phone:
             let components: CustomAuthModelRequiredAction.OpenPickerComponents =
-                .phoneComponents(item) { [weak self] updatedRegion in
+                .phoneComponents(item) { [weak self] previousRegion, updatedRegion in
+                    guard updatedRegion != previousRegion else { return }
                     self?.updateItem(.phone(updatedRegion), forIdentifier: item.identifier)
                 }
             return CustomAuthModelRequiredAction.openPicker(components)
@@ -68,7 +69,7 @@ final class CustomAuthModel: CustomAuthModelProtocol {
 
     func validate() -> Bool {
         do {
-            guard let usernameItem = items[.username] else { throw "".asBaseError() }
+            guard let usernameItem = items[.username] else { throw "Username cannot be nil".asBaseError() }
             _ = try AuthenticationInput(usernameItem.validate)
             let _: AuthenticationInput? = try {
                 guard !options.contains(.passwordless), let passwordItem = items[.password] else {
@@ -101,7 +102,7 @@ final class CustomAuthModel: CustomAuthModelProtocol {
                 attributes: items.values.compactMap { $0.authenticationUserAttribute }
             )
         } catch let error as CustomAuthModelItemError {
-            updateItem(error.localizedDescription, forIdentifier: error.itemIdentifier)
+            updateItem(.error(error.localizedDescription), forIdentifier: error.itemIdentifier)
             throw error
         } catch {
             throw error
@@ -116,7 +117,7 @@ private extension CustomAuthModel {
         else { return }
         if var value = items[item.key] {
             value.state = state
-            items[item.key] = value
+            items.updateValue(value, forKey: item.key)
         }
     }
 
@@ -126,7 +127,7 @@ private extension CustomAuthModel {
         else { return }
         if var value = items[item.key] {
             value.type = type
-            items[item.key] = value
+            items.updateValue(value, forKey: item.key)
         }
     }
 
