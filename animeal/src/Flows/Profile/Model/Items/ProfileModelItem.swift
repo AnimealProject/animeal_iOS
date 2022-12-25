@@ -92,16 +92,16 @@ struct ProfileModelItem: Hashable, ProfileModelValidatable {
     }
 }
 
+// MARK: - Constants
 extension ProfileModelItem {
-    var isEditable: Bool {
-        switch style {
-        case .editable:
-            return true
-        case .readonly:
-            return false
-        }
+    enum Constants {
+        static let minimumUserAge = 15
+        static let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
     }
+}
 
+// MARK: - Validation
+extension ProfileModelItem {
     func validateForEmptiness() throws -> String {
         guard let text = text else {
             throw ProfileModelItemError(
@@ -116,8 +116,10 @@ extension ProfileModelItem {
     func validateEmail() throws -> String {
         let text = try validateForEmptiness()
 
-        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-        let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
+        let emailPredicate = NSPredicate(
+            format: "SELF MATCHES %@",
+            Constants.emailRegEx
+        )
 
         guard emailPredicate.evaluate(with: text) else {
             throw ProfileModelItemError(
@@ -152,7 +154,32 @@ extension ProfileModelItem {
             )
         }
 
+        // Person must be more than 15 years old
+        // to be able to register
+        let now = Date()
+        let calendar = Calendar.current
+
+        let ageComponents = calendar.dateComponents([.year], from: date, to: now)
+        guard let age = ageComponents.year, age >= Constants.minimumUserAge else {
+            throw ProfileModelItemError(
+                itemIdentifier: identifier,
+                errorDescription: L10n.Profile.Errors.ageLimit(Constants.minimumUserAge)
+            )
+        }
+
         return DateFormatter.output.string(from: date)
+    }
+}
+
+// MARK: - Transformation
+extension ProfileModelItem {
+    var isEditable: Bool {
+        switch style {
+        case .editable:
+            return true
+        case .readonly:
+            return false
+        }
     }
 
     func transformDate(_ text: String?) -> String? {
