@@ -39,6 +39,7 @@
 "action.agree"                                    = "Agree";
 "action.ok"                                       = "Ok";
 "action.no"                                       = "No";
+"action.gotIt"                                    = "Got it";
 "action.copyIBAN"                                 = "Copy IBAN";
 "action.deleteAccount"                            = "Delete Account";
 "action.iWillFeed"                                = "I will feed";
@@ -60,7 +61,9 @@
 "feeding.status.starved"                          = "There is no food";
 "feeding.status.pending.pattern"                  = "%s sice not fed";
 "feeding.alert.cancelFeeding"                     = "Do you really want to cancel feeding?";
+"feeding.alert.feedingTimerOver"                  = "Your feeding timer is over. You can book a new feeding from the home page.";
 "toast.successLogout"                             = "You have successfully logged out";
 "toast.userDeleted"                               = "Your account has successfully been deleted";
 "search.empty.text"                               = "There are no feedings points for now. Please try again a little bit later";
 "search.searchBar.placeholder"                    = "Search here";
+"errors.somthingWrong"                            = "Oops something goes wrong!";

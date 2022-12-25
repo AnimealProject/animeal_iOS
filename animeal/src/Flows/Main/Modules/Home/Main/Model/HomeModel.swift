@@ -27,7 +27,7 @@ final class HomeModel: HomeModelProtocol {
             switch result {
             case .success(let points):
                 let feedingPoints = points.map { point in
-                    self.mapper.mapFeedingPoint(point)
+                    self.mapper.mapFeedingPoint(point, feeding: false)
                 }
                 self.cashedFeedingPoints = feedingPoints
                 DispatchQueue.main.async {
@@ -71,6 +71,41 @@ final class HomeModel: HomeModelProtocol {
         }
         cashedFeedingPoints = modifiedPoints
         completion?(self.applyFilter(self.cashedFeedingPoints))
+    }
+
+    func fetchFeedingAction(request: HomeModel.FeedingActionRequest) -> HomeModel.FeedingAction {
+        switch request {
+        case .cancelFeeding:
+            return .init(
+                title: L10n.Feeding.Alert.cancelFeeding,
+                actions: [
+                    .init(title: L10n.Action.no, style: .inverted),
+                    .init(title: L10n.Action.ok, style: .accent)
+                ]
+            )
+        case .autoCancelFeeding:
+            return .init(
+                title: L10n.Feeding.Alert.feedingTimerOver,
+                actions: [
+                    .init(title: L10n.Action.gotIt, style: .accent)
+                ]
+            )
+        }
+    }
+
+    func processCancelFeeding() {
+        // TODO: Handle cancel feeding action here
+        print("[TODO] Cancel feeding action not handlet yet")
+    }
+
+    func fetchFeedingPoint(_ pointId: String) async throws -> HomeModel.FeedingPoint {
+        let request = Request<animeal.FeedingPoint>.get(animeal.FeedingPoint.self, byId: pointId)
+        let result = try await context.networkService.query(request: request)
+        if let point = result {
+            return self.mapper.mapFeedingPoint(point, feeding: true)
+        } else {
+            throw L10n.Errors.somthingWrong.asBaseError()
+        }
     }
 }
 

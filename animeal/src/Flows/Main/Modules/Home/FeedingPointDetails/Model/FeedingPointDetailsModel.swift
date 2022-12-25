@@ -4,14 +4,13 @@ import Amplify
 
 final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingPointDetailsDataStoreProtocol {
     // MARK: - Private properties
-    private let pointId: String
     private let mapper: FeedingPointDetailsModelMapperProtocol
 
     typealias Context = NetworkServiceHolder & DataStoreServiceHolder & UserProfileServiceHolder
     private let context: Context
 
     // MARK: - DataStore properties
-    var feedingPointCoordinates = FeedingPointCoordinates()
+    let feedingPointId: String
 
     var relatedFavoritePoint: Favourite?
     var feedingPoint: FeedingPoint?
@@ -22,23 +21,19 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
         mapper: FeedingPointDetailsModelMapperProtocol = FeedingPointDetailsModelMapper(),
         context: Context = AppDelegate.shared.context
     ) {
-        self.pointId = pointId
+        self.feedingPointId = pointId
         self.mapper = mapper
         self.context = context
     }
 
     func fetchFeedingPoints(_ completion: ((FeedingPointDetailsModel.PointContent) -> Void)?) {
-        context.networkService.query(request: .get(FeedingPoint.self, byId: pointId)) { [weak self] result in
+        context.networkService.query(request: .get(FeedingPoint.self, byId: feedingPointId)) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let point):
                 guard let point = point else {
                     return
                 }
-                self.feedingPointCoordinates = FeedingPointCoordinates(
-                    latitude: point.location.lat,
-                    longitude: point.location.lon
-                )
                 self.feedingPoint = point
                 Task {
                     await self.fetchFavorites()

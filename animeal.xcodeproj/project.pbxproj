@@ -241,6 +241,7 @@
 		DBDB501B2887FE00003C6FF0 /* HomeModel+DTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB501A2887FE00003C6FF0 /* HomeModel+DTO.swift */; };
 		DBDB50212889725C003C6FF0 /* FeedingPointViewMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDB50202889725C003C6FF0 /* FeedingPointViewMapper.swift */; };
 		DBDC6E7028C73E8F001B359D /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDC6E6F28C73E8F001B359D /* NetworkService.swift */; };
+		DBEC04A029548320000D62F1 /* FeedingActionMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBEC049F29548320000D62F1 /* FeedingActionMapper.swift */; };
 		DBF56B5628CF40E300AB0BDF /* FeedingPointDetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF56B5128CF40E300AB0BDF /* FeedingPointDetailsModel.swift */; };
 		DBF56B5728CF40E300AB0BDF /* FeedingPointDetailsContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF56B5228CF40E300AB0BDF /* FeedingPointDetailsContract.swift */; };
 		DBF56B5828CF40E300AB0BDF /* FeedingPointDetailsAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF56B5328CF40E300AB0BDF /* FeedingPointDetailsAssembler.swift */; };
@@ -509,6 +510,7 @@
 		DBDB501A2887FE00003C6FF0 /* HomeModel+DTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeModel+DTO.swift"; sourceTree = "<group>"; };
 		DBDB50202889725C003C6FF0 /* FeedingPointViewMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingPointViewMapper.swift; sourceTree = "<group>"; };
 		DBDC6E6F28C73E8F001B359D /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		DBEC049F29548320000D62F1 /* FeedingActionMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingActionMapper.swift; sourceTree = "<group>"; };
 		DBF56B5128CF40E300AB0BDF /* FeedingPointDetailsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedingPointDetailsModel.swift; sourceTree = "<group>"; };
 		DBF56B5228CF40E300AB0BDF /* FeedingPointDetailsContract.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedingPointDetailsContract.swift; sourceTree = "<group>"; };
 		DBF56B5328CF40E300AB0BDF /* FeedingPointDetailsAssembler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedingPointDetailsAssembler.swift; sourceTree = "<group>"; };
@@ -1528,6 +1530,7 @@
 			children = (
 				DBDB50202889725C003C6FF0 /* FeedingPointViewMapper.swift */,
 				DB0AD32828A26FB6007FD750 /* SegmentedControlMapper.swift */,
+				DBEC049F29548320000D62F1 /* FeedingActionMapper.swift */,
 			);
 			path = Mappers;
 			sourceTree = "<group>";
@@ -2131,6 +2134,7 @@
 				DB5F694628ED6CD000D8714E /* FeedingBookingViewModel.swift in Sources */,
 				DBC2BB4428BBAD2B0086EF52 /* MorePartitionAssembler.swift in Sources */,
 				DBF56B5C28CF4A5700AB0BDF /* HomeCoordinator.swift in Sources */,
+				DBEC04A029548320000D62F1 /* FeedingActionMapper.swift in Sources */,
 				8372CCCF28A02F300085C6D1 /* CustomAuthModelItem.swift in Sources */,
 				DB127E8F28B9E9BA00012B53 /* MoreCoordinator.swift in Sources */,
 				835E14A728FDEE200044EC2F /* SearchSupplementary.swift in Sources */,
