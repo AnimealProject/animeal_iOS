@@ -7,6 +7,8 @@
 "loginScreen.signInViaMobilePhone"                = "Sign in with Mobile";
 "loginScreen.signInViaFacebook"                   = "Sign in with Facebook";
 "loginScreen.signInViaApple"                      = "Sign in with Apple";
+"favourites.header"                               = "Favourits";
+"favourites.empty"                                = "You don't have favourite feeding points yet. Press the heart button on the feeding point details to add that one as favourite";
 "profile.name"                                    = "Name";
 "profile.surname"                                 = "Surname";
 "profile.phoneNumber"                             = "Phone Number";
@@ -18,6 +20,7 @@
 "profile.header"                                  = "Profile";
 "profile.subHeader"                               = "please fill out the profile information";
 "profile.errors.empty"                            = "Field is empty";
+"profile.errors.ageLimit"                         = "The age limit is %@ years";
 "profile.errors.incorrectFormat"                  = "Format is incorrect";
 "phone.title"                                     = "Please, enter your phone";
 "phone.fields.phoneTitlle"                        = "Phone Number";
@@ -35,6 +38,7 @@
 "action.delete"                                   = "Delete";
 "action.agree"                                    = "Agree";
 "action.ok"                                       = "Ok";
+"action.no"                                       = "No";
 "action.copyIBAN"                                 = "Copy IBAN";
 "action.deleteAccount"                            = "Delete Account";
 "action.iWillFeed"                                = "I will feed";
@@ -55,6 +59,7 @@
 "feeding.status.fed"                              = "Newly fed";
 "feeding.status.starved"                          = "There is no food";
 "feeding.status.pending.pattern"                  = "%s sice not fed";
+"feeding.alert.cancelFeeding"                     = "Do you really want to cancel feeding?";
 "toast.successLogout"                             = "You have successfully logged out";
 "toast.userDeleted"                               = "Your account has successfully been deleted";
 "search.empty.text"                               = "There are no feedings points for now. Please try again a little bit later";

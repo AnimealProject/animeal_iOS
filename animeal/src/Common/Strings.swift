@@ -26,11 +26,24 @@ internal enum L10n {
     internal static let iWillFeed = L10n.tr("Localizable", "action.iWillFeed")
     /// Log out
     internal static let logOut = L10n.tr("Localizable", "action.logOut")
+    /// No
+    internal static let no = L10n.tr("Localizable", "action.no")
     /// Ok
     internal static let ok = L10n.tr("Localizable", "action.ok")
   }
 
+  internal enum Favourites {
+    /// You don't have favourite feeding points yet. Press the heart button on the feeding point details to add that one as favourite
+    internal static let empty = L10n.tr("Localizable", "favourites.empty")
+    /// Favourits
+    internal static let header = L10n.tr("Localizable", "favourites.header")
+  }
+
   internal enum Feeding {
+    internal enum Alert {
+      /// Do you really want to cancel feeding?
+      internal static let cancelFeeding = L10n.tr("Localizable", "feeding.alert.cancelFeeding")
+    }
     internal enum Status {
       /// Newly fed
       internal static let fed = L10n.tr("Localizable", "feeding.status.fed")
@@ -108,6 +121,10 @@ internal enum L10n {
     /// Surname
     internal static let surname = L10n.tr("Localizable", "profile.surname")
     internal enum Errors {
+      /// The age limit is %@ years
+      internal static func ageLimit(_ p1: Any) -> String {
+        return L10n.tr("Localizable", "profile.errors.ageLimit", String(describing: p1))
+      }
       /// Field is empty
       internal static let empty = L10n.tr("Localizable", "profile.errors.empty")
       /// Format is incorrect

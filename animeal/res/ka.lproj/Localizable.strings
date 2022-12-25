@@ -7,6 +7,8 @@
 "loginScreen.signInViaMobilePhone"                = "შედით მობილურით";
 "loginScreen.signInViaFacebook"                   = "Ფეისბუქზე შესვლა";
 "loginScreen.signInViaApple"                      = "შედით Apple-ით";
+"favourites.header"                               = "რჩეულები";
+"favourites.empty"                                = "ჯერ არ გაქვთ საყვარელი კვების წერტილები. დააჭირეთ გულის ღილაკს კვების წერტილის დეტალებზე, რომ დაამატოთ ის, როგორც საყვარელი";
 "profile.name"                                    = "სახელი";
 "profile.surname"                                 = "გვარი";
 "profile.phoneNumber"                             = "Ტელეფონის ნომერი";
@@ -18,6 +20,7 @@
 "profile.header"                                  = "პროფილი";
 "profile.subHeader"                               = "გთხოვთ შეავსოთ პროფილის ინფორმაცია";
 "profile.errors.empty"                            = "ველი ცარიელია";
+"profile.errors.ageLimit"                         = "ასაკობრივი ზღვარი არის %@ წელი";
 "profile.errors.incorrectFormat"                  = "ფორმატი არასწორია";
 "phone.title"                                     = "გთხოვთ შეიყვანოთ თქვენი ტელეფონის ნომერი\n";
 "phone.fields.phoneTitlle"                        = "Ტელეფონის ნომერი";
@@ -35,6 +38,7 @@
 "action.delete"                                   = "წაშლა";
 "action.agree"                                    = "ვეთანხმები";
 "action.ok"                                       = "Კარგი";
+"action.no"                                       = "არა";
 "action.copyIBAN"                                 = "კოპირება IBAN";
 "action.deleteAccount"                            = "Ანგარიშის წაშლა";
 "action.iWillFeed"                                = "ვაჭმევ";
@@ -55,6 +59,7 @@
 "feeding.status.fed"                              = "ახლად ყელში";
 "feeding.status.starved"                          = "საჭმელი არ არის";
 "feeding.status.pending.pattern"                  = "sice არ იკვებება";
+"feeding.alert.cancelFeeding"                     = "ნამდვილად გსურთ კვების გაუქმება?";
 "toast.successLogout"                             = "თქვენ წარმატებით გამოხვედით სისტემიდან";
 "toast.userDeleted"                               = "თქვენი ანგარიში წარმატებით წაიშალა";
 "search.empty.text"                               = "ამ დროისთვის კვების პუნქტები არ არის. გთხოვთ, სცადოთ ხელახლა ცოტა მოგვიანებით";
