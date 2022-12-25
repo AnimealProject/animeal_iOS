@@ -57,6 +57,7 @@ class NavigationMapController: NavigationViewControllerDelegate {
     init(frame: CGRect) {
         navigationMapView = NavigationMapView(frame: frame, navigationCameraType: .mobile)
         navigationMapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        navigationMapView.userLocationStyle = .puck2D(configuration: .makeDefault(showBearing: true))
         navigationMapView.delegate = self
 
         let navigationViewportDataSource = NavigationViewportDataSource(
@@ -65,6 +66,13 @@ class NavigationMapController: NavigationViewControllerDelegate {
         )
         navigationViewportDataSource.options.followingCameraOptions.zoomUpdatesAllowed = false
         navigationMapView.navigationCamera.viewportDataSource = navigationViewportDataSource
+
+        navigationMapView.mapView.mapboxMap.onNext(event: .mapIdle) { [weak self] _ in
+            self?.cameraAnimationQueue.forEach { animation in
+                animation()
+            }
+            self?.cameraAnimationQueue.removeAll()
+        }
     }
 
     // MARK: - Public API
@@ -130,7 +138,7 @@ class NavigationMapController: NavigationViewControllerDelegate {
 
 // MARK: - Managing navigationRoute requests
 extension NavigationMapController {
-    func requestRoute(destination: CLLocationCoordinate2D) { // TODO: Add completion
+    func requestRoute(destination: CLLocationCoordinate2D, completion: ((Result<Void, Error>) -> Void)?) {
         guard let userLocation = navigationMapView.mapView.location.latestLocation else { return }
 
         let location = CLLocation(
@@ -152,8 +160,6 @@ extension NavigationMapController {
 
         Directions.shared.calculate(navigationRouteOptions) { [weak self] _, result in
             switch result {
-            case .failure(let error):
-                print(error.localizedDescription)
             case .success(let response):
                 guard let self = self else { return }
 
@@ -165,6 +171,9 @@ extension NavigationMapController {
                     self.navigationMapView.show(routes)
                     self.navigationMapView.showWaypoints(on: currentRoute)
                 }
+                completion?(.success(()))
+            case .failure(let error):
+                completion?(.failure(error))
             }
         }
     }
@@ -203,5 +212,18 @@ extension  NavigationMapController: NavigationMapViewDelegate {
     // Delegate method called when the user selects a route
     func navigationMapView(_ mapView: NavigationMapView, didSelect route: Route) {
         self.currentRouteIndex = self.routes?.firstIndex(of: route) ?? 0
+    }
+
+    // Delegate method, which is called whenever final destination `PointAnnotation` is added on `MapView`.
+    func navigationMapView(
+        _ navigationMapView: NavigationMapView,
+        didAdd finalDestinationAnnotation: PointAnnotation,
+        pointAnnotationManager: PointAnnotationManager
+    ) {
+        // `PointAnnotationManager` is used to manage `PointAnnotation`s and is also exposed as
+        // a property in `NavigationMapView.pointAnnotationManager`. After any modifications to the
+        // `PointAnnotation` changes must be applied to `PointAnnotationManager.annotations`
+        // array. To remove all annotations for specific `PointAnnotationManager`, set an empty array.
+        pointAnnotationManager.annotations = []
     }
 }

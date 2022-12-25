@@ -11,12 +11,11 @@ class HomeViewController: UIViewController {
     private lazy var feedControl: FeedingControlView = {
         let feedControl = FeedingControlView()
         feedControl.onCloseHandler = { [weak self] in
-            guard let self = self else { return }
-            self.feedControl.stopTimer()
-            self.mapView.cancelRouteRequest()
-            self.hideFeedControl(true)
+            self?.viewModel.handleActionEvent(.tapCancelFeeding)
         }
-        feedControl.onTimerFinishHandler = feedControl.onCloseHandler
+        feedControl.onTimerFinishHandler = { [weak self] in
+            self?.viewModel.handleActionEvent(.autoCancelFeeding)
+        }
         return feedControl
     }()
     private let userLocationButton = CircleButtonView.make()
@@ -40,11 +39,6 @@ class HomeViewController: UIViewController {
     }
 
     // MARK: - Life cycle
-    override func loadView() {
-        super.loadView()
-        setupMapView()
-    }
-
     override public func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -93,6 +87,8 @@ extension HomeViewController: HomeViewModelOutput {
 // MARK: - Private API
 private extension HomeViewController {
     func setup() {
+        setupMapView()
+
         let controlsContainer = UIStackView()
         controlsContainer.axis = .vertical
         controlsContainer.alignment = .center
@@ -129,24 +125,80 @@ private extension HomeViewController {
         viewModel.onRouteRequestHaveBeenPrepared = { [weak self] coordinates in
             self?.handleRouteRequest(coordinates: coordinates)
         }
+
+        viewModel.onFeedingActionHaveBeenPrepared = { [weak self] action in
+            self?.handleFeedingAction(action)
+        }
+
+        viewModel.onErrorHaveBeenPrepared = { [weak self] errorDescription in
+            self?.showErrorMessage(errorDescription)
+        }
+    }
+
+    func handleFeedingAction(_ action: FeedingActionMapper.FeedingAction) {
+        let alertViewController = AlertViewController(title: action.title)
+
+        action.actions.forEach { feedingAction in
+            var actionHandler: (() -> Void)?
+            switch feedingAction.style {
+            case .inverted:
+                actionHandler = {
+                    alertViewController.dismiss(animated: true)
+                }
+            case .accent:
+                actionHandler = { [weak self] in
+                    guard let self = self else { return }
+                    self.feedControl.stopTimer()
+                    self.mapView.cancelRouteRequest()
+                    self.hideFeedControl(true)
+                    self.viewModel.handleActionEvent(.confirmCancelFeeding)
+                    alertViewController.dismiss(animated: true)
+                }
+            }
+            alertViewController.addAction(
+                AlertAction(
+                    title: feedingAction.title,
+                    style: feedingAction.style,
+                    handler: actionHandler
+                )
+            )
+        }
+        self.present(alertViewController, animated: true)
     }
 
     func handleRouteRequest(coordinates: CLLocationCoordinate2D) {
-        mapView.requestRoute(destination: coordinates)
-        feedControl.startTimer()
-        hideFeedControl(false)
-        mapView.startLocationConsumer()
+        mapView.requestRoute(destination: coordinates) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success:
+                self.feedControl.startTimer()
+                self.hideFeedControl(false)
+                self.mapView.startLocationConsumer()
 
-        handleLocationChange(
-            coordinates,
-            location: mapView.location.latestLocation?.location
-        )
-        mapView.didChangeLocation = { [weak self] location in
-            self?.handleLocationChange(
-                coordinates,
-                location: location
-            )
+                self.handleLocationChange(
+                    coordinates,
+                    location: self.mapView.location.latestLocation?.location
+                )
+                self.mapView.didChangeLocation = { [weak self] location in
+                    self?.handleLocationChange(
+                        coordinates,
+                        location: location
+                    )
+                }
+            case .failure(let error):
+                self.showErrorMessage(error.localizedDescription)
+            }
         }
+    }
+
+    func showErrorMessage(_ description: String) {
+        let alertViewController = AlertViewController(title: description)
+        alertViewController.addAction(
+            AlertAction(title: L10n.Action.ok, style: .accent) {
+                alertViewController.dismiss(animated: true)
+            }
+        )
+        present(alertViewController, animated: true)
     }
 
     func handleLocationChange(_ coordinates: CLLocationCoordinate2D, location: CLLocation?) {
@@ -175,15 +227,6 @@ private extension HomeViewController {
 
         mapView.cameraAnimationQueue.append {
             self.updateCameraSettings()
-        }
-
-        mapView.mapboxMap.onNext(event: .mapIdle) { [weak self] _ in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                self?.mapView.cameraAnimationQueue.forEach { animation in
-                    animation()
-                }
-                self?.mapView.cameraAnimationQueue.removeAll()
-            }
         }
     }
 

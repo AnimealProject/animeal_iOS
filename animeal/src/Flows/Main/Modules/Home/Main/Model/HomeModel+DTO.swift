@@ -35,4 +35,24 @@ extension HomeModel {
         case dogs = 0
         case cats = 1
     }
+
+    struct FeedingAction {
+        let title: String
+        let actions: [Action]
+
+        struct Action {
+            let title: String
+            let style: Style
+        }
+
+        enum Style {
+            case accent
+            case inverted
+        }
+    }
+
+    enum FeedingActionRequest {
+        case cancelFeeding
+        case autoCancelFeeding
+    }
 }

@@ -210,15 +210,40 @@ class CustomAuthViewItemMappableMock: CustomAuthViewItemMappable {
     }
 
 }
+class FeedingActionMappableMock: FeedingActionMappable {
+
+    // MARK: - mapFeedingAction
+
+    var mapFeedingActionCallsCount = 0
+    var mapFeedingActionCalled: Bool {
+        return mapFeedingActionCallsCount > 0
+    }
+    var mapFeedingActionReceivedInput: HomeModel.FeedingAction?
+    var mapFeedingActionReceivedInvocations: [HomeModel.FeedingAction] = []
+    var mapFeedingActionReturnValue: FeedingActionMapper.FeedingAction!
+    var mapFeedingActionClosure: ((HomeModel.FeedingAction) -> FeedingActionMapper.FeedingAction)?
+
+    func mapFeedingAction(_ input: HomeModel.FeedingAction) -> FeedingActionMapper.FeedingAction {
+        mapFeedingActionCallsCount += 1
+        mapFeedingActionReceivedInput = input
+        mapFeedingActionReceivedInvocations.append(input)
+        if let mapFeedingActionClosure = mapFeedingActionClosure {
+            return mapFeedingActionClosure(input)
+        } else {
+            return mapFeedingActionReturnValue
+        }
+    }
+
+}
 class FeedingBookingModelProtocolMock: FeedingBookingModelProtocol {
 
 }
 class FeedingPointDetailsDataStoreProtocolMock: FeedingPointDetailsDataStoreProtocol {
-    var feedingPointCoordinates: FeedingPointCoordinates {
-        get { return underlyingFeedingPointCoordinates }
-        set(value) { underlyingFeedingPointCoordinates = value }
+    var feedingPointId: String {
+        get { return underlyingFeedingPointId }
+        set(value) { underlyingFeedingPointId = value }
     }
-    var underlyingFeedingPointCoordinates: FeedingPointCoordinates!
+    var underlyingFeedingPointId: String!
 
 }
 class FeedingPointDetailsModelProtocolMock: FeedingPointDetailsModelProtocol {
@@ -257,6 +282,23 @@ class FeedingPointDetailsModelProtocolMock: FeedingPointDetailsModelProtocol {
         fetchMediaContentKeyCompletionClosure?(key, completion)
     }
 
+    // MARK: - mutateFavorite
+
+    var mutateFavoriteCompletionCallsCount = 0
+    var mutateFavoriteCompletionCalled: Bool {
+        return mutateFavoriteCompletionCallsCount > 0
+    }
+    var mutateFavoriteCompletionReceivedCompletion: (((Bool) -> Void))?
+    var mutateFavoriteCompletionReceivedInvocations: [(((Bool) -> Void))?] = []
+    var mutateFavoriteCompletionClosure: ((((Bool) -> Void)?) -> Void)?
+
+    func mutateFavorite(completion: ((Bool) -> Void)?) {
+        mutateFavoriteCompletionCallsCount += 1
+        mutateFavoriteCompletionReceivedCompletion = completion
+        mutateFavoriteCompletionReceivedInvocations.append(completion)
+        mutateFavoriteCompletionClosure?(completion)
+    }
+
 }
 class FeedingPointDetailsViewMappableMock: FeedingPointDetailsViewMappable {
 
@@ -268,10 +310,10 @@ class FeedingPointDetailsViewMappableMock: FeedingPointDetailsViewMappable {
     }
     var mapFeedingPointReceivedInput: FeedingPointDetailsModel.PointContent?
     var mapFeedingPointReceivedInvocations: [FeedingPointDetailsModel.PointContent] = []
-    var mapFeedingPointReturnValue: FeedingPointDetailsViewItem!
-    var mapFeedingPointClosure: ((FeedingPointDetailsModel.PointContent) -> FeedingPointDetailsViewItem)?
+    var mapFeedingPointReturnValue: FeedingPointDetailsViewMapper.FeedingPointDetailsViewItem!
+    var mapFeedingPointClosure: ((FeedingPointDetailsModel.PointContent) -> FeedingPointDetailsViewMapper.FeedingPointDetailsViewItem)?
 
-    func mapFeedingPoint(_ input: FeedingPointDetailsModel.PointContent) -> FeedingPointDetailsViewItem {
+    func mapFeedingPoint(_ input: FeedingPointDetailsModel.PointContent) -> FeedingPointDetailsViewMapper.FeedingPointDetailsViewItem {
         mapFeedingPointCallsCount += 1
         mapFeedingPointReceivedInput = input
         mapFeedingPointReceivedInvocations.append(input)
@@ -290,10 +332,10 @@ class FeedingPointDetailsViewMappableMock: FeedingPointDetailsViewMappable {
     }
     var mapFeedingPointMediaContentReceivedInput: Data?
     var mapFeedingPointMediaContentReceivedInvocations: [Data?] = []
-    var mapFeedingPointMediaContentReturnValue: FeedingPointMediaContent?
-    var mapFeedingPointMediaContentClosure: ((Data?) -> FeedingPointMediaContent?)?
+    var mapFeedingPointMediaContentReturnValue: FeedingPointDetailsViewMapper.FeedingPointMediaContent?
+    var mapFeedingPointMediaContentClosure: ((Data?) -> FeedingPointDetailsViewMapper.FeedingPointMediaContent?)?
 
-    func mapFeedingPointMediaContent(_ input: Data?) -> FeedingPointMediaContent? {
+    func mapFeedingPointMediaContent(_ input: Data?) -> FeedingPointDetailsViewMapper.FeedingPointMediaContent? {
         mapFeedingPointMediaContentCallsCount += 1
         mapFeedingPointMediaContentReceivedInput = input
         mapFeedingPointMediaContentReceivedInvocations.append(input)
@@ -416,6 +458,54 @@ class HomeModelProtocolMock: HomeModelProtocol {
         fetchFilterItemsClosure?(completion)
     }
 
+    // MARK: - fetchFeedingAction
+
+    var fetchFeedingActionRequestCallsCount = 0
+    var fetchFeedingActionRequestCalled: Bool {
+        return fetchFeedingActionRequestCallsCount > 0
+    }
+    var fetchFeedingActionRequestReceivedRequest: HomeModel.FeedingActionRequest?
+    var fetchFeedingActionRequestReceivedInvocations: [HomeModel.FeedingActionRequest] = []
+    var fetchFeedingActionRequestReturnValue: HomeModel.FeedingAction!
+    var fetchFeedingActionRequestClosure: ((HomeModel.FeedingActionRequest) -> HomeModel.FeedingAction)?
+
+    func fetchFeedingAction(request: HomeModel.FeedingActionRequest) -> HomeModel.FeedingAction {
+        fetchFeedingActionRequestCallsCount += 1
+        fetchFeedingActionRequestReceivedRequest = request
+        fetchFeedingActionRequestReceivedInvocations.append(request)
+        if let fetchFeedingActionRequestClosure = fetchFeedingActionRequestClosure {
+            return fetchFeedingActionRequestClosure(request)
+        } else {
+            return fetchFeedingActionRequestReturnValue
+        }
+    }
+
+    // MARK: - fetchFeedingPoint
+
+    var fetchFeedingPointThrowableError: Error?
+    var fetchFeedingPointCallsCount = 0
+    var fetchFeedingPointCalled: Bool {
+        return fetchFeedingPointCallsCount > 0
+    }
+    var fetchFeedingPointReceivedPointId: String?
+    var fetchFeedingPointReceivedInvocations: [String] = []
+    var fetchFeedingPointReturnValue: HomeModel.FeedingPoint!
+    var fetchFeedingPointClosure: ((String) async throws -> HomeModel.FeedingPoint)?
+
+    func fetchFeedingPoint(_ pointId: String) async throws -> HomeModel.FeedingPoint {
+        if let error = fetchFeedingPointThrowableError {
+            throw error
+        }
+        fetchFeedingPointCallsCount += 1
+        fetchFeedingPointReceivedPointId = pointId
+        fetchFeedingPointReceivedInvocations.append(pointId)
+        if let fetchFeedingPointClosure = fetchFeedingPointClosure {
+            return try await fetchFeedingPointClosure(pointId)
+        } else {
+            return fetchFeedingPointReturnValue
+        }
+    }
+
     // MARK: - proceedFilter
 
     var proceedFilterCallsCount = 0
@@ -448,6 +538,19 @@ class HomeModelProtocolMock: HomeModelProtocol {
         proceedFeedingPointSelectionCompletionReceivedArguments = (identifier: identifier, completion: completion)
         proceedFeedingPointSelectionCompletionReceivedInvocations.append((identifier: identifier, completion: completion))
         proceedFeedingPointSelectionCompletionClosure?(identifier, completion)
+    }
+
+    // MARK: - processCancelFeeding
+
+    var processCancelFeedingCallsCount = 0
+    var processCancelFeedingCalled: Bool {
+        return processCancelFeedingCallsCount > 0
+    }
+    var processCancelFeedingClosure: (() -> Void)?
+
+    func processCancelFeeding() {
+        processCancelFeedingCallsCount += 1
+        processCancelFeedingClosure?()
     }
 
 }
@@ -543,6 +646,11 @@ class LocationServiceProtocolMock: LocationServiceProtocol {
 
 }
 class LoginCoordinatableMock: LoginCoordinatable {
+    var navigator: Navigating {
+        get { return underlyingNavigator }
+        set(value) { underlyingNavigator = value }
+    }
+    var underlyingNavigator: Navigating!
 
     // MARK: - moveFromLogin
 
@@ -842,6 +950,186 @@ class ProfileViewItemMappableMock: ProfileViewItemMappable {
     }
 
 }
+class SearchModelProtocolMock: SearchModelProtocol {
+
+    // MARK: - fetchFilteringText
+
+    var fetchFilteringTextCallsCount = 0
+    var fetchFilteringTextCalled: Bool {
+        return fetchFilteringTextCallsCount > 0
+    }
+    var fetchFilteringTextReturnValue: String?
+    var fetchFilteringTextClosure: (() -> String?)?
+
+    func fetchFilteringText() -> String? {
+        fetchFilteringTextCallsCount += 1
+        if let fetchFilteringTextClosure = fetchFilteringTextClosure {
+            return fetchFilteringTextClosure()
+        } else {
+            return fetchFilteringTextReturnValue
+        }
+    }
+
+    // MARK: - fetchFeedingPoints
+
+    var fetchFeedingPointsForceThrowableError: Error?
+    var fetchFeedingPointsForceCallsCount = 0
+    var fetchFeedingPointsForceCalled: Bool {
+        return fetchFeedingPointsForceCallsCount > 0
+    }
+    var fetchFeedingPointsForceReceivedForce: Bool?
+    var fetchFeedingPointsForceReceivedInvocations: [Bool] = []
+    var fetchFeedingPointsForceReturnValue: [SearchModelSection]!
+    var fetchFeedingPointsForceClosure: ((Bool) async throws -> [SearchModelSection])?
+
+    func fetchFeedingPoints(force: Bool) async throws -> [SearchModelSection] {
+        if let error = fetchFeedingPointsForceThrowableError {
+            throw error
+        }
+        fetchFeedingPointsForceCallsCount += 1
+        fetchFeedingPointsForceReceivedForce = force
+        fetchFeedingPointsForceReceivedInvocations.append(force)
+        if let fetchFeedingPointsForceClosure = fetchFeedingPointsForceClosure {
+            return try await fetchFeedingPointsForceClosure(force)
+        } else {
+            return fetchFeedingPointsForceReturnValue
+        }
+    }
+
+    // MARK: - filterFeedingPoints
+
+    var filterFeedingPointsCallsCount = 0
+    var filterFeedingPointsCalled: Bool {
+        return filterFeedingPointsCallsCount > 0
+    }
+    var filterFeedingPointsReceivedSearchString: String?
+    var filterFeedingPointsReceivedInvocations: [String?] = []
+    var filterFeedingPointsReturnValue: [SearchModelSection]!
+    var filterFeedingPointsClosure: ((String?) async -> [SearchModelSection])?
+
+    func filterFeedingPoints(_ searchString: String?) async -> [SearchModelSection] {
+        filterFeedingPointsCallsCount += 1
+        filterFeedingPointsReceivedSearchString = searchString
+        filterFeedingPointsReceivedInvocations.append(searchString)
+        if let filterFeedingPointsClosure = filterFeedingPointsClosure {
+            return await filterFeedingPointsClosure(searchString)
+        } else {
+            return filterFeedingPointsReturnValue
+        }
+    }
+
+    // MARK: - toogleFeedingPoint
+
+    var toogleFeedingPointForIdentifierCallsCount = 0
+    var toogleFeedingPointForIdentifierCalled: Bool {
+        return toogleFeedingPointForIdentifierCallsCount > 0
+    }
+    var toogleFeedingPointForIdentifierReceivedIdentifier: String?
+    var toogleFeedingPointForIdentifierReceivedInvocations: [String] = []
+    var toogleFeedingPointForIdentifierClosure: ((String) -> Void)?
+
+    func toogleFeedingPoint(forIdentifier identifier: String) {
+        toogleFeedingPointForIdentifierCallsCount += 1
+        toogleFeedingPointForIdentifierReceivedIdentifier = identifier
+        toogleFeedingPointForIdentifierReceivedInvocations.append(identifier)
+        toogleFeedingPointForIdentifierClosure?(identifier)
+    }
+
+}
+class SearchViewItemMappableMock: SearchViewItemMappable {
+
+    // MARK: - mapItem
+
+    var mapItemCallsCount = 0
+    var mapItemCalled: Bool {
+        return mapItemCallsCount > 0
+    }
+    var mapItemReceivedInput: SearchModelItem?
+    var mapItemReceivedInvocations: [SearchModelItem] = []
+    var mapItemReturnValue: SearchViewItem!
+    var mapItemClosure: ((SearchModelItem) -> SearchViewItem)?
+
+    func mapItem(_ input: SearchModelItem) -> SearchViewItem {
+        mapItemCallsCount += 1
+        mapItemReceivedInput = input
+        mapItemReceivedInvocations.append(input)
+        if let mapItemClosure = mapItemClosure {
+            return mapItemClosure(input)
+        } else {
+            return mapItemReturnValue
+        }
+    }
+
+    // MARK: - mapItems
+
+    var mapItemsCallsCount = 0
+    var mapItemsCalled: Bool {
+        return mapItemsCallsCount > 0
+    }
+    var mapItemsReceivedInput: [SearchModelItem]?
+    var mapItemsReceivedInvocations: [[SearchModelItem]] = []
+    var mapItemsReturnValue: [SearchViewItem]!
+    var mapItemsClosure: (([SearchModelItem]) -> [SearchViewItem])?
+
+    func mapItems(_ input: [SearchModelItem]) -> [SearchViewItem] {
+        mapItemsCallsCount += 1
+        mapItemsReceivedInput = input
+        mapItemsReceivedInvocations.append(input)
+        if let mapItemsClosure = mapItemsClosure {
+            return mapItemsClosure(input)
+        } else {
+            return mapItemsReturnValue
+        }
+    }
+
+}
+class SearchViewSectionMappableMock: SearchViewSectionMappable {
+
+    // MARK: - mapSection
+
+    var mapSectionCallsCount = 0
+    var mapSectionCalled: Bool {
+        return mapSectionCallsCount > 0
+    }
+    var mapSectionReceivedInput: SearchModelSection?
+    var mapSectionReceivedInvocations: [SearchModelSection] = []
+    var mapSectionReturnValue: SearchViewSectionWrapper!
+    var mapSectionClosure: ((SearchModelSection) -> SearchViewSectionWrapper)?
+
+    func mapSection(_ input: SearchModelSection) -> SearchViewSectionWrapper {
+        mapSectionCallsCount += 1
+        mapSectionReceivedInput = input
+        mapSectionReceivedInvocations.append(input)
+        if let mapSectionClosure = mapSectionClosure {
+            return mapSectionClosure(input)
+        } else {
+            return mapSectionReturnValue
+        }
+    }
+
+    // MARK: - mapSections
+
+    var mapSectionsCallsCount = 0
+    var mapSectionsCalled: Bool {
+        return mapSectionsCallsCount > 0
+    }
+    var mapSectionsReceivedInput: [SearchModelSection]?
+    var mapSectionsReceivedInvocations: [[SearchModelSection]] = []
+    var mapSectionsReturnValue: [SearchViewSectionWrapper]!
+    var mapSectionsClosure: (([SearchModelSection]) -> [SearchViewSectionWrapper])?
+
+    func mapSections(_ input: [SearchModelSection]) -> [SearchViewSectionWrapper] {
+        mapSectionsCallsCount += 1
+        mapSectionsReceivedInput = input
+        mapSectionsReceivedInvocations.append(input)
+        if let mapSectionsClosure = mapSectionsClosure {
+            return mapSectionsClosure(input)
+        } else {
+            return mapSectionsReturnValue
+        }
+    }
+
+}
 class VerificationModelProtocolMock: VerificationModelProtocol {
     var requestNewCodeTimeLeft: ((VerificationModelTimeLeft) -> Void)?
 
@@ -883,19 +1171,23 @@ class VerificationModelProtocolMock: VerificationModelProtocol {
 
     // MARK: - requestNewCode
 
-    var requestNewCodeThrowableError: Error?
-    var requestNewCodeCallsCount = 0
-    var requestNewCodeCalled: Bool {
-        return requestNewCodeCallsCount > 0
+    var requestNewCodeForceThrowableError: Error?
+    var requestNewCodeForceCallsCount = 0
+    var requestNewCodeForceCalled: Bool {
+        return requestNewCodeForceCallsCount > 0
     }
-    var requestNewCodeClosure: (() async throws -> Void)?
+    var requestNewCodeForceReceivedForce: Bool?
+    var requestNewCodeForceReceivedInvocations: [Bool] = []
+    var requestNewCodeForceClosure: ((Bool) async throws -> Void)?
 
-    func requestNewCode() async throws {
-        if let error = requestNewCodeThrowableError {
+    func requestNewCode(force: Bool) async throws {
+        if let error = requestNewCodeForceThrowableError {
             throw error
         }
-        requestNewCodeCallsCount += 1
-        try await requestNewCodeClosure?()
+        requestNewCodeForceCallsCount += 1
+        requestNewCodeForceReceivedForce = force
+        requestNewCodeForceReceivedInvocations.append(force)
+        try await requestNewCodeForceClosure?(force)
     }
 
     // MARK: - validateCode
