@@ -8,7 +8,7 @@
 "loginScreen.signInViaFacebook"                   = "Ფეისბუქზე შესვლა";
 "loginScreen.signInViaApple"                      = "შედით Apple-ით";
 "favourites.header"                               = "რჩეულები";
-"favourites.empty"                                = "ჯერ არ გაქვთ საყვარელი კვების წერტილები. დააჭირეთ გულის ღილაკს კვების წერტილის დეტალებზე, რომ დაამატოთ ის, როგორც საყვარელი";
+"favourites.empty"                                = "ჯერ არ გაქვთ საყვარელი კვების წერტილები. დააჭირეთ გულის ღილაკს კვების წერტილის დეტალებზე, რომ დაამატოთ                                                     ის, როგორც საყვარელი";
 "profile.name"                                    = "სახელი";
 "profile.surname"                                 = "გვარი";
 "profile.phoneNumber"                             = "Ტელეფონის ნომერი";

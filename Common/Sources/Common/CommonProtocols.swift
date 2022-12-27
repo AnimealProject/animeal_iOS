@@ -2,7 +2,7 @@ import UIKit
 
 // MARK: - Assembling
 public protocol Assembling {
-    static func assemble() -> UIViewController
+    func assemble() -> UIViewController
 }
 
 // MARK: - StringProcessable

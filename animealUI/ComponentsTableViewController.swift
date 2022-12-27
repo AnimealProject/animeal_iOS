@@ -49,7 +49,7 @@ class ComponentsTableViewController: UIViewController,
             ComponentPresentation(
                 description: "AlertViewController"
             ) { [weak self] in
-                guard let self = self else { fatalError("Failed to unwrap self") }
+                guard let self = self else { return UIViewController() }
                 let viewController = ComponentViewController<UIStackView>()
                 viewController.configureElement = { element in
                     guard let superView = element.superview else {

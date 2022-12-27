@@ -9,6 +9,19 @@
 /* Begin PBXBuildFile section */
 		68DD0E2AAE89D53E9131FE48 /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 5A014CFAC080E8E6D9884035 /* amplifyconfiguration.json */; };
 		70BCFD97A37256084C0CD67A /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 6FE750BC24EF1983DF08B736 /* awsconfiguration.json */; };
+		78525B1E2958A24C006CE9BA /* FavouriteViewContentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78525B1D2958A24C006CE9BA /* FavouriteViewContentState.swift */; };
+		78525B2029594D63006CE9BA /* FavouriteItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78525B1F29594D63006CE9BA /* FavouriteItemCell.swift */; };
+		78525B2329594E0A006CE9BA /* FavouriteItemShimmerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78525B2229594E0A006CE9BA /* FavouriteItemShimmerCell.swift */; };
+		78525B262959563D006CE9BA /* FavouriteItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78525B252959563D006CE9BA /* FavouriteItem.swift */; };
+		78525B282959C7A0006CE9BA /* FavouriteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78525B272959C7A0006CE9BA /* FavouriteCell.swift */; };
+		78BEB17A2936D93D00A11CA7 /* FavouritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BEB1792936D93D00A11CA7 /* FavouritesViewController.swift */; };
+		78BEB17C2936D97400A11CA7 /* FavouritesAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BEB17B2936D97400A11CA7 /* FavouritesAssembler.swift */; };
+		78BEB17E2936D99700A11CA7 /* FavouritesContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BEB17D2936D99700A11CA7 /* FavouritesContract.swift */; };
+		78BEB182293708B300A11CA7 /* FavouritesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BEB181293708B300A11CA7 /* FavouritesViewModel.swift */; };
+		78BEB18529370F4C00A11CA7 /* FavouriteViewItemMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BEB18429370F4C00A11CA7 /* FavouriteViewItemMapper.swift */; };
+		78BEB18829370FCE00A11CA7 /* FavouritesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BEB18729370FCE00A11CA7 /* FavouritesModel.swift */; };
+		78BEB18A2937D8DF00A11CA7 /* FavouritesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BEB1892937D8DF00A11CA7 /* FavouritesCoordinator.swift */; };
+		78BEB18E293811C900A11CA7 /* FavouritesModelMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BEB18D293811C900A11CA7 /* FavouritesModelMapper.swift */; };
 		8312A5C1290AFE8F005C85CB /* PhoneCodesViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8312A5C0290AFE8F005C85CB /* PhoneCodesViewCell.swift */; };
 		8312A5C3290B0CA8005C85CB /* CustomAuthModelRequiredAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8312A5C2290B0CA8005C85CB /* CustomAuthModelRequiredAction.swift */; };
 		8312A5C5290DB689005C85CB /* PhoneModelRequiredAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8312A5C4290DB689005C85CB /* PhoneModelRequiredAction.swift */; };
@@ -288,6 +301,19 @@
 		4D88428C28EF7C85C738BFBF /* Favourite+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "Favourite+Schema.swift"; path = "amplify/generated/models/Favourite+Schema.swift"; sourceTree = "<group>"; };
 		5A014CFAC080E8E6D9884035 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 		6FE750BC24EF1983DF08B736 /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = awsconfiguration.json; sourceTree = "<group>"; };
+		78525B1D2958A24C006CE9BA /* FavouriteViewContentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteViewContentState.swift; sourceTree = "<group>"; };
+		78525B1F29594D63006CE9BA /* FavouriteItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteItemCell.swift; sourceTree = "<group>"; };
+		78525B2229594E0A006CE9BA /* FavouriteItemShimmerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteItemShimmerCell.swift; sourceTree = "<group>"; };
+		78525B252959563D006CE9BA /* FavouriteItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteItem.swift; sourceTree = "<group>"; };
+		78525B272959C7A0006CE9BA /* FavouriteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteCell.swift; sourceTree = "<group>"; };
+		78BEB1792936D93D00A11CA7 /* FavouritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesViewController.swift; sourceTree = "<group>"; };
+		78BEB17B2936D97400A11CA7 /* FavouritesAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesAssembler.swift; sourceTree = "<group>"; };
+		78BEB17D2936D99700A11CA7 /* FavouritesContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesContract.swift; sourceTree = "<group>"; };
+		78BEB181293708B300A11CA7 /* FavouritesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesViewModel.swift; sourceTree = "<group>"; };
+		78BEB18429370F4C00A11CA7 /* FavouriteViewItemMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteViewItemMapper.swift; sourceTree = "<group>"; };
+		78BEB18729370FCE00A11CA7 /* FavouritesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesModel.swift; sourceTree = "<group>"; };
+		78BEB1892937D8DF00A11CA7 /* FavouritesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesCoordinator.swift; sourceTree = "<group>"; };
+		78BEB18D293811C900A11CA7 /* FavouritesModelMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesModelMapper.swift; sourceTree = "<group>"; };
 		8312A5C0290AFE8F005C85CB /* PhoneCodesViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCodesViewCell.swift; sourceTree = "<group>"; };
 		8312A5C2290B0CA8005C85CB /* CustomAuthModelRequiredAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAuthModelRequiredAction.swift; sourceTree = "<group>"; };
 		8312A5C4290DB689005C85CB /* PhoneModelRequiredAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneModelRequiredAction.swift; sourceTree = "<group>"; };
@@ -587,6 +613,90 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		78525B2129594D9B006CE9BA /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				78525B1F29594D63006CE9BA /* FavouriteItemCell.swift */,
+				78525B2229594E0A006CE9BA /* FavouriteItemShimmerCell.swift */,
+				78525B272959C7A0006CE9BA /* FavouriteCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		78525B242959562D006CE9BA /* Items */ = {
+			isa = PBXGroup;
+			children = (
+				78525B252959563D006CE9BA /* FavouriteItem.swift */,
+			);
+			path = Items;
+			sourceTree = "<group>";
+		};
+		78BEB1762936D88F00A11CA7 /* Favourites */ = {
+			isa = PBXGroup;
+			children = (
+				78BEB1772936D89B00A11CA7 /* Coordinator */,
+				78BEB1782936D8E800A11CA7 /* Favourites */,
+			);
+			path = Favourites;
+			sourceTree = "<group>";
+		};
+		78BEB1772936D89B00A11CA7 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				78BEB1892937D8DF00A11CA7 /* FavouritesCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		78BEB1782936D8E800A11CA7 /* Favourites */ = {
+			isa = PBXGroup;
+			children = (
+				78BEB18629370FBE00A11CA7 /* Model */,
+				78BEB1802937089C00A11CA7 /* ViewModel */,
+				78BEB17F2937088C00A11CA7 /* View */,
+				78BEB17B2936D97400A11CA7 /* FavouritesAssembler.swift */,
+				78BEB17D2936D99700A11CA7 /* FavouritesContract.swift */,
+			);
+			path = Favourites;
+			sourceTree = "<group>";
+		};
+		78BEB17F2937088C00A11CA7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				78525B242959562D006CE9BA /* Items */,
+				78525B2129594D9B006CE9BA /* Cells */,
+				78BEB18329370F2700A11CA7 /* Mappers */,
+				78BEB1792936D93D00A11CA7 /* FavouritesViewController.swift */,
+				78525B1D2958A24C006CE9BA /* FavouriteViewContentState.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		78BEB1802937089C00A11CA7 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				78BEB181293708B300A11CA7 /* FavouritesViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		78BEB18329370F2700A11CA7 /* Mappers */ = {
+			isa = PBXGroup;
+			children = (
+				78BEB18429370F4C00A11CA7 /* FavouriteViewItemMapper.swift */,
+			);
+			path = Mappers;
+			sourceTree = "<group>";
+		};
+		78BEB18629370FBE00A11CA7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				78BEB18729370FCE00A11CA7 /* FavouritesModel.swift */,
+				78BEB18D293811C900A11CA7 /* FavouritesModelMapper.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		83541354290AECD600884430 /* Phone */ = {
 			isa = PBXGroup;
 			children = (
@@ -1162,6 +1272,7 @@
 		83E83A4B28A98DFD00B40FC4 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				78BEB1762936D88F00A11CA7 /* Favourites */,
 				835E148628FDD4700044EC2F /* Search */,
 				DBBDE72628BB7A3D006EEBA3 /* More */,
 				DB5A838F285D00B100F3C3A5 /* Home */,
@@ -1967,10 +2078,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				DB6ED5B929190E9700D92379 /* FeedingPointMapper.swift in Sources */,
+				78BEB17E2936D99700A11CA7 /* FavouritesContract.swift in Sources */,
 				DBDB3F3A28D3356600B285D7 /* MedicationI18n+Schema.swift in Sources */,
 				DB5F694228ED6CD000D8714E /* FeedingBookingAssembler.swift in Sources */,
 				83F3CC14284771FB00C05298 /* LoginContract.swift in Sources */,
 				DBDB3F5028D3356700B285D7 /* Location+Schema.swift in Sources */,
+				78BEB17C2936D97400A11CA7 /* FavouritesAssembler.swift in Sources */,
 				DB6B07CA28450A380009397B /* HomeViewController.swift in Sources */,
 				DBDB50212889725C003C6FF0 /* FeedingPointViewMapper.swift in Sources */,
 				DB127E8828B9648200012B53 /* MoreAssembler.swift in Sources */,
@@ -2022,6 +2135,7 @@
 				838B6B702868B039001DD111 /* VerificationModel.swift in Sources */,
 				83C7A98628E42AB100F3D219 /* UserProfileAmplifyConverter.swift in Sources */,
 				DBDC6E7028C73E8F001B359D /* NetworkService.swift in Sources */,
+				78BEB17A2936D93D00A11CA7 /* FavouritesViewController.swift in Sources */,
 				DB127E8B28B97B5700012B53 /* MoreActionModel.swift in Sources */,
 				8372CCBD28A029A50085C6D1 /* CustomAuthAssembler.swift in Sources */,
 				DBDB3F3828D3356600B285D7 /* RelationPetFeedingPoint+Schema.swift in Sources */,
@@ -2040,10 +2154,12 @@
 				8372CCAB289AFC3E0085C6D1 /* LoginProviding.swift in Sources */,
 				8372CCCD28A02BD70085C6D1 /* CustomAuthViewTextEvent.swift in Sources */,
 				836840F828D1ED3D00E1044E /* BaseError.swift in Sources */,
+				78BEB18829370FCE00A11CA7 /* FavouritesModel.swift in Sources */,
 				83C7A98A28E4637000F3D219 /* ProfileModelItemError.swift in Sources */,
 				DBDB3F4728D3356700B285D7 /* Category+Schema.swift in Sources */,
 				83A9A21E28E1731000858190 /* VerificationModelWorker.swift in Sources */,
 				DB97C5302927B0180089A9FA /* NavigationMapController.swift in Sources */,
+				78BEB18529370F4C00A11CA7 /* FavouriteViewItemMapper.swift in Sources */,
 				83541361290AF1E200884430 /* PhoneCodesViewItem.swift in Sources */,
 				83A9A22828E19A5200858190 /* VerificationModelCodeError.swift in Sources */,
 				838EA97329427CDD001F4D84 /* SearchModelState.swift in Sources */,
@@ -2060,6 +2176,7 @@
 				DB127E8728B9648200012B53 /* MoreContract.swift in Sources */,
 				838EA9602942018A001F4D84 /* SearchViewItemMapper.swift in Sources */,
 				8372CCB928A0298B0085C6D1 /* CustomAuthViewController.swift in Sources */,
+				78525B2029594D63006CE9BA /* FavouriteItemCell.swift in Sources */,
 				83C7A98E28E46BEF00F3D219 /* ProfileViewItem.swift in Sources */,
 				8360D1A9284E9A9600ACDEDB /* LoginViewOnboardingStep.swift in Sources */,
 				83F3CC0E2847704300C05298 /* LoginViewController.swift in Sources */,
@@ -2087,6 +2204,7 @@
 				83C7A9A128E4D39A00F3D219 /* ProfileModelAction.swift in Sources */,
 				DBDB3F4C28D3356700B285D7 /* Settings+Schema.swift in Sources */,
 				DBC2BB4628BBAD2B0086EF52 /* MorePartitionViewModel.swift in Sources */,
+				78BEB182293708B300A11CA7 /* FavouritesViewModel.swift in Sources */,
 				83E83A5228AABE8200B40FC4 /* VerificationModelInput.swift in Sources */,
 				DBDB501B2887FE00003C6FF0 /* HomeModel+DTO.swift in Sources */,
 				DBDB3F5228D3356700B285D7 /* FeedingPointConnection+Schema.swift in Sources */,
@@ -2094,6 +2212,7 @@
 				DBDB3F3728D3356600B285D7 /* Category.swift in Sources */,
 				836840FA28D204A900E1044E /* CustomAuthViewItem+PhoneInputViewModel.swift in Sources */,
 				DB127E8628B9648200012B53 /* MoreViewController.swift in Sources */,
+				78525B1E2958A24C006CE9BA /* FavouriteViewContentState.swift in Sources */,
 				DBDB3F5928D3356700B285D7 /* FeedingPointStatus.swift in Sources */,
 				DBF56B5A28CF40E300AB0BDF /* FeedingPointDetailsViewModel.swift in Sources */,
 				835E149E28FDE6CC0044EC2F /* SearchModelSection.swift in Sources */,
@@ -2107,6 +2226,7 @@
 				DBDB3F4828D3356700B285D7 /* Language+Schema.swift in Sources */,
 				838B6B752868B061001DD111 /* VerificationAssembler.swift in Sources */,
 				83C7A98828E45AFE00F3D219 /* ProfileModelItem.swift in Sources */,
+				78BEB18E293811C900A11CA7 /* FavouritesModelMapper.swift in Sources */,
 				8312A5C1290AFE8F005C85CB /* PhoneCodesViewCell.swift in Sources */,
 				838B6B6E2868B021001DD111 /* VerificationViewModel.swift in Sources */,
 				DBDB3F3528D3356600B285D7 /* Pet.swift in Sources */,
@@ -2119,12 +2239,14 @@
 				DBF56B5828CF40E300AB0BDF /* FeedingPointDetailsAssembler.swift in Sources */,
 				835E149C28FDD64D0044EC2F /* SearchRoute.swift in Sources */,
 				83C24F7F286D994A0086330B /* VereficationViewResendCode+TextClickableLeftIconTitleView.swift in Sources */,
+				78525B262959563D006CE9BA /* FavouriteItem.swift in Sources */,
 				83E83A4828A984D700B40FC4 /* AuthCoordinator.swift in Sources */,
 				FB00144F2859FCDD00943360 /* ProfileModel.swift in Sources */,
 				83C7A99628E46CB200F3D219 /* ProfileViewAction.swift in Sources */,
 				DBDB3F3928D3356600B285D7 /* AmplifyModels.swift in Sources */,
 				FB00144D2859FC7700943360 /* ProfileViewModel.swift in Sources */,
 				DBDB3F5128D3356700B285D7 /* Pet+Schema.swift in Sources */,
+				78525B282959C7A0006CE9BA /* FavouriteCell.swift in Sources */,
 				835E14AF28FF1C810044EC2F /* SearchSupplementaryExpandableView.swift in Sources */,
 				DBDB3F3428D3356600B285D7 /* FeedingPointI18n.swift in Sources */,
 				DB73B47A28C0E67E00363FB8 /* PartitionContentModel.swift in Sources */,
@@ -2136,6 +2258,7 @@
 				DBF56B5C28CF4A5700AB0BDF /* HomeCoordinator.swift in Sources */,
 				DBEC04A029548320000D62F1 /* FeedingActionMapper.swift in Sources */,
 				8372CCCF28A02F300085C6D1 /* CustomAuthModelItem.swift in Sources */,
+				78525B2329594E0A006CE9BA /* FavouriteItemShimmerCell.swift in Sources */,
 				DB127E8F28B9E9BA00012B53 /* MoreCoordinator.swift in Sources */,
 				835E14A728FDEE200044EC2F /* SearchSupplementary.swift in Sources */,
 				8372CCDC28A03B640085C6D1 /* CustomAuthViewHeader.swift in Sources */,
@@ -2180,6 +2303,7 @@
 				DBDB3F4D28D3356700B285D7 /* Caretaker+Schema.swift in Sources */,
 				DBDB3F4328D3356600B285D7 /* Medication+Schema.swift in Sources */,
 				83C24F82286D994A0086330B /* VereficationViewResendCode.swift in Sources */,
+				78BEB18A2937D8DF00A11CA7 /* FavouritesCoordinator.swift in Sources */,
 				8372CCCB28A02BAA0085C6D1 /* CustomAuthRoute.swift in Sources */,
 				DB0AD32928A26FB6007FD750 /* SegmentedControlMapper.swift in Sources */,
 				83C7A99428E46C8C00F3D219 /* ProfileViewActionEvent.swift in Sources */,
