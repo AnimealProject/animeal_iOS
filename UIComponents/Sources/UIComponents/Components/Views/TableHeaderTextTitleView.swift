@@ -1,8 +1,7 @@
 import Foundation
 import UIKit
 
-public final class TableHeaderTextTitleView: UIView
-{
+public final class TableHeaderTextTitleView: UIView {
     // MARK: - Private properties
     private lazy var titleLabel = UILabel()
 

@@ -22,7 +22,6 @@
 		78BEB18829370FCE00A11CA7 /* FavouritesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BEB18729370FCE00A11CA7 /* FavouritesModel.swift */; };
 		78BEB18A2937D8DF00A11CA7 /* FavouritesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BEB1892937D8DF00A11CA7 /* FavouritesCoordinator.swift */; };
 		78BEB18E293811C900A11CA7 /* FavouritesModelMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BEB18D293811C900A11CA7 /* FavouritesModelMapper.swift */; };
-		78E73F352952465800871D83 /* FavouriteDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E73F342952465800871D83 /* FavouriteDetailsViewController.swift */; };
 		8312A5C1290AFE8F005C85CB /* PhoneCodesViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8312A5C0290AFE8F005C85CB /* PhoneCodesViewCell.swift */; };
 		8312A5C3290B0CA8005C85CB /* CustomAuthModelRequiredAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8312A5C2290B0CA8005C85CB /* CustomAuthModelRequiredAction.swift */; };
 		8312A5C5290DB689005C85CB /* PhoneModelRequiredAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8312A5C4290DB689005C85CB /* PhoneModelRequiredAction.swift */; };
@@ -315,7 +314,6 @@
 		78BEB18729370FCE00A11CA7 /* FavouritesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesModel.swift; sourceTree = "<group>"; };
 		78BEB1892937D8DF00A11CA7 /* FavouritesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesCoordinator.swift; sourceTree = "<group>"; };
 		78BEB18D293811C900A11CA7 /* FavouritesModelMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesModelMapper.swift; sourceTree = "<group>"; };
-		78E73F342952465800871D83 /* FavouriteDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteDetailsViewController.swift; sourceTree = "<group>"; };
 		8312A5C0290AFE8F005C85CB /* PhoneCodesViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCodesViewCell.swift; sourceTree = "<group>"; };
 		8312A5C2290B0CA8005C85CB /* CustomAuthModelRequiredAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAuthModelRequiredAction.swift; sourceTree = "<group>"; };
 		8312A5C4290DB689005C85CB /* PhoneModelRequiredAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneModelRequiredAction.swift; sourceTree = "<group>"; };
@@ -669,7 +667,6 @@
 				78525B2129594D9B006CE9BA /* Cells */,
 				78BEB18329370F2700A11CA7 /* Mappers */,
 				78BEB1792936D93D00A11CA7 /* FavouritesViewController.swift */,
-				78E73F342952465800871D83 /* FavouriteDetailsViewController.swift */,
 				78525B1D2958A24C006CE9BA /* FavouriteViewContentState.swift */,
 			);
 			path = View;
@@ -2304,7 +2301,6 @@
 				83A9A22A28E1A61800858190 /* VerificationModelDeliveryDestination.swift in Sources */,
 				DBDB3F4428D3356700B285D7 /* FeedingPoint+Schema.swift in Sources */,
 				DBDB3F4D28D3356700B285D7 /* Caretaker+Schema.swift in Sources */,
-				78E73F352952465800871D83 /* FavouriteDetailsViewController.swift in Sources */,
 				DBDB3F4328D3356600B285D7 /* Medication+Schema.swift in Sources */,
 				83C24F82286D994A0086330B /* VereficationViewResendCode.swift in Sources */,
 				78BEB18A2937D8DF00A11CA7 /* FavouritesCoordinator.swift in Sources */,

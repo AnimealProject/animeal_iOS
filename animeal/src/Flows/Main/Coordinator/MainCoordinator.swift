@@ -36,7 +36,9 @@ final class MainCoordinator: Coordinatable {
         purpleVC.view.backgroundColor = .purple
         
         let favouritesNavigationController = UINavigationController()
-        let favouritesCoordinator = FavouritesCoordinator(navigator: Navigator(navigationController: favouritesNavigationController)) { [weak self] event in
+        let favouritesCoordinator = FavouritesCoordinator(
+            navigator: Navigator(navigationController: favouritesNavigationController)
+        ) { [weak self] event in
             if let event = event {
                 self?.backwardEvents.append(event)
             }
