@@ -228,7 +228,7 @@ class ComponentsTableViewController: UIViewController,
             ComponentPresentation(
                 description: "SegmentedControl"
             ) {
-                let viewController = ComponentViewController<SegmentedControl>()
+                let viewController = ComponentViewController<FilledSegmentedControl>()
                 viewController.configureElement = { element in
                     guard let superView = element.superview else {
                         return
@@ -238,10 +238,10 @@ class ComponentsTableViewController: UIViewController,
                     element.centerXAnchor ~= superView.centerXAnchor
                     element.widthAnchor ~= 226
                     element.configure(
-                        SegmentedControl.Model(
+                        FilledSegmentedControl.Model(
                             items: [
-                                SegmentedControl.Item(identifier: 0, title: "Dogs"),
-                                SegmentedControl.Item(identifier: 1, title: "Cats")
+                                FilledSegmentedControl.Item(identifier: 0, title: "Dogs"),
+                                FilledSegmentedControl.Item(identifier: 1, title: "Cats")
                             ]
                         )
                     )

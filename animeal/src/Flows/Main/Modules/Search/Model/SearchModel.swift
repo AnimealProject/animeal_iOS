@@ -12,21 +12,24 @@ final class SearchModel: SearchModelProtocol {
     private var searchString: String?
 
     // MARK: - Dependencies
+    private let defaultsService: DefaultsServiceProtocol
     private let networkService: NetworkServiceProtocol
 
     // MARK: - Initialization
     init(
         sections: [SearchModelSection] = .default,
+        defaultsService: DefaultsServiceProtocol = AppDelegate.shared.context.defaultsService,
         networkService: NetworkServiceProtocol = AppDelegate.shared.context.networkService
     ) {
         self.state = .loaded
         self.sections = sections
+        self.defaultsService = defaultsService
         self.networkService = networkService
     }
 
     // MARK: - Requests
     func fetchFilteringText() -> String? { searchString }
-    
+
     func fetchFeedingPoints(force: Bool) async throws -> [SearchModelSection] {
         guard force else { return await filterFeedingPoints(searchString) }
         let result = try await networkService.query(request: .list(animeal.FeedingPoint.self))
@@ -48,7 +51,8 @@ final class SearchModel: SearchModelProtocol {
                 name: point.localizedName.removeHtmlTags(),
                 description: point.localizedDescription.removeHtmlTags(),
                 icon: point.images?.first,
-                status: .init(point.status)
+                status: .init(point.status),
+                category: .init(point.category.tag)
             )
             let city = point.localizedCity.removeHtmlTags()
             var items = result[city] ?? []
@@ -66,13 +70,27 @@ final class SearchModel: SearchModelProtocol {
         return await filterFeedingPoints(searchString)
     }
 
+    func fetchFeedingPointsFilters() async -> [SearchModelFilter] {
+        SearchModelItemCategory.allCases.map {
+            SearchModelFilter(
+                identifier: String($0.rawValue),
+                title: $0.text,
+                isSelected: $0 == selectedFilter
+            )
+        }
+    }
+
     func filterFeedingPoints(_ searchString: String?) async -> [SearchModelSection] {
         defer { self.searchString = searchString }
-        guard let searchString, !searchString.isEmpty else { return sections }
+        guard let searchString, !searchString.isEmpty
+        else { return applyFilter(selectedFilter, to: sections) }
 
-        let filteredSections = sections.map { section in
+        let filteredSections = sections.compactMap { section in
             guard !section.title.contains(searchString) else { return section }
+
             let items = section.items.filter { $0.name.contains(searchString) }
+            guard !items.isEmpty else { return nil }
+
             return SearchModelSection(
                 identifier: section.identifier,
                 title: section.title,
@@ -81,7 +99,18 @@ final class SearchModel: SearchModelProtocol {
             )
         }
 
-        return filteredSections
+        return applyFilter(selectedFilter, to: filteredSections)
+    }
+
+    func filterFeedingPoints(withFilter identifier: String) async -> [SearchModelSection] {
+        guard
+            let categoryIdentifier = Int(identifier),
+            SearchModelItemCategory(rawValue: categoryIdentifier) != nil
+        else { return [] }
+
+        defaultsService.write(key: Filter.selectedId, value: categoryIdentifier)
+
+        return await filterFeedingPoints(searchString)
     }
 
     func toogleFeedingPoint(forIdentifier identifier: String) {
@@ -90,5 +119,50 @@ final class SearchModel: SearchModelProtocol {
         ) else { return }
 
         sections[index].toogle()
+    }
+}
+
+// MARK: - Filters
+private extension SearchModel {
+    // TODO: Need to create common file with all keys
+    enum Filter: String, LocalStorageKeysProtocol {
+        case selectedId = "selectedFilterId"
+    }
+
+    var selectedFilter: SearchModelItemCategory {
+        let selectedId = defaultsService.value(key: Filter.selectedId) ?? 0
+        return SearchModelItemCategory(rawValue: selectedId) ?? .dogs
+    }
+
+    func applyFilter(
+        _ selectedIdentifier: SearchModelItemCategory,
+        to sections: [SearchModelSection]
+    ) -> [SearchModelSection] {
+        switch selectedFilter {
+        case .dogs:
+            return sections.compactMap { section in
+                let items = section.items.filter { $0.category == .dogs }
+                guard !items.isEmpty else { return nil }
+
+                return SearchModelSection(
+                    identifier: section.identifier,
+                    title: section.title,
+                    items: items,
+                    expanded: section.expanded
+                )
+            }
+        case .cats:
+            return sections.compactMap { section in
+                let items = section.items.filter { $0.category == .cats }
+                guard !items.isEmpty else { return nil }
+
+                return SearchModelSection(
+                    identifier: section.identifier,
+                    title: section.title,
+                    items: items,
+                    expanded: section.expanded
+                )
+            }
+        }
     }
 }

@@ -7,7 +7,7 @@ import Common
 class HomeViewController: UIViewController {
     // MARK: - Private properties
     private var mapView: NavigationMapController!
-    private let segmentedControl = SegmentedControl()
+    private let segmentedControl = FilledSegmentedControl()
     private lazy var feedControl: FeedingControlView = {
         let feedControl = FeedingControlView()
         feedControl.onCloseHandler = { [weak self] in

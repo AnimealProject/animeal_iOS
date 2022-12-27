@@ -6,6 +6,29 @@ enum SearchModelItemStatus {
     case starved
 }
 
+enum SearchModelItemCategory: Int, CaseIterable {
+    case dogs
+    case cats
+
+    var text: String {
+        switch self {
+        case .dogs:
+            return L10n.Segment.dogs
+        case .cats:
+            return L10n.Segment.cats
+        }
+    }
+}
+
+struct SearchModelItem {
+    let identifier: String
+    let name: String
+    let description: String?
+    let icon: String?
+    let status: SearchModelItemStatus
+    let category: SearchModelItemCategory
+}
+
 extension SearchModelItemStatus {
     init(_ pointStatus: FeedingPointStatus) {
         switch pointStatus {
@@ -19,10 +42,13 @@ extension SearchModelItemStatus {
     }
 }
 
-struct SearchModelItem {
-    let identifier: String
-    let name: String
-    let description: String?
-    let icon: String?
-    let status: SearchModelItemStatus
+extension SearchModelItemCategory {
+    init(_ pointPet: CategoryTag) {
+        switch pointPet {
+        case .cats:
+            self = .cats
+        case .dogs:
+            self = .dogs
+        }
+    }
 }

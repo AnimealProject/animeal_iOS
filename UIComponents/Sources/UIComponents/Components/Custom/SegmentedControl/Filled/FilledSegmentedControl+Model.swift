@@ -1,6 +1,6 @@
 import Foundation
 
-extension SegmentedControl {
+extension FilledSegmentedControl {
     public struct Model {
         let items: [Item]
 

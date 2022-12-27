@@ -6,6 +6,7 @@ import UIComponents
 
 final class SearchViewController: UIViewController, SearchViewable {
     // MARK: - UI properties
+    private let selectorView = UnderlinedSegmentedControl().prepareForAutoLayout()
     private let searchInputView = SearchInputView().prepareForAutoLayout()
 
     private let collectionViewLayout: UICollectionViewLayout = {
@@ -55,7 +56,7 @@ final class SearchViewController: UIViewController, SearchViewable {
         setup()
         bind()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.load()
@@ -69,8 +70,17 @@ final class SearchViewController: UIViewController, SearchViewable {
             dataSource.apply(viewSnapshot)
         case .empty(let viewEmpty):
             collectionView.backgroundView = emptyView
+            dataSource.apply(.empty)
             emptyView.configure(.init(title: viewEmpty.text))
         }
+    }
+
+    func applyFilters(_ viewFilters: SearchViewFilters) {
+        selectorView.configure(viewFilters)
+    }
+
+    func applySearchInput(_ viewSearchInput: SearchViewInput) {
+        searchInputView.configure(viewSearchInput)
     }
 }
 
@@ -138,14 +148,26 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
 private extension SearchViewController {
     // MARK: - Setup
     private func setup() {
+        setupSelectorView()
         setupSearchView()
         setupCollectionView()
+    }
+
+    private func setupSelectorView() {
+        view.addSubview(selectorView)
+        selectorView.leadingAnchor ~= view.leadingAnchor + 30.0
+        selectorView.topAnchor ~= view.safeAreaLayoutGuide.topAnchor
+        selectorView.trailingAnchor ~= view.trailingAnchor - 30.0
+        
+        selectorView.onSegmentWasChanged = { [weak self] identifier in
+            self?.viewModel.handleActionEvent(.filterDidTap(identifier))
+        }
     }
 
     private func setupSearchView() {
         view.addSubview(searchInputView)
         searchInputView.leadingAnchor ~= view.leadingAnchor + 30.0
-        searchInputView.topAnchor ~= view.safeAreaLayoutGuide.topAnchor + 16.0
+        searchInputView.topAnchor ~= selectorView.bottomAnchor + 16.0
         searchInputView.trailingAnchor ~= view.trailingAnchor - 30.0
 
         searchInputView.didChange = { [weak self] textInput in
@@ -164,6 +186,7 @@ private extension SearchViewController {
         collectionView.trailingAnchor ~= view.trailingAnchor
         collectionView.bottomAnchor ~= view.bottomAnchor
         collectionView.contentInset.bottom = 32.0
+        collectionView.contentInset.top = 16.0
 
         collectionView.showsVerticalScrollIndicator = false
 
@@ -194,8 +217,11 @@ private extension SearchViewController {
         viewModel.onContentStateWasPrepared = { [weak self] viewContentState in
             self?.applyContentState(viewContentState)
         }
+        viewModel.onFiltersWerePrepared = { [weak self] viewFilters in
+            self?.applyFilters(viewFilters)
+        }
         viewModel.onSearchInputWasPrepared = { [weak self] viewSearch in
-            self?.searchInputView.configure(viewSearch)
+            self?.applySearchInput(viewSearch)
         }
 
         viewModel.setup()
