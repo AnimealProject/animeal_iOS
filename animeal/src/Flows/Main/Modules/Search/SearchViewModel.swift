@@ -17,6 +17,7 @@ final class SearchViewModel: SearchViewModelProtocol {
     // MARK: - State
     var onErrorIsNeededToDisplay: ((String) -> Void)?
     var onContentStateWasPrepared: ((SearchViewContentState) -> Void)?
+    var onFiltersWerePrepared: ((SearchViewFilters) -> Void)?
     var onSearchInputWasPrepared: ((SearchViewInput) -> Void)?
 
     // MARK: - Initialization
@@ -34,6 +35,7 @@ final class SearchViewModel: SearchViewModelProtocol {
     func setup() { }
 
     func load() {
+        updateViewFilters()
         updateViewInput()
 
         shimmerScheduler.start()
@@ -66,11 +68,31 @@ final class SearchViewModel: SearchViewModelProtocol {
             }
         case .itemDidTap(let identifier):
             coordinator.move(to: .details(identifier: identifier))
+        case .filterDidTap(let identifier):
+            updateViewItems { [weak self] in
+                await self?.updateViewFilterContentItems(identifier) ?? []
+            }
         }
     }
 }
 
 private extension SearchViewModel {
+    private func updateViewFilters() {
+        Task { [weak self] in
+            guard let self else { return }
+            let modelFilters = await self.model.fetchFeedingPointsFilters()
+            let viewFilters = SearchViewFilters(
+                selectedItemIdentifier:
+                    modelFilters.first { $0.isSelected }?.identifier ??
+                        modelFilters.first?.identifier,
+                items: modelFilters.map {
+                    SearchViewFilter(identifier: $0.identifier, title: $0.title)
+                }
+            )
+            self.onFiltersWerePrepared?(viewFilters)
+        }
+    }
+
     private func updateViewInput() {
         let viewSearchInput = SearchViewInput(
             identifier: UUID().uuidString,
@@ -123,6 +145,14 @@ private extension SearchViewModel {
         _ searchString: String?
     ) async -> [SearchViewSectionWrapper] {
         let modelSections = await model.filterFeedingPoints(searchString)
+        let viewSections = sectionMapper.mapSections(modelSections)
+        return viewSections
+    }
+
+    private func updateViewFilterContentItems(
+        _ identifier: String
+    ) async -> [SearchViewSectionWrapper] {
+        let modelSections = await model.filterFeedingPoints(withFilter: identifier)
         let viewSections = sectionMapper.mapSections(modelSections)
         return viewSections
     }

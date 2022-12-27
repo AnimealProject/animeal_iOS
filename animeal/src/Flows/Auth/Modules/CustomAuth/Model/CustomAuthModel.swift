@@ -77,6 +77,9 @@ final class CustomAuthModel: CustomAuthModelProtocol {
                 }
                 return try AuthenticationInput(passwordItem.validate)
             }()
+            items.values.forEach {
+                updateItem(.normal, forIdentifier: $0.identifier)
+            }
             return true
         } catch let error as CustomAuthModelItemError {
             updateItem(.error(error.localizedDescription), forIdentifier: error.itemIdentifier)

@@ -1,7 +1,7 @@
 import UIKit
 import Common
 
-public final class SegmentedControl: UISegmentedControl {
+public final class FilledSegmentedControl: UISegmentedControl {
     // MARK: - Public properties
     public var onTap: ((Int) -> Void)?
 
@@ -24,7 +24,7 @@ public final class SegmentedControl: UISegmentedControl {
     }
 
     // MARK: - Configuration
-    public func configure(_ model: SegmentedControl.Model) {
+    public func configure(_ model: FilledSegmentedControl.Model) {
         self.model = model
 
         removeAllSegments()
@@ -43,7 +43,7 @@ public final class SegmentedControl: UISegmentedControl {
 }
 
 // MARK: - Private API
-private extension SegmentedControl {
+private extension FilledSegmentedControl {
     @objc func segmentedControlTapHandler(_ segmentedControl: UISegmentedControl) {
         onTap?(segmentedControl.selectedSegmentIndex)
     }

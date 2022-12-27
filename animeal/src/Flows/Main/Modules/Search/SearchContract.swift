@@ -24,6 +24,7 @@ protocol SearchViewInteraction: AnyObject {
 @MainActor
 protocol SearchViewState: ErrorDisplayCompatible {
     var onContentStateWasPrepared: ((SearchViewContentState) -> Void)? { get set }
+    var onFiltersWerePrepared: ((SearchViewFilters) -> Void)? { get set }
     var onSearchInputWasPrepared: ((SearchViewInput) -> Void)? { get set }
 }
 
@@ -31,9 +32,11 @@ protocol SearchViewState: ErrorDisplayCompatible {
 // sourcery: AutoMockable
 protocol SearchModelProtocol: AnyObject {
     func fetchFilteringText() -> String?
-    
     func fetchFeedingPoints(force: Bool) async throws -> [SearchModelSection]
+    func fetchFeedingPointsFilters() async -> [SearchModelFilter]
+
     func filterFeedingPoints(_ searchString: String?) async -> [SearchModelSection]
+    func filterFeedingPoints(withFilter identifier: String) async -> [SearchModelSection]
 
     func toogleFeedingPoint(forIdentifier identifier: String)
 }
