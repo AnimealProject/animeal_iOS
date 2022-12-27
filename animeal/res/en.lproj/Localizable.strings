@@ -8,7 +8,7 @@
 "loginScreen.signInViaFacebook"                   = "Sign in with Facebook";
 "loginScreen.signInViaApple"                      = "Sign in with Apple";
 "favourites.header"                               = "Favourits";
-"favourites.empty"                                = "You don't have favourite feeding points yet. Press the heart button on the feeding point details to                                                    add that one as favourite";
+"favourites.empty"                                = "You don't have favourite feeding points yet. Press the heart button on the feeding point details to add that one as favourite";
 "profile.name"                                    = "Name";
 "profile.surname"                                 = "Surname";
 "profile.phoneNumber"                             = "Phone Number";
