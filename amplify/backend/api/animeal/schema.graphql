@@ -499,6 +499,43 @@ type Favourite
   feedingPoint: FeedingPoint! @hasOne(fields: ["feedingPointId"])
 }
 
+type QuestionI18n @aws_api_key @aws_cognito_user_pools {
+  locale: String!
+  value: String
+  answer: String
+}
+
+type Question
+  @searchable
+  @model
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["Administrator"]
+        operations: [create, read, update, delete]
+      }
+      {
+        allow: groups
+        groups: ["Moderator"]
+        operations: [create, read, update, delete]
+      }
+      { allow: groups, groups: ["Volunteer"], operations: [read] }
+      { allow: owner, operations: [create, read, update, delete] }
+      { allow: public, provider: apiKey }
+      { allow: private, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  value: String
+  answer: String
+  i18n: [QuestionI18n!]
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  createdBy: String
+  updatedBy: String
+}
+
 input BoundsInput {
   top_left: LocationInput
   bottom_right: LocationInput
@@ -635,4 +672,32 @@ type Mutation {
     @function(name: "rejectFeeding-${env}")
     @aws_api_key
     @aws_cognito_user_pools
+}
+
+type BankAccount
+  @searchable
+  @model
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["Administrator"]
+        operations: [create, read, update, delete]
+      }
+      {
+        allow: groups
+        groups: ["Moderator"]
+        operations: [create, read, update, delete]
+      }
+      { allow: groups, groups: ["Volunteer"], operations: [read] }
+      { allow: owner, operations: [create, read, update, delete] }
+      { allow: public, provider: apiKey }
+      { allow: private, operations: [read] }
+    ]
+  ) {
+    id: ID!
+    name: String!
+    value: String!
+    icon: String!
+    enabled: Boolean!
 }

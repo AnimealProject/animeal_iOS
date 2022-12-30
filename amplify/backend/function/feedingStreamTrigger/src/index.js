@@ -24,7 +24,8 @@ exports.handler = async (event) => {
     if (
       trackableEvents.includes(record.eventName) &&
       oldImage.status === 'pending' &&
-      process.env.IS_AUTO_APPROVAL_ENABLED === 'true'
+      process.env.IS_AUTO_APPROVAL_ENABLED === 'true' &&
+      new Date(oldImage.expireAt * 1000).getTime() < new Date().getTime()
     ) {
       const approveFeedingRes = await approveFeeding({
         feedingId: oldImage.id,
@@ -47,7 +48,8 @@ exports.handler = async (event) => {
       console.log('Successfully auto approved pending record');
     } else if (
       trackableEvents.includes(record.eventName) &&
-      oldImage.status !== 'pending'
+      oldImage.status !== 'pending' &&
+      new Date(oldImage.expireAt * 1000).getTime() < new Date().getTime()
     ) {
       const rejectFeedingRes = await rejectFeeding({
         feedingId: oldImage.id,
@@ -65,7 +67,6 @@ exports.handler = async (event) => {
       });
 
       if (rejectFeedingRes.data?.errors?.length) {
-
         throw new Error('Failed to reject Feeding');
       }
       console.log('Successfully auto rejected pending record');

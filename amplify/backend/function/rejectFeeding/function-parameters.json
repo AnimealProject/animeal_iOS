@@ -1,10 +1,18 @@
 {
   "lambdaLayers": [],
   "permissions": {
-    "api": {
-      "animeal": [
-        "Query",
-        "Mutation"
+    "storage": {
+      "FeedingPoint:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "Feeding:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
       ]
     }
   }

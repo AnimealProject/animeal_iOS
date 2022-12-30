@@ -19,6 +19,14 @@
     "apianimealGraphQLAPIIdOutput": {
       "Type": "String",
       "Default": "apianimealGraphQLAPIIdOutput"
+    },
+    "apianimealGraphQLAPIEndpointOutput": {
+      "Type": "String",
+      "Default": "apianimealGraphQLAPIEndpointOutput"
+    },
+    "apianimealGraphQLAPIKeyOutput": {
+      "Type": "String",
+      "Default": "apianimealGraphQLAPIKeyOutput"
     }
   },
   "Conditions": {
@@ -51,12 +59,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "startFeeding",
+            "autoResetStatus",
             {
               "Fn::Join": [
                 "",
                 [
-                  "startFeeding",
+                  "autoResetStatus",
                   "-",
                   {
                     "Ref": "env"
@@ -103,31 +111,11 @@
             "API_ANIMEAL_GRAPHQLAPIIDOUTPUT": {
               "Ref": "apianimealGraphQLAPIIdOutput"
             },
-            "API_ANIMEAL_FEEDINGTABLE_NAME": {
-              "Fn::ImportValue": {
-                "Fn::Sub": "${apianimealGraphQLAPIIdOutput}:GetAtt:FeedingTable:Name"
-              }
+            "API_ANIMEAL_GRAPHQLAPIENDPOINTOUTPUT": {
+              "Ref": "apianimealGraphQLAPIEndpointOutput"
             },
-            "API_ANIMEAL_FEEDINGTABLE_ARN": {
-              "Fn::Join": [
-                "",
-                [
-                  "arn:aws:dynamodb:",
-                  {
-                    "Ref": "AWS::Region"
-                  },
-                  ":",
-                  {
-                    "Ref": "AWS::AccountId"
-                  },
-                  ":table/",
-                  {
-                    "Fn::ImportValue": {
-                      "Fn::Sub": "${apianimealGraphQLAPIIdOutput}:GetAtt:FeedingTable:Name"
-                    }
-                  }
-                ]
-              ]
+            "API_ANIMEAL_GRAPHQLAPIKEYOUTPUT": {
+              "Ref": "apianimealGraphQLAPIKeyOutput"
             }
           }
         },
@@ -148,12 +136,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "animealLambdaRole0b4e04f2",
+            "animealLambdaRoled7e6ec51",
             {
               "Fn::Join": [
                 "",
                 [
-                  "animealLambdaRole0b4e04f2",
+                  "animealLambdaRoled7e6ec51",
                   "-",
                   {
                     "Ref": "env"
@@ -224,6 +212,45 @@
         }
       }
     },
+    "CloudWatchEvent": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "Description": "Schedule rule for Lambda",
+        "ScheduleExpression": {
+          "Ref": "CloudWatchRule"
+        },
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
+                "LambdaFunction",
+                "Arn"
+              ]
+            },
+            "Id": {
+              "Ref": "LambdaFunction"
+            }
+          }
+        ]
+      }
+    },
+    "PermissionForEventsToInvokeLambda": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "LambdaFunction"
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "events.amazonaws.com",
+        "SourceArn": {
+          "Fn::GetAtt": [
+            "CloudWatchEvent",
+            "Arn"
+          ]
+        }
+      }
+    },
     "AmplifyResourcesPolicy": {
       "DependsOn": [
         "LambdaExecutionRole"
@@ -242,25 +269,14 @@
             {
               "Effect": "Allow",
               "Action": [
-                "dynamodb:Put*",
-                "dynamodb:Create*",
-                "dynamodb:BatchWriteItem",
-                "dynamodb:Get*",
-                "dynamodb:BatchGetItem",
-                "dynamodb:List*",
-                "dynamodb:Describe*",
-                "dynamodb:Scan",
-                "dynamodb:Query",
-                "dynamodb:Update*",
-                "dynamodb:RestoreTable*",
-                "dynamodb:Delete*"
+                "appsync:GraphQL"
               ],
               "Resource": [
                 {
                   "Fn::Join": [
                     "",
                     [
-                      "arn:aws:dynamodb:",
+                      "arn:aws:appsync:",
                       {
                         "Ref": "AWS::Region"
                       },
@@ -268,34 +284,11 @@
                       {
                         "Ref": "AWS::AccountId"
                       },
-                      ":table/",
+                      ":apis/",
                       {
-                        "Fn::ImportValue": {
-                          "Fn::Sub": "${apianimealGraphQLAPIIdOutput}:GetAtt:FeedingPointTable:Name"
-                        }
-                      }
-                    ]
-                  ]
-                },
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:aws:dynamodb:",
-                      {
-                        "Ref": "AWS::Region"
+                        "Ref": "apianimealGraphQLAPIIdOutput"
                       },
-                      ":",
-                      {
-                        "Ref": "AWS::AccountId"
-                      },
-                      ":table/",
-                      {
-                        "Fn::ImportValue": {
-                          "Fn::Sub": "${apianimealGraphQLAPIIdOutput}:GetAtt:FeedingPointTable:Name"
-                        }
-                      },
-                      "/index/*"
+                      "/types/Query/*"
                     ]
                   ]
                 }
@@ -333,7 +326,7 @@
                       ":table/",
                       {
                         "Fn::ImportValue": {
-                          "Fn::Sub": "${apianimealGraphQLAPIIdOutput}:GetAtt:FeedingTable:Name"
+                          "Fn::Sub": "${apianimealGraphQLAPIIdOutput}:GetAtt:FeedingPointTable:Name"
                         }
                       }
                     ]
@@ -354,7 +347,7 @@
                       ":table/",
                       {
                         "Fn::ImportValue": {
-                          "Fn::Sub": "${apianimealGraphQLAPIIdOutput}:GetAtt:FeedingTable:Name"
+                          "Fn::Sub": "${apianimealGraphQLAPIIdOutput}:GetAtt:FeedingPointTable:Name"
                         }
                       },
                       "/index/*"
@@ -390,6 +383,11 @@
     "LambdaExecutionRole": {
       "Value": {
         "Ref": "LambdaExecutionRole"
+      }
+    },
+    "CloudWatchEventRule": {
+      "Value": {
+        "Ref": "CloudWatchEvent"
       }
     }
   }

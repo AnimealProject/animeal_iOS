@@ -52,24 +52,31 @@
         },
         "startFeeding": {
           "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/startFeeding-6d32784f6d6d65576a71-build.zip"
+          "s3Key": "amplify-builds/startFeeding-5a2f314d4166764d516b-build.zip"
         },
         "finishFeeding": {
           "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/finishFeeding-4c385466686a65723354-build.zip"
+          "s3Key": "amplify-builds/finishFeeding-732b33555954444c7135-build.zip"
         },
         "approveFeeding": {
           "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/approveFeeding-424f414d79394c6f7a70-build.zip"
+          "s3Key": "amplify-builds/approveFeeding-616b6445634d644c3236-build.zip"
         },
         "rejectFeeding": {
           "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/rejectFeeding-6145306a705036786a61-build.zip"
+          "s3Key": "amplify-builds/rejectFeeding-764874304e573243745a-build.zip"
         },
         "feedingStreamTrigger": {
           "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/feedingStreamTrigger-684a3078746250326c79-build.zip"
+          "s3Key": "amplify-builds/feedingStreamTrigger-3578514c545453656755-build.zip"
+        },
+        "autoResetStatus": {
+          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
+          "s3Key": "amplify-builds/autoResetStatus-65423549333836357874-build.zip"
         }
+      },
+      "storage": {
+        "animeal": {}
       }
     }
   }

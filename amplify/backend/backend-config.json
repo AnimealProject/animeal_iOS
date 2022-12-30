@@ -161,9 +161,7 @@
           "category": "api",
           "resourceName": "animeal",
           "attributes": [
-            "GraphQLAPIIdOutput",
-            "GraphQLAPIEndpointOutput",
-            "GraphQLAPIKeyOutput"
+            "GraphQLAPIIdOutput"
           ]
         }
       ]
@@ -209,9 +207,7 @@
           "category": "api",
           "resourceName": "animeal",
           "attributes": [
-            "GraphQLAPIIdOutput",
-            "GraphQLAPIEndpointOutput",
-            "GraphQLAPIKeyOutput"
+            "GraphQLAPIIdOutput"
           ]
         }
       ]
@@ -229,6 +225,22 @@
             "GraphQLAPIEndpointOutput"
           ]
         },
+        {
+          "category": "api",
+          "resourceName": "animeal",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ]
+        }
+      ]
+    },
+    "autoResetStatus": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
         {
           "category": "api",
           "resourceName": "animeal",

@@ -1,4 +1,10 @@
 /* Amplify Params - DO NOT EDIT
+	API_ANIMEAL_FEEDINGHISTORYTABLE_ARN
+	API_ANIMEAL_FEEDINGHISTORYTABLE_NAME
+	API_ANIMEAL_FEEDINGPOINTTABLE_ARN
+	API_ANIMEAL_FEEDINGPOINTTABLE_NAME
+	API_ANIMEAL_FEEDINGTABLE_ARN
+	API_ANIMEAL_FEEDINGTABLE_NAME
 	API_ANIMEAL_GRAPHQLAPIENDPOINTOUTPUT
 	API_ANIMEAL_GRAPHQLAPIIDOUTPUT
 	API_ANIMEAL_GRAPHQLAPIKEYOUTPUT
@@ -10,13 +16,10 @@ Amplify Params - DO NOT EDIT */
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 
-const {
-  deleteFeeding,
-  createFeedingHistory,
-  updateFeedingPoint,
-  getFeeding,
-  getFeedingPoint,
-} = require('./query');
+const { getFeeding } = require('./query');
+var uuid = require('uuid');
+const AWS = require('aws-sdk');
+const dynamoDB = new AWS.DynamoDB.DocumentClient({});
 
 exports.handler = async (event) => {
   console.log(`EVENT: ${JSON.stringify(event)}`);
@@ -37,53 +40,60 @@ exports.handler = async (event) => {
     feeding = feedingRes.data.data.getFeeding;
   }
 
-  const feedingHistoryCreateRes = await createFeedingHistory({
-    input: {
-      userId: feeding.userId,
-      images: feeding.images,
-      createdAt: feeding.createdAt,
-      updatedAt: feeding.updatedAt,
-      createdBy: feeding.createdBy,
-      updatedBy: feeding.updatedBy,
-      owner: feeding.owner,
-      feedingPointId: feeding.feedingPointFeedingsId,
-    },
-  });
-
-  if (feedingHistoryCreateRes.data?.errors?.length) {
-    throw new Error('Failed to create Feeding History record');
+  if (!feeding) {
+    throw new Error('Feeding not found');
   }
 
-  const feedingDeleteRes = await deleteFeeding({
-    input: {
-      id: feedingId,
-    },
-  });
-
-  if (feedingDeleteRes.data?.errors?.length) {
-    throw new Error('Failed to delete Feeding record');
+  try {
+    await dynamoDB
+      .transactWrite({
+        TransactItems: [
+          {
+            Put: {
+              Item: {
+                id: uuid.v4(),
+                userId: feeding.userId,
+                images: feeding.images,
+                createdAt: feeding.createdAt,
+                updatedAt: feeding.updatedAt,
+                createdBy: feeding.createdBy,
+                updatedBy: feeding.updatedBy,
+                owner: feeding.owner,
+                feedingPointId: feeding.feedingPointFeedingsId,
+              },
+              TableName: process.env.API_ANIMEAL_FEEDINGHISTORYTABLE_NAME,
+            },
+          },
+          {
+            Delete: {
+              TableName: process.env.API_ANIMEAL_FEEDINGTABLE_NAME,
+              Key: {
+                id: feedingId,
+              },
+            },
+          },
+          {
+            Update: {
+              ExpressionAttributeValues: {
+                ':value': 'fed',
+                ':date': new Date().toISOString(),
+              },
+              Key: {
+                id: feeding.feedingPointFeedingsId,
+              },
+              ExpressionAttributeNames: {
+                '#status': 'status',
+              },
+              TableName: process.env.API_ANIMEAL_FEEDINGPOINTTABLE_NAME,
+              UpdateExpression: 'SET #status = :value, statusUpdatedAt = :date',
+              ConditionExpression: 'attribute_exists(id)',
+            },
+          },
+        ],
+      })
+      .promise();
+    return feedingId;
+  } catch (e) {
+    throw new Error(`Failed to approve feeding. Erorr: ${e.message}`);
   }
-
-  const feedingPoint = await getFeedingPoint({
-    id: feeding.feedingPointFeedingsId,
-  });
-
-  if (feedingPoint.data?.errors?.length) {
-    throw new Error('Failed to update Feeding point status');
-  }
-
-  const feedingPointUpdater = await updateFeedingPoint({
-    input: {
-      id: feeding.feedingPointFeedingsId,
-      status: 'fed',
-      statusUpdatedAt: new Date().toISOString(),
-      ...feedingPoint.data.data.getFeedingPoint,
-    },
-  });
-
-  if (feedingPointUpdater.data?.errors?.length) {
-    throw new Error('Failed to delete Feeding record');
-  }
-
-  return feedingId;
 };
