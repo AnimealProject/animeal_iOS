@@ -1,14 +1,9 @@
 /* Amplify Params - DO NOT EDIT
-	API_ANIMEAL_GRAPHQLAPIENDPOINTOUTPUT
+	API_ANIMEAL_FEEDINGPOINTTABLE_ARN
+	API_ANIMEAL_FEEDINGPOINTTABLE_NAME
+	API_ANIMEAL_FEEDINGTABLE_ARN
+	API_ANIMEAL_FEEDINGTABLE_NAME
 	API_ANIMEAL_GRAPHQLAPIIDOUTPUT
-	API_ANIMEAL_GRAPHQLAPIKEYOUTPUT
-  API_ANIMEAL_FEEDINGPOINTTABLE_ARN
-  API_ANIMEAL_FEEDINGPOINTTABLE_NAME
-  API_ANIMEAL_FEEDINGTABLE_ARN
-  API_ANIMEAL_FEEDINGTABLE_NAME
-  API_ANIMEAL_GRAPHQLAPIENDPOINTOUTPUT
-  API_ANIMEAL_GRAPHQLAPIIDOUTPUT
-  API_ANIMEAL_GRAPHQLAPIKEYOUTPUT
 	ENV
 	REGION
 Amplify Params - DO NOT EDIT */
@@ -51,6 +46,7 @@ exports.handler = async (event, context, callback) => {
               ExpressionAttributeValues: {
                 ':value': 'pending',
                 ':date': new Date().toISOString(),
+                ':fed': 'fed'
               },
               Key: {
                 id: feedingPointId,
@@ -60,6 +56,7 @@ exports.handler = async (event, context, callback) => {
               },
               TableName: process.env.API_ANIMEAL_FEEDINGPOINTTABLE_NAME,
               UpdateExpression: 'SET #status = :value, statusUpdatedAt = :date',
+              ConditionExpression: `attribute_exists(id) AND #status <> :fed`,
             },
           },
         ],

@@ -1,13 +1,12 @@
 {
   "permissions": {
+    "api": {
+      "animeal": [
+        "Query"
+      ]
+    },
     "storage": {
       "FeedingPoint:@model(appsync)": [
-        "create",
-        "read",
-        "update",
-        "delete"
-      ],
-      "Feeding:@model(appsync)": [
         "create",
         "read",
         "update",

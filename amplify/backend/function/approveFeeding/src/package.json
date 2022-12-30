@@ -8,6 +8,7 @@
     "@types/aws-lambda": "^8.10.92"
   },
   "dependencies": {
-    "axios": "latest"
+    "axios": "latest",
+    "uuid": "^9.0.0"
   }
 }

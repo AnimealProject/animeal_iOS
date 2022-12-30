@@ -14,21 +14,6 @@ async function request(query, variables) {
   });
 }
 
-const updateFeeding = async (params) => {
-  return request(
-    `
-    mutation UpdateFeeding(
-      $input: UpdateFeedingInput!
-      $condition: ModelFeedingConditionInput
-    ) {
-      updateFeeding(input: $input, condition: $condition) {
-        id
-      }
-    }
-  `,
-    params,
-  );
-};
 const approveFeeding = async (params) => {
   return request(
     `
@@ -41,6 +26,5 @@ const approveFeeding = async (params) => {
 };
 
 module.exports = module.exports = {
-  updateFeeding,
   approveFeeding,
 };
