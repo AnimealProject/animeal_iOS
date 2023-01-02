@@ -1,4 +1,5 @@
 import Services
+import Common
 import CoreLocation
 import Amplify
 
@@ -10,11 +11,14 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     private let segmentsViewMapper: FilterViewMappable
     private let feedingActionMapper: FeedingActionMapper
     private var coordinator: HomeCoordinatable & HomeCoordinatorEventHandlerProtocol
+    private enum Constants {
+        static let feedingCountdownTimer: TimeInterval = 3600
+    }
 
     // MARK: - State
     var onFeedingPointsHaveBeenPrepared: (([FeedingPointViewItem]) -> Void)?
     var onSegmentsHaveBeenPrepared: ((FilterModel) -> Void)?
-    var onRouteRequestHaveBeenPrepared: ((CLLocationCoordinate2D) -> Void)?
+    var onRouteRequestHaveBeenPrepared: ((FeedingPointRouteRequest) -> Void)?
     var onFeedingActionHaveBeenPrepared: ((FeedingActionMapper.FeedingAction) -> Void)?
     var onErrorHaveBeenPrepared: ((String) -> Void)?
 
@@ -52,24 +56,15 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
                 let viewItems = points.map { self.feedingPointViewMapper.mapFeedingPoint($0) }
                 self.onFeedingPointsHaveBeenPrepared?(viewItems)
                 self.coordinator.routeTo(.details(pointId))
-                self.coordinator.feedingDidStartedEvent = { event in
-                    Task {
-                        do {
-                            let feedingPoint = try await self.model.fetchFeedingPoint(event.identifier)
-                            DispatchQueue.main.async {
-                                let pointItemView = self.feedingPointViewMapper.mapFeedingPoint(feedingPoint)
-                                // Update view with feedingPoint details
-                                self.onFeedingPointsHaveBeenPrepared?([pointItemView])
-                                // Request build route
-                                self.onRouteRequestHaveBeenPrepared?(pointItemView.coordinates)
-                            }
-                        } catch {
-                            DispatchQueue.main.async {
-                                self.onErrorHaveBeenPrepared?(error.localizedDescription)
-                                self.fetchFeedingPoints()
-                            }
-                        }
-                    }
+                self.coordinator.feedingDidStartedEvent = { [weak self] event in
+                    self?.onRouteRequestHaveBeenPrepared?(
+                        .init(
+                            feedingPointCoordinates: event.coordinates,
+                            countdownTime: Constants.feedingCountdownTimer,
+                            feedingPointId: event.identifier,
+                            isUnfinishedFeeding: false
+                        )
+                    )
                 }
             }
         case .tapFilterControl(let filterItemId):
@@ -86,8 +81,57 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
             let action = model.fetchFeedingAction(request: .autoCancelFeeding)
             onFeedingActionHaveBeenPrepared?(feedingActionMapper.mapFeedingAction(action))
         case .confirmCancelFeeding:
-            load()
-            model.processCancelFeeding()
+            Task { [weak self] in
+                guard let self else { return }
+                do {
+                    try await self.model.processCancelFeeding()
+                } catch {
+                    logError("[APP] \(#function) failed to cancel feeding: \(error.localizedDescription)")
+                }
+                self.fetchFeedingPoints()
+            }
+        }
+    }
+
+    func fetchUnfinishedFeeding() {
+        guard
+            let snapshot = model.fetchFeedingSnapshot(),
+            (Date.now - 3600) < snapshot.feedStartingDate
+        else {
+            return
+        }
+        Task { [weak self] in
+            guard let self else { return }
+            do {
+                let feedingPoint = try await self.model.fetchFeedingPoint(snapshot.pointId)
+                let pointItemView = self.feedingPointViewMapper.mapFeedingPoint(feedingPoint)
+                // Update view with feedingPoint details
+                self.onFeedingPointsHaveBeenPrepared?([pointItemView])
+                // Request build route
+                let timePassSinceFeedingStarted = Date.now - snapshot.feedStartingDate
+                self.onRouteRequestHaveBeenPrepared?(
+                    .init(
+                        feedingPointCoordinates: pointItemView.coordinates,
+                        countdownTime: Constants.feedingCountdownTimer - timePassSinceFeedingStarted,
+                        feedingPointId: snapshot.pointId,
+                        isUnfinishedFeeding: true
+                    )
+                )
+            }
+        }
+    }
+
+    func startFeeding(feedingPointId id: String) {
+        Task { [weak self] in
+            guard let self else { return }
+            do {
+                let pointId = try await model.processStartFeeding(feedingPointId: id)
+                let feedingPoint = try await self.model.fetchFeedingPoint(pointId)
+                let pointItemView = self.feedingPointViewMapper.mapFeedingPoint(feedingPoint)
+                self.onFeedingPointsHaveBeenPrepared?([pointItemView])
+            } catch {
+                self.onErrorHaveBeenPrepared?(error.localizedDescription)
+            }
         }
     }
 }

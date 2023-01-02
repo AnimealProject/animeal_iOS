@@ -44,6 +44,7 @@ class HomeViewController: UIViewController {
         setup()
         bind()
         viewModel.load()
+        viewModel.fetchUnfinishedFeeding()
     }
 }
 
@@ -122,8 +123,8 @@ private extension HomeViewController {
             self?.applyFilter(model)
         }
 
-        viewModel.onRouteRequestHaveBeenPrepared = { [weak self] coordinates in
-            self?.handleRouteRequest(coordinates: coordinates)
+        viewModel.onRouteRequestHaveBeenPrepared = { [weak self] request in
+            self?.handleRouteRequest(request)
         }
 
         viewModel.onFeedingActionHaveBeenPrepared = { [weak self] action in
@@ -166,24 +167,35 @@ private extension HomeViewController {
         self.present(alertViewController, animated: true)
     }
 
-    func handleRouteRequest(coordinates: CLLocationCoordinate2D) {
-        mapView.requestRoute(destination: coordinates) { [weak self] result in
+    func handleRouteRequest(_ request: FeedingPointRouteRequest) {
+        mapView.requestRoute(destination: request.feedingPointCoordinates) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success:
+                self.feedControl.setTimerProvider(
+                    FeedingTimerProvider(
+                        configuration: .init(
+                            timerInterval: 1,
+                            countdownInterval: request.countdownTime
+                        )
+                    )
+                )
                 self.feedControl.startTimer()
                 self.hideFeedControl(false)
                 self.mapView.startLocationConsumer()
 
                 self.handleLocationChange(
-                    coordinates,
+                    request.feedingPointCoordinates,
                     location: self.mapView.location.latestLocation?.location
                 )
                 self.mapView.didChangeLocation = { [weak self] location in
                     self?.handleLocationChange(
-                        coordinates,
+                        request.feedingPointCoordinates,
                         location: location
                     )
+                }
+                if !request.isUnfinishedFeeding {
+                    self.viewModel.startFeeding(feedingPointId: request.feedingPointId)
                 }
             case .failure(let error):
                 self.showErrorMessage(error.localizedDescription)

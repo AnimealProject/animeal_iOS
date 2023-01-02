@@ -19,7 +19,11 @@ protocol HomeModelProtocol: AnyObject {
     func proceedFilter(_ identifier: HomeModel.FilterItemIdentifier)
     func proceedFeedingPointSelection(_ identifier: String, completion: (([HomeModel.FeedingPoint]) -> Void)?)
 
-    func processCancelFeeding()
+    // Feeding flow
+    func processStartFeeding(feedingPointId: String) async throws -> String
+    @discardableResult
+    func processCancelFeeding() async throws -> String
+    func fetchFeedingSnapshot() -> FeedingSnapshot?
 }
 
 // MARK: - ViewModel
@@ -27,19 +31,24 @@ typealias HomeCombinedViewModel = HomeViewModelLifeCycle
     & HomeViewInteraction
     & HomeViewState
 
+@MainActor
 protocol HomeViewModelLifeCycle: AnyObject {
     func setup()
     func load()
 }
 
+@MainActor
 protocol HomeViewInteraction: AnyObject {
     func handleActionEvent(_ event: HomeViewActionEvent)
+    func fetchUnfinishedFeeding()
+    func startFeeding(feedingPointId id: String)
 }
 
+@MainActor
 protocol HomeViewState: AnyObject {
     var onFeedingPointsHaveBeenPrepared: (([FeedingPointViewItem]) -> Void)? { get set }
     var onSegmentsHaveBeenPrepared: ((FilterModel) -> Void)? { get set }
-    var onRouteRequestHaveBeenPrepared: ((CLLocationCoordinate2D) -> Void)? { get set }
+    var onRouteRequestHaveBeenPrepared: ((FeedingPointRouteRequest) -> Void)? { get set }
     var onFeedingActionHaveBeenPrepared: ((FeedingActionMapper.FeedingAction) -> Void)? { get set }
     var onErrorHaveBeenPrepared: ((String) -> Void)? { get set }
 }
@@ -63,4 +72,11 @@ protocol HomeCoordinatorEventHandlerProtocol {
 
 enum HomeRoute {
     case details(String)
+}
+
+struct FeedingPointRouteRequest {
+    let feedingPointCoordinates: CLLocationCoordinate2D
+    let countdownTime: TimeInterval
+    let feedingPointId: String
+    let isUnfinishedFeeding: Bool
 }

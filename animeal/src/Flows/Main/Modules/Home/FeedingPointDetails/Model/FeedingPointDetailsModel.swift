@@ -1,6 +1,7 @@
 import Foundation
 import Services
 import Amplify
+import CoreLocation
 
 final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingPointDetailsDataStoreProtocol {
     // MARK: - Private properties
@@ -11,9 +12,21 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
 
     // MARK: - DataStore properties
     let feedingPointId: String
+    var feedingPointLocation: CLLocationCoordinate2D {
+        guard
+            let latitude = feedingPoint?.location.lat,
+            let longitude = feedingPoint?.location.lon
+        else {
+            return CLLocationCoordinate2D()
+        }
+        return  CLLocationCoordinate2D(
+            latitude: latitude,
+            longitude: longitude
+        )
+    }
 
-    var relatedFavoritePoint: Favourite?
-    var feedingPoint: FeedingPoint?
+    private var relatedFavoritePoint: Favourite?
+    private var feedingPoint: FeedingPoint?
 
     // MARK: - Initialization
     init(

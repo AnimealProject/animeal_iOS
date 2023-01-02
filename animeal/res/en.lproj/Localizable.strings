@@ -62,6 +62,7 @@
 "feeding.status.pending.pattern"                  = "%s sice not fed";
 "feeding.alert.cancelFeeding"                     = "Do you really want to cancel feeding?";
 "feeding.alert.feedingTimerOver"                  = "Your feeding timer is over. You can book a new feeding from the home page.";
+"feeding.alert.feedingPointHasBooked"             = "Another user has booked the feeding for this feeding point";
 "toast.successLogout"                             = "You have successfully logged out";
 "toast.userDeleted"                               = "Your account has successfully been deleted";
 "search.empty.text"                               = "There are no feedings points for now. Please try again a little bit later";

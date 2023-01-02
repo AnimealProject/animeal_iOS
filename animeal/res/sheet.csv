@@ -64,6 +64,7 @@
 "feeding.status.pending.pattern","","%s sice not fed","sice არ იკვებება","","","","","","","","","","","","","","","","","","","","","","",""
 "feeding.alert.cancelFeeding","","Do you really want to cancel feeding?","ნამდვილად გსურთ კვების გაუქმება?","","","","","","","","","","","","","","","","","","","","","","",""
 "feeding.alert.feedingTimerOver","","Your feeding timer is over. You can book a new feeding from the home page.","თქვენი კვების ტაიმერი დასრულდა. თქვენ შეგიძლიათ დაჯავშნოთ ახალი კვება საწყისი გვერდიდან","","","","","","","","","","","","","","","","","","","","","","",""
+"feeding.alert.feedingPointHasBooked","","Another user has booked the feeding for this feeding point","სხვა მომხმარებელმა დაჯავშნა კვება ამ კვების წერტილისთვის","","","","","","","","","","","","","","","","","","","","","","",""
 "toast.successLogout","","You have successfully logged out","თქვენ წარმატებით გამოხვედით სისტემიდან","","","","","","","","","","","","","","","","","","","","","","",""
 "toast.userDeleted","","Your account has successfully been deleted","თქვენი ანგარიში წარმატებით წაიშალა","","","","","","","","","","","","","","","","","","","","","","",""
 "search.empty.text","","There are no feedings points for now. Please try again a little bit later","ამ დროისთვის კვების პუნქტები არ არის. გთხოვთ, სცადოთ ხელახლა ცოტა მოგვიანებით","","","","","","","","","","","","","","","","","","","","","","",""

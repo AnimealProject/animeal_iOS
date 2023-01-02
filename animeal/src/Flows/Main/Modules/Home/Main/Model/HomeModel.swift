@@ -8,16 +8,19 @@ import AWSPluginsCore
 final class HomeModel: HomeModelProtocol {
     typealias Context = DefaultsServiceHolder & NetworkServiceHolder
     private let context: Context
-    private var cashedFeedingPoints: [FeedingPoint] = []
+    private var cachedFeedingPoints: [FeedingPoint] = []
     private let mapper: FeedingPointMappable
+    private let snapshotStore: FeedingSnapshotStorable
 
     // MARK: - Initialization
     init(
         context: Context = AppDelegate.shared.context,
-        mapper: FeedingPointMappable = FeedingPointMapper()
+        mapper: FeedingPointMappable = FeedingPointMapper(),
+        snapshotStore: FeedingSnapshotStorable = FeedingSnapshotStore()
     ) {
         self.context = context
         self.mapper = mapper
+        self.snapshotStore = snapshotStore
     }
 
     // MARK: - Requests
@@ -27,14 +30,13 @@ final class HomeModel: HomeModelProtocol {
             switch result {
             case .success(let points):
                 let feedingPoints = points.map { point in
-                    self.mapper.mapFeedingPoint(point, feeding: false)
+                    self.mapper.mapFeedingPoint(point)
                 }
-                self.cashedFeedingPoints = feedingPoints
+                self.cachedFeedingPoints = feedingPoints.filter { point in point.hungerLevel != .mid }
                 DispatchQueue.main.async {
-                    completion?(self.applyFilter(self.cashedFeedingPoints))
+                    completion?(self.applyFilter(self.cachedFeedingPoints))
                 }
             case .failure:
-                // TODO: Add error handling here
                 break
             }
         }
@@ -60,7 +62,7 @@ final class HomeModel: HomeModelProtocol {
     }
 
     func proceedFeedingPointSelection(_ identifier: String, completion: (([FeedingPoint]) -> Void)?) {
-        let modifiedPoints = cashedFeedingPoints.map { point in
+        let modifiedPoints = cachedFeedingPoints.map { point in
             FeedingPoint(
                 identifier: point.identifier,
                 isSelected: point.identifier == identifier,
@@ -69,8 +71,8 @@ final class HomeModel: HomeModelProtocol {
                 hungerLevel: point.hungerLevel
             )
         }
-        cashedFeedingPoints = modifiedPoints
-        completion?(self.applyFilter(self.cashedFeedingPoints))
+        cachedFeedingPoints = modifiedPoints
+        completion?(self.applyFilter(self.cachedFeedingPoints))
     }
 
     func fetchFeedingAction(request: HomeModel.FeedingActionRequest) -> HomeModel.FeedingAction {
@@ -93,16 +95,37 @@ final class HomeModel: HomeModelProtocol {
         }
     }
 
-    func processCancelFeeding() {
-        // TODO: Handle cancel feeding action here
-        print("[TODO] Cancel feeding action not handlet yet")
+    func fetchFeedingSnapshot() -> FeedingSnapshot? {
+        return snapshotStore.snaphot
+    }
+
+    @discardableResult
+    func processCancelFeeding() async throws -> String {
+        do {
+            let feedingId = snapshotStore.snaphot?.pointId ?? .empty
+            let result = try await context.networkService.query(request: .cancelFeeding(feedingId))
+            snapshotStore.removeStoredSnaphot()
+            return result.cancelFeeding
+        } catch {
+            throw L10n.Errors.somthingWrong.asBaseError()
+        }
+    }
+
+    func processStartFeeding(feedingPointId: String) async throws -> String {
+        do {
+            let result = try await context.networkService.query(request: .startFeeding(feedingPointId))
+            snapshotStore.save(result.startFeeding, date: Date.now)
+            return result.startFeeding
+        } catch {
+            throw L10n.Feeding.Alert.feedingPointHasBooked.asBaseError()
+        }
     }
 
     func fetchFeedingPoint(_ pointId: String) async throws -> HomeModel.FeedingPoint {
         let request = Request<animeal.FeedingPoint>.get(animeal.FeedingPoint.self, byId: pointId)
         let result = try await context.networkService.query(request: request)
         if let point = result {
-            return self.mapper.mapFeedingPoint(point, feeding: true)
+            return self.mapper.mapFeedingPoint(point)
         } else {
             throw L10n.Errors.somthingWrong.asBaseError()
         }

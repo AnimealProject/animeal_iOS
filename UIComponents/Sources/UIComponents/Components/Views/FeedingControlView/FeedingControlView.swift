@@ -51,6 +51,12 @@ public final class FeedingControlView: UIView {
         timerProvider.start()
     }
 
+    public func setTimerProvider(_ provider: FeedingTimerProviderProtocol) {
+        timerProvider.stop()
+        timerProvider = provider
+        setupTimerProvider()
+    }
+
     public override var intrinsicContentSize: CGSize {
         return CGSize(width: (UIScreen.main.bounds.width - 40), height: 56)
     }

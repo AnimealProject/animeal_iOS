@@ -2,11 +2,11 @@ import Foundation
 
 // sourcery: AutoMockable
 protocol FeedingPointMappable {
-    func mapFeedingPoint(_ input: animeal.FeedingPoint, feeding: Bool) -> HomeModel.FeedingPoint
+    func mapFeedingPoint(_ input: animeal.FeedingPoint) -> HomeModel.FeedingPoint
 }
 
 final class FeedingPointMapper: FeedingPointMappable {
-    func mapFeedingPoint(_ input: animeal.FeedingPoint, feeding: Bool) -> HomeModel.FeedingPoint {
+    func mapFeedingPoint(_ input: animeal.FeedingPoint) -> HomeModel.FeedingPoint {
         return HomeModel.FeedingPoint(
             identifier: input.id,
             location: HomeModel.Location(
@@ -14,7 +14,7 @@ final class FeedingPointMapper: FeedingPointMappable {
                 longitude: input.location.lon
             ),
             pet: convert(categoryTag: input.category.tag),
-            hungerLevel: feeding ? .mid : conver(pointStatus: input.status)
+            hungerLevel: conver(pointStatus: input.status)
         )
     }
 
