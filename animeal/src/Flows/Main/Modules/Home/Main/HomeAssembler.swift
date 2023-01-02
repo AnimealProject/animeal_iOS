@@ -1,6 +1,7 @@
 import UIKit
 import Common
 
+@MainActor
 final class HomeModuleAssembler {
     private let coordinator: HomeCoordinatable & HomeCoordinatorEventHandlerProtocol
 

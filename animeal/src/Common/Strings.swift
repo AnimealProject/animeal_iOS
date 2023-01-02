@@ -50,6 +50,8 @@ internal enum L10n {
     internal enum Alert {
       /// Do you really want to cancel feeding?
       internal static let cancelFeeding = L10n.tr("Localizable", "feeding.alert.cancelFeeding")
+      /// Another user has booked the feeding for this feeding point
+      internal static let feedingPointHasBooked = L10n.tr("Localizable", "feeding.alert.feedingPointHasBooked")
       /// Your feeding timer is over. You can book a new feeding from the home page.
       internal static let feedingTimerOver = L10n.tr("Localizable", "feeding.alert.feedingTimerOver")
     }

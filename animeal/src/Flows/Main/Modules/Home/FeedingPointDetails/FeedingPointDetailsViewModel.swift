@@ -57,7 +57,8 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
             coordinator.routeTo(
                 .feed(
                     FeedingPointFeedDetails(
-                        identifier: model.feedingPointId
+                        identifier: model.feedingPointId,
+                        coordinates: model.feedingPointLocation
                     )
                 )
             )

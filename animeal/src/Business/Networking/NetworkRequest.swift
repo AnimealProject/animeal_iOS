@@ -117,6 +117,32 @@ extension Request {
         let modelType = ModelRegistry.modelType(from: model.modelName) ?? Swift.type(of: model)
         return modelType.schema
     }
+
+    public static func startFeeding(_ id: String) -> Request<StartFeeding> {
+        let document = """
+                 mutation StartFeeding {
+                   startFeeding(feedingPointId: "\(id)")
+                 }
+            """
+
+        return Request<StartFeeding>(
+            document: document,
+            responseType: StartFeeding.self
+        )
+    }
+
+    public static func cancelFeeding(_ id: String) -> Request<CancelFeeding> {
+        let document = """
+                 mutation StopFeeding {
+                    cancelFeeding(feedingId: "\(id)")
+                 }
+            """
+
+        return Request<CancelFeeding>(
+            document: document,
+            responseType: CancelFeeding.self
+        )
+    }
 }
 
 extension Request {

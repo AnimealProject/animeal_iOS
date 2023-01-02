@@ -10,7 +10,7 @@ final class HomeCoordinator: Coordinatable, HomeCoordinatorEventHandlerProtocol 
     private let _navigator: Navigating
     private let completion: (() -> Void)?
     private var bottomSheetController: BottomSheetPresentationController?
-    
+
     var navigator: Navigating { _navigator }
 
     // MARK: - Home coordinator events

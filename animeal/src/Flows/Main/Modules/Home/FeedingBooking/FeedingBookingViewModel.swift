@@ -32,7 +32,6 @@ final class FeedingBookingViewModel: FeedingBookingViewModelLifeCycle,
         case .cancel:
             coordinator.routeTo(.cancel)
         case .agree:
-            // TODO: Handle feeding request here
             coordinator.routeTo(.agree(feedingDetails))
         }
     }

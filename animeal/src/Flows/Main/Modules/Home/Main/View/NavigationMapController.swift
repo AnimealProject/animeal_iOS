@@ -149,7 +149,7 @@ extension NavigationMapController {
         let userWaypoint = Waypoint(
             location: location,
             heading: userLocation.heading,
-            name: "user" // TODO: WTF?
+            name: .empty
         )
 
         let destinationWaypoint = Waypoint(coordinate: destination)
