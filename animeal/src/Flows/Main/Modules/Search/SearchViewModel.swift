@@ -70,7 +70,11 @@ final class SearchViewModel: SearchViewModelProtocol {
             coordinator.move(to: .details(identifier: identifier))
         case .filterDidTap(let identifier):
             updateViewItems { [weak self] in
-                await self?.updateViewFilterContentItems(identifier) ?? []
+                let viewItems = await self?.updateViewFilterContentItems(
+                    identifier
+                ) ?? []
+                self?.updateViewInput()
+                return viewItems
             }
         }
     }
