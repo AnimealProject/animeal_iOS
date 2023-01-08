@@ -14,17 +14,20 @@ final class SearchModel: SearchModelProtocol {
     // MARK: - Dependencies
     private let defaultsService: DefaultsServiceProtocol
     private let networkService: NetworkServiceProtocol
+    private let dataService: DataStoreServiceProtocol
 
     // MARK: - Initialization
     init(
         sections: [SearchModelSection] = .default,
         defaultsService: DefaultsServiceProtocol = AppDelegate.shared.context.defaultsService,
-        networkService: NetworkServiceProtocol = AppDelegate.shared.context.networkService
+        networkService: NetworkServiceProtocol = AppDelegate.shared.context.networkService,
+        dataService: DataStoreServiceProtocol = AppDelegate.shared.context.dataStoreService
     ) {
         self.state = .loaded
         self.sections = sections
         self.defaultsService = defaultsService
         self.networkService = networkService
+        self.dataService = dataService
     }
 
     // MARK: - Requests
@@ -44,13 +47,13 @@ final class SearchModel: SearchModelProtocol {
                     expanded: false
                 )
             }
-        let itemsPerCity = result.reduce([String: [SearchModelItem]]()) { partialResult, point in
+        let itemsPerCity = await result.asyncReduce([String: [SearchModelItem]]()) { partialResult, point in
             var result = partialResult
             let item = SearchModelItem(
                 identifier: point.id,
                 name: point.localizedName.removeHtmlTags(),
                 description: point.localizedDescription.removeHtmlTags(),
-                icon: point.images?.first,
+                icon: try? await dataService.getURL(key: point.cover),
                 status: .init(point.status),
                 category: .init(point.category.tag)
             )

@@ -24,7 +24,7 @@ final class DataStoreService: DataStoreServiceProtocol {
             key: key,
             options: converter.convertDownloadDataRequestOptions(options),
             progressListener: nil,
-            resultListener: { [weak self] (event) in
+            resultListener: { [weak self] event in
                 guard let self = self else { return }
                 switch event {
                 case let .success(data):
@@ -34,5 +34,20 @@ final class DataStoreService: DataStoreServiceProtocol {
                 }
             }
         )
+    }
+
+    func getURL(key: String?) async throws -> URL? {
+        guard let key, !key.isEmpty else { return nil }
+
+        return try await withCheckedThrowingContinuation { continuation in
+            Amplify.Storage.getURL(key: key) { result in
+                switch result {
+                case .success(let output):
+                    continuation.resume(returning: output)
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
     }
 }

@@ -20,7 +20,7 @@ final class FeedingPointDetailsViewMapper: FeedingPointDetailsViewMappable {
 
         return FeedingPointDetailsViewItem(
             placeInfo: PlaceInfoView.Model(
-                icon: Asset.Images.placeCoverPlaceholder.image,
+                icon: .image(Asset.Images.placeCoverPlaceholder.image),
                 title: input.content.header.title,
                 status: convert(input.content.status)
             ),

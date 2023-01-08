@@ -15,7 +15,7 @@ final class FavouriteModelMapper: FavouriteModelMappable {
                 ), status: convertStatus(item.feedingPoint.status), isHighlighted: true
             )
     }
-    
+
     private func convertStatus(_ status: FeedingPointStatus) -> FavouritesModel.Status {
         switch status {
         case .fed:

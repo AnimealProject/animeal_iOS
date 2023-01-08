@@ -24,7 +24,7 @@ struct SearchModelItem {
     let identifier: String
     let name: String
     let description: String?
-    let icon: String?
+    let icon: URL?
     let status: SearchModelItemStatus
     let category: SearchModelItemCategory
 }

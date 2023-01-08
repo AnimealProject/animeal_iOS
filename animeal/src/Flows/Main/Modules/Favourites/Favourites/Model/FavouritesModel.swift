@@ -7,11 +7,11 @@ import AWSPluginsCore
 
 final class FavouritesModel: FavouritesModelProtocol {
     typealias Context = DefaultsServiceHolder & NetworkServiceHolder & UserProfileServiceHolder & DataStoreServiceHolder
-    
+
     // MARK: - Private properties
     private let context: Context
     private let mapper: FavouriteModelMappable
-    
+
     // MARK: - Initialization
     init(
         context: Context = AppDelegate.shared.context,
@@ -20,7 +20,7 @@ final class FavouritesModel: FavouritesModelProtocol {
         self.context = context
         self.mapper = mapper
     }
-    
+
     // MARK: - Requests
     func fetchFavourites() async throws -> [FavouritesModel.FavouriteContent] {
         let keys = animeal.Favourite.keys
@@ -32,7 +32,7 @@ final class FavouritesModel: FavouritesModelProtocol {
 
         return content
     }
-    
+
     func fetchMediaContent(key: String, completion: ((Data?) -> Void)?) {
         context.dataStoreService.downloadData(
             key: key,
@@ -63,7 +63,7 @@ extension FavouritesModel {
         let cover: String?
         let title: String
     }
-    
+
     enum Status {
         case success(String)
         case attention(String)

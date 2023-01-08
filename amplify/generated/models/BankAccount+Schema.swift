@@ -10,6 +10,9 @@ extension BankAccount {
     case value
     case icon
     case enabled
+    case createdBy
+    case updatedBy
+    case owner
     case createdAt
     case updatedAt
   }
@@ -37,8 +40,11 @@ extension BankAccount {
       .field(bankAccount.value, is: .required, ofType: .string),
       .field(bankAccount.icon, is: .required, ofType: .string),
       .field(bankAccount.enabled, is: .required, ofType: .bool),
-      .field(bankAccount.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(bankAccount.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+      .field(bankAccount.createdBy, is: .optional, ofType: .string),
+      .field(bankAccount.updatedBy, is: .optional, ofType: .string),
+      .field(bankAccount.owner, is: .optional, ofType: .string),
+      .field(bankAccount.createdAt, is: .required, ofType: .dateTime),
+      .field(bankAccount.updatedAt, is: .required, ofType: .dateTime)
     )
     }
 }

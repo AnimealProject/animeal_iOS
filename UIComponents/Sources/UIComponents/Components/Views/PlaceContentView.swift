@@ -1,5 +1,9 @@
+// System
 import UIKit
+
+// SDK
 import Style
+import Kingfisher
 
 public final class PlaceInfoView: UIView {
     // MARK: - Private properties
@@ -19,7 +23,21 @@ public final class PlaceInfoView: UIView {
 
     // MARK: - Configuration
     public func configure(_ model: Model) {
-        imageView.image = model.icon
+        switch model.icon {
+        case .url(let url):
+            imageView.kf.setImage(
+                with: url,
+                placeholder: Asset.Images.placeCoverPlaceholder.image,
+                options: [
+                    .loadDiskFileSynchronously,
+                    .cacheOriginalImage,
+                    .transition(.fade(0.25))
+                ]
+            )
+        case .image(let image):
+            imageView.image = image
+        }
+
         titleview.text = model.title
         statusView.configure(model.status)
     }
@@ -62,12 +80,12 @@ private extension PlaceInfoView {
 // MARK: - Model
 public extension PlaceInfoView {
     struct Model: Hashable {
-        let icon: UIImage?
+        let icon: Icon
         let title: String
         let status: StatusView.Model
 
         public init(
-            icon: UIImage,
+            icon: Icon,
             title: String,
             status: StatusView.Model
         ) {
@@ -75,5 +93,10 @@ public extension PlaceInfoView {
             self.title = title
             self.status = status
         }
+    }
+
+    enum Icon: Hashable {
+        case url(URL?)
+        case image(UIImage?)
     }
 }
