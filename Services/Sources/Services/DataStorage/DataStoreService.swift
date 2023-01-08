@@ -20,6 +20,8 @@ public protocol DataStoreServiceProtocol {
         options: DataStoreDownloadRequest.Options?,
         handler: DataStoreDownloadDataHandler?
     )
+    
+    func getURL(key: String?) async throws -> URL? 
 }
 
 extension DataStoreServiceProtocol {

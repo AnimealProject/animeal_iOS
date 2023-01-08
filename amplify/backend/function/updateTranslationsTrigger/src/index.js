@@ -16,6 +16,7 @@ const {
   getAllLanguagesSettings,
   updatePet,
   updateFeedingPoint,
+  updateQuestion
 } = require('./query');
 
 const config = {
@@ -30,12 +31,14 @@ const config = {
     'region',
     'neigborhood',
   ],
+  Question: ['value', 'answer']
 };
 
 const API = {
   Category: updateCategory,
   Pet: updatePet,
   FeedingPoint: updateFeedingPoint,
+  Question: updateQuestion
 };
 
 exports.handler = async (event) => {

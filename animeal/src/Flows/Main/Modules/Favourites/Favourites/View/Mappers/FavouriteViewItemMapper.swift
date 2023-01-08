@@ -13,21 +13,21 @@ final class FavouriteViewItemMapper: FavouriteViewItemMappable {
         return FavouriteViewItem(
             feedingPointId: input.feedingPointId,
             placeInfo: PlaceInfoView.Model(
-                icon: Asset.Images.placeCoverPlaceholder.image,
+                icon: .image(Asset.Images.placeCoverPlaceholder.image),
                 title: input.header.title,
                 status: convert(input.status)),
             isHighlighted: input.isHighlighted)
     }
-    
+
     func mapShimmerViewItem(_ input: FavouriteShimmerViewItem) -> FavouriteItem {
         return FavouriteShimmerViewItem(scheduler: input.scheduler)
     }
-    
+
     func mapFeedingPointMediaContent(_ feedingPointId: String, _ input: Data?) -> FavouriteMediaContent? {
         guard let data = input, let icon = UIImage(data: data) else { return nil }
         return FavouriteMediaContent(feedingPointId: feedingPointId, favouriteIcon: icon)
     }
-    
+
     private func convert(_ status: FavouritesModel.Status) -> StatusView.Model {
         switch status {
         case .attention(let message):

@@ -6,7 +6,7 @@
 	API_ANIMEAL_GRAPHQLAPIIDOUTPUT
 	ENV
 	REGION
-Amplify Params - DO NOT EDIT *//* Amplify Params - DO NOT EDIT
+Amplify Params - DO NOT EDIT */ /* Amplify Params - DO NOT EDIT
 	API_ANIMEAL_FEEDINGPOINTTABLE_ARN
 	API_ANIMEAL_FEEDINGPOINTTABLE_NAME
 	API_ANIMEAL_FEEDINGTABLE_ARN
@@ -28,6 +28,8 @@ const dynamoDB = new AWS.DynamoDB.DocumentClient({});
 exports.handler = async (event) => {
   console.log(`EVENT: ${JSON.stringify(event)}`);
   const feedingId = event.arguments.feedingId;
+  const feeding = event.arguments.feeding;
+  const ConditionExpression = !feeding ? 'attribute_exists(id)' : null;
 
   try {
     await dynamoDB
@@ -39,7 +41,7 @@ exports.handler = async (event) => {
               Key: {
                 id: feedingId,
               },
-              ConditionExpression: 'attribute_exists(id)',
+              ConditionExpression,
             },
           },
           {
@@ -56,7 +58,7 @@ exports.handler = async (event) => {
               },
               TableName: process.env.API_ANIMEAL_FEEDINGPOINTTABLE_NAME,
               UpdateExpression: 'SET #status = :value, statusUpdatedAt = :date',
-              ConditionExpression: 'attribute_exists(id)',
+              ConditionExpression,
             },
           },
         ],

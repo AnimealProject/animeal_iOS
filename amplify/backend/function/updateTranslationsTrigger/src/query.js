@@ -149,11 +149,26 @@ const updatePet = async (params) =>
     params,
   );
 
+  const updateQuestion = async (params) =>
+  request(
+    `  mutation UpdateCategory(
+      $input: UpdateQuestionInput!
+      $condition: ModelQuestionConditionInput
+    ) {
+      updateQuestion(input: $input, condition: $condition) {
+        id
+      }
+    }
+`,
+    params,
+  );
+
 module.exports = {
   translate,
   getAllLanguages,
   updateCategory,
   updateFeedingPoint,
   updatePet,
+  updateQuestion,
   getAllLanguagesSettings
 };

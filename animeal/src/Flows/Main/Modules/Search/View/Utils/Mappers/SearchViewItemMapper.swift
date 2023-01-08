@@ -18,7 +18,7 @@ final class SearchViewItemMapper: SearchViewItemMappable {
             identifier: input.identifier,
             model: FeedingPointDetailsView.Model(
                 placeInfoViewModel: PlaceInfoView.Model(
-                    icon: Asset.Images.cityLogo.image,
+                    icon: .url(input.icon),
                     title: input.name,
                     status: StatusView.Model(status: mapStatus(input.status))
                 ),

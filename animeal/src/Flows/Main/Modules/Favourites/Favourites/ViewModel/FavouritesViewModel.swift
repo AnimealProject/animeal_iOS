@@ -25,7 +25,7 @@ final class FavouritesViewModel: FavouritesViewModelLifeCycle, FavouritesViewInt
         self.mapper = mapper
         self.model = model
     }
-    
+
     // MARK: - Life cycle
     func load() {
         shimmerScheduler.start()
@@ -38,7 +38,7 @@ final class FavouritesViewModel: FavouritesViewModelLifeCycle, FavouritesViewInt
             return try await self.updateViewContentItems()
         }
     }
-    
+
     private func loadMediaContent(_ feedingPointId: String, _ key: String?) {
         guard let key = key else { return }
         model.fetchMediaContent(key: key) { [weak self] content in
@@ -48,15 +48,15 @@ final class FavouritesViewModel: FavouritesViewModelLifeCycle, FavouritesViewInt
             }
         }
     }
-    
+
     private func updateViewLoadingItems() -> [FavouriteItem] {
         let loadingItems = (0...1).map { _ in
             FavouriteShimmerViewItem(scheduler: shimmerScheduler)
         }
-        
+
         return loadingItems.map { mapper.mapShimmerViewItem($0) }
     }
-    
+
     private func updateViewContentItems() async throws -> [FavouriteItem] {
         let favourites = try await model.fetchFavourites()
         favourites.forEach { content in
@@ -64,7 +64,7 @@ final class FavouritesViewModel: FavouritesViewModelLifeCycle, FavouritesViewInt
         }
         return favourites.map { self.mapper.mapFavourite($0) }
     }
-    
+
     private func updateViewItems(
         _ operation: @escaping () async throws -> [FavouriteItem]
     ) {
@@ -89,7 +89,7 @@ final class FavouritesViewModel: FavouritesViewModelLifeCycle, FavouritesViewInt
             }
         }
     }
-    
+
     // MARK: - Interaction
     func handleActionEvent(_ event: FavouritesViewActionEvent) {
         switch event {

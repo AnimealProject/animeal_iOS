@@ -16,8 +16,8 @@ Amplify Params - DO NOT EDIT */
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 
- const AWS = require('aws-sdk');
- const dynamoDB = new AWS.DynamoDB.DocumentClient({});
+const AWS = require('aws-sdk');
+const dynamoDB = new AWS.DynamoDB.DocumentClient({});
 
 const { approveFeeding } = require('./query');
 
@@ -60,6 +60,29 @@ exports.handler = async (event) => {
       throw new Error(`Failed to finish feeding. Erorr: ${e.message}`);
     }
   } else {
+    try {
+      await dynamoDB
+        .transactWrite({
+          TransactItems: [
+            {
+              Update: {
+                ExpressionAttributeValues: {
+                  ':images': images,
+                },
+                Key: {
+                  id: feedingId,
+                },
+                TableName: process.env.API_ANIMEAL_FEEDINGTABLE_NAME,
+                UpdateExpression: 'SET images = :images',
+                ConditionExpression: 'attribute_exists(id)',
+              },
+            },
+          ],
+        })
+        .promise();
+    } catch (e) {
+      throw new Error(`Failed to finish feeding. Erorr: ${e.message}`);
+    }
     const approveFeedingRes = await approveFeeding({
       feedingId,
     });
