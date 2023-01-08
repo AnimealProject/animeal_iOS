@@ -108,7 +108,11 @@ final class SearchModel: SearchModelProtocol {
             SearchModelItemCategory(rawValue: categoryIdentifier) != nil
         else { return [] }
 
-        defaultsService.write(key: Filter.selectedId, value: categoryIdentifier)
+        searchString = .none
+        defaultsService.write(
+            key: Filter.selectedId,
+            value: categoryIdentifier
+        )
 
         return await filterFeedingPoints(searchString)
     }
