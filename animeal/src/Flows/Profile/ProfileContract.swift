@@ -6,6 +6,7 @@ protocol ProfileViewable: ActivityDisplayable, ErrorDisplayable {
     func applyHeader(_ viewHeader: ProfileViewHeader)
     func applyItems(_ viewItems: [ProfileViewItem])
     func applyActions(_ viewActions: [ProfileViewAction])
+    func applyConfiguration(_ viewConfiguration: ProfileViewConfiguration)
 }
 
 // MARK: - ViewModel
@@ -30,6 +31,7 @@ protocol ProfileViewState: ActivityDisplayCompatible {
     var onHeaderHasBeenPrepared: ((ProfileViewHeader) -> Void)? { get set }
     var onItemsHaveBeenPrepared: (([ProfileViewItem]) -> Void)? { get set }
     var onActionsHaveBeenPrepared: (([ProfileViewAction]) -> Void)? { get set }
+    var onConfigurationHasBeenPrepared: ((ProfileViewConfiguration) -> Void)? { get set }
 }
 
 // MARK: - Model
@@ -39,7 +41,7 @@ protocol ProfileModelProtocol {
     func fetchItem(_ identifier: String) -> ProfileModelItem?
     func updateItem(_ text: String?, forIdentifier identifier: String)
     func validateItems() -> Bool
-    
+
     func fetchRequiredAction(forIdentifier identifier: String) -> PhoneModelRequiredAction?
 
     func fetchActions() -> [ProfileModelAction]

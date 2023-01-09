@@ -11,7 +11,8 @@ enum ProfileAfterCustomAuthAssembler {
         let viewModel = ProfileViewModel(
             model: model,
             coordinator: coordinator,
-            mapper: ProfileViewItemMapper()
+            mapper: ProfileViewItemMapper(),
+            configuration: .afterAuth
         )
         let view = ProfileViewController(viewModel: viewModel)
 
@@ -30,7 +31,8 @@ enum ProfileAfterSocialAuthAssembler {
         let viewModel = ProfileViewModel(
             model: model,
             coordinator: coordinator,
-            mapper: ProfileViewItemMapper()
+            mapper: ProfileViewItemMapper(),
+            configuration: .afterAuth
         )
         let view = ProfileViewController(viewModel: viewModel)
 
@@ -49,7 +51,8 @@ enum ProfileChangeableAssembler {
         let viewModel = ProfileViewModel(
             model: model,
             coordinator: coordinator,
-            mapper: ProfileViewItemMapper()
+            mapper: ProfileViewItemMapper(),
+            configuration: .fromMore
         )
         let view = ProfileViewController(viewModel: viewModel)
 
