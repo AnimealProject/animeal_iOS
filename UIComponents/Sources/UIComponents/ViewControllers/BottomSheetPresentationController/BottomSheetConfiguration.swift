@@ -35,4 +35,13 @@ public struct BottomSheetConfiguration {
             maximumContainerHeight: UIScreen.main.bounds.height - 50
         )
     }
+    
+    public static var attachPhotoScreen: BottomSheetConfiguration {
+        return .init(
+            maxDimmedAlpha: 0.6,
+            defaultHeight: 345,
+            dismissibleHeight: 150,
+            maximumContainerHeight: 345
+        )
+    }
 }

@@ -100,22 +100,26 @@ final class HomeModel: HomeModelProtocol {
     }
 
     @discardableResult
-    func processCancelFeeding() async throws -> String {
+    func processCancelFeeding() async throws -> FeedingResponse {
         do {
             let feedingId = snapshotStore.snaphot?.pointId ?? .empty
             let result = try await context.networkService.query(request: .cancelFeeding(feedingId))
             snapshotStore.removeStoredSnaphot()
-            return result.cancelFeeding
+            return FeedingResponse(
+                feedingPoint: result.cancelFeeding,
+                feedingStatus: .none)
         } catch {
             throw L10n.Errors.somthingWrong.asBaseError()
         }
     }
 
-    func processStartFeeding(feedingPointId: String) async throws -> String {
+    func processStartFeeding(feedingPointId: String) async throws -> FeedingResponse {
         do {
             let result = try await context.networkService.query(request: .startFeeding(feedingPointId))
             snapshotStore.save(result.startFeeding, date: Date.now)
-            return result.startFeeding
+            return FeedingResponse(
+                feedingPoint: result.startFeeding,
+                feedingStatus: .progress)
         } catch {
             throw L10n.Feeding.Alert.feedingPointHasBooked.asBaseError()
         }

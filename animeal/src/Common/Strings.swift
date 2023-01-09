@@ -22,6 +22,8 @@ internal enum L10n {
     internal static let delete = L10n.tr("Localizable", "action.delete")
     /// Delete Account
     internal static let deleteAccount = L10n.tr("Localizable", "action.deleteAccount")
+    /// Finish
+    internal static let finish = L10n.tr("Localizable", "action.finish")
     /// Got it
     internal static let gotIt = L10n.tr("Localizable", "action.gotIt")
     /// I will feed
@@ -33,7 +35,14 @@ internal enum L10n {
     /// Ok
     internal static let ok = L10n.tr("Localizable", "action.ok")
   }
-
+    internal enum Attach {
+      internal enum Photo {
+        internal enum Hint {
+          /// Please take pictures where pet and food is detected
+          internal static let text = L10n.tr("Localizable", "attach.photo.hint.text")
+        }
+      }
+    }
   internal enum Errors {
     /// Oops something goes wrong!
     internal static let somthingWrong = L10n.tr("Localizable", "errors.somthingWrong")

@@ -43,6 +43,7 @@
 "action.copyIBAN"                                 = "Copy IBAN";
 "action.deleteAccount"                            = "Delete Account";
 "action.iWillFeed"                                = "I will feed";
+"action.finish"                                   = "Finish";
 "question.logoutAccount"                          = "Are you sure you want to log out of your account?";
 "question.deleteAccount"                          = "Are you sure you want to delete your account?";
 "text.header.lastFeeder"                          = "Last feeder";
@@ -68,3 +69,4 @@
 "search.empty.text"                               = "There are no feedings points for now. Please try again a little bit later";
 "search.searchBar.placeholder"                    = "Search here";
 "errors.somthingWrong"                            = "Oops something goes wrong!";
+"attach.photo.hint.text"                          = "Please take pictures where pet and food is detected";

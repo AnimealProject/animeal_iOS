@@ -43,6 +43,7 @@
 "action.copyIBAN"                                 = "კოპირება IBAN";
 "action.deleteAccount"                            = "Ანგარიშის წაშლა";
 "action.iWillFeed"                                = "ვაჭმევ";
+"action.finish"                                   = "";
 "question.logoutAccount"                          = "დარწმუნებული ხართ, რომ გსურთ თქვენი ანგარიშიდან გამოსვლა?";
 "question.deleteAccount"                          = "დარწმუნებული ხართ, რომ გსურთ თქვენი ანგარიშის წაშლა?";
 "text.header.lastFeeder"                          = "ბოლო მიმწოდებელი";
@@ -68,3 +69,4 @@
 "search.empty.text"                               = "ამ დროისთვის კვების პუნქტები არ არის. გთხოვთ, სცადოთ ხელახლა ცოტა მოგვიანებით";
 "search.searchBar.placeholder"                    = "Აქ მოძებნე";
 "errors.somthingWrong"                            = "ოჰ, რაღაც არასწორია!";
+"attach.photo.hint.text"                          = "";
