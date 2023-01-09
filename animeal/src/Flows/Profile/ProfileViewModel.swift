@@ -12,12 +12,14 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     private let model: ProfileModelProtocol
     private let coordinator: ProfileCoordinatable
     private let mapper: ProfileViewItemMappable
+    private let configuration: ProfileViewConfiguration
     private let dateFormatter: DateFormatter
 
     // MARK: - State
     var onHeaderHasBeenPrepared: ((ProfileViewHeader) -> Void)?
     var onItemsHaveBeenPrepared: (([ProfileViewItem]) -> Void)?
     var onActionsHaveBeenPrepared: (([ProfileViewAction]) -> Void)?
+    var onConfigurationHasBeenPrepared: ((ProfileViewConfiguration) -> Void)?
     var onActivityIsNeededToDisplay: ((@escaping @MainActor () async throws -> Void) -> Void)?
 
     // MARK: - Initialization
@@ -25,11 +27,13 @@ final class ProfileViewModel: ProfileViewModelProtocol {
         model: ProfileModelProtocol,
         coordinator: ProfileCoordinatable,
         mapper: ProfileViewItemMappable,
+        configuration: ProfileViewConfiguration,
         dateFormatter: DateFormatter = .default
     ) {
         self.model = model
         self.coordinator = coordinator
         self.mapper = mapper
+        self.configuration = configuration
         self.dateFormatter = dateFormatter
         self.viewItems = []
     }
@@ -43,6 +47,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
             subtitle: L10n.Profile.subHeader
         )
         onHeaderHasBeenPrepared?(viewHeader)
+        onConfigurationHasBeenPrepared?(configuration)
 
         updateViewItems(model.fetchPlaceholderItems)
         updateViewItems(model.fetchItems)

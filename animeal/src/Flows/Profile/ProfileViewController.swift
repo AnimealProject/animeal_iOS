@@ -140,6 +140,10 @@ final class ProfileViewController: BaseViewController, ProfileViewable {
     func applyActions(_ viewActions: [ProfileViewAction]) {
         buttonsView.configure(viewActions.map { $0.buttonView })
     }
+    
+    func applyConfiguration(_ viewConfiguration: ProfileViewConfiguration) {
+        navigationItem.hidesBackButton = viewConfiguration.hidesBackButton
+    }
 }
 
 private extension ProfileViewController {
@@ -195,6 +199,9 @@ private extension ProfileViewController {
         }
         viewModel.onActionsHaveBeenPrepared = { [weak self] viewActions in
             self?.applyActions(viewActions)
+        }
+        viewModel.onConfigurationHasBeenPrepared = { [weak self] viewConfiguration in
+            self?.applyConfiguration(viewConfiguration)
         }
         viewModel.onActivityIsNeededToDisplay = { [weak self] viewOperation in
             self?.displayActivityIndicator(waitUntil: viewOperation, completion: nil)
