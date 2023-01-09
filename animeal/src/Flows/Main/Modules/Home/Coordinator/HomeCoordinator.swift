@@ -53,7 +53,7 @@ final class HomeCoordinator: Coordinatable, HomeCoordinatorEventHandlerProtocol 
 }
 
 extension HomeCoordinator: HomeCoordinatable {
-    func routeTo(_ route: HomeRoute) {
+    @MainActor func routeTo(_ route: HomeRoute) {
         switch route {
         case .details(let pointId):
             let viewController = FeedingPointDetailsModuleAssembler(
@@ -61,6 +61,15 @@ extension HomeCoordinator: HomeCoordinatable {
                 pointId: pointId
             ).assemble()
             let controller = BottomSheetPresentationController(controller: viewController)
+            controller.modalPresentationStyle = .overFullScreen
+            _navigator.present(controller, animated: false, completion: nil)
+            bottomSheetController = controller
+        case .attachPhoto(let pointId):
+            let viewController = AttachPhotoAssembler(
+                pointId: pointId).assemble()
+            let controller = BottomSheetPresentationController(
+                controller: viewController,
+                configuration: .attachPhotoScreen)
             controller.modalPresentationStyle = .overFullScreen
             _navigator.present(controller, animated: false, completion: nil)
             bottomSheetController = controller

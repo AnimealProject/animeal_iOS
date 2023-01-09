@@ -20,9 +20,9 @@ protocol HomeModelProtocol: AnyObject {
     func proceedFeedingPointSelection(_ identifier: String, completion: (([HomeModel.FeedingPoint]) -> Void)?)
 
     // Feeding flow
-    func processStartFeeding(feedingPointId: String) async throws -> String
+    func processStartFeeding(feedingPointId: String) async throws -> FeedingResponse
     @discardableResult
-    func processCancelFeeding() async throws -> String
+    func processCancelFeeding() async throws -> FeedingResponse
     func fetchFeedingSnapshot() -> FeedingSnapshot?
 }
 
@@ -72,6 +72,7 @@ protocol HomeCoordinatorEventHandlerProtocol {
 
 enum HomeRoute {
     case details(String)
+    case attachPhoto(String)
 }
 
 struct FeedingPointRouteRequest {
@@ -79,4 +80,14 @@ struct FeedingPointRouteRequest {
     let countdownTime: TimeInterval
     let feedingPointId: String
     let isUnfinishedFeeding: Bool
+}
+
+struct FeedingResponse {
+    let feedingPoint: String
+    let feedingStatus: Status
+    
+    enum Status {
+        case progress
+        case none
+    }
 }

@@ -11,6 +11,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     private let segmentsViewMapper: FilterViewMappable
     private let feedingActionMapper: FeedingActionMapper
     private var coordinator: HomeCoordinatable & HomeCoordinatorEventHandlerProtocol
+    private var feedingStatus: FeedingResponse.Status = .none
     private enum Constants {
         static let feedingCountdownTimer: TimeInterval = 3600
     }
@@ -51,20 +52,27 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     func handleActionEvent(_ event: HomeViewActionEvent) {
         switch event {
         case .tapFeedingPoint(let pointId):
-            model.proceedFeedingPointSelection(pointId) { [weak self] points in
-                guard let self = self else { return }
-                let viewItems = points.map { self.feedingPointViewMapper.mapFeedingPoint($0) }
-                self.onFeedingPointsHaveBeenPrepared?(viewItems)
-                self.coordinator.routeTo(.details(pointId))
-                self.coordinator.feedingDidStartedEvent = { [weak self] event in
-                    self?.onRouteRequestHaveBeenPrepared?(
-                        .init(
-                            feedingPointCoordinates: event.coordinates,
-                            countdownTime: Constants.feedingCountdownTimer,
-                            feedingPointId: event.identifier,
-                            isUnfinishedFeeding: false
+            switch feedingStatus {
+            case .progress:
+                self.coordinator.routeTo(.attachPhoto(pointId))
+            case .none:
+                model.proceedFeedingPointSelection(pointId) { [weak self] points in
+                    guard let self = self else { return }
+                    let viewItems = points.map {
+                        self.feedingPointViewMapper.mapFeedingPoint($0) }
+                    self.onFeedingPointsHaveBeenPrepared?(viewItems)
+                    self.coordinator.routeTo(.details(pointId))
+                    
+                    self.coordinator.feedingDidStartedEvent = { [weak self] event in
+                        self?.onRouteRequestHaveBeenPrepared?(
+                            .init(
+                                feedingPointCoordinates: event.coordinates,
+                                countdownTime: Constants.feedingCountdownTimer,
+                                feedingPointId: event.identifier,
+                                isUnfinishedFeeding: false
+                            )
                         )
-                    )
+                    }
                 }
             }
         case .tapFilterControl(let filterItemId):
@@ -84,7 +92,8 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
             Task { [weak self] in
                 guard let self else { return }
                 do {
-                    try await self.model.processCancelFeeding()
+                    let result = try await self.model.processCancelFeeding()
+                    self.feedingStatus = result.feedingStatus
                 } catch {
                     logError("[APP] \(#function) failed to cancel feeding: \(error.localizedDescription)")
                 }
@@ -125,10 +134,11 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
         Task { [weak self] in
             guard let self else { return }
             do {
-                let pointId = try await model.processStartFeeding(feedingPointId: id)
-                let feedingPoint = try await self.model.fetchFeedingPoint(pointId)
+                let result = try await model.processStartFeeding(feedingPointId: id)
+                let feedingPoint = try await self.model.fetchFeedingPoint(result.feedingPoint)
                 let pointItemView = self.feedingPointViewMapper.mapFeedingPoint(feedingPoint)
                 self.onFeedingPointsHaveBeenPrepared?([pointItemView])
+                self.feedingStatus = result.feedingStatus
             } catch {
                 self.onErrorHaveBeenPrepared?(error.localizedDescription)
             }
