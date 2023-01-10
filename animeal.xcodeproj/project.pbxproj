@@ -2452,7 +2452,6 @@
 				6BB058E8BBC9A383D2FE14FF /* BankAccount.swift in Sources */,
 				F0C51AC9C71D7585539B42A1 /* Question+Schema.swift in Sources */,
 				D09306AD2965939F00BABB17 /* AttachPhotoViewItem.swift in Sources */,
-				DBB6994C2962CB240048E0CF /* FeedingSnapshotStore.swift in Sources */,
 				A8C82F5EA242B4E574055D0F /* Question.swift in Sources */,
 				BB4A5BFB84887A576BBEA62D /* QuestionI18n+Schema.swift in Sources */,
 				4AA077256022E92280815D22 /* QuestionI18n.swift in Sources */,
@@ -2647,12 +2646,13 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 7ZWNZC79KK;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = animeal/res/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app will use camera.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Your precise location is used to calculate turn-by-turn directions, show your location on the map, and help improve the map.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your precise location is used to calculate turn-by-turn directions, show your location on the map, and help improve the map.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow access to save photo in your photo library";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -2666,7 +2666,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.16;
+				MARKETING_VERSION = 0.0.19;
 				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animeal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2690,6 +2690,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app will use camera.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Your precise location is used to calculate turn-by-turn directions, show your location on the map, and help improve the map.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your precise location is used to calculate turn-by-turn directions, show your location on the map, and help improve the map.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow access to save photo in your photo library";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -2703,7 +2704,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.16;
+				MARKETING_VERSION = 0.0.19;
 				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animealApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Epam Animeal Prod App Store Distribution";
