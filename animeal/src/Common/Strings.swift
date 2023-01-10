@@ -35,14 +35,16 @@ internal enum L10n {
     /// Ok
     internal static let ok = L10n.tr("Localizable", "action.ok")
   }
-    internal enum Attach {
-      internal enum Photo {
-        internal enum Hint {
-          /// Please take pictures where pet and food is detected
-          internal static let text = L10n.tr("Localizable", "attach.photo.hint.text")
-        }
+
+  internal enum Attach {
+    internal enum Photo {
+      internal enum Hint {
+        /// Please take pictures where pet and food is detected
+        internal static let text = L10n.tr("Localizable", "attach.photo.hint.text")
       }
     }
+  }
+
   internal enum Errors {
     /// Oops something goes wrong!
     internal static let somthingWrong = L10n.tr("Localizable", "errors.somthingWrong")
