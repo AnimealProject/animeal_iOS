@@ -43,6 +43,7 @@
 "action.copyIBAN"                                 = "Copy IBAN";
 "action.deleteAccount"                            = "Delete Account";
 "action.iWillFeed"                                = "I will feed";
+"action.yes"                                      = "Yes";
 "action.finish"                                   = "Finish";
 "question.logoutAccount"                          = "Are you sure you want to log out of your account?";
 "question.deleteAccount"                          = "Are you sure you want to delete your account?";
@@ -70,3 +71,4 @@
 "search.searchBar.placeholder"                    = "Search here";
 "errors.somthingWrong"                            = "Oops something goes wrong!";
 "attach.photo.hint.text"                          = "Please take pictures where pet and food is detected";
+"attach.photo.delete.message"                     = "Are you sure you want to delete this photo?";

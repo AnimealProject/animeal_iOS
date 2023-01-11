@@ -100,7 +100,9 @@ public final class AlertViewController: UIViewController {
 
             let imageView = UIImageView()
             imageView.image = image
+            imageView.heightAnchor ~= 260
             imageView.layer.cornerRadius = 16
+            imageView.clipsToBounds = true
 
             contentView.addArrangedSubview(imageView)
         }

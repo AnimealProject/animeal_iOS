@@ -172,6 +172,7 @@
 		D09306B02966DA8700BABB17 /* AttachPhotoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09306AF2966DA8700BABB17 /* AttachPhotoModel.swift */; };
 		D09306B22966E63A00BABB17 /* AttachPhotoModelMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09306B12966E63A00BABB17 /* AttachPhotoModelMapper.swift */; };
 		D09306B4296891BE00BABB17 /* AttachPhotoViewMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09306B3296891BE00BABB17 /* AttachPhotoViewMapper.swift */; };
+		D09306BA296EB00400BABB17 /* AttachPhotoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09306B9296EB00400BABB17 /* AttachPhotoCoordinator.swift */; };
 		D0B7A01EF14FA17341D022FE /* Favourite+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D88428C28EF7C85C738BFBF /* Favourite+Schema.swift */; };
 		DB0AD32928A26FB6007FD750 /* SegmentedControlMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0AD32828A26FB6007FD750 /* SegmentedControlMapper.swift */; };
 		DB0D4A8228856D2C001750BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB0D4A8128856D2C001750BC /* Assets.xcassets */; };
@@ -484,6 +485,7 @@
 		D09306AF2966DA8700BABB17 /* AttachPhotoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachPhotoModel.swift; sourceTree = "<group>"; };
 		D09306B12966E63A00BABB17 /* AttachPhotoModelMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachPhotoModelMapper.swift; sourceTree = "<group>"; };
 		D09306B3296891BE00BABB17 /* AttachPhotoViewMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachPhotoViewMapper.swift; sourceTree = "<group>"; };
+		D09306B9296EB00400BABB17 /* AttachPhotoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachPhotoCoordinator.swift; sourceTree = "<group>"; };
 		DB0AD32828A26FB6007FD750 /* SegmentedControlMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlMapper.swift; sourceTree = "<group>"; };
 		DB0D4A8128856D2C001750BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = animeal/Assets.xcassets; sourceTree = SOURCE_ROOT; };
 		DB0D4A832886A9C4001750BC /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
@@ -1426,6 +1428,7 @@
 		D0930696296592FD00BABB17 /* AttachPhoto */ = {
 			isa = PBXGroup;
 			children = (
+				D09306B8296EAFF100BABB17 /* Coordinator */,
 				D09306AE2966D87A00BABB17 /* Model */,
 				D09306A12965935A00BABB17 /* View */,
 				D093069D2965934900BABB17 /* AttachPhotoViewController.swift */,
@@ -1471,6 +1474,14 @@
 				D09306B12966E63A00BABB17 /* AttachPhotoModelMapper.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		D09306B8296EAFF100BABB17 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				D09306B9296EB00400BABB17 /* AttachPhotoCoordinator.swift */,
+			);
+			path = Coordinator;
 			sourceTree = "<group>";
 		};
 		DB0D66BB2846676100930564 /* Common */ = {
@@ -2246,6 +2257,7 @@
 				838EA9712942732B001F4D84 /* SearchSupplementaryShimmerView.swift in Sources */,
 				835E149628FDD5850044EC2F /* SearchModel.swift in Sources */,
 				838B6B702868B039001DD111 /* VerificationModel.swift in Sources */,
+				D09306BA296EB00400BABB17 /* AttachPhotoCoordinator.swift in Sources */,
 				83C7A98628E42AB100F3D219 /* UserProfileAmplifyConverter.swift in Sources */,
 				DBDC6E7028C73E8F001B359D /* NetworkService.swift in Sources */,
 				78BEB17A2936D93D00A11CA7 /* FavouritesViewController.swift in Sources */,
@@ -2452,7 +2464,6 @@
 				6BB058E8BBC9A383D2FE14FF /* BankAccount.swift in Sources */,
 				F0C51AC9C71D7585539B42A1 /* Question+Schema.swift in Sources */,
 				D09306AD2965939F00BABB17 /* AttachPhotoViewItem.swift in Sources */,
-				DBB6994C2962CB240048E0CF /* FeedingSnapshotStore.swift in Sources */,
 				A8C82F5EA242B4E574055D0F /* Question.swift in Sources */,
 				BB4A5BFB84887A576BBEA62D /* QuestionI18n+Schema.swift in Sources */,
 				4AA077256022E92280815D22 /* QuestionI18n.swift in Sources */,
