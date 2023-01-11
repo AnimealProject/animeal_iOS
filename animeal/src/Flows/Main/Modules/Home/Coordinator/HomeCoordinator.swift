@@ -65,14 +65,11 @@ extension HomeCoordinator: HomeCoordinatable {
             _navigator.present(controller, animated: false, completion: nil)
             bottomSheetController = controller
         case .attachPhoto(let pointId):
-            let viewController = AttachPhotoAssembler(
-                pointId: pointId).assemble()
-            let controller = BottomSheetPresentationController(
-                controller: viewController,
-                configuration: .attachPhotoScreen)
-            controller.modalPresentationStyle = .overFullScreen
-            _navigator.present(controller, animated: false, completion: nil)
-            bottomSheetController = controller
+            let attachPhotoCoordinator = AttachPhotoCoordinator(
+                pointId: pointId,
+                navigator: _navigator,
+                completion: nil)
+            attachPhotoCoordinator.start()
         }
     }
 }

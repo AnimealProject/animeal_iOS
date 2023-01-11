@@ -6,16 +6,16 @@ import Common
 import Style
 
 final class AttachPhotoViewModel: AttachPhotoViewModelProtocol {
-    
+
     // MARK: - Properties
     private var snapshot = DataSourceSnapshot()
     private let viewSection = AttachPhotoViewSection.main
     private var placeTitle: String?
+    private var coordinator: AttachPhotoCoordinatable & AttachPhotoCoordinatorEventHandlerProtocol
 
     // MARK: - Dependencies
     private let model: AttachPhotoModelProtocol
     private let contentMapper: AttachPhotoViewMappable
-    private let completion: (() -> Void)?
 
     // MARK: - State
     var onContentHasBeenPrepared: ((AttachPhotoViewContent) -> Void)?
@@ -25,11 +25,11 @@ final class AttachPhotoViewModel: AttachPhotoViewModelProtocol {
     public init(
         model: AttachPhotoModelProtocol,
         contentMapper: AttachPhotoViewMappable,
-        completion: (() -> Void)? = nil
+        coordinator: AttachPhotoCoordinatable & AttachPhotoCoordinatorEventHandlerProtocol
     ) {
         self.model = model
         self.contentMapper = contentMapper
-        self.completion = completion
+        self.coordinator = coordinator
     }
 
     // MARK: - Life cycle
@@ -39,7 +39,7 @@ final class AttachPhotoViewModel: AttachPhotoViewModelProtocol {
         fetchContent()
         createSnapshot()
     }
-    
+
     private func createSnapshot() {
         snapshot.appendSections([viewSection])
     }
@@ -48,7 +48,10 @@ final class AttachPhotoViewModel: AttachPhotoViewModelProtocol {
     func handleActionEvent(_ event: AttachPhotoViewActionEvent) {
         switch event {
         case .removeImage(let image):
-            updateSnapshot(with: .removeImage(image: image))
+            coordinator.routeTo(.deletePhoto(image: image))
+            coordinator.deletePhotoEvent = { [weak self] in
+                self?.updateSnapshot(with: .removeImage(image: image))
+            }
         case .addImage(let image):
             updateSnapshot(with: .addImage(image: image))
         }
@@ -63,13 +66,11 @@ private extension AttachPhotoViewModel {
             snapshot.appendItems([item], toSection: viewSection)
         case .removeImage(let image):
             let item = AttachPhotoViewItem.common(image: image)
-            self.snapshot.deleteItems([item])
-            
+            snapshot.deleteItems([item])
         }
         onSnapshotHasBeenPrepared?(snapshot)
-        completion?()
     }
-    
+
     private func fetchContent() {
         model.fetchFeedingPoints { [weak self] response in
             guard let self = self else { return }
@@ -77,12 +78,12 @@ private extension AttachPhotoViewModel {
             self.placeTitle = self.contentMapper.mapFeedingPoint(response).name
         }
     }
-    
+
     private func loadMediaContent(_ key: String?) {
         guard let key = key else { return }
         model.fetchMediaContent(key: key) { [weak self] content in
             guard let self = self else { return }
-   
+
             if let mediaContent = self.contentMapper.mapFeedingPointMediaContent(content) {
                 let image = mediaContent.placeIcon
                 let viewContent = AttachPhotoViewContent(

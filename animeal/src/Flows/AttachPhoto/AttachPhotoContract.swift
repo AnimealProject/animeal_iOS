@@ -12,8 +12,8 @@ protocol AttachPhotoViewable: AnyObject {
 
 // MARK: - ViewModel
 typealias AttachPhotoViewModelProtocol = AttachPhotoViewModelLifeCycle
-    & AttachPhotoViewInteraction
-    & AttachPhotoViewState
+& AttachPhotoViewInteraction
+& AttachPhotoViewState
 
 protocol AttachPhotoViewModelLifeCycle: AnyObject {
     func setup()
@@ -39,4 +39,17 @@ protocol AttachPhotoViewState: AnyObject {
 protocol AttachPhotoModelProtocol: AnyObject {
     func fetchFeedingPoints(_ completion: ((AttachPhotoModel.PointContent) -> Void)?)
     func fetchMediaContent(key: String, completion: ((Data?) -> Void)?)
+}
+
+// MARK: - Coordinator
+protocol AttachPhotoCoordinatable {
+    func routeTo(_ route: AttachPhotoRoute)
+}
+
+protocol AttachPhotoCoordinatorEventHandlerProtocol {
+    var deletePhotoEvent: (() -> Void)? { get set }
+}
+
+enum AttachPhotoRoute {
+    case deletePhoto(image: UIImage)
 }

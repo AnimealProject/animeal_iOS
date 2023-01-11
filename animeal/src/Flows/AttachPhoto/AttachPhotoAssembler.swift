@@ -4,9 +4,12 @@ import Common
 
 final class AttachPhotoAssembler {
     private let pointId: String
+    private let coordinator: AttachPhotoCoordinatable & AttachPhotoCoordinatorEventHandlerProtocol
 
-    init(pointId: String) {
+    // MARK: - Initialization
+    init(pointId: String, coordinator: AttachPhotoCoordinatable & AttachPhotoCoordinatorEventHandlerProtocol ) {
         self.pointId = pointId
+        self.coordinator = coordinator
     }
 
     func assemble() -> UIViewController {
@@ -14,8 +17,7 @@ final class AttachPhotoAssembler {
         let viewModel = AttachPhotoViewModel(
             model: model,
             contentMapper: AttachPhotoViewMapper(),
-            completion: nil)
-        
+            coordinator: coordinator)
         let view = AttachPhotoViewController(viewModel: viewModel)
         return view
     }
