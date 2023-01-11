@@ -2464,6 +2464,7 @@
 				6BB058E8BBC9A383D2FE14FF /* BankAccount.swift in Sources */,
 				F0C51AC9C71D7585539B42A1 /* Question+Schema.swift in Sources */,
 				D09306AD2965939F00BABB17 /* AttachPhotoViewItem.swift in Sources */,
+                DBB6994C2962CB240048E0CF /* FeedingSnapshotStore.swift in Sources */,
 				A8C82F5EA242B4E574055D0F /* Question.swift in Sources */,
 				BB4A5BFB84887A576BBEA62D /* QuestionI18n+Schema.swift in Sources */,
 				4AA077256022E92280815D22 /* QuestionI18n.swift in Sources */,

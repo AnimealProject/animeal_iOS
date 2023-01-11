@@ -53,13 +53,13 @@ extension AttachPhotoCoordinator: AttachPhotoCoordinatable {
                 image: image
             )
             alertViewController.addAction(
-                AlertAction(title: L10n.Action.no, style: AlertAction.Style.inverted) {
-                    alertViewController.dismiss(animated: true)
+                AlertAction(title: L10n.Action.no, style: AlertAction.Style.inverted) { [weak alertViewController] in
+                    alertViewController?.dismiss(animated: true)
                 }
             )
             alertViewController.addAction(
-                AlertAction(title: L10n.Action.yes, style: AlertAction.Style.accent) {
-                    self.deletePhotoEvent?()
+                AlertAction(title: L10n.Action.yes, style: AlertAction.Style.accent) { [weak self] in
+                    self?.deletePhotoEvent?()
                     alertViewController.dismiss(animated: true)
                 }
             )
