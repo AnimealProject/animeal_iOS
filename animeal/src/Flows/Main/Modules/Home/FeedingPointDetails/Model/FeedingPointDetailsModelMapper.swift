@@ -36,8 +36,7 @@ class FeedingPointDetailsModelMapper: FeedingPointDetailsModelMapperProtocol {
         case .starved:
             return .error(L10n.Feeding.Status.starved)
         case .pending:
-            // TODO: fix time interval
-            return .attention(L10n.Feeding.Status.Pending.pattern("12 Hours"))
+            return .attention(L10n.Feeding.Status.inprogress)
         }
     }
 }

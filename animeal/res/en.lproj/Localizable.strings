@@ -61,7 +61,7 @@
 "verification.alert.cancel"                       = "Cancel";
 "feeding.status.fed"                              = "Newly fed";
 "feeding.status.starved"                          = "There is no food";
-"feeding.status.pending.pattern"                  = "%s sice not fed";
+"feeding.status.inprogress"                       = "Feeding in progress";
 "feeding.alert.cancelFeeding"                     = "Do you really want to cancel feeding?";
 "feeding.alert.feedingTimerOver"                  = "Your feeding timer is over. You can book a new feeding from the home page.";
 "feeding.alert.feedingPointHasBooked"             = "Another user has booked the feeding for this feeding point";

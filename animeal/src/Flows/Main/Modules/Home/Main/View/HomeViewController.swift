@@ -25,6 +25,8 @@ class HomeViewController: UIViewController {
         ? StyleURI.dark : StyleURI.streets
     }
 
+    let activityPresenter = ActivityIndicatorPresenter()
+
     // MARK: - Dependencies
     private let viewModel: HomeCombinedViewModel
 
@@ -133,6 +135,10 @@ private extension HomeViewController {
 
         viewModel.onErrorHaveBeenPrepared = { [weak self] errorDescription in
             self?.showErrorMessage(errorDescription)
+        }
+
+        viewModel.onActivityIsNeededToDisplay = { [weak self] viewOperation in
+            self?.displayActivityIndicator(waitUntil: viewOperation, completion: nil)
         }
     }
 
@@ -259,8 +265,7 @@ private extension HomeViewController {
     func easeToClosesFeedingPointOnce(_ items: [FeedingPointViewItem]) {
         DispatchQueue.once {
             let coordinates = items.filter { viewItem in
-                viewItem.viewModel.kind == FeedingPointView.Kind.dog(.high)
-                || viewItem.viewModel.kind == FeedingPointView.Kind.cat(.high)
+                viewItem.viewModel.kind.isHungerLevelHigh
             }
 
             if let location = mapView.findClosesLocation(coordinates.map { $0.coordinates }) {
