@@ -7,6 +7,7 @@ extension HomeModel {
         let location: Location
         let pet: Pet
         let hungerLevel: HungerLevel
+        let isFavorite: Bool
     }
 
     enum Pet {

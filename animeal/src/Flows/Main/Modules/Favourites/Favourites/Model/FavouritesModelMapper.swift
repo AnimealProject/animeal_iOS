@@ -12,7 +12,8 @@ final class FavouriteModelMapper: FavouriteModelMappable {
                 header: FavouritesModel.Header(
                     cover: item.feedingPoint.cover,
                     title: item.feedingPoint.localizedName.removeHtmlTags()
-                ), status: convertStatus(item.feedingPoint.status), isHighlighted: true
+                ), status: convertStatus(item.feedingPoint.status),
+                isHighlighted: true
             )
     }
 
@@ -23,8 +24,7 @@ final class FavouriteModelMapper: FavouriteModelMappable {
         case .starved:
             return .error(L10n.Feeding.Status.starved)
         case .pending:
-            // TODO: fix time interval
-            return .attention(L10n.Feeding.Status.Pending.pattern("12 Hours"))
+            return .attention(L10n.Feeding.Status.inprogress)
         }
     }
 }

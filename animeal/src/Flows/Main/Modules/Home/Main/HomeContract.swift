@@ -2,7 +2,8 @@ import Foundation
 import CoreLocation
 
 // MARK: - View
-protocol HomeViewModelOutput: AnyObject {
+@MainActor
+protocol HomeViewModelOutput: ActivityDisplayable, ErrorDisplayable {
     func applyFeedingPoints(_ feedingPoints: [FeedingPointViewItem])
     func applyFilter(_ filter: FilterModel)
 }
@@ -11,7 +12,7 @@ protocol HomeViewModelOutput: AnyObject {
 
 // sourcery: AutoMockable
 protocol HomeModelProtocol: AnyObject {
-    func fetchFeedingPoints(_ completion: (([HomeModel.FeedingPoint]) -> Void)?)
+    func fetchFeedingPoints() async throws -> [HomeModel.FeedingPoint]
     func fetchFilterItems(_ completion: (([HomeModel.FilterItem]) -> Void)?)
     func fetchFeedingAction(request: HomeModel.FeedingActionRequest) -> HomeModel.FeedingAction
     func fetchFeedingPoint(_ pointId: String) async throws -> HomeModel.FeedingPoint
@@ -45,7 +46,7 @@ protocol HomeViewInteraction: AnyObject {
 }
 
 @MainActor
-protocol HomeViewState: AnyObject {
+protocol HomeViewState: ActivityDisplayCompatible {
     var onFeedingPointsHaveBeenPrepared: (([FeedingPointViewItem]) -> Void)? { get set }
     var onSegmentsHaveBeenPrepared: ((FilterModel) -> Void)? { get set }
     var onRouteRequestHaveBeenPrepared: ((FeedingPointRouteRequest) -> Void)? { get set }
@@ -85,7 +86,7 @@ struct FeedingPointRouteRequest {
 struct FeedingResponse {
     let feedingPoint: String
     let feedingStatus: Status
-    
+
     enum Status {
         case progress
         case none

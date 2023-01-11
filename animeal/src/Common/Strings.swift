@@ -70,14 +70,10 @@ internal enum L10n {
     internal enum Status {
       /// Newly fed
       internal static let fed = L10n.tr("Localizable", "feeding.status.fed", fallback: "Newly fed")
+      /// Feeding in progress
+      internal static let inprogress = L10n.tr("Localizable", "feeding.status.inprogress", fallback: "Feeding in progress")
       /// There is no food
       internal static let starved = L10n.tr("Localizable", "feeding.status.starved", fallback: "There is no food")
-      internal enum Pending {
-        /// %s sice not fed
-        internal static func pattern(_ p1: UnsafePointer<CChar>) -> String {
-          return L10n.tr("Localizable", "feeding.status.pending.pattern", p1, fallback: "%s sice not fed")
-        }
-      }
     }
   }
   internal enum LoginScreen {

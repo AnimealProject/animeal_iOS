@@ -23,6 +23,17 @@ extension FeedingPointView {
         case cat(FeedingPointView.HungerLevel)
         case fav(FeedingPointView.HungerLevel)
 
+        public var isHungerLevelHigh: Bool {
+            switch self {
+            case .dog(let level):
+                return level == .high
+            case .cat(let level):
+                return level == .high
+            case .fav(let level):
+                return level == .high
+            }
+        }
+
         var image: UIImage {
             switch self {
             case .dog(let level):

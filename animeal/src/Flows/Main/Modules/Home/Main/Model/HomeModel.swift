@@ -6,9 +6,10 @@ import AWSAPIPlugin
 import AWSPluginsCore
 
 final class HomeModel: HomeModelProtocol {
-    typealias Context = DefaultsServiceHolder & NetworkServiceHolder
+    typealias Context = DefaultsServiceHolder & NetworkServiceHolder & UserProfileServiceHolder
     private let context: Context
     private var cachedFeedingPoints: [FeedingPoint] = []
+    private var cachedFavouritesList: [Favourite] = []
     private let mapper: FeedingPointMappable
     private let snapshotStore: FeedingSnapshotStorable
 
@@ -24,21 +25,32 @@ final class HomeModel: HomeModelProtocol {
     }
 
     // MARK: - Requests
-    func fetchFeedingPoints(_ completion: (([FeedingPoint]) -> Void)?) {
-        context.networkService.query(request: .list(animeal.FeedingPoint.self)) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let points):
-                let feedingPoints = points.map { point in
-                    self.mapper.mapFeedingPoint(point)
+    func fetchFeedingPoints() async throws -> [FeedingPoint] {
+        do {
+            await fetchFavorites()
+            let points = try await context.networkService.query(request: .list(animeal.FeedingPoint.self))
+            let feedingPoints = points.map { feedingPoint in
+                let isFavorite = self.cachedFavouritesList.contains { fav in
+                    fav.feedingPointId == feedingPoint.id
                 }
-                self.cachedFeedingPoints = feedingPoints.filter { point in point.hungerLevel != .mid }
-                DispatchQueue.main.async {
-                    completion?(self.applyFilter(self.cachedFeedingPoints))
-                }
-            case .failure:
-                break
+                return mapper.mapFeedingPoint(feedingPoint, isFavorite: isFavorite)
             }
+            cachedFeedingPoints = feedingPoints
+            return applyFilter(cachedFeedingPoints)
+        } catch {
+            throw L10n.Errors.somthingWrong.asBaseError()
+        }
+    }
+
+    func fetchFavorites() async {
+        let userId = context.profileService.getCurrentUser()?.userId ?? ""
+        let fav = Favourite.keys
+        let predicate = fav.userId == userId
+        do {
+            let favorites = try await context.networkService.query(request: .list(Favourite.self, where: predicate))
+            cachedFavouritesList = favorites
+        } catch {
+            print(error.localizedDescription)
         }
     }
 
@@ -68,7 +80,8 @@ final class HomeModel: HomeModelProtocol {
                 isSelected: point.identifier == identifier,
                 location: point.location,
                 pet: point.pet,
-                hungerLevel: point.hungerLevel
+                hungerLevel: point.hungerLevel,
+                isFavorite: point.isFavorite
             )
         }
         cachedFeedingPoints = modifiedPoints
@@ -129,7 +142,10 @@ final class HomeModel: HomeModelProtocol {
         let request = Request<animeal.FeedingPoint>.get(animeal.FeedingPoint.self, byId: pointId)
         let result = try await context.networkService.query(request: request)
         if let point = result {
-            return self.mapper.mapFeedingPoint(point)
+            let isFavorite = self.cachedFavouritesList.contains { fav in
+                fav.feedingPointId == pointId
+            }
+            return self.mapper.mapFeedingPoint(point, isFavorite: isFavorite)
         } else {
             throw L10n.Errors.somthingWrong.asBaseError()
         }
