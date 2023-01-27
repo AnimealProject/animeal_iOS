@@ -58,7 +58,7 @@ extension MoreCoordinator: MoreCoordinatable {
         case .faq:
             viewController = MorePartitionModuleAssembler(coordinator: self).assemble(.faq)
         case .about:
-            viewController = MorePartitionModuleAssembler(coordinator: self).assemble(.about)
+            viewController = AboutModuleAssembler.assemble(coordinator: self)
         case .account:
             viewController = MorePartitionModuleAssembler(coordinator: self).assemble(.account)
         }

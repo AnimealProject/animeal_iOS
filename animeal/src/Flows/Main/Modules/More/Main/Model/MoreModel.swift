@@ -11,7 +11,7 @@ final class MoreModel: MoreModelProtocol {
             MoreActionModel(type: .profilePage, title: L10n.More.profilePage),
             MoreActionModel(type: .donate, title: L10n.More.donate),
             MoreActionModel(type: .faq, title: L10n.More.faq),
-            MoreActionModel(type: .about, title: L10n.More.about),
+            MoreActionModel(type: .about, title: L10n.More.aboutShort),
             MoreActionModel(type: .account, title: L10n.More.account)
         ]
     }
