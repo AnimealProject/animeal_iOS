@@ -11,6 +11,7 @@ public struct Question: Model {
   public var updatedAt: Temporal.DateTime
   public var createdBy: String?
   public var updatedBy: String?
+  public var owner: String?
   
   public init(id: String = UUID().uuidString,
       value: String? = nil,
@@ -19,7 +20,8 @@ public struct Question: Model {
       createdAt: Temporal.DateTime,
       updatedAt: Temporal.DateTime,
       createdBy: String? = nil,
-      updatedBy: String? = nil) {
+      updatedBy: String? = nil,
+      owner: String? = nil) {
       self.id = id
       self.value = value
       self.answer = answer
@@ -28,5 +30,6 @@ public struct Question: Model {
       self.updatedAt = updatedAt
       self.createdBy = createdBy
       self.updatedBy = updatedBy
+      self.owner = owner
   }
 }

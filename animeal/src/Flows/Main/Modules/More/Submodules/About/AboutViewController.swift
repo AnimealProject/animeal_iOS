@@ -45,7 +45,7 @@ final class AboutViewController: UIViewController, AboutViewable {
         hostingViewController.view.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
     }
 
-    func setupNavigationBar() {
+    private func setupNavigationBar() {
         let button = UIBarButtonItem(
             image: UIImage(systemName: "chevron.backward"),
             style: .plain,
@@ -57,7 +57,7 @@ final class AboutViewController: UIViewController, AboutViewable {
         navigationItem.leftBarButtonItem = button
     }
 
-    @objc func barButtonItemTapped() {
+    @objc private func barButtonItemTapped() {
         viewModel.handleActionEvent(.back)
     }
 }

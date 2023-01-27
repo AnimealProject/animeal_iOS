@@ -312,19 +312,27 @@
     },
     "updateTranslationsTrigger": {
       "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
       "dependsOn": [
         {
+          "category": "api",
+          "resourceName": "animeal",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ]
+        },
+        {
+          "category": "api",
+          "resourceName": "animeal",
           "attributes": [
             "GraphQLAPIIdOutput",
             "GraphQLAPIEndpointOutput",
             "GraphQLAPIKeyOutput"
-          ],
-          "category": "api",
-          "resourceName": "animeal"
+          ]
         }
-      ],
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
+      ]
     }
   },
   "geo": {
