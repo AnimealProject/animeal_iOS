@@ -15,6 +15,12 @@
 			</array>
 		</dict>
 	</array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fb</string>
+		<string>instagram</string>
+		<string>linkedin</string>
+	</array>
 	<key>MBXAccessToken</key>
 	<string>For how it works see https://docs.mapbox.com/help/troubleshooting/private-access-token-android-and-ios/</string>
 	<key>UIApplicationSceneManifest</key>
