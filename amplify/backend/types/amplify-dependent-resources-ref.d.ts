@@ -1,10 +1,17 @@
 export type AmplifyDependentResourcesAttributes = {
-    "auth": {
-        "userPoolGroups": {
-            "AdministratorGroupRole": "string",
-            "ModeratorGroupRole": "string",
-            "VolunteerGroupRole": "string"
+    "api": {
+        "AdminQueries": {
+            "RootUrl": "string",
+            "ApiName": "string",
+            "ApiId": "string"
         },
+        "animeal": {
+            "GraphQLAPIKeyOutput": "string",
+            "GraphQLAPIIdOutput": "string",
+            "GraphQLAPIEndpointOutput": "string"
+        }
+    },
+    "auth": {
         "animeal8f90e9b68f90e9b6": {
             "IdentityPoolId": "string",
             "IdentityPoolName": "string",
@@ -15,6 +22,11 @@ export type AmplifyDependentResourcesAttributes = {
             "UserPoolName": "string",
             "AppClientIDWeb": "string",
             "AppClientID": "string"
+        },
+        "userPoolGroups": {
+            "AdministratorGroupRole": "string",
+            "ModeratorGroupRole": "string",
+            "VolunteerGroupRole": "string"
         }
     },
     "function": {
@@ -36,6 +48,12 @@ export type AmplifyDependentResourcesAttributes = {
             "LambdaExecutionRole": "string",
             "Region": "string"
         },
+        "animeal8f90e9b68f90e9b6PostConfirmation": {
+            "Name": "string",
+            "Arn": "string",
+            "LambdaExecutionRole": "string",
+            "Region": "string"
+        },
         "animeal8f90e9b68f90e9b6PreSignup": {
             "Name": "string",
             "Arn": "string",
@@ -48,49 +66,7 @@ export type AmplifyDependentResourcesAttributes = {
             "LambdaExecutionRole": "string",
             "Region": "string"
         },
-        "translate": {
-            "Name": "string",
-            "Arn": "string",
-            "Region": "string",
-            "LambdaExecutionRole": "string"
-        },
-        "updateTranslationsTrigger": {
-            "Name": "string",
-            "Arn": "string",
-            "Region": "string",
-            "LambdaExecutionRole": "string"
-        },
-        "animeal8f90e9b68f90e9b6PostConfirmation": {
-            "Name": "string",
-            "Arn": "string",
-            "LambdaExecutionRole": "string",
-            "Region": "string"
-        },
-        "startFeeding": {
-            "Name": "string",
-            "Arn": "string",
-            "Region": "string",
-            "LambdaExecutionRole": "string"
-        },
-        "finishFeeding": {
-            "Name": "string",
-            "Arn": "string",
-            "Region": "string",
-            "LambdaExecutionRole": "string"
-        },
         "approveFeeding": {
-            "Name": "string",
-            "Arn": "string",
-            "Region": "string",
-            "LambdaExecutionRole": "string"
-        },
-        "rejectFeeding": {
-            "Name": "string",
-            "Arn": "string",
-            "Region": "string",
-            "LambdaExecutionRole": "string"
-        },
-        "feedingStreamTrigger": {
             "Name": "string",
             "Arn": "string",
             "Region": "string",
@@ -102,18 +78,42 @@ export type AmplifyDependentResourcesAttributes = {
             "Region": "string",
             "LambdaExecutionRole": "string",
             "CloudWatchEventRule": "string"
-        }
-    },
-    "api": {
-        "AdminQueries": {
-            "RootUrl": "string",
-            "ApiName": "string",
-            "ApiId": "string"
         },
-        "animeal": {
-            "GraphQLAPIKeyOutput": "string",
-            "GraphQLAPIIdOutput": "string",
-            "GraphQLAPIEndpointOutput": "string"
+        "feedingStreamTrigger": {
+            "Name": "string",
+            "Arn": "string",
+            "Region": "string",
+            "LambdaExecutionRole": "string"
+        },
+        "finishFeeding": {
+            "Name": "string",
+            "Arn": "string",
+            "Region": "string",
+            "LambdaExecutionRole": "string"
+        },
+        "rejectFeeding": {
+            "Name": "string",
+            "Arn": "string",
+            "Region": "string",
+            "LambdaExecutionRole": "string"
+        },
+        "startFeeding": {
+            "Name": "string",
+            "Arn": "string",
+            "Region": "string",
+            "LambdaExecutionRole": "string"
+        },
+        "translate": {
+            "Name": "string",
+            "Arn": "string",
+            "Region": "string",
+            "LambdaExecutionRole": "string"
+        },
+        "updateTranslationsTrigger": {
+            "Name": "string",
+            "Arn": "string",
+            "Region": "string",
+            "LambdaExecutionRole": "string"
         }
     },
     "geo": {

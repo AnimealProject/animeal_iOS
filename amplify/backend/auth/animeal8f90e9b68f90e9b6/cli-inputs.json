@@ -123,4 +123,4 @@
     "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"animeal://\"],\"LogoutURLs\":[\"animeal://signout/\"]}"
   }
 }
-  
+ 

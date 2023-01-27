@@ -8,7 +8,8 @@ extension BankAccount {
     case id
     case name
     case value
-    case icon
+    case cover
+    case images
     case enabled
     case createdBy
     case updatedBy
@@ -38,7 +39,8 @@ extension BankAccount {
       .id(),
       .field(bankAccount.name, is: .required, ofType: .string),
       .field(bankAccount.value, is: .required, ofType: .string),
-      .field(bankAccount.icon, is: .required, ofType: .string),
+      .field(bankAccount.cover, is: .required, ofType: .string),
+      .field(bankAccount.images, is: .optional, ofType: .embeddedCollection(of: String.self)),
       .field(bankAccount.enabled, is: .required, ofType: .bool),
       .field(bankAccount.createdBy, is: .optional, ofType: .string),
       .field(bankAccount.updatedBy, is: .optional, ofType: .string),
