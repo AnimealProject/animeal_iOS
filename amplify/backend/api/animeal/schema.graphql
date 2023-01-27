@@ -534,6 +534,7 @@ type Question
   updatedAt: AWSDateTime!
   createdBy: String
   updatedBy: String
+  owner: String
 }
 
 type BankAccount
@@ -560,7 +561,8 @@ type BankAccount
   id: ID!
   name: String!
   value: String!
-  icon: String!
+  cover: String!
+  images: [String!]
   enabled: Boolean!
   createdBy: String
   updatedBy: String

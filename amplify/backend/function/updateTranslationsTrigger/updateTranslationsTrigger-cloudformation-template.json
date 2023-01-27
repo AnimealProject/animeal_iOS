@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "{\"createdOn\":\"Windows\",\"createdBy\":\"Amplify\",\"createdWith\":\"8.5.0\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
+  "Description": "Lambda Function resource stack creation using Amplify CLI",
   "Parameters": {
     "CloudWatchRule": {
       "Type": "String",
@@ -110,12 +110,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "animealLambdaRole2b2c6e18",
+            "animealLambdaRolebbf35380",
             {
               "Fn::Join": [
                 "",
                 [
-                  "animealLambdaRole2b2c6e18",
+                  "animealLambdaRolebbf35380",
                   "-",
                   {
                     "Ref": "env"
@@ -410,6 +410,62 @@
         "EventSourceArn": {
           "Fn::ImportValue": {
             "Fn::Sub": "${apianimealGraphQLAPIIdOutput}:GetAtt:FeedingPointTable:StreamArn"
+          }
+        },
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "LambdaFunction",
+            "Arn"
+          ]
+        },
+        "StartingPosition": "LATEST"
+      }
+    },
+    "LambdaTriggerPolicyQuestion": {
+      "DependsOn": [
+        "LambdaExecutionRole"
+      ],
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": "amplify-lambda-execution-policy-Question",
+        "Roles": [
+          {
+            "Ref": "LambdaExecutionRole"
+          }
+        ],
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:DescribeStream",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:ListStreams"
+              ],
+              "Resource": {
+                "Fn::ImportValue": {
+                  "Fn::Sub": "${apianimealGraphQLAPIIdOutput}:GetAtt:QuestionTable:StreamArn"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "LambdaEventSourceMappingQuestion": {
+      "Type": "AWS::Lambda::EventSourceMapping",
+      "DependsOn": [
+        "LambdaTriggerPolicyQuestion",
+        "LambdaExecutionRole"
+      ],
+      "Properties": {
+        "BatchSize": 100,
+        "Enabled": true,
+        "EventSourceArn": {
+          "Fn::ImportValue": {
+            "Fn::Sub": "${apianimealGraphQLAPIIdOutput}:GetAtt:QuestionTable:StreamArn"
           }
         },
         "FunctionName": {

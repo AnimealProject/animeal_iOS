@@ -6,7 +6,8 @@ public struct BankAccount: Model {
   public let id: String
   public var name: String
   public var value: String
-  public var icon: String
+  public var cover: String
+  public var images: [String]?
   public var enabled: Bool
   public var createdBy: String?
   public var updatedBy: String?
@@ -17,7 +18,8 @@ public struct BankAccount: Model {
   public init(id: String = UUID().uuidString,
       name: String,
       value: String,
-      icon: String,
+      cover: String,
+      images: [String]? = nil,
       enabled: Bool,
       createdBy: String? = nil,
       updatedBy: String? = nil,
@@ -27,7 +29,8 @@ public struct BankAccount: Model {
       self.id = id
       self.name = name
       self.value = value
-      self.icon = icon
+      self.cover = cover
+      self.images = images
       self.enabled = enabled
       self.createdBy = createdBy
       self.updatedBy = updatedBy

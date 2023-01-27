@@ -8,7 +8,7 @@
 import SwiftUI
 import Style
 
-// Mark: - AboutView
+// MARK: - AboutView
 
 struct AboutView: View {
 

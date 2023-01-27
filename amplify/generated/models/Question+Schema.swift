@@ -13,6 +13,7 @@ extension Question {
     case updatedAt
     case createdBy
     case updatedBy
+    case owner
   }
   
   public static let keys = CodingKeys.self
@@ -40,7 +41,8 @@ extension Question {
       .field(question.createdAt, is: .required, ofType: .dateTime),
       .field(question.updatedAt, is: .required, ofType: .dateTime),
       .field(question.createdBy, is: .optional, ofType: .string),
-      .field(question.updatedBy, is: .optional, ofType: .string)
+      .field(question.updatedBy, is: .optional, ofType: .string),
+      .field(question.owner, is: .optional, ofType: .string)
     )
     }
 }

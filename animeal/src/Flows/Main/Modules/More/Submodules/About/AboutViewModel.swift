@@ -30,7 +30,7 @@ final class AboutViewModel: AboutViewModelLifeCycle, AboutViewInteraction, About
         model.contentText = AboutModel.previewModel.contentText
     }
 
-    public var observableModel: AboutModelProtocol {
+    var observableModel: AboutModelProtocol {
         return model
     }
 

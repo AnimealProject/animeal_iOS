@@ -2,7 +2,7 @@ import UIKit
 import Common
 
 @MainActor
-final class AboutModuleAssembler {
+enum AboutModuleAssembler {
     static func assemble(coordinator: MorePartitionCoordinatable) -> UIViewController {
         let model = AboutModel()
         let viewModel = AboutViewModel(

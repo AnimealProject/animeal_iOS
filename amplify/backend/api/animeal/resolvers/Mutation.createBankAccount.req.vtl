@@ -1,16 +1,21 @@
 ## [Start] Create Request template. **
 #set( $args = $util.defaultIfNull($ctx.stash.transformedArgs, $ctx.args) )
+
 ## Set the default values to put request **
 #set( $mergedValues = $util.defaultIfNull($ctx.stash.defaultValues, {}) )
+
 ## copy the values from input **
 $util.qr($mergedValues.putAll($util.defaultIfNull($args.input, {})))
-## validate arguments **	
-#set($isNameValid = $args.input.name.length() >= 2 &&	
-                    $args.input.name.length() <= 50)	
-$util.validate($isNameValid, "name must be between 2 and 50 symbols")	
-#set($isValueValid = $args.input.value.length() >= 15 &&	
-                     $args.input.value.length() <= 35)	
-$util.validate($isValueValid, "value must be between 15 and 35 symbols")	
+
+## validate arguments **
+#set($isNameValid = $args.input.name.length() >= 2 &&
+                    $args.input.name.length() <= 50)
+$util.validate($isNameValid, "name must be between 2 and 50 symbols")
+
+#set($isValueValid = $args.input.value.length() >= 15 &&
+                     $args.input.value.length() <= 35)
+$util.validate($isValueValid, "value must be between 15 and 35 symbols")
+
 ## set the typename **
 $util.qr($mergedValues.put("__typename", "BankAccount"))
 #set( $PutObject = {
@@ -22,6 +27,7 @@ $util.qr($mergedValues.put("__typename", "BankAccount"))
 #if( $args.condition )
   $util.qr($ctx.stash.conditions.add($args.condition))
 #end
+
 ## Begin - key condition **
 #if( $ctx.stash.metadata.modelObjectKey )
   #set( $keyConditionExpr = {} )
@@ -41,6 +47,7 @@ $util.qr($mergedValues.put("__typename", "BankAccount"))
 }))
 #end
 ## End - key condition **
+
 ## Start condition block **
 #if( $ctx.stash.conditions && $ctx.stash.conditions.size() != 0 )
   #set( $mergedConditions = {
@@ -55,6 +62,7 @@ $util.qr($mergedValues.put("__typename", "BankAccount"))
   #end
   ## End condition block **
 #end
+
 #if( $Conditions )
   #if( $keyConditionExprNames )
     $util.qr($Conditions.expressionNames.putAll($keyConditionExprNames))
