@@ -89,7 +89,7 @@ final class SearchModel: SearchModelProtocol {
         else { return applyFilter(selectedFilter, to: sections) }
 
         let filteredSections = sections.compactMap { section in
-            guard !section.title.contains(searchString) else { return section }
+            guard !section.title.isEmpty else { return section }
 
             let items = section.items.filter { $0.name.contains(searchString) }
             guard !items.isEmpty else { return nil }
@@ -98,7 +98,7 @@ final class SearchModel: SearchModelProtocol {
                 identifier: section.identifier,
                 title: section.title,
                 items: items,
-                expanded: section.expanded
+                expanded: true
             )
         }
 
