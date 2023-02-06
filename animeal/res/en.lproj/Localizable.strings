@@ -72,3 +72,5 @@
 "errors.somthingWrong"                            = "Oops something goes wrong!";
 "attach.photo.hint.text"                          = "Please take pictures where pet and food is detected";
 "attach.photo.delete.message"                     = "Are you sure you want to delete this photo?";
+"faq.header.text"                                 = "If you have any questions please check our FAQ section below";
+"faq.footer.text"                                 = "Didn’t find you question here or have issues?\nPlease contact us at example@gmail.com";

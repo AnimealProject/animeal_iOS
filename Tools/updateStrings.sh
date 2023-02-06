@@ -4,7 +4,7 @@ export LANG=en_US.UTF-8
 
 echo "Download localization files"
 
-CSV_LINK="https://docs.google.com/spreadsheets/d/1yBbmWHkfT8ElZEy0Xz2Hk8yHRdsKN_Uo3l8S9QdiRH8/gviz/tq?tqx=out:csv&sheet=Sheet1"
+CSV_LINK="https://docs.google.com/spreadsheets/d/17RGL9BUpknMFavXlIBuy6818hMeFZ3CHwS0FC9o6TvQ/gviz/tq?tqx=out:csv&sheet=Sheet1"
 
 TYPE=$(curl -sI "$CSV_LINK" -w '%{content_type}' -o /dev/null)
 if [[ "$TYPE" = "text/csv"* ]]
