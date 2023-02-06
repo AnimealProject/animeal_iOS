@@ -93,6 +93,10 @@
 		8372CCDE28A03F460085C6D1 /* CustomAuthViewHeader+TextBigTitleSubtitleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCDD28A03F460085C6D1 /* CustomAuthViewHeader+TextBigTitleSubtitleViewModel.swift */; };
 		8372CCE128A18B030085C6D1 /* CustomAuthViewText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCE028A18B030085C6D1 /* CustomAuthViewText.swift */; };
 		8372CCFF28A437250085C6D1 /* CustomAuthModelNextStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCFE28A437240085C6D1 /* CustomAuthModelNextStep.swift */; };
+		83757037299174DB00034C22 /* FetchFeedingPointsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83757036299174DB00034C22 /* FetchFeedingPointsUseCase.swift */; };
+		837570392991752E00034C22 /* SearchFeedingPointsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837570382991752E00034C22 /* SearchFeedingPointsUseCase.swift */; };
+		8375703B2991782C00034C22 /* FilterFeedingPointsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8375703A2991782C00034C22 /* FilterFeedingPointsUseCase.swift */; };
+		8375703D29917B3F00034C22 /* FetchFeedingPointsFiltersUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8375703C29917B3F00034C22 /* FetchFeedingPointsFiltersUseCase.swift */; };
 		837F1FB328868C3A001FABC5 /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837F1FB228868C3A001FABC5 /* AuthenticationService.swift */; };
 		837F1FB528869B29001FABC5 /* AuthenticationAmplifyConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837F1FB428869B29001FABC5 /* AuthenticationAmplifyConverter.swift */; };
 		8385DB9E290EAD2900F64BCC /* SearchModelFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8385DB9D290EAD2900F64BCC /* SearchModelFilter.swift */; };
@@ -413,6 +417,10 @@
 		8372CCDD28A03F460085C6D1 /* CustomAuthViewHeader+TextBigTitleSubtitleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CustomAuthViewHeader+TextBigTitleSubtitleViewModel.swift"; sourceTree = "<group>"; };
 		8372CCE028A18B030085C6D1 /* CustomAuthViewText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAuthViewText.swift; sourceTree = "<group>"; };
 		8372CCFE28A437240085C6D1 /* CustomAuthModelNextStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAuthModelNextStep.swift; sourceTree = "<group>"; };
+		83757036299174DB00034C22 /* FetchFeedingPointsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchFeedingPointsUseCase.swift; sourceTree = "<group>"; };
+		837570382991752E00034C22 /* SearchFeedingPointsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFeedingPointsUseCase.swift; sourceTree = "<group>"; };
+		8375703A2991782C00034C22 /* FilterFeedingPointsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterFeedingPointsUseCase.swift; sourceTree = "<group>"; };
+		8375703C29917B3F00034C22 /* FetchFeedingPointsFiltersUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchFeedingPointsFiltersUseCase.swift; sourceTree = "<group>"; };
 		837F1FB228868C3A001FABC5 /* AuthenticationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationService.swift; sourceTree = "<group>"; };
 		837F1FB428869B29001FABC5 /* AuthenticationAmplifyConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationAmplifyConverter.swift; sourceTree = "<group>"; };
 		8385DB9D290EAD2900F64BCC /* SearchModelFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModelFilter.swift; sourceTree = "<group>"; };
@@ -868,6 +876,7 @@
 		835E149128FDD5160044EC2F /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				83757035299174C700034C22 /* UseCases */,
 				835E149428FDD5750044EC2F /* Items */,
 				835E149528FDD5850044EC2F /* SearchModel.swift */,
 			);
@@ -1071,6 +1080,17 @@
 				836840FD28D2083200E1044E /* CustomAuthViewAction+ButtonViewModel.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		83757035299174C700034C22 /* UseCases */ = {
+			isa = PBXGroup;
+			children = (
+				83757036299174DB00034C22 /* FetchFeedingPointsUseCase.swift */,
+				837570382991752E00034C22 /* SearchFeedingPointsUseCase.swift */,
+				8375703A2991782C00034C22 /* FilterFeedingPointsUseCase.swift */,
+				8375703C29917B3F00034C22 /* FetchFeedingPointsFiltersUseCase.swift */,
+			);
+			path = UseCases;
 			sourceTree = "<group>";
 		};
 		837F1FB028868BF4001FABC5 /* Business */ = {
@@ -2248,6 +2268,7 @@
 				78BEB17E2936D99700A11CA7 /* FavouritesContract.swift in Sources */,
 				DBDB3F3A28D3356600B285D7 /* MedicationI18n+Schema.swift in Sources */,
 				DB5F694228ED6CD000D8714E /* FeedingBookingAssembler.swift in Sources */,
+				83757037299174DB00034C22 /* FetchFeedingPointsUseCase.swift in Sources */,
 				83F3CC14284771FB00C05298 /* LoginContract.swift in Sources */,
 				DBDB3F5028D3356700B285D7 /* Location+Schema.swift in Sources */,
 				78BEB17C2936D97400A11CA7 /* FavouritesAssembler.swift in Sources */,
@@ -2300,6 +2321,7 @@
 				83541363290AF20200884430 /* PhoneCodesViewSection.swift in Sources */,
 				836840F328D1A7FE00E1044E /* CustomAuthModelItemError.swift in Sources */,
 				DB5A838E285CEC4B00F3C3A5 /* Log.swift in Sources */,
+				837570392991752E00034C22 /* SearchFeedingPointsUseCase.swift in Sources */,
 				80138C15298196980010154A /* AboutModel.swift in Sources */,
 				D09306B22966E63A00BABB17 /* AttachPhotoModelMapper.swift in Sources */,
 				83C24F70286D99280086330B /* LoginViewActionMapper.swift in Sources */,
@@ -2387,6 +2409,7 @@
 				DBDB3F5228D3356700B285D7 /* FeedingPointConnection+Schema.swift in Sources */,
 				D09306A62965938A00BABB17 /* AttachPhotoViewCell.swift in Sources */,
 				DB127E8928B9648200012B53 /* MoreViewModel.swift in Sources */,
+				8375703D29917B3F00034C22 /* FetchFeedingPointsFiltersUseCase.swift in Sources */,
 				DBDB3F3728D3356600B285D7 /* Category.swift in Sources */,
 				836840FA28D204A900E1044E /* CustomAuthViewItem+PhoneInputViewModel.swift in Sources */,
 				DB127E8628B9648200012B53 /* MoreViewController.swift in Sources */,
@@ -2496,6 +2519,7 @@
 				83C7A99428E46C8C00F3D219 /* ProfileViewActionEvent.swift in Sources */,
 				DBDB3F4928D3356700B285D7 /* Medication.swift in Sources */,
 				8324A2BE296B130100AA5D32 /* SearchViewFilters.swift in Sources */,
+				8375703B2991782C00034C22 /* FilterFeedingPointsUseCase.swift in Sources */,
 				DBDB3F3F28D3356600B285D7 /* FeedingPointI18n+Schema.swift in Sources */,
 				838B6B6C2868B011001DD111 /* VerificationViewController.swift in Sources */,
 				836840FC28D2077F00E1044E /* CustomAuthViewAction.swift in Sources */,

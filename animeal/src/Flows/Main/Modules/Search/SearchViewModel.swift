@@ -148,7 +148,7 @@ private extension SearchViewModel {
     private func updateViewSearchContentItems(
         _ searchString: String?
     ) async -> [SearchViewSectionWrapper] {
-        let modelSections = await model.filterFeedingPoints(searchString)
+        let modelSections = await model.filterFeedingPoints(withSearchString: searchString)
         let viewSections = sectionMapper.mapSections(modelSections)
         return viewSections
     }
