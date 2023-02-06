@@ -38,3 +38,28 @@ final class NetworkService: NetworkServiceProtocol {
         }
     }
 }
+
+extension NetworkServiceProtocol {
+    func subscribe<R: Decodable>(
+        request: Request<R>,
+        valueListener: ((Result<R, Error>) -> Void)?
+    ) -> GraphQLSubscriptionOperation<R> {
+        return Amplify.API.subscribe(
+            request: request.convertToGraphQLRequest(),
+            valueListener: { event in
+                switch event {
+                case .data(let result):
+                    switch result {
+                    case .success(let modelData):
+                        valueListener?(.success(modelData))
+                    case .failure(let error):
+                        valueListener?(.failure(error))
+                    }
+                default:
+                    break
+                }
+            },
+            completionListener: nil
+        )
+    }
+}

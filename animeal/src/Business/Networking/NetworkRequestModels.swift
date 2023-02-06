@@ -1,9 +1,13 @@
 import Foundation
 
-public struct StartFeeding: Codable {
+struct StartFeeding: Codable {
     let startFeeding: String
 }
 
-public struct CancelFeeding: Codable {
+struct CancelFeeding: Codable {
     let cancelFeeding: String
+}
+
+struct UpdateFeedingPoint: Codable {
+    let id: String
 }
