@@ -72,3 +72,5 @@
 "errors.somthingWrong"                            = "ოჰ, რაღაც არასწორია!";
 "attach.photo.hint.text"                          = "გთხოვთ, გადაიღოთ სურათები, სადაც აღმოჩენილია შინაური ცხოველი და საკვები";
 "attach.photo.delete.message"                     = "დარწმუნებული ხართ, რომ გსურთ ამ ფოტოს წაშლა?";
+"faq.header.text"                                 = "";
+"faq.footer.text"                                 = "";
