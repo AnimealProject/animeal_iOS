@@ -35,7 +35,7 @@ protocol SearchModelProtocol: AnyObject {
     func fetchFeedingPoints(force: Bool) async throws -> [SearchModelSection]
     func fetchFeedingPointsFilters() async -> [SearchModelFilter]
 
-    func filterFeedingPoints(_ searchString: String?) async -> [SearchModelSection]
+    func filterFeedingPoints(withSearchString searchString: String?) async -> [SearchModelSection]
     func filterFeedingPoints(withFilter identifier: String) async -> [SearchModelSection]
 
     func toogleFeedingPoint(forIdentifier identifier: String)

@@ -4,13 +4,13 @@ import UIComponents
 
 @MainActor
 final class FavouritesCoordinator: Coordinatable {
-    
+
     // MARK: - Dependencies
     internal var navigator: Navigating
     private let completion: ((HomeFlowBackwardEvent?) -> Void)?
     private var backwardEvent: HomeFlowBackwardEvent?
     private var bottomSheetController: BottomSheetPresentationController?
-    
+
     // MARK: - Initialization
     init(
         navigator: Navigator,
