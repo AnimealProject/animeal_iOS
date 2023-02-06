@@ -20,7 +20,7 @@ extension Request {
         )
     }
 
-    public static func list<M: Model>(
+    static func list<M: Model>(
         _ modelType: M.Type,
         where predicate: QueryPredicate? = nil
     ) -> Request<[M]> {
@@ -87,25 +87,25 @@ extension Request {
         )
     }
 
-    public static func create<M: Model>(
+    static func create<M: Model>(
         _ model: M,
         modelSchema: ModelSchema
     ) -> Request<M> {
         return mutation(of: model, modelSchema: modelSchema, type: .create)
     }
 
-    public static func create<M: Model>(_ model: M) -> Request<M> {
+    static func create<M: Model>(_ model: M) -> Request<M> {
         return create(model, modelSchema: modelSchema(for: model))
     }
 
-    public static func delete<M: Model>(
+    static func delete<M: Model>(
         _ model: M,
         where predicate: QueryPredicate? = nil
     ) -> Request<M> {
         return delete(model, modelSchema: modelSchema(for: model), where: predicate)
     }
 
-    public static func delete<M: Model>(
+    static func delete<M: Model>(
         _ model: M,
         modelSchema: ModelSchema,
         where predicate: QueryPredicate? = nil
@@ -113,12 +113,27 @@ extension Request {
         return mutation(of: model, modelSchema: modelSchema, where: predicate, type: .delete)
     }
 
-    private static func modelSchema<M: Model>(for model: M) -> ModelSchema {
-        let modelType = ModelRegistry.modelType(from: model.modelName) ?? Swift.type(of: model)
-        return modelType.schema
+    static func subscription<M: Model>(
+        of modelType: M.Type,
+        type: SubscriptionType
+    ) -> Request<M> {
+        var documentBuilder = ModelBasedGraphQLDocumentBuilder(
+            modelSchema: modelType.schema,
+            operationType: .subscription
+        )
+
+        documentBuilder.add(decorator: DirectiveNameDecorator(type: type.graphQLSubscriptionType))
+        let document = documentBuilder.build()
+
+        return Request<M>(
+            document: document.stringValue,
+            variables: document.variables,
+            responseType: modelType,
+            decodePath: document.name
+        )
     }
 
-    public static func startFeeding(_ id: String) -> Request<StartFeeding> {
+    static func startFeeding(_ id: String) -> Request<StartFeeding> {
         let document = """
                  mutation StartFeeding {
                    startFeeding(feedingPointId: "\(id)")
@@ -131,7 +146,7 @@ extension Request {
         )
     }
 
-    public static func cancelFeeding(_ id: String) -> Request<CancelFeeding> {
+    static func cancelFeeding(_ id: String) -> Request<CancelFeeding> {
         let document = """
                  mutation StopFeeding {
                     cancelFeeding(feedingId: "\(id)")
@@ -142,6 +157,29 @@ extension Request {
             document: document,
             responseType: CancelFeeding.self
         )
+    }
+
+    static func onUpdateFeedingPoint() -> Request<UpdateFeedingPoint> {
+        let operationName = "onUpdateFeedingPoint"
+        let document = """
+            subscription onUpdateFeedingPoint {
+              \(operationName) {
+                id
+              }
+            }
+            """
+        return Request<UpdateFeedingPoint>(
+            document: document,
+            responseType: UpdateFeedingPoint.self,
+            decodePath: operationName
+        )
+    }
+}
+
+private extension Request {
+    static func modelSchema<M: Model>(for model: M) -> ModelSchema {
+        let modelType = ModelRegistry.modelType(from: model.modelName) ?? Swift.type(of: model)
+        return modelType.schema
     }
 }
 
@@ -172,6 +210,26 @@ extension RequestMutationType {
             return GraphQLMutationType.update
         case .delete:
             return GraphQLMutationType.delete
+        }
+    }
+}
+
+/// Defines the type of a subscription.
+enum SubscriptionType {
+    case onCreate
+    case onDelete
+    case onUpdate
+}
+
+extension SubscriptionType {
+    var graphQLSubscriptionType: GraphQLSubscriptionType {
+        switch self {
+        case .onCreate:
+            return .onCreate
+        case .onDelete:
+            return .onDelete
+        case .onUpdate:
+            return .onUpdate
         }
     }
 }
