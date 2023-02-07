@@ -100,8 +100,5 @@ final class LoginViewController: UIViewController, LoginViewable {
         viewModel.onActionsHaveBeenPrepaped = { [weak self] viewActions in
             self?.applyActions(viewActions)
         }
-        viewModel.onErrorIsNeededToDisplay = { [weak self] viewError in
-            self?.displayError(viewError)
-        }
     }
 }

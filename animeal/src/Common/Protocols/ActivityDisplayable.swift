@@ -12,11 +12,6 @@ protocol ActivityDisplayable: AnyObject {
     func hideActivityIndicator(completion: (() -> Void)?)
 }
 
-@MainActor
-protocol ActivityDisplayCompatible: AnyObject {
-    var onActivityIsNeededToDisplay: ((@escaping @MainActor () async throws -> Void) -> Void)? { get set }
-}
-
 extension ActivityDisplayable {
     func displayActivityIndicator() {
         activityPresenter.startAnimating()
@@ -36,7 +31,7 @@ extension ActivityDisplayable {
     }
 }
 
-extension ActivityDisplayable where Self: UIViewController & ErrorDisplayable {
+extension ActivityDisplayable where Self: AlertCoordinatable {
     func displayActivityIndicator(
         caption: String?,
         waitUntil operation: @escaping @MainActor () async throws -> Void,
@@ -51,7 +46,7 @@ extension ActivityDisplayable where Self: UIViewController & ErrorDisplayable {
                 completion?()
             } catch {
                 self?.hideActivityIndicator()
-                self?.displayError(error.localizedDescription)
+                self?.displayAlert(message: error.localizedDescription)
                 completion?()
             }
         }
@@ -65,6 +60,16 @@ extension ActivityDisplayable where Self: UIViewController & ErrorDisplayable {
             caption: nil,
             waitUntil: operation,
             completion: completion
+        )
+    }
+
+    func displayActivityIndicator(
+        waitUntil operation: @escaping @MainActor () async throws -> Void
+    ) {
+        displayActivityIndicator(
+            caption: nil,
+            waitUntil: operation,
+            completion: nil
         )
     }
 }

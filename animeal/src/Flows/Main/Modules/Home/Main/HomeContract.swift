@@ -3,7 +3,7 @@ import CoreLocation
 
 // MARK: - View
 @MainActor
-protocol HomeViewModelOutput: ActivityDisplayable, ErrorDisplayable {
+protocol HomeViewModelOutput: AnyObject {
     func applyFeedingPoints(_ feedingPoints: [FeedingPointViewItem])
     func applyFilter(_ filter: FilterModel)
 }
@@ -46,12 +46,11 @@ protocol HomeViewInteraction: AnyObject {
 }
 
 @MainActor
-protocol HomeViewState: ActivityDisplayCompatible {
+protocol HomeViewState: AnyObject {
     var onFeedingPointsHaveBeenPrepared: (([FeedingPointViewItem]) -> Void)? { get set }
     var onSegmentsHaveBeenPrepared: ((FilterModel) -> Void)? { get set }
     var onRouteRequestHaveBeenPrepared: ((FeedingPointRouteRequest) -> Void)? { get set }
     var onFeedingActionHaveBeenPrepared: ((FeedingActionMapper.FeedingAction) -> Void)? { get set }
-    var onErrorHaveBeenPrepared: ((String) -> Void)? { get set }
 }
 
 enum HomeViewActionEvent {
@@ -63,7 +62,7 @@ enum HomeViewActionEvent {
 }
 
 // MARK: - Coordinator
-protocol HomeCoordinatable {
+protocol HomeCoordinatable: AlertCoordinatable, ActivityDisplayable {
     func routeTo(_ route: HomeRoute)
 }
 

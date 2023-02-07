@@ -134,7 +134,7 @@ private extension SearchViewModel {
 
                 self?.onContentStateWasPrepared?(.snapshot(snapshot))
             } catch {
-                self?.onErrorIsNeededToDisplay?(error.localizedDescription)
+                self?.coordinator.displayAlert(message: error.localizedDescription)
             }
         }
     }

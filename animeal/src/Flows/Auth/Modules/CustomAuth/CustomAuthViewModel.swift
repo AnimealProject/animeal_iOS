@@ -18,7 +18,6 @@ final class CustomAuthViewModel: CustomAuthViewModelProtocol {
     var onHeaderHasBeenPrepared: ((CustomAuthViewHeader) -> Void)?
     var onItemsHaveBeenPrepared: (([CustomAuthViewItem]) -> Void)?
     var onActionsHaveBeenPrepared: (([CustomAuthViewAction]) -> Void)?
-    var onActivityIsNeededToDisplay: ((@escaping @MainActor () async throws -> Void) -> Void)?
 
     // MARK: - Initialization
     init(
@@ -132,13 +131,13 @@ final class CustomAuthViewModel: CustomAuthViewModelProtocol {
     func handleActionEvent(_ event: CustomAuthViewActionEvent) {
         switch event {
         case .tapInside:
-            onActivityIsNeededToDisplay?({ [weak self] in
+            coordinator.displayActivityIndicator { [weak self] in
                 guard let self else { return }
                 self.model.clearErrors()
                 self.updateViewItems()
                 let result = try await self.model.authenticate()
                 self.processAuthenticationFeedback(result)
-            })
+            }
         case .itemWasTapped(let identifier):
             guard let requiredAction = model.fetchRequiredAction(forIdentifier: identifier) else { return }
             switch requiredAction {

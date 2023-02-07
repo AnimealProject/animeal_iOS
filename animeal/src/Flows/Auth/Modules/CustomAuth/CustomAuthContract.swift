@@ -1,6 +1,6 @@
 // MARK: - View
 @MainActor
-protocol CustomAuthViewable: ActivityDisplayable, ErrorDisplayable {
+protocol CustomAuthViewable: AnyObject {
     func applyHeader(_ viewHeader: CustomAuthViewHeader)
     func applyItems(_ viewItems: [CustomAuthViewItem])
 }
@@ -23,7 +23,7 @@ protocol CustomAuthViewInteraction: AnyObject {
 }
 
 @MainActor
-protocol CustomAuthViewState: ActivityDisplayCompatible {
+protocol CustomAuthViewState: AnyObject {
     var onHeaderHasBeenPrepared: ((CustomAuthViewHeader) -> Void)? { get set }
     var onItemsHaveBeenPrepared: (([CustomAuthViewItem]) -> Void)? { get set }
     var onActionsHaveBeenPrepared: (([CustomAuthViewAction]) -> Void)? { get set }
@@ -45,6 +45,6 @@ protocol CustomAuthModelProtocol: AnyObject {
 }
 
 // MARK: - Coordinator
-protocol CustomAuthCoordinatable: Coordinatable {
+protocol CustomAuthCoordinatable: Coordinatable, AlertCoordinatable, ActivityDisplayable {
     func moveFromCustomAuth(to route: CustomAuthRoute)
 }

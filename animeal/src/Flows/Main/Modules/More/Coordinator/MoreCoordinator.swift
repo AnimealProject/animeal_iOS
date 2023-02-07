@@ -3,12 +3,15 @@ import UIKit
 import UIComponents
 
 @MainActor
-final class MoreCoordinator: Coordinatable {
+final class MoreCoordinator: Coordinatable, ActivityDisplayable, AlertCoordinatable {
     // MARK: - Dependencies
     private var _navigator: Navigating
     private let completion: ((HomeFlowBackwardEvent?) -> Void)?
     private var backwardEvent: HomeFlowBackwardEvent?
-    
+
+    let activityPresenter = ActivityIndicatorPresenter()
+
+    // MARK: - Navigator
     var navigator: Navigating { _navigator }
 
     // MARK: - Initialization

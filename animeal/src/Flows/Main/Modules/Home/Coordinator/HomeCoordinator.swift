@@ -11,6 +11,9 @@ final class HomeCoordinator: Coordinatable, HomeCoordinatorEventHandlerProtocol 
     private let completion: (() -> Void)?
     private var bottomSheetController: BottomSheetPresentationController?
 
+    let activityPresenter = ActivityIndicatorPresenter()
+
+    // MARK: - Navigator
     var navigator: Navigating { _navigator }
 
     // MARK: - Home coordinator events
@@ -33,22 +36,6 @@ final class HomeCoordinator: Coordinatable, HomeCoordinatorEventHandlerProtocol 
 
     func stop() {
         completion?()
-    }
-
-    private func presentError(_ error: String) {
-        let alertViewController = AlertViewController(title: error)
-        alertViewController.addAction(
-            AlertAction(title: L10n.Action.ok, style: .accent) {
-                alertViewController.dismiss(animated: true)
-            }
-        )
-        DispatchQueue.main.async {
-            self._navigator.present(
-                alertViewController,
-                animated: true,
-                completion: nil
-            )
-        }
     }
 }
 

@@ -21,8 +21,6 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     var onSegmentsHaveBeenPrepared: ((FilterModel) -> Void)?
     var onRouteRequestHaveBeenPrepared: ((FeedingPointRouteRequest) -> Void)?
     var onFeedingActionHaveBeenPrepared: ((FeedingActionMapper.FeedingAction) -> Void)?
-    var onErrorHaveBeenPrepared: ((String) -> Void)?
-    var onActivityIsNeededToDisplay: ((@escaping @MainActor () async throws -> Void) -> Void)?
 
     // MARK: - Initialization
     init(
@@ -101,19 +99,14 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     }
 
     func startFeeding(feedingPointId id: String) {
-        let task = { [weak self] in
+        coordinator.displayActivityIndicator { [weak self] in
             guard let self else { return }
-            do {
-                let result = try await self.model.processStartFeeding(feedingPointId: id)
-                let feedingPoint = try await self.model.fetchFeedingPoint(result.feedingPoint)
-                let pointItemView = self.feedingPointViewMapper.mapFeedingPoint(feedingPoint)
-                self.onFeedingPointsHaveBeenPrepared?([pointItemView])
-                self.feedingStatus = result.feedingStatus
-            } catch {
-                self.onErrorHaveBeenPrepared?(error.localizedDescription)
-            }
+            let result = try await self.model.processStartFeeding(feedingPointId: id)
+            let feedingPoint = try await self.model.fetchFeedingPoint(result.feedingPoint)
+            let pointItemView = self.feedingPointViewMapper.mapFeedingPoint(feedingPoint)
+            self.onFeedingPointsHaveBeenPrepared?([pointItemView])
+            self.feedingStatus = result.feedingStatus
         }
-        onActivityIsNeededToDisplay?(task)
     }
 }
 
@@ -128,7 +121,7 @@ private extension HomeViewModel {
         if isInitialLoad {
             Task { try await task() }
         } else {
-            onActivityIsNeededToDisplay?(task)
+            coordinator.displayActivityIndicator(waitUntil: task)
         }
     }
 
@@ -141,7 +134,7 @@ private extension HomeViewModel {
     }
 
     func handleConfirmCancelFeeding() {
-        let task = { [weak self] in
+        coordinator.displayActivityIndicator { [weak self] in
             guard let self else { return }
             do {
                 let result = try await self.model.processCancelFeeding()
@@ -153,7 +146,6 @@ private extension HomeViewModel {
             let viewItems = points.map { self.feedingPointViewMapper.mapFeedingPoint($0) }
             self.onFeedingPointsHaveBeenPrepared?(viewItems)
         }
-        onActivityIsNeededToDisplay?(task)
     }
 
     func handleTapFeedingPoint(pointId: String) {

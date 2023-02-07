@@ -2,7 +2,7 @@ import UIKit
 
 // MARK: - View
 @MainActor
-protocol SearchViewable: ErrorDisplayable { }
+protocol SearchViewable: AnyObject { }
 
 // MARK: - ViewModel
 typealias SearchViewModelProtocol = SearchViewModelLifeCycle
@@ -22,7 +22,7 @@ protocol SearchViewInteraction: AnyObject {
 }
 
 @MainActor
-protocol SearchViewState: ErrorDisplayCompatible {
+protocol SearchViewState: AnyObject {
     var onContentStateWasPrepared: ((SearchViewContentState) -> Void)? { get set }
     var onFiltersWerePrepared: ((SearchViewFilters) -> Void)? { get set }
     var onSearchInputWasPrepared: ((SearchViewInput) -> Void)? { get set }
@@ -42,6 +42,6 @@ protocol SearchModelProtocol: AnyObject {
 }
 
 // MARK: - Coordinator
-protocol SearchCoordinatable: Coordinatable {
+protocol SearchCoordinatable: Coordinatable, AlertCoordinatable {
     func move(to route: SearchRoute)
 }
