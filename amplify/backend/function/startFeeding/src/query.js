@@ -14,28 +14,6 @@ async function request(query, variables) {
   });
 }
 
-const getFeeding = async (params) => {
-  return request(
-    `
-  query GetFeeding($id: ID!) {
-    getFeeding(id: $id) {
-      id
-      userId
-      images
-      status
-      createdAt
-      updatedAt
-      createdBy
-      updatedBy
-      owner
-      feedingPointFeedingsId
-    }
-  }
-`,
-    params,
-  );
-};
-
 const updateFeedingPoint = async (params) => {
   return request(
     `mutation UpdateFeedingPoint(
@@ -52,7 +30,7 @@ const updateFeedingPoint = async (params) => {
   );
 };
 
-module.exports = module.exports = {
-  getFeeding,
+
+module.exports = {
   updateFeedingPoint
 };

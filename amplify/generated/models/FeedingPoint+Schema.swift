@@ -72,11 +72,11 @@ extension FeedingPoint {
       .field(feedingPoint.updatedBy, is: .optional, ofType: .string),
       .field(feedingPoint.owner, is: .optional, ofType: .string),
       .hasMany(feedingPoint.pets, is: .optional, ofType: RelationPetFeedingPoint.self, associatedWith: RelationPetFeedingPoint.keys.feedingPoint),
-      .hasOne(feedingPoint.category, is: .required, ofType: Category.self, associatedWith: Category.keys.id, targetName: "feedingPointCategoryId"),
+      .hasOne(feedingPoint.category, is: .optional, ofType: Category.self, associatedWith: Category.keys.id, targetName: "feedingPointCategoryId"),
       .hasMany(feedingPoint.users, is: .optional, ofType: RelationUserFeedingPoint.self, associatedWith: RelationUserFeedingPoint.keys.feedingPoint),
       .hasMany(feedingPoint.feedings, is: .optional, ofType: Feeding.self, associatedWith: Feeding.keys.feedingPoint),
       .field(feedingPoint.cover, is: .optional, ofType: .string),
-      .field(feedingPoint.feedingPointCategoryId, is: .required, ofType: .string)
+      .field(feedingPoint.feedingPointCategoryId, is: .optional, ofType: .string)
     )
     }
 }

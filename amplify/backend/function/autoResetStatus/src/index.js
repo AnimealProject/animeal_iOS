@@ -14,7 +14,7 @@ Amplify Params - DO NOT EDIT */
 
 const AWS = require('aws-sdk');
 const dynamoDB = new AWS.DynamoDB.DocumentClient({});
-const { searchFeedingPoints } = require('./query');
+const { searchFeedingPoints, updateFeedingPoint } = require('./query');
 
 exports.handler = async (event) => {
   console.log(`EVENT: ${JSON.stringify(event)}`);
@@ -61,6 +61,16 @@ exports.handler = async (event) => {
           ],
         })
         .promise();
+      const updateRes = await updateFeedingPoint({
+        input: {
+          id: record.id,
+          statusUpdatedAt: new Date().toISOString(),
+        },
+      });
+
+      if (updateRes?.data?.errors?.length) {
+        throw new Error('Failed to auto reset Fedding points statuses.');
+      }
     } catch (e) {
       throw new Error(
         `Failed to auto reset Fedding points statuses. Erorr: ${e.message}`,

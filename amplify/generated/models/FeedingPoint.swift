@@ -24,11 +24,11 @@ public struct FeedingPoint: Model {
   public var updatedBy: String?
   public var owner: String?
   public var pets: List<RelationPetFeedingPoint>?
-  public var category: Category
+  public var category: Category?
   public var users: List<RelationUserFeedingPoint>?
   public var feedings: List<Feeding>?
   public var cover: String?
-  public var feedingPointCategoryId: String
+  public var feedingPointCategoryId: String?
   
   public init(id: String = UUID().uuidString,
       name: String,
@@ -51,11 +51,11 @@ public struct FeedingPoint: Model {
       updatedBy: String? = nil,
       owner: String? = nil,
       pets: List<RelationPetFeedingPoint> = [],
-      category: Category,
+      category: Category? = nil,
       users: List<RelationUserFeedingPoint> = [],
       feedings: List<Feeding> = [],
       cover: String? = nil,
-      feedingPointCategoryId: String) {
+      feedingPointCategoryId: String? = nil) {
       self.id = id
       self.name = name
       self.description = description

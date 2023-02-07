@@ -3,7 +3,9 @@
 	API_ANIMEAL_FEEDINGPOINTTABLE_NAME
 	API_ANIMEAL_FEEDINGTABLE_ARN
 	API_ANIMEAL_FEEDINGTABLE_NAME
+	API_ANIMEAL_GRAPHQLAPIENDPOINTOUTPUT
 	API_ANIMEAL_GRAPHQLAPIIDOUTPUT
+	API_ANIMEAL_GRAPHQLAPIKEYOUTPUT
 	ENV
 	REGION
 Amplify Params - DO NOT EDIT */ /* Amplify Params - DO NOT EDIT
@@ -24,6 +26,7 @@ Amplify Params - DO NOT EDIT */
 
 const AWS = require('aws-sdk');
 const dynamoDB = new AWS.DynamoDB.DocumentClient({});
+const { updateFeedingPoint } = require('./query');
 
 exports.handler = async (event) => {
   console.log(`EVENT: ${JSON.stringify(event)}`);
@@ -64,6 +67,16 @@ exports.handler = async (event) => {
         ],
       })
       .promise();
+    const updateRes = await updateFeedingPoint({
+      input: {
+        id: feedingId,
+        statusUpdatedAt: new Date().toISOString(),
+      },
+    });
+
+    if (updateRes?.data?.errors?.length) {
+      throw new Error('Failed to reject Feeding.');
+    }
     return feedingId;
   } catch (e) {
     throw new Error(`Failed to reject Feeding. Error: ${e.message}`);

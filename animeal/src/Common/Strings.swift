@@ -52,6 +52,17 @@ internal enum L10n {
     /// Oops something goes wrong!
     internal static let somthingWrong = L10n.tr("Localizable", "errors.somthingWrong", fallback: "Oops something goes wrong!")
   }
+  internal enum Faq {
+    internal enum Footer {
+      /// Didn’t find you question here or have issues?
+      /// Please contact us at example@gmail.com
+      internal static let text = L10n.tr("Localizable", "faq.footer.text", fallback: "Didn’t find you question here or have issues?\nPlease contact us at example@gmail.com")
+    }
+    internal enum Header {
+      /// If you have any questions please check our FAQ section below
+      internal static let text = L10n.tr("Localizable", "faq.header.text", fallback: "If you have any questions please check our FAQ section below")
+    }
+  }
   internal enum Favourites {
     /// You don't have favourite feeding points yet. Press the heart button on the feeding point details to add that one as favourite
     internal static let empty = L10n.tr("Localizable", "favourites.empty", fallback: "You don't have favourite feeding points yet. Press the heart button on the feeding point details to add that one as favourite")

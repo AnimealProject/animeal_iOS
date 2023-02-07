@@ -175,7 +175,7 @@ type FeedingPoint
   owner: String
   pets: [RelationPetFeedingPoint!]
     @hasMany(indexName: "byFeedingPointId", fields: ["id"])
-  category: Category! @hasOne
+  category: Category @hasOne
   users: [RelationUserFeedingPoint!]
     @hasMany(indexName: "byFeedingPointId", fields: ["id"])
   feedings: [Feeding!] @hasMany
