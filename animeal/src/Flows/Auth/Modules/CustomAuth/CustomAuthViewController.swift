@@ -12,8 +12,6 @@ final class CustomAuthViewController: BaseViewController, CustomAuthViewable {
     private var inputViews: [TextInputDecoratable] = []
     private let buttonsView = ButtonContainerView().prepareForAutoLayout()
 
-    let activityPresenter = ActivityIndicatorPresenter()
-
     // MARK: - Dependencies
     private let viewModel: CustomAuthViewModelProtocol
 
@@ -194,9 +192,7 @@ private extension CustomAuthViewController {
         viewModel.onActionsHaveBeenPrepared = { [weak self] viewActions in
             self?.applyActions(viewActions)
         }
-        viewModel.onActivityIsNeededToDisplay = { [weak self] viewOperation in
-            self?.displayActivityIndicator(waitUntil: viewOperation, completion: nil)
-        }
+
         viewModel.load()
     }
 }

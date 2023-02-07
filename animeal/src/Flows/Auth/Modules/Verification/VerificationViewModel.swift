@@ -18,7 +18,6 @@ final class VerificationViewModel: VerificationViewModelLifeCycle, VerificationV
     var onHeaderHasBeenPrepared: ((VerificationViewHeader) -> Void)?
     var onCodeHasBeenPrepared: ((VerificationViewCode, Bool) -> Void)?
     var onResendCodeHasBeenPrepared: ((VereficationViewResendCode) -> Void)?
-    var onActivityIsNeededToDisplay: ((@escaping @MainActor () async throws -> Void) -> Void)?
 
     // MARK: - Initialization
     init(model: VerificationModelProtocol, coordinator: VerificationCoordinatable) {
@@ -71,7 +70,7 @@ final class VerificationViewModel: VerificationViewModelLifeCycle, VerificationV
     }
 
     private func handleResendNewCode(force: Bool) {
-        onActivityIsNeededToDisplay?({ [weak self] in
+        coordinator.displayActivityIndicator { [weak self] in
             do {
                 try await self?.model.requestNewCode(force: force)
             } catch VerificationModelCodeError.codeRequestTimeLimitExceeded {
@@ -79,7 +78,7 @@ final class VerificationViewModel: VerificationViewModelLifeCycle, VerificationV
             } catch {
                 throw error
             }
-        })
+        }
     }
 
     private func handleChangeCode(viewCodeItems: [VerificationViewCodeItem]) {
@@ -90,7 +89,7 @@ final class VerificationViewModel: VerificationViewModelLifeCycle, VerificationV
         )
         do {
             try model.validateCode(modelCode)
-            onActivityIsNeededToDisplay?({ [weak self] in
+            coordinator.displayActivityIndicator { [weak self] in
                 do {
                     try await self?.model.verifyCode(modelCode)
                     self?.onCodeHasBeenPrepared?(
@@ -121,7 +120,7 @@ final class VerificationViewModel: VerificationViewModelLifeCycle, VerificationV
                         false
                     )
                 }
-            })
+            }
         } catch { }
     }
 }

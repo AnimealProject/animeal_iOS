@@ -10,8 +10,6 @@ final class VerificationViewController: BaseViewController, VerificationViewMode
     private let codeInputView = VerificationInputView().prepareForAutoLayout()
     private let resendView = TextClickableLeftIconTitleView().prepareForAutoLayout()
 
-    let activityPresenter = ActivityIndicatorPresenter()
-
     // MARK: - Dependencies
     private let viewModel: VerificationCombinedViewModel
 
@@ -112,9 +110,6 @@ final class VerificationViewController: BaseViewController, VerificationViewMode
         }
         viewModel.onResendCodeHasBeenPrepared = { [weak self] viewResendCode in
             self?.applyResendCode(viewResendCode)
-        }
-        viewModel.onActivityIsNeededToDisplay = { [weak self] viewOperation in
-            self?.displayActivityIndicator(waitUntil: viewOperation, completion: nil)
         }
     }
 }

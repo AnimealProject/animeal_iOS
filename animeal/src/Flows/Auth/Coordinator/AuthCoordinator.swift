@@ -4,7 +4,7 @@ import UIComponents
 import Amplify
 
 @MainActor
-final class AuthCoordinator: Coordinatable, AlertCoordinatable {
+final class AuthCoordinator: Coordinatable, AlertCoordinatable, ActivityDisplayable {
     typealias Context = UserProfileServiceHolder
 
     // MARK: - Private properties
@@ -15,6 +15,9 @@ final class AuthCoordinator: Coordinatable, AlertCoordinatable {
     private let presentingWindow: UIWindow
     private let completion: (() -> Void)?
 
+    let activityPresenter = ActivityIndicatorPresenter()
+
+    // MARK: - Navigator
     var navigator: Navigating { _navigator }
 
     // MARK: - Initialization

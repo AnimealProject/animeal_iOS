@@ -12,8 +12,6 @@ final class ProfileViewController: BaseViewController, ProfileViewable {
     private var inputViews: [TextInputDecoratable] = []
     private let buttonsView = ButtonContainerView().prepareForAutoLayout()
 
-    let activityPresenter = ActivityIndicatorPresenter()
-
     // MARK: - Dependencies
     private let viewModel: ProfileViewModelProtocol
 
@@ -202,9 +200,6 @@ private extension ProfileViewController {
         }
         viewModel.onConfigurationHasBeenPrepared = { [weak self] viewConfiguration in
             self?.applyConfiguration(viewConfiguration)
-        }
-        viewModel.onActivityIsNeededToDisplay = { [weak self] viewOperation in
-            self?.displayActivityIndicator(waitUntil: viewOperation, completion: nil)
         }
         viewModel.load()
     }

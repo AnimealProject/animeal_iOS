@@ -20,7 +20,6 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     var onItemsHaveBeenPrepared: (([ProfileViewItem]) -> Void)?
     var onActionsHaveBeenPrepared: (([ProfileViewAction]) -> Void)?
     var onConfigurationHasBeenPrepared: ((ProfileViewConfiguration) -> Void)?
-    var onActivityIsNeededToDisplay: ((@escaping @MainActor () async throws -> Void) -> Void)?
 
     // MARK: - Initialization
     init(
@@ -49,8 +48,12 @@ final class ProfileViewModel: ProfileViewModelProtocol {
         onHeaderHasBeenPrepared?(viewHeader)
         onConfigurationHasBeenPrepared?(configuration)
 
-        updateViewItems(model.fetchPlaceholderItems)
-        updateViewItems(model.fetchItems)
+        updateViewItems { [weak self] in
+            self?.model.fetchPlaceholderItems() ?? []
+        }
+        updateViewItems { [weak self] in
+            try await self?.model.fetchItems() ?? []
+        }
         updateViewActions()
     }
 
@@ -149,7 +152,9 @@ final class ProfileViewModel: ProfileViewModelProtocol {
             guard let intermediateStep = model.executeAction(identifier) else { return }
             switch intermediateStep {
             case .update:
-                updateViewItems(model.fetchPlaceholderItems)
+                updateViewItems { [weak self] in
+                    self?.model.fetchPlaceholderItems() ?? []
+                }
                 updateViewActions()
             case .proceed:
                 guard model.validateItems() else {
@@ -157,13 +162,15 @@ final class ProfileViewModel: ProfileViewModelProtocol {
                     updateViewActions()
                     return
                 }
-                updateViewItems(model.fetchPlaceholderItems)
+                updateViewItems { [weak self] in
+                    self?.model.fetchPlaceholderItems() ?? []
+                }
                 updateViewActions()
-                onActivityIsNeededToDisplay?({ [weak self] in
+                coordinator.displayActivityIndicator { [weak self] in
                     guard let self else { return }
                     let nextStep = try await self.model.proceedAction(identifier)
                     self.processNextStep(nextStep)
-                })
+                }
             }
         case .itemWasTapped(let identifier):
             guard let requiredAction = model.fetchRequiredAction(forIdentifier: identifier) else { return }
@@ -196,12 +203,12 @@ private extension ProfileViewModel {
     private func updateViewItems(
         _ operation: @escaping () async throws -> [ProfileModelItem]
     ) {
-        onActivityIsNeededToDisplay?({ [weak self] in
+        coordinator.displayActivityIndicator { [weak self] in
             guard let self else { return }
             let modelItems = try await operation()
             self.viewItems = self.mapper.mapItems(modelItems)
             self.onItemsHaveBeenPrepared?(self.viewItems)
-        })
+        }
     }
 
     private func updateViewActions() {

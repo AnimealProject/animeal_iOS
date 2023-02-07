@@ -2,7 +2,7 @@ import UIKit
 
 // MARK: - View
 @MainActor
-protocol VerificationViewModelOutput: ActivityDisplayable, ErrorDisplayable {
+protocol VerificationViewModelOutput {
     func applyHeader(_ viewHeader: VerificationViewHeader)
     func applyCode(_ viewCode: VerificationViewCode, _ applyDifference: Bool)
     func applyResendCode(_ viewResendCode: VereficationViewResendCode)
@@ -24,7 +24,7 @@ protocol VerificationViewInteraction: AnyObject {
 }
 
 @MainActor
-protocol VerificationViewState: ActivityDisplayCompatible {
+protocol VerificationViewState: AnyObject {
     var onHeaderHasBeenPrepared: ((VerificationViewHeader) -> Void)? { get set }
     var onCodeHasBeenPrepared: ((VerificationViewCode, Bool) -> Void)? { get set }
     var onResendCodeHasBeenPrepared: ((VereficationViewResendCode) -> Void)? { get set }
@@ -52,6 +52,6 @@ protocol VerificationAssembler {
 }
 
 // MARK: - Coordinator
-protocol VerificationCoordinatable: Coordinatable, AlertCoordinatable {
+protocol VerificationCoordinatable: Coordinatable, AlertCoordinatable, ActivityDisplayable {
     func moveFromVerification(to route: VerificationRoute)
 }

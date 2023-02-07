@@ -9,6 +9,17 @@ protocol AlertCoordinatable: AnyObject {
     func displayAlert(_ alert: ViewAlert)
 }
 
+extension AlertCoordinatable {
+    @MainActor
+    func displayAlert(message: String) {
+        let viewAlert = ViewAlert(
+            title: message,
+            actions: [.ok()]
+        )
+        displayAlert(viewAlert)
+    }
+}
+
 extension AlertCoordinatable where Self: Coordinatable {
     @MainActor
     func displayAlert(_ alert: ViewAlert) {
@@ -41,5 +52,15 @@ extension AlertAction.Style {
         case .inverted:
             self = .inverted
         }
+    }
+}
+
+extension ViewAlertAction {
+    static func ok(handler: @escaping () -> Void = { }) -> Self {
+        ViewAlertAction(
+            title: L10n.Action.ok,
+            style: .accent,
+            handler: handler
+        )
     }
 }

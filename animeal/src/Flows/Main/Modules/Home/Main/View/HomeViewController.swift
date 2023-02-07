@@ -25,8 +25,6 @@ class HomeViewController: UIViewController {
         ? StyleURI.dark : StyleURI.streets
     }
 
-    let activityPresenter = ActivityIndicatorPresenter()
-
     // MARK: - Dependencies
     private let viewModel: HomeCombinedViewModel
 
@@ -131,14 +129,6 @@ private extension HomeViewController {
 
         viewModel.onFeedingActionHaveBeenPrepared = { [weak self] action in
             self?.handleFeedingAction(action)
-        }
-
-        viewModel.onErrorHaveBeenPrepared = { [weak self] errorDescription in
-            self?.showErrorMessage(errorDescription)
-        }
-
-        viewModel.onActivityIsNeededToDisplay = { [weak self] viewOperation in
-            self?.displayActivityIndicator(waitUntil: viewOperation, completion: nil)
         }
     }
 

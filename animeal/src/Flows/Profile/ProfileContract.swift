@@ -2,7 +2,7 @@ import Foundation
 
 // MARK: - View
 @MainActor
-protocol ProfileViewable: ActivityDisplayable, ErrorDisplayable {
+protocol ProfileViewable: AnyObject {
     func applyHeader(_ viewHeader: ProfileViewHeader)
     func applyItems(_ viewItems: [ProfileViewItem])
     func applyActions(_ viewActions: [ProfileViewAction])
@@ -27,7 +27,7 @@ protocol ProfileViewInteraction: AnyObject {
 }
 
 @MainActor
-protocol ProfileViewState: ActivityDisplayCompatible {
+protocol ProfileViewState: AnyObject {
     var onHeaderHasBeenPrepared: ((ProfileViewHeader) -> Void)? { get set }
     var onItemsHaveBeenPrepared: (([ProfileViewItem]) -> Void)? { get set }
     var onActionsHaveBeenPrepared: (([ProfileViewAction]) -> Void)? { get set }
@@ -50,6 +50,6 @@ protocol ProfileModelProtocol {
 }
 
 // MARK: - Coordinator
-protocol ProfileCoordinatable: Coordinatable {
+protocol ProfileCoordinatable: Coordinatable, AlertCoordinatable, ActivityDisplayable {
     func move(to route: ProfileRoute)
 }
