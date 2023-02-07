@@ -1,5 +1,11 @@
 {
   "permissions": {
+    "api": {
+      "animeal": [
+        "Query",
+        "Mutation"
+      ]
+    },
     "storage": {
       "FeedingPoint:@model(appsync)": [
         "create",

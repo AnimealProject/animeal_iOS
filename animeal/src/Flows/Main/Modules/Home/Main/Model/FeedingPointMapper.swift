@@ -13,7 +13,7 @@ final class FeedingPointMapper: FeedingPointMappable {
                 latitude: input.location.lat,
                 longitude: input.location.lon
             ),
-            pet: convert(categoryTag: input.category.tag),
+            pet: convert(categoryTag: input.category?.tag ?? .dogs),
             hungerLevel: conver(pointStatus: input.status),
             isFavorite: isFavorite
         )

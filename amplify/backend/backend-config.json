@@ -282,7 +282,9 @@
       "dependsOn": [
         {
           "attributes": [
-            "GraphQLAPIIdOutput"
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
           ],
           "category": "api",
           "resourceName": "animeal"
@@ -296,7 +298,9 @@
       "dependsOn": [
         {
           "attributes": [
-            "GraphQLAPIIdOutput"
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
           ],
           "category": "api",
           "resourceName": "animeal"
@@ -312,27 +316,27 @@
     },
     "updateTranslationsTrigger": {
       "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
       "dependsOn": [
         {
-          "category": "api",
-          "resourceName": "animeal",
           "attributes": [
             "GraphQLAPIIdOutput",
             "GraphQLAPIEndpointOutput"
-          ]
+          ],
+          "category": "api",
+          "resourceName": "animeal"
         },
         {
-          "category": "api",
-          "resourceName": "animeal",
           "attributes": [
             "GraphQLAPIIdOutput",
             "GraphQLAPIEndpointOutput",
             "GraphQLAPIKeyOutput"
-          ]
+          ],
+          "category": "api",
+          "resourceName": "animeal"
         }
-      ]
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   },
   "geo": {
@@ -361,6 +365,256 @@
       "isDefault": true,
       "providerPlugin": "awscloudformation",
       "service": "PlaceIndex"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_AdminQueriesdbb0bdc6_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "AdminQueriesdbb0bdc6"
+        }
+      ]
+    },
+    "AMPLIFY_function_AdminQueriesdbb0bdc6_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "AdminQueriesdbb0bdc6"
+        }
+      ]
+    },
+    "AMPLIFY_function_animeal8f90e9b68f90e9b6CreateAuthChallenge_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "animeal8f90e9b68f90e9b6CreateAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_animeal8f90e9b68f90e9b6CreateAuthChallenge_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "animeal8f90e9b68f90e9b6CreateAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_animeal8f90e9b68f90e9b6DefineAuthChallenge_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "animeal8f90e9b68f90e9b6DefineAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_animeal8f90e9b68f90e9b6DefineAuthChallenge_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "animeal8f90e9b68f90e9b6DefineAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_animeal8f90e9b68f90e9b6PostConfirmation_GROUP": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "animeal8f90e9b68f90e9b6PostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_animeal8f90e9b68f90e9b6PostConfirmation_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "animeal8f90e9b68f90e9b6PostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_animeal8f90e9b68f90e9b6PostConfirmation_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "animeal8f90e9b68f90e9b6PostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_animeal8f90e9b68f90e9b6PreSignup_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "animeal8f90e9b68f90e9b6PreSignup"
+        }
+      ]
+    },
+    "AMPLIFY_function_animeal8f90e9b68f90e9b6PreSignup_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "animeal8f90e9b68f90e9b6PreSignup"
+        }
+      ]
+    },
+    "AMPLIFY_function_animeal8f90e9b68f90e9b6VerifyAuthChallengeResponse_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "animeal8f90e9b68f90e9b6VerifyAuthChallengeResponse"
+        }
+      ]
+    },
+    "AMPLIFY_function_animeal8f90e9b68f90e9b6VerifyAuthChallengeResponse_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "animeal8f90e9b68f90e9b6VerifyAuthChallengeResponse"
+        }
+      ]
+    },
+    "AMPLIFY_function_approveFeeding_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "approveFeeding"
+        }
+      ]
+    },
+    "AMPLIFY_function_approveFeeding_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "approveFeeding"
+        }
+      ]
+    },
+    "AMPLIFY_function_autoResetStatus_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "autoResetStatus"
+        }
+      ]
+    },
+    "AMPLIFY_function_autoResetStatus_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "autoResetStatus"
+        }
+      ]
+    },
+    "AMPLIFY_function_feedingStreamTrigger_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "feedingStreamTrigger"
+        }
+      ]
+    },
+    "AMPLIFY_function_feedingStreamTrigger_isAutoApprovalEnabled": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "feedingStreamTrigger"
+        }
+      ]
+    },
+    "AMPLIFY_function_feedingStreamTrigger_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "feedingStreamTrigger"
+        }
+      ]
+    },
+    "AMPLIFY_function_finishFeeding_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "finishFeeding"
+        }
+      ]
+    },
+    "AMPLIFY_function_finishFeeding_isApprovalEnabled": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "finishFeeding"
+        }
+      ]
+    },
+    "AMPLIFY_function_finishFeeding_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "finishFeeding"
+        }
+      ]
+    },
+    "AMPLIFY_function_rejectFeeding_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "rejectFeeding"
+        }
+      ]
+    },
+    "AMPLIFY_function_rejectFeeding_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "rejectFeeding"
+        }
+      ]
+    },
+    "AMPLIFY_function_startFeeding_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "startFeeding"
+        }
+      ]
+    },
+    "AMPLIFY_function_startFeeding_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "startFeeding"
+        }
+      ]
+    },
+    "AMPLIFY_function_translate_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "translate"
+        }
+      ]
+    },
+    "AMPLIFY_function_translate_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "translate"
+        }
+      ]
+    },
+    "AMPLIFY_function_updateTranslationsTrigger_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "updateTranslationsTrigger"
+        }
+      ]
+    },
+    "AMPLIFY_function_updateTranslationsTrigger_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "updateTranslationsTrigger"
+        }
+      ]
     }
   },
   "storage": {

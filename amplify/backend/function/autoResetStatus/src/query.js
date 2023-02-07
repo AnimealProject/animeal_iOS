@@ -46,6 +46,24 @@ const searchFeedingPoints = async (params) => {
   );
 };
 
+const updateFeedingPoint = async (params) => {
+  return request(
+    `mutation UpdateFeedingPoint(
+      $input: UpdateFeedingPointInput!
+      $condition: ModelFeedingPointConditionInput
+    ) {
+      updateFeedingPoint(input: $input, condition: $condition) {
+        id
+        status
+      }
+    }
+  `,
+    params,
+  );
+};
+
+
 module.exports = {
   searchFeedingPoints,
+  updateFeedingPoint
 };

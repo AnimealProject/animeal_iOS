@@ -51,14 +51,14 @@ final class FetchFeedingPointsUseCase: FetchFeedingPointsUseCaseLogic {
     
     private func mapItems(result: [FeedingPoint]) async -> [String : [SearchModelItem]] {
         await result.asyncReduce([String: [SearchModelItem]]()) { partialResult, point in
-            var result = partialResult
+            var result: [String: [SearchModelItem]] = partialResult
             let item = SearchModelItem(
                 identifier: point.id,
                 name: point.localizedName.removeHtmlTags(),
                 description: point.localizedDescription.removeHtmlTags(),
                 icon: try? await dataService.getURL(key: point.cover),
                 status: .init(point.status),
-                category: .init(point.category.tag)
+                category: .init(point.category?.tag ?? .dogs)
             )
             let city = point.localizedCity.removeHtmlTags()
             var items = result[city] ?? []

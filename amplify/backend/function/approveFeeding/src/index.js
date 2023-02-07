@@ -16,7 +16,7 @@ Amplify Params - DO NOT EDIT */
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 
-const { getFeeding } = require('./query');
+const { getFeeding, updateFeedingPoint } = require('./query');
 var uuid = require('uuid');
 const AWS = require('aws-sdk');
 const dynamoDB = new AWS.DynamoDB.DocumentClient({});
@@ -92,6 +92,16 @@ exports.handler = async (event) => {
         ],
       })
       .promise();
+    const updateRes = await updateFeedingPoint({
+      input: {
+        id: feeding.feedingPointFeedingsId,
+        statusUpdatedAt: new Date().toISOString(),
+      },
+    });
+
+    if (updateRes?.data?.errors?.length) {
+      throw new Error('Failed to approve feeding.');
+    }
     return feedingId;
   } catch (e) {
     throw new Error(`Failed to approve feeding. Erorr: ${e.message}`);
