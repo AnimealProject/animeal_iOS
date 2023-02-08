@@ -11,7 +11,7 @@ public final class SearchInputView: TextInputDefaultSmallDecorator<SearchTextCon
 
     override public func configureStyle(_ textFieldState: TextInputView.State) {
         super.configureStyle(textFieldState)
-        textView.textColor = designEngine.colors.textSecondary.uiColor
+        textView.textColor = designEngine.colors.textSecondary
     }
 }
 

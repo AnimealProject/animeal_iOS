@@ -12,9 +12,9 @@ public struct TextFieldViewFactory: StyleEngineContainable, TextFieldGenerating 
 
     public func makeDefaultTextField() -> TextFieldContainable {
         let textField = TextFieldSingleLineView()
-        textField.font = designEngine.fonts.primary.medium(16.0).uiFont
-        textField.textColor = designEngine.colors.textPrimary.uiColor
-        textField.tintColor = designEngine.colors.accent.uiColor
+        textField.font = designEngine.fonts.primary.medium(16.0)
+        textField.textColor = designEngine.colors.textPrimary
+        textField.tintColor = designEngine.colors.accent
         textField.autocorrectionType = .no
         textField.spellCheckingType = .no
 

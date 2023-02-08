@@ -55,8 +55,8 @@ public extension Style where Component: UnderlinedSegmentedItemView {
         return Style { component in
             let designEngine = component.designEngine
             component.backgroundColor = .white
-            component.titleView.textColor = designEngine.colors.accent.uiColor
-            component.titleView.font = designEngine.fonts.primary.bold(14.0).uiFont
+            component.titleView.textColor = designEngine.colors.accent
+            component.titleView.font = designEngine.fonts.primary.bold(14.0)
         }
     }
 
@@ -64,8 +64,8 @@ public extension Style where Component: UnderlinedSegmentedItemView {
         return Style { component in
             let designEngine = component.designEngine
             component.backgroundColor = .white
-            component.titleView.textColor = designEngine.colors.textSecondary.uiColor
-            component.titleView.font = designEngine.fonts.primary.semibold(14.0).uiFont
+            component.titleView.textColor = designEngine.colors.textSecondary
+            component.titleView.font = designEngine.fonts.primary.semibold(14.0)
         }
     }
 }

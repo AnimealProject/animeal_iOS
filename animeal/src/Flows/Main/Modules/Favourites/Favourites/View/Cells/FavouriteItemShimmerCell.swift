@@ -36,10 +36,10 @@ private extension FavouriteItemShimmerCell {
     // MARK: - Setup
     func setup() {
         shimmerView.prepareForAutoLayout()
-        shimmerView.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+        shimmerView.backgroundColor = designEngine.colors.backgroundPrimary
         shimmerView.cornerRadius(12.0)
         shimmerView.border(
-            color: designEngine.colors.backgroundSecondary.uiColor,
+            color: designEngine.colors.backgroundSecondary,
             width: 1.0
         )
         shimmerView.shadow()

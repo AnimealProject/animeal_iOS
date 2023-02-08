@@ -143,7 +143,7 @@ final class CustomAuthViewController: BaseViewController, CustomAuthViewable {
 private extension CustomAuthViewController {
     // MARK: - Setup
     func setup() {
-        view.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+        view.backgroundColor = designEngine.colors.backgroundPrimary
         setupKeyboardHandling()
 
         view.addSubview(scrollView)
@@ -200,15 +200,15 @@ private extension CustomAuthViewController {
 private extension TextFieldContainable {
     var activeTextAttributes: [NSAttributedString.Key: Any]? {
         [
-            .font: designEngine.fonts.primary.medium(16.0).uiFont as Any,
-            .foregroundColor: designEngine.colors.textPrimary.uiColor
+            .font: designEngine.fonts.primary.medium(16.0) as Any,
+            .foregroundColor: designEngine.colors.textPrimary
         ]
     }
 
     var placeholderTextAttributes: [NSAttributedString.Key: Any]? {
         [
-            .font: designEngine.fonts.primary.medium(16.0).uiFont as Any,
-            .foregroundColor: designEngine.colors.textSecondary.uiColor
+            .font: designEngine.fonts.primary.medium(16.0) as Any,
+            .foregroundColor: designEngine.colors.textSecondary
         ]
     }
 }

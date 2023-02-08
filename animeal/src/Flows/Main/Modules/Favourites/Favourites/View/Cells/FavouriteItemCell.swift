@@ -31,7 +31,7 @@ extension FavouriteItemCell: FavouriteCell {
         infoView.configure(model.placeInfo)
         favouriteImageView.image = Asset.Images.heartIcon.image
         favouriteImageView.highlightedImage = Asset.Images.heartIcon.image.withTintColor(
-            designEngine.colors.error.uiColor
+            designEngine.colors.error
         )
         favouriteImageView.isHighlighted = model.isHighlighted
     }
@@ -55,8 +55,8 @@ private extension FavouriteItemCell {
         contentView.layer.masksToBounds = true
         contentView.cornerRadius(12)
         
-        containerView.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
-        containerView.border(color: designEngine.colors.backgroundSecondary.uiColor /* .lightGray*/, width: 0.1)
+        containerView.backgroundColor = designEngine.colors.backgroundPrimary
+        containerView.border(color: designEngine.colors.backgroundSecondary /* .lightGray*/, width: 0.1)
         containerView.cornerRadius(12)
         
         let safeArea = safeAreaLayoutGuide
@@ -80,7 +80,7 @@ private extension FavouriteItemCell {
         favouriteImageView.leadingAnchor ~= infoView.trailingAnchor + 10
         favouriteImageView.layer.cornerRadius = 16
         favouriteImageView.contentMode = .center
-        favouriteImageView.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+        favouriteImageView.backgroundColor = designEngine.colors.backgroundPrimary
         favouriteImageView.layer.shadowColor = designEngine.colors.textSecondary.cgColor
         favouriteImageView.layer.masksToBounds = false
         favouriteImageView.layer.shadowOpacity = 0.16

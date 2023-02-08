@@ -26,14 +26,14 @@ public struct ButtonViewFactory: ButtonViewGenerating, StyleEngineContainable {
         button.layer.cornerRadius = Constants.cornerRadius
         button.clipsToBounds = true
 
-        button.backgroundColor = designEngine.colors.alwaysDark.uiColor
-        button.titleLabel?.font = designEngine.fonts.primary.medium(16.0).uiFont
+        button.backgroundColor = designEngine.colors.alwaysDark
+        button.titleLabel?.font = designEngine.fonts.primary.medium(16.0)
         button.setTitleColor(
-            designEngine.colors.alwaysLight.uiColor,
+            designEngine.colors.alwaysLight,
             for: UIControl.State.normal
         )
         button.setTitleColor(
-            designEngine.colors.textSecondary.uiColor,
+            designEngine.colors.textSecondary,
             for: UIControl.State.highlighted
         )
         button.titleEdgeInsets = Constants.titleInsets
@@ -46,14 +46,14 @@ public struct ButtonViewFactory: ButtonViewGenerating, StyleEngineContainable {
         button.layer.cornerRadius = Constants.cornerRadius
         button.clipsToBounds = true
 
-        button.backgroundColor = designEngine.colors.elementSpecial.uiColor
-        button.titleLabel?.font = designEngine.fonts.primary.medium(16.0).uiFont
+        button.backgroundColor = designEngine.colors.elementSpecial
+        button.titleLabel?.font = designEngine.fonts.primary.medium(16.0)
         button.setTitleColor(
-            designEngine.colors.alwaysLight.uiColor,
+            designEngine.colors.alwaysLight,
             for: UIControl.State.normal
         )
         button.setTitleColor(
-            designEngine.colors.textSecondary.uiColor,
+            designEngine.colors.textSecondary,
             for: UIControl.State.highlighted
         )
         button.titleEdgeInsets = Constants.titleInsets
@@ -66,14 +66,14 @@ public struct ButtonViewFactory: ButtonViewGenerating, StyleEngineContainable {
         button.layer.cornerRadius = Constants.cornerRadius
         button.clipsToBounds = true
 
-        button.backgroundColor = designEngine.colors.accent.uiColor
-        button.titleLabel?.font = designEngine.fonts.primary.medium(16.0).uiFont
+        button.backgroundColor = designEngine.colors.accent
+        button.titleLabel?.font = designEngine.fonts.primary.medium(16.0)
         button.setTitleColor(
-            designEngine.colors.alwaysLight.uiColor,
+            designEngine.colors.alwaysLight,
             for: UIControl.State.normal
         )
         button.setTitleColor(
-            designEngine.colors.textSecondary.uiColor,
+            designEngine.colors.textSecondary,
             for: UIControl.State.highlighted
         )
         button.titleEdgeInsets = Constants.titleInsets
@@ -86,14 +86,14 @@ public struct ButtonViewFactory: ButtonViewGenerating, StyleEngineContainable {
         button.layer.cornerRadius = Constants.cornerRadius
         button.clipsToBounds = true
 
-        button.backgroundColor = designEngine.colors.accent.uiColor
-        button.titleLabel?.font = designEngine.fonts.primary.bold(16.0).uiFont
+        button.backgroundColor = designEngine.colors.accent
+        button.titleLabel?.font = designEngine.fonts.primary.bold(16.0)
         button.setTitleColor(
-            designEngine.colors.alwaysLight.uiColor,
+            designEngine.colors.alwaysLight,
             for: UIControl.State.normal
         )
         button.setTitleColor(
-            designEngine.colors.textSecondary.uiColor,
+            designEngine.colors.textSecondary,
             for: UIControl.State.highlighted
         )
 
@@ -107,14 +107,14 @@ public struct ButtonViewFactory: ButtonViewGenerating, StyleEngineContainable {
         button.layer.borderColor = designEngine.colors.accent.cgColor
         button.layer.borderWidth = 1
 
-        button.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
-        button.titleLabel?.font = designEngine.fonts.primary.bold(16.0).uiFont
+        button.backgroundColor = designEngine.colors.backgroundPrimary
+        button.titleLabel?.font = designEngine.fonts.primary.bold(16.0)
         button.setTitleColor(
-            designEngine.colors.accent.uiColor,
+            designEngine.colors.accent,
             for: UIControl.State.normal
         )
         button.setTitleColor(
-            designEngine.colors.accent.uiColor.withAlphaComponent(0.5),
+            designEngine.colors.accent.withAlphaComponent(0.5),
             for: UIControl.State.highlighted
         )
 
@@ -127,10 +127,10 @@ public struct ButtonViewFactory: ButtonViewGenerating, StyleEngineContainable {
         button.clipsToBounds = true
         button.isUserInteractionEnabled = false
 
-        button.backgroundColor = designEngine.colors.disabled.uiColor
-        button.titleLabel?.font = designEngine.fonts.primary.bold(16.0).uiFont
+        button.backgroundColor = designEngine.colors.disabled
+        button.titleLabel?.font = designEngine.fonts.primary.bold(16.0)
         button.setTitleColor(
-            designEngine.colors.alwaysLight.uiColor,
+            designEngine.colors.alwaysLight,
             for: UIControl.State.normal
         )
 
@@ -139,7 +139,7 @@ public struct ButtonViewFactory: ButtonViewGenerating, StyleEngineContainable {
 
     public func makeMyLocationButton() -> ButtonView {
         let button = UIButton()
-        button.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+        button.backgroundColor = designEngine.colors.backgroundPrimary
         return CircleButtonView(contentView: button)
     }
 }

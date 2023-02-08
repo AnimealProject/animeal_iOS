@@ -29,8 +29,8 @@ private extension TextHeaderTitleView {
         titleView.topAnchor ~= topAnchor
         titleView.bottomAnchor ~= bottomAnchor
 
-        titleView.textColor = designEngine.colors.textPrimary.uiColor
-        titleView.font = designEngine.fonts.primary.bold(18).uiFont
+        titleView.textColor = designEngine.colors.textPrimary
+        titleView.font = designEngine.fonts.primary.bold(18)
     }
 }
 

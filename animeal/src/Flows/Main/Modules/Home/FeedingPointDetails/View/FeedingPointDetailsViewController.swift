@@ -55,10 +55,10 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
 
     // MARK: - Setup
     private func setup() {
-        view.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+        view.backgroundColor = designEngine.colors.backgroundPrimary
 
         let pullBarView = UIView()
-        pullBarView.backgroundColor = designEngine.colors.disabled.uiColor
+        pullBarView.backgroundColor = designEngine.colors.disabled
         pullBarView.heightAnchor ~= 4
         pullBarView.widthAnchor ~= 18
         pullBarView.layer.cornerRadius = 2

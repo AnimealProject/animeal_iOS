@@ -12,7 +12,7 @@ public final class PhoneInputView: TextInputFilledDecorator<PhoneTextContentView
 
     public init() {
         super.init(contentView: PhoneTextContentView())
-        textView.textColor = designEngine.colors.textSecondary.uiColor
+        textView.textColor = designEngine.colors.textSecondary
     }
 
     public required init?(coder: NSCoder) {
@@ -20,16 +20,16 @@ public final class PhoneInputView: TextInputFilledDecorator<PhoneTextContentView
     }
 
     override public func configureStyle(_ textFieldState: TextInputView.State) {
-        contentView.backgroundColor = designEngine.colors.backgroundSecondary.uiColor
+        contentView.backgroundColor = designEngine.colors.backgroundSecondary
         switch textFieldState {
         case .normal:
-            textView.font = designEngine.fonts.primary.medium(16.0).uiFont
+            textView.font = designEngine.fonts.primary.medium(16.0)
             contentView.border(width: 0.0)
-            descriptionView.textColor = designEngine.colors.textSecondary.uiColor
+            descriptionView.textColor = designEngine.colors.textSecondary
         case .error:
-            textView.font = designEngine.fonts.primary.medium(16.0).uiFont
-            contentView.border(color: designEngine.colors.error.uiColor, width: 1.0)
-            descriptionView.textColor = designEngine.colors.error.uiColor
+            textView.font = designEngine.fonts.primary.medium(16.0)
+            contentView.border(color: designEngine.colors.error, width: 1.0)
+            descriptionView.textColor = designEngine.colors.error
         }
     }
 }
@@ -187,8 +187,8 @@ public final class PhoneTextContentView: TextFieldContainerView {
         textFieldLeftView.addArrangedSubview(textFieldPrefixView)
         textFieldLeftView.addGestureRecognizer(leftViewTapRecognizer)
 
-        textFieldPrefixView.font = designEngine.fonts.primary.medium(16.0).uiFont
-        textFieldPrefixView.textColor = designEngine.colors.textPrimary.uiColor
+        textFieldPrefixView.font = designEngine.fonts.primary.medium(16.0)
+        textFieldPrefixView.textColor = designEngine.colors.textPrimary
 
         iconView.contentMode = .scaleAspectFit
     }

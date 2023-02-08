@@ -98,8 +98,8 @@ extension Style where Component == SearchSupplementaryExpandableView {
     static var expanded: Style<SearchSupplementaryExpandableView> {
         .init { view in
             let designEngine = view.designEngine
-            view.titleView.font = designEngine.fonts.primary.semibold(16.0).uiFont
-            view.titleView.textColor = designEngine.colors.textPrimary.uiColor
+            view.titleView.font = designEngine.fonts.primary.semibold(16.0)
+            view.titleView.textColor = designEngine.colors.textPrimary
             view.titleView.numberOfLines = 1
 
             view.iconView.image = Asset.Images.arrowUp.image
@@ -109,8 +109,8 @@ extension Style where Component == SearchSupplementaryExpandableView {
     static var collapsed: Style<SearchSupplementaryExpandableView> {
         .init { view in
             let designEngine = view.designEngine
-            view.titleView.font = designEngine.fonts.primary.semibold(16.0).uiFont
-            view.titleView.textColor = designEngine.colors.textPrimary.uiColor
+            view.titleView.font = designEngine.fonts.primary.semibold(16.0)
+            view.titleView.textColor = designEngine.colors.textPrimary
             view.titleView.numberOfLines = 1
 
             view.iconView.image = Asset.Images.arrowDown.image

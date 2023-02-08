@@ -151,8 +151,8 @@ extension Style where Component: ShimmerView {
     public static var lightShimmerStyle: Style {
         return Style {
             let designEngine = $0.designEngine
-            $0.primaryColor = designEngine.colors.backgroundPrimary.uiColor
-            $0.secondaryColor = designEngine.colors.backgroundSecondary.uiColor
+            $0.primaryColor = designEngine.colors.backgroundPrimary
+            $0.secondaryColor = designEngine.colors.backgroundSecondary
         }
     }
 }

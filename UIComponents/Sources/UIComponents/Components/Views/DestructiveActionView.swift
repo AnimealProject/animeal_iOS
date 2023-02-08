@@ -31,12 +31,12 @@ public final class DestructiveActionView: UIView {
         }
         addGestureRecognizer(gestureRecognizer)
 
-        imageView.tintColor = designEngine.colors.error.uiColor
+        imageView.tintColor = designEngine.colors.error
         imageView.widthAnchor ~= 16
         imageView.heightAnchor ~= 16
 
-        titleLabel.font = designEngine.fonts.primary.light(16).uiFont
-        titleLabel.textColor = designEngine.colors.error.uiColor
+        titleLabel.font = designEngine.fonts.primary.light(16)
+        titleLabel.textColor = designEngine.colors.error
 
         addSubview(imageView.prepareForAutoLayout())
         imageView.leadingAnchor ~= leadingAnchor

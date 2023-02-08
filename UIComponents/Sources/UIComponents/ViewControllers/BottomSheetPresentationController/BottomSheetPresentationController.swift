@@ -24,7 +24,7 @@ public class BottomSheetPresentationController: UIViewController {
     }()
     private lazy var containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+        view.backgroundColor = designEngine.colors.backgroundPrimary
         view.layer.cornerRadius = 16
         view.clipsToBounds = true
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]

@@ -125,7 +125,7 @@ private extension PhoneCodesViewController {
         collectionView.trailingAnchor ~= headerView.trailingAnchor
         collectionView.bottomAnchor ~= view.bottomAnchor
         collectionView.contentInset.bottom = Constants.offset
-        collectionView.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+        collectionView.backgroundColor = designEngine.colors.backgroundPrimary
 
         collectionView.delegate = self
         collectionView.register(

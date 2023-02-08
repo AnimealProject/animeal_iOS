@@ -101,7 +101,7 @@ public final class OnboardingView: UIView {
         )
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+        collectionView.backgroundColor = designEngine.colors.backgroundPrimary
     }
 }
 

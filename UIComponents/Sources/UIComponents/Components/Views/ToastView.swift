@@ -18,16 +18,16 @@ public enum Toast {
         let designEngine = UIView().designEngine
 
         let toastContainer = UIView()
-        toastContainer.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+        toastContainer.backgroundColor = designEngine.colors.backgroundPrimary
         toastContainer.alpha = 0.0
         toastContainer.layer.cornerRadius = 24
         toastContainer.layer.masksToBounds = false
         toastContainer.shadow()
 
         let toastLabel = UILabel()
-        toastLabel.textColor = designEngine.colors.textPrimary.uiColor
+        toastLabel.textColor = designEngine.colors.textPrimary
         toastLabel.textAlignment = .center
-        toastLabel.font = designEngine.fonts.primary.medium(14).uiFont
+        toastLabel.font = designEngine.fonts.primary.medium(14)
         toastLabel.text = message
 
 

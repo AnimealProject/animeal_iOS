@@ -37,8 +37,8 @@ public final class AttachPhotoView: UIView {
     
     private lazy var placeTitleView: UILabel = {
         let item = UILabel().prepareForAutoLayout()
-        item.font = designEngine.fonts.primary.medium(16.0).uiFont
-        item.textColor = designEngine.colors.textPrimary.uiColor
+        item.font = designEngine.fonts.primary.medium(16.0)
+        item.textColor = designEngine.colors.textPrimary
         item.numberOfLines = 0
         item.textAlignment = .left
         return item
@@ -60,8 +60,8 @@ public final class AttachPhotoView: UIView {
     
     private lazy var hintTextView: UILabel = {
         let item = UILabel().prepareForAutoLayout()
-        item.font = designEngine.fonts.primary.regular(12.0).uiFont
-        item.textColor = designEngine.colors.textPrimary.uiColor
+        item.font = designEngine.fonts.primary.regular(12.0)
+        item.textColor = designEngine.colors.textPrimary
         item.numberOfLines = 0
         item.textAlignment = .left
         return item
@@ -182,13 +182,13 @@ extension Style where Component: ButtonView {
         Style { component in
             let designEngine = component.designEngine
             component.contentView.isUserInteractionEnabled = true
-            component.contentView.backgroundColor = designEngine.colors.accent.uiColor
+            component.contentView.backgroundColor = designEngine.colors.accent
             component.contentView.setTitleColor(
-                designEngine.colors.alwaysLight.uiColor,
+                designEngine.colors.alwaysLight,
                 for: UIControl.State.normal
             )
             component.contentView.setTitleColor(
-                designEngine.colors.textSecondary.uiColor,
+                designEngine.colors.textSecondary,
                 for: UIControl.State.highlighted
             )
         }
@@ -198,9 +198,9 @@ extension Style where Component: ButtonView {
         Style { component in
             let designEngine = component.designEngine
             component.contentView.isUserInteractionEnabled = false
-            component.contentView.backgroundColor = designEngine.colors.disabled.uiColor
+            component.contentView.backgroundColor = designEngine.colors.disabled
             component.contentView.setTitleColor(
-                designEngine.colors.alwaysLight.uiColor,
+                designEngine.colors.alwaysLight,
                 for: UIControl.State.normal
             )
         }

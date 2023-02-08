@@ -161,14 +161,14 @@ public extension ActivityIndicatorPresenter.Model {
         return ActivityIndicatorPresenter.Model(
             size: CGSize(width: 80.0, height: 80.0),
             message: caption,
-            messageFont: designEngine.fonts.primary.semibold(16.0).uiFont
+            messageFont: designEngine.fonts.primary.semibold(16.0)
             ?? UIFont.systemFont(ofSize: 16.0, weight: .semibold),
             messageSpacing: 16.0,
             type: .circleStrokeSpin,
-            color: designEngine.colors.alwaysLight.uiColor,
-            textColor: designEngine.colors.alwaysLight.uiColor,
+            color: designEngine.colors.alwaysLight,
+            textColor: designEngine.colors.alwaysLight,
             padding: 16.0,
-            backgroundColor: designEngine.colors.alwaysDark.uiColor.withAlphaComponent(0.5)
+            backgroundColor: designEngine.colors.alwaysDark.withAlphaComponent(0.5)
         )
     }
 }

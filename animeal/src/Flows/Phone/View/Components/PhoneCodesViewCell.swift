@@ -92,15 +92,15 @@ private extension Style where Component == PhoneCodesViewCommonCell {
 
             view.clipsToBounds = true
             view.cornerRadius(Constants.cornerRadius)
-            view.contentView.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+            view.contentView.backgroundColor = designEngine.colors.backgroundPrimary
 
             view.titleView.numberOfLines = Constants.numberOfLines
-            view.titleView.textColor = designEngine.colors.textSecondary.uiColor
-            view.titleView.font = designEngine.fonts.primary.medium(Constants.fontSize).uiFont
+            view.titleView.textColor = designEngine.colors.textSecondary
+            view.titleView.font = designEngine.fonts.primary.medium(Constants.fontSize)
 
             view.subtitleView.numberOfLines = Constants.numberOfLines
-            view.subtitleView.textColor = designEngine.colors.textPrimary.uiColor
-            view.subtitleView.font = designEngine.fonts.primary.medium(Constants.fontSize).uiFont
+            view.subtitleView.textColor = designEngine.colors.textPrimary
+            view.subtitleView.font = designEngine.fonts.primary.medium(Constants.fontSize)
         }
     }
 
@@ -110,15 +110,15 @@ private extension Style where Component == PhoneCodesViewCommonCell {
 
             view.clipsToBounds = true
             view.cornerRadius(Constants.cornerRadius)
-            view.contentView.backgroundColor = designEngine.colors.backgroundSecondary.uiColor
+            view.contentView.backgroundColor = designEngine.colors.backgroundSecondary
 
             view.titleView.numberOfLines = Constants.numberOfLines
-            view.titleView.textColor = designEngine.colors.textSecondary.uiColor
-            view.titleView.font = designEngine.fonts.primary.medium(Constants.fontSize).uiFont
+            view.titleView.textColor = designEngine.colors.textSecondary
+            view.titleView.font = designEngine.fonts.primary.medium(Constants.fontSize)
 
             view.subtitleView.numberOfLines = Constants.numberOfLines
-            view.subtitleView.textColor = designEngine.colors.textPrimary.uiColor
-            view.subtitleView.font = designEngine.fonts.primary.medium(Constants.fontSize).uiFont
+            view.subtitleView.textColor = designEngine.colors.textPrimary
+            view.subtitleView.font = designEngine.fonts.primary.medium(Constants.fontSize)
         }
     }
 }

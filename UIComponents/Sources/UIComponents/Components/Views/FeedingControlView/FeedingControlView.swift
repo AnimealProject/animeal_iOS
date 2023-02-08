@@ -65,11 +65,11 @@ public final class FeedingControlView: UIView {
 // MARK: - Setup
 private extension FeedingControlView {
     func setupViews() {
-        backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+        backgroundColor = designEngine.colors.backgroundPrimary
         layer.cornerRadius = 10
 
-        timeLeftLabel.font = designEngine.fonts.primary.bold(20).uiFont
-        distanceLabel.font = designEngine.fonts.primary.regular(16).uiFont
+        timeLeftLabel.font = designEngine.fonts.primary.bold(20)
+        distanceLabel.font = designEngine.fonts.primary.regular(16)
 
 
         addSubview(timeLeftLabel.prepareForAutoLayout())
@@ -77,7 +77,7 @@ private extension FeedingControlView {
         timeLeftLabel.centerYAnchor ~= centerYAnchor
 
         let dotView = UIView()
-        dotView.backgroundColor = designEngine.colors.textSecondary.uiColor
+        dotView.backgroundColor = designEngine.colors.textSecondary
         dotView.layer.cornerRadius = 3
         addSubview(dotView.prepareForAutoLayout())
         dotView.leadingAnchor ~= timeLeftLabel.trailingAnchor + 10

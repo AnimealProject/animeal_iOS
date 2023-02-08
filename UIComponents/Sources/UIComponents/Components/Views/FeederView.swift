@@ -38,14 +38,14 @@ private extension FeederView {
         addSubview(title.prepareForAutoLayout())
         title.topAnchor ~= topAnchor + 4
         title.leadingAnchor ~= imageView.trailingAnchor + 16
-        title.font = designEngine.fonts.primary.medium(16).uiFont
-        title.textColor = designEngine.colors.textPrimary.uiColor
+        title.font = designEngine.fonts.primary.medium(16)
+        title.textColor = designEngine.colors.textPrimary
 
         addSubview(subtitle.prepareForAutoLayout())
         subtitle.topAnchor ~= title.bottomAnchor + 8
         subtitle.leadingAnchor ~= title.leadingAnchor
-        subtitle.font = designEngine.fonts.primary.light(12).uiFont
-        subtitle.textColor = designEngine.colors.textPrimary.uiColor
+        subtitle.font = designEngine.fonts.primary.light(12)
+        subtitle.textColor = designEngine.colors.textPrimary
     }
 }
 

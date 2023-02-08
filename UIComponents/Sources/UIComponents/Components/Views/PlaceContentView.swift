@@ -68,7 +68,7 @@ private extension PlaceInfoView {
         titleview.leadingAnchor ~= imageView.trailingAnchor + 10.0
         titleview.trailingAnchor ~= trailingAnchor
         titleview.topAnchor ~= imageView.topAnchor
-        titleview.font = designEngine.fonts.primary.medium(16.0).uiFont
+        titleview.font = designEngine.fonts.primary.medium(16.0)
         titleview.numberOfLines = 2
 
         addSubview(statusView.prepareForAutoLayout())

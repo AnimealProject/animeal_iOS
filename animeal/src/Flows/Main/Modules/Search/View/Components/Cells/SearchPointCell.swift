@@ -42,10 +42,10 @@ final class SearchPointCell: UICollectionViewCell {
     // MARK: - Setup
     private func setup() {
         let containerView = UIView().prepareForAutoLayout()
-        containerView.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+        containerView.backgroundColor = designEngine.colors.backgroundPrimary
         containerView.cornerRadius(12.0)
         containerView.border(
-            color: designEngine.colors.backgroundSecondary.uiColor,
+            color: designEngine.colors.backgroundSecondary,
             width: 1.0
         )
         containerView.shadow()

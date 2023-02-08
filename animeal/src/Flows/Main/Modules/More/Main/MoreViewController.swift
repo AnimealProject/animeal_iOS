@@ -56,11 +56,11 @@ final class MoreViewController: UIViewController, MoreViewable {
 
     // MARK: - Setup
     private func setup() {
-        view.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+        view.backgroundColor = designEngine.colors.backgroundPrimary
 
         let headerLabel = UILabel()
-        headerLabel.font = designEngine.fonts.primary.bold(28).uiFont
-        headerLabel.textColor = designEngine.colors.textPrimary.uiColor
+        headerLabel.font = designEngine.fonts.primary.bold(28)
+        headerLabel.textColor = designEngine.colors.textPrimary
         headerLabel.numberOfLines = 1
         headerLabel.text = L10n.TabBar.more
 

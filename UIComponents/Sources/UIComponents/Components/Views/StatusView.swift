@@ -35,7 +35,7 @@ public final class StatusView: UILabel {
 
         label.leadingAnchor ~= statusImageView.trailingAnchor + 4
         label.lastBaselineAnchor ~= lastBaselineAnchor
-        label.font = designEngine.fonts.primary.regular(12).uiFont
+        label.font = designEngine.fonts.primary.regular(12)
     }
 }
 

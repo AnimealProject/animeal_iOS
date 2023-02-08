@@ -27,8 +27,8 @@ open class TextInputFilledDecorator<ContentView: TextFieldContainerView>: UIView
 
     lazy var titleView: UILabel = {
         let item = UILabel().prepareForAutoLayout()
-        item.font = designEngine.fonts.primary.medium(14.0).uiFont
-        item.textColor = designEngine.colors.textPrimary.uiColor
+        item.font = designEngine.fonts.primary.medium(14.0)
+        item.textColor = designEngine.colors.textPrimary
         item.numberOfLines = 1
         item.textAlignment = .left
         return item
@@ -36,8 +36,8 @@ open class TextInputFilledDecorator<ContentView: TextFieldContainerView>: UIView
 
     lazy var descriptionView: UILabel = {
         let item = UILabel().prepareForAutoLayout()
-        item.font = designEngine.fonts.primary.medium(10.0).uiFont
-        item.textColor = designEngine.colors.textSecondary.uiColor
+        item.font = designEngine.fonts.primary.medium(10.0)
+        item.textColor = designEngine.colors.textSecondary
         item.numberOfLines = 1
         item.textAlignment = .right
         return item
@@ -111,18 +111,18 @@ open class TextInputFilledDecorator<ContentView: TextFieldContainerView>: UIView
     }
 
     open func configureStyle(_ textFieldState: TextInputView.State) {
-        contentView.backgroundColor = designEngine.colors.backgroundSecondary.uiColor
+        contentView.backgroundColor = designEngine.colors.backgroundSecondary
         switch textFieldState {
         case .normal:
-            textView.font = designEngine.fonts.primary.medium(16.0).uiFont
-            textView.textColor = designEngine.colors.textPrimary.uiColor
+            textView.font = designEngine.fonts.primary.medium(16.0)
+            textView.textColor = designEngine.colors.textPrimary
             contentView.border(width: 0.0)
-            descriptionView.textColor = designEngine.colors.textSecondary.uiColor
+            descriptionView.textColor = designEngine.colors.textSecondary
         case .error:
-            textView.font = designEngine.fonts.primary.medium(16.0).uiFont
-            textView.textColor = designEngine.colors.textPrimary.uiColor
-            contentView.border(color: designEngine.colors.error.uiColor, width: 1.0)
-            descriptionView.textColor = designEngine.colors.error.uiColor
+            textView.font = designEngine.fonts.primary.medium(16.0)
+            textView.textColor = designEngine.colors.textPrimary
+            contentView.border(color: designEngine.colors.error, width: 1.0)
+            descriptionView.textColor = designEngine.colors.error
         }
     }
 

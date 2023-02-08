@@ -17,7 +17,7 @@ final class FeedingBookingViewController: UIViewController, FeedingBookingViewab
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
 
-        view.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+        view.backgroundColor = designEngine.colors.backgroundPrimary
     }
 
     required init?(coder: NSCoder) {

@@ -81,16 +81,16 @@ open class TextInputDefaultSmallDecorator<ContentView: TextFieldContainerView>: 
     }
 
     open func configureStyle(_ textFieldState: TextInputView.State) {
-        contentView.backgroundColor = designEngine.colors.backgroundSecondary.uiColor
+        contentView.backgroundColor = designEngine.colors.backgroundSecondary
         switch textFieldState {
         case .normal:
-            textView.font = designEngine.fonts.primary.semibold(16.0).uiFont
-            textView.textColor = designEngine.colors.textPrimary.uiColor
+            textView.font = designEngine.fonts.primary.semibold(16.0)
+            textView.textColor = designEngine.colors.textPrimary
             contentView.border(width: 0.0)
         case .error:
-            textView.font = designEngine.fonts.primary.semibold(16.0).uiFont
-            textView.textColor = designEngine.colors.textPrimary.uiColor
-            contentView.border(color: designEngine.colors.error.uiColor, width: 1.0)
+            textView.font = designEngine.fonts.primary.semibold(16.0)
+            textView.textColor = designEngine.colors.textPrimary
+            contentView.border(color: designEngine.colors.error, width: 1.0)
         }
     }
 
