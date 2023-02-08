@@ -70,7 +70,10 @@ struct ProfileModelItem: Hashable, ProfileModelValidatable {
     func validate() throws -> String {
         switch type {
         case .name, .surname:
-            return try validateForEmptiness()
+            let text = try validateForEmptiness()
+            try validateCharacterLength(text)
+            try validateCharacterFormat(text)
+            return text
         case .email:
             return try validateEmail()
         case .phone(let region):
@@ -111,6 +114,25 @@ extension ProfileModelItem {
         }
 
         return text
+    }
+    
+    func validateCharacterLength(_ text: String) throws {
+        guard text.count >= 2 && text.count <= 35 else {
+            throw ProfileModelItemError(
+                itemIdentifier: identifier,
+                errorDescription: L10n.Profile.Errors.incorrectCharactersLength
+            )
+        }
+    }
+    
+    func validateCharacterFormat(_ text: String) throws {
+        let letters = CharacterSet.letters
+        if text.rangeOfCharacter(from: letters.inverted) != nil {
+            throw ProfileModelItemError(
+                itemIdentifier: identifier,
+                errorDescription: L10n.Profile.Errors.incorrectCharacters
+            )
+        }
     }
 
     func validateEmail() throws -> String {
