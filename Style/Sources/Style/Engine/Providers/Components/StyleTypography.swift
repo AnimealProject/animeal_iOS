@@ -32,40 +32,40 @@ public final class StyleTypography {
     /// Provides an instance of StyleFont in a bold style that contains concreate UIFont or Font you need.
     ///
     /// - Returns: A concrete instance of ``StyleFont``.
-    public func bold(_ size: CGFloat) -> StyleFont {
+    public func bold(_ size: CGFloat) -> StyleFont? {
         let uiFont = UIFont(name: preset.bold, size: size)
-        return StyleFont(uiFont)
+        return uiFont
     }
 
     /// Provides an instance of StyleFont in a medium style that contains concreate UIFont or Font you need.
     ///
     /// - Returns: A concrete instance of ``StyleFont``.
-    public func medium(_ size: CGFloat) -> StyleFont {
+    public func medium(_ size: CGFloat) -> StyleFont? {
         let uiFont = UIFont(name: preset.medium, size: size)
-        return StyleFont(uiFont)
+        return uiFont
     }
 
     /// Provides an instance of StyleFont in a semibold style that contains concreate UIFont or Font you need.
     ///
     /// - Returns: A concrete instance of ``StyleFont``.
-    public func semibold(_ size: CGFloat) -> StyleFont {
+    public func semibold(_ size: CGFloat) -> StyleFont? {
         let uiFont = UIFont(name: preset.semibold, size: size)
-        return StyleFont(uiFont)
+        return uiFont
     }
 
     /// Provides an instance of StyleFont in a regular style that contains concreate UIFont or Font you need.
     ///
     /// - Returns: A concrete instance of ``StyleFont``.
-    public func regular(_ size: CGFloat) -> StyleFont {
+    public func regular(_ size: CGFloat) -> StyleFont? {
         let uiFont = UIFont(name: preset.regular, size: size)
-        return StyleFont(uiFont)
+        return uiFont
     }
 
     /// Provides an instance of StyleFont in a light style that contains concreate UIFont or Font you need.
     ///
     /// - Returns: A concrete instance of ``StyleFont``.
-    public func light(_ size: CGFloat) -> StyleFont {
+    public func light(_ size: CGFloat) -> StyleFont? {
         let uiFont = UIFont(name: preset.light, size: size)
-        return StyleFont(uiFont)
+        return uiFont
     }
 }

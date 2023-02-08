@@ -23,7 +23,7 @@ class ComponentsTableViewController: UIViewController,
         super.viewDidLoad()
 
         title = "UI Components"
-        view.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+        view.backgroundColor = designEngine.colors.backgroundPrimary
         addSubviews()
         composeDataSource()
     }
@@ -41,7 +41,7 @@ class ComponentsTableViewController: UIViewController,
         tableView.dataSource = self
         tableView.delegate = self
 
-        tableView.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+        tableView.backgroundColor = designEngine.colors.backgroundPrimary
     }
 
     private func composeDataSource() {
@@ -300,7 +300,7 @@ class ComponentsTableViewController: UIViewController,
                     let infoView = PlaceInfoView()
                     stackView.addArrangedSubview(infoView)
                     infoView.configure(PlaceInfoView.Model(
-                        icon: Asset.Images.cityLogo.image,
+                        icon: .image(Asset.Images.cityLogo.image),
                         title: "Near to Bukia Garden M.S Technical University",
                         status: StatusView.Model(status: .attention("There is no food"))
                     ))
@@ -411,7 +411,7 @@ class ComponentsTableViewController: UIViewController,
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.accessoryType = .disclosureIndicator
         cell.textLabel?.text = dataSource[indexPath.row].description
-        cell.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+        cell.backgroundColor = designEngine.colors.backgroundPrimary
         return cell
     }
 

@@ -40,7 +40,7 @@ class ComponentViewController<T: UIView>: UIViewController {
     }
 
     private func configureAppearance() {
-        view.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+        view.backgroundColor = designEngine.colors.backgroundPrimary
         navigationItem.largeTitleDisplayMode = .never
         title = String(reflecting: T.self)
     }

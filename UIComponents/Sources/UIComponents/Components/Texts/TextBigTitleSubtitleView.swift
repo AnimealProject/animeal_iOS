@@ -27,16 +27,16 @@ public final class TextBigTitleSubtitleView: UIView {
 
     private lazy var titleView: UILabel = {
         let item = UILabel().prepareForAutoLayout()
-        item.textColor = designEngine.colors.textPrimary.uiColor
-        item.font = designEngine.fonts.primary.bold(28.0).uiFont
+        item.textColor = designEngine.colors.textPrimary
+        item.font = designEngine.fonts.primary.bold(28.0)
         item.numberOfLines = 0
         return item
     }()
 
     private lazy var subtitleView: UILabel = {
         let item = UILabel().prepareForAutoLayout()
-        item.textColor = designEngine.colors.textPrimary.uiColor
-        item.font = designEngine.fonts.primary.semibold(16.0).uiFont
+        item.textColor = designEngine.colors.textPrimary
+        item.font = designEngine.fonts.primary.semibold(16.0)
         item.numberOfLines = 0
         return item
     }()

@@ -22,7 +22,7 @@ final class LoginViewController: UIViewController, LoginViewable {
     private lazy var buttonsView: ButtonContainerView = {
         let item = ButtonContainerView()
         item.translatesAutoresizingMaskIntoConstraints = false
-        item.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+        item.backgroundColor = designEngine.colors.backgroundPrimary
         item.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         item.layer.cornerRadius = 30.0
         item.layer.shadowColor = designEngine.colors.textSecondary.cgColor
@@ -70,7 +70,7 @@ final class LoginViewController: UIViewController, LoginViewable {
 
     // MARK: - Setup
     private func setup() {
-        view.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+        view.backgroundColor = designEngine.colors.backgroundPrimary
 
         view.addSubview(onboardingView)
         onboardingView.topAnchor.constraint(

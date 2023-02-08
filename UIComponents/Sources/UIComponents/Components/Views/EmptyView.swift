@@ -69,8 +69,8 @@ extension Style where Component: EmptyView {
     static var `default`: Style {
         Style { component in
             let designEngine = component.designEngine
-            component.textView.font = designEngine.fonts.primary.regular(16.0).uiFont
-            component.textView.textColor = designEngine.colors.textSecondary.uiColor
+            component.textView.font = designEngine.fonts.primary.regular(16.0)
+            component.textView.textColor = designEngine.colors.textSecondary
             component.textView.numberOfLines = 0
             component.textView.textAlignment = .center
         }

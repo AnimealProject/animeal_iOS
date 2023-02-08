@@ -52,7 +52,7 @@ extension MorePartitionViewController: MorePartitionViewable {
 
 private extension MorePartitionViewController {
     func setup() {
-        view.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+        view.backgroundColor = designEngine.colors.backgroundPrimary
 
         view.addSubview(headerContainerView.prepareForAutoLayout())
         headerContainerView.leadingAnchor ~= view.leadingAnchor + 26.0
@@ -81,7 +81,7 @@ private extension MorePartitionViewController {
             action: #selector(barButtonItemTapped)
         )
 
-        button.tintColor = designEngine.colors.textPrimary.uiColor
+        button.tintColor = designEngine.colors.textPrimary
         navigationItem.leftBarButtonItem = button
     }
 
@@ -91,8 +91,8 @@ private extension MorePartitionViewController {
 
     func applyHeader(_ model: PartitionContentModel.Header) {
         let headerLabel = UILabel()
-        headerLabel.font = designEngine.fonts.primary.bold(28).uiFont
-        headerLabel.textColor = designEngine.colors.textPrimary.uiColor
+        headerLabel.font = designEngine.fonts.primary.bold(28)
+        headerLabel.textColor = designEngine.colors.textPrimary
         headerLabel.numberOfLines = 1
         headerLabel.text = model.title
 
@@ -124,8 +124,8 @@ private extension MorePartitionViewController {
         if let block = model.bottomTextBlock {
             let label = UILabel()
             label.text = block.title
-            label.font = designEngine.fonts.primary.regular(16).uiFont
-            label.textColor = designEngine.colors.textPrimary.uiColor
+            label.font = designEngine.fonts.primary.regular(16)
+            label.textColor = designEngine.colors.textPrimary
             label.textAlignment = .center
             contentContainerView.addArrangedSubview(UIView())
             contentContainerView.addArrangedSubview(label)

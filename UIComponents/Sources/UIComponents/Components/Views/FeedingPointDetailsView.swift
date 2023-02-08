@@ -23,7 +23,7 @@ public final class FeedingPointDetailsView: UIView {
         infoView.configure(model.placeInfoViewModel)
         imageView.image = Asset.Images.heartIcon.image
         imageView.highlightedImage = Asset.Images.heartIcon.image.withTintColor(
-            designEngine.colors.error.uiColor
+            designEngine.colors.error
         )
         imageView.isHighlighted = model.isHighlighted
     }
@@ -53,7 +53,7 @@ private extension FeedingPointDetailsView {
         imageView.leadingAnchor ~= infoView.trailingAnchor
         imageView.layer.cornerRadius = 16
         imageView.contentMode = .center
-        imageView.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+        imageView.backgroundColor = designEngine.colors.backgroundPrimary
         imageView.layer.shadowColor = designEngine.colors.textSecondary.cgColor
         imageView.layer.masksToBounds = false
         imageView.layer.shadowOpacity = 0.16

@@ -26,7 +26,7 @@ final class AboutViewController: UIViewController, AboutViewable {
     // MARK: - Setup
     private func setup() {
         setupNavigationBar()
-        view.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+        view.backgroundColor = designEngine.colors.backgroundPrimary
 
         guard let model = viewModel.observableModel as? AboutModel else {
             return
@@ -42,7 +42,7 @@ final class AboutViewController: UIViewController, AboutViewable {
         hostingViewController.view.topAnchor ~= view.safeAreaLayoutGuide.topAnchor
         hostingViewController.view.trailingAnchor ~= view.safeAreaLayoutGuide.trailingAnchor
         hostingViewController.view.bottomAnchor ~= view.safeAreaLayoutGuide.bottomAnchor
-        hostingViewController.view.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+        hostingViewController.view.backgroundColor = designEngine.colors.backgroundPrimary
     }
 
     private func setupNavigationBar() {
@@ -53,7 +53,7 @@ final class AboutViewController: UIViewController, AboutViewable {
             action: #selector(barButtonItemTapped)
         )
 
-        button.tintColor = designEngine.colors.textPrimary.uiColor
+        button.tintColor = designEngine.colors.textPrimary
         navigationItem.leftBarButtonItem = button
     }
 

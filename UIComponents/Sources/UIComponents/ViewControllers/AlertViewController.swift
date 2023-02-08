@@ -66,7 +66,7 @@ public final class AlertViewController: UIViewController {
         dialogView.trailingAnchor ~= view.trailingAnchor - 36
         dialogView.centerXAnchor ~= view.centerXAnchor
         dialogView.centerYAnchor ~= view.centerYAnchor
-        dialogView.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+        dialogView.backgroundColor = designEngine.colors.backgroundPrimary
 
         let contentView = UIStackView()
         contentView.axis = .horizontal
@@ -86,8 +86,8 @@ public final class AlertViewController: UIViewController {
         actionsContainer.spacing = 12
 
         let titleLabel = UILabel()
-        titleLabel.font = designEngine.fonts.primary.bold(18).uiFont
-        titleLabel.textColor = designEngine.colors.textPrimary.uiColor
+        titleLabel.font = designEngine.fonts.primary.bold(18)
+        titleLabel.textColor = designEngine.colors.textPrimary
         titleLabel.numberOfLines = 0
         titleLabel.text = title
 

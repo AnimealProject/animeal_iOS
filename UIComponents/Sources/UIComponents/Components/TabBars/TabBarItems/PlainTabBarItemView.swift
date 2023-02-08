@@ -30,11 +30,11 @@ extension PlainTabBarItemView: TabBarItemView {
         UIView.animate(withDuration: 0.2) {
             if isSelected {
                 self.imageView.image = self.model.icon?.withTintColor(
-                    self.designEngine.colors.accent.uiColor
+                    self.designEngine.colors.accent
                 )
             } else {
                 self.imageView.image = self.model.icon?.withTintColor(
-                    self.designEngine.colors.textPrimary.uiColor
+                    self.designEngine.colors.textPrimary
                 )
             }
             self.titleLabel.alpha = !isSelected ? 0 : 1
@@ -65,7 +65,7 @@ private extension PlainTabBarItemView {
     func fillContent() {
         imageView.image = model.icon
         titleLabel.text = model.title
-        titleLabel.font = designEngine.fonts.primary.semibold(10).uiFont
-        titleLabel.textColor = designEngine.colors.accent.uiColor
+        titleLabel.font = designEngine.fonts.primary.semibold(10)
+        titleLabel.textColor = designEngine.colors.accent
     }
 }

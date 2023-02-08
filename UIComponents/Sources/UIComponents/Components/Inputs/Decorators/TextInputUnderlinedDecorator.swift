@@ -27,8 +27,8 @@ open class TextInputUnderlinedDecorator<ContentView: TextFieldContainerView>: UI
 
     private lazy var titleView: UILabel = {
         let item = UILabel().prepareForAutoLayout()
-        item.font = designEngine.fonts.primary.medium(14.0).uiFont
-        item.textColor = designEngine.colors.textPrimary.uiColor
+        item.font = designEngine.fonts.primary.medium(14.0)
+        item.textColor = designEngine.colors.textPrimary
         item.numberOfLines = 1
         item.textAlignment = .left
         return item
@@ -37,14 +37,14 @@ open class TextInputUnderlinedDecorator<ContentView: TextFieldContainerView>: UI
     private lazy var lineView: UIView = {
         let item = UIView().prepareForAutoLayout()
         item.heightAnchor ~= 1.0
-        item.backgroundColor = designEngine.colors.disabled.uiColor
+        item.backgroundColor = designEngine.colors.disabled
         return item
     }()
 
     private lazy var descriptionView: UILabel = {
         let item = UILabel().prepareForAutoLayout()
-        item.font = designEngine.fonts.primary.medium(10.0).uiFont
-        item.textColor = designEngine.colors.textSecondary.uiColor
+        item.font = designEngine.fonts.primary.medium(10.0)
+        item.textColor = designEngine.colors.textSecondary
         item.numberOfLines = 1
         item.textAlignment = .right
         return item
@@ -120,15 +120,15 @@ open class TextInputUnderlinedDecorator<ContentView: TextFieldContainerView>: UI
     private func configureStyle(_ textFieldState: TextInputView.State) {
         switch textFieldState {
         case .normal:
-            textView.font = designEngine.fonts.primary.medium(16.0).uiFont
-            textView.textColor = designEngine.colors.textPrimary.uiColor
-            lineView.backgroundColor = designEngine.colors.disabled.uiColor
-            descriptionView.textColor = designEngine.colors.textSecondary.uiColor
+            textView.font = designEngine.fonts.primary.medium(16.0)
+            textView.textColor = designEngine.colors.textPrimary
+            lineView.backgroundColor = designEngine.colors.disabled
+            descriptionView.textColor = designEngine.colors.textSecondary
         case .error:
-            textView.font = designEngine.fonts.primary.medium(16.0).uiFont
-            textView.textColor = designEngine.colors.textPrimary.uiColor
-            lineView.backgroundColor = designEngine.colors.error.uiColor
-            descriptionView.textColor = designEngine.colors.error.uiColor
+            textView.font = designEngine.fonts.primary.medium(16.0)
+            textView.textColor = designEngine.colors.textPrimary
+            lineView.backgroundColor = designEngine.colors.error
+            descriptionView.textColor = designEngine.colors.error
         }
     }
 

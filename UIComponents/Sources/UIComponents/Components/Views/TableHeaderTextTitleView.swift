@@ -18,8 +18,8 @@ public final class TableHeaderTextTitleView: UIView {
     // MARK: - Configuration
     public func configure(_ model: Model) {
         titleLabel.text = model.title
-        titleLabel.font = designEngine.fonts.primary.bold(model.fontSize).uiFont
-        titleLabel.textColor = designEngine.colors.textPrimary.uiColor
+        titleLabel.font = designEngine.fonts.primary.bold(model.fontSize)
+        titleLabel.textColor = designEngine.colors.textPrimary
     }
 }
 

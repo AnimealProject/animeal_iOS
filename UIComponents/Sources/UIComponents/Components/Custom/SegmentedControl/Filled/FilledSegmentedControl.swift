@@ -49,10 +49,10 @@ private extension FilledSegmentedControl {
     }
 
     func setup() {
-        backgroundColor = designEngine.colors.backgroundPrimary.uiColor
-        selectedSegmentTintColor = designEngine.colors.accent.uiColor
+        backgroundColor = designEngine.colors.backgroundPrimary
+        selectedSegmentTintColor = designEngine.colors.accent
         setTitleTextAttributes(
-            [NSAttributedString.Key.foregroundColor: designEngine.colors.textPrimary.uiColor],
+            [NSAttributedString.Key.foregroundColor: designEngine.colors.textPrimary],
             for: .selected
         )
     }

@@ -149,7 +149,7 @@ final class ProfileViewController: BaseViewController, ProfileViewable {
 private extension ProfileViewController {
     // MARK: - Setup
     func setup() {
-        view.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+        view.backgroundColor = designEngine.colors.backgroundPrimary
         setupKeyboardHandling()
 
         view.addSubview(scrollView)
@@ -213,15 +213,15 @@ private extension ProfileViewController {
 private extension TextFieldContainable {
     var activeTextAttributes: [NSAttributedString.Key: Any]? {
         [
-            .font: designEngine.fonts.primary.medium(16.0).uiFont as Any,
-            .foregroundColor: designEngine.colors.textPrimary.uiColor
+            .font: designEngine.fonts.primary.medium(16.0) as Any,
+            .foregroundColor: designEngine.colors.textPrimary
         ]
     }
 
     var placeholderTextAttributes: [NSAttributedString.Key: Any]? {
         [
-            .font: designEngine.fonts.primary.medium(16.0).uiFont as Any,
-            .foregroundColor: designEngine.colors.disabled.uiColor
+            .font: designEngine.fonts.primary.medium(16.0) as Any,
+            .foregroundColor: designEngine.colors.disabled
         ]
     }
 }

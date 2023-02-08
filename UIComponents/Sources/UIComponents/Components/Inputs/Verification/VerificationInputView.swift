@@ -92,27 +92,27 @@ private final class _VerificationElementInputView: _BackwardListenerInputView,
     private func setupStyle() {
         switch fieldState {
         case .normal:
-            backgroundColor = designEngine.colors.backgroundPrimary.uiColor
-            textColor = designEngine.colors.textPrimary.uiColor
-            font = designEngine.fonts.primary.medium(28.0).uiFont
+            backgroundColor = designEngine.colors.backgroundPrimary
+            textColor = designEngine.colors.textPrimary
+            font = designEngine.fonts.primary.medium(28.0)
             cornerRadius()
             shadow()
             border(
                 color: .clear,
                 width: 0.0
             )
-            tintColor = designEngine.colors.accent.uiColor
+            tintColor = designEngine.colors.accent
         case .error:
-            backgroundColor = designEngine.colors.backgroundPrimary.uiColor
-            textColor = designEngine.colors.textPrimary.uiColor
-            font = designEngine.fonts.primary.medium(28.0).uiFont
+            backgroundColor = designEngine.colors.backgroundPrimary
+            textColor = designEngine.colors.textPrimary
+            font = designEngine.fonts.primary.medium(28.0)
             cornerRadius()
-            shadow(color: designEngine.colors.error.uiColor)
+            shadow(color: designEngine.colors.error)
             border(
-                color: designEngine.colors.error.uiColor,
+                color: designEngine.colors.error,
                 width: 1.0
             )
-            tintColor = designEngine.colors.error.uiColor
+            tintColor = designEngine.colors.error
         }
     }
 

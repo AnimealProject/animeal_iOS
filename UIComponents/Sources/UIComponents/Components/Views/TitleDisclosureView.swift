@@ -24,7 +24,7 @@ public final class TitleDisclosureView: UIView {
     public func configure(_ model: Model) {
         title.text = model.title
         imageView.image = Asset.Images.arrowRight.image.withRenderingMode(.alwaysTemplate)
-        imageView.tintColor = designEngine.colors.textPrimary.uiColor
+        imageView.tintColor = designEngine.colors.textPrimary
         self.model = model
     }
 
@@ -34,8 +34,8 @@ public final class TitleDisclosureView: UIView {
         title.topAnchor ~= topAnchor + 10
         title.bottomAnchor ~= bottomAnchor - 10
         title.trailingAnchor ~= trailingAnchor - 12
-        title.font = designEngine.fonts.primary.regular(16).uiFont
-        title.textColor = designEngine.colors.textPrimary.uiColor
+        title.font = designEngine.fonts.primary.regular(16)
+        title.textColor = designEngine.colors.textPrimary
 
         addSubview(imageView.prepareForAutoLayout())
         imageView.trailingAnchor ~= trailingAnchor
@@ -43,7 +43,7 @@ public final class TitleDisclosureView: UIView {
 
         let gestureRecognizer = LongPressGestureRecognizer { [weak self] gesture in
             guard let self = self else { return }
-            let color = self.designEngine.colors.textPrimary.uiColor
+            let color = self.designEngine.colors.textPrimary
             if gesture.state == .began {
                 self.title.textColor = color.withAlphaComponent(0.5)
                 self.imageView.tintColor = color.withAlphaComponent(0.5)

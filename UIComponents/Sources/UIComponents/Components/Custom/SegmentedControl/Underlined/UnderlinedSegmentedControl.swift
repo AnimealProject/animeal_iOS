@@ -181,8 +181,8 @@ public extension Style where Component: UnderlinedSegmentedControl {
     static var `default`: Style {
         return Style { component in
             let designEngine = component.designEngine
-            component.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
-            component.selectorView.backgroundColor = designEngine.colors.accent.uiColor
+            component.backgroundColor = designEngine.colors.backgroundPrimary
+            component.selectorView.backgroundColor = designEngine.colors.accent
             component.updateSegments()
         }
     }

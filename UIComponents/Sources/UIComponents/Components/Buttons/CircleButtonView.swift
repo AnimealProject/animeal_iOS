@@ -12,11 +12,11 @@ open class CircleButtonView: ButtonView {
     public override func configure(_ model: ButtonView.Model) {
         identifier = model.identifier
         contentView.setImage(
-            model.icon?.withTintColor(designEngine.colors.textPrimary.uiColor),
+            model.icon?.withTintColor(designEngine.colors.textPrimary),
             for: UIControl.State.normal
         )
         contentView.setImage(
-            model.icon?.withTintColor(designEngine.colors.accent.uiColor),
+            model.icon?.withTintColor(designEngine.colors.accent),
             for: UIControl.State.highlighted
         )
     }
@@ -31,7 +31,7 @@ open class CircleButtonView: ButtonView {
         contentView.heightAnchor ~= Constants.height
         contentView.widthAnchor ~= Constants.width
         contentView.layer.cornerRadius = Constants.cornerRadius
-        contentView.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+        contentView.backgroundColor = designEngine.colors.backgroundPrimary
 
         contentView.layer.masksToBounds = false
         contentView.layer.shadowColor = designEngine.colors.backgroundPrimary.cgColor

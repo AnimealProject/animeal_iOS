@@ -142,7 +142,7 @@ private final class LoaderViewController: BaseViewController, ActivityDisplayabl
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+        view.backgroundColor = designEngine.colors.backgroundPrimary
         displayActivityIndicator()
     }
 }

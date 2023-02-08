@@ -47,7 +47,7 @@ final class FavouritesViewController: UIViewController {
 
     // MARK: - Setup
     private func setup() {
-        view.backgroundColor = designEngine.colors.backgroundPrimary.uiColor
+        view.backgroundColor = designEngine.colors.backgroundPrimary
 
         headerView.configure(.init(title: L10n.Favourites.header, fontSize: 28))
 
