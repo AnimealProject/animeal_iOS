@@ -153,6 +153,10 @@ internal enum L10n {
       }
       /// Field is empty
       internal static let empty = L10n.tr("Localizable", "profile.errors.empty", fallback: "Field is empty")
+      /// Must contain only letters
+      internal static let incorrectCharacters = L10n.tr("Localizable", "profile.errors.incorrectCharacters", fallback: "Must contain only letters")
+      /// Length must be between 2 and 35
+      internal static let incorrectCharactersLength = L10n.tr("Localizable", "profile.errors.incorrectCharactersLength", fallback: "Length must be between 2 and 35")
       /// Format is incorrect
       internal static let incorrectFormat = L10n.tr("Localizable", "profile.errors.incorrectFormat", fallback: "Format is incorrect")
     }
