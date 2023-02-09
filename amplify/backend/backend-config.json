@@ -134,14 +134,14 @@
     "userPoolGroups": {
       "dependsOn": [
         {
-          "category": "auth",
-          "resourceName": "animeal8f90e9b68f90e9b6",
           "attributes": [
             "UserPoolId",
             "AppClientIDWeb",
             "AppClientID",
             "IdentityPoolId"
-          ]
+          ],
+          "category": "auth",
+          "resourceName": "animeal8f90e9b68f90e9b6"
         }
       ],
       "providerPlugin": "awscloudformation",
