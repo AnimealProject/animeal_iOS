@@ -88,6 +88,8 @@ extension HomeViewController: HomeViewModelOutput {
 // MARK: - Private API
 private extension HomeViewController {
     func setup() {
+        navigationController?.setNavigationBarHidden(true, animated: false)
+        
         setupMapView()
 
         let controlsContainer = UIStackView()
@@ -95,7 +97,7 @@ private extension HomeViewController {
         controlsContainer.alignment = .center
 
         view.addSubview(controlsContainer.prepareForAutoLayout())
-        controlsContainer.topAnchor ~= view.safeAreaLayoutGuide.topAnchor
+        controlsContainer.topAnchor ~= view.safeAreaLayoutGuide.topAnchor + 32
         controlsContainer.centerXAnchor ~= view.centerXAnchor
         controlsContainer.distribution = .fillProportionally
 

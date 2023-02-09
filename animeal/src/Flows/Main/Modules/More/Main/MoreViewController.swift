@@ -30,12 +30,6 @@ final class MoreViewController: UIViewController, MoreViewable {
         viewModel.load()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        customTabBarController?.setTabBarHidden(false, animated: true)
-        navigationController?.setNavigationBarHidden(true, animated: false)
-    }
-
     func applyActions(_ viewItems: [MoreItemView]) {
         viewItems.forEach { viewItem in
             let view = TitleDisclosureView()
@@ -65,7 +59,7 @@ final class MoreViewController: UIViewController, MoreViewable {
         headerLabel.text = L10n.TabBar.more
 
         view.addSubview(headerLabel.prepareForAutoLayout())
-        headerLabel.topAnchor ~= view.safeAreaLayoutGuide.topAnchor + 36
+        headerLabel.topAnchor ~= view.safeAreaLayoutGuide.topAnchor
         headerLabel.leadingAnchor ~= view.leadingAnchor + 26.0
         headerLabel.trailingAnchor ~= view.trailingAnchor - 26.0
 
