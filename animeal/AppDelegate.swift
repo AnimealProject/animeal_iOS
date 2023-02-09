@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateProtocol {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
         configureAmplify()
+        configureAppearance()
 
         context = AppContext.context()
         context.applicationDelegateServices.forEach {
@@ -69,5 +70,9 @@ private extension AppDelegate {
         } catch {
             logError("[APP] Failed to initialize Amplify with \(error)")
         }
+    }
+    
+    func configureAppearance() {
+        UINavigationBar.appearance().apply(style: .default)
     }
 }

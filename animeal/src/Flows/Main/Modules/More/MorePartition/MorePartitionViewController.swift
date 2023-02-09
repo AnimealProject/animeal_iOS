@@ -74,15 +74,7 @@ private extension MorePartitionViewController {
     }
 
     func setupNavigationBar() {
-        let button = UIBarButtonItem(
-            image: UIImage(systemName: "chevron.backward"),
-            style: .plain,
-            target: self,
-            action: #selector(barButtonItemTapped)
-        )
-
-        button.tintColor = designEngine.colors.textPrimary
-        navigationItem.leftBarButtonItem = button
+        navigationItem.backBarButtonItem = .back(target: self, action: #selector(barButtonItemTapped))
     }
 
     @objc func barButtonItemTapped() {

@@ -39,6 +39,7 @@ public enum Asset {
     public static let orangePeel = ColorAsset(name: "OrangePeel")
   }
   public enum Images {
+    public static let arrowBackOffset = ImageAsset(name: "arrow_back_offset")
     public static let arrowDown = ImageAsset(name: "arrow_down")
     public static let arrowUp = ImageAsset(name: "arrow_up")
     public static let crosIcon = ImageAsset(name: "cros_icon")
