@@ -52,7 +52,7 @@
         },
         "startFeeding": {
           "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/startFeeding-7645376a7334456a4736-build.zip"
+          "s3Key": "amplify-builds/startFeeding-6f334a47516e7565386f-build.zip"
         },
         "finishFeeding": {
           "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
@@ -64,7 +64,7 @@
         },
         "rejectFeeding": {
           "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/rejectFeeding-637176626e5852723752-build.zip"
+          "s3Key": "amplify-builds/rejectFeeding-2f487463714e706d5332-build.zip"
         },
         "feedingStreamTrigger": {
           "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
