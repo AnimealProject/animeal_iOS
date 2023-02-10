@@ -126,8 +126,8 @@ internal enum L10n {
     }
   }
   internal enum Profile {
-    /// Birth Date
-    internal static let birthDate = L10n.tr("Localizable", "profile.birthDate", fallback: "Birth Date")
+    /// Birthdate
+    internal static let birthDate = L10n.tr("Localizable", "profile.birthDate", fallback: "Birthdate")
     /// Done
     internal static let done = L10n.tr("Localizable", "profile.done", fallback: "Done")
     /// Edit
@@ -142,8 +142,8 @@ internal enum L10n {
     internal static let phoneNumber = L10n.tr("Localizable", "profile.phoneNumber", fallback: "Phone Number")
     /// Save
     internal static let save = L10n.tr("Localizable", "profile.save", fallback: "Save")
-    /// please fill out the profile information
-    internal static let subHeader = L10n.tr("Localizable", "profile.subHeader", fallback: "please fill out the profile information")
+    /// Please fill out the profile information
+    internal static let subHeader = L10n.tr("Localizable", "profile.subHeader", fallback: "Please fill out the profile information")
     /// Surname
     internal static let surname = L10n.tr("Localizable", "profile.surname", fallback: "Surname")
     internal enum Errors {
