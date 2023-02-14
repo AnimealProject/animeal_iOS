@@ -147,9 +147,9 @@ private extension CustomAuthViewController {
         setupKeyboardHandling()
 
         view.addSubview(scrollView)
-        scrollView.leadingAnchor ~= view.leadingAnchor + 16.0
+        scrollView.leadingAnchor ~= view.leadingAnchor + 26.0
         scrollView.topAnchor ~= view.safeAreaLayoutGuide.topAnchor
-        scrollView.trailingAnchor ~= view.trailingAnchor - 16.0
+        scrollView.trailingAnchor ~= view.trailingAnchor - 26.0
         scrollView.bottomAnchor ~= view.safeAreaLayoutGuide.bottomAnchor
         scrollView.canCancelContentTouches = false
 

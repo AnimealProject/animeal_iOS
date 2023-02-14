@@ -67,9 +67,9 @@ final class VerificationViewController: BaseViewController, VerificationViewMode
         view.backgroundColor = designEngine.colors.backgroundPrimary
 
         view.addSubview(headerView)
-        headerView.leadingAnchor ~= view.safeAreaLayoutGuide.leadingAnchor + 32.0
+        headerView.leadingAnchor ~= view.safeAreaLayoutGuide.leadingAnchor + 26.0
         headerView.topAnchor ~= view.safeAreaLayoutGuide.topAnchor + 32.0
-        headerView.trailingAnchor ~= view.safeAreaLayoutGuide.trailingAnchor - 32.0
+        headerView.trailingAnchor ~= view.safeAreaLayoutGuide.trailingAnchor - 26.0
 
         view.addSubview(codeInputView)
         codeInputView.leadingAnchor ~= headerView.leadingAnchor
