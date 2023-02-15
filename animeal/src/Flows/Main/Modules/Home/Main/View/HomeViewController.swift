@@ -120,6 +120,10 @@ private extension HomeViewController {
         viewModel.onFeedingPointsHaveBeenPrepared = { [weak self] points in
             self?.applyFeedingPoints(points)
         }
+        
+        viewModel.onFeedingPointCameraMoveRequired = { [weak self] move in
+            self?.handleCameraMove(move)
+        }
 
         viewModel.onSegmentsHaveBeenPrepared = { [weak self] model in
             self?.applyFilter(model)
@@ -232,6 +236,10 @@ private extension HomeViewController {
         feedControl.stopTimer()
         mapView.cancelRouteRequest()
         hideFeedControl(true)
+    }
+    
+    func handleCameraMove(_ move: FeedingPointCameraMove) {
+        mapView.easeToLocation(move.feedingPointCoordinate, duration: 0)
     }
 }
 

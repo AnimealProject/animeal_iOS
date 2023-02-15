@@ -142,4 +142,8 @@ public struct ButtonViewFactory: ButtonViewGenerating, StyleEngineContainable {
         button.backgroundColor = designEngine.colors.backgroundPrimary
         return CircleButtonView(contentView: button)
     }
+    
+    public func makeTextButton() -> ButtonView {
+        TextButtonView(contentView: UIButton(type: .system))
+    }
 }

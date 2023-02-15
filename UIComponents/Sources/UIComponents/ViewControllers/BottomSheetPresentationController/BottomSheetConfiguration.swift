@@ -28,11 +28,13 @@ public struct BottomSheetConfiguration {
     }
 
     public static var fullScreen: BottomSheetConfiguration {
+        let safeAreaTopInset = UIApplication.shared.keyWindow?.safeAreaInsets.top ?? 0
+        let maxHeight = UIScreen.main.bounds.height - safeAreaTopInset
         return .init(
             maxDimmedAlpha: 0.6,
-            defaultHeight: UIScreen.main.bounds.height / 2,
-            dismissibleHeight: UIScreen.main.bounds.height / 2 - 150,
-            maximumContainerHeight: UIScreen.main.bounds.height - 50
+            defaultHeight: maxHeight,
+            dismissibleHeight: maxHeight - 150,
+            maximumContainerHeight: maxHeight
         )
     }
     

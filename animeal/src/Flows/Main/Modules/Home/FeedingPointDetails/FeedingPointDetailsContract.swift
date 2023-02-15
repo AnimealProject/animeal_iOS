@@ -1,5 +1,6 @@
 import UIKit
 import CoreLocation
+import UIComponents
 
 // MARK: - View
 protocol FeedingPointDetailsViewable: AnyObject {
@@ -24,6 +25,7 @@ protocol FeedingPointDetailsViewState: AnyObject {
     var onContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointDetailsViewItem) -> Void)? { get set }
     var onMediaContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointMediaContent) -> Void)? { get set }
     var onFavoriteMutationFailed: (() -> Void)? { get set }
+    var showOnMapAction: ButtonView.Model? { get }
 }
 
 // MARK: - Model
@@ -49,6 +51,7 @@ protocol FeedingPointCoordinatable {
 // MARK: - Models
 enum FeedingPointRoute {
     case feed(FeedingPointFeedDetails)
+    case map(identifier: String)
 }
 
 struct FeedingPointFeedDetails {
@@ -59,4 +62,5 @@ struct FeedingPointFeedDetails {
 enum FeedingPointEvent {
     case tapAction
     case tapFavorite
+    case tapShowOnMap
 }

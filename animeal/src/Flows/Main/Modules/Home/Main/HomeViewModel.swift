@@ -18,6 +18,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
 
     // MARK: - State
     var onFeedingPointsHaveBeenPrepared: (([FeedingPointViewItem]) -> Void)?
+    var onFeedingPointCameraMoveRequired: ((FeedingPointCameraMove) -> Void)?
     var onSegmentsHaveBeenPrepared: ((FilterModel) -> Void)?
     var onRouteRequestHaveBeenPrepared: ((FeedingPointRouteRequest) -> Void)?
     var onFeedingActionHaveBeenPrepared: ((FeedingActionMapper.FeedingAction) -> Void)?
@@ -41,7 +42,11 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     }
 
     // MARK: - Life cycle
-    func setup() { }
+    func setup() {
+        coordinator.moveToFeedingPointEvent = { [weak self] in
+            self?.handleMoveToFeedingPoint(pointId: $0)
+        }
+    }
 
     func load() {
         fetchFeedingPoints(true)
@@ -167,6 +172,27 @@ private extension HomeViewModel {
             self.onFeedingPointsHaveBeenPrepared?(viewItems)
         }
     }
+    
+    func proceedFeedingPointSelection(pointId: String) {
+        model.proceedFeedingPointSelection(pointId) { [weak self] points in
+            guard let self = self else { return }
+            let viewItems = points.map {
+                self.feedingPointViewMapper.mapFeedingPoint($0)
+            }
+            self.onFeedingPointsHaveBeenPrepared?(viewItems)
+            self.coordinator.routeTo(.details(pointId))
+            self.coordinator.feedingDidStartedEvent = { [weak self] event in
+                self?.onRouteRequestHaveBeenPrepared?(
+                    .init(
+                        feedingPointCoordinates: event.coordinates,
+                        countdownTime: Constants.feedingCountdownTimer,
+                        feedingPointId: event.identifier,
+                        isUnfinishedFeeding: false
+                    )
+                )
+            }
+        }
+    }
 
     func handleTapFeedingPoint(pointId: String) {
         switch feedingStatus {
@@ -176,24 +202,30 @@ private extension HomeViewModel {
                 self?.finishFeeding(imageKeys: event)
             }
         case .none:
-            model.proceedFeedingPointSelection(pointId) { [weak self] points in
-                guard let self = self else { return }
-                let viewItems = points.map {
-                    self.feedingPointViewMapper.mapFeedingPoint($0)
-                }
-                self.onFeedingPointsHaveBeenPrepared?(viewItems)
-                self.coordinator.routeTo(.details(pointId))
-                self.coordinator.feedingDidStartedEvent = { [weak self] event in
-                    self?.onRouteRequestHaveBeenPrepared?(
-                        .init(
-                            feedingPointCoordinates: event.coordinates,
-                            countdownTime: Constants.feedingCountdownTimer,
-                            feedingPointId: event.identifier,
-                            isUnfinishedFeeding: false
-                        )
-                    )
-                }
+            proceedFeedingPointSelection(pointId: pointId)
+        }
+    }
+    
+    func handleMoveToFeedingPoint(pointId: String) {
+        coordinator.displayActivityIndicator { [weak self] in
+            guard let self else { return }
+            let feedingPoint = try await self.model.fetchFeedingPoint(pointId)
+            let viewItem = self.feedingPointViewMapper.mapFeedingPoint(feedingPoint)
+            
+            do { // change filter for requested pet
+                self.model.proceedFilter({
+                    switch feedingPoint.pet {
+                    case .cats: return .cats
+                    case .dogs: return .dogs
+                    }
+                }())
+                self.fetchFilterItems()
             }
+
+            self.proceedFeedingPointSelection(pointId: pointId)
+            self.onFeedingPointCameraMoveRequired?(
+                .init(feedingPointCoordinate: viewItem.coordinates)
+            )
         }
     }
 }
