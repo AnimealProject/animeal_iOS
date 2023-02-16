@@ -9,7 +9,9 @@ import Services
     DefaultsServiceHolder &
     NetworkServiceHolder &
     UserProfileServiceHolder &
-    DataStoreServiceHolder
+    DataStoreServiceHolder &
+    FavoritesServiceHolder &
+    FeedingPointsServiceHolder
 
 struct AppContext: AppContextProtocol {
     let analyticsService: AnalyticsServiceProtocol
@@ -20,6 +22,8 @@ struct AppContext: AppContextProtocol {
     let networkService: NetworkServiceProtocol
     let profileService: UserProfileServiceProtocol
     let dataStoreService: DataStoreServiceProtocol
+    let favoritesService: FavoritesServiceProtocol
+    let feedingPointsService: FeedingPointsServiceProtocol
     var applicationDelegateServices: [ApplicationDelegateService]
 
     static func context() -> AppContext {
@@ -31,6 +35,15 @@ struct AppContext: AppContextProtocol {
         let networkService = NetworkService()
         let profileService = UserProfileService()
         let dataStoreService = DataStoreService()
+        let favoritesService = FavoritesService(
+            networkService: networkService,
+            profileService: profileService
+        )
+        let feedingPointsService = FeedingPointsService(
+            networkService: networkService,
+            profileService: profileService,
+            favoritesService: favoritesService
+        )
 
         let context = AppContext(
             analyticsService: analyticsService,
@@ -41,6 +54,8 @@ struct AppContext: AppContextProtocol {
             networkService: networkService,
             profileService: profileService,
             dataStoreService: dataStoreService,
+            favoritesService: favoritesService,
+            feedingPointsService: feedingPointsService,
             applicationDelegateServices: [
                 analyticsService,
                 devLoggerService,

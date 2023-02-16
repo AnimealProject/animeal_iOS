@@ -12,6 +12,9 @@ protocol HomeViewModelOutput: AnyObject {
 
 // sourcery: AutoMockable
 protocol HomeModelProtocol: AnyObject {
+    // Events
+    var onFeedingPointChange: (([HomeModel.FeedingPoint]) -> Void)? { get set }
+
     func fetchFeedingPoints() async throws -> [HomeModel.FeedingPoint]
     func fetchFilterItems(_ completion: (([HomeModel.FilterItem]) -> Void)?)
     func fetchFeedingAction(request: HomeModel.FeedingActionRequest) -> HomeModel.FeedingAction
@@ -42,7 +45,6 @@ protocol HomeViewModelLifeCycle: AnyObject {
 @MainActor
 protocol HomeViewInteraction: AnyObject {
     func handleActionEvent(_ event: HomeViewActionEvent)
-    func fetchUnfinishedFeeding()
     func startFeeding(feedingPointId id: String)
     func finishFeeding(imageKeys: [String])
 }

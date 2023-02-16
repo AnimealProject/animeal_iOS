@@ -2,20 +2,26 @@ import Foundation
 import Services
 import Amplify
 import CoreLocation
+import Combine
 
 final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingPointDetailsDataStoreProtocol {
     // MARK: - Private properties
     private let mapper: FeedingPointDetailsModelMapperProtocol
 
-    typealias Context = NetworkServiceHolder & DataStoreServiceHolder & UserProfileServiceHolder
+    typealias Context = NetworkServiceHolder
+                        & DataStoreServiceHolder
+                        & UserProfileServiceHolder
+                        & FeedingPointsServiceHolder
     private let context: Context
+    private var cachedFeedingPoint: FullFeedingPoint?
+    private var cancellables = Set<AnyCancellable>()
 
     // MARK: - DataStore properties
     let feedingPointId: String
     var feedingPointLocation: CLLocationCoordinate2D {
         guard
-            let latitude = feedingPoint?.location.lat,
-            let longitude = feedingPoint?.location.lon
+            let latitude = cachedFeedingPoint?.feedingPoint.location.lat,
+            let longitude = cachedFeedingPoint?.feedingPoint.location.lon
         else {
             return CLLocationCoordinate2D()
         }
@@ -24,9 +30,8 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
             longitude: longitude
         )
     }
-
-    private var relatedFavoritePoint: Favourite?
-    private var feedingPoint: FeedingPoint?
+    // MARK: - Subscription Event
+    var onFeedingPointChange: ((FeedingPointDetailsModel.PointContent) -> Void)?
 
     // MARK: - Initialization
     init(
@@ -37,80 +42,35 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
         self.feedingPointId = pointId
         self.mapper = mapper
         self.context = context
+        subscribeForFeedingPointChangeEvents()
     }
 
-    func fetchFeedingPoints(_ completion: ((FeedingPointDetailsModel.PointContent) -> Void)?) {
-        context.networkService.query(request: .get(FeedingPoint.self, byId: feedingPointId)) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let point):
-                guard let point = point else {
-                    return
-                }
-                self.feedingPoint = point
-                Task {
-                    await self.fetchFavorites()
-                    DispatchQueue.main.async {
-                        completion?(
-                            self.mapper.map(
-                                point,
-                                isFavorite: self.relatedFavoritePoint != nil
-                            )
-                        )
-                    }
-                }
-            case .failure(let error):
-                // TODO: Handele error
-                print(error)
-            }
-        }
-    }
-
-    func mutateFavorite(completion: ((Bool) -> Void)?) {
-        guard let feedingPoint = feedingPoint, let userId = context.profileService.getCurrentUser()?.userId else {
-            completion?(false)
-            return
+    func fetchFeedingPoint(_ completion: ((FeedingPointDetailsModel.PointContent) -> Void)?) {
+        let fullFeedingPoint = context.feedingPointsService.storedfeedingPoints.first { point in
+            point.feedingPoint.id == self.feedingPointId
         }
 
-        var request: Request<Favourite>
-        if let favoritePoint = relatedFavoritePoint {
-            request = .delete(favoritePoint)
-        } else {
-            let favouritePoint = Favourite(
-                userId: userId,
-                feedingPointId: feedingPoint.id,
-                feedingPoint: feedingPoint
+        if let feedingPointModel = fullFeedingPoint {
+            cachedFeedingPoint = fullFeedingPoint
+            completion?(
+                mapper.map(
+                    feedingPointModel.feedingPoint,
+                    isFavorite: feedingPointModel.isFavorite
+                )
             )
-            request = .create(favouritePoint)
-        }
-        context.networkService.mutate(request: request) { event in
-            switch event {
-            case .success:
-                DispatchQueue.main.async {
-                    completion?(true)
-                }
-            case .failure:
-                DispatchQueue.main.async {
-                    completion?(false)
-                }
-            }
         }
     }
 
-    private func fetchFavorites() async {
-        let userId = context.profileService.getCurrentUser()?.userId ?? ""
-        let fav = Favourite.keys
-        let predicate = fav.userId == userId
-        do {
-            let favorites = try await context.networkService.query(request: .list(Favourite.self, where: predicate))
-            if let identifier = self.feedingPoint?.id {
-                self.relatedFavoritePoint = favorites.first { fav in
-                    fav.feedingPoint.id == identifier
-                }
-            }
-        } catch {
-            logError(error.localizedDescription)
+    func mutateFavorite() async throws -> Bool {
+        guard let feedingPoint = cachedFeedingPoint else {
+            return false
         }
+        if feedingPoint.isFavorite {
+            try await context.feedingPointsService.deleteFromFavorites(byIdentifier: feedingPointId)
+        } else {
+            try await context.feedingPointsService.addToFavorites(byIdentifier: feedingPointId)
+        }
+        return true
     }
 
     func fetchMediaContent(key: String, completion: ((Data?) -> Void)?) {
@@ -128,6 +88,25 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
                 print(error.localizedDescription)
             }
         }
+    }
+
+    private func subscribeForFeedingPointChangeEvents() {
+        self.context.feedingPointsService.feedingPoints
+            .sink { [weak self] result in
+                guard let self else { return }
+                let points = result.uniqueValues
+                let updatedFeeding = points.first {
+                    $0.feedingPoint.id == self.feedingPointId
+                }
+                if let feedingPointModel = updatedFeeding {
+                    self.cachedFeedingPoint = feedingPointModel
+                    self.onFeedingPointChange?(self.mapper.map(
+                        feedingPointModel.feedingPoint,
+                        isFavorite: feedingPointModel.isFavorite
+                    ))
+                }
+            }
+            .store(in: &cancellables)
     }
 }
 

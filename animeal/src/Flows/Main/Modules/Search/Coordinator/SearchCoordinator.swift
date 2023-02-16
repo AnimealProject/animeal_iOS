@@ -37,6 +37,7 @@ final class SearchCoordinator: Coordinatable {
 }
 
 extension SearchCoordinator: SearchCoordinatable {
+    @MainActor
     func move(to route: SearchRoute) {
         switch route {
         case .details(let identifier):

@@ -5,6 +5,7 @@ import AWSS3StoragePlugin
 import AWSAPIPlugin
 import AWSCognitoAuthPlugin
 import AWSDataStorePlugin
+import AWSCore
 
 protocol AppDelegateProtocol {
     var context: AppContext! { get }
@@ -29,6 +30,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateProtocol {
             _ = $0.registerApplication(application, didFinishLaunchingWithOptions: launchOptions)
         }
         logInfo("[APP] \(#function)")
+
+        // For Debug purposes
+        // AWSDDLog.sharedInstance.logLevel = .verbose
+        // AWSDDLog.add(AWSDDTTYLogger.sharedInstance)
+
         return true
     }
 

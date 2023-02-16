@@ -44,7 +44,6 @@ class HomeViewController: UIViewController {
         setup()
         bind()
         viewModel.load()
-        viewModel.fetchUnfinishedFeeding()
     }
 }
 
