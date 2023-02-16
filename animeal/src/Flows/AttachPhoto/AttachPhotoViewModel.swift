@@ -99,9 +99,6 @@ private extension AttachPhotoViewModel {
                     try await self.uploadMedia(image: photo, progressModel: progressModel)
                 }
             }
-            defer {
-                print("[\(Date.now)] uploadAllMedia completed")
-            }
             return try await group.reduce(into: []) { $0.append($1) }
         }
     }
@@ -112,12 +109,10 @@ private extension AttachPhotoViewModel {
         }
         defer {
             progressModel.isVisible = false
-            print("[\(Date.now)] uploadMediaContent completed")
         }
         do {
             progressModel.isVisible = true
             return try await model.uploadMediaContent(data: data, progressListener: { progress in
-                print("[\(Date.now)] uploadMediaContent: progress \(progress)")
                 DispatchQueue.main.async {
                     progressModel.updateProgress(progress)
                 }
