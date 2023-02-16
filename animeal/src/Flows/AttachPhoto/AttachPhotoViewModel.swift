@@ -4,6 +4,7 @@ import UIKit
 // SDK
 import Common
 import Style
+import UIComponents
 
 final class AttachPhotoViewModel: AttachPhotoViewModelProtocol {
 
@@ -11,6 +12,7 @@ final class AttachPhotoViewModel: AttachPhotoViewModelProtocol {
     private var snapshot = DataSourceSnapshot()
     private let viewSection = AttachPhotoViewSection.main
     private var placeTitle: String?
+    private var photos: [UIImage: ProgressViewModel] = [:]
     private var coordinator: AttachPhotoCoordinatable & AttachPhotoCoordinatorEventHandlerProtocol
 
     // MARK: - Dependencies
@@ -40,6 +42,10 @@ final class AttachPhotoViewModel: AttachPhotoViewModelProtocol {
         createSnapshot()
     }
 
+    func progressModel(for image: UIImage) -> ProgressViewModel? {
+        photos[image]
+    }
+
     private func createSnapshot() {
         snapshot.appendSections([viewSection])
     }
@@ -54,6 +60,17 @@ final class AttachPhotoViewModel: AttachPhotoViewModelProtocol {
             }
         case .addImage(let image):
             updateSnapshot(with: .addImage(image: image))
+        case .finish:
+            let task = { [weak self] in
+                guard let self else { return }
+                do {
+                    let keys = try await self.uploadAllMedia()
+                    self.coordinator.routeTo(.finishFeeding(imageKeys: keys))
+                } catch {
+                    self.coordinator.displayAlert(message: error.localizedDescription)
+                }
+            }
+            self.coordinator.displayActivityIndicator(waitUntil: task, completion: nil)
         }
     }
 }
@@ -64,11 +81,51 @@ private extension AttachPhotoViewModel {
         case .addImage(let image):
             let item = AttachPhotoViewItem.common(image: image)
             snapshot.appendItems([item], toSection: viewSection)
+            photos[image] = ProgressViewModel(progress: 0, isVisible: false)
         case .removeImage(let image):
             let item = AttachPhotoViewItem.common(image: image)
             snapshot.deleteItems([item])
+            photos.removeValue(forKey: image)
+        case .finish:
+            break
         }
         onSnapshotHasBeenPrepared?(snapshot)
+    }
+
+    private func uploadAllMedia() async throws -> [String] {
+        return try await withThrowingTaskGroup(of: String.self) { [self] group in
+            for (photo, progressModel) in self.photos {
+                group.addTask {
+                    try await self.uploadMedia(image: photo, progressModel: progressModel)
+                }
+            }
+            defer {
+                print("[\(Date.now)] uploadAllMedia completed")
+            }
+            return try await group.reduce(into: []) { $0.append($1) }
+        }
+    }
+
+    private func uploadMedia(image: UIImage, progressModel: ProgressViewModel) async throws -> String {
+        guard let data = image.jpegData(compressionQuality: 1) else {
+            throw L10n.Errors.somthingWrong.asBaseError()
+        }
+        defer {
+            progressModel.isVisible = false
+            print("[\(Date.now)] uploadMediaContent completed")
+        }
+        do {
+            progressModel.isVisible = true
+            return try await model.uploadMediaContent(data: data, progressListener: { progress in
+                print("[\(Date.now)] uploadMediaContent: progress \(progress)")
+                DispatchQueue.main.async {
+                    progressModel.updateProgress(progress)
+                }
+            })
+        } catch {
+            progressModel.isVisible = false
+            throw error
+        }
     }
 
     private func fetchContent() {

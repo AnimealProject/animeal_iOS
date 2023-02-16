@@ -6,6 +6,7 @@ public protocol DataStoreServiceHolder {
 
 /// Convenience typealias for the `handler` callback submitted during download data request
 public typealias DataStoreDownloadDataHandler = (Result<Data, Error>) -> Void
+public typealias DataStoreUploadProgressHandler = (Double) -> Void
 
 public protocol DataStoreServiceProtocol {
     /// Retrieve the object from storage into memory.
@@ -20,6 +21,12 @@ public protocol DataStoreServiceProtocol {
         options: DataStoreDownloadRequest.Options?,
         handler: DataStoreDownloadDataHandler?
     )
+
+    func uploadData(
+        key: String,
+        data: Data,
+        progressListener: DataStoreUploadProgressHandler?
+    ) async throws -> String
     
     func getURL(key: String?) async throws -> URL? 
 }

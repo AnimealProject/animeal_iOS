@@ -36,6 +36,30 @@ final class DataStoreService: DataStoreServiceProtocol {
         )
     }
 
+    func uploadData(
+        key: String,
+        data: Data,
+        progressListener: DataStoreUploadProgressHandler? = nil
+    ) async throws -> String {
+        let progressMappedListener: ((Progress) -> Void)? = { progress in
+            progressListener?(progress.fractionCompleted)
+        }
+        return try await withCheckedThrowingContinuation { continuation in
+            Amplify.Storage.uploadData(
+                key: key,
+                data: data,
+                progressListener: progressMappedListener
+            ) { result in
+                switch result {
+                case let .success(info):
+                    continuation.resume(returning: info)
+                case let .failure(error):
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
+
     func getURL(key: String?) async throws -> URL? {
         guard let key, !key.isEmpty else { return nil }
 

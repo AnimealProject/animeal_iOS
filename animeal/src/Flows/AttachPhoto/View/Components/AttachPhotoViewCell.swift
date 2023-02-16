@@ -1,5 +1,6 @@
 // System
 import UIKit
+import SwiftUI
 // SDK
 import UIComponents
 import Style
@@ -11,6 +12,7 @@ protocol AttachPhotoViewCellContainable where Self: UICollectionViewCell {
 extension AttachPhotoViewCell {
     struct Model {
         let image: UIImage
+        let progressModel: ProgressViewModel?
     }
 }
 
@@ -23,6 +25,8 @@ final class AttachPhotoViewCell: UICollectionViewCell, AttachPhotoViewCellContai
         static let closeIconSideSize: CGFloat = 9.0
         static let circleSideSize: CGFloat = 22.0
     }
+
+    private var model: Model?
     
     // MARK: - Reuse identifier
     static var reuseIdentifier: String { String(describing: self) }
@@ -80,7 +84,9 @@ final class AttachPhotoViewCell: UICollectionViewCell, AttachPhotoViewCellContai
     
     // MARK: - Configuration
     func configure(_ model: Model) {
+        self.model = model
         placeImageView.image = model.image
+        setupProgressView()
     }
     
     // MARK: - Setup
@@ -99,6 +105,24 @@ final class AttachPhotoViewCell: UICollectionViewCell, AttachPhotoViewCellContai
         contentView.addSubview(closeImageView)
         closeImageView.centerXAnchor ~= circleView.centerXAnchor
         closeImageView.centerYAnchor ~= circleView.centerYAnchor
+    }
+
+    private func setupProgressView() {
+        guard let progressModel = model?.progressModel else {
+            return
+        }
+
+        let progressView = CircleProgressView(model: progressModel)
+            .environmentObject(designEngine)
+
+        let hostingViewController = UIHostingController(rootView: progressView)
+
+        contentView.addSubview(hostingViewController.view.prepareForAutoLayout())
+        hostingViewController.view.leadingAnchor ~= contentView.leadingAnchor
+        hostingViewController.view.topAnchor ~= contentView.topAnchor
+        hostingViewController.view.trailingAnchor ~= contentView.trailingAnchor
+        hostingViewController.view.bottomAnchor ~= contentView.bottomAnchor
+        hostingViewController.view.backgroundColor = UIColor.clear
     }
     
     // MARK: - Handlers

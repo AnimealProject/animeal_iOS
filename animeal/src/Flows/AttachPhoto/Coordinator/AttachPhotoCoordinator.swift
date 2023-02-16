@@ -8,10 +8,12 @@ import Style
 final class AttachPhotoCoordinator: Coordinatable, AttachPhotoCoordinatorEventHandlerProtocol {
     // MARK: - Dependencies
     private let pointId: String
-    private let _navigator: Navigating
+    private let coordinator: AttachPhotoCompleteCoordinatable
     private let completion: (() -> Void)?
 
-    var navigator: Navigating { _navigator }
+    let activityPresenter = ActivityIndicatorPresenter()
+
+    var navigator: Navigating { coordinator.navigator }
 
     // MARK: - AttachPhoto coordinator events
     var deletePhotoEvent: (() -> Void)?
@@ -19,11 +21,11 @@ final class AttachPhotoCoordinator: Coordinatable, AttachPhotoCoordinatorEventHa
     // MARK: - Initialization
     init(
         pointId: String,
-        navigator: Navigating,
+        coordinator: AttachPhotoCompleteCoordinatable,
         completion: (() -> Void)? = nil
     ) {
         self.pointId = pointId
-        self._navigator = navigator
+        self.coordinator = coordinator
         self.completion = completion
     }
 
@@ -44,7 +46,7 @@ final class AttachPhotoCoordinator: Coordinatable, AttachPhotoCoordinatorEventHa
     }
 }
 
-extension AttachPhotoCoordinator: AttachPhotoCoordinatable {
+extension AttachPhotoCoordinator: AttachPhotoCoordinatable {    
     func routeTo(_ route: AttachPhotoRoute) {
         switch route {
         case .deletePhoto(let image):
@@ -69,6 +71,11 @@ extension AttachPhotoCoordinator: AttachPhotoCoordinatable {
                     animated: true,
                     completion: nil
                 )
+            }
+
+        case let .finishFeeding(imageKeys):
+            DispatchQueue.main.async { [weak self] in
+                self?.coordinator.routeTo(.finishFeeding(imageKeys: imageKeys))
             }
         }
     }

@@ -133,29 +133,10 @@ extension Request {
         )
     }
 
-    static func startFeeding(_ id: String) -> Request<StartFeeding> {
-        let document = """
-                 mutation StartFeeding {
-                   startFeeding(feedingPointId: "\(id)")
-                 }
-            """
-
-        return Request<StartFeeding>(
-            document: document,
-            responseType: StartFeeding.self
-        )
-    }
-
-    static func cancelFeeding(_ id: String) -> Request<CancelFeeding> {
-        let document = """
-                 mutation StopFeeding {
-                    cancelFeeding(feedingId: "\(id)")
-                 }
-            """
-
-        return Request<CancelFeeding>(
-            document: document,
-            responseType: CancelFeeding.self
+    public static func customMutation<M: CustomMutation>(_ request: M) -> Request<M.ResponseType> {
+        return Request<M.ResponseType>(
+            document: request.document,
+            responseType: M.ResponseType.self
         )
     }
 
@@ -232,4 +213,9 @@ extension SubscriptionType {
             return .onUpdate
         }
     }
+}
+
+public protocol CustomMutation {
+    associatedtype ResponseType: Decodable
+    var document: String { get }
 }

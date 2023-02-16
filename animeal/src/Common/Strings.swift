@@ -13,6 +13,8 @@ internal enum L10n {
   internal enum Action {
     /// Agree
     internal static let agree = L10n.tr("Localizable", "action.agree", fallback: "Agree")
+    /// Back to home
+    internal static let backToHome = L10n.tr("Localizable", "action.backToHome", fallback: "Back to home")
     /// Cancel
     internal static let cancel = L10n.tr("Localizable", "action.cancel", fallback: "Cancel")
     /// Copy IBAN
@@ -33,6 +35,8 @@ internal enum L10n {
     internal static let no = L10n.tr("Localizable", "action.no", fallback: "No")
     /// Ok
     internal static let ok = L10n.tr("Localizable", "action.ok", fallback: "Ok")
+    /// Show on map
+    internal static let showOnMap = L10n.tr("Localizable", "action.showOnMap", fallback: "Show on map")
     /// Yes
     internal static let yes = L10n.tr("Localizable", "action.yes", fallback: "Yes")
   }
@@ -194,8 +198,12 @@ internal enum L10n {
     internal static let search = L10n.tr("Localizable", "tabBar.search", fallback: "Search")
   }
   internal enum Text {
+    /// Animals are fed
+    internal static let animalsAreFed = L10n.tr("Localizable", "text.animalsAreFed", fallback: "Animals are fed")
     /// You will have 1 hour to feed the point
     internal static let oneHourToFeed = L10n.tr("Localizable", "text.oneHourToFeed", fallback: "You will have 1 hour to feed the point")
+    /// Thank You!
+    internal static let thankYou = L10n.tr("Localizable", "text.thankYou", fallback: "Thank You!")
     internal enum Header {
       /// Last feeder
       internal static let lastFeeder = L10n.tr("Localizable", "text.header.lastFeeder", fallback: "Last feeder")

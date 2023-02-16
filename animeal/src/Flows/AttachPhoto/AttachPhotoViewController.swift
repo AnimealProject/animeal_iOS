@@ -28,7 +28,7 @@ final class AttachPhotoViewController: UIViewController, AttachPhotoViewable {
             collectionView: collectionView)
         .prepareForAutoLayout()
     }()
-    
+
     // MARK: - Data source
     private lazy var dataSource: UICollectionViewDiffableDataSource<AttachPhotoViewSection, AttachPhotoViewItem> =
         .init(collectionView: collectionView) { [weak self] collectionView, indexPath, itemIdentifier in
@@ -120,7 +120,8 @@ private extension AttachPhotoViewController {
         attachingPhotoView.leftAnchor ~= view.leftAnchor + Constants.offset
         attachingPhotoView.rightAnchor ~= view.rightAnchor - Constants.offset
         attachingPhotoView.bottomAnchor ~= view.bottomAnchor
-        
+
+        collectionView.backgroundColor = designEngine.colors.backgroundPrimary
         collectionView.delegate = self
         collectionView.register(
             AttachPhotoViewCell.self,
@@ -137,8 +138,8 @@ private extension AttachPhotoViewController {
             self?.present(vc, animated: true)
         }
         
-        attachingPhotoView.onTapFinishButton = {
-            print("Finish")
+        attachingPhotoView.onTapFinishButton = { [weak self] in
+            self?.viewModel.handleActionEvent(.finish)
         }
         viewModel.onContentHasBeenPrepared = { [weak self] viewContent in
             self?.applyContent(viewContent)
@@ -160,9 +161,10 @@ private extension AttachPhotoViewController {
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: AttachPhotoViewCell.reuseIdentifier,
                 for: indexPath) as? AttachPhotoViewCell else { return UICollectionViewCell() }
-            
-            let cellModel = AttachPhotoViewCell.Model(image: placeimage)
-            cell.configure(cellModel )
+
+            let progressModel = viewModel.progressModel(for: placeimage)
+            let cellModel = AttachPhotoViewCell.Model(image: placeimage, progressModel: progressModel)
+            cell.configure(cellModel)
             cell.onTapCloseAction = { [weak self] in
                 self?.viewModel.handleActionEvent(.removeImage(image: cellModel.image))
             }

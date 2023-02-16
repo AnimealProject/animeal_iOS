@@ -1,4 +1,5 @@
 import UIKit
+import UIComponents
 
 // MARK: - View
 @MainActor
@@ -31,6 +32,8 @@ protocol AttachPhotoViewState: AnyObject {
 
     var onContentHasBeenPrepared: ((AttachPhotoViewContent) -> Void)? { get set }
     var onSnapshotHasBeenPrepared: ((DataSourceSnapshot) -> Void)? { get set }
+
+    func progressModel(for image: UIImage) -> ProgressViewModel?
 }
 
 
@@ -39,11 +42,16 @@ protocol AttachPhotoViewState: AnyObject {
 protocol AttachPhotoModelProtocol: AnyObject {
     func fetchFeedingPoints(_ completion: ((AttachPhotoModel.PointContent) -> Void)?)
     func fetchMediaContent(key: String, completion: ((Data?) -> Void)?)
+    func uploadMediaContent(data: Data, progressListener: ((Double) -> Void)?) async throws -> String
 }
 
 // MARK: - Coordinator
-protocol AttachPhotoCoordinatable {
+protocol AttachPhotoCoordinatable: AlertCoordinatable, ActivityDisplayable {
     func routeTo(_ route: AttachPhotoRoute)
+}
+
+protocol AttachPhotoCompleteCoordinatable: Coordinatable {
+    func routeTo(_ route: AttachPhotoCompleteRoute)
 }
 
 protocol AttachPhotoCoordinatorEventHandlerProtocol {
@@ -52,4 +60,9 @@ protocol AttachPhotoCoordinatorEventHandlerProtocol {
 
 enum AttachPhotoRoute {
     case deletePhoto(image: UIImage)
+    case finishFeeding(imageKeys: [String])
+}
+
+enum AttachPhotoCompleteRoute {
+    case finishFeeding(imageKeys: [String])
 }

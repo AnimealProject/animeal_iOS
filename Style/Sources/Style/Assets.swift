@@ -59,6 +59,7 @@ public enum Asset {
     public static let favouriteHungryHigh = ImageAsset(name: "favourite_hungry_high")
     public static let favouriteHungryLow = ImageAsset(name: "favourite_hungry_low")
     public static let favouriteHungryMedium = ImageAsset(name: "favourite_hungry_medium")
+    public static let feedingThankYou = ImageAsset(name: "feeding_thank_you")
     public static let findLocation = ImageAsset(name: "find_location")
     public static let myLocation = ImageAsset(name: "my_location")
     public static let placeCoverPlaceholder = ImageAsset(name: "place_cover_placeholder")

@@ -21,6 +21,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     var onSegmentsHaveBeenPrepared: ((FilterModel) -> Void)?
     var onRouteRequestHaveBeenPrepared: ((FeedingPointRouteRequest) -> Void)?
     var onFeedingActionHaveBeenPrepared: ((FeedingActionMapper.FeedingAction) -> Void)?
+    var onFeedingHaveBeenCompleted: (() -> Void)?
 
     // MARK: - Initialization
     init(
@@ -80,6 +81,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
         Task { [weak self] in
             guard let self else { return }
             do {
+                self.feedingStatus = .progress
                 let feedingPoint = try await self.model.fetchFeedingPoint(snapshot.pointId)
                 let pointItemView = self.feedingPointViewMapper.mapFeedingPoint(feedingPoint)
                 // Update view with feedingPoint details
@@ -107,6 +109,24 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
             self.onFeedingPointsHaveBeenPrepared?([pointItemView])
             self.feedingStatus = result.feedingStatus
         }
+    }
+
+    func finishFeeding(imageKeys: [String]) {
+        let task = { [weak self] in
+            guard let self else { return }
+            do {
+                let result = try await self.model.processFinishFeeding(imageKeys: imageKeys)
+                let feedingPoint = try await self.model.fetchFeedingPoint(result.feedingPoint)
+                let pointItemView = self.feedingPointViewMapper.mapFeedingPoint(feedingPoint)
+                self.onFeedingPointsHaveBeenPrepared?([pointItemView])
+                self.feedingStatus = result.feedingStatus
+                self.onFeedingHaveBeenCompleted?()
+                self.coordinator.routeTo(.feedingComplete)
+            } catch {
+                self.coordinator.displayAlert(message: error.localizedDescription)
+            }
+        }
+        coordinator.displayActivityIndicator(waitUntil: task)
     }
 }
 
@@ -151,7 +171,10 @@ private extension HomeViewModel {
     func handleTapFeedingPoint(pointId: String) {
         switch feedingStatus {
         case .progress:
-            self.coordinator.routeTo(.attachPhoto(pointId))
+            coordinator.routeTo(.attachPhoto(pointId))
+            coordinator.feedingDidFinishEvent = { [weak self] event in
+                self?.finishFeeding(imageKeys: event)
+            }
         case .none:
             model.proceedFeedingPointSelection(pointId) { [weak self] points in
                 guard let self = self else { return }

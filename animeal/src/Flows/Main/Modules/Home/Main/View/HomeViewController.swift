@@ -132,6 +132,9 @@ private extension HomeViewController {
         viewModel.onFeedingActionHaveBeenPrepared = { [weak self] action in
             self?.handleFeedingAction(action)
         }
+        viewModel.onFeedingHaveBeenCompleted = { [weak self] in
+            self?.hideRouteAndStopTimer()
+        }
     }
 
     func handleFeedingAction(_ action: FeedingActionMapper.FeedingAction) {
@@ -147,9 +150,7 @@ private extension HomeViewController {
             case .accent:
                 actionHandler = { [weak self] in
                     guard let self = self else { return }
-                    self.feedControl.stopTimer()
-                    self.mapView.cancelRouteRequest()
-                    self.hideFeedControl(true)
+                    self.hideRouteAndStopTimer()
                     self.viewModel.handleActionEvent(.confirmCancelFeeding)
                     alertViewController.dismiss(animated: true)
                 }
@@ -225,6 +226,12 @@ private extension HomeViewController {
     func hideFeedControl(_ state: Bool) {
         segmentedControl.isHidden = !state
         feedControl.isHidden = state
+    }
+
+    func hideRouteAndStopTimer() {
+        feedControl.stopTimer()
+        mapView.cancelRouteRequest()
+        hideFeedControl(true)
     }
 }
 

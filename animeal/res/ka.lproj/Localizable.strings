@@ -22,6 +22,8 @@
 "profile.errors.empty"                            = "ველი ცარიელია";
 "profile.errors.ageLimit"                         = "ასაკობრივი ზღვარი არის %@ წელი";
 "profile.errors.incorrectFormat"                  = "ფორმატი არასწორია";
+"profile.errors.incorrectCharactersLength"        = "სიგრძე უნდა იყოს 2-დან 35-მდე";
+"profile.errors.incorrectCharacters"              = "უნდა შეიცავდეს მხოლოდ ასოებს";
 "phone.title"                                     = "გთხოვთ შეიყვანოთ თქვენი ტელეფონის ნომერი\n";
 "phone.fields.phoneTitlle"                        = "Ტელეფონის ნომერი";
 "phone.fields.passwordTitlle"                     = "პაროლი";
@@ -45,10 +47,14 @@
 "action.iWillFeed"                                = "ვაჭმევ";
 "action.yes"                                      = "დიახ";
 "action.finish"                                   = "დასრულება";
+"action.showOnMap"                                = "რუკაზე ჩვენება";
+"action.backToHome"                               = "";
 "question.logoutAccount"                          = "დარწმუნებული ხართ, რომ გსურთ თქვენი ანგარიშიდან გამოსვლა?";
 "question.deleteAccount"                          = "დარწმუნებული ხართ, რომ გსურთ თქვენი ანგარიშის წაშლა?";
 "text.header.lastFeeder"                          = "ბოლო მიმწოდებელი";
 "text.oneHourToFeed"                              = "თქვენ გექნებათ 1 საათი წერტილის შესანახად";
+"text.thankYou"                                   = "";
+"text.animalsAreFed"                              = "";
 "verification.title"                              = "შეიყვანეთ დამადასტურებელი კოდი";
 "verification.subtitle.filled"                    = "კოდი გაიგზავნა:";
 "verification.subtitle.empty"                     = "კოდი გაიგზავნა დანიშნულების ადგილზე";
