@@ -45,12 +45,22 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
     }
 
     func load() {
-        model.fetchFeedingPoints { [weak self] content in
+        model.fetchFeedingPoint { [weak self] content in
             guard let self = self else { return }
             self.loadMediaContent(content.content.header.cover)
             self.onContentHaveBeenPrepared?(
                 self.contentMapper.mapFeedingPoint(content)
             )
+        }
+
+        model.onFeedingPointChange = { [weak self] content in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                self.loadMediaContent(content.content.header.cover)
+                self.onContentHaveBeenPrepared?(
+                    self.contentMapper.mapFeedingPoint(content)
+                )
+            }
         }
     }
 
@@ -77,9 +87,15 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
                 )
             )
         case .tapFavorite:
-            model.mutateFavorite { [weak self] sucess in
-                if !sucess {
-                    self?.onFavoriteMutationFailed?()
+            Task { [weak self] in
+                guard let self else { return }
+                do {
+                    let success = try await model.mutateFavorite()
+                    if !success {
+                        self.onFavoriteMutationFailed?()
+                    }
+                } catch {
+                        self.onFavoriteMutationFailed?()
                 }
             }
         case .tapShowOnMap:

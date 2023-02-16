@@ -40,6 +40,7 @@ final class NetworkService: NetworkServiceProtocol {
 }
 
 extension NetworkServiceProtocol {
+    @discardableResult
     func subscribe<R: Decodable>(
         request: Request<R>,
         valueListener: ((Result<R, Error>) -> Void)?

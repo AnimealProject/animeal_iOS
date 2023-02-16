@@ -170,14 +170,32 @@ private extension BottomSheetPresentationController {
                 // Condition 2: If new height is below default, animate back to default
                 animateContainerHeight(configuration.defaultHeight)
             } else if newHeight < configuration.maximumContainerHeight && isDraggingDown {
-                // Condition 3: If new height is below max and going down, set to default height
-                animateContainerHeight(configuration.defaultHeight)
+                // Condition 3: If new height is below max and going down, set to default height or to intermediateContainerHeight
+                goingDown(newHeight)
             } else if newHeight > configuration.defaultHeight && !isDraggingDown {
-                // Condition 4: If new height is below max and going up, set to max height at top
-                animateContainerHeight(configuration.maximumContainerHeight)
+                // Condition 4: If new height is below max and going up, set to max height at top or intermediateContainerHeight
+               goingUp(newHeight)
             }
         default:
             break
+        }
+    }
+
+    private func goingUp(_ newHeight: CGFloat) {
+        if let intermediateContainerHeight = configuration.intermediateContainerHeight,
+           newHeight < intermediateContainerHeight {
+            animateContainerHeight(intermediateContainerHeight)
+        } else {
+            animateContainerHeight(configuration.maximumContainerHeight)
+        }
+    }
+
+    private func goingDown(_ newHeight: CGFloat) {
+        if let intermediateContainerHeight = configuration.intermediateContainerHeight,
+           newHeight > intermediateContainerHeight + configuration.dismissibleHeight {
+            animateContainerHeight(intermediateContainerHeight)
+        } else {
+            animateContainerHeight(configuration.defaultHeight)
         }
     }
 

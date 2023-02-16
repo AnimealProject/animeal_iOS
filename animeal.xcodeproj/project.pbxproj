@@ -162,6 +162,9 @@
 		83C7A9A528E4DB4200F3D219 /* ProfileViewAction+ButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7A9A428E4DB4200F3D219 /* ProfileViewAction+ButtonViewModel.swift */; };
 		83C7A9A928E4EEC000F3D219 /* ProfileModelIntermediateStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7A9A828E4EEC000F3D219 /* ProfileModelIntermediateStep.swift */; };
 		83C7A9AE28E771B800F3D219 /* ActivityDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7A9AD28E771B800F3D219 /* ActivityDisplayable.swift */; };
+		83D2BE8B299CE34400AA1BC4 /* FavoritesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D2BE8A299CE34400AA1BC4 /* FavoritesService.swift */; };
+		83D2BE8D299CF86400AA1BC4 /* FeedingPointsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D2BE8C299CF86400AA1BC4 /* FeedingPointsService.swift */; };
+		83D2BE92299D678800AA1BC4 /* AmplifyModels+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D2BE91299D678800AA1BC4 /* AmplifyModels+Extensions.swift */; };
 		83E83A4328A97C5500B40FC4 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E83A4228A97C5500B40FC4 /* AppCoordinator.swift */; };
 		83E83A4828A984D700B40FC4 /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E83A4728A984D700B40FC4 /* AuthCoordinator.swift */; };
 		83E83A4E28A98E2700B40FC4 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E83A4D28A98E2700B40FC4 /* MainCoordinator.swift */; };
@@ -491,6 +494,9 @@
 		83C7A9A428E4DB4200F3D219 /* ProfileViewAction+ButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProfileViewAction+ButtonViewModel.swift"; sourceTree = "<group>"; };
 		83C7A9A828E4EEC000F3D219 /* ProfileModelIntermediateStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModelIntermediateStep.swift; sourceTree = "<group>"; };
 		83C7A9AD28E771B800F3D219 /* ActivityDisplayable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDisplayable.swift; sourceTree = "<group>"; };
+		83D2BE8A299CE34400AA1BC4 /* FavoritesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesService.swift; sourceTree = "<group>"; };
+		83D2BE8C299CF86400AA1BC4 /* FeedingPointsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingPointsService.swift; sourceTree = "<group>"; };
+		83D2BE91299D678800AA1BC4 /* AmplifyModels+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AmplifyModels+Extensions.swift"; sourceTree = "<group>"; };
 		83E83A4228A97C5500B40FC4 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		83E83A4728A984D700B40FC4 /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
 		83E83A4D28A98E2700B40FC4 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
@@ -801,13 +807,6 @@
 				80138C11298196980010154A /* AboutViewModel.swift */,
 			);
 			path = About;
-			sourceTree = "<group>";
-		};
-		8076E89D298E8B590048B97C /* CustomMutations */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = CustomMutations;
 			sourceTree = "<group>";
 		};
 		8076E89E298FBAC00048B97C /* FeedingFinished */ = {
@@ -1146,6 +1145,7 @@
 			children = (
 				837F1FB228868C3A001FABC5 /* AuthenticationService.swift */,
 				837F1FB428869B29001FABC5 /* AuthenticationAmplifyConverter.swift */,
+				DB53DFD2291E803F004C86D1 /* AuthChannelEventHandling.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -1364,10 +1364,11 @@
 		83C7A98228E429F900F3D219 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				83D2BE8F299D66EA00AA1BC4 /* FeedingPoints */,
+				83D2BE8E299D66D500AA1BC4 /* Favorites */,
 				DB1F5904292637980047D4C5 /* DataStore */,
 				83C7A98128E429ED00F3D219 /* Profile */,
 				837F1FB128868C19001FABC5 /* Authentication */,
-				DB53DFD2291E803F004C86D1 /* AuthChannelEventHandling.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1386,6 +1387,30 @@
 				83C7A9AD28E771B800F3D219 /* ActivityDisplayable.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		83D2BE8E299D66D500AA1BC4 /* Favorites */ = {
+			isa = PBXGroup;
+			children = (
+				83D2BE8A299CE34400AA1BC4 /* FavoritesService.swift */,
+			);
+			path = Favorites;
+			sourceTree = "<group>";
+		};
+		83D2BE8F299D66EA00AA1BC4 /* FeedingPoints */ = {
+			isa = PBXGroup;
+			children = (
+				83D2BE8C299CF86400AA1BC4 /* FeedingPointsService.swift */,
+			);
+			path = FeedingPoints;
+			sourceTree = "<group>";
+		};
+		83D2BE90299D676100AA1BC4 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				83D2BE91299D678800AA1BC4 /* AmplifyModels+Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		83E83A4428A9844D00B40FC4 /* Auth */ = {
@@ -1588,6 +1613,7 @@
 		DB0D66BB2846676100930564 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				83D2BE90299D676100AA1BC4 /* Extensions */,
 				83C7A9AC28E76FF500F3D219 /* Protocols */,
 				DB0D671828466E7700930564 /* Strings.swift */,
 			);
@@ -1867,7 +1893,6 @@
 		DBDC6E6E28C73E68001B359D /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				8076E89D298E8B590048B97C /* CustomMutations */,
 				8324A2C2296B1EEB00AA5D32 /* NetworkRequestModels.swift */,
 				DBDC6E6F28C73E8F001B359D /* NetworkService.swift */,
 				DB84B31428CA13A60083D98C /* NetworkRequest.swift */,
@@ -2367,6 +2392,7 @@
 				83C24F70286D99280086330B /* LoginViewActionMapper.swift in Sources */,
 				838EA9712942732B001F4D84 /* SearchSupplementaryShimmerView.swift in Sources */,
 				835E149628FDD5850044EC2F /* SearchModel.swift in Sources */,
+				83D2BE8B299CE34400AA1BC4 /* FavoritesService.swift in Sources */,
 				838B6B702868B039001DD111 /* VerificationModel.swift in Sources */,
 				D09306BA296EB00400BABB17 /* AttachPhotoCoordinator.swift in Sources */,
 				83C7A98628E42AB100F3D219 /* UserProfileAmplifyConverter.swift in Sources */,
@@ -2571,6 +2597,7 @@
 				DBDB3F4128D3356600B285D7 /* Point.swift in Sources */,
 				DBF56B5928CF40E300AB0BDF /* FeedingPointDetailsViewController.swift in Sources */,
 				DB5A838C285CEB9D00F3C3A5 /* AppInfo.swift in Sources */,
+				83D2BE92299D678800AA1BC4 /* AmplifyModels+Extensions.swift in Sources */,
 				83541358290AED1000884430 /* PhoneCodeViewModel.swift in Sources */,
 				FB1C7E28286F1E1A0024EBDD /* ProfileContract.swift in Sources */,
 				EB49BAEA015C8CB7F6AFC97A /* CategoryTag.swift in Sources */,
@@ -2585,6 +2612,7 @@
 				F0C51AC9C71D7585539B42A1 /* Question+Schema.swift in Sources */,
 				D09306AD2965939F00BABB17 /* AttachPhotoViewItem.swift in Sources */,
 				A8C82F5EA242B4E574055D0F /* Question.swift in Sources */,
+				83D2BE8D299CF86400AA1BC4 /* FeedingPointsService.swift in Sources */,
 				BB4A5BFB84887A576BBEA62D /* QuestionI18n+Schema.swift in Sources */,
 				4AA077256022E92280815D22 /* QuestionI18n.swift in Sources */,
 			);

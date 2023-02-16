@@ -49,8 +49,15 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     }
 
     func load() {
-        fetchFeedingPoints(true)
-        fetchFilterItems()
+        Task { [weak self] in
+            guard let self else { return }
+            let hasUnfinishedFeeding = await fetchUnfinishedFeeding()
+            if !hasUnfinishedFeeding {
+                self.fetchFeedingPoints(isInitialLoad: true)
+            }
+            self.fetchFilterItems()
+            self.startFeedingPoinsEventsListener()
+        }
     }
 
     // MARK: - Interaction
@@ -76,32 +83,32 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
         }
     }
 
-    func fetchUnfinishedFeeding() {
+    func fetchUnfinishedFeeding() async -> Bool {
         guard
             let snapshot = model.fetchFeedingSnapshot(),
             (Date.now - Constants.feedingCountdownTimer) < snapshot.feedStartingDate
         else {
-            return
+            return false
         }
-        Task { [weak self] in
-            guard let self else { return }
-            do {
-                self.feedingStatus = .progress
-                let feedingPoint = try await self.model.fetchFeedingPoint(snapshot.pointId)
-                let pointItemView = self.feedingPointViewMapper.mapFeedingPoint(feedingPoint)
-                // Update view with feedingPoint details
-                self.onFeedingPointsHaveBeenPrepared?([pointItemView])
-                // Request build route
-                let timePassSinceFeedingStarted = Date.now - snapshot.feedStartingDate
-                self.onRouteRequestHaveBeenPrepared?(
-                    .init(
-                        feedingPointCoordinates: pointItemView.coordinates,
-                        countdownTime: Constants.feedingCountdownTimer - timePassSinceFeedingStarted,
-                        feedingPointId: snapshot.pointId,
-                        isUnfinishedFeeding: true
-                    )
+        do {
+            let feedingPoint = try await model.fetchFeedingPoint(snapshot.pointId)
+            let pointItemView = feedingPointViewMapper.mapFeedingPoint(feedingPoint)
+            // Update view with feedingPoint details
+            onFeedingPointsHaveBeenPrepared?([pointItemView])
+            // Request build route
+            let timePassSinceFeedingStarted = Date.now - snapshot.feedStartingDate
+            onRouteRequestHaveBeenPrepared?(
+                .init(
+                    feedingPointCoordinates: pointItemView.coordinates,
+                    countdownTime: Constants.feedingCountdownTimer - timePassSinceFeedingStarted,
+                    feedingPointId: snapshot.pointId,
+                    isUnfinishedFeeding: true
                 )
-            }
+            )
+            feedingStatus = .progress
+            return true
+        } catch {
+            return false
         }
     }
 
@@ -136,7 +143,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
 }
 
 private extension HomeViewModel {
-    func fetchFeedingPoints(_ isInitialLoad: Bool = false) {
+    func fetchFeedingPoints(isInitialLoad: Bool = false) {
         let task = { [weak self] in
             guard let self else { return }
             let points = try await self.model.fetchFeedingPoints()
@@ -147,6 +154,19 @@ private extension HomeViewModel {
             Task { try await task() }
         } else {
             coordinator.displayActivityIndicator(waitUntil: task)
+        }
+    }
+
+    func startFeedingPoinsEventsListener() {
+        model.onFeedingPointChange = { [weak self] feedingPoints in
+            guard let self else { return }
+            guard self.feedingStatus != .progress else { return }
+            let viewItems = feedingPoints.map {
+                self.feedingPointViewMapper.mapFeedingPoint($0)
+            }
+            DispatchQueue.main.async {
+                self.onFeedingPointsHaveBeenPrepared?(viewItems)
+            }
         }
     }
 

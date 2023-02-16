@@ -21,6 +21,7 @@ protocol FeedingPointDetailsViewInteraction: AnyObject {
     func handleActionEvent(_ event: FeedingPointEvent)
 }
 
+@MainActor
 protocol FeedingPointDetailsViewState: AnyObject {
     var onContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointDetailsViewItem) -> Void)? { get set }
     var onMediaContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointMediaContent) -> Void)? { get set }
@@ -32,9 +33,11 @@ protocol FeedingPointDetailsViewState: AnyObject {
 
 // sourcery: AutoMockable
 protocol FeedingPointDetailsModelProtocol: AnyObject {
-    func fetchFeedingPoints(_ completion: ((FeedingPointDetailsModel.PointContent) -> Void)?)
+    var onFeedingPointChange: ((FeedingPointDetailsModel.PointContent) -> Void)? { get set }
+
+    func fetchFeedingPoint(_ completion: ((FeedingPointDetailsModel.PointContent) -> Void)?)
     func fetchMediaContent(key: String, completion: ((Data?) -> Void)?)
-    func mutateFavorite(completion: ((Bool) -> Void)?)
+    func mutateFavorite() async throws -> Bool
 }
 
 // sourcery: AutoMockable

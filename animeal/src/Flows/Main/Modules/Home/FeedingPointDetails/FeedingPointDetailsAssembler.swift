@@ -12,6 +12,7 @@ final class FeedingPointDetailsModuleAssembler {
         self.isOverMap = isOverMap
     }
 
+    @MainActor
     func assemble() -> UIViewController {
         let model = FeedingPointDetailsModel(pointId: pointId)
         let viewModel = FeedingPointDetailsViewModel(

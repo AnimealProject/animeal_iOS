@@ -99,6 +99,8 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
     func applyFeedingPointContent(
         _ content: FeedingPointDetailsViewMapper.FeedingPointDetailsViewItem
     ) {
+        contentContainer.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        buttonContainer.arrangedSubviews.forEach { $0.removeFromSuperview() }
         pointDetailsView.configure(
             FeedingPointDetailsView.Model(
                 placeInfoViewModel: content.placeInfo,

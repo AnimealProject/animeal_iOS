@@ -1,17 +1,20 @@
 import Foundation
 import Services
-import Amplify
-import AWSDataStorePlugin
-import AWSAPIPlugin
-import AWSPluginsCore
+import Combine
 
 final class HomeModel: HomeModelProtocol {
-    typealias Context = DefaultsServiceHolder & NetworkServiceHolder & UserProfileServiceHolder
+    typealias Context = DefaultsServiceHolder
+                        & NetworkServiceHolder
+                        & UserProfileServiceHolder
+                        & FeedingPointsServiceHolder
     private let context: Context
     private var cachedFeedingPoints: [FeedingPoint] = []
     private var cachedFavouritesList: [Favourite] = []
     private let mapper: FeedingPointMappable
     private let snapshotStore: FeedingSnapshotStorable
+    private var cancellables = Set<AnyCancellable>()
+
+    var onFeedingPointChange: (([HomeModel.FeedingPoint]) -> Void)?
 
     // MARK: - Initialization
     init(
@@ -22,35 +25,21 @@ final class HomeModel: HomeModelProtocol {
         self.context = context
         self.mapper = mapper
         self.snapshotStore = snapshotStore
+
+        subscribeForFeedingPointChangeEvents()
     }
 
     // MARK: - Requests
     func fetchFeedingPoints() async throws -> [FeedingPoint] {
         do {
-            await fetchFavorites()
-            let points = try await context.networkService.query(request: .list(animeal.FeedingPoint.self))
-            let feedingPoints = points.map { feedingPoint in
-                let isFavorite = self.cachedFavouritesList.contains { fav in
-                    fav.feedingPointId == feedingPoint.id
-                }
-                return mapper.mapFeedingPoint(feedingPoint, isFavorite: isFavorite)
+            let points = try await context.feedingPointsService.fetchAll()
+            let feedingPoints = points.map { point in
+                mapper.mapFeedingPoint(point.feedingPoint, isFavorite: point.isFavorite)
             }
             cachedFeedingPoints = feedingPoints
             return applyFilter(cachedFeedingPoints)
         } catch {
             throw L10n.Errors.somthingWrong.asBaseError()
-        }
-    }
-
-    func fetchFavorites() async {
-        let userId = context.profileService.getCurrentUser()?.userId ?? ""
-        let fav = Favourite.keys
-        let predicate = fav.userId == userId
-        do {
-            let favorites = try await context.networkService.query(request: .list(Favourite.self, where: predicate))
-            cachedFavouritesList = favorites
-        } catch {
-            print(error.localizedDescription)
         }
     }
 
@@ -174,6 +163,20 @@ final class HomeModel: HomeModelProtocol {
 
 // MARK: Private API
 private extension HomeModel {
+    func subscribeForFeedingPointChangeEvents() {
+        context.feedingPointsService.feedingPoints
+            .sink { [weak self] result in
+                guard let self else { return }
+                let points = result.uniqueValues
+                let feedingPoints = points.map { point in
+                    self.mapper.mapFeedingPoint(point.feedingPoint, isFavorite: point.isFavorite)
+                }
+                self.cachedFeedingPoints = feedingPoints
+                self.onFeedingPointChange?(self.applyFilter(self.cachedFeedingPoints))
+            }
+            .store(in: &cancellables)
+    }
+
     enum Filter: String, LocalStorageKeysProtocol {
         case selectedId = "selectedFilterId"
     }
