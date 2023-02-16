@@ -116,7 +116,9 @@ final class HomeModel: HomeModelProtocol {
     func processCancelFeeding() async throws -> FeedingResponse {
         do {
             let feedingId = snapshotStore.snaphot?.pointId ?? .empty
-            let result = try await context.networkService.query(request: .cancelFeeding(feedingId))
+            let result = try await context.networkService.query(
+                request: .customMutation(CancelFeedingMutation(id: feedingId))
+            )
             snapshotStore.removeStoredSnaphot()
             return FeedingResponse(
                 feedingPoint: result.cancelFeeding,
@@ -128,13 +130,31 @@ final class HomeModel: HomeModelProtocol {
 
     func processStartFeeding(feedingPointId: String) async throws -> FeedingResponse {
         do {
-            let result = try await context.networkService.query(request: .startFeeding(feedingPointId))
+            let result = try await context.networkService.query(
+                request: .customMutation(StartFeedingMutation(id: feedingPointId))
+            )
             snapshotStore.save(result.startFeeding, date: Date.now)
             return FeedingResponse(
                 feedingPoint: result.startFeeding,
                 feedingStatus: .progress)
         } catch {
             throw L10n.Feeding.Alert.feedingPointHasBooked.asBaseError()
+        }
+    }
+
+    func processFinishFeeding(imageKeys: [String]) async throws -> FeedingResponse {
+        do {
+            let feedingId = snapshotStore.snaphot?.pointId ?? .empty
+            let result = try await context.networkService.query(
+                request: .customMutation(FinishFeedingMutation(id: feedingId, images: imageKeys))
+            )
+            snapshotStore.removeStoredSnaphot()
+            return FeedingResponse(
+                feedingPoint: result.finishFeeding,
+                feedingStatus: .none
+            )
+        } catch {
+            throw L10n.Errors.somthingWrong.asBaseError()
         }
     }
 

@@ -47,7 +47,12 @@ final class AttachPhotoModel: AttachPhotoModelProtocol{
             }
         }
     }
-    
+
+    func uploadMediaContent(data: Data, progressListener: ((Double) -> Void)?) async throws -> String {
+        let key = "\(feedingPointId)_feedPhoto_\(UUID().uuidString).jpg"
+        return try await context.dataStoreService.uploadData(key: key, data: data, progressListener: progressListener)
+    }
+
     func fetchMediaContent(key: String, completion: ((Data?) -> Void)?) {
         context.dataStoreService.downloadData(
             key: key,

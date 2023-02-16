@@ -24,6 +24,7 @@ protocol HomeModelProtocol: AnyObject {
     func processStartFeeding(feedingPointId: String) async throws -> FeedingResponse
     @discardableResult
     func processCancelFeeding() async throws -> FeedingResponse
+    func processFinishFeeding(imageKeys: [String]) async throws -> FeedingResponse
     func fetchFeedingSnapshot() -> FeedingSnapshot?
 }
 
@@ -43,6 +44,7 @@ protocol HomeViewInteraction: AnyObject {
     func handleActionEvent(_ event: HomeViewActionEvent)
     func fetchUnfinishedFeeding()
     func startFeeding(feedingPointId id: String)
+    func finishFeeding(imageKeys: [String])
 }
 
 @MainActor
@@ -51,6 +53,7 @@ protocol HomeViewState: AnyObject {
     var onSegmentsHaveBeenPrepared: ((FilterModel) -> Void)? { get set }
     var onRouteRequestHaveBeenPrepared: ((FeedingPointRouteRequest) -> Void)? { get set }
     var onFeedingActionHaveBeenPrepared: ((FeedingActionMapper.FeedingAction) -> Void)? { get set }
+    var onFeedingHaveBeenCompleted: (() -> Void)? { get set }
 }
 
 enum HomeViewActionEvent {
@@ -68,11 +71,13 @@ protocol HomeCoordinatable: AlertCoordinatable, ActivityDisplayable {
 
 protocol HomeCoordinatorEventHandlerProtocol {
     var feedingDidStartedEvent: ((FeedingPointFeedDetails) -> Void)? { get set }
+    var feedingDidFinishEvent: (([String]) -> Void)? { get set }
 }
 
 enum HomeRoute {
     case details(String)
     case attachPhoto(String)
+    case feedingComplete
 }
 
 struct FeedingPointRouteRequest {

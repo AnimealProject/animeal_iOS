@@ -32,6 +32,12 @@
 		80138C16298196980010154A /* AboutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80138C11298196980010154A /* AboutViewModel.swift */; };
 		80138C1929828ACC0010154A /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80138C1829828ACC0010154A /* AboutView.swift */; };
 		80138C1B2982B4B30010154A /* AboutLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80138C1A2982B4B30010154A /* AboutLink.swift */; };
+		8076E8A4298FBC070048B97C /* FeedingFinishedAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8076E89F298FBC070048B97C /* FeedingFinishedAssembler.swift */; };
+		8076E8A5298FBC070048B97C /* FeedingFinishedContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8076E8A0298FBC070048B97C /* FeedingFinishedContract.swift */; };
+		8076E8A6298FBC070048B97C /* FeedingFinishedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8076E8A1298FBC070048B97C /* FeedingFinishedViewController.swift */; };
+		8076E8A7298FBC070048B97C /* FeedingFinishedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8076E8A2298FBC070048B97C /* FeedingFinishedModel.swift */; };
+		8076E8A8298FBC070048B97C /* FeedingFinishedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8076E8A3298FBC070048B97C /* FeedingFinishedViewModel.swift */; };
+		8076E8AB298FBC320048B97C /* FeedingFinishedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8076E8AA298FBC320048B97C /* FeedingFinishedView.swift */; };
 		8312A5C1290AFE8F005C85CB /* PhoneCodesViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8312A5C0290AFE8F005C85CB /* PhoneCodesViewCell.swift */; };
 		8312A5C3290B0CA8005C85CB /* CustomAuthModelRequiredAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8312A5C2290B0CA8005C85CB /* CustomAuthModelRequiredAction.swift */; };
 		8312A5C5290DB689005C85CB /* PhoneModelRequiredAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8312A5C4290DB689005C85CB /* PhoneModelRequiredAction.swift */; };
@@ -356,6 +362,12 @@
 		80138C11298196980010154A /* AboutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewModel.swift; sourceTree = "<group>"; };
 		80138C1829828ACC0010154A /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		80138C1A2982B4B30010154A /* AboutLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutLink.swift; sourceTree = "<group>"; };
+		8076E89F298FBC070048B97C /* FeedingFinishedAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingFinishedAssembler.swift; sourceTree = "<group>"; };
+		8076E8A0298FBC070048B97C /* FeedingFinishedContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingFinishedContract.swift; sourceTree = "<group>"; };
+		8076E8A1298FBC070048B97C /* FeedingFinishedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingFinishedViewController.swift; sourceTree = "<group>"; };
+		8076E8A2298FBC070048B97C /* FeedingFinishedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingFinishedModel.swift; sourceTree = "<group>"; };
+		8076E8A3298FBC070048B97C /* FeedingFinishedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingFinishedViewModel.swift; sourceTree = "<group>"; };
+		8076E8AA298FBC320048B97C /* FeedingFinishedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingFinishedView.swift; sourceTree = "<group>"; };
 		8312A5C0290AFE8F005C85CB /* PhoneCodesViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCodesViewCell.swift; sourceTree = "<group>"; };
 		8312A5C2290B0CA8005C85CB /* CustomAuthModelRequiredAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAuthModelRequiredAction.swift; sourceTree = "<group>"; };
 		8312A5C4290DB689005C85CB /* PhoneModelRequiredAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneModelRequiredAction.swift; sourceTree = "<group>"; };
@@ -789,6 +801,34 @@
 				80138C11298196980010154A /* AboutViewModel.swift */,
 			);
 			path = About;
+			sourceTree = "<group>";
+		};
+		8076E89D298E8B590048B97C /* CustomMutations */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CustomMutations;
+			sourceTree = "<group>";
+		};
+		8076E89E298FBAC00048B97C /* FeedingFinished */ = {
+			isa = PBXGroup;
+			children = (
+				8076E8A9298FBC1D0048B97C /* View */,
+				8076E89F298FBC070048B97C /* FeedingFinishedAssembler.swift */,
+				8076E8A0298FBC070048B97C /* FeedingFinishedContract.swift */,
+				8076E8A1298FBC070048B97C /* FeedingFinishedViewController.swift */,
+				8076E8A2298FBC070048B97C /* FeedingFinishedModel.swift */,
+				8076E8A3298FBC070048B97C /* FeedingFinishedViewModel.swift */,
+			);
+			path = FeedingFinished;
+			sourceTree = "<group>";
+		};
+		8076E8A9298FBC1D0048B97C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8076E8AA298FBC320048B97C /* FeedingFinishedView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		8324A2BF296B138D00AA5D32 /* Helpers */ = {
@@ -1655,6 +1695,7 @@
 				DB0E43C328D077C7007A1EB1 /* Coordinator */,
 				DBF56B5028CF40E300AB0BDF /* FeedingPointDetails */,
 				DB5F693C28ED6C9000D8714E /* FeedingBooking */,
+				8076E89E298FBAC00048B97C /* FeedingFinished */,
 				DB73B47C28C1ED0700363FB8 /* Main */,
 			);
 			path = Home;
@@ -1826,6 +1867,7 @@
 		DBDC6E6E28C73E68001B359D /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				8076E89D298E8B590048B97C /* CustomMutations */,
 				8324A2C2296B1EEB00AA5D32 /* NetworkRequestModels.swift */,
 				DBDC6E6F28C73E8F001B359D /* NetworkService.swift */,
 				DB84B31428CA13A60083D98C /* NetworkRequest.swift */,
@@ -2272,6 +2314,7 @@
 				DB6B07CA28450A380009397B /* HomeViewController.swift in Sources */,
 				DBDB50212889725C003C6FF0 /* FeedingPointViewMapper.swift in Sources */,
 				DB127E8828B9648200012B53 /* MoreAssembler.swift in Sources */,
+				8076E8A5298FBC070048B97C /* FeedingFinishedContract.swift in Sources */,
 				835E14A528FDEB5D0044EC2F /* SearchSizer.swift in Sources */,
 				DBDB3F5A28D3356700B285D7 /* PetI18n+Schema.swift in Sources */,
 				8360D1AF284F2A5E00ACDEDB /* LoginViewActionEvent.swift in Sources */,
@@ -2344,6 +2387,7 @@
 				DBDB3F4628D3356700B285D7 /* LanguagesSetting.swift in Sources */,
 				83F3CC102847713400C05298 /* LoginViewModel.swift in Sources */,
 				FB00144B2859FC1800943360 /* ProfileViewController.swift in Sources */,
+				8076E8AB298FBC320048B97C /* FeedingFinishedView.swift in Sources */,
 				DBDB3F5328D3356700B285D7 /* FeedingPoint.swift in Sources */,
 				8372CCAB289AFC3E0085C6D1 /* LoginProviding.swift in Sources */,
 				8372CCCD28A02BD70085C6D1 /* CustomAuthViewTextEvent.swift in Sources */,
@@ -2366,10 +2410,12 @@
 				8360D1A3284E954900ACDEDB /* LoginModelOnboardingStep.swift in Sources */,
 				FB001451285A097E00943360 /* ProfileAssembler.swift in Sources */,
 				DBDB3F3C28D3356600B285D7 /* FeedingStatus.swift in Sources */,
+				8076E8A4298FBC070048B97C /* FeedingFinishedAssembler.swift in Sources */,
 				835E14AB28FDF06F0044EC2F /* SearchComponentsWrappers.swift in Sources */,
 				DB127E8728B9648200012B53 /* MoreContract.swift in Sources */,
 				838EA9602942018A001F4D84 /* SearchViewItemMapper.swift in Sources */,
 				8372CCB928A0298B0085C6D1 /* CustomAuthViewController.swift in Sources */,
+				8076E8A6298FBC070048B97C /* FeedingFinishedViewController.swift in Sources */,
 				78525B2029594D63006CE9BA /* FavouriteItemCell.swift in Sources */,
 				83C7A98E28E46BEF00F3D219 /* ProfileViewItem.swift in Sources */,
 				8360D1A9284E9A9600ACDEDB /* LoginViewOnboardingStep.swift in Sources */,
@@ -2389,6 +2435,7 @@
 				83C7A98428E42A9700F3D219 /* UserProfileService.swift in Sources */,
 				DB1F5906292637AD0047D4C5 /* DataStoreService.swift in Sources */,
 				8324A2C1296B138E00AA5D32 /* FeedingSnapshotStore.swift in Sources */,
+				8076E8A8298FBC070048B97C /* FeedingFinishedViewModel.swift in Sources */,
 				DBDB3F5528D3356700B285D7 /* MedicationI18n.swift in Sources */,
 				835E14A328FDEADF0044EC2F /* SearchCell.swift in Sources */,
 				838EA96D29426556001F4D84 /* SearchViewActionEvent.swift in Sources */,
@@ -2534,6 +2581,7 @@
 				8F5C10B2C66F528FEE0C18F4 /* Favourite.swift in Sources */,
 				6BD12897B29874348258848B /* BankAccount+Schema.swift in Sources */,
 				6BB058E8BBC9A383D2FE14FF /* BankAccount.swift in Sources */,
+				8076E8A7298FBC070048B97C /* FeedingFinishedModel.swift in Sources */,
 				F0C51AC9C71D7585539B42A1 /* Question+Schema.swift in Sources */,
 				D09306AD2965939F00BABB17 /* AttachPhotoViewItem.swift in Sources */,
 				A8C82F5EA242B4E574055D0F /* Question.swift in Sources */,
