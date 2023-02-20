@@ -134,6 +134,15 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
 
         contentContainer.addArrangedSubview(UIView())
 
+        if let model = viewModel.showOnMapAction {
+            let button = ButtonViewFactory().makeTextButton()
+            button.configure(model)
+            button.onTap = { [weak self] _ in
+                self?.viewModel.handleActionEvent(.tapShowOnMap)
+            }
+            contentContainer.addArrangedSubview(button)
+        }
+        
         var button: ButtonView
         if content.action.isEnabled {
             button = ButtonViewFactory().makeAccentButton()

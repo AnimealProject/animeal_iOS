@@ -19,6 +19,7 @@ final class HomeCoordinator: Coordinatable, HomeCoordinatorEventHandlerProtocol 
     // MARK: - Home coordinator events
     var feedingDidStartedEvent: ((FeedingPointFeedDetails) -> Void)?
     var feedingDidFinishEvent: (([String]) -> Void)?
+    var moveToFeedingPointEvent: ((String) -> Void)?
 
     // MARK: - Initialization
     init(
@@ -46,7 +47,8 @@ extension HomeCoordinator: HomeCoordinatable {
         case .details(let pointId):
             let viewController = FeedingPointDetailsModuleAssembler(
                 coordinator: self,
-                pointId: pointId
+                pointId: pointId,
+                isOverMap: true
             ).assemble()
             let controller = BottomSheetPresentationController(controller: viewController)
             controller.modalPresentationStyle = .overFullScreen
@@ -77,6 +79,7 @@ extension HomeCoordinator: FeedingPointCoordinatable {
                 screen.modalPresentationStyle = .overFullScreen
                 self._navigator.present(screen, animated: true, completion: nil)
             }
+        case .map: break
         }
     }
 }

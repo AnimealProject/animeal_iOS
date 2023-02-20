@@ -1,5 +1,6 @@
 import Foundation
 import CoreLocation
+import UIComponents
 
 final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
                                           FeedingPointDetailsViewInteraction,
@@ -13,13 +14,26 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
     var onContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointDetailsViewItem) -> Void)?
     var onMediaContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointMediaContent) -> Void)?
     var onFavoriteMutationFailed: (() -> Void)?
+    
+    let isOverMap: Bool
+    var showOnMapAction: ButtonView.Model? {
+        if isOverMap { return .none }
+        
+        return ButtonView.Model(
+            identifier: UUID().uuidString,
+            viewType: TextButtonView.self,
+            title: L10n.Action.showOnMap
+        )
+    }
 
     // MARK: - Initialization
     init(
+        isOverMap: Bool,
         model: (FeedingPointDetailsModelProtocol & FeedingPointDetailsDataStoreProtocol),
         contentMapper: FeedingPointDetailsViewMappable,
         coordinator: FeedingPointCoordinatable
     ) {
+        self.isOverMap = isOverMap
         self.model = model
         self.contentMapper = contentMapper
         self.coordinator = coordinator
@@ -68,6 +82,10 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
                     self?.onFavoriteMutationFailed?()
                 }
             }
+        case .tapShowOnMap:
+            coordinator.routeTo(
+                .map(identifier: model.feedingPointId)
+            )
         }
     }
 }

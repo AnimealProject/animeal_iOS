@@ -8,6 +8,7 @@ import Style
 final class SearchCoordinator: Coordinatable {
     // MARK: - Dependencies
     private let _navigator: Navigating
+    private let switchFlowAction: ((MainFlowSwitchAction) -> Void)?
     private let completion: (() -> Void)?
     private var bottomSheetController: BottomSheetPresentationController?
 
@@ -16,9 +17,11 @@ final class SearchCoordinator: Coordinatable {
     // MARK: - Initialization
     init(
         navigator: Navigator,
+        switchFlowAction: ((MainFlowSwitchAction) -> Void)?,
         completion: (() -> Void)? = nil
     ) {
         self._navigator = navigator
+        self.switchFlowAction = switchFlowAction
         self.completion = completion
     }
 
@@ -39,7 +42,8 @@ extension SearchCoordinator: SearchCoordinatable {
         case .details(let identifier):
             let viewController = FeedingPointDetailsModuleAssembler(
                 coordinator: self,
-                pointId: identifier
+                pointId: identifier,
+                isOverMap: false
             ).assemble()
             let controller = BottomSheetPresentationController(controller: viewController)
             controller.modalPresentationStyle = .overFullScreen
@@ -49,7 +53,7 @@ extension SearchCoordinator: SearchCoordinatable {
     }
 }
 
-extension SearchCoordinator: FeedingPointCoordinatable {
+extension SearchCoordinator: FeedingPointCoordinatable {    
     func routeTo(_ route: FeedingPointRoute) {
         switch route {
         case .feed(let feedingDetails):
@@ -61,6 +65,12 @@ extension SearchCoordinator: FeedingPointCoordinatable {
                 ).assemble()
                 screen.modalPresentationStyle = .overFullScreen
                 self._navigator.present(screen, animated: true, completion: nil)
+            }
+        case .map(let pointIdentifier):
+            bottomSheetController?.dismissView { [weak self] in
+                self?.switchFlowAction?(
+                    .shouldSwitchToMap(pointIdentifier: pointIdentifier)
+                )
             }
         }
     }

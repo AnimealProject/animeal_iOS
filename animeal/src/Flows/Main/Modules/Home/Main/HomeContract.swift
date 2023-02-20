@@ -50,6 +50,7 @@ protocol HomeViewInteraction: AnyObject {
 @MainActor
 protocol HomeViewState: AnyObject {
     var onFeedingPointsHaveBeenPrepared: (([FeedingPointViewItem]) -> Void)? { get set }
+    var onFeedingPointCameraMoveRequired: ((FeedingPointCameraMove) -> Void)? { get set }
     var onSegmentsHaveBeenPrepared: ((FilterModel) -> Void)? { get set }
     var onRouteRequestHaveBeenPrepared: ((FeedingPointRouteRequest) -> Void)? { get set }
     var onFeedingActionHaveBeenPrepared: ((FeedingActionMapper.FeedingAction) -> Void)? { get set }
@@ -72,12 +73,17 @@ protocol HomeCoordinatable: AlertCoordinatable, ActivityDisplayable {
 protocol HomeCoordinatorEventHandlerProtocol {
     var feedingDidStartedEvent: ((FeedingPointFeedDetails) -> Void)? { get set }
     var feedingDidFinishEvent: (([String]) -> Void)? { get set }
+    var moveToFeedingPointEvent: ((String) -> Void)? { get set }
 }
 
 enum HomeRoute {
     case details(String)
     case attachPhoto(String)
     case feedingComplete
+}
+
+struct FeedingPointCameraMove {
+    let feedingPointCoordinate: CLLocationCoordinate2D
 }
 
 struct FeedingPointRouteRequest {

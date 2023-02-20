@@ -13,6 +13,10 @@ enum HomeFlowBackwardAction {
     case shouldShowToast(String)
 }
 
+enum MainFlowSwitchAction {
+    case shouldSwitchToMap(pointIdentifier: String)
+}
+
 @MainActor
 final class MainCoordinator: Coordinatable {
     // MARK: - Private properties
@@ -22,14 +26,20 @@ final class MainCoordinator: Coordinatable {
     private enum Constant {
         static let homeViewIndex = 2
     }
+    
+    private var homeCoordinator: (HomeCoordinatable & HomeCoordinatorEventHandlerProtocol)? {
+        let coordinator = childCoordinators.first { $0 is HomeCoordinatable && $0 is HomeCoordinatorEventHandlerProtocol }
+        return coordinator as? (HomeCoordinatable & HomeCoordinatorEventHandlerProtocol)
+    }
 
     private(set) lazy var rootTabBarController: TabBarController = {
         let searchNavigationController = UINavigationController()
         let searchCoordinator = SearchCoordinator(
-            navigator: Navigator(navigationController: searchNavigationController)
-        ) { [weak self] in
-            self?.stop()
-        }
+            navigator: Navigator(navigationController: searchNavigationController),
+            switchFlowAction: { [weak self] in self?.handleSwitchFlowAction($0) },
+            completion: { [weak self] in self?.stop() }
+        )
+        
         searchCoordinator.start()
 
         let purpleVC = UIViewController()
@@ -37,13 +47,15 @@ final class MainCoordinator: Coordinatable {
         
         let favouritesNavigationController = UINavigationController()
         let favouritesCoordinator = FavouritesCoordinator(
-            navigator: Navigator(navigationController: favouritesNavigationController)
-        ) { [weak self] event in
-            if let event = event {
-                self?.backwardEvents.append(event)
+            navigator: Navigator(navigationController: favouritesNavigationController),
+            switchFlowAction: { [weak self] in self?.handleSwitchFlowAction($0) },
+            completion: { [weak self] event in
+                if let event = event {
+                    self?.backwardEvents.append(event)
+                }
+                self?.stop()
             }
-            self?.stop()
-        }
+            )
         favouritesCoordinator.start()
 
         let moreNavigtionController = UINavigationController()
@@ -142,5 +154,14 @@ final class MainCoordinator: Coordinatable {
     func stop() {
         childCoordinators.removeAll()
         completion?(backwardEvents)
+    }
+    
+    func handleSwitchFlowAction(_ action: MainFlowSwitchAction) {
+        switch action {
+        case .shouldSwitchToMap(let pointIdentifier):
+            guard let moveToFeedingPointEvent = homeCoordinator?.moveToFeedingPointEvent else { return }
+            moveToFeedingPointEvent(pointIdentifier)
+            rootTabBarController.selectedViewController(index: Constant.homeViewIndex)
+        }
     }
 }
