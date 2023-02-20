@@ -135,13 +135,9 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(
         _ collectionView: UICollectionView,
-        didSelectItemAt indexPath: IndexPath
-    ) {
-        guard let itemIdentifer = dataSource.itemIdentifier(for: indexPath)
-        else { return }
-        viewModel.handleActionEvent(
-            .itemDidTap(itemIdentifer.identifier)
-        )
+        shouldSelectItemAt indexPath: IndexPath
+    ) -> Bool {
+        false
     }
 }
 
@@ -158,7 +154,7 @@ private extension SearchViewController {
         selectorView.leadingAnchor ~= view.leadingAnchor + 30.0
         selectorView.topAnchor ~= view.safeAreaLayoutGuide.topAnchor
         selectorView.trailingAnchor ~= view.trailingAnchor - 30.0
-        
+
         selectorView.onSegmentWasChanged = { [weak self] identifier in
             self?.viewModel.handleActionEvent(.filterDidTap(identifier))
         }
@@ -271,6 +267,16 @@ private extension SearchViewController {
             ) as? SearchCellContainable
         else { return nil }
         cell.configure(itemIdentifier.item)
+        cell.didTapOnContent = { [weak self] in
+            self?.viewModel.handleActionEvent(
+                .itemDidTap(itemIdentifier.identifier)
+            )
+        }
+        cell.didTapOnFavorite = { [weak self] in
+            self?.viewModel.handleActionEvent(
+                .toggleFavorite(itemIdentifier.identifier)
+            )
+        }
         return cell
     }
 }

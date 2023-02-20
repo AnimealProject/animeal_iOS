@@ -192,7 +192,7 @@ private extension HomeViewModel {
             self.onFeedingPointsHaveBeenPrepared?(viewItems)
         }
     }
-    
+
     func proceedFeedingPointSelection(pointId: String) {
         model.proceedFeedingPointSelection(pointId) { [weak self] points in
             guard let self = self else { return }
@@ -225,13 +225,13 @@ private extension HomeViewModel {
             proceedFeedingPointSelection(pointId: pointId)
         }
     }
-    
+
     func handleMoveToFeedingPoint(pointId: String) {
         coordinator.displayActivityIndicator { [weak self] in
             guard let self else { return }
             let feedingPoint = try await self.model.fetchFeedingPoint(pointId)
             let viewItem = self.feedingPointViewMapper.mapFeedingPoint(feedingPoint)
-            
+
             do { // change filter for requested pet
                 self.model.proceedFilter({
                     switch feedingPoint.pet {

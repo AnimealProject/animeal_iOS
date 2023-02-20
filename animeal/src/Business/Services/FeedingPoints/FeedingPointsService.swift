@@ -21,7 +21,7 @@ protocol FeedingPointsServiceHolder {
 }
 
 protocol FeedingPointsServiceProtocol: AnyObject {
-    var storedfeedingPoints: [FullFeedingPoint] { get }
+    var storedFeedingPoints: [FullFeedingPoint] { get }
     var feedingPoints: AnyPublisher<[FullFeedingPoint], Never> { get }
     var changedFeedingPoint: AnyPublisher<FullFeedingPoint, Never> { get }
 
@@ -34,6 +34,9 @@ protocol FeedingPointsServiceProtocol: AnyObject {
     func addToFavorites(byIdentifier identifier: String) async throws -> FullFeedingPoint
     @discardableResult
     func deleteFromFavorites(byIdentifier identifier: String) async throws -> FullFeedingPoint
+    
+    @discardableResult
+    func toggle(byIdentifier identifier: String) async throws -> FullFeedingPoint
 }
 
 final class FeedingPointsService: FeedingPointsServiceProtocol {
@@ -54,7 +57,7 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
     }
 
     // MARK: - Accesible properties
-    var storedfeedingPoints: [FullFeedingPoint] {
+    var storedFeedingPoints: [FullFeedingPoint] {
         innerFeedingPoints.value
     }
 
@@ -105,14 +108,14 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
             where: { $0.identifier == identifier }
         )
         else {
-            throw "There is no feeding point for the provided identifier".asBaseError()
+            throw "[FeedingPointsService] There is no feeding point for the provided identifier".asBaseError()
         }
 
         let oldPoint = innerFeedingPoints.value[index]
         guard let point = try await networkService.query(request: .get(FeedingPoint.self, byId: identifier))
             .map({ FullFeedingPoint(feedingPoint: $0, isFavorite: oldPoint.isFavorite) })
         else {
-            throw "There is no feeding point for the provided identifier".asBaseError()
+            throw "[FeedingPointsService] There is no feeding point for the provided identifier".asBaseError()
         }
 
         replaceFeedingPoint(point, at: index)
@@ -126,7 +129,7 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
             where: { $0.identifier == identifier }
         )
         else {
-            throw "Cannot add to favorites because there is no feeding point for the provided identifier".asBaseError()
+            throw "[FeedingPointsService] Cannot add to favorites because there is no feeding point for the provided identifier".asBaseError()
         }
 
         return try await favoritesService.add(point.feedingPoint)
@@ -136,6 +139,22 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
     func deleteFromFavorites(byIdentifier identifier: String) async throws -> FullFeedingPoint {
         try await favoritesService.delete(byIdentifier: identifier)
     }
+    
+    @discardableResult
+    func toggle(byIdentifier identifier: String) async throws -> FullFeedingPoint {
+        guard let point = innerFeedingPoints.value.first(
+            where: { $0.identifier == identifier }
+        )
+        else {
+            throw "[FeedingPointsService] Cannot toggle because there is no feeding point for the provided identifier".asBaseError()
+        }
+        
+        if point.isFavorite {
+            return try await deleteFromFavorites(byIdentifier: identifier)
+        } else {
+            return try await addToFavorites(byIdentifier: identifier)
+        }
+    }
 }
 
 private extension FeedingPointsService {
@@ -144,7 +163,7 @@ private extension FeedingPointsService {
             do {
                 try await self?.fetch(byIdentifier: identifier)
             } catch {
-                logError("[Update Feeding Point] Feeding point cannot be updated by identifier due to absence.")
+                logError("[FeedingPointsService] Feeding point cannot be updated by identifier due to absence.")
             }
         }
     }
@@ -154,7 +173,7 @@ private extension FeedingPointsService {
             where: { $0.identifier == feedingPoint.identifier }
         )
         else {
-            return logError("[Update Feeding Point] Feeding point cannot be updated due to absence.")
+            return logError("[FeedingPointsService] Feeding point cannot be updated due to absence.")
         }
 
         replaceFeedingPoint(feedingPoint, at: index)

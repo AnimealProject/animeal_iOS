@@ -14,9 +14,9 @@ final class UserValidationModel: UserProfileValidationModel {
     }
 
     // MARK: - Accessible properties
-    private(set) var isSignedIn: Bool = false
-    private(set) var phoneNumberVerified: Bool = false
-    private(set) var emailVerified: Bool = false
+    private(set) var isSignedIn = false
+    private(set) var phoneNumberVerified = false
+    private(set) var emailVerified = false
 
     // MARK: - Initialization
     init() {

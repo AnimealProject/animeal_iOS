@@ -105,6 +105,7 @@
 		8375703D29917B3F00034C22 /* FetchFeedingPointsFiltersUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8375703C29917B3F00034C22 /* FetchFeedingPointsFiltersUseCase.swift */; };
 		837F1FB328868C3A001FABC5 /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837F1FB228868C3A001FABC5 /* AuthenticationService.swift */; };
 		837F1FB528869B29001FABC5 /* AuthenticationAmplifyConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837F1FB428869B29001FABC5 /* AuthenticationAmplifyConverter.swift */; };
+		8383E0B829A4040A0080713C /* ToggleFavoriteFeedingPointUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8383E0B729A4040A0080713C /* ToggleFavoriteFeedingPointUseCase.swift */; };
 		8385DB9E290EAD2900F64BCC /* SearchModelFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8385DB9D290EAD2900F64BCC /* SearchModelFilter.swift */; };
 		8387508D2952574A00C0224B /* SearchViewContentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8387508C2952574A00C0224B /* SearchViewContentState.swift */; };
 		838B6B6C2868B011001DD111 /* VerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838B6B6B2868B011001DD111 /* VerificationViewController.swift */; };
@@ -437,6 +438,7 @@
 		8375703C29917B3F00034C22 /* FetchFeedingPointsFiltersUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchFeedingPointsFiltersUseCase.swift; sourceTree = "<group>"; };
 		837F1FB228868C3A001FABC5 /* AuthenticationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationService.swift; sourceTree = "<group>"; };
 		837F1FB428869B29001FABC5 /* AuthenticationAmplifyConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationAmplifyConverter.swift; sourceTree = "<group>"; };
+		8383E0B729A4040A0080713C /* ToggleFavoriteFeedingPointUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleFavoriteFeedingPointUseCase.swift; sourceTree = "<group>"; };
 		8385DB9D290EAD2900F64BCC /* SearchModelFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModelFilter.swift; sourceTree = "<group>"; };
 		8387508C2952574A00C0224B /* SearchViewContentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewContentState.swift; sourceTree = "<group>"; };
 		838B6B6B2868B011001DD111 /* VerificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationViewController.swift; sourceTree = "<group>"; };
@@ -1123,6 +1125,7 @@
 			isa = PBXGroup;
 			children = (
 				83757036299174DB00034C22 /* FetchFeedingPointsUseCase.swift */,
+				8383E0B729A4040A0080713C /* ToggleFavoriteFeedingPointUseCase.swift */,
 				837570382991752E00034C22 /* SearchFeedingPointsUseCase.swift */,
 				8375703A2991782C00034C22 /* FilterFeedingPointsUseCase.swift */,
 				8375703C29917B3F00034C22 /* FetchFeedingPointsFiltersUseCase.swift */,
@@ -2439,6 +2442,7 @@
 				8076E8A4298FBC070048B97C /* FeedingFinishedAssembler.swift in Sources */,
 				835E14AB28FDF06F0044EC2F /* SearchComponentsWrappers.swift in Sources */,
 				DB127E8728B9648200012B53 /* MoreContract.swift in Sources */,
+				8383E0B829A4040A0080713C /* ToggleFavoriteFeedingPointUseCase.swift in Sources */,
 				838EA9602942018A001F4D84 /* SearchViewItemMapper.swift in Sources */,
 				8372CCB928A0298B0085C6D1 /* CustomAuthViewController.swift in Sources */,
 				8076E8A6298FBC070048B97C /* FeedingFinishedViewController.swift in Sources */,

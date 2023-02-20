@@ -14,11 +14,11 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
     var onContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointDetailsViewItem) -> Void)?
     var onMediaContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointMediaContent) -> Void)?
     var onFavoriteMutationFailed: (() -> Void)?
-    
+
     let isOverMap: Bool
     var showOnMapAction: ButtonView.Model? {
         if isOverMap { return .none }
-        
+
         return ButtonView.Model(
             identifier: UUID().uuidString,
             viewType: TextButtonView.self,
@@ -41,25 +41,17 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
     }
 
     // MARK: - Life cycle
-    func setup() {
-    }
+    func setup() { }
 
     func load() {
         model.fetchFeedingPoint { [weak self] content in
-            guard let self = self else { return }
-            self.loadMediaContent(content.content.header.cover)
-            self.onContentHaveBeenPrepared?(
-                self.contentMapper.mapFeedingPoint(content)
-            )
-        }
-
-        model.onFeedingPointChange = { [weak self] content in
-            guard let self = self else { return }
             DispatchQueue.main.async {
-                self.loadMediaContent(content.content.header.cover)
-                self.onContentHaveBeenPrepared?(
-                    self.contentMapper.mapFeedingPoint(content)
-                )
+                self?.updateContent(content)
+            }
+        }
+        model.onFeedingPointChange = { [weak self] content in
+            DispatchQueue.main.async {
+                self?.updateContent(content)
             }
         }
     }
@@ -67,11 +59,17 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
     private func loadMediaContent(_ key: String?) {
         guard let key = key else { return }
         model.fetchMediaContent(key: key) { [weak self] content in
-            guard let self = self else { return }
-            if let mediaContent = self.contentMapper.mapFeedingPointMediaContent(content) {
-                self.onMediaContentHaveBeenPrepared?(mediaContent)
+            if let mediaContent = self?.contentMapper.mapFeedingPointMediaContent(content) {
+                DispatchQueue.main.async {
+                    self?.onMediaContentHaveBeenPrepared?(mediaContent)
+                }
             }
         }
+    }
+
+    private func updateContent(_ modelContent: FeedingPointDetailsModel.PointContent) {
+        loadMediaContent(modelContent.content.header.cover)
+        onContentHaveBeenPrepared?(contentMapper.mapFeedingPoint(modelContent))
     }
 
     // MARK: - Interaction
@@ -87,7 +85,7 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
                 )
             )
         case .tapFavorite:
-            Task { [weak self] in
+            Task { @MainActor [weak self] in
                 guard let self else { return }
                 do {
                     let success = try await model.mutateFavorite()
@@ -95,7 +93,7 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
                         self.onFavoriteMutationFailed?()
                     }
                 } catch {
-                        self.onFavoriteMutationFailed?()
+                    self.onFavoriteMutationFailed?()
                 }
             }
         case .tapShowOnMap:

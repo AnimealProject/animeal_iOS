@@ -3,6 +3,7 @@ import CoreLocation
 import UIComponents
 
 // MARK: - View
+@MainActor
 protocol FeedingPointDetailsViewable: AnyObject {
     func applyFeedingPointContent(_ content: FeedingPointDetailsViewMapper.FeedingPointDetailsViewItem)
 }
@@ -12,11 +13,13 @@ typealias FeedingPointDetailsViewModelProtocol = FeedingPointDetailsViewModelLif
     & FeedingPointDetailsViewInteraction
     & FeedingPointDetailsViewState
 
+@MainActor
 protocol FeedingPointDetailsViewModelLifeCycle: AnyObject {
     func setup()
     func load()
 }
 
+@MainActor
 protocol FeedingPointDetailsViewInteraction: AnyObject {
     func handleActionEvent(_ event: FeedingPointEvent)
 }

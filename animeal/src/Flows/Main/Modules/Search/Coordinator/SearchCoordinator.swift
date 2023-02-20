@@ -46,7 +46,10 @@ extension SearchCoordinator: SearchCoordinatable {
                 pointId: identifier,
                 isOverMap: false
             ).assemble()
-            let controller = BottomSheetPresentationController(controller: viewController)
+            let controller = BottomSheetPresentationController(
+                controller: viewController,
+                configuration: .fullScreen
+            )
             controller.modalPresentationStyle = .overFullScreen
             _navigator.present(controller, animated: false, completion: nil)
             bottomSheetController = controller

@@ -12,7 +12,13 @@ typealias SearchViewModelProtocol = SearchViewModelLifeCycle
 @MainActor
 protocol SearchViewModelLifeCycle: AnyObject {
     func setup()
-    func load()
+    func load(showLoading: Bool)
+}
+
+extension SearchViewModelLifeCycle {
+    func load() {
+        load(showLoading: true)
+    }
 }
 
 @MainActor
@@ -39,6 +45,7 @@ protocol SearchModelProtocol: AnyObject {
     func filterFeedingPoints(withFilter identifier: String) async -> [SearchModelSection]
 
     func toogleFeedingPoint(forIdentifier identifier: String)
+    func toogleFavorite(forIdentifier identifier: String) async
 }
 
 // MARK: - Coordinator

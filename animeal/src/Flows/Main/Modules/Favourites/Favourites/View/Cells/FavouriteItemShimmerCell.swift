@@ -23,7 +23,7 @@ final class FavouriteItemShimmerCell: UITableViewCell {
 
 extension FavouriteItemShimmerCell: FavouriteCell {
     public static var reuseIdentifier: String { String(describing: self) }
-    
+
     // MARK: - Configuration
     public func configure(_ model: FavouriteItem) {
         guard let model = model as? FavouriteShimmerViewItem else { return }
@@ -117,7 +117,7 @@ private extension FavouriteItemShimmerCell {
 
 // MARK: - Model
 struct FavouriteShimmerViewItem: FavouriteItem {
-    var feedingPointId: String = String.empty
+    var feedingPointId = String.empty
     public var cellReuseIdentifier: String = FavouriteItemShimmerCell.reuseIdentifier
     public let scheduler: ShimmerViewScheduler
 }
