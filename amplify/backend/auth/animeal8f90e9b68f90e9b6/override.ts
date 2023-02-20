@@ -1,7 +1,7 @@
 import { AmplifyAuthCognitoStackTemplate } from '@aws-amplify/cli-extensibility-helper';
 
 export function override(resources: AmplifyAuthCognitoStackTemplate) {
-  resources.userPool.autoVerifiedAttributes = [];
+  resources.userPool.autoVerifiedAttributes = ['phone_number'];
   resources.userPool.smsConfiguration = {
     externalId: '34a848dc-25e0-4385-9cf8-380f18bad969',
     snsCallerArn: 'arn:aws:iam::027735239009:role/service-role/animeal-sns-role',
@@ -17,7 +17,7 @@ export function override(resources: AmplifyAuthCognitoStackTemplate) {
     sourceArn: `arn:aws:ses:${region}:${accountId}:identity/animeal.ge`,
   };
 
-  (<any>resources.userPool.userAttributeUpdateSettings).attributesRequireVerificationBeforeUpdate = [];
+  (<any>resources.userPool.userAttributeUpdateSettings).attributesRequireVerificationBeforeUpdate = ['phone_number'];
 
   const myCustomAttribute = [];
   if (!resources.userPool.schema) {

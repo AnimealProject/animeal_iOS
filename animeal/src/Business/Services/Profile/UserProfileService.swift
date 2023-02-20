@@ -20,117 +20,104 @@ final class UserProfileService: UserProfileServiceProtocol {
     }
 
     // MARK: - Main methods
-    func getCurrentUser() -> UserProfile? {
-        guard let user = Amplify.Auth.getCurrentUser() else {
+    func getCurrentUser() async -> UserCurrentProfile? {
+        guard let user = try? await Amplify.Auth.getCurrentUser() else {
             return nil
         }
-        return UserProfile(username: user.username, userId: user.userId)
+        return UserCurrentProfile(
+            username: user.username,
+            userId: user.userId
+        )
     }
 
     func getCurrentUserValidationModel() -> UserProfileValidationModel {
         return userValidationModel
     }
 
-    func fetchUserAttributes(
-        handler: @escaping (Result<[UserProfileAttribute], UserProfileError>) -> Void
-    ) {
-        Amplify.Auth.fetchUserAttributes { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let attributes):
-                handler(.success(attributes.compactMap(self.converter.convertAuthUserAttribute)))
-            case .failure(let error):
-                handler(.failure(self.converter.convertAmplifyError(error)))
-            }
+    @discardableResult
+    func fetchUserAttributes() async throws -> [UserProfileAttribute] {
+        do {
+            let result = try await Amplify.Auth.fetchUserAttributes()
+            let attributes = result.compactMap(converter.convertAuthUserAttribute)
+            userValidationModel.handleUserAttributesEvent(attributes)
+            return attributes
+        } catch let error as AuthError {
+            throw converter.convertAmplifyError(error)
+        } catch {
+            throw UserProfileError.unknown("Something went wrong.")
         }
     }
 
-    func update(
-        userAttribute: UserProfileAttribute,
-        handler: @escaping (Result<UserProfileUpdateAttributeState, UserProfileError>) -> Void
-    ) {
-        Amplify.Auth.update(
-            userAttribute: converter.convertUserProfileAttribute(userAttribute)
-        ) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let result):
-                handler(.success(self.converter.convertUpdateAttributeResult(result)))
-            case .failure(let error):
-                handler(.failure(self.converter.convertAmplifyError(error)))
-            }
+    func update(userAttribute: UserProfileAttribute) async throws -> UserProfileUpdateAttributeState {
+        do {
+            let result = try await Amplify.Auth.update(
+                userAttribute: converter.convertUserProfileAttribute(userAttribute)
+            )
+            return converter.convertUpdateAttributeResult(result)
+        } catch let error as AuthError {
+            throw converter.convertAmplifyError(error)
+        } catch {
+            throw UserProfileError.unknown("Something went wrong.")
         }
     }
 
-    func update(
-        userAttributes: [UserProfileAttribute],
-        handler: @escaping (Result<UserProfileUpdateAttributesState, UserProfileError>) -> Void
-    ) {
-        Amplify.Auth.update(
-            userAttributes: userAttributes.map(converter.convertUserProfileAttribute)
-        ) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let result):
-                handler(.success(self.converter.convertUpdateAttributesResult(result)))
-            case .failure(let error):
-                handler(.failure(self.converter.convertAmplifyError(error)))
-            }
+    func update(userAttributes: [UserProfileAttribute]) async throws -> UserProfileUpdateAttributesState {
+        do {
+            let result = try await Amplify.Auth.update(
+                userAttributes: userAttributes.map(converter.convertUserProfileAttribute)
+            )
+            return converter.convertUpdateAttributesResult(result)
+        } catch let error as AuthError {
+            throw converter.convertAmplifyError(error)
+        } catch {
+            throw UserProfileError.unknown("Something went wrong.")
         }
     }
 
     func resendConfirmationCode(
-        forAttributeKey attributeKey: UserProfileAttributeKey,
-        handler: @escaping (Result<UserProfileCodeDeliveryDetails, UserProfileError>) -> Void
-    ) {
-        Amplify.Auth.resendConfirmationCode(
-            for: converter.convertUserProfileAttributeKey(attributeKey)
-        ) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let details):
-                handler(.success(self.converter.convertCodeDeliveryDetails(details)))
-            case .failure(let error):
-                handler(.failure(self.converter.convertAmplifyError(error)))
-            }
+        forAttributeKey attributeKey: UserProfileAttributeKey
+    ) async throws -> UserProfileCodeDeliveryDetails {
+        do {
+            let result = try await Amplify.Auth.resendConfirmationCode(
+                forUserAttributeKey: converter.convertUserProfileAttributeKey(attributeKey)
+            )
+            return converter.convertCodeDeliveryDetails(result)
+        } catch let error as AuthError {
+            throw converter.convertAmplifyError(error)
+        } catch {
+            throw UserProfileError.unknown("Something went wrong.")
         }
     }
 
     func confirm(
         userAttributeKey: UserProfileAttributeKey,
-        confirmationCode: UserProfileInput,
-        handler: @escaping (Result<Void, UserProfileError>) -> Void
-    ) {
-        Amplify.Auth.confirm(
-            userAttribute: converter.convertUserProfileAttributeKey(userAttributeKey),
-            confirmationCode: confirmationCode.value
-        ) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let state):
-                handler(.success(state))
-            case .failure(let error):
-                handler(.failure(self.converter.convertAmplifyError(error)))
-            }
+        confirmationCode: UserProfileInput
+    ) async throws {
+        do {
+            try await Amplify.Auth.confirm(
+                userAttribute: converter.convertUserProfileAttributeKey(userAttributeKey),
+                confirmationCode: confirmationCode.value
+            )
+        } catch let error as AuthError {
+            throw converter.convertAmplifyError(error)
+        } catch {
+            throw UserProfileError.unknown("Something went wrong.")
         }
     }
 
     func update(
         oldPassword: UserProfileInput,
-        to newPassword: UserProfileInput,
-        handler: @escaping (Result<Void, UserProfileError>) -> Void
-    ) {
-        Amplify.Auth.update(
-            oldPassword: oldPassword.value,
-            to: newPassword.value
-        ) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let state):
-                handler(.success(state))
-            case .failure(let error):
-                handler(.failure(self.converter.convertAmplifyError(error)))
-            }
+        to newPassword: UserProfileInput
+    ) async throws {
+        do {
+            try await Amplify.Auth.update(
+                oldPassword: oldPassword.value,
+                to: newPassword.value
+            )
+        } catch let error as AuthError {
+            throw converter.convertAmplifyError(error)
+        } catch {
+            throw UserProfileError.unknown("Something went wrong.")
         }
     }
 }

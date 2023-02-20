@@ -9,14 +9,12 @@ import Services
 final class UserValidationModel: UserProfileValidationModel {
     // MARK: - Private Properties
     private var listeners: [AuthChannelEventsListener] = []
-    private enum Constants {
-        static let phoneNumberAttribute = "phone_number_verified"
-    }
 
     // MARK: - Accessible properties
     private(set) var isSignedIn = false
     private(set) var phoneNumberVerified = false
     private(set) var emailVerified = false
+    private(set) var areAllNecessaryFieldsFilled = false
 
     // MARK: - Initialization
     init() {
@@ -24,8 +22,22 @@ final class UserValidationModel: UserProfileValidationModel {
     }
 
     // MARK: - UserProfileValidationModel
-    var validated: Bool {
-        return phoneNumberVerified && emailVerified
+    var validated: Bool { phoneNumberVerified && areAllNecessaryFieldsFilled }
+    
+    func handleUserAttributesEvent(_ attributes: [UserProfileAttribute]) {
+        var attributes = attributes.reduce([UserProfileAttributeKey: String]()) { partialResult, attribute in
+            var result = partialResult
+            result[attribute.key] = attribute.value
+            return result
+        }
+
+        phoneNumberVerified = attributes[.phoneNumberVerified]
+            .map { Bool($0) ?? false } ?? false
+        emailVerified = attributes[.emailVerified]
+            .map { Bool($0) ?? false } ?? false
+
+        areAllNecessaryFieldsFilled = [UserProfileAttributeKey.name, .familyName, .email, .birthDate, .phoneNumber]
+            .allSatisfy { attributes[$0]?.isEmpty == false }
     }
 }
 
@@ -49,7 +61,6 @@ private extension UserValidationModel {
                 self.isSignedIn = false
             case HubPayload.EventName.Auth.fetchUserAttributesAPI:
                 logInfo("[App] \(#function) Auth.fetchUserAttributesAPI event occurred in AUTH channel")
-                self.handleUserAttributesEvent(data: payload.data)
             case HubPayload.EventName.Auth.sessionExpired:
                 logInfo("[App] \(#function) Auth.sessionExpired event occurred in AUTH channel")
                 self.isSignedIn = false
@@ -64,7 +75,7 @@ private extension UserValidationModel {
     }
 
     func checkIfUserSignedIn(_ data: Any?) -> Bool {
-        guard let event = data as? AWSAuthFetchSessionOperation.OperationResult,
+        guard let event = data as? Result<AuthSession, AuthError>,
               case let .success(result) = event else {
             return false
         }
@@ -81,29 +92,6 @@ private extension UserValidationModel {
     func handleSessionExpiredEvent() {
         listeners.forEach { listener in
             listener.listenAuthChannelEvents(event: .sessionExpired)
-        }
-    }
-
-    func handleUserAttributesEvent(data: Any?) {
-        guard let result = data as? Result<[AuthUserAttribute], AuthError> else {
-            return
-        }
-        switch result {
-        case .success(let attributes):
-            attributes.forEach { attribute in
-                switch attribute.key {
-                case .unknown(let value):
-                    if value == Constants.phoneNumberAttribute {
-                        phoneNumberVerified = Bool(attribute.value) ?? false
-                    }
-                case .email:
-                    emailVerified = true
-                default:
-                    break
-                }
-            }
-        default:
-            break
         }
     }
 }

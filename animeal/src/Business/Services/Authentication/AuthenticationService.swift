@@ -19,178 +19,152 @@ final class AuthenticationService: AuthenticationServiceProtocol {
     func signUp(
         username: AuthenticationInput,
         password: AuthenticationInput,
-        options: [AuthenticationUserAttribute]?,
-        handler: @escaping AuthenticationSignUpHandler
-    ) {
+        options: [AuthenticationUserAttribute]?
+    ) async throws -> AuthenticationSignUpState {
         var signUpOptions: AuthSignUpRequest.Options?
         if let options = options {
             let userAttributes = options.map(converter.convertAuthenticationAttribute)
             signUpOptions = AuthSignUpRequest.Options(userAttributes: userAttributes)
         }
-
-        Amplify.Auth.signUp(
-            username: username.value,
-            password: password.value,
-            options: signUpOptions
-        ) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let state):
-                guard let nextStep = self.converter.convertAmplifySignUpState(state) else {
-                    handler(.failure(AuthenticationError.unknown("Confirmation code sent to unknown destenation", nil)))
-                    return
-                }
-                handler(.success(nextStep))
-            case .failure(let error):
-                handler(.failure(self.converter.convertAmplifyError(error)))
+        do {
+            let result = try await Amplify.Auth.signUp(
+                username: username.value,
+                password: password.value,
+                options: signUpOptions
+            )
+            
+            guard let nextStep = converter.convertAmplifySignUpState(result) else {
+                throw AuthenticationError.unknown("Confirmation code sent to unknown destenation", nil)
             }
+
+            return nextStep
+        } catch let error as AuthError {
+            throw converter.convertAmplifyError(error)
+        } catch {
+            throw AuthenticationError.unknown(error.localizedDescription, error)
         }
+        
     }
 
     func signIn(
         username: AuthenticationInput,
-        password: AuthenticationInput?,
-        handler: @escaping AuthenticationSignInHanler
-    ) {
+        password: AuthenticationInput?
+    ) async throws -> AuthenticationSignInState {
         guard let password = password else {
-            return signIn(username: username, handler: handler)
+            return try await signIn(username: username)
         }
 
-        Amplify.Auth.signIn(username: username.value, password: password.value) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let state):
-                handler(.success(self.converter.convertAmplifySignInState(state)))
-            case .failure(let error):
-                handler(.failure(self.converter.convertAmplifyError(error)))
-            }
+        do {
+            let result = try await Amplify.Auth.signIn(username: username.value, password: password.value)
+            
+            return converter.convertAmplifySignInState(result)
+        } catch let error as AuthError {
+            throw converter.convertAmplifyError(error)
+        } catch {
+            throw AuthenticationError.unknown(error.localizedDescription, error)
         }
     }
 
-    func signIn(
-        username: AuthenticationInput,
-        handler: @escaping AuthenticationSignInHanler
-    ) {
+    func signIn(username: AuthenticationInput) async throws -> AuthenticationSignInState {
         let options = AuthSignInRequest.Options(
-            pluginOptions: AWSAuthSignInOptions(authFlowType: .custom)
+            pluginOptions: AWSAuthSignInOptions(authFlowType: .customWithSRP)
         )
-        Amplify.Auth.signIn(username: username.value, options: options) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let state):
-                handler(.success(self.converter.convertAmplifySignInState(state)))
-            case .failure(let error):
-                handler(.failure(self.converter.convertAmplifyError(error)))
-            }
+        do {
+            let result = try await Amplify.Auth.signIn(username: username.value, options: options)
+            return converter.convertAmplifySignInState(result)
+        } catch let error as AuthError {
+            throw converter.convertAmplifyError(error)
+        } catch {
+            throw AuthenticationError.unknown(error.localizedDescription, error)
         }
     }
 
-    func signIn(
-        provider: AuthenticationProvider,
-        handler: @escaping AuthenticationSignInHanler
-    ) {
+    func signIn(provider: AuthenticationProvider) async throws -> AuthenticationSignInState {
         switch provider {
         case .apple(let presentationAnchor):
-            Amplify.Auth.signInWithWebUI(for: .apple, presentationAnchor: presentationAnchor) { [weak self] result in
-                guard let self = self else { return }
-                switch result {
-                case .success(let state):
-                    handler(.success(self.converter.convertAmplifySignInState(state)))
-                case .failure(let error):
-                    handler(.failure(self.converter.convertAmplifyError(error)))
-                }
+            do {
+                let result = try await Amplify.Auth.signInWithWebUI(for: .apple, presentationAnchor: presentationAnchor)
+                return converter.convertAmplifySignInState(result)
+            } catch let error as AuthError {
+                throw converter.convertAmplifyError(error)
+            } catch {
+                throw AuthenticationError.unknown(error.localizedDescription, error)
             }
         case .facebook(let presentationAnchor):
-            Amplify.Auth.signInWithWebUI(for: .facebook, presentationAnchor: presentationAnchor) { [weak self] result in
-                guard let self = self else { return }
-                switch result {
-                case .success(let state):
-                    handler(.success(self.converter.convertAmplifySignInState(state)))
-                case .failure(let error):
-                    handler(.failure(self.converter.convertAmplifyError(error)))
-                }
+            do {
+                let result = try await Amplify.Auth.signInWithWebUI(for: .facebook, presentationAnchor: presentationAnchor)
+                return converter.convertAmplifySignInState(result)
+            } catch let error as AuthError {
+                throw converter.convertAmplifyError(error)
+            } catch {
+                throw AuthenticationError.unknown(error.localizedDescription, error)
             }
-        default: return
+        default:
+            throw AuthenticationError.unknown("Unknown social web ui provider.", nil)
         }
     }
 
-    func signOut(handler: @escaping AuthenticationSignOutHanler) {
-        Amplify.Auth.signOut { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success:
-                handler(.success(()))
-            case .failure(let error):
-                handler(.failure(self.converter.convertAmplifyError(error)))
-            }
-        }
+    func signOut() async throws {
+        _ = await Amplify.Auth.signOut()
     }
 
     func confirmSignUp(
         for username: AuthenticationInput,
-        otp: AuthenticationInput,
-        handler: @escaping AuthenticationConfirmSignUpHanler
-    ) {
-        Amplify.Auth.confirmSignUp(for: username.value, confirmationCode: otp.value) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let state):
-                guard let nextStep = self.converter.convertAmplifySignUpState(state) else {
-                    handler(.failure(AuthenticationError.unknown("Confirmation code sent to unknown destenation", nil)))
-                    return
-                }
-                handler(.success(nextStep))
-            case .failure(let error):
-                handler(.failure(self.converter.convertAmplifyError(error)))
+        otp: AuthenticationInput
+    ) async throws -> AuthenticationSignUpState {
+        do {
+            let result = try await Amplify.Auth.confirmSignUp(for: username.value, confirmationCode: otp.value)
+            guard let nextStep = converter.convertAmplifySignUpState(result) else {
+                throw AuthenticationError.unknown("Confirmation code sent to unknown destenation", nil)
             }
+            return nextStep
+        } catch let error as AuthError {
+            throw converter.convertAmplifyError(error)
+        } catch {
+            throw AuthenticationError.unknown(error.localizedDescription, error)
         }
     }
 
-    func confirmSignIn(otp: AuthenticationInput, handler: @escaping AuthenticationConfirmSignInHanler) {
-        Amplify.Auth.confirmSignIn(challengeResponse: otp.value) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let state):
-                handler(.success(self.converter.convertAmplifySignInState(state)))
-            case .failure(let error):
-                handler(.failure(self.converter.convertAmplifyError(error)))
-            }
+    func confirmSignIn(otp: AuthenticationInput) async throws -> AuthenticationSignInState {
+        do {
+            let result = try await Amplify.Auth.confirmSignIn(challengeResponse: otp.value)
+            return converter.convertAmplifySignInState(result)
+        } catch let error as AuthError {
+            throw converter.convertAmplifyError(error)
+        } catch {
+            throw AuthenticationError.unknown(error.localizedDescription, error)
         }
     }
 
-    func resendSignUpCode(for username: AuthenticationInput, handler: @escaping AuthenticationResendCodeHandler) {
-        Amplify.Auth.resendSignUpCode(for: username.value) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let state):
-                handler(.success(self.converter.convertCodeDeliveryDetails(state)))
-            case .failure(let error):
-                handler(.failure(self.converter.convertAmplifyError(error)))
-            }
+    func resendSignUpCode(for username: AuthenticationInput) async throws -> AuthenticationCodeDeliveryDetails {
+        do {
+            let result = try await Amplify.Auth.resendSignUpCode(for: username.value)
+            return converter.convertCodeDeliveryDetails(result)
+        } catch let error as AuthError {
+            throw converter.convertAmplifyError(error)
+        } catch {
+            throw AuthenticationError.unknown(error.localizedDescription, error)
         }
     }
 
-    func deleteUser(handler: @escaping DeleteUserHandler) {
-        Amplify.Auth.deleteUser { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success:
-                handler(.success(()))
-            case .failure(let error):
-                handler(.failure(self.converter.convertAmplifyError(error)))
-            }
+    func deleteUser() async throws {
+        do {
+            _ = try await Amplify.Auth.deleteUser()
+        } catch let error as AuthError {
+            throw converter.convertAmplifyError(error)
+        } catch {
+            throw AuthenticationError.unknown(error.localizedDescription, error)
         }
     }
 
-    func fetchAuthSession(handler: @escaping AuthFetchSessionHandler) {
-        Amplify.Auth.fetchAuthSession { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let session):
-                handler(.success(AuthenticationSession(isSignedIn: session.isSignedIn)))
-            case .failure(let error):
-                handler(.failure(self.converter.convertAmplifyError(error)))
-            }
+    func fetchAuthSession() async throws -> AuthenticationSession {
+        do {
+            let result = try await Amplify.Auth.fetchAuthSession()
+            return AuthenticationSession(isSignedIn: result.isSignedIn)
+        } catch let error as AuthError {
+            throw converter.convertAmplifyError(error)
+        } catch {
+           throw AuthenticationError.unknown(error.localizedDescription, error)
         }
     }
 }

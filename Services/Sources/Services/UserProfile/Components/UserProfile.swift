@@ -1,6 +1,6 @@
 import Foundation
 
-public struct UserProfile {
+public struct UserCurrentProfile {
     /// User name of the auth user
     public let username: String
 
