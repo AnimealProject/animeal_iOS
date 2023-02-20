@@ -88,7 +88,7 @@ extension HomeViewController: HomeViewModelOutput {
 private extension HomeViewController {
     func setup() {
         navigationController?.setNavigationBarHidden(true, animated: false)
-        
+
         setupMapView()
 
         let controlsContainer = UIStackView()
@@ -119,7 +119,7 @@ private extension HomeViewController {
         viewModel.onFeedingPointsHaveBeenPrepared = { [weak self] points in
             self?.applyFeedingPoints(points)
         }
-        
+
         viewModel.onFeedingPointCameraMoveRequired = { [weak self] move in
             self?.handleCameraMove(move)
         }

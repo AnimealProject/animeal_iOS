@@ -27,6 +27,7 @@ struct SearchModelItem {
     let icon: URL?
     let status: SearchModelItemStatus
     let category: SearchModelItemCategory
+    let isFavorite: Bool
 }
 
 extension SearchModelItemStatus {

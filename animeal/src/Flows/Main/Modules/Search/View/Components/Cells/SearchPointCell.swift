@@ -29,6 +29,14 @@ final class SearchPointCell: UICollectionViewCell {
     // MARK: - UI properties
     private let innerView = FeedingPointDetailsView().prepareForAutoLayout()
 
+    // MARK: - Handlers
+    var didTapOnFavorite: (() -> Void)? {
+        get { innerView.didTapOnFavorite }
+        set { innerView.didTapOnFavorite = newValue }
+    }
+
+    var didTapOnContent: (() -> Void)?
+
     // MARK: - Initialization
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -37,6 +45,12 @@ final class SearchPointCell: UICollectionViewCell {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: - Life cycle
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        innerView.reset()
     }
 
     // MARK: - Setup
@@ -73,6 +87,12 @@ final class SearchPointCell: UICollectionViewCell {
         innerView.topAnchor ~= containerView.topAnchor + 10.0
         innerView.trailingAnchor ~= containerView.trailingAnchor - 10.0
         innerView.bottomAnchor ~= containerView.bottomAnchor - 10.0
+        
+        let gestureRecognizer = TapGestureRecognizer { [weak self] _ in
+            guard let self = self else { return }
+            self.didTapOnContent?()
+        }
+        innerView.addGestureRecognizer(gestureRecognizer)
     }
 }
 

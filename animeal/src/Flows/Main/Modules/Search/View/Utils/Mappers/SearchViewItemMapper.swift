@@ -22,7 +22,7 @@ final class SearchViewItemMapper: SearchViewItemMappable {
                     title: input.name,
                     status: StatusView.Model(status: mapStatus(input.status))
                 ),
-                isHighlighted: false
+                isHighlighted: input.isFavorite
             )
         )
         return viewItem

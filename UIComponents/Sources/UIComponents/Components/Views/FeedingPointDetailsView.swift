@@ -6,7 +6,7 @@ public final class FeedingPointDetailsView: UIView {
     private let infoView = PlaceInfoView()
     private let imageView = UIImageView()
 
-    public var onTap: (() -> Void)?
+    public var didTapOnFavorite: (() -> Void)?
 
     // MARK: - Initialization
     public init() {
@@ -35,6 +35,10 @@ public final class FeedingPointDetailsView: UIView {
     public func setIcon(_ icon: UIImage) {
         infoView.setIcon(icon)
     }
+
+    public func reset() {
+        imageView.isHighlighted = false
+    }
 }
 
 // MARK: - Setup
@@ -62,7 +66,7 @@ private extension FeedingPointDetailsView {
         imageView.isUserInteractionEnabled = true
         let gestureRecognizer = TapGestureRecognizer { [weak self] _ in
             guard let self = self else { return }
-            self.onTap?()
+            self.didTapOnFavorite?()
             self.imageView.isHighlighted.toggle()
         }
         imageView.addGestureRecognizer(gestureRecognizer)

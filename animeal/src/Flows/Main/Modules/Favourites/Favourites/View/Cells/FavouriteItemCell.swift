@@ -23,7 +23,7 @@ public final class FavouriteItemCell: UITableViewCell {
 
 extension FavouriteItemCell: FavouriteCell {
     public static var reuseIdentifier: String { String(describing: self) }
-    
+
     // MARK: - Configuration
     public func configure(_ model: FavouriteItem) {
         guard let model = model as? FavouriteViewItem else { return }
@@ -35,7 +35,7 @@ extension FavouriteItemCell: FavouriteCell {
         )
         favouriteImageView.isHighlighted = model.isHighlighted
     }
-    
+
     public func setIcon(_ icon: UIImage) {
         infoView.setIcon(icon)
     }
@@ -46,7 +46,7 @@ private extension FavouriteItemCell {
     func setup() {
         backgroundColor = .clear
         contentView.backgroundColor = .clear
-        
+
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOpacity = 0.09
         layer.shadowOffset =  .zero
@@ -54,38 +54,38 @@ private extension FavouriteItemCell {
         layer.masksToBounds = false
         contentView.layer.masksToBounds = true
         contentView.cornerRadius(12)
-        
+
         containerView.backgroundColor = designEngine.colors.backgroundPrimary
         containerView.border(color: designEngine.colors.backgroundSecondary /* .lightGray*/, width: 0.1)
         containerView.cornerRadius(12)
-        
+
         let safeArea = safeAreaLayoutGuide
-        
+
         addSubview(containerView.prepareForAutoLayout())
-        containerView.leadingAnchor ~= safeArea.leadingAnchor + 10
-        containerView.trailingAnchor ~= safeArea.trailingAnchor - 10
-        containerView.topAnchor ~= safeArea.topAnchor + 10
-        containerView.bottomAnchor ~= safeArea.bottomAnchor - 10
+        containerView.leadingAnchor ~= safeArea.leadingAnchor + 30.0
+        containerView.trailingAnchor ~= safeArea.trailingAnchor - 30.0
+        containerView.topAnchor ~= safeArea.topAnchor + 10.0
+        containerView.bottomAnchor ~= safeArea.bottomAnchor - 10.0
         
         containerView.addSubview(infoView.prepareForAutoLayout())
-        infoView.leadingAnchor ~= containerView.leadingAnchor + 10
-        infoView.topAnchor ~= containerView.topAnchor + 10
-        infoView.bottomAnchor ~= containerView.bottomAnchor - 10
+        infoView.leadingAnchor ~= containerView.leadingAnchor + 10.0
+        infoView.topAnchor ~= containerView.topAnchor + 10.0
+        infoView.bottomAnchor ~= containerView.bottomAnchor - 10.0
         
         containerView.addSubview(favouriteImageView.prepareForAutoLayout())
-        favouriteImageView.heightAnchor ~= 32
-        favouriteImageView.widthAnchor ~= 32
-        favouriteImageView.topAnchor ~= containerView.topAnchor + 10
-        favouriteImageView.trailingAnchor ~= containerView.trailingAnchor - 10
-        favouriteImageView.leadingAnchor ~= infoView.trailingAnchor + 10
-        favouriteImageView.layer.cornerRadius = 16
+        favouriteImageView.heightAnchor ~= 32.0
+        favouriteImageView.widthAnchor ~= 32.0
+        favouriteImageView.topAnchor ~= containerView.topAnchor + 10.0
+        favouriteImageView.trailingAnchor ~= containerView.trailingAnchor - 10.0
+        favouriteImageView.leadingAnchor ~= infoView.trailingAnchor + 10.0
+        favouriteImageView.layer.cornerRadius = 16.0
         favouriteImageView.contentMode = .center
         favouriteImageView.backgroundColor = designEngine.colors.backgroundPrimary
         favouriteImageView.layer.shadowColor = designEngine.colors.textSecondary.cgColor
         favouriteImageView.layer.masksToBounds = false
         favouriteImageView.layer.shadowOpacity = 0.16
         favouriteImageView.layer.shadowOffset = CGSize(width: 0, height: 3)
-        favouriteImageView.layer.shadowRadius = 6
+        favouriteImageView.layer.shadowRadius = 6.0
         favouriteImageView.isUserInteractionEnabled = true
     }
 }

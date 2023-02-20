@@ -70,13 +70,13 @@ final class FavouritesViewController: UIViewController {
 
         view.addSubview(tableView.prepareForAutoLayout())
         tableView.topAnchor ~= safeArea.topAnchor
-        tableView.leadingAnchor ~= safeArea.leadingAnchor + 20
-        tableView.trailingAnchor ~= safeArea.trailingAnchor - 20
+        tableView.leadingAnchor ~= safeArea.leadingAnchor
+        tableView.trailingAnchor ~= safeArea.trailingAnchor
         tableView.bottomAnchor ~= safeArea.bottomAnchor
 
         tableView.tableHeaderView = headerView
         headerView.prepareForAutoLayout()
-        headerView.leadingAnchor ~= tableView.leadingAnchor
+        headerView.leadingAnchor ~= safeArea.leadingAnchor + 20.0
         headerView.centerXAnchor ~= tableView.centerXAnchor
         headerView.topAnchor ~= tableView.topAnchor
 

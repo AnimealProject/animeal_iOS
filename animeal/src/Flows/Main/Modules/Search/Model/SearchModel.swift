@@ -14,6 +14,7 @@ final class SearchModel: SearchModelProtocol {
     private let fetchFeedingPoints: FetchFeedingPointsUseCaseLogic
     private let searchFeedingPoints: SearchFeedingPointsUseCaseLogic
     private let filterFeedingPoints: FilterFeedingPointsUseCaseLogic
+    private let toggleFavoriteFeedingPoint: ToggleFavoriteFeedingPointUseCaseLogic
 
     private let fetchFeedingPointFilters: FetchFeedingPointsFiltersUseCaseLogic
 
@@ -23,12 +24,14 @@ final class SearchModel: SearchModelProtocol {
         fetchFeedingPoints: FetchFeedingPointsUseCaseLogic = FetchFeedingPointsUseCase(),
         searchFeedingPoints: SearchFeedingPointsUseCaseLogic = SearchFeedingPointsUseCase(),
         filterFeedingPoints: FilterFeedingPointsUseCaseLogic = FilterFeedingPointsUseCase(),
+        toggleFavoriteFeedingPoint: ToggleFavoriteFeedingPointUseCaseLogic = ToggleFavoriteFeedingPointUseCase(),
         fetchFeedingPointFilters: FetchFeedingPointsFiltersUseCaseLogic = FilterFeedingPointsUseCase()
     ) {
         self.sections = sections
         self.fetchFeedingPoints = fetchFeedingPoints
         self.searchFeedingPoints = searchFeedingPoints
         self.filterFeedingPoints = filterFeedingPoints
+        self.toggleFavoriteFeedingPoint = toggleFavoriteFeedingPoint
         self.fetchFeedingPointFilters = fetchFeedingPointFilters
     }
 
@@ -36,16 +39,7 @@ final class SearchModel: SearchModelProtocol {
     func fetchFilteringText() -> String? { searchString }
 
     func fetchFeedingPoints(force: Bool) async throws -> [SearchModelSection] {
-        guard force else {
-            let filteredSections = filterFeedingPoints(sections)
-            let foundSections = searchFeedingPoints(
-                filteredSections,
-                searchString: searchString
-            )
-            return foundSections
-        }
-
-        let fetchedSections = try await fetchFeedingPoints()
+        let fetchedSections = try await fetchFeedingPoints(force: force, oldSections: sections)
         let filteredSections = filterFeedingPoints(fetchedSections)
         let foundSections = searchFeedingPoints(
             filteredSections,
@@ -94,5 +88,9 @@ final class SearchModel: SearchModelProtocol {
         ) else { return }
 
         sections[index].toogle()
+    }
+
+    func toogleFavorite(forIdentifier identifier: String) async {
+        await toggleFavoriteFeedingPoint(byIdentifier: identifier)
     }
 }

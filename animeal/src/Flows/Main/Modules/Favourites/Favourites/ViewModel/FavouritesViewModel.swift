@@ -1,14 +1,21 @@
+// System
 import Foundation
+import Combine
+
+// SDK
 import UIComponents
 
 final class FavouritesViewModel: FavouritesViewModelLifeCycle, FavouritesViewInteraction, FavouritesViewState {
     // MARK: - Private properties
     private lazy var shimmerScheduler = ShimmerViewScheduler()
-    
+
     // MARK: - Dependencies
     private let model: FavouritesModelProtocol
     private let coordinator: FavouritesCoordinatable
     private let mapper: FavouriteViewItemMappable
+
+    // MARK: - Cancellables
+    var cancellables = Set<AnyCancellable>()
 
     // MARK: - State
     var onErrorIsNeededToDisplay: ((String) -> Void)?
@@ -27,15 +34,17 @@ final class FavouritesViewModel: FavouritesViewModelLifeCycle, FavouritesViewInt
     }
 
     // MARK: - Life cycle
-    func load() {
-        shimmerScheduler.start()
-        updateViewItems { [weak self] in
-            self?.updateViewLoadingItems() ?? []
+    func load(showLoading: Bool) {
+        if showLoading {
+            shimmerScheduler.start()
+            updateViewItems { [weak self] in
+                self?.updateViewLoadingItems() ?? []
+            }
         }
         updateViewItems { [weak self] in
             guard let self else { return [] }
             self.shimmerScheduler.stop()
-            return try await self.updateViewContentItems()
+            return try await self.updateViewContentItems(force: showLoading)
         }
     }
 
@@ -57,8 +66,8 @@ final class FavouritesViewModel: FavouritesViewModelLifeCycle, FavouritesViewInt
         return loadingItems.map { mapper.mapShimmerViewItem($0) }
     }
 
-    private func updateViewContentItems() async throws -> [FavouriteItem] {
-        let favourites = try await model.fetchFavourites()
+    private func updateViewContentItems(force: Bool) async throws -> [FavouriteItem] {
+        let favourites = try await model.fetchFavourites(force: force)
         favourites.forEach { content in
             self.loadMediaContent(content.feedingPointId, content.header.cover)
         }

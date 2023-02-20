@@ -30,6 +30,10 @@ final class SearchPointShimmerCell: UICollectionViewCell {
     private let innerView = ShimmerView(
         animationDirection: .leftRight
     ).prepareForAutoLayout()
+    
+    // MARK: - Handlers
+    var didTapOnFavorite: (() -> Void)?
+    var didTapOnContent: (() -> Void)?
 
     // MARK: - Initialization
     override init(frame: CGRect) {

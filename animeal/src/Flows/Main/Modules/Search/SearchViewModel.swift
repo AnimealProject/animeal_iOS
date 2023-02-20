@@ -1,5 +1,6 @@
 // System
 import Foundation
+import Combine
 
 // SDK
 import UIComponents
@@ -13,6 +14,9 @@ final class SearchViewModel: SearchViewModelProtocol {
     private let model: SearchModelProtocol
     private let coordinator: SearchCoordinatable
     private let sectionMapper: SearchViewSectionMappable
+
+    // MARK: - Cancellables
+    var cancellables = Set<AnyCancellable>()
 
     // MARK: - State
     var onErrorIsNeededToDisplay: ((String) -> Void)?
@@ -34,18 +38,20 @@ final class SearchViewModel: SearchViewModelProtocol {
     // MARK: - Life cycle
     func setup() { }
 
-    func load() {
+    func load(showLoading: Bool) {
         updateViewFilters()
         updateViewInput()
 
-        shimmerScheduler.start()
-        updateViewItems { [weak self] in
-            self?.updateViewLoadingItems() ?? []
+        if showLoading {
+            shimmerScheduler.start()
+            updateViewItems { [weak self] in
+                self?.updateViewLoadingItems() ?? []
+            }
         }
         updateViewItems { [weak self] in
             guard let self else { return [] }
             self.shimmerScheduler.stop()
-            return try await self.updateViewContentItems(force: true)
+            return try await self.updateViewContentItems(force: showLoading)
         }
     }
 
@@ -76,6 +82,8 @@ final class SearchViewModel: SearchViewModelProtocol {
                 self?.updateViewInput()
                 return viewItems
             }
+        case .toggleFavorite(let identifier):
+            Task { [weak self] in await self?.model.toogleFavorite(forIdentifier: identifier) }
         }
     }
 }

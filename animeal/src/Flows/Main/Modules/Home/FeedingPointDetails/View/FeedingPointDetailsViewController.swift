@@ -107,7 +107,7 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
                 isHighlighted: content.isFavorite
             )
         )
-        pointDetailsView.onTap = { [weak self] in
+        pointDetailsView.didTapOnFavorite = { [weak self] in
             self?.viewModel.handleActionEvent(.tapFavorite)
         }
         contentContainer.addArrangedSubview(pointDetailsView)

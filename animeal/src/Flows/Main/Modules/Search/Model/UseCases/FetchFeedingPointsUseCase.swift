@@ -6,26 +6,31 @@ import Services
 import Common
 
 protocol FetchFeedingPointsUseCaseLogic {
-    func callAsFunction() async throws -> [SearchModelSection]
+    func callAsFunction(force: Bool, oldSections: [SearchModelSection]) async throws -> [SearchModelSection]
 }
 
 final class FetchFeedingPointsUseCase: FetchFeedingPointsUseCaseLogic {
-    private let networkService: NetworkServiceProtocol
     private let dataService: DataStoreServiceProtocol
-    
+    private let feedingPointsService: FeedingPointsServiceProtocol
+
     init(
-        networkService: NetworkServiceProtocol = AppDelegate.shared.context.networkService,
-        dataService: DataStoreServiceProtocol = AppDelegate.shared.context.dataStoreService
+        dataService: DataStoreServiceProtocol = AppDelegate.shared.context.dataStoreService,
+        feedingPointsService: FeedingPointsServiceProtocol = AppDelegate.shared.context.feedingPointsService
     ) {
-        self.networkService = networkService
         self.dataService = dataService
+        self.feedingPointsService = feedingPointsService
     }
-    
-    func callAsFunction() async throws -> [SearchModelSection] {
-        let result = try await networkService.query(
-            request: .list(animeal.FeedingPoint.self)
-        )
-        let sections = mapSections(result: result)
+
+    func callAsFunction(force: Bool, oldSections: [SearchModelSection]) async throws -> [SearchModelSection] {
+        let result: [FullFeedingPoint] = try await { [weak self] in
+            guard let self else { return [] }
+            if force {
+                return try await self.feedingPointsService.fetchAll()
+            } else {
+                return self.feedingPointsService.storedFeedingPoints
+            }
+        }()
+        let sections = mapSections(result: result, oldSections: oldSections)
         let items = await mapItems(result: result)
         let filledSections = sections.map { section in
             var updatedSection = section
@@ -34,31 +39,41 @@ final class FetchFeedingPointsUseCase: FetchFeedingPointsUseCaseLogic {
         }
         return filledSections
     }
-    
-    private func mapSections(result: [FeedingPoint]) -> [SearchModelSection] {
-        result
-            .map { $0.localizedCity.removeHtmlTags() }
+
+    private func mapSections(result: [FullFeedingPoint], oldSections: [SearchModelSection]) -> [SearchModelSection] {
+        let identifiableOldSections: [String: SearchModelSection] = oldSections
+            .reduce([String: SearchModelSection]()) { partialResult, oldSection in
+                var result = partialResult
+                result[oldSection.identifier] = oldSection
+                return result
+            }
+        return result
+            .map { $0.feedingPoint.localizedCity.removeHtmlTags() }
             .uniqueValues
             .map {
-                SearchModelSection(
-                    identifier: UUID().uuidString,
+                let identifier = $0
+                let expanded = identifiableOldSections[identifier]?.expanded == true
+                return SearchModelSection(
+                    identifier: identifier,
                     title: $0,
                     items: [],
-                    expanded: false
+                    expanded: expanded
                 )
             }
     }
-    
-    private func mapItems(result: [FeedingPoint]) async -> [String : [SearchModelItem]] {
-        await result.asyncReduce([String: [SearchModelItem]]()) { partialResult, point in
+
+    private func mapItems(result: [FullFeedingPoint]) async -> [String: [SearchModelItem]] {
+        await result.asyncReduce([String: [SearchModelItem]]()) { partialResult, fullPoint in
             var result: [String: [SearchModelItem]] = partialResult
+            let point = fullPoint.feedingPoint
             let item = SearchModelItem(
                 identifier: point.id,
                 name: point.localizedName.removeHtmlTags(),
                 description: point.localizedDescription.removeHtmlTags(),
                 icon: try? await dataService.getURL(key: point.cover),
                 status: .init(point.status),
-                category: .init(point.category?.tag ?? .dogs)
+                category: .init(point.category?.tag ?? .dogs),
+                isFavorite: fullPoint.isFavorite
             )
             let city = point.localizedCity.removeHtmlTags()
             var items = result[city] ?? []

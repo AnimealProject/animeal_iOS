@@ -46,7 +46,7 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
     }
 
     func fetchFeedingPoint(_ completion: ((FeedingPointDetailsModel.PointContent) -> Void)?) {
-        let fullFeedingPoint = context.feedingPointsService.storedfeedingPoints.first { point in
+        let fullFeedingPoint = context.feedingPointsService.storedFeedingPoints.first { point in
             point.feedingPoint.id == self.feedingPointId
         }
 
@@ -91,14 +91,15 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
     }
 
     private func subscribeForFeedingPointChangeEvents() {
-        self.context.feedingPointsService.feedingPoints
+        context.feedingPointsService.feedingPoints
             .sink { [weak self] result in
                 guard let self else { return }
                 let points = result.uniqueValues
                 let updatedFeeding = points.first {
                     $0.feedingPoint.id == self.feedingPointId
                 }
-                if let feedingPointModel = updatedFeeding {
+                if let feedingPointModel = updatedFeeding,
+                    feedingPointModel != self.cachedFeedingPoint {
                     self.cachedFeedingPoint = feedingPointModel
                     self.onFeedingPointChange?(self.mapper.map(
                         feedingPointModel.feedingPoint,
