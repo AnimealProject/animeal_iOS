@@ -56,18 +56,13 @@ final class AppCoordinator: AppCoordinatable {
         loaderWindow.makeKeyAndVisible()
 
         // Fetching AuthSession to check if user is isSignedIn
-        fetchAuthSession { [weak self] isSignedIn in
-            guard let self = self else { return }
-            // Fetching user attributes to prefill validationModel,
-            self.context.profileService.fetchUserAttributes { _ in
-                // AsyncAfter added to give a chance to validationModel handle fetchUserAttributes event.
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.handler(
-                        isSignedIn: isSignedIn,
-                        isCurrentUserValidated: self.context.profileService.getCurrentUserValidationModel().validated
-                    )
-                }
-            }
+        Task { @MainActor [weak self] in
+            guard let self, let session = try? await self.context.authenticationService.fetchAuthSession() else { return }
+            try? await self.context.profileService.fetchUserAttributes()
+            self.move(
+                isSignedIn: session.isSignedIn,
+                isCurrentUserValidated: self.context.profileService.getCurrentUserValidationModel().validated
+            )
         }
     }
 
@@ -76,7 +71,7 @@ final class AppCoordinator: AppCoordinatable {
 
 private extension AppCoordinator {
     @MainActor
-    private func handler(isSignedIn: Bool, isCurrentUserValidated: Bool) {
+    private func move(isSignedIn: Bool, isCurrentUserValidated: Bool) {
         if isSignedIn, isCurrentUserValidated {
             let mainCoordinator = MainCoordinator(presentingWindow: mainWindow) { [weak self] events in
                 guard let self = self else { return }

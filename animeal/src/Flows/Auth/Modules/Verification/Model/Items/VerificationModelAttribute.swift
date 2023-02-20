@@ -4,6 +4,7 @@ import Foundation
 // SDK
 import Services
 
+// swiftlint: disable cyclomatic_complexity
 struct VerificationModelAttribute {
     let key: VerificationModelAttributeKey
     let value: String
@@ -23,6 +24,13 @@ enum VerificationModelAttributeKey: Hashable {
     case phoneNumber
     case picture
     case preferredUsername
+    case emailVerified
+    case phoneNumberVerified
+    case profile
+    case sub
+    case updatedAt
+    case website
+    case zoneInfo
     case custom(String)
     case unknown(String)
 }
@@ -60,9 +68,23 @@ extension VerificationModelAttributeKey {
             self = .custom(string)
         case .unknown(let string):
             self = .unknown(string)
+        case .emailVerified:
+            self = .emailVerified
+        case .phoneNumberVerified:
+            self = .phoneNumberVerified
+        case .profile:
+            self = .profile
+        case .sub:
+            self = .sub
+        case .updatedAt:
+            self = .updatedAt
+        case .website:
+            self = .website
+        case .zoneInfo:
+            self = .zoneInfo
         }
     }
-    
+
     var userAttributeKey: AuthenticationUserAttributeKey {
         switch self {
         case .address:
@@ -95,6 +117,21 @@ extension VerificationModelAttributeKey {
             return .custom(string)
         case .unknown(let string):
             return .unknown(string)
+        case .emailVerified:
+            return .emailVerified
+        case .phoneNumberVerified:
+            return .phoneNumberVerified
+        case .profile:
+            return .profile
+        case .sub:
+            return .sub
+        case .updatedAt:
+            return .updatedAt
+        case .website:
+            return .website
+        case .zoneInfo:
+            return .zoneInfo
         }
     }
 }
+// swiftlint: enable cyclomatic_complexity

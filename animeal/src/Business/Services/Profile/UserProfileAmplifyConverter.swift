@@ -60,6 +60,20 @@ struct UserProfileAmplifyConverter: UserProfileAmplifyConverting, AmplifyUserPro
             return AuthUserAttributeKey.custom(key)
         case .unknown(let key):
             return AuthUserAttributeKey.unknown(key)
+        case .emailVerified:
+            return AuthUserAttributeKey.emailVerified
+        case .phoneNumberVerified:
+            return AuthUserAttributeKey.phoneNumberVerified
+        case .profile:
+            return AuthUserAttributeKey.profile
+        case .sub:
+            return AuthUserAttributeKey.sub
+        case .updatedAt:
+            return AuthUserAttributeKey.updatedAt
+        case .website:
+            return AuthUserAttributeKey.website
+        case .zoneInfo:
+            return AuthUserAttributeKey.zoneInfo
         }
     }
 
@@ -139,6 +153,16 @@ struct UserProfileAmplifyConverter: UserProfileAmplifyConverting, AmplifyUserPro
             return UserProfileDetailedError.invalidAccountTypeException
         case .network:
             return UserProfileDetailedError.network
+        case .smsRole:
+            return UserProfileDetailedError.smsRole
+        case .emailRole:
+            return UserProfileDetailedError.emailRole
+        case .externalServiceException:
+            return UserProfileDetailedError.externalServiceException
+        case .limitExceededException:
+            return UserProfileDetailedError.limitExceededException
+        case .resourceConflictException:
+            return UserProfileDetailedError.resourceConflictException
         }
     }
 
@@ -234,6 +258,20 @@ struct UserProfileAmplifyConverter: UserProfileAmplifyConverting, AmplifyUserPro
             return UserProfileAttributeKey.custom(key)
         case .unknown(let key):
             return UserProfileAttributeKey.unknown(key)
+        case .emailVerified:
+            return UserProfileAttributeKey.emailVerified
+        case .phoneNumberVerified:
+            return UserProfileAttributeKey.phoneNumberVerified
+        case .profile:
+            return UserProfileAttributeKey.profile
+        case .sub:
+            return UserProfileAttributeKey.sub
+        case .updatedAt:
+            return UserProfileAttributeKey.updatedAt
+        case .website:
+            return UserProfileAttributeKey.website
+        case .zoneInfo:
+            return UserProfileAttributeKey.zoneInfo
         }
     }
 }

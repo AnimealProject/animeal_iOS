@@ -5,7 +5,6 @@ import AWSS3StoragePlugin
 import AWSAPIPlugin
 import AWSCognitoAuthPlugin
 import AWSDataStorePlugin
-import AWSCore
 
 protocol AppDelegateProtocol {
     var context: AppContext! { get }

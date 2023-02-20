@@ -36,15 +36,11 @@ final class AuthCoordinator: Coordinatable, AlertCoordinatable, ActivityDisplaya
 
     // MARK: - Life cycle
     func start() {
-        switch context.profileService.getCurrentUserValidationModel().isSignedIn {
-        case true:
+        if context.profileService.getCurrentUserValidationModel().isSignedIn {
             let validationModel = context.profileService.getCurrentUserValidationModel()
-            validateUser(
-                isPhoneNumberVerified: validationModel.phoneNumberVerified,
-                isEmailVerified: validationModel.emailVerified
-            )
+            moveLoggedInUser(isProfileValid: validationModel.validated)
             presentingWindow.makeKeyAndVisible()
-        case false:
+        } else {
             let loginViewController = LoginModuleAssembler(
                 coordinator: self,
                 window: presentingWindow
@@ -59,17 +55,16 @@ final class AuthCoordinator: Coordinatable, AlertCoordinatable, ActivityDisplaya
         completion?()
     }
 
-    private func validateUser(isPhoneNumberVerified: Bool, isEmailVerified: Bool) {
-        switch (isPhoneNumberVerified, isEmailVerified) {
-        case (false, _):
-            let viewController = ProfileAfterSocialAuthAssembler.assembly(coordinator: self)
-            _navigator.push(viewController, animated: false, completion: nil)
-        case (_, false):
-            let viewController = ProfileAfterCustomAuthAssembler.assembly(coordinator: self)
-            _navigator.push(viewController, animated: false, completion: nil)
-        default:
-            logError("[APP] should not be here")
+    private func moveLoggedInUser(
+        isProfileValid: Bool,
+        profileMaker: @MainActor (AuthCoordinator) -> UIViewController = {
+            ProfileAfterSocialAuthAssembler.assembly(coordinator: $0)
         }
+    ) {
+        guard !isProfileValid else { return stop() }
+
+        let viewController = profileMaker(self)
+        _navigator.push(viewController, animated: false, completion: nil)
     }
 }
 
@@ -82,8 +77,12 @@ extension AuthCoordinator: LoginCoordinatable {
         case .codeConfirmation:
             break
         case .done:
-            let viewController = ProfileAfterSocialAuthAssembler.assembly(coordinator: self)
-            _navigator.push(viewController, animated: true, completion: nil)
+            Task { [weak self] in
+                guard let self else { return }
+                try? await self.context.profileService.fetchUserAttributes()
+                let validationModel = self.context.profileService.getCurrentUserValidationModel()
+                self.moveLoggedInUser(isProfileValid: validationModel.validated)
+            }
         }
     }
 }
@@ -102,8 +101,14 @@ extension AuthCoordinator: CustomAuthCoordinatable {
         case .resetPassword:
             break
         case .done:
-            let viewController = ProfileAfterCustomAuthAssembler.assembly(coordinator: self)
-            _navigator.push(viewController, animated: true, completion: nil)
+            Task { [weak self] in
+                guard let self else { return }
+                try? await self.context.profileService.fetchUserAttributes()
+                let validationModel = self.context.profileService.getCurrentUserValidationModel()
+                self.moveLoggedInUser(isProfileValid: validationModel.validated) {
+                    ProfileAfterCustomAuthAssembler.assembly(coordinator: $0)
+                }
+            }
         case let .picker(make):
             guard let viewController = make() else { return }
             _navigator.present(viewController, animated: false, completion: nil)

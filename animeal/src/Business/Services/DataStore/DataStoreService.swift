@@ -17,23 +17,21 @@ final class DataStoreService: DataStoreServiceProtocol {
 
     func downloadData(
         key: String,
-        options: DataStoreDownloadRequest.Options?,
-        handler: DataStoreDownloadDataHandler?
-    ) {
-        let operation = Amplify.Storage.downloadData(
-            key: key,
-            options: converter.convertDownloadDataRequestOptions(options),
-            progressListener: nil,
-            resultListener: { [weak self] event in
-                guard let self = self else { return }
-                switch event {
-                case let .success(data):
-                    handler?(.success(data))
-                case let .failure(storageError):
-                    handler?(.failure(self.converter.convertAmplifyError(storageError)))
-                }
-            }
-        )
+        options: DataStoreDownloadRequest.Options?
+    ) async throws -> Data {
+        do {
+            let downloadTask = Amplify.Storage.downloadData(
+                key: key,
+                options: converter.convertDownloadDataRequestOptions(options)
+            )
+            let result = try await downloadTask.value
+    
+            return result
+        } catch let error as StorageError {
+            throw converter.convertAmplifyError(error)
+        } catch {
+            throw DataStoreError.unknown("Something went wrong.")
+        }
     }
 
     func uploadData(
@@ -41,37 +39,31 @@ final class DataStoreService: DataStoreServiceProtocol {
         data: Data,
         progressListener: DataStoreUploadProgressHandler? = nil
     ) async throws -> String {
-        let progressMappedListener: ((Progress) -> Void)? = { progress in
-            progressListener?(progress.fractionCompleted)
-        }
-        return try await withCheckedThrowingContinuation { continuation in
-            Amplify.Storage.uploadData(
+        do {
+            let progressMappedListener: ((Progress) -> Void)? = { progress in
+                progressListener?(progress.fractionCompleted)
+            }
+            let uploadTask = Amplify.Storage.uploadData(
                 key: key,
-                data: data,
-                progressListener: progressMappedListener
-            ) { result in
-                switch result {
-                case let .success(info):
-                    continuation.resume(returning: info)
-                case let .failure(error):
-                    continuation.resume(throwing: error)
+                data: data
+            )
+            Task {
+                for await progress in await uploadTask.progress {
+                    progressMappedListener?(progress)
                 }
             }
+            let result = try await uploadTask.value
+            return result
+        } catch let error as StorageError {
+            throw converter.convertAmplifyError(error)
+        } catch {
+            throw DataStoreError.unknown("Something went wrong.")
         }
     }
 
     func getURL(key: String?) async throws -> URL? {
         guard let key, !key.isEmpty else { return nil }
 
-        return try await withCheckedThrowingContinuation { continuation in
-            Amplify.Storage.getURL(key: key) { result in
-                switch result {
-                case .success(let output):
-                    continuation.resume(returning: output)
-                case .failure(let error):
-                    continuation.resume(throwing: error)
-                }
-            }
-        }
+        return try await Amplify.Storage.getURL(key: key)
     }
 }
