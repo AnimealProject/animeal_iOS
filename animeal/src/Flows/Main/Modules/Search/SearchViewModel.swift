@@ -49,9 +49,9 @@ final class SearchViewModel: SearchViewModelProtocol {
             }
         }
         updateViewItems { [weak self] in
-            guard let self else { return [] }
-            self.shimmerScheduler.stop()
-            return try await self.updateViewContentItems(force: showLoading)
+            try await self?.updateViewContentItems(force: showLoading) ?? []
+        } completion: { [weak self] in
+            self?.shimmerScheduler.stop()
         }
     }
 
@@ -120,7 +120,8 @@ private extension SearchViewModel {
     }
 
     private func updateViewItems(
-        _ operation: @escaping () async throws -> [SearchViewSectionWrapper]
+        _ operation: @escaping @MainActor () async throws -> [SearchViewSectionWrapper],
+        completion: (() -> Void)? = nil
     ) {
         Task { [weak self] in
             do {
@@ -140,8 +141,10 @@ private extension SearchViewModel {
                     snapshot.appendItems(viewSection.items, toSection: viewSection)
                 }
 
+                completion?()
                 self?.onContentStateWasPrepared?(.snapshot(snapshot))
             } catch {
+                completion?()
                 self?.coordinator.displayAlert(message: error.localizedDescription)
             }
         }

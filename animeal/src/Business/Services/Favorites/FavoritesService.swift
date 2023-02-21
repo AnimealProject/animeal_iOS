@@ -10,10 +10,16 @@ import Amplify
 struct FavouriteFeedingPoint: Hashable {
     let feedingPoint: FeedingPoint
     let isFavorite: Bool
+    var imageURL: URL?
 
-    init(feedingPoint: FeedingPoint, isFavorite: Bool = true) {
+    init(
+        feedingPoint: FeedingPoint,
+        isFavorite: Bool = true,
+        imageURL: URL? = nil
+    ) {
         self.feedingPoint = feedingPoint
         self.isFavorite = isFavorite
+        self.imageURL = imageURL
     }
 }
 
@@ -51,7 +57,7 @@ final class FavoritesService: FavoritesServiceProtocol {
             .value
             .map { FavouriteFeedingPoint(feedingPoint: $0.feedingPoint, isFavorite: true) }
     }
-    
+
     // MARK: - Publishers
     var favoriteFeedingPoints: AnyPublisher<[FavouriteFeedingPoint], Never> {
         innerFavoriteFeedingPoints

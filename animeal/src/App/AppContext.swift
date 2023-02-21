@@ -41,6 +41,7 @@ struct AppContext: AppContextProtocol {
         )
         let feedingPointsService = FeedingPointsService(
             networkService: networkService,
+            dataService: dataStoreService,
             profileService: profileService,
             favoritesService: favoritesService
         )

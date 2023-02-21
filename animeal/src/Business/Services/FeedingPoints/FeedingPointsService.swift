@@ -34,7 +34,7 @@ protocol FeedingPointsServiceProtocol: AnyObject {
     func addToFavorites(byIdentifier identifier: String) async throws -> FullFeedingPoint
     @discardableResult
     func deleteFromFavorites(byIdentifier identifier: String) async throws -> FullFeedingPoint
-    
+
     @discardableResult
     func toggle(byIdentifier identifier: String) async throws -> FullFeedingPoint
 }
@@ -63,16 +63,19 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
 
     // MARK: - Dependencies
     private let networkService: NetworkServiceProtocol
+    private let dataService: DataStoreServiceProtocol
     private let profileService: UserProfileServiceProtocol
     private let favoritesService: FavoritesServiceProtocol
 
     // MARK: - Initialization
     init(
         networkService: NetworkServiceProtocol = AppDelegate.shared.context.networkService,
+        dataService: DataStoreServiceProtocol = AppDelegate.shared.context.dataStoreService,
         profileService: UserProfileServiceProtocol = AppDelegate.shared.context.profileService,
         favoritesService: FavoritesServiceProtocol
     ) {
         self.networkService = networkService
+        self.dataService = dataService
         self.profileService = profileService
         self.favoritesService = favoritesService
 
@@ -90,10 +93,11 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
 
         let points = try await networkService
             .query(request: .list(animeal.FeedingPoint.self))
-            .map {
+            .asyncMap {
                 FullFeedingPoint(
                     feedingPoint: $0,
-                    isFavorite: favoritePointsById[$0.id]?.isFavorite == true
+                    isFavorite: favoritePointsById[$0.id]?.isFavorite == true,
+                    imageURL: try? await dataService.getURL(key: $0.cover)
                 )
             }
 
@@ -139,7 +143,7 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
     func deleteFromFavorites(byIdentifier identifier: String) async throws -> FullFeedingPoint {
         try await favoritesService.delete(byIdentifier: identifier)
     }
-    
+
     @discardableResult
     func toggle(byIdentifier identifier: String) async throws -> FullFeedingPoint {
         guard let point = innerFeedingPoints.value.first(
@@ -148,7 +152,7 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
         else {
             throw "[FeedingPointsService] Cannot toggle because there is no feeding point for the provided identifier".asBaseError()
         }
-        
+
         if point.isFavorite {
             return try await deleteFromFavorites(byIdentifier: identifier)
         } else {
@@ -182,6 +186,8 @@ private extension FeedingPointsService {
     func replaceFeedingPoint(_ feedingPoint: FullFeedingPoint, at index: Int) {
         updateFeedingPoints { fedingPoints in
             var fedingPoints = fedingPoints
+            var feedingPoint = feedingPoint
+            feedingPoint.imageURL = fedingPoints[index].imageURL
             fedingPoints.remove(at: index)
             fedingPoints.insert(feedingPoint, at: index)
             return fedingPoints
