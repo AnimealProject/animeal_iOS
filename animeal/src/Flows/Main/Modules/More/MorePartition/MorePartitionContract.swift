@@ -35,7 +35,7 @@ protocol MorePartitionModelProtocol: AnyObject {
 
 // MARK: - Coordinator
 @MainActor
-protocol MorePartitionCoordinatable: Coordinatable {
+protocol MorePartitionCoordinatable: Coordinatable, AlertCoordinatable {
     func routeTo(_ route: MorePartitionRoute)
 }
 

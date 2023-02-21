@@ -57,10 +57,14 @@ internal enum L10n {
     internal static let somthingWrong = L10n.tr("Localizable", "errors.somthingWrong", fallback: "Oops something goes wrong!")
   }
   internal enum Faq {
+    /// FAQ
+    internal static let title = L10n.tr("Localizable", "faq.title", fallback: "FAQ")
     internal enum Footer {
-      /// Didn’t find you question here or have issues?
-      /// Please contact us at example@gmail.com
-      internal static let text = L10n.tr("Localizable", "faq.footer.text", fallback: "Didn’t find you question here or have issues?\nPlease contact us at example@gmail.com")
+      /// Didn't find your question here or have issues?
+      /// Please contact us at %@
+      internal static func text(_ p1: Any) -> String {
+        return L10n.tr("Localizable", "faq.footer.text", String(describing: p1), fallback: "Didn't find your question here or have issues?\nPlease contact us at %@")
+      }
     }
     internal enum Header {
       /// If you have any questions please check our FAQ section below
