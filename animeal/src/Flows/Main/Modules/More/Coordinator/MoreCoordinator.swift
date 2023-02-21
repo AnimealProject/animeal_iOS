@@ -62,7 +62,7 @@ extension MoreCoordinator: MoreCoordinatable {
         case .donate:
             viewController = MorePartitionModuleAssembler(coordinator: self).assemble(.donate)
         case .faq:
-            viewController = MorePartitionModuleAssembler(coordinator: self).assemble(.faq)
+            viewController = FAQModuleAssembler.assemble(coordinator: self)
         case .about:
             viewController = AboutModuleAssembler.assemble(coordinator: self)
         case .account:

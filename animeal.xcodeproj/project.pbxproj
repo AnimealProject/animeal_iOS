@@ -194,6 +194,14 @@
 		D09306B4296891BE00BABB17 /* AttachPhotoViewMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09306B3296891BE00BABB17 /* AttachPhotoViewMapper.swift */; };
 		D09306BA296EB00400BABB17 /* AttachPhotoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09306B9296EB00400BABB17 /* AttachPhotoCoordinator.swift */; };
 		D0B7A01EF14FA17341D022FE /* Favourite+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D88428C28EF7C85C738BFBF /* Favourite+Schema.swift */; };
+		D20DBC87299D40BE003E0668 /* FAQAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20DBC82299D40BE003E0668 /* FAQAssembler.swift */; };
+		D20DBC88299D40BE003E0668 /* FAQContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20DBC83299D40BE003E0668 /* FAQContract.swift */; };
+		D20DBC89299D40BE003E0668 /* FAQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20DBC84299D40BE003E0668 /* FAQViewController.swift */; };
+		D20DBC8A299D40BE003E0668 /* FAQModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20DBC85299D40BE003E0668 /* FAQModel.swift */; };
+		D20DBC8B299D40BE003E0668 /* FAQViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20DBC86299D40BE003E0668 /* FAQViewModel.swift */; };
+		D20DBC8F299D415F003E0668 /* FAQView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20DBC8E299D415F003E0668 /* FAQView.swift */; };
+		D2656DC429A3D39E00B93C47 /* QuestionMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2656DC329A3D39E00B93C47 /* QuestionMapper.swift */; };
+		D2656DC629A3D7B100B93C47 /* QuestionViewMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2656DC529A3D7B100B93C47 /* QuestionViewMapper.swift */; };
 		DB0AD32928A26FB6007FD750 /* SegmentedControlMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0AD32828A26FB6007FD750 /* SegmentedControlMapper.swift */; };
 		DB0D4A8228856D2C001750BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB0D4A8128856D2C001750BC /* Assets.xcassets */; };
 		DB0D4A842886A9C4001750BC /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0D4A832886A9C4001750BC /* HomeViewModel.swift */; };
@@ -526,6 +534,14 @@
 		D09306B12966E63A00BABB17 /* AttachPhotoModelMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachPhotoModelMapper.swift; sourceTree = "<group>"; };
 		D09306B3296891BE00BABB17 /* AttachPhotoViewMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachPhotoViewMapper.swift; sourceTree = "<group>"; };
 		D09306B9296EB00400BABB17 /* AttachPhotoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachPhotoCoordinator.swift; sourceTree = "<group>"; };
+		D20DBC82299D40BE003E0668 /* FAQAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQAssembler.swift; sourceTree = "<group>"; };
+		D20DBC83299D40BE003E0668 /* FAQContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQContract.swift; sourceTree = "<group>"; };
+		D20DBC84299D40BE003E0668 /* FAQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQViewController.swift; sourceTree = "<group>"; };
+		D20DBC85299D40BE003E0668 /* FAQModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQModel.swift; sourceTree = "<group>"; };
+		D20DBC86299D40BE003E0668 /* FAQViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQViewModel.swift; sourceTree = "<group>"; };
+		D20DBC8E299D415F003E0668 /* FAQView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQView.swift; sourceTree = "<group>"; };
+		D2656DC329A3D39E00B93C47 /* QuestionMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionMapper.swift; sourceTree = "<group>"; };
+		D2656DC529A3D7B100B93C47 /* QuestionViewMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewMapper.swift; sourceTree = "<group>"; };
 		DB0AD32828A26FB6007FD750 /* SegmentedControlMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlMapper.swift; sourceTree = "<group>"; };
 		DB0D4A8128856D2C001750BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = animeal/Assets.xcassets; sourceTree = SOURCE_ROOT; };
 		DB0D4A832886A9C4001750BC /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
@@ -794,6 +810,7 @@
 			isa = PBXGroup;
 			children = (
 				803DACA42981930200027575 /* About */,
+				D20DBC8C299D40CD003E0668 /* FAQ */,
 			);
 			path = Submodules;
 			sourceTree = "<group>";
@@ -1613,6 +1630,37 @@
 			path = Coordinator;
 			sourceTree = "<group>";
 		};
+		D20DBC8C299D40CD003E0668 /* FAQ */ = {
+			isa = PBXGroup;
+			children = (
+				D20DBC8D299D40F9003E0668 /* View */,
+				D2656DC229A3D38E00B93C47 /* Model */,
+				D20DBC82299D40BE003E0668 /* FAQAssembler.swift */,
+				D20DBC83299D40BE003E0668 /* FAQContract.swift */,
+				D20DBC86299D40BE003E0668 /* FAQViewModel.swift */,
+			);
+			path = FAQ;
+			sourceTree = "<group>";
+		};
+		D20DBC8D299D40F9003E0668 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				D20DBC84299D40BE003E0668 /* FAQViewController.swift */,
+				D20DBC8E299D415F003E0668 /* FAQView.swift */,
+				D2656DC529A3D7B100B93C47 /* QuestionViewMapper.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		D2656DC229A3D38E00B93C47 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D20DBC85299D40BE003E0668 /* FAQModel.swift */,
+				D2656DC329A3D39E00B93C47 /* QuestionMapper.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		DB0D66BB2846676100930564 /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -2347,6 +2395,7 @@
 				DBDB3F5A28D3356700B285D7 /* PetI18n+Schema.swift in Sources */,
 				8360D1AF284F2A5E00ACDEDB /* LoginViewActionEvent.swift in Sources */,
 				DB0D4A842886A9C4001750BC /* HomeViewModel.swift in Sources */,
+				D20DBC87299D40BE003E0668 /* FAQAssembler.swift in Sources */,
 				835E148A28FDD4DC0044EC2F /* SearchViewModel.swift in Sources */,
 				83C7A99A28E46F2300F3D219 /* ProfileViewHeader+TextBigTitleSubtitleViewModel.swift in Sources */,
 				8372CCAE289B271E0085C6D1 /* LoginModelStatus.swift in Sources */,
@@ -2356,6 +2405,7 @@
 				83C24F7E286D994A0086330B /* VerificationViewHeader+TextBigTitleSubtitleView.swift in Sources */,
 				8387508D2952574A00C0224B /* SearchViewContentState.swift in Sources */,
 				DBDB3F5728D3356700B285D7 /* CategoryI18n.swift in Sources */,
+				D20DBC89299D40BE003E0668 /* FAQViewController.swift in Sources */,
 				83E83A4328A97C5500B40FC4 /* AppCoordinator.swift in Sources */,
 				83A9A22228E176A200858190 /* VerificationAfterCustomAuthWorker.swift in Sources */,
 				83C24F80286D994A0086330B /* VerificationViewCode+VerificationInputView.swift in Sources */,
@@ -2407,6 +2457,7 @@
 				DBDB3F3828D3356600B285D7 /* RelationPetFeedingPoint+Schema.swift in Sources */,
 				83A9A22028E1746700858190 /* VerificationModelNextStep.swift in Sources */,
 				DBBD5BA028FE950F00825F38 /* UserValidationModel.swift in Sources */,
+				D20DBC8A299D40BE003E0668 /* FAQModel.swift in Sources */,
 				DB6B07C628450A380009397B /* AppDelegate.swift in Sources */,
 				8312A5C3290B0CA8005C85CB /* CustomAuthModelRequiredAction.swift in Sources */,
 				83A9A22D28E1F05F00858190 /* VerificationRoute.swift in Sources */,
@@ -2414,6 +2465,7 @@
 				DB0D671928466E7700930564 /* Strings.swift in Sources */,
 				83F3CC1B28477ECE00C05298 /* LoginModel.swift in Sources */,
 				DBDB3F4628D3356700B285D7 /* LanguagesSetting.swift in Sources */,
+				D20DBC88299D40BE003E0668 /* FAQContract.swift in Sources */,
 				83F3CC102847713400C05298 /* LoginViewModel.swift in Sources */,
 				FB00144B2859FC1800943360 /* ProfileViewController.swift in Sources */,
 				8076E8AB298FBC320048B97C /* FeedingFinishedView.swift in Sources */,
@@ -2422,6 +2474,7 @@
 				8372CCCD28A02BD70085C6D1 /* CustomAuthViewTextEvent.swift in Sources */,
 				836840F828D1ED3D00E1044E /* BaseError.swift in Sources */,
 				78BEB18829370FCE00A11CA7 /* FavouritesModel.swift in Sources */,
+				D2656DC429A3D39E00B93C47 /* QuestionMapper.swift in Sources */,
 				83C7A98A28E4637000F3D219 /* ProfileModelItemError.swift in Sources */,
 				DBDB3F4728D3356700B285D7 /* Category+Schema.swift in Sources */,
 				83A9A21E28E1731000858190 /* VerificationModelWorker.swift in Sources */,
@@ -2502,6 +2555,7 @@
 				83C7A9A328E4D7A100F3D219 /* ProfileModelNextStep.swift in Sources */,
 				DBDB3F4828D3356700B285D7 /* Language+Schema.swift in Sources */,
 				838B6B752868B061001DD111 /* VerificationAssembler.swift in Sources */,
+				D20DBC8B299D40BE003E0668 /* FAQViewModel.swift in Sources */,
 				83C7A98828E45AFE00F3D219 /* ProfileModelItem.swift in Sources */,
 				78BEB18E293811C900A11CA7 /* FavouritesModelMapper.swift in Sources */,
 				8312A5C1290AFE8F005C85CB /* PhoneCodesViewCell.swift in Sources */,
@@ -2520,6 +2574,7 @@
 				83E83A4828A984D700B40FC4 /* AuthCoordinator.swift in Sources */,
 				8324A2C3296B1EEB00AA5D32 /* NetworkRequestModels.swift in Sources */,
 				FB00144F2859FCDD00943360 /* ProfileModel.swift in Sources */,
+				D2656DC629A3D7B100B93C47 /* QuestionViewMapper.swift in Sources */,
 				83C7A99628E46CB200F3D219 /* ProfileViewAction.swift in Sources */,
 				D093069C2965934400BABB17 /* AttachPhotoContract.swift in Sources */,
 				DBDB3F3928D3356600B285D7 /* AmplifyModels.swift in Sources */,
@@ -2544,6 +2599,7 @@
 				8372CCDC28A03B640085C6D1 /* CustomAuthViewHeader.swift in Sources */,
 				DBDB3F3628D3356600B285D7 /* Caretaker.swift in Sources */,
 				DB84B31528CA13A60083D98C /* NetworkRequest.swift in Sources */,
+				D20DBC8F299D415F003E0668 /* FAQView.swift in Sources */,
 				DBDB3F4B28D3356700B285D7 /* PetI18n.swift in Sources */,
 				835E148C28FDD4E90044EC2F /* SearchAssembler.swift in Sources */,
 				8372CCCF28A02F300085C6D1 /* CustomAuthModelItem.swift in Sources */,

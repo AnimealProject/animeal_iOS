@@ -80,6 +80,8 @@
 "errors.somthingWrong","","Oops something goes wrong!","ოჰ, რაღაც არასწორია!","","","","","","","","","","","","","","","","","","","","","","",""
 "attach.photo.hint.text","","Please take pictures where pet and food is detected","გთხოვთ, გადაიღოთ სურათები, სადაც აღმოჩენილია შინაური ცხოველი და საკვები","","","","","","","","","","","","","","","","","","","","","","",""
 "attach.photo.delete.message","","Are you sure you want to delete this photo?","დარწმუნებული ხართ, რომ გსურთ ამ ფოტოს წაშლა?","","","","","","","","","","","","","","","","","","","","","","",""
-"faq.header.text","","If you have any questions please check our FAQ section below","","","","","","","","","","","","","","","","","","","","","","","",""
-"faq.footer.text","","Didn’t find you question here or have issues?
-Please contact us at example@gmail.com","","","","","","","","","","","","","","","","","","","","","","","",""
+"faq.title","","FAQ","FAQ","","","","","","","","","","","","","","","","","","","","","","",""
+"faq.header.text","","If you have any questions please check our FAQ section below","თუ თქვენ გაქვთ რაიმე შეკითხვები, გთხოვთ, შეამოწმოთ ჩვენი FAQ განყოფილება ქვემოთ","","","","","","","","","","","","","","","","","","","","","","",""
+"faq.footer.text","","Didn't find your question here or have issues?
+Please contact us at %@","ვერ იპოვეთ თქვენი შეკითხვა აქ ან გაქვთ პრობლემები?
+გთხოვთ დაგვიკავშირდეთ %@","","","","","","","","","","","","","","","","","","","","","","",""
