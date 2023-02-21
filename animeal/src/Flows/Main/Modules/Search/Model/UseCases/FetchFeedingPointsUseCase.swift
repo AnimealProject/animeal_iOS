@@ -10,14 +10,11 @@ protocol FetchFeedingPointsUseCaseLogic {
 }
 
 final class FetchFeedingPointsUseCase: FetchFeedingPointsUseCaseLogic {
-    private let dataService: DataStoreServiceProtocol
     private let feedingPointsService: FeedingPointsServiceProtocol
 
     init(
-        dataService: DataStoreServiceProtocol = AppDelegate.shared.context.dataStoreService,
         feedingPointsService: FeedingPointsServiceProtocol = AppDelegate.shared.context.feedingPointsService
     ) {
-        self.dataService = dataService
         self.feedingPointsService = feedingPointsService
     }
 
@@ -70,7 +67,7 @@ final class FetchFeedingPointsUseCase: FetchFeedingPointsUseCaseLogic {
                 identifier: point.id,
                 name: point.localizedName.removeHtmlTags(),
                 description: point.localizedDescription.removeHtmlTags(),
-                icon: try? await dataService.getURL(key: point.cover),
+                icon: fullPoint.imageURL,
                 status: .init(point.status),
                 category: .init(point.category?.tag ?? .dogs),
                 isFavorite: fullPoint.isFavorite

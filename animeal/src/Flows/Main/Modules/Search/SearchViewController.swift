@@ -67,7 +67,7 @@ final class SearchViewController: UIViewController, SearchViewable {
         switch viewContentState {
         case .snapshot(let viewSnapshot):
             collectionView.backgroundView = nil
-            dataSource.apply(viewSnapshot)
+            dataSource.apply(viewSnapshot, animatingDifferences: false)
         case .empty(let viewEmpty):
             collectionView.backgroundView = emptyView
             dataSource.apply(.empty)
