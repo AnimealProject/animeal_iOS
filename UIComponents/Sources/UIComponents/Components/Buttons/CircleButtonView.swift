@@ -38,7 +38,6 @@ open class CircleButtonView: ButtonView {
         contentView.layer.shadowOpacity = 0.16
         contentView.layer.shadowOffset = CGSize(width: 0, height: 3)
         contentView.layer.shadowRadius = 6
-        contentView.layer.shouldRasterize = true
 
         contentView.addTarget(
             self,

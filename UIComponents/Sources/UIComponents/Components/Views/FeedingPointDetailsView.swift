@@ -39,6 +39,12 @@ public final class FeedingPointDetailsView: UIView {
     public func reset() {
         imageView.isHighlighted = false
     }
+    
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        imageView.layer.shadowColor = designEngine.colors.textSecondary.cgColor
+    }
 }
 
 // MARK: - Setup

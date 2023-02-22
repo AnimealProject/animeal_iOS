@@ -102,7 +102,9 @@ extension Style where Component == SearchSupplementaryExpandableView {
             view.titleView.textColor = designEngine.colors.textPrimary
             view.titleView.numberOfLines = 1
 
+            view.iconView.tintColor = designEngine.colors.textPrimary
             view.iconView.image = Asset.Images.arrowUp.image
+                .withRenderingMode(.alwaysTemplate)
         }
     }
 
@@ -113,7 +115,9 @@ extension Style where Component == SearchSupplementaryExpandableView {
             view.titleView.textColor = designEngine.colors.textPrimary
             view.titleView.numberOfLines = 1
 
+            view.iconView.tintColor = designEngine.colors.textPrimary
             view.iconView.image = Asset.Images.arrowDown.image
+                .withRenderingMode(.alwaysTemplate)
         }
     }
 }

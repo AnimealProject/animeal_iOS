@@ -63,6 +63,7 @@ final class FavouritesViewController: UIViewController {
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .clear
+        tableView.backgroundView = nil
         tableView.delegate = self
         tableView.dataSource = self
 
