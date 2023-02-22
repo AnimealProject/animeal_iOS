@@ -206,6 +206,7 @@ private extension SearchViewController {
         )
 
         collectionView.delegate = self
+        collectionView.backgroundColor = designEngine.colors.backgroundPrimary
     }
 
     // MARK: - Bind

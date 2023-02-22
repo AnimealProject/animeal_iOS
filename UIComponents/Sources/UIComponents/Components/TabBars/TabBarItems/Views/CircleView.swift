@@ -36,8 +36,8 @@ class CircleView: UIView {
         shadowLayer.shadowPath = shadowBezierPath.cgPath
         shadowLayer.shadowColor = color.cgColor
         shadowLayer.shadowOpacity = 0.15
-        shadowLayer.shadowRadius = 8
-        shadowLayer.shadowOffset = CGSize(width: 0, height: 0)
+        shadowLayer.shadowRadius = 16
+        shadowLayer.shadowOffset = CGSize(width: 0, height: 6)
         shadowLayer.bounds = shadow.bounds
         shadowLayer.position = shadow.center
         shadow.layer.addSublayer(shadowLayer)

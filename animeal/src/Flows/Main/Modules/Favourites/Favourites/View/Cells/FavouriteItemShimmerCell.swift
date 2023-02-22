@@ -1,5 +1,6 @@
 import UIKit
 import UIComponents
+import Style
 
 final class FavouriteItemShimmerCell: UITableViewCell {
     // MARK: - Private properties
@@ -19,6 +20,12 @@ final class FavouriteItemShimmerCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        shimmerView.apply(style: .shimmer)
+    }
 }
 
 extension FavouriteItemShimmerCell: FavouriteCell {
@@ -35,14 +42,10 @@ extension FavouriteItemShimmerCell: FavouriteCell {
 private extension FavouriteItemShimmerCell {
     // MARK: - Setup
     func setup() {
+        backgroundColor = .clear
+        contentView.backgroundColor = .clear
         shimmerView.prepareForAutoLayout()
-        shimmerView.backgroundColor = designEngine.colors.backgroundPrimary
-        shimmerView.cornerRadius(12.0)
-        shimmerView.border(
-            color: designEngine.colors.backgroundSecondary,
-            width: 1.0
-        )
-        shimmerView.shadow()
+        shimmerView.apply(style: .shimmer)
         contentView.addSubview(shimmerView)
 
         let leadingConstraint = shimmerView.leadingAnchor.constraint(
@@ -120,4 +123,19 @@ struct FavouriteShimmerViewItem: FavouriteItem {
     var feedingPointId = String.empty
     public var cellReuseIdentifier: String = FavouriteItemShimmerCell.reuseIdentifier
     public let scheduler: ShimmerViewScheduler
+}
+
+private extension Style where Component == ShimmerView {
+    static var shimmer: Style<ShimmerView> {
+        .init { view in
+            let design = view.designEngine
+            view.backgroundColor = design.colors.backgroundPrimary
+            view.cornerRadius(12.0)
+            view.border(
+                color: design.colors.backgroundSecondary,
+                width: .pixel
+            )
+            view.shadow()
+        }
+    }
 }

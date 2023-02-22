@@ -28,6 +28,7 @@ struct SearchPointViewItem: SearchViewItem {
 final class SearchPointCell: UICollectionViewCell {
     // MARK: - UI properties
     private let innerView = FeedingPointDetailsView().prepareForAutoLayout()
+    private let containerView = UIView().prepareForAutoLayout()
 
     // MARK: - Handlers
     var didTapOnFavorite: (() -> Void)? {
@@ -55,14 +56,7 @@ final class SearchPointCell: UICollectionViewCell {
 
     // MARK: - Setup
     private func setup() {
-        let containerView = UIView().prepareForAutoLayout()
-        containerView.backgroundColor = designEngine.colors.backgroundPrimary
-        containerView.cornerRadius(12.0)
-        containerView.border(
-            color: designEngine.colors.backgroundSecondary,
-            width: 1.0
-        )
-        containerView.shadow()
+        containerView.apply(style: .container)
         contentView.addSubview(containerView)
 
         let leadingConstraint = containerView.leadingAnchor.constraint(
@@ -94,6 +88,12 @@ final class SearchPointCell: UICollectionViewCell {
         }
         innerView.addGestureRecognizer(gestureRecognizer)
     }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        containerView.apply(style: .container)
+    }
 }
 
 extension SearchPointCell: SearchCellContainable {
@@ -102,5 +102,20 @@ extension SearchPointCell: SearchCellContainable {
     func configure(_ item: SearchViewItem) {
         guard let item = item as? SearchPointViewItem else { return }
         innerView.configure(item.model)
+    }
+}
+
+private extension Style where Component == UIView {
+    static var container: Style<UIView> {
+        .init { view in
+            let design = view.designEngine
+            view.backgroundColor = design.colors.backgroundPrimary
+            view.cornerRadius(12.0)
+            view.border(
+                color: design.colors.backgroundSecondary,
+                width: .pixel
+            )
+            view.shadow()
+        }
     }
 }

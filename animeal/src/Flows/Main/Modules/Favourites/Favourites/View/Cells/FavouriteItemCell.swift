@@ -19,6 +19,14 @@ public final class FavouriteItemCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        apply(style: .cell)
+        containerView.apply(style: .container)
+        favouriteImageView.apply(style: .favouriteImage)
+    }
 }
 
 extension FavouriteItemCell: FavouriteCell {
@@ -44,20 +52,8 @@ extension FavouriteItemCell: FavouriteCell {
 // MARK: - Setup
 private extension FavouriteItemCell {
     func setup() {
-        backgroundColor = .clear
-        contentView.backgroundColor = .clear
-
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 0.09
-        layer.shadowOffset =  .zero
-        layer.shadowRadius = 4
-        layer.masksToBounds = false
-        contentView.layer.masksToBounds = true
-        contentView.cornerRadius(12)
-
-        containerView.backgroundColor = designEngine.colors.backgroundPrimary
-        containerView.border(color: designEngine.colors.backgroundSecondary /* .lightGray*/, width: 0.1)
-        containerView.cornerRadius(12)
+        apply(style: .cell)
+        containerView.apply(style: .container)
 
         let safeArea = safeAreaLayoutGuide
 
@@ -78,14 +74,8 @@ private extension FavouriteItemCell {
         favouriteImageView.topAnchor ~= containerView.topAnchor + 10.0
         favouriteImageView.trailingAnchor ~= containerView.trailingAnchor - 10.0
         favouriteImageView.leadingAnchor ~= infoView.trailingAnchor + 10.0
-        favouriteImageView.layer.cornerRadius = 16.0
         favouriteImageView.contentMode = .center
-        favouriteImageView.backgroundColor = designEngine.colors.backgroundPrimary
-        favouriteImageView.layer.shadowColor = designEngine.colors.textSecondary.cgColor
-        favouriteImageView.layer.masksToBounds = false
-        favouriteImageView.layer.shadowOpacity = 0.16
-        favouriteImageView.layer.shadowOffset = CGSize(width: 0, height: 3)
-        favouriteImageView.layer.shadowRadius = 6.0
+        favouriteImageView.apply(style: .favouriteImage)
         favouriteImageView.isUserInteractionEnabled = true
     }
 }
@@ -101,4 +91,52 @@ public struct FavouriteViewItem: FavouriteItem {
 public struct FavouriteMediaContent {
     public var feedingPointId: String
     public var favouriteIcon: UIImage
+}
+
+private extension Style where Component == UIView {
+    static var container: Style<UIView> {
+        .init { view in
+            let design = view.designEngine
+            view.backgroundColor = design.colors.backgroundPrimary
+            view.border(
+                color: design.colors.backgroundSecondary /* .lightGray*/,
+                width: .pixel
+            )
+            view.cornerRadius(12)
+        }
+    }
+}
+
+private extension Style where Component == UIImageView {
+    static var favouriteImage: Style<UIImageView> {
+        .init { view in
+            let design = view.designEngine
+            view.backgroundColor = design.colors.backgroundPrimary
+            view.cornerRadius(16.0)
+            view.shadow(
+                color: design.colors.textSecondary,
+                opacity: 0.16,
+                offset: CGSize(width: 0, height: 3),
+                radius: 6
+            )
+        }
+    }
+}
+
+private extension Style where Component == FavouriteItemCell {
+    static var cell: Style<FavouriteItemCell> {
+        .init { view in
+            view.layer.masksToBounds = false
+            view.backgroundColor = .clear
+            view.contentView.backgroundColor = .clear
+            view.contentView.cornerRadius(12)
+            view.contentView.layer.masksToBounds = true
+            view.shadow(
+                color: UIColor.black,
+                opacity: 0.09,
+                offset: .zero,
+                radius: 4
+            )
+        }
+    }
 }

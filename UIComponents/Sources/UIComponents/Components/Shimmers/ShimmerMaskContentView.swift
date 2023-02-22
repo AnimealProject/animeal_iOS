@@ -16,12 +16,18 @@ public final class ShimmerMaskContentView: UIView {
     private func setup() {
         apply(style: .deviceShimmerMaskContentStyle)
     }
+    
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        apply(style: .deviceShimmerMaskContentStyle)
+    }
 }
 
 fileprivate extension Style where Component: ShimmerMaskContentView {
     static var deviceShimmerMaskContentStyle: Style {
         return Style {
-            $0.backgroundColor = .black
+            $0.backgroundColor = $0.designEngine.colors.backgroundSecondary
             $0.cornerRadius(8.0)
         }
     }

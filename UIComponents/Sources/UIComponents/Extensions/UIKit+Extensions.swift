@@ -79,3 +79,7 @@ public extension UINavigationController {
         coordinator.animate(alongsideTransition: nil) { _ in completion() }
     }
 }
+
+public extension CGFloat {
+    static var pixel: CGFloat { 1 / UIScreen.main.scale }
+}
