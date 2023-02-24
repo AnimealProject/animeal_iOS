@@ -112,12 +112,16 @@ final class VerificationViewModel: VerificationViewModelLifeCycle, VerificationV
                     )
                     self?.coordinator.displayAlert(viewAlert)
                 } catch {
+                    let emptyCode = VerificationModelCode.empty()
+                    let items = emptyCode.items.map {
+                        VerificationViewCodeItem(identifier: $0.identifier, text: $0.text)
+                    }
                     self?.onCodeHasBeenPrepared?(
                         VerificationViewCode(
                             state: VerificationViewCodeState.error,
-                            items: viewCodeItems
+                            items: items
                         ),
-                        false
+                        true // false
                     )
                 }
             }
