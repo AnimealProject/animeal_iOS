@@ -2886,7 +2886,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.20;
+				MARKETING_VERSION = 0.0.21;
 				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animeal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2924,7 +2924,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.20;
+				MARKETING_VERSION = 0.0.21;
 				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animealApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Epam Animeal Prod App Store Distribution";
