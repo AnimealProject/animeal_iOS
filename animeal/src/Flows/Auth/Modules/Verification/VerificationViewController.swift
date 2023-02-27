@@ -49,13 +49,24 @@ final class VerificationViewController: BaseViewController, VerificationViewMode
     }
 
     func applyCode(_ viewCode: VerificationViewCode, _ applyDifference: Bool) {
-        codeInputView.apply(viewCode.modelState)
+        let modelState = viewCode.modelState
+        codeInputView.apply(modelState)
+
         guard applyDifference else { return }
-        codeInputView.configure(
-            VerificationInputView.Model(
-                code: viewCode.items.map { $0.model }
-            )
+
+        let inputViewModel = VerificationInputView.Model(
+            code: viewCode.items.map { $0.model }
         )
+
+        switch modelState {
+        case .normal:
+            codeInputView.configure(inputViewModel)
+        case .error:
+            let delayInSeconds = 1.0
+            DispatchQueue.main.asyncAfter(deadline: .now() + delayInSeconds) {
+                self.codeInputView.configure(inputViewModel)
+            }
+        }
     }
 
     func applyResendCode(_ viewResendCode: VereficationViewResendCode) {

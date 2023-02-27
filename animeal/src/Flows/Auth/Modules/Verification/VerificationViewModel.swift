@@ -121,7 +121,7 @@ final class VerificationViewModel: VerificationViewModelLifeCycle, VerificationV
                             state: VerificationViewCodeState.error,
                             items: items
                         ),
-                        true // false
+                        true
                     )
                 }
             }
