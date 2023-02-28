@@ -116,6 +116,7 @@ final class AttachPhotoViewCell: UICollectionViewCell, AttachPhotoViewCellContai
             .environmentObject(designEngine)
 
         let hostingViewController = UIHostingController(rootView: progressView)
+        hostingViewController.view.isUserInteractionEnabled = false
 
         contentView.addSubview(hostingViewController.view.prepareForAutoLayout())
         hostingViewController.view.leadingAnchor ~= contentView.leadingAnchor
