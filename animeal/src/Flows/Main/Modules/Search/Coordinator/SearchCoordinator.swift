@@ -81,12 +81,14 @@ extension SearchCoordinator: FeedingPointCoordinatable {
 }
 
 extension SearchCoordinator: FeedingBookingCoordinatable {
-    func routeTo(_ route: FeedingBookingRoute) {
+    @MainActor func routeTo(_ route: FeedingBookingRoute) {
         switch route {
-        case .agree(let feedingDetails):
-            // TODO: Route to home screen with `feedingDetails` and request to build the route
-            print(feedingDetails)
-            _navigator.topViewController?.dismiss(animated: true, completion: nil)
+        case .agree(let feedDetails):
+            navigator.topViewController?.dismiss(animated: true) { [weak self] in
+                self?.switchFlowAction?(
+                    .shouldSwitchToFeeding(feedDetails: feedDetails)
+                )
+            }
         case .cancel:
             _navigator.topViewController?.dismiss(animated: true, completion: nil)
         }

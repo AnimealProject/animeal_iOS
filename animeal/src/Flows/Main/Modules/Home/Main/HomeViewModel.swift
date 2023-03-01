@@ -46,6 +46,25 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
         coordinator.moveToFeedingPointEvent = { [weak self] in
             self?.handleMoveToFeedingPoint(pointId: $0)
         }
+
+        coordinator.feedingDidStartedEvent = { [weak self] event in
+            guard let self = self else { return }
+            switch self.feedingStatus {
+            case .progress:
+                self.coordinator.displayAlert(
+                    message: L10n.Feeding.Error.otherFeedingRunning
+                )
+            case .none:
+                self.onRouteRequestHaveBeenPrepared?(
+                    .init(
+                        feedingPointCoordinates: event.coordinates,
+                        countdownTime: Constants.feedingCountdownTimer,
+                        feedingPointId: event.identifier,
+                        isUnfinishedFeeding: false
+                    )
+                )
+            }
+        }
     }
 
     func load() {
@@ -201,16 +220,6 @@ private extension HomeViewModel {
             }
             self.onFeedingPointsHaveBeenPrepared?(viewItems)
             self.coordinator.routeTo(.details(pointId))
-            self.coordinator.feedingDidStartedEvent = { [weak self] event in
-                self?.onRouteRequestHaveBeenPrepared?(
-                    .init(
-                        feedingPointCoordinates: event.coordinates,
-                        countdownTime: Constants.feedingCountdownTimer,
-                        feedingPointId: event.identifier,
-                        isUnfinishedFeeding: false
-                    )
-                )
-            }
         }
     }
 
