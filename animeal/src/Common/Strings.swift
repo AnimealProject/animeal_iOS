@@ -86,6 +86,10 @@ internal enum L10n {
       /// Your feeding timer is over. You can book a new feeding from the home page.
       internal static let feedingTimerOver = L10n.tr("Localizable", "feeding.alert.feedingTimerOver", fallback: "Your feeding timer is over. You can book a new feeding from the home page.")
     }
+    internal enum Error {
+      /// You can't start feeding while another one is in progress
+      internal static let otherFeedingRunning = L10n.tr("Localizable", "feeding.error.otherFeedingRunning", fallback: "You can't start feeding while another one is in progress")
+    }
     internal enum Status {
       /// Newly fed
       internal static let fed = L10n.tr("Localizable", "feeding.status.fed", fallback: "Newly fed")

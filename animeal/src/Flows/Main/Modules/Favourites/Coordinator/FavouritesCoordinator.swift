@@ -97,10 +97,13 @@ extension FavouritesCoordinator: FeedingPointCoordinatable {
 extension FavouritesCoordinator: FeedingBookingCoordinatable {
     func routeTo(_ route: FeedingBookingRoute) {
         switch route {
+        case .agree(let feedDetails):
+            navigator.topViewController?.dismiss(animated: true) { [weak self] in
+                self?.switchFlowAction?(
+                    .shouldSwitchToFeeding(feedDetails: feedDetails)
+                )
+            }
         case .cancel:
-            navigator.topViewController?.dismiss(animated: true, completion: nil)
-        case .agree(_):
-            // TODO: Build the route to home screen
             navigator.topViewController?.dismiss(animated: true, completion: nil)
         }
     }

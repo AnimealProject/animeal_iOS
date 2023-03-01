@@ -15,6 +15,7 @@ enum HomeFlowBackwardAction {
 
 enum MainFlowSwitchAction {
     case shouldSwitchToMap(pointIdentifier: String)
+    case shouldSwitchToFeeding(feedDetails: FeedingPointFeedDetails)
 }
 
 @MainActor
@@ -23,10 +24,7 @@ final class MainCoordinator: Coordinatable {
     private let _navigator: Navigating
     private var childCoordinators: [Coordinatable]
     private var backwardEvents: [HomeFlowBackwardEvent] = []
-    private enum Constant {
-        static let homeViewIndex = 2
-    }
-    
+
     private var homeCoordinator: (HomeCoordinatable & HomeCoordinatorEventHandlerProtocol)? {
         let coordinator = childCoordinators.first { $0 is HomeCoordinatable && $0 is HomeCoordinatorEventHandlerProtocol }
         return coordinator as? (HomeCoordinatable & HomeCoordinatorEventHandlerProtocol)
@@ -146,7 +144,7 @@ final class MainCoordinator: Coordinatable {
     // MARK: - Life cycle
     func start() {
         presentingWindow.rootViewController = rootTabBarController
-        rootTabBarController.selectedViewController(index: Constant.homeViewIndex)
+        rootTabBarController.selectHomeTab()
         _navigator.push(rootTabBarController, animated: false, completion: nil)
         presentingWindow.makeKeyAndVisible()
     }
@@ -161,7 +159,21 @@ final class MainCoordinator: Coordinatable {
         case .shouldSwitchToMap(let pointIdentifier):
             guard let moveToFeedingPointEvent = homeCoordinator?.moveToFeedingPointEvent else { return }
             moveToFeedingPointEvent(pointIdentifier)
-            rootTabBarController.selectedViewController(index: Constant.homeViewIndex)
+            rootTabBarController.selectHomeTab()
+        case .shouldSwitchToFeeding(let feedDetails):
+            guard let feedingDidStartedEvent = homeCoordinator?.feedingDidStartedEvent else { return }
+            feedingDidStartedEvent(feedDetails)
+            rootTabBarController.selectHomeTab()
         }
+    }
+}
+
+private extension TabBarController {
+    private enum Constant {
+        static let homeViewIndex = 2
+    }
+
+    func selectHomeTab() {
+        selectedViewController(index: Constant.homeViewIndex)
     }
 }

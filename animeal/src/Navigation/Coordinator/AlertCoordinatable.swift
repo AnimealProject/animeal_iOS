@@ -36,11 +36,13 @@ extension AlertCoordinatable where Self: Coordinatable {
                 }
             )
         }
-        navigator.present(
-            alertViewController,
-            animated: true,
-            completion: nil
-        )
+        DispatchQueue.main.async {
+            self.navigator.present(
+                alertViewController,
+                animated: true,
+                completion: nil
+            )
+        }
     }
 }
 
