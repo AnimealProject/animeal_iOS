@@ -52,6 +52,18 @@ internal enum L10n {
       }
     }
   }
+  internal enum Donate {
+    /// Donate
+    internal static let title = L10n.tr("Localizable", "donate.title", fallback: "Donate")
+    internal enum Footer {
+      /// Thank you for donating!
+      internal static let text = L10n.tr("Localizable", "donate.footer.text", fallback: "Thank you for donating!")
+    }
+    internal enum Header {
+      /// We can leave a donation for animals and in support of the developers
+      internal static let text = L10n.tr("Localizable", "donate.header.text", fallback: "We can leave a donation for animals and in support of the developers")
+    }
+  }
   internal enum Errors {
     /// Oops something goes wrong!
     internal static let somthingWrong = L10n.tr("Localizable", "errors.somthingWrong", fallback: "Oops something goes wrong!")

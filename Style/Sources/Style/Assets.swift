@@ -65,6 +65,8 @@ public enum Asset {
     public static let placeCoverPlaceholder = ImageAsset(name: "place_cover_placeholder")
     public static let aboutPhoto = ImageAsset(name: "about_photo")
     public static let arrowRight = ImageAsset(name: "arrow_right")
+    public static let copy = ImageAsset(name: "copy")
+    public static let donatePhoto = ImageAsset(name: "donate_photo")
     public static let facebookIcon = ImageAsset(name: "facebook_icon")
     public static let instagramIcon = ImageAsset(name: "instagram_icon")
     public static let linkedinIcon = ImageAsset(name: "linkedin_icon")

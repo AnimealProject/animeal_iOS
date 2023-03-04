@@ -119,7 +119,7 @@ extension FAQView {
                     .padding(Constants.contentPadding)
                     .overlay(
                         RoundedRectangle(cornerRadius: 12, style: .continuous)
-                            .stroke(designEngine.colors.disabled.color, lineWidth: 1)
+                            .stroke(designEngine.colors.backgroundSecondary.color, lineWidth: 1)
                     )
                 }
                 .padding(Constants.padding)
