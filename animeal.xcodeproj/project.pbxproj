@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		045178EB2991511100061683 /* DonateAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045178EA2991511100061683 /* DonateAssembler.swift */; };
+		045178ED2991525E00061683 /* DonateContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045178EC2991525E00061683 /* DonateContract.swift */; };
+		045178EF2992506E00061683 /* DonateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045178EE2992506E00061683 /* DonateViewController.swift */; };
+		045178F12992515100061683 /* DonateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045178F02992515100061683 /* DonateModel.swift */; };
+		045178F32992520F00061683 /* DonateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045178F22992520F00061683 /* DonateViewModel.swift */; };
+		045178F62992538800061683 /* DonateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045178F52992538800061683 /* DonateView.swift */; };
 		4AA077256022E92280815D22 /* QuestionI18n.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632E91C0D04C0BDB50D44C42 /* QuestionI18n.swift */; };
 		68DD0E2AAE89D53E9131FE48 /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 5A014CFAC080E8E6D9884035 /* amplifyconfiguration.json */; };
 		6BB058E8BBC9A383D2FE14FF /* BankAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED770817DEA43169C4086F7 /* BankAccount.swift */; };
@@ -200,6 +206,8 @@
 		D20DBC8A299D40BE003E0668 /* FAQModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20DBC85299D40BE003E0668 /* FAQModel.swift */; };
 		D20DBC8B299D40BE003E0668 /* FAQViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20DBC86299D40BE003E0668 /* FAQViewModel.swift */; };
 		D20DBC8F299D415F003E0668 /* FAQView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20DBC8E299D415F003E0668 /* FAQView.swift */; };
+		D21B456C29ABE5C4000BE6D1 /* DonatePaymentMethodMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21B456B29ABE5C4000BE6D1 /* DonatePaymentMethodMapper.swift */; };
+		D21B456E29ABE787000BE6D1 /* DonatePaymentMethodViewMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21B456D29ABE787000BE6D1 /* DonatePaymentMethodViewMapper.swift */; };
 		D2656DC429A3D39E00B93C47 /* QuestionMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2656DC329A3D39E00B93C47 /* QuestionMapper.swift */; };
 		D2656DC629A3D7B100B93C47 /* QuestionViewMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2656DC529A3D7B100B93C47 /* QuestionViewMapper.swift */; };
 		DB0AD32928A26FB6007FD750 /* SegmentedControlMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0AD32828A26FB6007FD750 /* SegmentedControlMapper.swift */; };
@@ -348,6 +356,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		045178EA2991511100061683 /* DonateAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonateAssembler.swift; sourceTree = "<group>"; };
+		045178EC2991525E00061683 /* DonateContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonateContract.swift; sourceTree = "<group>"; };
+		045178EE2992506E00061683 /* DonateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonateViewController.swift; sourceTree = "<group>"; };
+		045178F02992515100061683 /* DonateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonateModel.swift; sourceTree = "<group>"; };
+		045178F22992520F00061683 /* DonateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonateViewModel.swift; sourceTree = "<group>"; };
+		045178F52992538800061683 /* DonateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonateView.swift; sourceTree = "<group>"; };
 		1EA61C9B5FAD8F3476DAD592 /* Question.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Question.swift; path = amplify/generated/models/Question.swift; sourceTree = "<group>"; };
 		353541A22B004F10D26B741A /* QuestionI18n+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "QuestionI18n+Schema.swift"; path = "amplify/generated/models/QuestionI18n+Schema.swift"; sourceTree = "<group>"; };
 		4D88428C28EF7C85C738BFBF /* Favourite+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "Favourite+Schema.swift"; path = "amplify/generated/models/Favourite+Schema.swift"; sourceTree = "<group>"; };
@@ -540,6 +554,8 @@
 		D20DBC85299D40BE003E0668 /* FAQModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQModel.swift; sourceTree = "<group>"; };
 		D20DBC86299D40BE003E0668 /* FAQViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQViewModel.swift; sourceTree = "<group>"; };
 		D20DBC8E299D415F003E0668 /* FAQView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQView.swift; sourceTree = "<group>"; };
+		D21B456B29ABE5C4000BE6D1 /* DonatePaymentMethodMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonatePaymentMethodMapper.swift; sourceTree = "<group>"; };
+		D21B456D29ABE787000BE6D1 /* DonatePaymentMethodViewMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonatePaymentMethodViewMapper.swift; sourceTree = "<group>"; };
 		D2656DC329A3D39E00B93C47 /* QuestionMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionMapper.swift; sourceTree = "<group>"; };
 		D2656DC529A3D7B100B93C47 /* QuestionViewMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewMapper.swift; sourceTree = "<group>"; };
 		DB0AD32828A26FB6007FD750 /* SegmentedControlMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlMapper.swift; sourceTree = "<group>"; };
@@ -713,6 +729,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		045178E9299150D000061683 /* Donate */ = {
+			isa = PBXGroup;
+			children = (
+				045178F42992533E00061683 /* View */,
+				D21B456A29ABE561000BE6D1 /* Model */,
+				045178EA2991511100061683 /* DonateAssembler.swift */,
+				045178EC2991525E00061683 /* DonateContract.swift */,
+				045178F22992520F00061683 /* DonateViewModel.swift */,
+			);
+			path = Donate;
+			sourceTree = "<group>";
+		};
+		045178F42992533E00061683 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				045178EE2992506E00061683 /* DonateViewController.swift */,
+				045178F52992538800061683 /* DonateView.swift */,
+				D21B456D29ABE787000BE6D1 /* DonatePaymentMethodViewMapper.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		78525B2129594D9B006CE9BA /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -810,6 +848,7 @@
 			isa = PBXGroup;
 			children = (
 				803DACA42981930200027575 /* About */,
+				045178E9299150D000061683 /* Donate */,
 				D20DBC8C299D40CD003E0668 /* FAQ */,
 			);
 			path = Submodules;
@@ -1652,6 +1691,15 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		D21B456A29ABE561000BE6D1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				045178F02992515100061683 /* DonateModel.swift */,
+				D21B456B29ABE5C4000BE6D1 /* DonatePaymentMethodMapper.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		D2656DC229A3D38E00B93C47 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -2389,6 +2437,7 @@
 				78BEB17C2936D97400A11CA7 /* FavouritesAssembler.swift in Sources */,
 				DB6B07CA28450A380009397B /* HomeViewController.swift in Sources */,
 				DBDB50212889725C003C6FF0 /* FeedingPointViewMapper.swift in Sources */,
+				045178EB2991511100061683 /* DonateAssembler.swift in Sources */,
 				DB127E8828B9648200012B53 /* MoreAssembler.swift in Sources */,
 				8076E8A5298FBC070048B97C /* FeedingFinishedContract.swift in Sources */,
 				835E14A528FDEB5D0044EC2F /* SearchSizer.swift in Sources */,
@@ -2418,6 +2467,7 @@
 				83C7A99028E46C2000F3D219 /* ProfileViewHeader.swift in Sources */,
 				8354135A290AED1C00884430 /* PhoneCodesAssembler.swift in Sources */,
 				8372CCBB28A029990085C6D1 /* CustomAuthViewModel.swift in Sources */,
+				D21B456E29ABE787000BE6D1 /* DonatePaymentMethodViewMapper.swift in Sources */,
 				838EA96F29426FA7001F4D84 /* SearchPointShimmerCell.swift in Sources */,
 				8372CCE128A18B030085C6D1 /* CustomAuthViewText.swift in Sources */,
 				DBDB3F4228D3356600B285D7 /* RelationUserFeedingPoint.swift in Sources */,
@@ -2441,6 +2491,7 @@
 				DB5A838E285CEC4B00F3C3A5 /* Log.swift in Sources */,
 				837570392991752E00034C22 /* SearchFeedingPointsUseCase.swift in Sources */,
 				80138C15298196980010154A /* AboutModel.swift in Sources */,
+				045178F62992538800061683 /* DonateView.swift in Sources */,
 				D09306B22966E63A00BABB17 /* AttachPhotoModelMapper.swift in Sources */,
 				83C24F70286D99280086330B /* LoginViewActionMapper.swift in Sources */,
 				838EA9712942732B001F4D84 /* SearchSupplementaryShimmerView.swift in Sources */,
@@ -2516,6 +2567,7 @@
 				D093069A2965933E00BABB17 /* AttachPhotoAssembler.swift in Sources */,
 				83A9A22628E189D700858190 /* VerificationModelAttribute.swift in Sources */,
 				83C7A98428E42A9700F3D219 /* UserProfileService.swift in Sources */,
+				D21B456C29ABE5C4000BE6D1 /* DonatePaymentMethodMapper.swift in Sources */,
 				DB1F5906292637AD0047D4C5 /* DataStoreService.swift in Sources */,
 				8324A2C1296B138E00AA5D32 /* FeedingSnapshotStore.swift in Sources */,
 				8076E8A8298FBC070048B97C /* FeedingFinishedViewModel.swift in Sources */,
@@ -2552,8 +2604,10 @@
 				DBBDE72A28BB8C2A006EEBA3 /* MoreItemViewMapper.swift in Sources */,
 				DB5A8389285CEB5400F3C3A5 /* AppContext.swift in Sources */,
 				80138C16298196980010154A /* AboutViewModel.swift in Sources */,
+				045178F32992520F00061683 /* DonateViewModel.swift in Sources */,
 				83C7A9A328E4D7A100F3D219 /* ProfileModelNextStep.swift in Sources */,
 				DBDB3F4828D3356700B285D7 /* Language+Schema.swift in Sources */,
+				045178EF2992506E00061683 /* DonateViewController.swift in Sources */,
 				838B6B752868B061001DD111 /* VerificationAssembler.swift in Sources */,
 				D20DBC8B299D40BE003E0668 /* FAQViewModel.swift in Sources */,
 				83C7A98828E45AFE00F3D219 /* ProfileModelItem.swift in Sources */,
@@ -2589,6 +2643,7 @@
 				8312A5C5290DB689005C85CB /* PhoneModelRequiredAction.swift in Sources */,
 				DB5F694628ED6CD000D8714E /* FeedingBookingViewModel.swift in Sources */,
 				DBC2BB4428BBAD2B0086EF52 /* MorePartitionAssembler.swift in Sources */,
+				045178F12992515100061683 /* DonateModel.swift in Sources */,
 				DBF56B5C28CF4A5700AB0BDF /* HomeCoordinator.swift in Sources */,
 				DBEC04A029548320000D62F1 /* FeedingActionMapper.swift in Sources */,
 				8372CCCF28A02F300085C6D1 /* CustomAuthModelItem.swift in Sources */,
@@ -2639,6 +2694,7 @@
 				836F1DF9294D162F003AD21E /* AlertCoordinatable.swift in Sources */,
 				83A9A22A28E1A61800858190 /* VerificationModelDeliveryDestination.swift in Sources */,
 				DBDB3F4428D3356700B285D7 /* FeedingPoint+Schema.swift in Sources */,
+				045178ED2991525E00061683 /* DonateContract.swift in Sources */,
 				DBDB3F4D28D3356700B285D7 /* Caretaker+Schema.swift in Sources */,
 				DBDB3F4328D3356600B285D7 /* Medication+Schema.swift in Sources */,
 				83C24F82286D994A0086330B /* VereficationViewResendCode.swift in Sources */,

@@ -60,7 +60,7 @@ extension MoreCoordinator: MoreCoordinatable {
         case .profilePage:
             viewController = ProfileChangeableAssembler.assembly(coordinator: self)
         case .donate:
-            viewController = MorePartitionModuleAssembler(coordinator: self).assemble(.donate)
+            viewController = DonateModuleAssembler.assemble(coordinator: self)
         case .faq:
             viewController = FAQModuleAssembler.assemble(coordinator: self)
         case .about:

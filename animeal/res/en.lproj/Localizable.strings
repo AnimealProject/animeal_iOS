@@ -81,3 +81,6 @@
 "faq.title"                                       = "FAQ";
 "faq.header.text"                                 = "If you have any questions please check our FAQ section below";
 "faq.footer.text"                                 = "Didn't find your question here or have issues?\nPlease contact us at %@";
+"donate.title"                                    = "Donate";
+"donate.header.text"                              = "We can leave a donation for animals and in support of the developers";
+"donate.footer.text"                              = "Thank you for donating!";
