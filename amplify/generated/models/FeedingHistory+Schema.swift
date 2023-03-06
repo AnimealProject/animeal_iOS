@@ -14,6 +14,8 @@ extension FeedingHistory {
     case updatedBy
     case owner
     case feedingPointId
+    case status
+    case reason
   }
   
   public static let keys = CodingKeys.self
@@ -42,7 +44,9 @@ extension FeedingHistory {
       .field(feedingHistory.createdBy, is: .optional, ofType: .string),
       .field(feedingHistory.updatedBy, is: .optional, ofType: .string),
       .field(feedingHistory.owner, is: .optional, ofType: .string),
-      .field(feedingHistory.feedingPointId, is: .required, ofType: .string)
+      .field(feedingHistory.feedingPointId, is: .required, ofType: .string),
+      .field(feedingHistory.status, is: .optional, ofType: .enum(type: FeedingStatus.self)),
+      .field(feedingHistory.reason, is: .optional, ofType: .string)
     )
     }
 }

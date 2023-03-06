@@ -6,6 +6,14 @@
         "Mutation"
       ]
     },
+    "auth": {
+      "animeal8f90e9b68f90e9b6": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    },
     "storage": {
       "FeedingPoint:@model(appsync)": [
         "create",

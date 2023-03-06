@@ -27,5 +27,11 @@
       ]
     }
   },
-  "lambdaLayers": []
+  "lambdaLayers": [],
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "isApprovalEnabled",
+      "environmentVariableName": "IS_APPROVAL_ENABLED"
+    }
+  ]
 }

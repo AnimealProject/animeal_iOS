@@ -17,8 +17,12 @@ async function request(query, variables) {
 const approveFeeding = async (params) => {
   return request(
     `
-    mutation ApproveFeeding($feedingId: String!, $feeding: FeedingInput) {
-      approveFeeding(feedingId: $feedingId, feeding: $feeding)
+    mutation ApproveFeeding(
+      $feedingId: String!
+      $reason: String!
+      $feeding: FeedingInput
+    ) {
+      approveFeeding(feedingId: $feedingId, reason: $reason, feeding: $feeding)
     }
   `,
     params,
@@ -28,8 +32,12 @@ const approveFeeding = async (params) => {
 const rejectFeeding = async (params) => {
   return request(
     `
-    mutation RejectFeeding($feedingId: String!, $feeding: FeedingInput) {
-      rejectFeeding(feedingId: $feedingId, feeding: $feeding)
+    mutation RejectFeeding(
+      $feedingId: String!
+      $reason: String!
+      $feeding: FeedingInput
+    ) {
+      rejectFeeding(feedingId: $feedingId, reason: $reason, feeding: $feeding)
     }
   `,
     params,

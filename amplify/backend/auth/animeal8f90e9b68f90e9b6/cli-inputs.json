@@ -117,10 +117,9 @@
     "signinwithappleAuthorizeScopes": [""],
     "hostedUIDomainName": "animealauth",
     "authProvidersUserPool": ["Facebook", "SignInWithApple"],
-    "hostedUIProviderMeta": "[{\"ProviderName\":\"Facebook\",\"authorize_scopes\":\"email,public_profile,user_birthday\",\"api_version\":\"14\", \"AttributeMapping\":{\"email\":\"email\",\"family_name\":\"last_name\",\"given_name\":\"first_name\",\"username\":\"id\",\"birthdate\":\"birthday\"}},{\"ProviderName\":\"SignInWithApple\",\"authorize_scopes\":\"email\",\"AttributeMapping\":{\"email\":\"email\"}}]",
+    "hostedUIProviderMeta": "[{\"ProviderName\":\"Facebook\",\"authorize_scopes\":\"email,public_profile,user_birthday\",\"api_version\":\"14\", \"AttributeMapping\":{\"email\":\"email\",\"family_name\":\"last_name\",\"name\":\"first_name\",\"username\":\"id\",\"birthdate\":\"birthday\"}},{\"ProviderName\":\"SignInWithApple\",\"authorize_scopes\":\"email\",\"AttributeMapping\":{\"email\":\"email\"}}]",
     "authProviders": [],
     "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"780454183105918\",\"client_secret\":\"428bca8e9885d24559aa68141a96e786\"},{\"ProviderName\":\"SignInWithApple\",\"client_id\":\"K36CA7QL4T.com.epmedu.animealApp\",\"team_id\":\"K36CA7QL4T\",\"key_id\":\"696W76CT8Q\",\"private_key\":\"MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgLVw/0xE03zOcLMeYojsgZnRdaNdDAfUaUaCe2bzA1sWgCgYIKoZIzj0DAQehRANCAATdn5azv/lupAmFBsUgC53X0y533Q7FEmREAs9g5dF/qBh2kSvAIhDg6WM1ipPvnVK1R+fpEEM+G60Fk70eokxs\"}]",
     "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"animeal://\"],\"LogoutURLs\":[\"animeal://signout/\"]}"
   }
 }
- 

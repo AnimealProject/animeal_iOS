@@ -27,6 +27,9 @@
     "apianimealGraphQLAPIKeyOutput": {
       "Type": "String",
       "Default": "apianimealGraphQLAPIKeyOutput"
+    },
+    "isApprovalEnabled": {
+      "Type": "String"
     }
   },
   "Conditions": {
@@ -168,6 +171,9 @@
                   }
                 ]
               ]
+            },
+            "IS_APPROVAL_ENABLED": {
+              "Ref": "isApprovalEnabled"
             }
           }
         },

@@ -12,6 +12,8 @@ public struct FeedingHistory: Model {
   public var updatedBy: String?
   public var owner: String?
   public var feedingPointId: String
+  public var status: FeedingStatus?
+  public var reason: String?
   
   public init(id: String = UUID().uuidString,
       userId: String,
@@ -21,7 +23,9 @@ public struct FeedingHistory: Model {
       createdBy: String? = nil,
       updatedBy: String? = nil,
       owner: String? = nil,
-      feedingPointId: String) {
+      feedingPointId: String,
+      status: FeedingStatus? = nil,
+      reason: String? = nil) {
       self.id = id
       self.userId = userId
       self.images = images
@@ -31,5 +35,7 @@ public struct FeedingHistory: Model {
       self.updatedBy = updatedBy
       self.owner = owner
       self.feedingPointId = feedingPointId
+      self.status = status
+      self.reason = reason
   }
 }

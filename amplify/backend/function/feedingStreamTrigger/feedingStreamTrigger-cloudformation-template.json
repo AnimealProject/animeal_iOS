@@ -16,9 +16,6 @@
     "s3Key": {
       "Type": "String"
     },
-    "isAutoApprovalEnabled": {
-      "Type": "String"
-    },
     "apianimealGraphQLAPIIdOutput": {
       "Type": "String",
       "Default": "apianimealGraphQLAPIIdOutput"
@@ -30,6 +27,9 @@
     "apianimealGraphQLAPIKeyOutput": {
       "Type": "String",
       "Default": "apianimealGraphQLAPIKeyOutput"
+    },
+    "isAutoApprovalEnabled": {
+      "Type": "String"
     }
   },
   "Conditions": {
@@ -93,6 +93,32 @@
             },
             "API_ANIMEAL_GRAPHQLAPIKEYOUTPUT": {
               "Ref": "apianimealGraphQLAPIKeyOutput"
+            },
+            "API_ANIMEAL_FEEDINGTABLE_NAME": {
+              "Fn::ImportValue": {
+                "Fn::Sub": "${apianimealGraphQLAPIIdOutput}:GetAtt:FeedingTable:Name"
+              }
+            },
+            "API_ANIMEAL_FEEDINGTABLE_ARN": {
+              "Fn::Join": [
+                "",
+                [
+                  "arn:aws:dynamodb:",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ":",
+                  {
+                    "Ref": "AWS::AccountId"
+                  },
+                  ":table/",
+                  {
+                    "Fn::ImportValue": {
+                      "Fn::Sub": "${apianimealGraphQLAPIIdOutput}:GetAtt:FeedingTable:Name"
+                    }
+                  }
+                ]
+              ]
             },
             "IS_AUTO_APPROVAL_ENABLED": {
               "Ref": "isAutoApprovalEnabled"
@@ -250,6 +276,68 @@
                         "Ref": "apianimealGraphQLAPIIdOutput"
                       },
                       "/types/Mutation/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:Put*",
+                "dynamodb:Create*",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:Get*",
+                "dynamodb:BatchGetItem",
+                "dynamodb:List*",
+                "dynamodb:Describe*",
+                "dynamodb:Scan",
+                "dynamodb:Query",
+                "dynamodb:Update*",
+                "dynamodb:RestoreTable*",
+                "dynamodb:Delete*"
+              ],
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:dynamodb:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":table/",
+                      {
+                        "Fn::ImportValue": {
+                          "Fn::Sub": "${apianimealGraphQLAPIIdOutput}:GetAtt:FeedingTable:Name"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:dynamodb:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":table/",
+                      {
+                        "Fn::ImportValue": {
+                          "Fn::Sub": "${apianimealGraphQLAPIIdOutput}:GetAtt:FeedingTable:Name"
+                        }
+                      },
+                      "/index/*"
                     ]
                   ]
                 }
