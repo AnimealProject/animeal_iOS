@@ -19,7 +19,19 @@
         "read",
         "update",
         "delete"
+      ],
+      "FeedingHistory:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
       ]
     }
-  }
+  },
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "isApprovalEnabled",
+      "environmentVariableName": "IS_APPROVAL_ENABLED"
+    }
+  ]
 }

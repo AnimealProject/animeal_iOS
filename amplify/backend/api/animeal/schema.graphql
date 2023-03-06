@@ -9,6 +9,7 @@ enum FeedingStatus {
   rejected
   pending
   inProgress
+  outdated
 }
 
 enum CategoryTag {
@@ -246,6 +247,8 @@ type FeedingHistory
   updatedBy: String
   owner: String
   feedingPointId: String!
+  status: FeedingStatus
+  reason: String
 }
 
 type RelationPetFeedingPoint
@@ -538,26 +541,26 @@ type Question
 }
 
 type BankAccount
-@searchable
-@model
-@auth(
-  rules: [
-    {
-      allow: groups
-      groups: ["Administrator"]
-      operations: [create, read, update, delete]
-    }
-    {
-      allow: groups
-      groups: ["Moderator"]
-      operations: [create, read, update, delete]
-    }
-    { allow: groups, groups: ["Volunteer"], operations: [read] }
-    { allow: owner, operations: [create, read, update, delete] }
-    { allow: public, provider: apiKey }
-    { allow: private, operations: [read] }
-  ]
-) {
+  @searchable
+  @model
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["Administrator"]
+        operations: [create, read, update, delete]
+      }
+      {
+        allow: groups
+        groups: ["Moderator"]
+        operations: [create, read, update, delete]
+      }
+      { allow: groups, groups: ["Volunteer"], operations: [read] }
+      { allow: owner, operations: [create, read, update, delete] }
+      { allow: public, provider: apiKey }
+      { allow: private, operations: [read] }
+    ]
+  ) {
   id: ID!
   name: String!
   value: String!
@@ -662,17 +665,29 @@ input SearchableFilterInput {
   not: SearchableFilterInput
 }
 
+type AWSLanguage @aws_api_key @aws_cognito_user_pools {
+  code: String
+  name: String
+}
+
 type FeedingPointConnection @aws_api_key @aws_cognito_user_pools {
   items: [FeedingPoint!]!
   total: Int
   nextToken: String
 }
 
+
 type Query {
   translate(text: String!, to: String!, from: String): String!
     @function(name: "translate-${env}")
     @aws_api_key
     @aws_cognito_user_pools
+
+  getSupportedLanguages: [AWSLanguage!]!
+    @function(name: "languages-${env}")
+    @aws_api_key
+    @aws_cognito_user_pools
+
   searchByBounds(
     bounds: BoundsInput!
     limit: Int
@@ -681,6 +696,7 @@ type Query {
     filter: SearchableFilterInput
   ): FeedingPointConnection @aws_api_key @aws_cognito_user_pools
 }
+
 
 type Mutation {
   startFeeding(feedingPointId: String!): String!
@@ -693,18 +709,19 @@ type Mutation {
     @aws_api_key
     @aws_cognito_user_pools
 
-  rejectFeeding(feedingId: String!, feeding: FeedingInput): String!
+  rejectFeeding(feedingId: String!, reason: String!, feeding: FeedingInput): String!
     @function(name: "rejectFeeding-${env}")
     @aws_api_key
     @aws_cognito_user_pools
 
-  approveFeeding(feedingId: String!, feeding: FeedingInput): String!
+  approveFeeding(feedingId: String!, reason: String!, feeding: FeedingInput): String!
     @function(name: "approveFeeding-${env}")
     @aws_api_key
     @aws_cognito_user_pools
 
-  cancelFeeding(feedingId: String!): String!
+  cancelFeeding(feedingId: String!, reason: String!): String!
     @function(name: "rejectFeeding-${env}")
     @aws_api_key
     @aws_cognito_user_pools
+
 }

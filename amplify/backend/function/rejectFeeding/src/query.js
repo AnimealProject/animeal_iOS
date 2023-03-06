@@ -30,7 +30,30 @@ const updateFeedingPoint = async (params) => {
   );
 };
 
+const getFeeding = async (params) => {
+  return request(
+    `
+  query GetFeeding($id: ID!) {
+    getFeeding(id: $id) {
+      id
+      userId
+      images
+      status
+      createdAt
+      updatedAt
+      createdBy
+      updatedBy
+      owner
+      feedingPointFeedingsId
+    }
+  }
+`,
+    params,
+  );
+};
+
 
 module.exports = {
-  updateFeedingPoint
+  updateFeedingPoint,
+  getFeeding
 };

@@ -5,6 +5,14 @@
         "Query",
         "Mutation"
       ]
+    },
+    "storage": {
+      "Feeding:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
     }
   },
   "lambdaLayers": [],

@@ -22,7 +22,7 @@ exports.handler = async (event, context, callback) => {
   console.log(`EVENT: ${JSON.stringify(event)}`);
   const feedingPointId = event.arguments.feedingPointId;
   const expireAt = new Date();
-  expireAt.setTime(expireAt.getTime() + 60 * 60 * 1000);
+  expireAt.setTime(expireAt.getTime() + 1 * 60 * 60 * 1000);
 
   try {
     await dynamoDB

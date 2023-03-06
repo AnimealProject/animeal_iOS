@@ -7,4 +7,5 @@ public enum FeedingStatus: String, EnumPersistable {
   case rejected
   case pending
   case inProgress
+  case outdated
 }

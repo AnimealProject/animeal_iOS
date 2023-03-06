@@ -23,8 +23,14 @@ const dynamoDB = new AWS.DynamoDB.DocumentClient({});
 
 exports.handler = async (event) => {
   console.log(`EVENT: ${JSON.stringify(event)}`);
+
+  if(process.env.IS_APPROVAL_ENABLED !== 'true') {
+    throw new Error(`Operation isn't allowed. Approval process is disabled.`);
+  }
   const feedingId = event.arguments.feedingId;
   const feedingInput = event.arguments.feeding;
+  const reason = event.arguments.reason;
+
   let feeding = null;
 
   if (feedingInput) {
@@ -60,16 +66,34 @@ exports.handler = async (event) => {
                 updatedBy: feeding.updatedBy,
                 owner: feeding.owner,
                 feedingPointId: feeding.feedingPointFeedingsId,
+                status: 'approved',
+                reason
               },
               TableName: process.env.API_ANIMEAL_FEEDINGHISTORYTABLE_NAME,
             },
           },
           {
             Delete: {
+              ExpressionAttributeValues:
+                process.env.IS_APPROVAL_ENABLED === 'true'
+                  ? {
+                      ':pending': 'pending',
+                    }
+                  : null,
+              ExpressionAttributeNames:
+                process.env.IS_APPROVAL_ENABLED === 'true'
+                  ? {
+                      '#status': 'status',
+                    }
+                  : null,
               TableName: process.env.API_ANIMEAL_FEEDINGTABLE_NAME,
               Key: {
                 id: feedingId,
               },
+              ConditionExpression:
+                process.env.IS_APPROVAL_ENABLED === 'true'
+                  ? 'attribute_exists(id) AND #status = :pending'
+                  : 'attribute_exists(id)',
             },
           },
           {

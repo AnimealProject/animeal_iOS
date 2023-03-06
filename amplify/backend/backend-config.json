@@ -134,14 +134,14 @@
     "userPoolGroups": {
       "dependsOn": [
         {
+          "category": "auth",
+          "resourceName": "animeal8f90e9b68f90e9b6",
           "attributes": [
             "UserPoolId",
             "AppClientIDWeb",
             "AppClientID",
             "IdentityPoolId"
-          ],
-          "category": "auth",
-          "resourceName": "animeal8f90e9b68f90e9b6"
+          ]
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -241,21 +241,13 @@
       "build": true,
       "dependsOn": [
         {
-          "attributes": [
-            "GraphQLAPIIdOutput",
-            "GraphQLAPIEndpointOutput"
-          ],
           "category": "api",
-          "resourceName": "animeal"
-        },
-        {
+          "resourceName": "animeal",
           "attributes": [
             "GraphQLAPIIdOutput",
             "GraphQLAPIEndpointOutput",
             "GraphQLAPIKeyOutput"
-          ],
-          "category": "api",
-          "resourceName": "animeal"
+          ]
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -265,13 +257,20 @@
       "build": true,
       "dependsOn": [
         {
+          "category": "api",
+          "resourceName": "animeal",
           "attributes": [
             "GraphQLAPIIdOutput",
             "GraphQLAPIEndpointOutput",
             "GraphQLAPIKeyOutput"
-          ],
-          "category": "api",
-          "resourceName": "animeal"
+          ]
+        },
+        {
+          "category": "auth",
+          "resourceName": "animeal8f90e9b68f90e9b6",
+          "attributes": [
+            "UserPoolId"
+          ]
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -281,13 +280,13 @@
       "build": true,
       "dependsOn": [
         {
+          "category": "api",
+          "resourceName": "animeal",
           "attributes": [
             "GraphQLAPIIdOutput",
             "GraphQLAPIEndpointOutput",
             "GraphQLAPIKeyOutput"
-          ],
-          "category": "api",
-          "resourceName": "animeal"
+          ]
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -335,6 +334,11 @@
           "resourceName": "animeal"
         }
       ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "languages": {
+      "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }

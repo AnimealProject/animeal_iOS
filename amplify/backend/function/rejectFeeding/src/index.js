@@ -1,4 +1,6 @@
 /* Amplify Params - DO NOT EDIT
+	API_ANIMEAL_FEEDINGHISTORYTABLE_ARN
+	API_ANIMEAL_FEEDINGHISTORYTABLE_NAME
 	API_ANIMEAL_FEEDINGPOINTTABLE_ARN
 	API_ANIMEAL_FEEDINGPOINTTABLE_NAME
 	API_ANIMEAL_FEEDINGTABLE_ARN
@@ -25,14 +27,44 @@ Amplify Params - DO NOT EDIT */
  */
 
 const AWS = require('aws-sdk');
+var uuid = require('uuid');
 const dynamoDB = new AWS.DynamoDB.DocumentClient({});
-const { updateFeedingPoint } = require('./query');
+const { updateFeedingPoint, getFeeding } = require('./query');
 
 exports.handler = async (event) => {
   console.log(`EVENT: ${JSON.stringify(event)}`);
+  if (
+    process.env.IS_APPROVAL_ENABLED !== 'true' &&
+    event.fieldName === 'rejectFeeding'
+  ) {
+    throw new Error(`Operation isn't allowed. Approval process is disabled.`);
+  }
   const feedingId = event.arguments.feedingId;
-  const feeding = event.arguments.feeding;
-  const ConditionExpression = !feeding ? 'attribute_exists(id)' : null;
+  const reason = event.arguments.reason;
+  const feedingInput = event.arguments.feeding;
+  const ConditionExpression = !feedingInput ? 'attribute_exists(id)' : null;
+
+  const isOutdatedReason = (reason) =>
+    /Approval time has expired/gi.test(reason);
+
+  let feeding = null;
+
+  if (feedingInput) {
+    feeding = feedingInput;
+  } else {
+    const feedingRes = await getFeeding({
+      id: feedingId,
+    });
+
+    if (feedingRes.data?.errors?.length) {
+      throw new Error('Failed to get Feeding');
+    }
+    feeding = feedingRes.data.data.getFeeding;
+  }
+
+  if (!feeding) {
+    throw new Error('Feeding not found');
+  }
 
   try {
     await dynamoDB
@@ -44,7 +76,44 @@ exports.handler = async (event) => {
               Key: {
                 id: feedingId,
               },
-              ConditionExpression,
+              ConditionExpression: ConditionExpression
+                ? `${ConditionExpression} ${
+                    event.fieldName === 'rejectFeeding'
+                      ? 'AND #status = :pending'
+                      : 'AND #status = :inProgress'
+                  }`
+                : ConditionExpression,
+
+              ExpressionAttributeValues: ConditionExpression
+                ? event.fieldName === 'rejectFeeding'
+                  ? {
+                      ':pending': 'pending',
+                    }
+                  : { ':inProgress': 'inProgress' }
+                : null,
+              ExpressionAttributeNames: ConditionExpression
+                ? {
+                    '#status': 'status',
+                  }
+                : null,
+            },
+          },
+          {
+            Put: {
+              Item: {
+                id: uuid.v4(),
+                userId: feeding.userId,
+                images: feeding.images,
+                createdAt: feeding.createdAt,
+                updatedAt: feeding.updatedAt,
+                createdBy: feeding.createdBy,
+                updatedBy: feeding.updatedBy,
+                owner: feeding.owner,
+                feedingPointId: feeding.feedingPointFeedingsId,
+                status: !isOutdatedReason(reason) ? 'rejected' : 'outdated',
+                reason,
+              },
+              TableName: process.env.API_ANIMEAL_FEEDINGHISTORYTABLE_NAME,
             },
           },
           {

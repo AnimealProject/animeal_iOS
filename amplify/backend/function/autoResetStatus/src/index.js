@@ -19,8 +19,9 @@ const { searchFeedingPoints, updateFeedingPoint } = require('./query');
 exports.handler = async (event) => {
   console.log(`EVENT: ${JSON.stringify(event)}`);
 
-  // expire records last been fed 24 hours ago
-  const filterDate = new Date(new Date().getTime() - 24 * 60 * 60 * 1000);
+
+  // expire records last been fed 12 hours ago
+  const filterDate = new Date(new Date().getTime() - 12 * 60 * 60 * 1000);
   const filteredFeedingPoints = await searchFeedingPoints({
     filter: {
       status: {
