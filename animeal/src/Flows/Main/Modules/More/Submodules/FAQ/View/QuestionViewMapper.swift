@@ -11,8 +11,8 @@ final class QuestionViewMapper: QuestionViewMappable {
     func mapQuestion(_ input: FAQModel.Question) -> FAQViewItem {
         FAQViewItem(
             id: input.id,
-            question: input.question,
-            answer: input.answer,
+            question: input.question.trimmingWhitespaces(),
+            answer: input.answer.trimmingWhitespaces(),
             collapsed: true
         )
     }

@@ -177,4 +177,8 @@ public extension String {
     func removeHtmlTags() -> String {
         return replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
     }
+    
+    func trimmingWhitespaces() -> String {
+        self.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
 }
