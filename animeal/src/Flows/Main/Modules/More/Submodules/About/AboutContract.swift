@@ -29,6 +29,7 @@ protocol AboutViewState: AnyObject {
 protocol AboutModelProtocol: AnyObject {
     var contentText: String { get set }
     var links: [AboutLink] { get set }
+    var appVersion: String { get set }
 }
 
 // MARK: - Actions
