@@ -39,8 +39,9 @@ struct AboutView: View {
                     photoImage
                     contentText
                 }
+                Spacer(minLength: Constants.verticalSpacing)
+                appVersionText
                 .padding([.leading, .trailing], Constants.horizontalPadding / 2)
-                Spacer()
             }
             linkButtonsView
         }
@@ -67,6 +68,12 @@ struct AboutView: View {
         Text(model.contentText)
             .font(designEngine.fonts.primary.regular(14)?.font)
             .foregroundColor(designEngine.colors.textPrimary.color)
+    }
+
+    private var appVersionText: some View {
+        Text(model.appVersion)
+            .font(designEngine.fonts.primary.regular(14)?.font)
+            .foregroundColor(designEngine.colors.disabled.color)
     }
 
     private func linkButton(_ link: AboutLink) -> some View {
