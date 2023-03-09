@@ -25,12 +25,23 @@ public struct StartFeeding: Codable {
 public struct CancelFeedingMutation: CustomMutation {
     public typealias ResponseType = CancelFeeding
 
+    static let defaultCancelationReason = "User cancel the request"
+
     let id: String
+    let reason: String
+
+    init(
+        id: String,
+        reason: String = Self.defaultCancelationReason
+    ) {
+        self.id = id
+        self.reason = reason
+    }
 
     public var document: String {
         """
         mutation StopFeeding {
-            cancelFeeding(feedingId: "\(id)")
+            cancelFeeding(feedingId: "\(id)", reason: "\(reason)")
         }
         """
     }
