@@ -10,6 +10,10 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 internal enum L10n {
+  internal enum About {
+    /// App version
+    internal static let appVersion = L10n.tr("Localizable", "about.appVersion", fallback: "App version")
+  }
   internal enum Action {
     /// Agree
     internal static let agree = L10n.tr("Localizable", "action.agree", fallback: "Agree")
@@ -84,10 +88,10 @@ internal enum L10n {
     }
   }
   internal enum Favourites {
-    /// You don't have favourite feeding points yet. Press the heart button on the feeding point details to add that one as favourite
-    internal static let empty = L10n.tr("Localizable", "favourites.empty", fallback: "You don't have favourite feeding points yet. Press the heart button on the feeding point details to add that one as favourite")
-    /// Favourits
-    internal static let header = L10n.tr("Localizable", "favourites.header", fallback: "Favourits")
+    /// You don't have favorite feeding points yet. Press the heart button on the feeding point details to add that one as favourite
+    internal static let empty = L10n.tr("Localizable", "favourites.empty", fallback: "You don't have favorite feeding points yet. Press the heart button on the feeding point details to add that one as favourite")
+    /// Favorites
+    internal static let header = L10n.tr("Localizable", "favourites.header", fallback: "Favorites")
   }
   internal enum Feeding {
     internal enum Alert {
@@ -208,8 +212,8 @@ internal enum L10n {
     internal static let dogs = L10n.tr("Localizable", "segment.dogs", fallback: "Dogs")
   }
   internal enum TabBar {
-    /// Favourites
-    internal static let favourites = L10n.tr("Localizable", "tabBar.favourites", fallback: "Favourites")
+    /// Favorites
+    internal static let favourites = L10n.tr("Localizable", "tabBar.favourites", fallback: "Favorites")
     /// Leader Board
     internal static let leaderBoard = L10n.tr("Localizable", "tabBar.leaderBoard", fallback: "Leader Board")
     /// More
