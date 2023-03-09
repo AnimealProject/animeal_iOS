@@ -28,7 +28,7 @@ final class AboutViewModel: AboutViewModelLifeCycle, AboutViewInteraction, About
     func load() {
         model.links = AboutLink.allCases
         model.contentText = AboutModel.previewModel.contentText
-        model.appVersion = "App version \(AppInfo.appVersion)"
+        model.appVersion = "\(L10n.About.appVersion) \(AppInfo.appVersion)"
     }
 
     var observableModel: AboutModelProtocol {

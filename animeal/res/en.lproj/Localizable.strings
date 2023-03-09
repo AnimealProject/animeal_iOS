@@ -1,5 +1,5 @@
 "tabBar.search"                                   = "Search";
-"tabBar.favourites"                               = "Favourites";
+"tabBar.favourites"                               = "Favorites";
 "tabBar.leaderBoard"                              = "Leader Board";
 "tabBar.more"                                     = "More";
 "segment.dogs"                                    = "Dogs";
@@ -7,8 +7,8 @@
 "loginScreen.signInViaMobilePhone"                = "Sign in with Mobile";
 "loginScreen.signInViaFacebook"                   = "Sign in with Facebook";
 "loginScreen.signInViaApple"                      = "Sign in with Apple";
-"favourites.header"                               = "Favourits";
-"favourites.empty"                                = "You don't have favourite feeding points yet. Press the heart button on the feeding point details to add that one as favourite";
+"favourites.header"                               = "Favorites";
+"favourites.empty"                                = "You don't have favorite feeding points yet. Press the heart button on the feeding point details to add that one as favourite";
 "profile.name"                                    = "Name";
 "profile.surname"                                 = "Surname";
 "profile.phoneNumber"                             = "Phone Number";
@@ -85,3 +85,4 @@
 "donate.title"                                    = "Donate";
 "donate.header.text"                              = "We can leave a donation for animals and in support of the developers";
 "donate.footer.text"                              = "Thank you for donating!";
+"about.appVersion"                                = "App version";
