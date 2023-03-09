@@ -30,18 +30,21 @@ struct AboutView: View {
     var interactionHandler: AboutViewInteraction?
 
     // MARK: - body
-
     var body: some View {
         VStack(alignment: .leading, spacing: Constants.verticalSpacing) {
-            ScrollView(.vertical) {
-                VStack(alignment: .leading, spacing: Constants.verticalSpacing) {
-                    headerText
-                    photoImage
-                    contentText
+            GeometryReader { geometry in
+                ScrollView(.vertical) {
+                    VStack() {
+                        VStack(alignment: .leading, spacing: Constants.verticalSpacing) {
+                            headerText
+                            photoImage
+                            contentText
+                        }
+                        Spacer(minLength: Constants.verticalSpacing)
+                        appVersionText
+                    }
+                    .frame(minHeight: geometry.size.height)
                 }
-                Spacer(minLength: Constants.verticalSpacing)
-                appVersionText
-                .padding([.leading, .trailing], Constants.horizontalPadding / 2)
             }
             linkButtonsView
         }
