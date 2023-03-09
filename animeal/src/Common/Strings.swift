@@ -84,10 +84,10 @@ internal enum L10n {
     }
   }
   internal enum Favourites {
-    /// You don't have favourite feeding points yet. Press the heart button on the feeding point details to add that one as favourite
-    internal static let empty = L10n.tr("Localizable", "favourites.empty", fallback: "You don't have favourite feeding points yet. Press the heart button on the feeding point details to add that one as favourite")
-    /// Favourits
-    internal static let header = L10n.tr("Localizable", "favourites.header", fallback: "Favourits")
+    /// You don't have favorite feeding points yet. Press the heart button on the feeding point details to add that one as favourite
+    internal static let empty = L10n.tr("Localizable", "favourites.empty", fallback: "You don't have favorite feeding points yet. Press the heart button on the feeding point details to add that one as favourite")
+    /// Favorites
+    internal static let header = L10n.tr("Localizable", "favourites.header", fallback: "Favorites")
   }
   internal enum Feeding {
     internal enum Alert {
@@ -208,8 +208,8 @@ internal enum L10n {
     internal static let dogs = L10n.tr("Localizable", "segment.dogs", fallback: "Dogs")
   }
   internal enum TabBar {
-    /// Favourites
-    internal static let favourites = L10n.tr("Localizable", "tabBar.favourites", fallback: "Favourites")
+    /// Favorites
+    internal static let favourites = L10n.tr("Localizable", "tabBar.favourites", fallback: "Favorites")
     /// Leader Board
     internal static let leaderBoard = L10n.tr("Localizable", "tabBar.leaderBoard", fallback: "Leader Board")
     /// More
