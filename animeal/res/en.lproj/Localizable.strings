@@ -1,6 +1,6 @@
 "tabBar.search"                                   = "Search";
 "tabBar.favourites"                               = "Favorites";
-"tabBar.leaderBoard"                              = "Leader Board";
+"tabBar.leaderBoard"                              = "Leaderboard";
 "tabBar.more"                                     = "More";
 "segment.dogs"                                    = "Dogs";
 "segment.cats"                                    = "Cats";
@@ -86,3 +86,5 @@
 "donate.header.text"                              = "We can leave a donation for animals and in support of the developers";
 "donate.footer.text"                              = "Thank you for donating!";
 "about.appVersion"                                = "App version";
+"leaderBoard.header"                              = "Leaderboard";
+"leaderBoard.empty"                               = "Leaderboard will show the rating of volunteers";

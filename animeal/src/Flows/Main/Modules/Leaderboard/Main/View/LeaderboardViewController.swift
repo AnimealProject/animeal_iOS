@@ -29,12 +29,13 @@ final class LeaderboardViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        viewModel.load(showLoading: true)
     }
 
     private func setup() {
         view.backgroundColor = designEngine.colors.backgroundPrimary
 
-        headerView.configure(.init(title: L10n.Favourites.header, fontSize: 28))
+        headerView.configure(.init(title: L10n.LeaderBoard.header, fontSize: 28))
 
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .clear

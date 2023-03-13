@@ -19,6 +19,11 @@ final class LeaderboardModuleAssembler {
         let model = LeaderboardModel()
         let viewModel = LeaderboardViewModel(coordinator: coordinator, model: model)
         let view = LeaderboardViewController(viewModel: viewModel)
+
+        viewModel.onContentHaveBeenPrepared = { [weak view] viewState in
+            view?.populateLeaderboard(viewState)
+        }
+
         return view
     }
 }

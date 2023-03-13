@@ -115,6 +115,12 @@ internal enum L10n {
       internal static let starved = L10n.tr("Localizable", "feeding.status.starved", fallback: "There is no food")
     }
   }
+  internal enum LeaderBoard {
+    /// Leaderboard will show the rating of volunteers
+    internal static let empty = L10n.tr("Localizable", "leaderBoard.empty", fallback: "Leaderboard will show the rating of volunteers")
+    /// Leaderboard
+    internal static let header = L10n.tr("Localizable", "leaderBoard.header", fallback: "Leaderboard")
+  }
   internal enum LoginScreen {
     /// Sign in with Apple
     internal static let signInViaApple = L10n.tr("Localizable", "loginScreen.signInViaApple", fallback: "Sign in with Apple")
@@ -214,8 +220,8 @@ internal enum L10n {
   internal enum TabBar {
     /// Favorites
     internal static let favourites = L10n.tr("Localizable", "tabBar.favourites", fallback: "Favorites")
-    /// Leader Board
-    internal static let leaderBoard = L10n.tr("Localizable", "tabBar.leaderBoard", fallback: "Leader Board")
+    /// Leaderboard
+    internal static let leaderBoard = L10n.tr("Localizable", "tabBar.leaderBoard", fallback: "Leaderboard")
     /// More
     internal static let more = L10n.tr("Localizable", "tabBar.more", fallback: "More")
     /// Search

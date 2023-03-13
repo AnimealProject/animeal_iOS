@@ -1,6 +1,6 @@
 "tabBar.search"                                   = "ძიება";
 "tabBar.favourites"                               = "რჩეულები";
-"tabBar.leaderBoard"                              = "ლიდერთა საბჭო";
+"tabBar.leaderBoard"                              = "ლიდერბორდი";
 "tabBar.more"                                     = "მეტი";
 "segment.dogs"                                    = "ძაღლები";
 "segment.cats"                                    = "კატები";
@@ -86,3 +86,5 @@
 "donate.header.text"                              = "ჩვენ შეგვიძლია დავტოვოთ შემოწირულობა ცხოველებისთვის და დეველოპერების მხარდასაჭერად";
 "donate.footer.text"                              = "გმადლობთ შემოწირულობისთვის!";
 "about.appVersion"                                = "აპლიკაციის ვერსია";
+"leaderBoard.header"                              = "ლიდერბორდი";
+"leaderBoard.empty"                               = "ლიდერბორდი აჩვენებს მოხალისეთა რეიტინგს";
