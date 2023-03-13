@@ -95,8 +95,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
             let action = model.fetchFeedingAction(request: .cancelFeeding)
             onFeedingActionHaveBeenPrepared?(feedingActionMapper.mapFeedingAction(action))
         case .autoCancelFeeding:
-            let action = model.fetchFeedingAction(request: .autoCancelFeeding)
-            onFeedingActionHaveBeenPrepared?(feedingActionMapper.mapFeedingAction(action))
+            handleRejectFeeding()
         case .confirmCancelFeeding:
             handleConfirmCancelFeeding()
         }
@@ -208,6 +207,23 @@ private extension HomeViewModel {
             }
             let points = try await self.model.fetchFeedingPoints()
             let viewItems = points.map { self.feedingPointViewMapper.mapFeedingPoint($0) }
+            self.onFeedingPointsHaveBeenPrepared?(viewItems)
+        }
+    }
+
+    func handleRejectFeeding() {
+        coordinator.displayActivityIndicator { [weak self] in
+            guard let self else { return }
+            do {
+                let result = try await self.model.processRejectFeeding()
+                self.feedingStatus = result.feedingStatus
+            } catch {
+                logError("[APP] \(#function) failed to reject feeding: \(error.localizedDescription)")
+            }
+            let points = try await self.model.fetchFeedingPoints()
+            let viewItems = points.map { self.feedingPointViewMapper.mapFeedingPoint($0) }
+            let action = self.model.fetchFeedingAction(request: .autoCancelFeeding)
+            self.onFeedingActionHaveBeenPrepared?(self.feedingActionMapper.mapFeedingAction(action))
             self.onFeedingPointsHaveBeenPrepared?(viewItems)
         }
     }

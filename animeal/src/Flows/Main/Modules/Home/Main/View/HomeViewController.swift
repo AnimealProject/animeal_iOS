@@ -150,18 +150,20 @@ private extension HomeViewController {
                 actionHandler = {
                     alertViewController.dismiss(animated: true)
                 }
-            case .accent:
+            case .accent(let action):
                 actionHandler = { [weak self] in
                     guard let self = self else { return }
                     self.hideRouteAndStopTimer()
-                    self.viewModel.handleActionEvent(.confirmCancelFeeding)
+                    if action == .cancelFeeding {
+                        self.viewModel.handleActionEvent(.confirmCancelFeeding)
+                    }
                     alertViewController.dismiss(animated: true)
                 }
             }
             alertViewController.addAction(
                 AlertAction(
                     title: feedingAction.title,
-                    style: feedingAction.style,
+                    style: feedingAction.style.alertActionStyle,
                     handler: actionHandler
                 )
             )
@@ -236,7 +238,7 @@ private extension HomeViewController {
         mapView.cancelRouteRequest()
         hideFeedControl(true)
     }
-    
+
     func handleCameraMove(_ move: FeedingPointCameraMove) {
         mapView.easeToLocation(move.feedingPointCoordinate, duration: 0)
     }

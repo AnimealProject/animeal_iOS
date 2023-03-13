@@ -47,7 +47,7 @@ extension HomeModel {
         }
 
         enum Style {
-            case accent
+            case accent(FeedingActionRequest)
             case inverted
         }
     }

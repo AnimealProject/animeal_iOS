@@ -29,6 +29,8 @@ protocol HomeModelProtocol: AnyObject {
     func processCancelFeeding() async throws -> FeedingResponse
     func processFinishFeeding(imageKeys: [String]) async throws -> FeedingResponse
     func fetchFeedingSnapshot() -> FeedingSnapshot?
+    @discardableResult
+    func processRejectFeeding() async throws -> FeedingResponse
 }
 
 // MARK: - ViewModel
