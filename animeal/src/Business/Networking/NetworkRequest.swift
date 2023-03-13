@@ -133,7 +133,7 @@ extension Request {
         )
     }
 
-    public static func customMutation<M: CustomMutation>(_ request: M) -> Request<M.ResponseType> {
+    static func customMutation<M: CustomMutation>(_ request: M) -> Request<M.ResponseType> {
         return Request<M.ResponseType>(
             document: request.document,
             responseType: M.ResponseType.self

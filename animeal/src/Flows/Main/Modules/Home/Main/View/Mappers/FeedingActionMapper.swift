@@ -21,10 +21,10 @@ final class FeedingActionMapper: FeedingActionMappable {
 
     private func convert(
         _ style: HomeModel.FeedingAction.Style
-    ) -> AlertAction.Style {
+    ) -> FeedingActionMapper.FeedingAction.Style {
         switch style {
-        case .accent:
-            return .accent
+        case .accent(let action):
+            return .accent(action)
         case .inverted:
             return .inverted
         }
@@ -36,9 +36,23 @@ extension FeedingActionMapper {
         let title: String
         let actions: [Action]
 
+        enum Style {
+            case accent(HomeModel.FeedingActionRequest)
+            case inverted
+
+            var alertActionStyle: AlertAction.Style {
+                switch self {
+                case .accent:
+                    return .accent
+                case .inverted:
+                    return .inverted
+                }
+            }
+        }
+
         struct Action {
             let title: String
-            let style: AlertAction.Style
+            let style: Style
         }
     }
 }

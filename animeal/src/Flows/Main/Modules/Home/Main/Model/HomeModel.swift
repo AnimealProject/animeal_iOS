@@ -84,14 +84,14 @@ final class HomeModel: HomeModelProtocol {
                 title: L10n.Feeding.Alert.cancelFeeding,
                 actions: [
                     .init(title: L10n.Action.no, style: .inverted),
-                    .init(title: L10n.Action.ok, style: .accent)
+                    .init(title: L10n.Action.ok, style: .accent(.cancelFeeding))
                 ]
             )
         case .autoCancelFeeding:
             return .init(
                 title: L10n.Feeding.Alert.feedingTimerOver,
                 actions: [
-                    .init(title: L10n.Action.gotIt, style: .accent)
+                    .init(title: L10n.Action.gotIt, style: .accent(.autoCancelFeeding))
                 ]
             )
         }
@@ -112,6 +112,33 @@ final class HomeModel: HomeModelProtocol {
             return FeedingResponse(
                 feedingPoint: result.cancelFeeding,
                 feedingStatus: .none)
+        } catch {
+            throw L10n.Errors.somthingWrong.asBaseError()
+        }
+    }
+
+    @discardableResult
+    func processRejectFeeding() async throws -> FeedingResponse {
+        do {
+            let feedingId = snapshotStore.snaphot?.pointId ?? .empty
+            guard let feeding = try await context.networkService.query(
+                request: .get(Feeding.self, byId: feedingId)
+            ) else {
+                throw L10n.Errors.somthingWrong.asBaseError()
+            }
+            let result = try await context.networkService.query(
+                request: .customMutation(
+                    RejectFeedingMutation(
+                        id: feedingId,
+                        feeding: feeding
+                    )
+                )
+            )
+            snapshotStore.removeStoredSnaphot()
+            return FeedingResponse(
+                feedingPoint: result.rejectFeeding,
+                feedingStatus: .none
+            )
         } catch {
             throw L10n.Errors.somthingWrong.asBaseError()
         }
