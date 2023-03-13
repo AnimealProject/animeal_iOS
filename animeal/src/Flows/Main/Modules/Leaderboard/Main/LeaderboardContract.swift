@@ -21,6 +21,21 @@ protocol LeaderboardModelProtocol: AnyObject {
     func fetchLeaderboard() async throws -> [LeaderboardContent]
 }
 
+// MARK: - View
+@MainActor
+protocol LeaderboardViewModelOutput: AnyObject {
+    func populateLeaderboard(_ viewState: LeaderboardViewContentState)
+}
+
+enum LeaderboardViewContentState {
+    case content([LeaderboardItem])
+    case empty(String)
+}
+
+public protocol LeaderboardItem {
+    // will be added soon
+}
+
 // MARK: - ViewModel
 typealias LeaderboardViewModelProtocol = LeaderboardViewModelLifeCycle & LeaderboardViewInteraction & LeaderboardViewState
 
