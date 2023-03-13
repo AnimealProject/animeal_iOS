@@ -37,12 +37,20 @@ final class MainCoordinator: Coordinatable {
             switchFlowAction: { [weak self] in self?.handleSwitchFlowAction($0) },
             completion: { [weak self] in self?.stop() }
         )
-        
         searchCoordinator.start()
 
-        let purpleVC = UIViewController()
-        purpleVC.view.backgroundColor = .purple
-        
+        let leaderboardNavigationController = UINavigationController()
+        let leaderboardCoordinator = LeaderboardCoordinator(
+            navigator: Navigator(navigationController: leaderboardNavigationController),
+            completion: { [weak self] event in
+                if let event = event {
+                    self?.backwardEvents.append(event)
+                }
+                self?.stop()
+            }
+            )
+        leaderboardCoordinator.start()
+
         let favouritesNavigationController = UINavigationController()
         let favouritesCoordinator = FavouritesCoordinator(
             navigator: Navigator(navigationController: favouritesNavigationController),
@@ -75,7 +83,8 @@ final class MainCoordinator: Coordinatable {
         }
         homeCoordinator.start()
 
-        childCoordinators = [moreCoordinator, homeCoordinator, favouritesCoordinator]
+        childCoordinators = [moreCoordinator, homeCoordinator, favouritesCoordinator, leaderboardCoordinator]
+
         return TabBarController(items: [
             TabBarControllerItem(
                 tabBarItemView: PlainTabBarItemView(
@@ -109,7 +118,7 @@ final class MainCoordinator: Coordinatable {
                         title: L10n.TabBar.leaderBoard
                     )
                 ),
-                viewController: purpleVC
+                viewController: leaderboardNavigationController
             ),
             TabBarControllerItem(
                 tabBarItemView: PlainTabBarItemView(
