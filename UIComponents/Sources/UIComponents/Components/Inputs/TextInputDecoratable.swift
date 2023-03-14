@@ -1,6 +1,10 @@
 import UIKit
 
-public protocol TextInputDecoratable: UIView, TextFieldContentViewChangesHandable { }
+public protocol TextInputIdentifiable {
+    var identifier: String { get }
+}
+
+public protocol TextInputDecoratable: UIView, TextFieldContentViewChangesHandable, TextInputIdentifiable { }
 
 public enum TextInputView {
     public enum State {

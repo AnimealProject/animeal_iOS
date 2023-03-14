@@ -34,7 +34,7 @@ struct ProfileViewItemMapper: ProfileViewItemMappable {
                 )
                 return viewItem
             }
-            let formatter = PlaceholderTextInputFormatter.phoneNumberFormatter(
+            let formatter = DefaultTextInputFormatter.phoneNumberFormatter(
                 placeholder
             )
             let viewItem = ProfileViewItem(

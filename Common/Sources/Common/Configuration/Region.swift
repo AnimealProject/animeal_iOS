@@ -556,13 +556,13 @@ extension Region {
         case .AF:
             return [9]
         case .AL:
-            return Array(3...9)
+            return [8]
         case .DZ:
             return [8, 9]
         case .AS:
             return [7]
         case .AD:
-            return [6, 8, 9]
+            return [6, 9]
         case .AO:
             return [9]
         case .AI:
@@ -576,23 +576,23 @@ extension Region {
         case .AW:
             return [7]
         case .AU:
-            return Array(5...15)
+            return [9]
         case .AT:
-            return Array(4...13)
+            return Array(7...13)
         case .AZ:
-            return [8, 9]
+            return [9]
         case .BS:
             return [7]
         case .BH:
             return [8]
         case .BD:
-            return Array(6...10)
+            return [10]
         case .BB:
             return [7]
         case .BY:
             return [9]
         case .BE:
-            return [8, 9]
+            return [9]
         case .BZ:
             return [7]
         case .BJ:
@@ -600,19 +600,19 @@ extension Region {
         case .BM:
             return [7]
         case .BT:
-            return [7, 8]
+            return [8]
         case .BO:
             return [8]
         case .BA:
             return [8]
         case .BW:
-            return [7, 8]
+            return [8]
         case .BR:
             return [10]
         case .BN:
             return [7]
         case .BG:
-            return [7, 8, 9]
+            return [8, 9]
         case .BF:
             return [8]
         case .BI:
@@ -632,9 +632,9 @@ extension Region {
         case .CL:
             return [8, 9]
         case .CN:
-            return Array(5...12)
+            return [11]
         case .CO:
-            return [8, 10]
+            return [10]
         case .KM:
             return [7]
         case .CG:
@@ -642,33 +642,33 @@ extension Region {
         case .CR:
             return [8]
         case .HR:
-            return Array(8...12)
+            return [8, 9]
         case .CU:
-            return [6, 7, 8]
+            return [8]
         case .CY:
-            return [8, 11]
+            return [8]
         case .CZ:
-            return Array(4...12)
+            return [9]
         case .DK:
             return [8]
         case .EC:
             return [8]
         case .EG:
-            return [7, 8, 9]
+            return [10]
         case .SV:
-            return [7, 8, 11]
+            return [8]
         case .GQ:
             return [9]
         case .ER:
             return [7]
         case .EE:
-            return Array(7...10)
+            return [7, 8]
         case .ET:
             return [9]
         case .FJ:
             return [7]
         case .FI:
-            return Array(5...12)
+            return Array(6...10)
         case .FR:
             return [9]
         case .GF:
@@ -676,15 +676,15 @@ extension Region {
         case .PF:
             return [6]
         case .GA:
-            return [6, 7]
+            return [7, 8]
         case .GM:
             return [7]
         case .GE:
             return [9]
         case .DE:
-            return Array(6...13)
+            return [10, 11]
         case .GH:
-            return Array(5...9)
+            return [9]
         case .GI:
             return [8]
         case .GR:
@@ -702,57 +702,57 @@ extension Region {
         case .HN:
             return [8]
         case .HK:
-            return [4, 8, 9]
+            return [8]
         case .HU:
-            return [8, 9]
+            return [9]
         case .IS:
             return [7, 9]
         case .IN:
-            return Array(7...10)
+            return [10]
         case .ID:
-            return Array(5...10)
+            return Array(9...12)
         case .IR:
-            return Array(6...10)
+            return [10]
         case .IQ:
-            return [8, 9, 10]
+            return [10]
         case .IE:
-            return Array(7...11)
+            return [9]
         case .IT:
             return [11]
         case .JM:
             return [7]
         case .JP:
-            return Array(5...13)
+            return [10]
         case .JO:
-            return Array(5...9)
+            return [9]
         case .KZ:
             return [10]
         case .KE:
-            return Array(6...10)
+            return [9]
         case .KR:
-            return Array(8...11)
+            return [9, 10]
         case .KW:
-            return [7, 8]
+            return [8]
         case .KG:
             return [9]
         case .LV:
-            return [7, 8]
+            return [8]
         case .LB:
             return [7, 8]
         case .LS:
             return [8]
         case .LR:
-            return [7, 8]
+            return [7, 9]
         case .LI:
-            return [7, 8, 9]
+            return [7, 9]
         case .LT:
             return [8]
         case .LU:
-            return Array(4...11)
+            return [9]
         case .MO:
-            return [7, 8]
+            return [8]
         case .MY:
-            return [7, 8, 9]
+            return [9]
         case .ML:
             return [8]
         case .MT:
@@ -766,81 +766,81 @@ extension Region {
         case .MD:
             return [8]
         case .MC:
-            return Array(5...9)
+            return [8, 9]
         case .MN:
-            return [7, 8]
+            return [8]
         case .ME:
-            return Array(4...12)
+            return [8]
         case .MS:
             return [7]
         case .MA:
             return [9]
         case .MZ:
-            return [8, 9]
+            return [9]
         case .NP:
-            return [8, 9]
+            return [10]
         case .NL:
             return [9]
         case .NC:
             return [6]
         case .NZ:
-            return Array(3...10)
+            return [8]
         case .NI:
             return [8]
         case .NU:
             return [4]
         case .NO:
-            return [5, 8]
+            return [8]
         case .OM:
-            return [7, 8]
+            return [8]
         case .PK:
-            return Array(8...11)
+            return [10]
         case .PW:
             return [7]
         case .PA:
             return [7, 8]
         case .PG:
-            return Array(4...11)
+            return [8]
         case .PY:
-            return Array(5...9)
+            return [9]
         case .PE:
-            return Array(8...11)
+            return [9]
         case .PH:
-            return Array(8...10)
+            return [10]
         case .PL:
-            return Array(6...9)
+            return [9]
         case .PT:
-            return [9, 11]
+            return [9]
         case .PR:
             return [7]
         case .QA:
-            return Array(3...8)
+            return [8]
         case .RO:
             return [9]
         case .RW:
             return [9]
         case .WS:
-            return Array(3...7)
+            return [7, 10]
         case .SM:
-            return Array(6...10)
+            return [8]
         case .SA:
-            return [8, 9]
+            return [9]
         case .SN:
             return [9]
         case .RS:
-            return Array(4...12)
+            return Array(8...10)
         case .SC:
             return [7]
         case .SL:
             return [8]
         case .SG:
-            return Array(8...12)
+            return [8]
         case .SK:
-            return Array(4...9)
+            return [9]
         case .SI:
             return [8]
         case .SO:
-            return Array(5...8)
+            return Array(7...9)
         case .ZA:
             return [9]
         case .ES:
@@ -850,21 +850,21 @@ extension Region {
         case .SD:
             return [9]
         case .SR:
-            return [6, 7]
+            return [7]
         case .SZ:
-            return [7, 8]
+            return [8]
         case .SE:
-            return Array(7...13)
+            return [9]
         case .CH:
-            return Array(4...12)
+            return [9]
         case .TW:
-            return [8, 9]
+            return [9]
         case .TJ:
             return [9]
         case .TZ:
             return [9]
         case .TH:
-            return [8, 9]
+            return [9]
         case .TL:
             return [7]
         case .TG:
@@ -872,7 +872,7 @@ extension Region {
         case .TK:
             return [4]
         case .TO:
-            return [5, 7]
+            return [7]
         case .TT:
             return [7]
         case .TN:
@@ -882,35 +882,35 @@ extension Region {
         case .TM:
             return [8]
         case .TV:
-            return [5, 6]
+            return [6, 7]
         case .UG:
             return [9]
         case .UA:
             return [9]
         case .AE:
-            return [8, 9]
+            return [9]
         case .GB:
-            return Array(7...10)
+            return [10]
         case .US:
             return [10]
         case .UY:
-            return Array(4...11)
+            return [8]
         case .UZ:
             return [9]
         case .VU:
-            return [5, 7]
+            return [7]
         case .VE:
             return [10]
         case .VN:
-            return Array(7...10)
+            return [9]
         case .WF:
             return [6]
         case .YE:
-            return Array(6...9)
+            return [9]
         case .ZM:
             return [9]
         case .ZW:
-            return Array(5...10)
+            return [9, 10]
         }
     }
 

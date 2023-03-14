@@ -16,7 +16,7 @@ final class CustomAuthViewModel: CustomAuthViewModelProtocol {
 
     // MARK: - State
     var onHeaderHasBeenPrepared: ((CustomAuthViewHeader) -> Void)?
-    var onItemsHaveBeenPrepared: (([CustomAuthViewItem]) -> Void)?
+    var onItemsHaveBeenPrepared: ((CustomAuthUpdateViewItemsSnapshot) -> Void)?
     var onActionsHaveBeenPrepared: (([CustomAuthViewAction]) -> Void)?
 
     // MARK: - Initialization
@@ -49,37 +49,29 @@ final class CustomAuthViewModel: CustomAuthViewModelProtocol {
     @discardableResult
     func handleTextEvent(_ event: CustomAuthViewTextEvent) -> CustomAuthViewText {
         switch event {
-        case let .beginEditing(identifier, text):
-            guard let formatter = viewItems.first(where: { $0.identifier == identifier })?.formatter
-            else {
-                return CustomAuthViewText(
-                    caretOffset: text?.count ?? .zero,
-                    formattedText: text
-                )
-            }
-            let offset = formatter.getCaretOffset(for: text ?? "")
-            return CustomAuthViewText(caretOffset: offset, formattedText: text)
+        case let .beginEditing(_, text):
+            model.clearErrors()
+            updateViewItems(resetPreviosItems: false)
+            return CustomAuthViewText(
+                caretOffset: text?.count ?? .zero,
+                formattedText: text
+            )
         case let .didChange(identifier, text):
             guard let formatter = viewItems.first(where: { $0.identifier == identifier })?.formatter
             else {
-                defer {
-                    Task { [weak self] in
-                        self?.model.updateItem(text, forIdentifier: identifier)
-                        self?.updateViewActions { self?.model.validate() ?? false }
-                    }
-                }
+                model.updateItem(text, forIdentifier: identifier)
+                updateViewActions { [weak self] in self?.model.validate() ?? false }
+
                 return CustomAuthViewText(
                     caretOffset: text?.count ?? .zero,
                     formattedText: text
                 )
             }
-            defer {
-                Task { [weak self] in
-                    let unformattedText = formatter.unformat(text ?? "")
-                    self?.model.updateItem(unformattedText, forIdentifier: identifier)
-                    self?.updateViewActions { self?.model.validate() ?? false }
-                }
-            }
+
+            let unformattedText = formatter.unformat(text ?? "")
+            model.updateItem(unformattedText, forIdentifier: identifier)
+            updateViewActions { [weak self] in self?.model.validate() ?? false }
+
             return CustomAuthViewText(
                 caretOffset: text?.count ?? .zero,
                 formattedText: text
@@ -105,25 +97,21 @@ final class CustomAuthViewModel: CustomAuthViewModelProtocol {
         case let .endEditing(identifier, text):
             guard let formatter = viewItems.first(where: { $0.identifier == identifier })?.formatter
             else {
-                defer {
-                    model.updateItem(text, forIdentifier: identifier)
-                }
+                model.updateItem(text, forIdentifier: identifier)
                 return CustomAuthViewText(
                     caretOffset: text?.count ?? .zero,
                     formattedText: text
                 )
             }
-            defer {
-                let unformattedText = formatter.unformat(text ?? "")
-                model.updateItem(unformattedText, forIdentifier: identifier)
-                updateViewActions { [weak self] in self?.model.validate() ?? false }
-                updateViewItems()
-            }
 
-            let result = formatter.formatInput(currentText: text ?? "")
+            let unformattedText = formatter.unformat(text ?? "")
+            model.updateItem(unformattedText, forIdentifier: identifier)
+            updateViewActions { [weak self] in self?.model.validate() ?? false }
+            updateViewItems(resetPreviosItems: false)
+
             return CustomAuthViewText(
-                caretOffset: result.caretBeginOffset,
-                formattedText: result.formattedText
+                caretOffset: text?.count ?? .zero,
+                formattedText: text
             )
         }
     }
@@ -177,10 +165,14 @@ private extension CustomAuthViewModel {
         }
     }
 
-    private func updateViewItems() {
+    private func updateViewItems(resetPreviosItems: Bool = true) {
         let modelItems = model.fetchItems()
         viewItems = mapper.mapItems(modelItems)
-        onItemsHaveBeenPrepared?(viewItems)
+        let viewSnapshot = CustomAuthUpdateViewItemsSnapshot(
+            resetPreviousItems: resetPreviosItems,
+            viewItems: viewItems
+        )
+        onItemsHaveBeenPrepared?(viewSnapshot)
     }
 
     private func updateViewActions(_ actionsAvailable: @escaping () -> Bool) {

@@ -91,6 +91,9 @@ open class TextInputUnderlinedDecorator<ContentView: TextFieldContainerView>: UI
         set { textView.shouldReturn = newValue }
     }
 
+    // MARK: - Identifiable
+    public private(set) var identifier: String = UUID().uuidString
+
     // MARK: - Initialization
     public init(contentView: ContentView) {
         self.contentView = contentView.prepareForAutoLayout()
@@ -104,6 +107,7 @@ open class TextInputUnderlinedDecorator<ContentView: TextFieldContainerView>: UI
 
     // MARK: - Configuration
     open func configure(_ model: Model) {
+        identifier = model.identifier
         titleView.text = model.title
         switch model.state {
         case .normal:

@@ -60,7 +60,7 @@ open class PlaceholderTextInputFormatter: TextInputFormatter, TextFormatter, Tex
             caretBeginOffset: caretOffset
         )
     }
-    
+
     open func formatInput(currentText: String) -> TextFormattedValue {
         TextFormattedValue(
             formattedText: currentText,

@@ -77,22 +77,8 @@ final class ProfileViewController: BaseViewController, ProfileViewable {
                             .shouldChangeCharactersIn(item.identifier, text, range, string)
                         )
                     )
+                    textInput.text = result.formattedText
                     textInput.setCursorLocation(result.caretOffset)
-
-                    guard let text = result.formattedText else { return true }
-                    let attributedText = NSMutableAttributedString()
-                    let filledTextIndex = text.index(text.startIndex, offsetBy: result.caretOffset)
-                    let filledText = NSAttributedString(
-                        string: String(text.prefix(upTo: filledTextIndex)),
-                        attributes: textInput.activeTextAttributes
-                    )
-                    attributedText.append(filledText)
-                    let placeholderText = NSAttributedString(
-                        string: String(text.suffix(from: filledTextIndex)),
-                        attributes: textInput.placeholderTextAttributes
-                    )
-                    attributedText.append(placeholderText)
-                    textInput.attributedText = attributedText
 
                     self.viewModel.handleItemEvent(
                         .changeText(.didChange(item.identifier, text))
@@ -202,21 +188,5 @@ private extension ProfileViewController {
             self?.applyConfiguration(viewConfiguration)
         }
         viewModel.load()
-    }
-}
-
-private extension TextFieldContainable {
-    var activeTextAttributes: [NSAttributedString.Key: Any]? {
-        [
-            .font: designEngine.fonts.primary.medium(16.0) as Any,
-            .foregroundColor: designEngine.colors.textPrimary
-        ]
-    }
-
-    var placeholderTextAttributes: [NSAttributedString.Key: Any]? {
-        [
-            .font: designEngine.fonts.primary.medium(16.0) as Any,
-            .foregroundColor: designEngine.colors.disabled
-        ]
     }
 }

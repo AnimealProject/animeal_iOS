@@ -9,7 +9,7 @@ final class CustomAuthViewController: BaseViewController, CustomAuthViewable {
     private let headerView = TextBigTitleSubtitleView().prepareForAutoLayout()
     private let scrollView = UIScrollView().prepareForAutoLayout()
     private let contentView = UIStackView().prepareForAutoLayout()
-    private var inputViews: [TextInputDecoratable] = []
+    private let inputsContentView = UIStackView().prepareForAutoLayout()
     private let buttonsView = ButtonContainerView().prepareForAutoLayout()
 
     // MARK: - Dependencies
@@ -49,89 +49,11 @@ final class CustomAuthViewController: BaseViewController, CustomAuthViewable {
         headerView.configure(viewHeader.model)
     }
 
-    func applyItems(_ viewItems: [CustomAuthViewItem]) {
-        inputViews.forEach {
-            $0.removeFromSuperview()
-            contentView.removeArrangedSubview($0)
-        }
-        viewItems.forEach { item in
-            switch item.type {
-            case .phone:
-                let inputView = PhoneInputView()
-                inputView.configure(item.phoneModel)
-                inputView.codeWasTapped = { [weak self] _ in
-                    self?.view.endEditing(true)
-                    self?.viewModel.handleActionEvent(
-                        CustomAuthViewActionEvent.itemWasTapped(item.identifier)
-                    )
-                }
-                inputView.didBeginEditing = { [weak self] textInput in
-                    guard let self = self else { return }
-                    let text = textInput.text
-                    let result = self.viewModel.handleTextEvent(
-                        CustomAuthViewTextEvent.beginEditing(item.identifier, text)
-                    )
-                    textInput.setCursorLocation(result.caretOffset)
-                }
-                inputView.shouldChangeCharacters = { [weak self] textInput, range, string in
-                    guard let self = self else { return true }
-                    let text = textInput.text
-                    let result = self.viewModel.handleTextEvent(
-                        CustomAuthViewTextEvent.shouldChangeCharactersIn(
-                            item.identifier, text, range, string
-                        )
-                    )
-                    textInput.setCursorLocation(result.caretOffset)
-
-                    guard let text = result.formattedText else { return true }
-                    let attributedText = NSMutableAttributedString()
-                    let filledTextIndex = text.index(text.startIndex, offsetBy: result.caretOffset)
-                    let filledText = NSAttributedString(
-                        string: String(text.prefix(upTo: filledTextIndex)),
-                        attributes: textInput.activeTextAttributes
-                    )
-                    attributedText.append(filledText)
-                    let placeholderText = NSAttributedString(
-                        string: String(text.suffix(from: filledTextIndex)),
-                        attributes: textInput.placeholderTextAttributes
-                    )
-                    attributedText.append(placeholderText)
-                    textInput.attributedText = attributedText
-                    self.viewModel.handleTextEvent(
-                        CustomAuthViewTextEvent.didChange(item.identifier, text)
-                    )
-
-                    return false
-                }
-                inputView.didEndEditing = { [weak self] textInput in
-                    guard let result = self?.viewModel.handleTextEvent(
-                        CustomAuthViewTextEvent.endEditing(item.identifier, textInput.text)
-                    )
-                    else { return }
-
-                    guard let text = result.formattedText else { return }
-                    let attributedText = NSMutableAttributedString()
-                    let filledTextIndex = text.index(text.startIndex, offsetBy: result.caretOffset)
-                    let filledText = NSAttributedString(
-                        string: String(text.prefix(upTo: filledTextIndex)),
-                        attributes: textInput.activeTextAttributes
-                    )
-                    attributedText.append(filledText)
-                    let placeholderText = NSAttributedString(
-                        string: String(text.suffix(from: filledTextIndex)),
-                        attributes: textInput.placeholderTextAttributes
-                    )
-                    attributedText.append(placeholderText)
-                    textInput.attributedText = attributedText
-                }
-                inputViews.append(inputView)
-                contentView.addArrangedSubview(inputView)
-            case .password:
-                let inputView = DefaultInputView()
-                inputView.configure(item.model)
-                inputViews.append(inputView)
-                contentView.addArrangedSubview(inputView)
-            }
+    func applyItemsSnapshot(_ viewItemsSnapshot: CustomAuthUpdateViewItemsSnapshot) {
+        if viewItemsSnapshot.resetPreviousItems {
+            createViewItems(viewItemsSnapshot.viewItems)
+        } else {
+            updateViewItems(viewItemsSnapshot.viewItems)
         }
     }
 
@@ -168,7 +90,11 @@ private extension CustomAuthViewController {
         contentView.axis = .vertical
         contentView.spacing = 58.0
 
+        inputsContentView.axis = .vertical
+        inputsContentView.spacing = 58.0
+
         contentView.addArrangedSubview(headerView)
+        contentView.addArrangedSubview(inputsContentView)
 
         view.addSubview(buttonsView)
         buttonsView.leadingAnchor ~= view.leadingAnchor
@@ -186,8 +112,8 @@ private extension CustomAuthViewController {
         viewModel.onHeaderHasBeenPrepared = { [weak self] viewHeader in
             self?.applyHeader(viewHeader)
         }
-        viewModel.onItemsHaveBeenPrepared = { [weak self] viewItems in
-            self?.applyItems(viewItems)
+        viewModel.onItemsHaveBeenPrepared = { [weak self] viewItemsSnapshot in
+            self?.applyItemsSnapshot(viewItemsSnapshot)
         }
         viewModel.onActionsHaveBeenPrepared = { [weak self] viewActions in
             self?.applyActions(viewActions)
@@ -195,20 +121,83 @@ private extension CustomAuthViewController {
 
         viewModel.load()
     }
-}
 
-private extension TextFieldContainable {
-    var activeTextAttributes: [NSAttributedString.Key: Any]? {
-        [
-            .font: designEngine.fonts.primary.medium(16.0) as Any,
-            .foregroundColor: designEngine.colors.textPrimary
-        ]
+    // MARK: - Configuration
+    func createViewItems(_ viewItems: [CustomAuthViewItem]) {
+        inputsContentView.arrangedSubviews.forEach {
+            $0.removeFromSuperview()
+        }
+        viewItems.forEach { item in
+            switch item.type {
+            case .phone:
+                let inputView = PhoneInputView()
+                inputView.configure(item.phoneModel)
+                inputView.codeWasTapped = { [weak self] _ in
+                    self?.view.endEditing(true)
+                    self?.viewModel.handleActionEvent(
+                        CustomAuthViewActionEvent.itemWasTapped(item.identifier)
+                    )
+                }
+                inputView.didBeginEditing = { [weak self] textInput in
+                    guard let self = self else { return }
+                    let text = textInput.text
+                    let result = self.viewModel.handleTextEvent(
+                        CustomAuthViewTextEvent.beginEditing(item.identifier, text)
+                    )
+                    textInput.setCursorLocation(result.caretOffset)
+                }
+                inputView.shouldChangeCharacters = { [weak self] textInput, range, string in
+                    guard let self = self else { return true }
+                    let text = textInput.text
+                    let result = self.viewModel.handleTextEvent(
+                        CustomAuthViewTextEvent.shouldChangeCharactersIn(
+                            item.identifier, text, range, string
+                        )
+                    )
+                    textInput.text = result.formattedText
+                    textInput.setCursorLocation(result.caretOffset)
+                    
+                    self.viewModel.handleTextEvent(
+                        CustomAuthViewTextEvent.didChange(item.identifier, result.formattedText)
+                    )
+                    
+                    return false
+                }
+                inputView.didEndEditing = { [weak self] textInput in
+                    guard let result = self?.viewModel.handleTextEvent(
+                        CustomAuthViewTextEvent.endEditing(item.identifier, textInput.text)
+                    )
+                    else { return }
+                    
+                    textInput.text = result.formattedText
+                }
+                inputsContentView.addArrangedSubview(inputView)
+            case .password:
+                let inputView = DefaultInputView()
+                inputView.configure(item.model)
+                inputsContentView.addArrangedSubview(inputView)
+            }
+        }
     }
-
-    var placeholderTextAttributes: [NSAttributedString.Key: Any]? {
-        [
-            .font: designEngine.fonts.primary.medium(16.0) as Any,
-            .foregroundColor: designEngine.colors.textSecondary
-        ]
+    
+    func updateViewItems(_ viewItems: [CustomAuthViewItem]) {
+        let identifiedViewInputs = inputsContentView.arrangedSubviews
+            .compactMap { $0 as? TextInputDecoratable }
+            .reduce([String: TextInputDecoratable]()) { partialResult, input in
+                var result = partialResult
+                result[input.identifier] = input
+                return result
+            }
+        
+        viewItems.forEach { viewItem in
+            switch viewItem.type {
+            case .phone:
+                guard let inputView = identifiedViewInputs[viewItem.identifier] as? PhoneInputView else { return }
+                inputView.configure(viewItem.phoneModel)
+            case .password:
+                guard let inputView = identifiedViewInputs[viewItem.identifier] as? DefaultInputView else { return }
+                inputView.configure(viewItem.model)
+            }
+        }
     }
 }

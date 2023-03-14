@@ -115,7 +115,7 @@ extension ProfileModelItem {
 
         return text
     }
-    
+
     func validateCharacterLength(_ text: String) throws {
         guard text.count >= 2 && text.count <= 35 else {
             throw ProfileModelItemError(
@@ -124,7 +124,7 @@ extension ProfileModelItem {
             )
         }
     }
-    
+
     func validateCharacterFormat(_ text: String) throws {
         let letters = CharacterSet.letters
         if text.rangeOfCharacter(from: letters.inverted) != nil {

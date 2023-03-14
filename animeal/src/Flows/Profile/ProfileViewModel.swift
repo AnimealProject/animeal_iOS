@@ -72,37 +72,24 @@ final class ProfileViewModel: ProfileViewModelProtocol {
 
     func handleTextEvent(_ event: ProfileViewTextEvent) -> ProfileViewText {
         switch event {
-        case let .beginEditing(identifier, text):
-            guard let formatter = viewItems.first(where: { $0.identifier == identifier })?.formatter
-            else {
-                return ProfileViewText(
-                    caretOffset: text?.count ?? .zero,
-                    formattedText: text
-                )
-            }
-            let offset = formatter.getCaretOffset(for: text ?? .empty)
-            return ProfileViewText(caretOffset: offset, formattedText: text)
+        case let .beginEditing(_, text):
+            return ProfileViewText(
+                caretOffset: text?.count ?? .zero,
+                formattedText: text
+            )
         case let .didChange(identifier, text):
             guard let formatter = viewItems.first(where: { $0.identifier == identifier })?.formatter
             else {
-                defer {
-                    Task { [weak self] in
-                        self?.model.updateItem(text, forIdentifier: identifier)
-                        self?.updateViewActions()
-                    }
-                }
+                model.updateItem(text, forIdentifier: identifier)
+                updateViewActions()
                 return ProfileViewText(
                     caretOffset: text?.count ?? .zero,
                     formattedText: text
                 )
             }
-            defer {
-                Task { [weak self] in
-                    let unformattedText = formatter.unformat(text ?? .empty)
-                    self?.model.updateItem(unformattedText, forIdentifier: identifier)
-                    self?.updateViewActions()
-                }
-            }
+            let unformattedText = formatter.unformat(text ?? .empty)
+            model.updateItem(unformattedText, forIdentifier: identifier)
+            updateViewActions()
             return ProfileViewText(
                 caretOffset: text?.count ?? .zero,
                 formattedText: text
@@ -128,21 +115,20 @@ final class ProfileViewModel: ProfileViewModelProtocol {
         case let .endEditing(identifier, text):
             guard let formatter = viewItems.first(where: { $0.identifier == identifier })?.formatter
             else {
-                defer {
-                    model.updateItem(text, forIdentifier: identifier)
-                }
+                model.updateItem(text, forIdentifier: identifier)
                 return ProfileViewText(
                     caretOffset: text?.count ?? .zero,
                     formattedText: text
                 )
             }
-            defer {
-                let unformattedText = formatter.unformat(text ?? .empty)
-                model.updateItem(unformattedText, forIdentifier: identifier)
-                updateViewActions()
-            }
-            let offset = formatter.getCaretOffset(for: text ?? .empty)
-            return ProfileViewText(caretOffset: offset, formattedText: text)
+            let unformattedText = formatter.unformat(text ?? .empty)
+            model.updateItem(unformattedText, forIdentifier: identifier)
+            updateViewActions()
+
+            return ProfileViewText(
+                caretOffset: text?.count ?? .zero,
+                formattedText: text
+            )
         }
     }
 
