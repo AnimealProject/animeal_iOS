@@ -9,7 +9,7 @@ struct ProfileViewItem {
     let identifier: String
     let type: ProfileItemType
     let state: ProfileItemState
-    let formatter: PlaceholderTextInputFormatter?
+    let formatter: DefaultTextInputFormatter?
     let isEditable: Bool
     let title: String
     let content: TextFieldContainerView.Model
