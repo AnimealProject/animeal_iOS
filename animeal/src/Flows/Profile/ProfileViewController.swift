@@ -54,84 +54,100 @@ final class ProfileViewController: BaseViewController, ProfileViewable {
         viewItems.forEach { item in
             switch item.type {
             case .phone:
-                let inputView = PhoneInputView()
-                inputView.configure(item.phoneModel)
-                inputView.codeWasTapped = { [weak self] _ in
-                    self?.viewModel.handleActionEvent(
-                        ProfileViewActionEvent.itemWasTapped(item.identifier)
-                    )
-                }
-                inputView.didBeginEditing = { [weak self] textInput in
-                    guard let self = self else { return }
-                    let text = textInput.text
-                    let result = self.viewModel.handleItemEvent(
-                        .changeText(.beginEditing(item.identifier, text))
-                    )
-                    textInput.setCursorLocation(result.caretOffset)
-                }
-                inputView.shouldChangeCharacters = { [weak self] textInput, range, string in
-                    guard let self = self else { return true }
-                    let text = textInput.text
-                    let result = self.viewModel.handleItemEvent(
-                        .changeText(
-                            .shouldChangeCharactersIn(item.identifier, text, range, string)
-                        )
-                    )
-                    textInput.setCursorLocation(result.caretOffset)
-
-                    guard let text = result.formattedText else { return true }
-                    let attributedText = NSMutableAttributedString()
-                    let filledTextIndex = text.index(text.startIndex, offsetBy: result.caretOffset)
-                    let filledText = NSAttributedString(
-                        string: String(text.prefix(upTo: filledTextIndex)),
-                        attributes: textInput.activeTextAttributes
-                    )
-                    attributedText.append(filledText)
-                    let placeholderText = NSAttributedString(
-                        string: String(text.suffix(from: filledTextIndex)),
-                        attributes: textInput.placeholderTextAttributes
-                    )
-                    attributedText.append(placeholderText)
-                    textInput.attributedText = attributedText
-
-                    self.viewModel.handleItemEvent(
-                        .changeText(.didChange(item.identifier, text))
-                    )
-
-                    return false
-                }
-                inputView.didEndEditing = { [weak self] textInput in
-                    self?.viewModel.handleItemEvent(
-                        .changeText(.endEditing(item.identifier, textInput.text))
-                    )
-                }
-                inputViews.append(inputView)
-                contentView.addArrangedSubview(inputView)
+                applyPhoneItem(item)
             case .birthday:
-                let inputView = DateInputView()
-                inputView.configure(item.dateModel)
-                inputViews.append(inputView)
-                contentView.addArrangedSubview(inputView)
-                inputView.valueWasChanged = { [weak self] textInput, date in
-                    let result = self?.viewModel.handleItemEvent(.changeDate(item.identifier, date))
-                    textInput.text = result?.formattedText
-                }
-                inputView.didEndEditing = { [weak self] textInput in
-                    self?.viewModel.handleItemEvent(
-                        .changeText(.endEditing(item.identifier, textInput.text))
-                    )
-                }
+                applyBirthdayItem(item)
             default:
-                let inputView = DefaultInputView()
-                inputView.configure(item.model)
-                inputViews.append(inputView)
-                contentView.addArrangedSubview(inputView)
-                inputView.didEndEditing = { [weak self] textInput in
-                    self?.viewModel.handleItemEvent(
-                        .changeText(.endEditing(item.identifier, textInput.text))
-                    )
-                }
+                applyOtherItem(item)
             }
+        }
+    }
+
+    private func applyPhoneItem(_ item: ProfileViewItem) {
+        let inputView = PhoneInputView()
+        inputView.configure(item.phoneModel)
+
+        inputView.codeWasTapped = { [weak self] _ in
+            self?.viewModel.handleActionEvent(
+                ProfileViewActionEvent.itemWasTapped(item.identifier)
+            )
+        }
+
+        inputView.didBeginEditing = { [weak self] textInput in
+            guard let self = self else { return }
+            let text = textInput.text
+            let result = self.viewModel.handleItemEvent(
+                .changeText(.beginEditing(item.identifier, text))
+            )
+            textInput.setCursorLocation(result.caretOffset)
+        }
+
+        inputView.shouldChangeCharacters = { [weak self] textInput, range, string in
+            guard let self = self else { return true }
+            let text = textInput.text
+            let result = self.viewModel.handleItemEvent(
+                .changeText(
+                    .shouldChangeCharactersIn(item.identifier, text, range, string)
+                )
+            )
+            textInput.setCursorLocation(result.caretOffset)
+
+            guard let text = result.formattedText else { return true }
+            let attributedText = NSMutableAttributedString()
+            let filledTextIndex = text.index(text.startIndex, offsetBy: result.caretOffset)
+            let filledText = NSAttributedString(
+                string: String(text.prefix(upTo: filledTextIndex)),
+                attributes: textInput.activeTextAttributes
+            )
+            attributedText.append(filledText)
+            let placeholderText = NSAttributedString(
+                string: String(text.suffix(from: filledTextIndex)),
+                attributes: textInput.placeholderTextAttributes
+            )
+            attributedText.append(placeholderText)
+            textInput.attributedText = attributedText
+
+            self.viewModel.handleItemEvent(
+                .changeText(.didChange(item.identifier, text))
+            )
+            return false
+        }
+
+        inputView.didEndEditing = { [weak self] textInput in
+            self?.viewModel.handleItemEvent(
+                .changeText(.endEditing(item.identifier, textInput.text))
+            )
+        }
+
+        inputViews.append(inputView)
+        contentView.addArrangedSubview(inputView)
+    }
+
+    private func applyBirthdayItem(_ item: ProfileViewItem) {
+        let inputView = DateInputView()
+        inputView.configure(item.dateModel)
+        inputViews.append(inputView)
+        contentView.addArrangedSubview(inputView)
+        inputView.valueWasChanged = { [weak self] textInput, date in
+            let result = self?.viewModel.handleItemEvent(.changeDate(item.identifier, date))
+            textInput.text = result?.formattedText
+        }
+        inputView.didEndEditing = { [weak self] textInput in
+            self?.viewModel.handleItemEvent(
+                .changeText(.endEditing(item.identifier, textInput.text))
+            )
+        }
+    }
+
+    private func applyOtherItem(_ item: ProfileViewItem) {
+        let inputView = DefaultInputView()
+        inputView.configure(item.model)
+        inputViews.append(inputView)
+        contentView.addArrangedSubview(inputView)
+        inputView.didEndEditing = { [weak self] textInput in
+            self?.viewModel.handleItemEvent(
+                .changeText(.endEditing(item.identifier, textInput.text))
+            )
         }
     }
 
