@@ -13,6 +13,9 @@ xcodebuild/
 *.xcscmblueprint
 Breakpoints.xcbkptlist
 
+# creds related items
+GoogleService-Info.plist
+
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
 amplify/.config/local-*

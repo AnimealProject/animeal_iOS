@@ -17,8 +17,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/CocoaLumberjack/CocoaLumberjack.git", from: "3.7.0"),
-        .package(name: "Firebase", url: "https://github.com/firebase/firebase-ios-sdk.git", .upToNextMajor(from: "8.10.0")
-        )
+        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "8.10.0")
     ],
     targets: [
         .target(
@@ -26,8 +25,8 @@ let package = Package(
             dependencies: [
                 "CocoaLumberjack",
                 .product(name: "CocoaLumberjackSwift", package: "CocoaLumberjack"),
-                .product(name: "FirebaseCrashlytics", package: "Firebase"),
-                .product(name: "FirebaseAnalytics", package: "Firebase")
+                .product(name: "FirebaseCrashlytics", package: "firebase-ios-sdk"),
+                .product(name: "FirebaseAnalytics", package: "firebase-ios-sdk")
             ]),
         .testTarget(
             name: "ServicesTests",

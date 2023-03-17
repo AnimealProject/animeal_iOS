@@ -64,13 +64,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateProtocol {
 private extension AppDelegate {
     func configureAmplify() {
         do {
+            Amplify.Logging.logLevel = .verbose
             try Amplify.add(plugin: AWSCognitoAuthPlugin())
             try Amplify.add(plugin: AWSS3StoragePlugin())
             let dataStorePlugin = AWSDataStorePlugin(modelRegistration: AmplifyModels())
             try Amplify.add(plugin: dataStorePlugin)
             try Amplify.add(plugin: AWSAPIPlugin())
             try Amplify.configure()
-            Amplify.Logging.logLevel = .verbose
             logInfo("[APP] Amplify configured")
         } catch {
             logError("[APP] Failed to initialize Amplify with \(error)")

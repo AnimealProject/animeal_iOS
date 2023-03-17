@@ -1,0 +1,12 @@
+//
+//  App.xcconfig
+//  animeal
+//
+
+// MARK: APP
+APP_NAME = Animeal Testing
+APP_MARKETING_NAME = $(APP_NAME)
+APP_BUNDLE_ID = com.epmedu.ge.animeal.qa
+APP_ICON = AppIcon
+
+UNIVERSAL_LINK_SCHEME = animeal-qa
