@@ -2,65 +2,59 @@
 import UIKit
 
 // SDK
+import Common
 import Services
 import Amplify
 
 final class NetworkService: NetworkServiceProtocol {
-    func query<R: Decodable>(request: Request<R>, completion: @escaping (Result<R, Error>) -> Void) {
-        _ = Amplify.API.query(request: request.convertToGraphQLRequest()) { event in
-            switch event {
-            case .success(let result):
-                switch result {
-                case .success(let modelData):
-                    completion(.success(modelData))
-                case .failure(let error):
-                    completion(.failure(error))
-                }
-            case .failure(let error):
-                completion(.failure(error))
-            }
+    func mutate<Response: Decodable>(request: Request<Response>) async throws -> Response {
+        let result = try await Amplify.API.mutate(request: request.convertToGraphQLRequest())
+
+        switch result {
+        case .success(let response):
+            return response
+        case .failure(let error):
+            throw error
         }
     }
-
-    func mutate<R: Decodable>(request: Request<R>, completion: @escaping (Result<R, Error>) -> Void) {
-        _ = Amplify.API.mutate(request: request.convertToGraphQLRequest()) { event in
-            switch event {
-            case .success(let result):
-                switch result {
-                case .success(let modelData):
-                    completion(.success(modelData))
-                case .failure(let error):
-                    completion(.failure(error))
-                }
-            case .failure(let error):
-                completion(.failure(error))
-            }
+    
+    func query<Response: Decodable>(request: Request<Response>) async throws -> Response {
+        let result = try await Amplify.API.query(request: request.convertToGraphQLRequest())
+        
+        switch result {
+        case .success(let response):
+            return response
+        case .failure(let error):
+            throw error
         }
     }
 }
 
 extension NetworkServiceProtocol {
-    @discardableResult
     func subscribe<R: Decodable>(
         request: Request<R>,
         valueListener: ((Result<R, Error>) -> Void)?
-    ) -> GraphQLSubscriptionOperation<R> {
-        return Amplify.API.subscribe(
-            request: request.convertToGraphQLRequest(),
-            valueListener: { event in
-                switch event {
-                case .data(let result):
-                    switch result {
-                    case .success(let modelData):
-                        valueListener?(.success(modelData))
-                    case .failure(let error):
-                        valueListener?(.failure(error))
+    ) -> AmplifyAsyncThrowingSequence<GraphQLSubscriptionEvent<R>> {
+        let subscription = Amplify.API.subscribe(request: request.convertToGraphQLRequest())
+        Task {
+            do {
+                for try await subscriptionEvent in subscription {
+                    switch subscriptionEvent {
+                    case .connection(let subscriptionConnectionState):
+                        logDebug("Subscription connect state is \(subscriptionConnectionState)")
+                    case .data(let result):
+                        switch result {
+                        case .success(let modelData):
+                            valueListener?(.success(modelData))
+                        case .failure(let error):
+                            valueListener?(.failure(error))
+                        }
                     }
-                default:
-                    break
                 }
-            },
-            completionListener: nil
-        )
+            } catch {
+                logError("Subscription has terminated with \(error)")
+            }
+        }
+        return subscription
     }
 }

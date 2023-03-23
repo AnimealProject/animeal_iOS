@@ -14,8 +14,8 @@
     },
     "categories": {
       "auth": {
-        "userPoolGroups": {},
-        "animeal8f90e9b68f90e9b6": {}
+        "animeal8f90e9b68f90e9b6": {},
+        "userPoolGroups": {}
       },
       "function": {
         "AdminQueriesdbb0bdc6": {
@@ -30,6 +30,10 @@
           "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
           "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6DefineAuthChallenge-7a4739656c476c4c766e-build.zip"
         },
+        "animeal8f90e9b68f90e9b6PostConfirmation": {
+          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
+          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6PostConfirmation-7768772f6a58744d4330-build.zip"
+        },
         "animeal8f90e9b68f90e9b6PreSignup": {
           "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
           "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6PreSignup-542f7a67336b66423366-build.zip"
@@ -37,6 +41,30 @@
         "animeal8f90e9b68f90e9b6VerifyAuthChallengeResponse": {
           "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
           "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6VerifyAuthChallengeResponse-2b2f394c584a67523570-build.zip"
+        },
+        "approveFeeding": {
+          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
+          "s3Key": "amplify-builds/approveFeeding-34434331735a74463974-build.zip"
+        },
+        "autoResetStatus": {
+          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
+          "s3Key": "amplify-builds/autoResetStatus-4f7832416e7434374674-build.zip"
+        },
+        "feedingStreamTrigger": {
+          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
+          "s3Key": "amplify-builds/feedingStreamTrigger-5834466978506c643259-build.zip"
+        },
+        "finishFeeding": {
+          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
+          "s3Key": "amplify-builds/finishFeeding-616a356e2b4947777449-build.zip"
+        },
+        "rejectFeeding": {
+          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
+          "s3Key": "amplify-builds/rejectFeeding-7643724b486357615052-build.zip"
+        },
+        "startFeeding": {
+          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
+          "s3Key": "amplify-builds/startFeeding-4d4b4b6944582f666c4b-build.zip"
         },
         "translate": {
           "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
@@ -46,41 +74,10 @@
           "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
           "s3Key": "amplify-builds/updateTranslationsTrigger-506f3276646d7a474b6e-build.zip"
         },
-        "animeal8f90e9b68f90e9b6PostConfirmation": {
-          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6PostConfirmation-7768772f6a58744d4330-build.zip"
-        },
-        "startFeeding": {
-          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/startFeeding-4d4b4b6944582f666c4b-build.zip"
-        },
-        "finishFeeding": {
-          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/finishFeeding-616a356e2b4947777449-build.zip"
-        },
-        "approveFeeding": {
-          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/approveFeeding-34434331735a74463974-build.zip"
-        },
-        "rejectFeeding": {
-          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/rejectFeeding-783266356f2f48677850-build.zip"
-        },
-        "feedingStreamTrigger": {
-          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/feedingStreamTrigger-5834466978506c643259-build.zip"
-        },
-        "autoResetStatus": {
-          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/autoResetStatus-4f7832416e7434374674-build.zip"
-        },
         "languages": {
           "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
           "s3Key": "amplify-builds/languages-6232477955427469616b-build.zip"
         }
-      },
-      "storage": {
-        "animeal": {}
       }
     }
   }

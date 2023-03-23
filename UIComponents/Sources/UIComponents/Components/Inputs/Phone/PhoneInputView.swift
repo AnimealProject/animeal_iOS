@@ -18,20 +18,6 @@ public final class PhoneInputView: TextInputFilledDecorator<PhoneTextContentView
     public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    override public func configureStyle(_ textFieldState: TextInputView.State) {
-        contentView.backgroundColor = designEngine.colors.backgroundSecondary
-        switch textFieldState {
-        case .normal:
-            textView.font = designEngine.fonts.primary.medium(16.0)
-            contentView.border(width: 0.0)
-            descriptionView.textColor = designEngine.colors.textSecondary
-        case .error:
-            textView.font = designEngine.fonts.primary.medium(16.0)
-            contentView.border(color: designEngine.colors.error, width: 1.0)
-            descriptionView.textColor = designEngine.colors.error
-        }
-    }
 }
 
 public extension PhoneTextContentView {

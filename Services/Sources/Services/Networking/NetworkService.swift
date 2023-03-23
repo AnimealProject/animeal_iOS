@@ -5,20 +5,36 @@ public protocol NetworkServiceHolder {
 }
 
 public protocol NetworkServiceProtocol {
-    func query<Response: Decodable>(request: Request<Response>, completion: @escaping (Result<Response, Error>) -> Void)
-    func mutate<Response: Decodable>(request: Request<Response>, completion: @escaping (Result<Response, Error>) -> Void)
+    func mutate<Response: Decodable>(request: Request<Response>) async throws -> Response
+    func query<Response: Decodable>(request: Request<Response>) async throws -> Response
 }
 
 public extension NetworkServiceProtocol {
-    func query<Response: Decodable>(request: Request<Response>) async throws -> Response {
-        try await withCheckedThrowingContinuation { continuation in
-            query(request: request) { continuation.resume(with: $0) }
+    func mutate<Response: Decodable>(
+        request: Request<Response>,
+        completion: @escaping (Result<Response, Error>) -> Void
+    ) {
+        Task {
+            do {
+                let result = try await mutate(request: request)
+                completion(.success(result))
+            } catch {
+                completion(.failure(error))
+            }
         }
     }
     
-    func mutate<Response: Decodable>(request: Request<Response>) async throws -> Response {
-        try await withCheckedThrowingContinuation { continuation in
-            mutate(request: request) { continuation.resume(with: $0) }
+    func query<Response: Decodable>(
+        request: Request<Response>,
+        completion: @escaping (Result<Response, Error>) -> Void
+    ) {
+        Task {
+            do {
+                let result = try await query(request: request)
+                completion(.success(result))
+            } catch {
+                completion(.failure(error))
+            }
         }
     }
 }

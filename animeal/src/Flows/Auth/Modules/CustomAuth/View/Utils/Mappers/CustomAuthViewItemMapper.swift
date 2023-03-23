@@ -33,7 +33,7 @@ struct CustomAuthViewItemMapper: CustomAuthViewItemMappable {
                 )
                 return viewItem
             }
-            let formatter = PlaceholderTextInputFormatter.phoneNumberFormatter(
+            let formatter = DefaultTextInputFormatter.phoneNumberFormatter(
                 placeholder
             )
             let viewItem = CustomAuthViewItem(
@@ -74,9 +74,9 @@ struct CustomAuthViewItemMapper: CustomAuthViewItemMappable {
     }
 }
 
-extension PlaceholderTextInputFormatter {
-    static func phoneNumberFormatter(_ format: String) -> PlaceholderTextInputFormatter {
-        PlaceholderTextInputFormatter(textPattern: format)
+extension DefaultTextInputFormatter {
+    static func phoneNumberFormatter(_ format: String) -> DefaultTextInputFormatter {
+        DefaultTextInputFormatter(textPattern: format)
     }
 }
 

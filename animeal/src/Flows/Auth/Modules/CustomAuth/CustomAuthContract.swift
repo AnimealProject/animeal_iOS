@@ -2,7 +2,8 @@
 @MainActor
 protocol CustomAuthViewable: AnyObject {
     func applyHeader(_ viewHeader: CustomAuthViewHeader)
-    func applyItems(_ viewItems: [CustomAuthViewItem])
+    func applyItemsSnapshot(_ viewItemsSnapshot: CustomAuthUpdateViewItemsSnapshot)
+    func applyActions(_ actions: [CustomAuthViewAction])
 }
 
 // MARK: - ViewModel
@@ -25,7 +26,7 @@ protocol CustomAuthViewInteraction: AnyObject {
 @MainActor
 protocol CustomAuthViewState: AnyObject {
     var onHeaderHasBeenPrepared: ((CustomAuthViewHeader) -> Void)? { get set }
-    var onItemsHaveBeenPrepared: (([CustomAuthViewItem]) -> Void)? { get set }
+    var onItemsHaveBeenPrepared: ((CustomAuthUpdateViewItemsSnapshot) -> Void)? { get set }
     var onActionsHaveBeenPrepared: (([CustomAuthViewAction]) -> Void)? { get set }
 }
 

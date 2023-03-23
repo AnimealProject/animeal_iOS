@@ -231,7 +231,7 @@
       "location" : "https://github.com/Quick/Nimble.git",
       "state" : {
         "branch" : "main",
-        "revision" : "e313d9a67ec2e4171d416c61282e49fc3aadc7a4"
+        "revision" : "7d16c1cdf6fedfe559456bd933284e37cc481e13"
       }
     },
     {
@@ -258,7 +258,7 @@
       "location" : "https://github.com/Quick/Quick.git",
       "state" : {
         "branch" : "main",
-        "revision" : "4cfa4791be84c75e84b41e886a5e4931b97d7572"
+        "revision" : "1572f3972d0d6fe051743ccfb24a9f7c2ce45238"
       }
     },
     {

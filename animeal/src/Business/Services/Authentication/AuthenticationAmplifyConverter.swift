@@ -53,6 +53,20 @@ struct AuthenticationAmplifyConverter: AuthenticationAmplifyConverting, AmplifyA
             return AuthUserAttribute.init(AuthUserAttributeKey.custom(key), value: attribute.value)
         case .unknown(let key):
             return AuthUserAttribute.init(AuthUserAttributeKey.unknown(key), value: attribute.value)
+        case .emailVerified:
+            return AuthUserAttribute.init(AuthUserAttributeKey.emailVerified, value: attribute.value)
+        case .phoneNumberVerified:
+            return AuthUserAttribute.init(AuthUserAttributeKey.phoneNumberVerified, value: attribute.value)
+        case .profile:
+            return AuthUserAttribute.init(AuthUserAttributeKey.profile, value: attribute.value)
+        case .sub:
+            return AuthUserAttribute.init(AuthUserAttributeKey.sub, value: attribute.value)
+        case .updatedAt:
+            return AuthUserAttribute.init(AuthUserAttributeKey.updatedAt, value: attribute.value)
+        case .website:
+            return AuthUserAttribute.init(AuthUserAttributeKey.website, value: attribute.value)
+        case .zoneInfo:
+            return AuthUserAttribute.init(AuthUserAttributeKey.zoneInfo, value: attribute.value)
         }
     }
 
@@ -132,6 +146,16 @@ struct AuthenticationAmplifyConverter: AuthenticationAmplifyConverting, AmplifyA
             return AuthenticationDetailedError.invalidAccountTypeException
         case .network:
             return AuthenticationDetailedError.network
+        case .smsRole:
+            return AuthenticationDetailedError.smsRole
+        case .emailRole:
+            return AuthenticationDetailedError.emailRole
+        case .externalServiceException:
+            return AuthenticationDetailedError.externalServiceException
+        case .limitExceededException:
+            return AuthenticationDetailedError.limitExceededException
+        case .resourceConflictException:
+            return AuthenticationDetailedError.resourceConflictException
         }
     }
 
@@ -141,7 +165,7 @@ struct AuthenticationAmplifyConverter: AuthenticationAmplifyConverting, AmplifyA
             return AuthenticationSignUpState(
                 AuthenticationSignUpStep.done
             )
-        case let .confirmUser(codeDeliveryDetails, additionalInfo):
+        case let .confirmUser(codeDeliveryDetails, additionalInfo, _):
             guard let codeDeliveryDetails = codeDeliveryDetails else { return nil }
             return AuthenticationSignUpState(
                 AuthenticationSignUpStep.confirmUser(
@@ -248,6 +272,20 @@ struct AuthenticationAmplifyConverter: AuthenticationAmplifyConverting, AmplifyA
             return AuthenticationUserAttributeKey.custom(key)
         case .unknown(let key):
             return AuthenticationUserAttributeKey.unknown(key)
+        case .emailVerified:
+            return AuthenticationUserAttributeKey.emailVerified
+        case .phoneNumberVerified:
+            return AuthenticationUserAttributeKey.phoneNumberVerified
+        case .profile:
+            return AuthenticationUserAttributeKey.profile
+        case .sub:
+            return AuthenticationUserAttributeKey.sub
+        case .updatedAt:
+            return AuthenticationUserAttributeKey.updatedAt
+        case .website:
+            return AuthenticationUserAttributeKey.website
+        case .zoneInfo:
+            return AuthenticationUserAttributeKey.zoneInfo
         }
     }
 }

@@ -33,19 +33,25 @@ const { updateFeedingPoint, getFeeding } = require('./query');
 
 exports.handler = async (event) => {
   console.log(`EVENT: ${JSON.stringify(event)}`);
-  if (
-    process.env.IS_APPROVAL_ENABLED !== 'true' &&
-    event.fieldName === 'rejectFeeding'
-  ) {
-    throw new Error(`Operation isn't allowed. Approval process is disabled.`);
-  }
   const feedingId = event.arguments.feedingId;
   const reason = event.arguments.reason;
   const feedingInput = event.arguments.feeding;
   const ConditionExpression = !feedingInput ? 'attribute_exists(id)' : null;
 
-  const isOutdatedReason = (reason) =>
+  const isApprovalTimeExpiredReason = (reason) =>
     /Approval time has expired/gi.test(reason);
+
+  const isFeedingTimeExpiredReason = (reason) =>
+    /Feeding time has expired/gi.test(reason);
+
+  if (
+    process.env.IS_APPROVAL_ENABLED !== 'true' &&
+    event.fieldName === 'rejectFeeding' &&
+    !isApprovalTimeExpiredReason(reason) &&
+    !isFeedingTimeExpiredReason(reason)
+  ) {
+    throw new Error(`Operation isn't allowed. Approval process is disabled.`);
+  }
 
   let feeding = null;
 
@@ -78,14 +84,16 @@ exports.handler = async (event) => {
               },
               ConditionExpression: ConditionExpression
                 ? `${ConditionExpression} ${
-                    event.fieldName === 'rejectFeeding'
+                    event.fieldName === 'rejectFeeding' &&
+                    !isFeedingTimeExpiredReason(reason)
                       ? 'AND #status = :pending'
                       : 'AND #status = :inProgress'
                   }`
                 : ConditionExpression,
 
               ExpressionAttributeValues: ConditionExpression
-                ? event.fieldName === 'rejectFeeding'
+                ? event.fieldName === 'rejectFeeding' &&
+                  !isFeedingTimeExpiredReason(reason)
                   ? {
                       ':pending': 'pending',
                     }
@@ -110,7 +118,9 @@ exports.handler = async (event) => {
                 updatedBy: feeding.updatedBy,
                 owner: feeding.owner,
                 feedingPointId: feeding.feedingPointFeedingsId,
-                status: !isOutdatedReason(reason) ? 'rejected' : 'outdated',
+                status: !isApprovalTimeExpiredReason(reason)
+                  ? 'rejected'
+                  : 'outdated',
                 reason,
               },
               TableName: process.env.API_ANIMEAL_FEEDINGHISTORYTABLE_NAME,

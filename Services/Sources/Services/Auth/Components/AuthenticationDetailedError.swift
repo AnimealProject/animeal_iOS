@@ -63,4 +63,19 @@ public enum AuthenticationDetailedError: Error {
 
     /// Request was not completed because of any network related issue
     case network
+    
+    /// SMS role related issue
+    case smsRole
+
+    /// Email role related issue
+    case emailRole
+
+    /// An external service like facebook/twitter threw an error
+    case externalServiceException
+
+    /// Limit exceeded exception. Thrown when the total number of user pools has exceeded a preset limit.
+    case limitExceededException
+
+    /// Thrown when a user tries to use a login which is already linked to another account.
+    case resourceConflictException
 }

@@ -1,8 +1,8 @@
 import Foundation
 
 public protocol PhoneNumberRegionRecognizable: AnyObject {
-    func processRegion(_ string: String)  -> Region?
-    func processNumber(_ string: String)  -> String?
+    func processRegion(_ string: String) -> Region?
+    func processNumber(_ string: String) -> String?
 }
 
 public final class PhoneNumberRegionProcessor: PhoneNumberRegionRecognizable {
@@ -15,9 +15,9 @@ public final class PhoneNumberRegionProcessor: PhoneNumberRegionRecognizable {
     }
 
     // MARK: - Public methods
-    public func processRegion(_ string: String)  -> Region? {
+    public func processRegion(_ string: String) -> Region? {
         let normalizedPhoneNumber = normalizePhoneNumber(string)
-        
+
         return allRegions.first { region in
             guard normalizedPhoneNumber.hasPrefix(region.phoneNumberCode) else { return false }
             let phoneWithoutCode = normalizedPhoneNumber.removePrefix(region.phoneNumberCode)
@@ -25,7 +25,7 @@ public final class PhoneNumberRegionProcessor: PhoneNumberRegionRecognizable {
         }
     }
 
-    public func processNumber(_ string: String)  -> String? {
+    public func processNumber(_ string: String) -> String? {
         let normalizedPhoneNumber = normalizePhoneNumber(string)
         if let region = processRegion(normalizedPhoneNumber) {
             return normalizedPhoneNumber.removePrefix(region.phoneNumberCode)
@@ -45,7 +45,7 @@ public final class PhoneNumberRegionProcessor: PhoneNumberRegionRecognizable {
         if !pureString.hasPrefix("+") {
             return "+" + pureString
         }
-        
+
         return pureString
     }
 }

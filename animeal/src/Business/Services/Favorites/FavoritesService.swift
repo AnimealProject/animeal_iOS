@@ -83,7 +83,7 @@ final class FavoritesService: FavoritesServiceProtocol {
     }
 
     func fetchAll() async throws -> [FavouriteFeedingPoint] {
-        let userId = profileService.getCurrentUser()?.userId ?? ""
+        let userId = await profileService.getCurrentUser()?.userId ?? ""
         let favouriteKeys = Favourite.keys
         let predicate = favouriteKeys.userId == userId
         let favorites = try await networkService.query(
@@ -98,7 +98,7 @@ final class FavoritesService: FavoritesServiceProtocol {
     @discardableResult
     func add(_ feedingPoint: FeedingPoint) async throws -> FavouriteFeedingPoint {
         guard
-            let userId = profileService.getCurrentUser()?.userId,
+            let userId = await profileService.getCurrentUser()?.userId,
             !innerFavoriteFeedingPoints.value.contains(
                 where: { $0.feedingPoint.identifier == feedingPoint.id }
             )

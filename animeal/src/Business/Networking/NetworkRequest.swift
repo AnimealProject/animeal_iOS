@@ -65,14 +65,14 @@ extension Request {
 
         switch type {
         case .create:
-            documentBuilder.add(decorator: ModelDecorator(model: model))
+            documentBuilder.add(decorator: ModelDecorator(model: model, mutationType: .create))
         case .delete:
             documentBuilder.add(decorator: ModelIdDecorator(model: model))
             if let predicate = predicate {
                 documentBuilder.add(decorator: FilterDecorator(filter: predicate.graphQLFilter(for: modelSchema)))
             }
         case .update:
-            documentBuilder.add(decorator: ModelDecorator(model: model))
+            documentBuilder.add(decorator: ModelDecorator(model: model, mutationType: .update))
             if let predicate = predicate {
                 documentBuilder.add(decorator: FilterDecorator(filter: predicate.graphQLFilter(for: modelSchema)))
             }

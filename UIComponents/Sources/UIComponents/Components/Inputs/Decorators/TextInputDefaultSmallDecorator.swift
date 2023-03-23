@@ -63,6 +63,9 @@ open class TextInputDefaultSmallDecorator<ContentView: TextFieldContainerView>: 
         set { textView.shouldReturn = newValue }
     }
 
+    // MARK: - Identifiable
+    public private(set) var identifier: String = UUID().uuidString
+
     // MARK: - Initialization
     public init(contentView: ContentView) {
         self.contentView = contentView.prepareForAutoLayout()
@@ -76,6 +79,7 @@ open class TextInputDefaultSmallDecorator<ContentView: TextFieldContainerView>: 
 
     // MARK: - Configuration
     open func configure(_ model: Model) {
+        identifier = model.identifier
         contentView.configure(model.content)
         configureStyle(model.state)
     }
