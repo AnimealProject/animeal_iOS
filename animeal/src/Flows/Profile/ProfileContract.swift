@@ -17,8 +17,7 @@ typealias ProfileViewModelProtocol = ProfileViewModelLifeCycle
 protocol ProfileViewModelLifeCycle: AnyObject {
     func setup()
     func load()
-    @discardableResult
-    func validate() -> Bool
+    func validate()
 }
 
 @MainActor
