@@ -213,7 +213,7 @@ private extension ProfileViewModel {
 private extension DateFormatter {
     static let `default`: DateFormatter = {
         let item = DateFormatter()
-        item.dateFormat = "dd MMM, yyyy"
+        item.dateFormat = "dd.MM.YYYY"
         return item
     }()
 }

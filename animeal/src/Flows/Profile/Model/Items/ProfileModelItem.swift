@@ -225,7 +225,7 @@ extension ProfileModelItem {
 private extension DateFormatter {
     static let input: DateFormatter = {
         let item = DateFormatter()
-        item.dateFormat = "dd MMM, yyyy"
+        item.dateFormat = "dd.MM.YYYY"
         return item
     }()
 
