@@ -57,6 +57,17 @@ final class ProfileViewModel: ProfileViewModelProtocol {
         updateViewActions()
     }
 
+    @discardableResult
+    func validate() -> Bool {
+        if model.validateItems() {
+            return true
+        } else {
+            updateViewItems(model.fetchPlaceholderItems)
+            updateViewActions()
+            return false
+        }
+    }
+
     // MARK: - Interaction
     @discardableResult
     func handleItemEvent(_ event: ProfileViewItemEvent) -> ProfileViewText {
@@ -143,11 +154,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
                 }
                 updateViewActions()
             case .proceed:
-                guard model.validateItems() else {
-                    updateViewItems(model.fetchPlaceholderItems)
-                    updateViewActions()
-                    return
-                }
+                guard validate() else { return }
                 updateViewItems { [weak self] in
                     self?.model.fetchPlaceholderItems() ?? []
                 }

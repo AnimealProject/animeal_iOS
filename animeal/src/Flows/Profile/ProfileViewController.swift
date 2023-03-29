@@ -90,6 +90,7 @@ final class ProfileViewController: BaseViewController, ProfileViewable {
                     self?.viewModel.handleItemEvent(
                         .changeText(.endEditing(item.identifier, textInput.text))
                     )
+                    self?.viewModel.validate()
                 }
                 inputViews.append(inputView)
                 contentView.addArrangedSubview(inputView)
@@ -106,6 +107,7 @@ final class ProfileViewController: BaseViewController, ProfileViewable {
                     self?.viewModel.handleItemEvent(
                         .changeText(.endEditing(item.identifier, textInput.text))
                     )
+                    self?.viewModel.validate()
                 }
             default:
                 let inputView = DefaultInputView()
@@ -116,6 +118,7 @@ final class ProfileViewController: BaseViewController, ProfileViewable {
                     self?.viewModel.handleItemEvent(
                         .changeText(.endEditing(item.identifier, textInput.text))
                     )
+                    self?.viewModel.validate()
                 }
             }
         }
