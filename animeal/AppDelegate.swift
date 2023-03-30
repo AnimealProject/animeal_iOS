@@ -70,6 +70,7 @@ private extension AppDelegate {
             try Amplify.add(plugin: dataStorePlugin)
             try Amplify.add(plugin: AWSAPIPlugin())
             try Amplify.configure()
+            try Amplify.API.add(interceptor: UrlQueryPlusFixInterceptor(), for: "AdminQueries")
             Amplify.Logging.logLevel = .verbose
             logInfo("[APP] Amplify configured")
         } catch {
@@ -79,5 +80,23 @@ private extension AppDelegate {
     
     func configureAppearance() {
         UINavigationBar.appearance().apply(style: .default)
+    }
+}
+
+private class UrlQueryPlusFixInterceptor: URLRequestInterceptor {
+    func intercept(_ request: URLRequest) async throws -> URLRequest {
+        if let urlString = request.url?.absoluteString,
+           urlString.contains("listUsers"),
+           let url = URL(string: urlString.replacingOccurrences(of: "+", with: "%2B")) {
+            var requestCopy = URLRequest(
+                url: url,
+                cachePolicy: request.cachePolicy,
+                timeoutInterval: request.timeoutInterval
+            )
+            requestCopy.allHTTPHeaderFields = request.allHTTPHeaderFields
+            requestCopy.httpBody = request.httpBody
+            return requestCopy
+        }
+        return request
     }
 }

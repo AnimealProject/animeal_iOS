@@ -59,6 +59,12 @@ public protocol UserProfileServiceProtocol: AnyObject {
     ///   - oldPassword: Current password of the user
     ///   - newPassword: New password to be updated
     func update(oldPassword: UserProfileInput, to newPassword: UserProfileInput) async throws
+
+    /// Fetches names for specified user list
+    ///
+    /// - Parameters:
+    ///  - userIds: List of user identifiers
+    func fetchUserNames(for userIds: [String]) async throws -> [String: String]
 }
 
 public extension UserProfileServiceProtocol {
