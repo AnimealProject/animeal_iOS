@@ -64,6 +64,7 @@ struct ProfileViewItemMapper: ProfileViewItemMappable {
                 content: DateTextContentView.Model(
                     placeholder: input.type.title,
                     text: input.text,
+                    date: input.date,
                     isEditable: input.isEditable,
                     rightActions: [
                         .init(
