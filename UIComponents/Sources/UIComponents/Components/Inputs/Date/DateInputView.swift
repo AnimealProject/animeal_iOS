@@ -153,6 +153,9 @@ public final class DateTextContentView: TextFieldContainerView {
         model.rightActions
             .map { $0.buttonView }
             .forEach(textFieldRightView.addArrangedSubview)
+        if let text = model.text, let date = DateFormatter.default.date(from: text) {
+            datePickerView.setDate(date, animated: false)
+        }
     }
 
     // MARK: - Setup
@@ -177,4 +180,12 @@ public final class DateTextContentView: TextFieldContainerView {
     @objc private func dateWasChanged(_ sender: UIDatePicker) {
         valueWasChanged?(textFieldView, sender.date)
     }
+}
+
+private extension DateFormatter {
+    static let `default`: DateFormatter = {
+        let item = DateFormatter()
+        item.dateFormat = "dd MMM, yyyy"
+        return item
+    }()
 }
