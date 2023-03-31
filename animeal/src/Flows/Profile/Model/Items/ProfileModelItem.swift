@@ -50,6 +50,9 @@ struct ProfileModelItem: Hashable, ProfileModelValidatable {
             _value = transform(newValue)
         }
     }
+    var date: Date? {
+        get { transformDate(text)}
+    }
     private var _value: String?
 
     init(
@@ -212,6 +215,13 @@ extension ProfileModelItem {
         }
         let dateInInputFormat = DateFormatter.input.string(from: outputDate)
         return dateInInputFormat
+    }
+    
+    func transformDate(_ text: String?) -> Date? {
+        guard let text: String = transformDate(text) else { return nil }
+        
+        let date = DateFormatter.input.date(from: text)
+        return date
     }
 
     func trasformPhone(_ text: String?, region: Region) -> String? {

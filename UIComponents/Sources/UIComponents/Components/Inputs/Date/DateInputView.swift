@@ -24,6 +24,7 @@ public extension DateTextContentView {
     struct Model: TextFieldContainerView.Model {
         public let placeholder: String?
         public let text: String?
+        public let date: Date?
         public let isEditable: Bool
         public let leftActions: [TextInputView.Action]
         public let rightActions: [TextInputView.Action]
@@ -31,12 +32,14 @@ public extension DateTextContentView {
         public init(
             placeholder: String?,
             text: String?,
+            date: Date?,
             isEditable: Bool = true,
             leftActions: [TextInputView.Action] = [],
             rightActions: [TextInputView.Action] = []
         ) {
             self.placeholder = placeholder
             self.text = text
+            self.date = date
             self.isEditable = isEditable
             self.leftActions = leftActions
             self.rightActions = rightActions
@@ -153,6 +156,9 @@ public final class DateTextContentView: TextFieldContainerView {
         model.rightActions
             .map { $0.buttonView }
             .forEach(textFieldRightView.addArrangedSubview)
+        if let date = model.date {
+            datePickerView.setDate(date, animated: false)
+        }
     }
 
     // MARK: - Setup
