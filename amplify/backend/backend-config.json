@@ -104,6 +104,15 @@
           "category": "function",
           "resourceName": "animeal8f90e9b68f90e9b6PostConfirmation",
           "triggerProvider": "Cognito"
+        },
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "animeal8f90e9b68f90e9b6CustomMessage",
+          "triggerProvider": "Cognito"
         }
       ],
       "frontendAuthConfig": {
@@ -134,14 +143,14 @@
     "userPoolGroups": {
       "dependsOn": [
         {
-          "category": "auth",
-          "resourceName": "animeal8f90e9b68f90e9b6",
           "attributes": [
             "UserPoolId",
             "AppClientIDWeb",
             "AppClientID",
             "IdentityPoolId"
-          ]
+          ],
+          "category": "auth",
+          "resourceName": "animeal8f90e9b68f90e9b6"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -152,13 +161,13 @@
     "searchByBounds": {
       "dependsOn": [
         {
-          "category": "api",
-          "resourceName": "animeal",
           "attributes": [
             "GraphQLAPIKeyOutput",
             "GraphQLAPIIdOutput",
             "GraphQLAPIEndpointOutput"
-          ]
+          ],
+          "category": "api",
+          "resourceName": "animeal"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -181,6 +190,11 @@
       "service": "Lambda"
     },
     "animeal8f90e9b68f90e9b6CreateAuthChallenge": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "animeal8f90e9b68f90e9b6CustomMessage": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
@@ -241,13 +255,13 @@
       "build": true,
       "dependsOn": [
         {
-          "category": "api",
-          "resourceName": "animeal",
           "attributes": [
             "GraphQLAPIIdOutput",
             "GraphQLAPIEndpointOutput",
             "GraphQLAPIKeyOutput"
-          ]
+          ],
+          "category": "api",
+          "resourceName": "animeal"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -257,22 +271,27 @@
       "build": true,
       "dependsOn": [
         {
-          "category": "api",
-          "resourceName": "animeal",
           "attributes": [
             "GraphQLAPIIdOutput",
             "GraphQLAPIEndpointOutput",
             "GraphQLAPIKeyOutput"
-          ]
+          ],
+          "category": "api",
+          "resourceName": "animeal"
         },
         {
-          "category": "auth",
-          "resourceName": "animeal8f90e9b68f90e9b6",
           "attributes": [
             "UserPoolId"
-          ]
+          ],
+          "category": "auth",
+          "resourceName": "animeal8f90e9b68f90e9b6"
         }
       ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "languages": {
+      "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
@@ -280,13 +299,13 @@
       "build": true,
       "dependsOn": [
         {
-          "category": "api",
-          "resourceName": "animeal",
           "attributes": [
             "GraphQLAPIIdOutput",
             "GraphQLAPIEndpointOutput",
             "GraphQLAPIKeyOutput"
-          ]
+          ],
+          "category": "api",
+          "resourceName": "animeal"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -334,11 +353,6 @@
           "resourceName": "animeal"
         }
       ],
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
-    "languages": {
-      "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
@@ -404,6 +418,22 @@
         }
       ]
     },
+    "AMPLIFY_function_animeal8f90e9b68f90e9b6CustomMessage_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "animeal8f90e9b68f90e9b6CustomMessage"
+        }
+      ]
+    },
+    "AMPLIFY_function_animeal8f90e9b68f90e9b6CustomMessage_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "animeal8f90e9b68f90e9b6CustomMessage"
+        }
+      ]
+    },
     "AMPLIFY_function_animeal8f90e9b68f90e9b6DefineAuthChallenge_deploymentBucketName": {
       "usedBy": [
         {
@@ -417,14 +447,6 @@
         {
           "category": "function",
           "resourceName": "animeal8f90e9b68f90e9b6DefineAuthChallenge"
-        }
-      ]
-    },
-    "AMPLIFY_function_animeal8f90e9b68f90e9b6PostConfirmation_GROUP": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "animeal8f90e9b68f90e9b6PostConfirmation"
         }
       ]
     },
@@ -516,14 +538,6 @@
         }
       ]
     },
-    "AMPLIFY_function_feedingStreamTrigger_isAutoApprovalEnabled": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "feedingStreamTrigger"
-        }
-      ]
-    },
     "AMPLIFY_function_feedingStreamTrigger_s3Key": {
       "usedBy": [
         {
@@ -540,7 +554,7 @@
         }
       ]
     },
-    "AMPLIFY_function_finishFeeding_isApprovalEnabled": {
+    "AMPLIFY_function_finishFeeding_s3Key": {
       "usedBy": [
         {
           "category": "function",
@@ -548,11 +562,19 @@
         }
       ]
     },
-    "AMPLIFY_function_finishFeeding_s3Key": {
+    "AMPLIFY_function_languages_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "finishFeeding"
+          "resourceName": "languages"
+        }
+      ]
+    },
+    "AMPLIFY_function_languages_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "languages"
         }
       ]
     },
@@ -625,32 +647,32 @@
     "animeal": {
       "dependsOn": [
         {
-          "category": "auth",
-          "resourceName": "animeal8f90e9b68f90e9b6",
           "attributes": [
             "UserPoolId"
-          ]
+          ],
+          "category": "auth",
+          "resourceName": "animeal8f90e9b68f90e9b6"
         },
         {
-          "category": "auth",
-          "resourceName": "userPoolGroups",
           "attributes": [
             "AdministratorGroupRole"
-          ]
+          ],
+          "category": "auth",
+          "resourceName": "userPoolGroups"
         },
         {
-          "category": "auth",
-          "resourceName": "userPoolGroups",
           "attributes": [
             "ModeratorGroupRole"
-          ]
+          ],
+          "category": "auth",
+          "resourceName": "userPoolGroups"
         },
         {
-          "category": "auth",
-          "resourceName": "userPoolGroups",
           "attributes": [
             "VolunteerGroupRole"
-          ]
+          ],
+          "category": "auth",
+          "resourceName": "userPoolGroups"
         }
       ],
       "providerPlugin": "awscloudformation",

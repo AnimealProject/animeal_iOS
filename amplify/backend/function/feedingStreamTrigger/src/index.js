@@ -82,7 +82,7 @@ exports.handler = async (event) => {
 
     if (
       trackableEventsToProlongExpirationDate.includes(record.eventName) &&
-      newImage.status === 'pending'
+      newImage.status === 'pending' && oldImage.status === 'inProgress'
     ) {
       try {
         const expireAt = new Date();

@@ -35,12 +35,23 @@
     "userPoolGroups": true,
     "adminQueries": true,
     "triggers": {
-      "CreateAuthChallenge": ["boilerplate-create-challenge"],
-      "DefineAuthChallenge": ["boilerplate-define-challenge"],
-      "PreSignup": ["custom"],
-      "VerifyAuthChallengeResponse": ["boilerplate-verify"],
+      "CreateAuthChallenge": [
+        "boilerplate-create-challenge"
+      ],
+      "CustomMessage": [
+        "custom"
+      ],
+      "DefineAuthChallenge": [
+        "boilerplate-define-challenge"
+      ],
       "PostConfirmation": [
         "add-to-group"
+      ],
+      "PreSignup": [
+        "custom"
+      ],
+      "VerifyAuthChallengeResponse": [
+        "boilerplate-verify"
       ]
     },
     "hostedUI": true,
@@ -102,6 +113,15 @@
       {
         "category": "function",
         "resourceName": "animeal8f90e9b68f90e9b6PostConfirmation",
+        "triggerProvider": "Cognito",
+        "attributes": [
+          "Arn",
+          "Name"
+        ]
+      },
+      {
+        "category": "function",
+        "resourceName": "animeal8f90e9b68f90e9b6CustomMessage",
         "triggerProvider": "Cognito",
         "attributes": [
           "Arn",

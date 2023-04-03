@@ -8,15 +8,15 @@ final public class AmplifyModels: AmplifyModelRegistration {
   public let version: String = "70df6354fe73b1cce2270e208bd08498"
   
   public func registerModels(registry: ModelRegistry.Type) {
-    ModelRegistry.register(modelType: FeedingPoint.self)
-    ModelRegistry.register(modelType: RelationPetFeedingPoint.self)
     ModelRegistry.register(modelType: Pet.self)
     ModelRegistry.register(modelType: Category.self)
-    ModelRegistry.register(modelType: Medication.self)
-    ModelRegistry.register(modelType: RelationUserPet.self)
-    ModelRegistry.register(modelType: RelationUserFeedingPoint.self)
+    ModelRegistry.register(modelType: FeedingPoint.self)
     ModelRegistry.register(modelType: Feeding.self)
     ModelRegistry.register(modelType: FeedingHistory.self)
+    ModelRegistry.register(modelType: RelationPetFeedingPoint.self)
+    ModelRegistry.register(modelType: RelationUserFeedingPoint.self)
+    ModelRegistry.register(modelType: RelationUserPet.self)
+    ModelRegistry.register(modelType: Medication.self)
     ModelRegistry.register(modelType: Settings.self)
     ModelRegistry.register(modelType: Language.self)
     ModelRegistry.register(modelType: LanguagesSetting.self)

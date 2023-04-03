@@ -70,7 +70,10 @@ exports.handler = async (event) => {
     } catch (e) {
       throw new Error(`Failed to finish feeding. Erorr: ${e.message}`);
     }
-  } else {
+  } else if (
+    process.env.IS_APPROVAL_ENABLED === 'true' &&
+    userData?.UserAttributes?.find((it) => it.Name === 'trusted')?.Value
+  ) {
     try {
       await dynamoDB
         .transactWrite({
@@ -97,7 +100,44 @@ exports.handler = async (event) => {
 
     const approveFeedingRes = await approveFeeding({
       feedingId,
-      reason: 'Has been auto-approved for trusted user'
+      reason: 'Has been auto-approved for trusted user',
+    });
+
+    if (approveFeedingRes.data?.errors?.length) {
+      throw new Error(
+        `Failed to finish Feeding. Error: ${JSON.stringify(
+          approveFeedingRes.data?.errors,
+        )}`,
+      );
+    }
+  } else if (process.env.IS_APPROVAL_ENABLED !== 'true') {
+    try {
+      await dynamoDB
+        .transactWrite({
+          TransactItems: [
+            {
+              Update: {
+                ExpressionAttributeValues: {
+                  ':images': images,
+                },
+                Key: {
+                  id: feedingId,
+                },
+                TableName: process.env.API_ANIMEAL_FEEDINGTABLE_NAME,
+                UpdateExpression: 'SET images = :images',
+                ConditionExpression: 'attribute_exists(id)',
+              },
+            },
+          ],
+        })
+        .promise();
+    } catch (e) {
+      throw new Error(`Failed to finish feeding. Erorr: ${e.message}`);
+    }
+
+    const approveFeedingRes = await approveFeeding({
+      feedingId,
+      reason: 'Feeding has been finished by user',
     });
 
     if (approveFeedingRes.data?.errors?.length) {
