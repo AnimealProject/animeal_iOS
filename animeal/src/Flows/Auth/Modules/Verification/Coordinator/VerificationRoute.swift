@@ -1,5 +1,5 @@
 import Foundation
 
 enum VerificationRoute {
-    case fillProfile
+    case finish
 }

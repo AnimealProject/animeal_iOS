@@ -30,7 +30,7 @@ final class ProfileModel: ProfileModelProtocol {
     }
 
     // MARK: - Requests
-    func fetchPlaceholderItems() -> [ProfileModelItem] { items }
+    func fetchCachedItems() -> [ProfileModelItem] { items }
 
     func fetchItems() async throws -> [ProfileModelItem] {
         let userAttributes = try await profileService.fetchUserAttributes()
@@ -232,16 +232,22 @@ extension Array where Element == ProfileModelItem {
         ]
     }
 
-    func toReadonly() -> [ProfileModelItem] {
+    func toReadonly(
+        except: @escaping (ProfileModelItem) -> Bool = { _ in false }
+    ) -> [ProfileModelItem] {
         map { item in
+            guard !except(item) else { return item }
             var item = item
             item.style = .readonly
             return item
         }
     }
 
-    func toEditable() -> [ProfileModelItem] {
+    func toEditable(
+        except: @escaping (ProfileModelItem) -> Bool = { _ in false }
+    ) -> [ProfileModelItem] {
         map { item in
+            guard !except(item) else { return item }
             var item = item
             item.style = .editable
             return item
@@ -298,9 +304,24 @@ extension ProfileModelAction {
             isEnabled: true
         ) { _ in
             [
-                .changeSource({ modelItems in return modelItems.toEditable() }),
+                .changeSource({ modelItems in return modelItems.toEditable(except: isAvailableToEdit) }),
                 .changeActions({ _ in return [.save] })
             ]
+        }
+    }
+    
+    static func isAvailableToEdit(_ item: ProfileModelItem) -> Bool {
+        switch item.type {
+        case .name:
+            return true
+        case .surname:
+            return true
+        case .email:
+            return true
+        case .phone:
+            return false
+        case .birthday:
+            return true
         }
     }
 
