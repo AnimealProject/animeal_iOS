@@ -10,6 +10,9 @@ protocol FeedingPointDetailsViewMappable {
     func mapFeedingPointMediaContent(
         _ input: Data?
     ) -> FeedingPointDetailsViewMapper.FeedingPointMediaContent?
+    func mapFeedingHistory(
+        _ input: [FeedingPointDetailsModel.Feeder]
+    ) -> FeedingPointDetailsViewMapper.FeedingPointFeeders
 }
 
 final class FeedingPointDetailsViewMapper: FeedingPointDetailsViewMappable {
@@ -44,6 +47,18 @@ final class FeedingPointDetailsViewMapper: FeedingPointDetailsViewMappable {
     func mapFeedingPointMediaContent(_ input: Data?) -> FeedingPointMediaContent? {
         guard let data = input, let icon = UIImage(data: data) else { return nil }
         return FeedingPointMediaContent(pointDetailsIcon: icon)
+    }
+
+    func mapFeedingHistory(
+        _ input: [FeedingPointDetailsModel.Feeder]
+    ) -> FeedingPointFeeders {
+        let feeders = input.map { feeder in
+            FeedingPointFeeders.Feeder(name: feeder.name, lastFeeded: feeder.lastFeeded)
+        }
+        return FeedingPointFeeders(
+            title: L10n.Text.Header.lastFeeder,
+            feeders: feeders
+        )
     }
 
     private func convert(_ status: FeedingPointDetailsModel.Status) -> StatusView.Model {

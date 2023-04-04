@@ -123,9 +123,15 @@ extension AuthCoordinator: CustomAuthCoordinatable {
 extension AuthCoordinator: VerificationCoordinatable {
     func moveFromVerification(to route: VerificationRoute) {
         switch route {
-        case .fillProfile:
-            let viewController = ProfileAfterCustomAuthAssembler.assembly(coordinator: self)
-            _navigator.push(viewController, animated: true, completion: nil)
+        case .finish:
+            Task { [weak self] in
+                guard let self else { return }
+                try? await self.context.profileService.fetchUserAttributes()
+                let validationModel = self.context.profileService.getCurrentUserValidationModel()
+                self.moveLoggedInUser(isProfileValid: validationModel.validated) {
+                    ProfileAfterCustomAuthAssembler.assembly(coordinator: $0)
+                }
+            }
         }
     }
 }

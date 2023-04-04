@@ -29,6 +29,7 @@ protocol FeedingPointsServiceProtocol: AnyObject {
     func fetchAll() async throws -> [FullFeedingPoint]
     @discardableResult
     func fetch(byIdentifier identifier: String) async throws -> FullFeedingPoint
+    func fetchFeedingHistory(for feedingPointId: String) async throws -> [FeedingHistory]
 
     @discardableResult
     func addToFavorites(byIdentifier identifier: String) async throws -> FullFeedingPoint
@@ -159,6 +160,29 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
             return try await addToFavorites(byIdentifier: identifier)
         }
     }
+
+    func fetchFeedingHistory(for feedingPointId: String) async throws -> [FeedingHistory] {
+        let idPredicate = QueryPredicateOperation(field: "feedingPointId", operator: .equals(feedingPointId))
+        let statusPredicate = QueryPredicateOperation(field: "status", operator: .notEqual(FeedingStatus.rejected.rawValue))
+        let predicate = QueryPredicateGroup(type: .and, predicates: [idPredicate, statusPredicate])
+        async let fetchFeedingHistory = networkService.query(request: .list(FeedingHistory.self, where: predicate))
+
+        let feedingsIdPredicate = QueryPredicateOperation(field: "feedingPointFeedingsId", operator: .equals(feedingPointId))
+        async let fetchActiveFeedings = networkService.query(request: .list(Feeding.self, where: feedingsIdPredicate))
+
+        var (activeFeedings, feedingHistory) = try await (fetchActiveFeedings, fetchFeedingHistory)
+        if let currentFeeding = activeFeedings.first {
+            let current = FeedingHistory(
+                userId: currentFeeding.userId,
+                createdAt: currentFeeding.createdAt,
+                updatedAt: Temporal.DateTime(Date(timeIntervalSince1970: TimeInterval(currentFeeding.expireAt))),
+                feedingPointId: currentFeeding.feedingPoint.id,
+                status: currentFeeding.status
+            )
+            feedingHistory.insert(current, at: 0)
+        }
+        return feedingHistory
+    }
 }
 
 private extension FeedingPointsService {
@@ -217,5 +241,16 @@ private extension FeedingPointsService {
                 self?.updateFeedingPoint(result)
             }
             .store(in: &cancellables)
+    }
+}
+
+extension List: PropertyContainerPath, PropertyPath, Model where Element: Model {
+
+    public func getModelType() -> Model.Type {
+        Element.self
+    }
+
+    public func getMetadata() -> PropertyPathMetadata {
+        ModelPath<Element>(name: "items", isCollection: true, parent: nil).getMetadata()
     }
 }

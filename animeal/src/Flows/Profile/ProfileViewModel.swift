@@ -48,8 +48,8 @@ final class ProfileViewModel: ProfileViewModelProtocol {
         onHeaderHasBeenPrepared?(viewHeader)
         onConfigurationHasBeenPrepared?(configuration)
 
-        updateViewItems { [weak self] in
-            self?.model.fetchPlaceholderItems() ?? []
+        updateViewItems(animated: false) { [weak self] in
+            self?.model.fetchCachedItems() ?? []
         }
         updateViewItems { [weak self] in
             try await self?.model.fetchItems() ?? []
@@ -123,7 +123,6 @@ final class ProfileViewModel: ProfileViewModelProtocol {
             }
             let unformattedText = formatter.unformat(text ?? .empty)
             model.updateItem(unformattedText, forIdentifier: identifier)
-            updateViewActions()
 
             return ProfileViewText(
                 caretOffset: text?.count ?? .zero,
@@ -138,18 +137,20 @@ final class ProfileViewModel: ProfileViewModelProtocol {
             guard let intermediateStep = model.executeAction(identifier) else { return }
             switch intermediateStep {
             case .update:
-                updateViewItems { [weak self] in
-                    self?.model.fetchPlaceholderItems() ?? []
+                updateViewItems(animated: false) { [weak self] in
+                    self?.model.fetchCachedItems() ?? []
                 }
                 updateViewActions()
             case .proceed:
                 guard model.validateItems() else {
-                    updateViewItems(model.fetchPlaceholderItems)
+                    updateViewItems(animated: false) { [weak self] in
+                        self?.model.fetchCachedItems() ?? []
+                    }
                     updateViewActions()
                     return
                 }
-                updateViewItems { [weak self] in
-                    self?.model.fetchPlaceholderItems() ?? []
+                updateViewItems(animated: false) { [weak self] in
+                    self?.model.fetchCachedItems() ?? []
                 }
                 updateViewActions()
                 coordinator.displayActivityIndicator { [weak self] in
@@ -165,7 +166,9 @@ final class ProfileViewModel: ProfileViewModelProtocol {
                 let completion = { [weak self] in
                     guard let self = self else { return }
                     self.model.updateItem(nil, forIdentifier: identifier)
-                    self.updateViewItems(self.model.fetchPlaceholderItems)
+                    self.updateViewItems(animated: false) { [weak self] in
+                        self?.model.fetchCachedItems() ?? []
+                    }
                     self.coordinator.move(to: .dismiss)
                 }
                 coordinator.move(to: .picker({ openPickerComponents.maker(completion) }))
@@ -180,15 +183,25 @@ private extension ProfileViewModel {
     ) {
         switch nextStep {
         case .done:
-            coordinator.move(to: ProfileRoute.done)
+            coordinator.move(to: .done)
         case let .confirm(details, attribute):
-            coordinator.move(to: ProfileRoute.confirm(details, attribute))
+            coordinator.move(to: .confirm(details, attribute))
         }
     }
 
     private func updateViewItems(
+        animated: Bool = true,
         _ operation: @escaping () async throws -> [ProfileModelItem]
     ) {
+        guard animated else {
+            Task { [weak self] in
+                guard let self else { return }
+                let modelItems = try await operation()
+                self.viewItems = self.mapper.mapItems(modelItems)
+                self.onItemsHaveBeenPrepared?(self.viewItems)
+            }
+            return
+        }
         coordinator.displayActivityIndicator { [weak self] in
             guard let self else { return }
             let modelItems = try await operation()

@@ -99,7 +99,7 @@ final class VerificationViewModel: VerificationViewModelLifeCycle, VerificationV
                         ),
                         false
                     )
-                    self?.coordinator.moveFromVerification(to: .fillProfile)
+                    self?.coordinator.moveFromVerification(to: .finish)
                 } catch let error as VerificationModelCodeError where error == .codeTriesCountLimitExceeded {
                     let viewAlert = ViewAlert(
                         title: error.localizedDescription,
