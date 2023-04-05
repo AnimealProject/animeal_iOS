@@ -76,7 +76,7 @@ struct AboutView: View {
     private var appVersionText: some View {
         Text(model.appVersion)
             .font(designEngine.fonts.primary.regular(14)?.font)
-            .foregroundColor(designEngine.colors.disabled.color)
+            .foregroundColor(designEngine.colors.textSecondary.color)
     }
 
     private func linkButton(_ link: AboutLink) -> some View {
