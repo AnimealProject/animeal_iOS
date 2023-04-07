@@ -132,6 +132,10 @@ internal enum L10n {
     internal static let signInViaFacebook = L10n.tr("Localizable", "loginScreen.signInViaFacebook", fallback: "Sign in with Facebook")
     /// Sign in with Mobile
     internal static let signInViaMobilePhone = L10n.tr("Localizable", "loginScreen.signInViaMobilePhone", fallback: "Sign in with Mobile")
+    /// Some of them are homeless, they need your help
+    internal static let text = L10n.tr("Localizable", "loginScreen.text", fallback: "Some of them are homeless, they need your help")
+    /// Take care of pets
+    internal static let title = L10n.tr("Localizable", "loginScreen.title", fallback: "Take care of pets")
   }
   internal enum More {
     /// About (terms and conditions)
