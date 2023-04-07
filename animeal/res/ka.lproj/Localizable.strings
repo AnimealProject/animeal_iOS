@@ -7,6 +7,8 @@
 "loginScreen.signInViaMobilePhone"                = "შედით მობილურით";
 "loginScreen.signInViaFacebook"                   = "Ფეისბუქზე შესვლა";
 "loginScreen.signInViaApple"                      = "შედით Apple-ით";
+"loginScreen.title"                               = "იზრუნეთ შინაურ ცხოველებზე";
+"loginScreen.text"                                = "ზოგიერთი მათგანი უსახლკაროა, მათ თქვენი დახმარება სჭირდებათ";
 "favourites.header"                               = "რჩეულები";
 "favourites.empty"                                = "ჯერ არ გაქვთ საყვარელი კვების წერტილები. დააჭირეთ გულის ღილაკს კვების წერტილის დეტალებზე, რომ დაამატოთ ის, როგორც საყვარელი";
 "profile.name"                                    = "სახელი";

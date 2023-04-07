@@ -21,23 +21,23 @@ final class LoginModel: LoginModelProtocol {
         return [
             LoginModelOnboardingStep(
                 identifier: UUID().uuidString,
-                title: "Take care of pets",
-                text: "Some of them are homeless, they need your help"
+                title: L10n.LoginScreen.title,
+                text: L10n.LoginScreen.text
             ),
             LoginModelOnboardingStep(
                 identifier: UUID().uuidString,
-                title: "Take care of pets",
-                text: "Some of them are homeless, they need your help"
+                title: L10n.LoginScreen.title,
+                text: L10n.LoginScreen.text
             ),
             LoginModelOnboardingStep(
                 identifier: UUID().uuidString,
-                title: "Take care of pets",
-                text: "Some of them are homeless, they need your help"
+                title: L10n.LoginScreen.title,
+                text: L10n.LoginScreen.text
             ),
             LoginModelOnboardingStep(
                 identifier: UUID().uuidString,
-                title: "Take care of pets",
-                text: "Some of them are homeless, they need your help"
+                title: L10n.LoginScreen.title,
+                text: L10n.LoginScreen.text
             )
         ]
     }
