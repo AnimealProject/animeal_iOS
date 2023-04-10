@@ -142,22 +142,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
                 }
                 updateViewActions()
             case .proceed:
-                guard model.validateItems() else {
-                    updateViewItems(animated: false) { [weak self] in
-                        self?.model.fetchCachedItems() ?? []
-                    }
-                    updateViewActions()
-                    return
-                }
-                updateViewItems(animated: false) { [weak self] in
-                    self?.model.fetchCachedItems() ?? []
-                }
-                updateViewActions()
-                coordinator.displayActivityIndicator { [weak self] in
-                    guard let self else { return }
-                    let nextStep = try await self.model.proceedAction(identifier)
-                    self.processNextStep(nextStep)
-                }
+                handleProceedAction(forIdentifier: identifier)
             }
         case .itemWasTapped(let identifier):
             guard let requiredAction = model.fetchRequiredAction(forIdentifier: identifier) else { return }
@@ -178,18 +163,41 @@ final class ProfileViewModel: ProfileViewModelProtocol {
 }
 
 private extension ProfileViewModel {
-    private func processNextStep(
-        _ nextStep: ProfileModelNextStep
+    func processNextStep(
+        _ nextStep: ProfileModelNextStep,
+        actionIdentifier: String
     ) {
         switch nextStep {
         case .done:
             coordinator.move(to: .done)
         case let .confirm(details, attribute):
-            coordinator.move(to: .confirm(details, attribute))
+            let completion: (() -> Void)? = { [weak self] in
+                self?.handleProceedAction(forIdentifier: actionIdentifier)
+            }
+            coordinator.move(to: .confirm(details, attribute, completion))
+        }
+    }
+    
+    func handleProceedAction(forIdentifier identifier: String) {
+        guard model.validateItems() else {
+            updateViewItems(animated: false) { [weak self] in
+                self?.model.fetchCachedItems() ?? []
+            }
+            updateViewActions()
+            return
+        }
+        updateViewItems(animated: false) { [weak self] in
+            self?.model.fetchCachedItems() ?? []
+        }
+        updateViewActions()
+        coordinator.displayActivityIndicator { [weak self] in
+            guard let self else { return }
+            let nextStep = try await self.model.proceedAction(identifier)
+            self.processNextStep(nextStep, actionIdentifier: identifier)
         }
     }
 
-    private func updateViewItems(
+    func updateViewItems(
         animated: Bool = true,
         _ operation: @escaping () async throws -> [ProfileModelItem]
     ) {
@@ -210,7 +218,7 @@ private extension ProfileViewModel {
         }
     }
 
-    private func updateViewActions() {
+    func updateViewActions() {
         let modelActions = model.fetchActions()
         let viewActions = modelActions.map(ProfileViewAction.init)
         onActionsHaveBeenPrepared?(viewActions)

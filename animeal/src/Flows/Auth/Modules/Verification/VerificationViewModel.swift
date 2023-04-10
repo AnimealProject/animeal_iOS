@@ -13,6 +13,7 @@ final class VerificationViewModel: VerificationViewModelLifeCycle, VerificationV
     // MARK: - Dependencies
     private let model: VerificationModelProtocol
     private let coordinator: VerificationCoordinatable
+    private let completion: (() -> Void)?
 
     // MARK: - State
     var onHeaderHasBeenPrepared: ((VerificationViewHeader) -> Void)?
@@ -20,9 +21,14 @@ final class VerificationViewModel: VerificationViewModelLifeCycle, VerificationV
     var onResendCodeHasBeenPrepared: ((VereficationViewResendCode) -> Void)?
 
     // MARK: - Initialization
-    init(model: VerificationModelProtocol, coordinator: VerificationCoordinatable) {
+    init(
+        model: VerificationModelProtocol,
+        coordinator: VerificationCoordinatable,
+        completion: (() -> Void)? = nil
+    ) {
         self.model = model
         self.coordinator = coordinator
+        self.completion = completion
         setup()
     }
 
@@ -30,7 +36,7 @@ final class VerificationViewModel: VerificationViewModelLifeCycle, VerificationV
     func setup() {
         model.requestNewCodeTimeLeft = { modelTimeLeft in
             Task { [weak self] in
-                guard let self = self else { return }
+                guard let self else { return }
                 self.onResendCodeHasBeenPrepared?(
                     VereficationViewResendCode(
                         title: L10n.Verification.ResendCode.title,
@@ -99,6 +105,7 @@ final class VerificationViewModel: VerificationViewModelLifeCycle, VerificationV
                         ),
                         false
                     )
+                    self?.completion?()
                     self?.coordinator.moveFromVerification(to: .finish)
                 } catch let error as VerificationModelCodeError where error == .codeTriesCountLimitExceeded {
                     let viewAlert = ViewAlert(

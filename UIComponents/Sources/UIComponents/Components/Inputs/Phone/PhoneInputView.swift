@@ -143,6 +143,7 @@ public final class PhoneTextContentView: TextFieldContainerView {
         textFieldView.placeholder = model.placeholder
         textFieldView.text = model.text
         textFieldView.isUserInteractionEnabled = model.isEditable
+        textFieldLeftView.isUserInteractionEnabled = model.isEditable
     }
 
     // MARK: - Setup
