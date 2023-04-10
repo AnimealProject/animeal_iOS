@@ -12,6 +12,7 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
 
     // MARK: - State
     var onContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointDetailsViewItem) -> Void)?
+    var onFeedingHistoryHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointFeeders) -> Void)?
     var onMediaContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointMediaContent) -> Void)?
     var onFavoriteMutationFailed: (() -> Void)?
 
@@ -25,6 +26,8 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
             title: L10n.Action.showOnMap
         )
     }
+
+    let shimmerScheduler = ShimmerViewScheduler()
 
     // MARK: - Initialization
     init(
@@ -49,6 +52,11 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
                 self?.updateContent(content)
             }
         }
+        model.fetchFeedingHistory { [weak self] content in
+            DispatchQueue.main.async {
+                self?.updateFeedingHistoryContent(content)
+            }
+        }
         model.onFeedingPointChange = { [weak self] content in
             DispatchQueue.main.async {
                 self?.updateContent(content)
@@ -70,6 +78,11 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
     private func updateContent(_ modelContent: FeedingPointDetailsModel.PointContent) {
         loadMediaContent(modelContent.content.header.cover)
         onContentHaveBeenPrepared?(contentMapper.mapFeedingPoint(modelContent))
+    }
+
+    private func updateFeedingHistoryContent(_ modelContent: [FeedingPointDetailsModel.Feeder]) {
+        let mappedContent = contentMapper.mapFeedingHistory(modelContent)
+        onFeedingHistoryHaveBeenPrepared?(mappedContent)
     }
 
     // MARK: - Interaction

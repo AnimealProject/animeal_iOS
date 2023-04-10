@@ -61,6 +61,37 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
         }
     }
 
+    func fetchFeedingHistory(_ completion: (([FeedingPointDetailsModel.Feeder]) -> Void)?) {
+        guard let fullFeedingPoint = context.feedingPointsService.storedFeedingPoints.first(where: { point in
+            point.feedingPoint.id == self.feedingPointId
+        }) else {
+            return
+        }
+
+        Task {
+            let history = try await self.fetchFeedingHistory()
+            completion?(history)
+        }
+    }
+
+    func fetchFeedingHistory() async throws -> [FeedingPointDetailsModel.Feeder] {
+        guard let fullFeedingPoint = context.feedingPointsService.storedFeedingPoints.first(where: { point in
+            point.feedingPoint.id == self.feedingPointId
+        }) else {
+            return []
+        }
+
+        let history = try await context.feedingPointsService.fetchFeedingHistory(for: fullFeedingPoint.identifier)
+        guard !history.isEmpty else { return [] }
+        
+        let historyUsers = history.map { $0.userId }
+        let namesMap = try await context.profileService.fetchUserNames(for: historyUsers)
+        
+        let feedingPointDetails = mapper.map(history: history, namesMap: namesMap)
+        let right = feedingPointDetails.count < 5 ? feedingPointDetails.count : 5
+        return feedingPointDetails[..<right].map { $0 }
+    }
+
     func mutateFavorite() async throws -> Bool {
         guard let feedingPoint = cachedFeedingPoint else {
             return false

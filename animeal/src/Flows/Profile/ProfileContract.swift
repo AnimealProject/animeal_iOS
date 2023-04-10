@@ -37,7 +37,7 @@ protocol ProfileViewState: AnyObject {
 
 // MARK: - Model
 protocol ProfileModelProtocol {
-    func fetchPlaceholderItems() -> [ProfileModelItem]
+    func fetchCachedItems() -> [ProfileModelItem]
     func fetchItems() async throws -> [ProfileModelItem]
     func fetchItem(_ identifier: String) -> ProfileModelItem?
     func updateItem(_ text: String?, forIdentifier identifier: String)

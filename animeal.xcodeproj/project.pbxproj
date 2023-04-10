@@ -70,6 +70,8 @@
 		8076E8A7298FBC070048B97C /* FeedingFinishedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8076E8A2298FBC070048B97C /* FeedingFinishedModel.swift */; };
 		8076E8A8298FBC070048B97C /* FeedingFinishedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8076E8A3298FBC070048B97C /* FeedingFinishedViewModel.swift */; };
 		8076E8AB298FBC320048B97C /* FeedingFinishedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8076E8AA298FBC320048B97C /* FeedingFinishedView.swift */; };
+		807874D229D579510005D669 /* FeederShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807874D129D579510005D669 /* FeederShimmerView.swift */; };
+		807874D429D57E790005D669 /* FeedingHistoryShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807874D329D57E790005D669 /* FeedingHistoryShimmerView.swift */; };
 		8312A5C1290AFE8F005C85CB /* PhoneCodesViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8312A5C0290AFE8F005C85CB /* PhoneCodesViewCell.swift */; };
 		8312A5C3290B0CA8005C85CB /* CustomAuthModelRequiredAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8312A5C2290B0CA8005C85CB /* CustomAuthModelRequiredAction.swift */; };
 		8312A5C5290DB689005C85CB /* PhoneModelRequiredAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8312A5C4290DB689005C85CB /* PhoneModelRequiredAction.swift */; };
@@ -428,6 +430,8 @@
 		8076E8A2298FBC070048B97C /* FeedingFinishedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingFinishedModel.swift; sourceTree = "<group>"; };
 		8076E8A3298FBC070048B97C /* FeedingFinishedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingFinishedViewModel.swift; sourceTree = "<group>"; };
 		8076E8AA298FBC320048B97C /* FeedingFinishedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingFinishedView.swift; sourceTree = "<group>"; };
+		807874D129D579510005D669 /* FeederShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeederShimmerView.swift; sourceTree = "<group>"; };
+		807874D329D57E790005D669 /* FeedingHistoryShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingHistoryShimmerView.swift; sourceTree = "<group>"; };
 		8312A5C0290AFE8F005C85CB /* PhoneCodesViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCodesViewCell.swift; sourceTree = "<group>"; };
 		8312A5C2290B0CA8005C85CB /* CustomAuthModelRequiredAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAuthModelRequiredAction.swift; sourceTree = "<group>"; };
 		8312A5C4290DB689005C85CB /* PhoneModelRequiredAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneModelRequiredAction.swift; sourceTree = "<group>"; };
@@ -955,6 +959,15 @@
 				8076E8AA298FBC320048B97C /* FeedingFinishedView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		807874D029D579390005D669 /* Shimmers */ = {
+			isa = PBXGroup;
+			children = (
+				807874D129D579510005D669 /* FeederShimmerView.swift */,
+				807874D329D57E790005D669 /* FeedingHistoryShimmerView.swift */,
+			);
+			path = Shimmers;
 			sourceTree = "<group>";
 		};
 		8324A2BF296B138D00AA5D32 /* Helpers */ = {
@@ -1800,6 +1813,7 @@
 		DB0E43C428D07D53007A1EB1 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				807874D029D579390005D669 /* Shimmers */,
 				DBF56B5428CF40E300AB0BDF /* FeedingPointDetailsViewController.swift */,
 				DBC5670428D879D100172FD5 /* FeedingPointDetailsViewMapper.swift */,
 			);
@@ -2690,6 +2704,7 @@
 				DBC2BB4328BBAD2B0086EF52 /* MorePartitionViewController.swift in Sources */,
 				8312A5C5290DB689005C85CB /* PhoneModelRequiredAction.swift in Sources */,
 				DB5F694628ED6CD000D8714E /* FeedingBookingViewModel.swift in Sources */,
+				807874D429D57E790005D669 /* FeedingHistoryShimmerView.swift in Sources */,
 				DBC2BB4428BBAD2B0086EF52 /* MorePartitionAssembler.swift in Sources */,
 				045178F12992515100061683 /* DonateModel.swift in Sources */,
 				DBF56B5C28CF4A5700AB0BDF /* HomeCoordinator.swift in Sources */,
@@ -2798,6 +2813,7 @@
 				11B8413D8AEA96EA29A0FF17 /* Pet.swift in Sources */,
 				0028E02D831362905A72161A /* PetI18n+Schema.swift in Sources */,
 				6826AB850FFAF4CC13D042F3 /* PetI18n.swift in Sources */,
+				807874D229D579510005D669 /* FeederShimmerView.swift in Sources */,
 				0DC7F17C09E9C3EA296C308D /* Point+Schema.swift in Sources */,
 				B8E9C0526B1932D00ECDB596 /* Point.swift in Sources */,
 				F0C51AC9C71D7585539B42A1 /* Question+Schema.swift in Sources */,
@@ -3023,7 +3039,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.25;
+				MARKETING_VERSION = 0.0.27;
 				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animeal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3038,10 +3054,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: EPAM SISTEMZ, IOOO (K36CA7QL4T)";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = K36CA7QL4T;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = K36CA7QL4T;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = animeal/res/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "";
@@ -3061,10 +3079,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.25;
+				MARKETING_VERSION = 0.0.27;
 				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animealApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "Epam Animeal Prod App Store Distribution";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Epam Animeal Prod App Store Distribution";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

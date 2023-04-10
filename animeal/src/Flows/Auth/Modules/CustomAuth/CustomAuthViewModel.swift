@@ -106,7 +106,6 @@ final class CustomAuthViewModel: CustomAuthViewModelProtocol {
 
             let unformattedText = formatter.unformat(text ?? "")
             model.updateItem(unformattedText, forIdentifier: identifier)
-            updateViewActions { [weak self] in self?.model.validate() ?? false }
             updateViewItems(resetPreviosItems: false)
 
             return CustomAuthViewText(

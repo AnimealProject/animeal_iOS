@@ -96,7 +96,7 @@ extension MoreCoordinator: MorePartitionCoordinatable {
 extension MoreCoordinator: VerificationCoordinatable {
     func moveFromVerification(to route: VerificationRoute) {
         switch route {
-        case .fillProfile:
+        case .finish:
             _navigator.pop(animated: true, completion: nil)
         }
     }

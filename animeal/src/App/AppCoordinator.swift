@@ -26,8 +26,9 @@ final class AppCoordinator: AppCoordinatable {
 
     // MARK: - Dependencies
     private let scene: UIWindowScene
-    private let context: Context
+    private let authenticationService: AuthenticationServiceProtocol
     private let authChannelEventsPublisher: AuthChannelEventsPublisher?
+    private let profileService: UserProfileServiceProtocol
 
     var navigator: Navigating { _navigator }
 
@@ -38,7 +39,8 @@ final class AppCoordinator: AppCoordinatable {
         authChannelEventsPublisher: AuthChannelEventsPublisher? = nil
     ) {
         self.scene = scene
-        self.context = context
+        self.authenticationService = context.authenticationService
+        self.profileService = context.profileService
         self._navigator = Navigator(navigationController: UINavigationController())
         self.childCoordinators = []
 
@@ -55,13 +57,16 @@ final class AppCoordinator: AppCoordinatable {
         loaderWindow.rootViewController = LoaderViewController()
         loaderWindow.makeKeyAndVisible()
 
-        // Fetching AuthSession to check if user is isSignedIn
         Task { @MainActor [weak self] in
-            guard let self, let session = try? await self.context.authenticationService.fetchAuthSession() else { return }
-            try? await self.context.profileService.fetchUserAttributes()
+            guard let self, let session = try? await self.authenticationService.fetchAuthSession()
+            else { return }
+            try? await self.profileService.fetchUserAttributes()
+            let isUserValidated = self.profileService
+                .getCurrentUserValidationModel()
+                .validated
             self.move(
                 isSignedIn: session.isSignedIn,
-                isCurrentUserValidated: self.context.profileService.getCurrentUserValidationModel().validated
+                isCurrentUserValidated: isUserValidated
             )
         }
     }
@@ -70,24 +75,36 @@ final class AppCoordinator: AppCoordinatable {
 }
 
 private extension AppCoordinator {
+    func handleBackwardAction(_ action: HomeFlowBackwardAction) {
+        switch action {
+        case .shouldShowToast(let title):
+            if let view = self.authWindow.rootViewController?.view {
+                Toast.show(message: title, anchor: view)
+            }
+        }
+    }
+    
     @MainActor
-    private func move(isSignedIn: Bool, isCurrentUserValidated: Bool) {
+    func move(isSignedIn: Bool, isCurrentUserValidated: Bool) {
         if isSignedIn, isCurrentUserValidated {
-            let mainCoordinator = MainCoordinator(presentingWindow: mainWindow) { [weak self] events in
-                guard let self = self else { return }
-                self.childCoordinators.removeAll()
-                self.start()
+            let mainCoordinator = MainCoordinator(
+                presentingWindow: mainWindow
+            ) { [weak self] events in
+                self?.childCoordinators.removeAll()
+                self?.start()
                 events.forEach { event in
                     switch event {
                     case .event(let action):
-                        self.homeFlowBackwardAction.append(action)
+                        self?.homeFlowBackwardAction.append(action)
                     }
                 }
             }
             childCoordinators.append(mainCoordinator)
             mainCoordinator.start()
         } else {
-            let authenticationCoordinator = AuthCoordinator(presentingWindow: authWindow) { [weak self] in
+            let authenticationCoordinator = AuthCoordinator(
+                presentingWindow: authWindow
+            ) { [weak self] in
                 self?.childCoordinators.removeAll()
                 self?.start()
             }
@@ -100,23 +117,14 @@ private extension AppCoordinator {
         }
     }
 
-    private func fetchAuthSession(completion: @escaping (Bool) -> Void) {
-        context.authenticationService.fetchAuthSession { result in
+    func fetchAuthSession(completion: @escaping (Bool) -> Void) {
+        authenticationService.fetchAuthSession { result in
             do {
                 let session: AuthenticationSession = try result.get()
                 completion(session.isSignedIn)
             } catch {
                 logDebug("Fetch auth session failed with error - \(error)")
                 completion(false)
-            }
-        }
-    }
-
-    func handleBackwardAction(_ action: HomeFlowBackwardAction) {
-        switch action {
-        case .shouldShowToast(let title):
-            if let view = self.authWindow.rootViewController?.view {
-                Toast.show(message: title, anchor: view)
             }
         }
     }

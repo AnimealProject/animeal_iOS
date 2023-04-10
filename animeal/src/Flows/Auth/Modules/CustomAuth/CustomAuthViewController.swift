@@ -156,11 +156,11 @@ private extension CustomAuthViewController {
                     )
                     textInput.text = result.formattedText
                     textInput.setCursorLocation(result.caretOffset)
-                    
+
                     self.viewModel.handleTextEvent(
                         CustomAuthViewTextEvent.didChange(item.identifier, result.formattedText)
                     )
-                    
+
                     return false
                 }
                 inputView.didEndEditing = { [weak self] textInput in
@@ -168,7 +168,7 @@ private extension CustomAuthViewController {
                         CustomAuthViewTextEvent.endEditing(item.identifier, textInput.text)
                     )
                     else { return }
-                    
+
                     textInput.text = result.formattedText
                 }
                 inputsContentView.addArrangedSubview(inputView)
@@ -179,7 +179,7 @@ private extension CustomAuthViewController {
             }
         }
     }
-    
+
     func updateViewItems(_ viewItems: [CustomAuthViewItem]) {
         let identifiedViewInputs = inputsContentView.arrangedSubviews
             .compactMap { $0 as? TextInputDecoratable }
@@ -188,7 +188,7 @@ private extension CustomAuthViewController {
                 result[input.identifier] = input
                 return result
             }
-        
+
         viewItems.forEach { viewItem in
             switch viewItem.type {
             case .phone:

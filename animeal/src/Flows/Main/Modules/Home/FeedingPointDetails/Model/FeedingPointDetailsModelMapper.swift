@@ -4,12 +4,12 @@ import Common
 
 protocol FeedingPointDetailsModelMapperProtocol {
     func map(_ item: FeedingPoint, isFavorite: Bool) -> FeedingPointDetailsModel.PointContent
+    func map(_ item: FeedingPoint, isFavorite: Bool, feeders: [FeedingPointDetailsModel.Feeder]) -> FeedingPointDetailsModel.PointContent
+    func map(history: [FeedingHistory], namesMap: [String: String]) -> [FeedingPointDetailsModel.Feeder]
 }
 
 class FeedingPointDetailsModelMapper: FeedingPointDetailsModelMapperProtocol {
-    func map(_ item: FeedingPoint, isFavorite: Bool) -> FeedingPointDetailsModel.PointContent {
-        // Back-end not ready present feeders list yet
-        let feeders: [FeedingPointDetailsModel.Feeder] = []
+    func map(_ item: FeedingPoint, isFavorite: Bool, feeders: [FeedingPointDetailsModel.Feeder]) -> FeedingPointDetailsModel.PointContent {
         return  FeedingPointDetailsModel.PointContent(
             content: FeedingPointDetailsModel.Content(
                 header: FeedingPointDetailsModel.Header(
@@ -29,6 +29,10 @@ class FeedingPointDetailsModelMapper: FeedingPointDetailsModelMapperProtocol {
         )
     }
 
+    func map(_ item: FeedingPoint, isFavorite: Bool) -> FeedingPointDetailsModel.PointContent {
+        return map(item, isFavorite: isFavorite, feeders: [])
+    }
+
     private func convertStatus(_ status: FeedingPointStatus) -> FeedingPointDetailsModel.Status {
         switch status {
         case .fed:
@@ -37,6 +41,30 @@ class FeedingPointDetailsModelMapper: FeedingPointDetailsModelMapperProtocol {
             return .error(L10n.Feeding.Status.starved)
         case .pending:
             return .attention(L10n.Feeding.Status.inprogress)
+        }
+    }
+
+    func map(history: [FeedingHistory], namesMap: [String: String]) -> [FeedingPointDetailsModel.Feeder] {
+        return history.map { historyItem in
+            let lastFeeded: String
+            switch historyItem.status {
+            case .inProgress:
+                let minutesLeft = DateFormatter.relativeShort.localizedString(
+                    for: historyItem.updatedAt.foundationDate,
+                    relativeTo: Date.now
+                )
+                lastFeeded = "\(L10n.Feeding.Status.inprogress), \(minutesLeft)"
+
+            default:
+                lastFeeded = DateFormatter.relativeFull.localizedString(
+                    for: historyItem.updatedAt.foundationDate,
+                    relativeTo: Date.now
+                )
+            }
+            return FeedingPointDetailsModel.Feeder(
+                name: namesMap[historyItem.userId] ?? "Unknown",
+                lastFeeded: lastFeeded
+            )
         }
     }
 }
@@ -68,4 +96,26 @@ extension FeedingPoint {
             return i18n?.first(where: { $0.locale == "en" })?.city ?? .empty
         }
     }
+}
+
+private extension DateFormatter {
+    /// Full units style relative date time formatter
+    ///
+    /// Produces relative strings like: "34 minutes ago", "2 hour ago" or "yesterday"
+    static let relativeFull: RelativeDateTimeFormatter = {
+        let formatter = RelativeDateTimeFormatter()
+        formatter.dateTimeStyle = .named
+        formatter.unitsStyle = .full
+        return formatter
+    }()
+
+    /// Short units style relative date time formatter
+    ///
+    /// Produces relative strings like: "34 min. ago", "2 h. ago" or "1 mo. ago"
+    static let relativeShort: RelativeDateTimeFormatter = {
+        let formatter = RelativeDateTimeFormatter()
+        formatter.dateTimeStyle = .named
+        formatter.unitsStyle = .short
+        return formatter
+    }()
 }

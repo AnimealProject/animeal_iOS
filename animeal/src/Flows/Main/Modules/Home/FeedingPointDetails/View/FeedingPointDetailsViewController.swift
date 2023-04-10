@@ -3,16 +3,27 @@ import UIComponents
 import Style
 
 final class FeedingPointDetailsViewController: UIViewController, FeedingPointDetailsViewable {
+
+    public enum Constants {
+        static let stackSpacing: CGFloat = 16
+    }
+
     // MARK: - Properties
     private let contentContainer: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = 16
+        stackView.spacing = Constants.stackSpacing
         return stackView
     }()
     private let buttonContainer: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
+        return stackView
+    }()
+    private let feedingHistoryContainer: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = Constants.stackSpacing
         return stackView
     }()
     private let pointDetailsView = FeedingPointDetailsView()
@@ -42,6 +53,10 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
     private func bind() {
         viewModel.onContentHaveBeenPrepared = { [weak self] content in
             self?.applyFeedingPointContent(content)
+        }
+
+        viewModel.onFeedingHistoryHaveBeenPrepared = { [weak self] content in
+            self?.applyFeedingHistoryContent(content)
         }
 
         viewModel.onMediaContentHaveBeenPrepared = { [weak self] content in
@@ -116,23 +131,11 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
         contentContainer.addArrangedSubview(paragraphView)
         paragraphView.configure(content.placeDescription)
 
-        if !content.feedingPointFeeders.feeders.isEmpty {
-            let title = TextTitleView()
-            title.configure(TextTitleView.Model(title: content.feedingPointFeeders.title))
-            contentContainer.addArrangedSubview(title)
+        let feedingHistoryShimmerView = FeedingHistoryShimmerView()
+        feedingHistoryContainer.addArrangedSubview(feedingHistoryShimmerView)
+        feedingHistoryShimmerView.startAnimation(scheduler: viewModel.shimmerScheduler)
 
-            content.feedingPointFeeders.feeders.forEach { feeder in
-                let view = FeederView()
-                view.configure(
-                    FeederView.Model(
-                        title: feeder.name,
-                        subtitle: feeder.lastFeeded,
-                        icon: Asset.Images.feederPlaceholderIcon.image
-                    )
-                )
-                contentContainer.addArrangedSubview(view)
-            }
-        }
+        contentContainer.addArrangedSubview(feedingHistoryContainer)
 
         contentContainer.addArrangedSubview(UIView())
 
@@ -156,5 +159,28 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
         }
         button.configure(content.action.model)
         buttonContainer.addArrangedSubview(button)
+    }
+
+    func applyFeedingHistoryContent(
+        _ content: FeedingPointDetailsViewMapper.FeedingPointFeeders
+    ) {
+        feedingHistoryContainer.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        if !content.feeders.isEmpty {
+            let title = TextTitleView()
+            title.configure(TextTitleView.Model(title: content.title))
+            feedingHistoryContainer.addArrangedSubview(title)
+
+            content.feeders.forEach { feeder in
+                let view = FeederView()
+                view.configure(
+                    FeederView.Model(
+                        title: feeder.name,
+                        subtitle: feeder.lastFeeded,
+                        icon: Asset.Images.feederPlaceholderIcon.image
+                    )
+                )
+                feedingHistoryContainer.addArrangedSubview(view)
+            }
+        }
     }
 }
