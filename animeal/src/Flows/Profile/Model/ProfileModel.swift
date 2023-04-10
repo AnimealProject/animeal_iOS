@@ -304,24 +304,24 @@ extension ProfileModelAction {
             isEnabled: true
         ) { _ in
             [
-                .changeSource({ modelItems in return modelItems.toEditable(except: isAvailableToEdit) }),
+                .changeSource({ modelItems in return modelItems.toEditable(except: isNotAvailableToEdit) }),
                 .changeActions({ _ in return [.save] })
             ]
         }
     }
-    
-    static func isAvailableToEdit(_ item: ProfileModelItem) -> Bool {
+
+    static func isNotAvailableToEdit(_ item: ProfileModelItem) -> Bool {
         switch item.type {
         case .name:
-            return true
-        case .surname:
-            return true
-        case .email:
-            return true
-        case .phone:
             return false
-        case .birthday:
+        case .surname:
+            return false
+        case .email:
+            return false
+        case .phone:
             return true
+        case .birthday:
+            return false
         }
     }
 

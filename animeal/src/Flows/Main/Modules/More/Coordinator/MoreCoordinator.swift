@@ -109,14 +109,15 @@ extension MoreCoordinator: ProfileCoordinatable {
             _navigator.pop(animated: true, completion: nil)
         case .cancel:
             _navigator.pop(animated: true, completion: nil)
-        case let .confirm(details, attribute):
+        case let .confirm(details, attribute, completion):
             let viewController = VerificationAfterProfileAuthAssembler.assembly(
                 coordinator: self,
                 deliveryDestination: details.destination,
                 attribute: VerificationModelAttribute(
                     key: VerificationModelAttributeKey(userAttributeKey: attribute.key),
                     value: attribute.value
-                )
+                ),
+                completion: completion
             )
             _navigator.push(viewController, animated: true, completion: nil)
         case .picker(let make):

@@ -58,7 +58,7 @@ final class AuthCoordinator: Coordinatable, AlertCoordinatable, ActivityDisplaya
     private func moveLoggedInUser(
         isProfileValid: Bool,
         profileMaker: @MainActor (AuthCoordinator) -> UIViewController = {
-            ProfileAfterSocialAuthAssembler.assembly(coordinator: $0)
+            ProfileAfterUnknownAuthAssembler.assembly(coordinator: $0)
         }
     ) {
         guard !isProfileValid else { return stop() }
@@ -93,7 +93,8 @@ extension AuthCoordinator: CustomAuthCoordinatable {
         case .codeConfirmation(let details):
             let viewController = VerificationAfterCustomAuthAssembler.assembly(
                 coordinator: self,
-                deliveryDestination: details.destination
+                deliveryDestination: details.destination,
+                completion: .none
             )
             _navigator.push(viewController, animated: true, completion: nil)
         case .setNewPassword:
@@ -129,7 +130,7 @@ extension AuthCoordinator: VerificationCoordinatable {
                 try? await self.context.profileService.fetchUserAttributes()
                 let validationModel = self.context.profileService.getCurrentUserValidationModel()
                 self.moveLoggedInUser(isProfileValid: validationModel.validated) {
-                    ProfileAfterCustomAuthAssembler.assembly(coordinator: $0)
+                    ProfileAfterUnknownAuthAssembler.assembly(coordinator: $0)
                 }
             }
         }
@@ -143,14 +144,15 @@ extension AuthCoordinator: ProfileCoordinatable {
             stop()
         case .cancel:
             _navigator.popToRoot(animated: true)
-        case let .confirm(details, attribute):
+        case let .confirm(details, attribute, completion):
             let viewController = VerificationAfterProfileAuthAssembler.assembly(
                 coordinator: self,
                 deliveryDestination: details.destination,
                 attribute: VerificationModelAttribute(
                     key: VerificationModelAttributeKey(userAttributeKey: attribute.key),
                     value: attribute.value
-                )
+                ),
+                completion: completion
             )
             _navigator.push(viewController, animated: true, completion: nil)
         case .picker(let make):

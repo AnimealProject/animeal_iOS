@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Services
 
 enum LoginActionType: String {
     case signInViaPhoneNumber
@@ -22,6 +23,16 @@ enum LoginActionType: String {
             return 2
         }
     }
+}
+
+extension LoginActionType {
+    struct StorableKey: LocalStorageKeysProtocol {
+        let rawValue: String
+    }
+
+    static let storableKey = StorableKey(
+        rawValue: String(describing: LoginActionType.self)
+    )
 }
 
 struct LoginModelAction {

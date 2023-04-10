@@ -4,7 +4,8 @@ import UIKit
 enum VerificationAfterCustomAuthAssembler {
     static func assembly(
         coordinator: VerificationCoordinatable,
-        deliveryDestination: VerificationModelDeliveryDestination
+        deliveryDestination: VerificationModelDeliveryDestination,
+        completion: (() -> Void)?
     ) -> UIViewController {
         let model = VerificationModel(
             worker: VerificationAfterCustomAuthWorker(),
@@ -16,7 +17,8 @@ enum VerificationAfterCustomAuthAssembler {
         )
         let viewModel = VerificationViewModel(
             model: model,
-            coordinator: coordinator
+            coordinator: coordinator,
+            completion: completion
         )
         let view = VerificationViewController(viewModel: viewModel)
 
@@ -29,7 +31,8 @@ enum VerificationAfterProfileAuthAssembler {
     static func assembly(
         coordinator: VerificationCoordinatable,
         deliveryDestination: VerificationModelDeliveryDestination,
-        attribute: VerificationModelAttribute
+        attribute: VerificationModelAttribute,
+        completion: (() -> Void)?
     ) -> UIViewController {
         let model = VerificationModel(
             worker: VerificationAfterChangingUserAttributeWorker(
@@ -40,7 +43,8 @@ enum VerificationAfterProfileAuthAssembler {
         )
         let viewModel = VerificationViewModel(
             model: model,
-            coordinator: coordinator
+            coordinator: coordinator,
+            completion: completion
         )
         let view = VerificationViewController(viewModel: viewModel)
 
