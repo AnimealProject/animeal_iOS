@@ -59,7 +59,9 @@ final class ProfileViewModel: ProfileViewModelProtocol {
 
     func validate() {
         model.validateItems()
-        updateViewItems(model.fetchPlaceholderItems)
+        updateViewItems(animated: false) { [weak self] in
+            self?.model.fetchCachedItems() ?? []
+        }
         updateViewActions()
     }
 
