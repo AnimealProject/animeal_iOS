@@ -35,7 +35,7 @@ extension ActivityDisplayable where Self: AlertCoordinatable {
     func displayActivityIndicator(
         caption: String?,
         waitUntil operation: @escaping @MainActor () async throws -> Void,
-        completion: (() -> Void)?
+        completion: ((Bool) -> Void)?
     ) {
         displayActivityIndicator(activityData: .default(caption: caption))
 
@@ -43,18 +43,18 @@ extension ActivityDisplayable where Self: AlertCoordinatable {
             do {
                 try await operation()
                 self?.hideActivityIndicator()
-                completion?()
+                completion?(true)
             } catch {
                 self?.hideActivityIndicator()
                 self?.displayAlert(message: error.localizedDescription)
-                completion?()
+                completion?(false)
             }
         }
     }
 
     func displayActivityIndicator(
         waitUntil operation: @escaping @MainActor () async throws -> Void,
-        completion: (() -> Void)?
+        completion: ((Bool) -> Void)?
     ) {
         displayActivityIndicator(
             caption: nil,

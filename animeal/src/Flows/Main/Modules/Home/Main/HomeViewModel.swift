@@ -11,7 +11,11 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     private let segmentsViewMapper: FilterViewMappable
     private let feedingActionMapper: FeedingActionMapper
     private var coordinator: HomeCoordinatable & HomeCoordinatorEventHandlerProtocol
-    private var feedingStatus: FeedingResponse.Status = .none
+    private var feedingStatus: FeedingResponse.Status = .none {
+        didSet {
+            self.onCurrentFeedingStateChanged?(feedingStatus == .progress)
+        }
+    }
     private enum Constants {
         static let feedingCountdownTimer: TimeInterval = 3600
     }
@@ -23,6 +27,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     var onRouteRequestHaveBeenPrepared: ((FeedingPointRouteRequest) -> Void)?
     var onFeedingActionHaveBeenPrepared: ((FeedingActionMapper.FeedingAction) -> Void)?
     var onFeedingHaveBeenCompleted: (() -> Void)?
+    var onCurrentFeedingStateChanged: ((Bool) -> Void)?
 
     // MARK: - Initialization
     init(
@@ -131,14 +136,18 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     }
 
     func startFeeding(feedingPointId id: String) {
-        coordinator.displayActivityIndicator { [weak self] in
+        coordinator.displayActivityIndicator(waitUntil: { [weak self] in
             guard let self else { return }
             let result = try await self.model.processStartFeeding(feedingPointId: id)
             let feedingPoint = try await self.model.fetchFeedingPoint(result.feedingPoint)
             let pointItemView = self.feedingPointViewMapper.mapFeedingPoint(feedingPoint)
             self.onFeedingPointsHaveBeenPrepared?([pointItemView])
             self.feedingStatus = result.feedingStatus
-        }
+        }, completion: { [weak self] isSuccess in
+            if !isSuccess {
+                self?.feedingStatus = .none
+            }
+        })
     }
 
     func finishFeeding(imageKeys: [String]) {
