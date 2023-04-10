@@ -59,6 +59,7 @@ protocol HomeViewState: AnyObject {
     var onRouteRequestHaveBeenPrepared: ((FeedingPointRouteRequest) -> Void)? { get set }
     var onFeedingActionHaveBeenPrepared: ((FeedingActionMapper.FeedingAction) -> Void)? { get set }
     var onFeedingHaveBeenCompleted: (() -> Void)? { get set }
+    var onCurrentFeedingStateChanged: ((Bool) -> Void)? { get set }
 }
 
 enum HomeViewActionEvent {

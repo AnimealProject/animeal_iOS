@@ -104,7 +104,7 @@ private extension HomeViewController {
         segmentedControl.widthAnchor ~= 226
         controlsContainer.addArrangedSubview(feedControl)
         feedControl.widthAnchor ~= 374
-        hideFeedControl(true)
+        toggleRouteAndTimer(isVisible: false)
 
         view.addSubview(userLocationButton.prepareForAutoLayout())
         userLocationButton.trailingAnchor ~= view.trailingAnchor - 30
@@ -135,8 +135,13 @@ private extension HomeViewController {
         viewModel.onFeedingActionHaveBeenPrepared = { [weak self] action in
             self?.handleFeedingAction(action)
         }
+
         viewModel.onFeedingHaveBeenCompleted = { [weak self] in
-            self?.hideRouteAndStopTimer()
+            self?.toggleRouteAndTimer(isVisible: false)
+        }
+
+        viewModel.onCurrentFeedingStateChanged = { [weak self] isInProgress in
+            self?.toggleRouteAndTimer(isVisible: isInProgress)
         }
     }
 
@@ -153,7 +158,6 @@ private extension HomeViewController {
             case .accent(let action):
                 actionHandler = { [weak self] in
                     guard let self = self else { return }
-                    self.hideRouteAndStopTimer()
                     if action == .cancelFeeding {
                         self.viewModel.handleActionEvent(.confirmCancelFeeding)
                     }
@@ -185,7 +189,6 @@ private extension HomeViewController {
                     )
                 )
                 self.feedControl.startTimer()
-                self.hideFeedControl(false)
                 self.mapView.startLocationConsumer()
 
                 self.handleLocationChange(
@@ -228,15 +231,13 @@ private extension HomeViewController {
         }
     }
 
-    func hideFeedControl(_ state: Bool) {
-        segmentedControl.isHidden = !state
-        feedControl.isHidden = state
-    }
-
-    func hideRouteAndStopTimer() {
-        feedControl.stopTimer()
-        mapView.cancelRouteRequest()
-        hideFeedControl(true)
+    func toggleRouteAndTimer(isVisible: Bool) {
+        if !isVisible {
+            feedControl.stopTimer()
+            mapView.cancelRouteRequest()
+        }
+        segmentedControl.isHidden = isVisible
+        feedControl.isHidden = !isVisible
     }
 
     func handleCameraMove(_ move: FeedingPointCameraMove) {
