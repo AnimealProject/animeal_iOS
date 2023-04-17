@@ -4,19 +4,19 @@
       "authorizationType": "AMAZON_COGNITO_USER_POOLS",
       "dependsOn": [
         {
+          "category": "auth",
+          "resourceName": "animeal8f90e9b68f90e9b6",
           "attributes": [
             "UserPoolId"
-          ],
-          "category": "auth",
-          "resourceName": "animeal8f90e9b68f90e9b6"
+          ]
         },
         {
+          "category": "function",
+          "resourceName": "AdminQueriesdbb0bdc6",
           "attributes": [
             "Arn",
             "Name"
-          ],
-          "category": "function",
-          "resourceName": "AdminQueriesdbb0bdc6"
+          ]
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -61,49 +61,58 @@
       "customAuth": false,
       "dependsOn": [
         {
-          "attributes": [
-            "Arn",
-            "Name"
-          ],
           "category": "function",
           "resourceName": "animeal8f90e9b68f90e9b6CreateAuthChallenge",
-          "triggerProvider": "Cognito"
-        },
-        {
+          "triggerProvider": "Cognito",
           "attributes": [
             "Arn",
             "Name"
-          ],
+          ]
+        },
+        {
           "category": "function",
           "resourceName": "animeal8f90e9b68f90e9b6DefineAuthChallenge",
-          "triggerProvider": "Cognito"
-        },
-        {
+          "triggerProvider": "Cognito",
           "attributes": [
             "Arn",
             "Name"
-          ],
+          ]
+        },
+        {
           "category": "function",
           "resourceName": "animeal8f90e9b68f90e9b6PreSignup",
-          "triggerProvider": "Cognito"
-        },
-        {
+          "triggerProvider": "Cognito",
           "attributes": [
             "Arn",
             "Name"
-          ],
+          ]
+        },
+        {
           "category": "function",
           "resourceName": "animeal8f90e9b68f90e9b6VerifyAuthChallengeResponse",
-          "triggerProvider": "Cognito"
-        },
-        {
+          "triggerProvider": "Cognito",
           "attributes": [
             "Arn",
             "Name"
-          ],
+          ]
+        },
+        {
           "category": "function",
           "resourceName": "animeal8f90e9b68f90e9b6PostConfirmation",
-          "triggerProvider": "Cognito"
+          "triggerProvider": "Cognito",
+          "attributes": [
+            "Arn",
+            "Name"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "animeal8f90e9b68f90e9b6CustomMessage",
+          "triggerProvider": "Cognito",
+          "attributes": [
+            "Arn",
+            "Name"
+          ]
         }
       ],
       "frontendAuthConfig": {
@@ -341,6 +350,35 @@
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    },
+    "animeal8f90e9b68f90e9b6CustomMessage": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "onModelTrigger": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "api",
+          "resourceName": "animeal",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ]
+        },
+        {
+          "category": "api",
+          "resourceName": "animeal",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ]
+        }
+      ]
     }
   },
   "geo": {

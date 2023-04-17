@@ -8,16 +8,16 @@ import Common
 import Amplify
 
 struct FavouriteFeedingPoint: Hashable {
-    let feedingPoint: FeedingPoint
+    let feedingPointId: String
     let isFavorite: Bool
     var imageURL: URL?
 
     init(
-        feedingPoint: FeedingPoint,
+        feedingPointId: String,
         isFavorite: Bool = true,
         imageURL: URL? = nil
     ) {
-        self.feedingPoint = feedingPoint
+        self.feedingPointId = feedingPointId
         self.isFavorite = isFavorite
         self.imageURL = imageURL
     }
@@ -25,7 +25,7 @@ struct FavouriteFeedingPoint: Hashable {
 
 extension FavouriteFeedingPoint {
     var identifier: String {
-        feedingPoint.id
+        feedingPointId
     }
 }
 
@@ -55,13 +55,13 @@ final class FavoritesService: FavoritesServiceProtocol {
     var storedFavoriteFeedingPoints: [FavouriteFeedingPoint] {
         innerFavoriteFeedingPoints
             .value
-            .map { FavouriteFeedingPoint(feedingPoint: $0.feedingPoint, isFavorite: true) }
+            .map { FavouriteFeedingPoint(feedingPointId: $0.feedingPointId, isFavorite: true) }
     }
 
     // MARK: - Publishers
     var favoriteFeedingPoints: AnyPublisher<[FavouriteFeedingPoint], Never> {
         innerFavoriteFeedingPoints
-            .map { $0.map { FavouriteFeedingPoint(feedingPoint: $0.feedingPoint, isFavorite: true) } }
+            .map { $0.map { FavouriteFeedingPoint(feedingPointId: $0.feedingPointId, isFavorite: true) } }
             .eraseToAnyPublisher()
     }
 
@@ -91,7 +91,7 @@ final class FavoritesService: FavoritesServiceProtocol {
         )
         innerFavoriteFeedingPoints.send(favorites)
         return favorites.map {
-            FavouriteFeedingPoint(feedingPoint: $0.feedingPoint, isFavorite: true)
+            FavouriteFeedingPoint(feedingPointId: $0.feedingPointId, isFavorite: true)
         }
     }
 
@@ -100,7 +100,7 @@ final class FavoritesService: FavoritesServiceProtocol {
         guard
             let userId = await profileService.getCurrentUser()?.userId,
             !innerFavoriteFeedingPoints.value.contains(
-                where: { $0.feedingPoint.identifier == feedingPoint.id }
+                where: { $0.feedingPointId == feedingPoint.id }
             )
         else {
             throw "[FavoritesService] Feeding point cannot be added to the Favorites.".asBaseError()
@@ -108,13 +108,12 @@ final class FavoritesService: FavoritesServiceProtocol {
 
         let favourite = Favourite(
             userId: userId,
-            feedingPointId: feedingPoint.id,
-            feedingPoint: feedingPoint
+            feedingPointId: feedingPoint.id
         )
         let request: Request<Favourite> = .create(favourite)
         let response = try await networkService.mutate(request: request)
         let favouriteFeedingPoint = FavouriteFeedingPoint(
-            feedingPoint: response.feedingPoint,
+            feedingPointId: response.feedingPointId,
             isFavorite: true
         )
 
@@ -132,7 +131,7 @@ final class FavoritesService: FavoritesServiceProtocol {
     func delete(byIdentifier identifier: String) async throws -> FavouriteFeedingPoint {
         guard
             let feedingPointIndex = innerFavoriteFeedingPoints.value.firstIndex(
-                where: { $0.feedingPoint.identifier == identifier }
+                where: { $0.feedingPointId == identifier }
             )
         else {
             throw "[FavoritesService] Feeding point cannot be deleted from the Favorites.".asBaseError()
@@ -142,7 +141,7 @@ final class FavoritesService: FavoritesServiceProtocol {
         let request: Request<Favourite> = .delete(favourite)
         let response = try await networkService.mutate(request: request)
         let deletedFavoriteFeedingPoint = FavouriteFeedingPoint(
-            feedingPoint: response.feedingPoint,
+            feedingPointId: response.feedingPointId,
             isFavorite: false
         )
 

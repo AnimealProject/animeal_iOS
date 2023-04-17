@@ -161,8 +161,12 @@ async function createUser(username, userAttributes, messageAction, optionals) {
     UserPoolId: userPoolId,
     Username: username,
     UserAttributes: userAttributes,
-    DesiredDeliveryMediums: optionals.DesiredDeliveryMediums ?? ['SMS'],
+    DesiredDeliveryMediums: optionals.DesiredDeliveryMediums ?? [],
   };
+
+  if (!params.DesiredDeliveryMediums.length) {
+    params.MessageAction = 'SUPPRESS';
+  }
 
   if (messageAction) {
     params.MessageAction = messageAction;

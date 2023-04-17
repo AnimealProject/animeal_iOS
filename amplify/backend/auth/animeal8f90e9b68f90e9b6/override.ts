@@ -29,6 +29,13 @@ export function override(resources: AmplifyAuthCognitoStackTemplate) {
         mutable: true,
         required: false,
       },
+      {
+        name: 'login_method',
+        attributeDataType: 'String',
+        developerOnlyAttribute: false,
+        mutable: true,
+        required: false,
+      },
     ];
   }
   resources.userPool.schema = [...(resources.userPool.schema as any[]), ...myCustomAttribute];

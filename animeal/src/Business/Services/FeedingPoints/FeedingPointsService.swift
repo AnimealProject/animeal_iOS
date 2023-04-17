@@ -14,7 +14,27 @@ import Services
 import Common
 import Amplify
 
-typealias FullFeedingPoint = FavouriteFeedingPoint
+struct FullFeedingPoint: Hashable {
+    let feedingPoint: FeedingPoint
+    var isFavorite: Bool
+    var imageURL: URL?
+
+    init(
+        feedingPoint: FeedingPoint,
+        isFavorite: Bool = true,
+        imageURL: URL? = nil
+    ) {
+        self.feedingPoint = feedingPoint
+        self.isFavorite = isFavorite
+        self.imageURL = imageURL
+    }
+}
+
+extension FullFeedingPoint {
+    var identifier: String {
+        feedingPoint.id
+    }
+}
 
 protocol FeedingPointsServiceHolder {
     var feedingPointsService: FeedingPointsServiceProtocol { get }
@@ -22,6 +42,7 @@ protocol FeedingPointsServiceHolder {
 
 protocol FeedingPointsServiceProtocol: AnyObject {
     var storedFeedingPoints: [FullFeedingPoint] { get }
+    var storedFavouriteFeedingPoints: [FullFeedingPoint] { get }
     var feedingPoints: AnyPublisher<[FullFeedingPoint], Never> { get }
     var changedFeedingPoint: AnyPublisher<FullFeedingPoint, Never> { get }
 
@@ -31,13 +52,16 @@ protocol FeedingPointsServiceProtocol: AnyObject {
     func fetch(byIdentifier identifier: String) async throws -> FullFeedingPoint
     func fetchFeedingHistory(for feedingPointId: String) async throws -> [FeedingHistory]
 
+    
     @discardableResult
-    func addToFavorites(byIdentifier identifier: String) async throws -> FullFeedingPoint
+    func fetchAllFavorites() async throws -> [FullFeedingPoint]
     @discardableResult
-    func deleteFromFavorites(byIdentifier identifier: String) async throws -> FullFeedingPoint
+    func addToFavorites(byIdentifier identifier: String) async throws -> FavouriteFeedingPoint
+    @discardableResult
+    func deleteFromFavorites(byIdentifier identifier: String) async throws -> FavouriteFeedingPoint
 
     @discardableResult
-    func toggle(byIdentifier identifier: String) async throws -> FullFeedingPoint
+    func toggle(byIdentifier identifier: String) async throws -> FavouriteFeedingPoint
 }
 
 final class FeedingPointsService: FeedingPointsServiceProtocol {
@@ -60,6 +84,10 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
     // MARK: - Accesible properties
     var storedFeedingPoints: [FullFeedingPoint] {
         innerFeedingPoints.value
+    }
+    
+    var storedFavouriteFeedingPoints: [FullFeedingPoint] {
+        innerFeedingPoints.value.filter { $0.isFavorite }
     }
 
     // MARK: - Dependencies
@@ -127,9 +155,15 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
 
         return point
     }
+    
+    @discardableResult
+    func fetchAllFavorites() async throws -> [FullFeedingPoint] {
+        let result = try await fetchAll()
+        return result.filter { $0.isFavorite }
+    }
 
     @discardableResult
-    func addToFavorites(byIdentifier identifier: String) async throws -> FullFeedingPoint {
+    func addToFavorites(byIdentifier identifier: String) async throws -> FavouriteFeedingPoint {
         guard let point = innerFeedingPoints.value.first(
             where: { $0.identifier == identifier }
         )
@@ -141,12 +175,12 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
     }
 
     @discardableResult
-    func deleteFromFavorites(byIdentifier identifier: String) async throws -> FullFeedingPoint {
+    func deleteFromFavorites(byIdentifier identifier: String) async throws -> FavouriteFeedingPoint {
         try await favoritesService.delete(byIdentifier: identifier)
     }
 
     @discardableResult
-    func toggle(byIdentifier identifier: String) async throws -> FullFeedingPoint {
+    func toggle(byIdentifier identifier: String) async throws -> FavouriteFeedingPoint {
         guard let point = innerFeedingPoints.value.first(
             where: { $0.identifier == identifier }
         )
@@ -204,6 +238,19 @@ private extension FeedingPointsService {
             return logError("[FeedingPointsService] Feeding point cannot be updated due to absence.")
         }
 
+        replaceFeedingPoint(feedingPoint, at: index)
+    }
+    
+    func updateFeedingPoint(_ favoriteFeedingPoint: FavouriteFeedingPoint) {
+        guard let index = innerFeedingPoints.value.firstIndex(
+            where: { $0.identifier == favoriteFeedingPoint.identifier }
+        )
+        else {
+            return logError("[FeedingPointsService] Feeding point cannot be updated due to absence.")
+        }
+
+        var feedingPoint = innerFeedingPoints.value[index]
+        feedingPoint.isFavorite = favoriteFeedingPoint.isFavorite
         replaceFeedingPoint(feedingPoint, at: index)
     }
 
