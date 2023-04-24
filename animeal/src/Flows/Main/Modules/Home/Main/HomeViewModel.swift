@@ -28,6 +28,9 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     var onFeedingActionHaveBeenPrepared: ((FeedingActionMapper.FeedingAction) -> Void)?
     var onFeedingHaveBeenCompleted: (() -> Void)?
     var onCurrentFeedingStateChanged: ((Bool) -> Void)?
+    var onRequestToCamera: (() -> CameraAccessState)?
+    var onCameraPermissionNativeRequired: (() -> Void)?
+    var onCameraPermissionCustomRequired: (() -> Void)?
 
     // MARK: - Initialization
     init(
@@ -103,6 +106,8 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
             handleRejectFeeding()
         case .confirmCancelFeeding:
             handleConfirmCancelFeeding()
+        case .getCameraPermission:
+            handleGetCameraPermission()
         }
     }
 
@@ -140,6 +145,17 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
             guard let self else { return }
             let result = try await self.model.processStartFeeding(feedingPointId: id)
             let feedingPoint = try await self.model.fetchFeedingPoint(result.feedingPoint)
+
+            switch self.onRequestToCamera?() ?? .denied {
+            case .authorized:
+                break
+            case .notDetermined:
+                self.onCameraPermissionNativeRequired?()
+            case .denied:
+                let action = self.model.fetchFeedingAction(request: .cameraAccess)
+                self.onFeedingActionHaveBeenPrepared?(self.feedingActionMapper.mapFeedingAction(action))
+            }
+
             let pointItemView = self.feedingPointViewMapper.mapFeedingPoint(feedingPoint)
             self.onFeedingPointsHaveBeenPrepared?([pointItemView])
             self.feedingStatus = result.feedingStatus
@@ -218,6 +234,10 @@ private extension HomeViewModel {
             let viewItems = points.map { self.feedingPointViewMapper.mapFeedingPoint($0) }
             self.onFeedingPointsHaveBeenPrepared?(viewItems)
         }
+    }
+    
+    func handleGetCameraPermission() {
+        onCameraPermissionCustomRequired?()
     }
 
     func handleRejectFeeding() {

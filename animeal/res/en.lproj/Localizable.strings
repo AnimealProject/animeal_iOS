@@ -49,6 +49,7 @@
 "action.finish"                                   = "Finish";
 "action.showOnMap"                                = "Show on map";
 "action.backToHome"                               = "Back to home";
+"action.openSettings"                             = "Open settings";
 "question.logoutAccount"                          = "Are you sure you want to log out of your account?";
 "question.deleteAccount"                          = "Are you sure you want to delete your account?";
 "text.header.lastFeeder"                          = "Last feeder";
@@ -71,6 +72,7 @@
 "feeding.alert.cancelFeeding"                     = "Do you really want to cancel feeding?";
 "feeding.alert.feedingTimerOver"                  = "Your feeding timer is over. You can book a new feeding from the home page.";
 "feeding.alert.feedingPointHasBooked"             = "Another user has booked the feeding for this feeding point";
+"feeding.alert.grantCameraPermission"             = "To continue please grant the permission to use the Camera";
 "feeding.error.otherFeedingRunning"               = "You can't start feeding while another one is in progress";
 "toast.successLogout"                             = "You have successfully logged out";
 "toast.userDeleted"                               = "Your account has successfully been deleted";

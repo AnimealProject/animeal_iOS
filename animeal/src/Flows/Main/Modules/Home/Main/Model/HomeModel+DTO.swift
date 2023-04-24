@@ -55,5 +55,6 @@ extension HomeModel {
     enum FeedingActionRequest {
         case cancelFeeding
         case autoCancelFeeding
+        case cameraAccess
     }
 }
