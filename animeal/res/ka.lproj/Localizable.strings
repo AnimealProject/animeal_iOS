@@ -48,13 +48,13 @@
 "action.yes"                                      = "დიახ";
 "action.finish"                                   = "დასრულება";
 "action.showOnMap"                                = "რუკაზე ჩვენება";
-"action.backToHome"                               = "";
+"action.backToHome"                               = "სახლში დაბრუნება";
 "question.logoutAccount"                          = "დარწმუნებული ხართ, რომ გსურთ თქვენი ანგარიშიდან გამოსვლა?";
 "question.deleteAccount"                          = "დარწმუნებული ხართ, რომ გსურთ თქვენი ანგარიშის წაშლა?";
 "text.header.lastFeeder"                          = "ბოლო მიმწოდებელი";
 "text.oneHourToFeed"                              = "თქვენ გექნებათ 1 საათი წერტილის შესანახად";
-"text.thankYou"                                   = "";
-"text.animalsAreFed"                              = "";
+"text.thankYou"                                   = "Გმადლობთ";
+"text.animalsAreFed"                              = "ცხოველები იკვებება";
 "verification.title"                              = "შეიყვანეთ დამადასტურებელი კოდი";
 "verification.subtitle.filled"                    = "კოდი გაიგზავნა:";
 "verification.subtitle.empty"                     = "კოდი გაიგზავნა დანიშნულების ადგილზე";
