@@ -1,4 +1,5 @@
 import UIKit
+import AVFoundation
 import Style
 import UIComponents
 import Common
@@ -23,6 +24,11 @@ class HomeViewController: UIViewController {
     private var styleURI: StyleURI {
         return UITraitCollection.current.userInterfaceStyle == .dark
         ? StyleURI.dark : StyleURI.streets
+    }
+    private var cameraAuthorizationStatus: AVAuthorizationStatus {
+        get {
+            return AVCaptureDevice.authorizationStatus(for: .video)
+        }
     }
 
     // MARK: - Dependencies
@@ -143,6 +149,22 @@ private extension HomeViewController {
         viewModel.onCurrentFeedingStateChanged = { [weak self] isInProgress in
             self?.toggleRouteAndTimer(isVisible: isInProgress)
         }
+        
+        viewModel.onRequestToCamera = { [weak self] in
+            self?.cameraAuthorized() ?? .denied
+        }
+        
+        viewModel.onCameraPermissionNativeRequired = { [weak self] in
+            Task {
+                await self?.requestCameraPermissionNative()
+            }
+        }
+        
+        viewModel.onCameraPermissionCustomRequired = { [weak self] in
+            Task {
+                await self?.openSettings()
+            }
+        }
     }
 
     func handleFeedingAction(_ action: FeedingActionMapper.FeedingAction) {
@@ -160,6 +182,8 @@ private extension HomeViewController {
                     guard let self = self else { return }
                     if action == .cancelFeeding {
                         self.viewModel.handleActionEvent(.confirmCancelFeeding)
+                    } else if action == .cameraAccess {
+                        self.viewModel.handleActionEvent(.getCameraPermission)
                     }
                     alertViewController.dismiss(animated: true)
                 }
@@ -242,6 +266,32 @@ private extension HomeViewController {
 
     func handleCameraMove(_ move: FeedingPointCameraMove) {
         mapView.easeToLocation(move.feedingPointCoordinate, duration: 0)
+    }
+    
+    func cameraAuthorized() -> CameraAccessState {
+        switch cameraAuthorizationStatus {
+        case .authorized:
+            return .authorized
+        case .denied:
+            return .denied
+        case .notDetermined:
+            return .notDetermined
+        default:
+            return .denied
+        }
+    }
+    
+    func requestCameraPermissionNative() async {
+        await AVCaptureDevice.requestAccess(for: .video)
+    }
+    
+    func openSettings() async {
+        guard let url = URL(string: UIApplication.openSettingsURLString),
+              UIApplication.shared.canOpenURL(url) else {
+            return
+        }
+        
+        await UIApplication.shared.open(url)
     }
 }
 

@@ -60,6 +60,9 @@ protocol HomeViewState: AnyObject {
     var onFeedingActionHaveBeenPrepared: ((FeedingActionMapper.FeedingAction) -> Void)? { get set }
     var onFeedingHaveBeenCompleted: (() -> Void)? { get set }
     var onCurrentFeedingStateChanged: ((Bool) -> Void)? { get set }
+    var onRequestToCamera: (() -> CameraAccessState)? { get set }
+    var onCameraPermissionNativeRequired: (() -> Void)? { get set }
+    var onCameraPermissionCustomRequired: (() -> Void)? { get set }
 }
 
 enum HomeViewActionEvent {
@@ -68,6 +71,13 @@ enum HomeViewActionEvent {
     case tapCancelFeeding
     case autoCancelFeeding
     case confirmCancelFeeding
+    case getCameraPermission
+}
+
+enum CameraAccessState {
+    case authorized
+    case denied
+    case notDetermined
 }
 
 // MARK: - Coordinator

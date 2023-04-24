@@ -39,6 +39,8 @@ internal enum L10n {
     internal static let no = L10n.tr("Localizable", "action.no", fallback: "No")
     /// Ok
     internal static let ok = L10n.tr("Localizable", "action.ok", fallback: "Ok")
+    /// Open settings
+    internal static let openSettings = L10n.tr("Localizable", "action.openSettings", fallback: "Open settings")
     /// Show on map
     internal static let showOnMap = L10n.tr("Localizable", "action.showOnMap", fallback: "Show on map")
     /// Yes
@@ -101,6 +103,8 @@ internal enum L10n {
       internal static let feedingPointHasBooked = L10n.tr("Localizable", "feeding.alert.feedingPointHasBooked", fallback: "Another user has booked the feeding for this feeding point")
       /// Your feeding timer is over. You can book a new feeding from the home page.
       internal static let feedingTimerOver = L10n.tr("Localizable", "feeding.alert.feedingTimerOver", fallback: "Your feeding timer is over. You can book a new feeding from the home page.")
+      /// To continue please grant the permission to use the Camera
+      internal static let grantCameraPermission = L10n.tr("Localizable", "feeding.alert.grantCameraPermission", fallback: "To continue please grant the permission to use the Camera")
     }
     internal enum Error {
       /// You can't start feeding while another one is in progress

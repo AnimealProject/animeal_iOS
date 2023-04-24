@@ -49,6 +49,7 @@
 "action.finish"                                   = "დასრულება";
 "action.showOnMap"                                = "რუკაზე ჩვენება";
 "action.backToHome"                               = "";
+"action.openSettings"                             = "გახსენით პარამეტრები";
 "question.logoutAccount"                          = "დარწმუნებული ხართ, რომ გსურთ თქვენი ანგარიშიდან გამოსვლა?";
 "question.deleteAccount"                          = "დარწმუნებული ხართ, რომ გსურთ თქვენი ანგარიშის წაშლა?";
 "text.header.lastFeeder"                          = "ბოლო მიმწოდებელი";
@@ -71,6 +72,7 @@
 "feeding.alert.cancelFeeding"                     = "ნამდვილად გსურთ კვების გაუქმება?";
 "feeding.alert.feedingTimerOver"                  = "თქვენი კვების ტაიმერი დასრულდა. თქვენ შეგიძლიათ დაჯავშნოთ ახალი კვება საწყისი გვერდიდან";
 "feeding.alert.feedingPointHasBooked"             = "სხვა მომხმარებელმა დაჯავშნა კვება ამ კვების წერტილისთვის";
+"feeding.alert.grantCameraPermission"             = "გასაგრძელებლად გთხოვთ, მიანიჭოთ კამერის გამოყენების ნებართვა";
 "feeding.error.otherFeedingRunning"               = "თქვენ ვერ დაიწყებთ კვებას, სანამ მეორე მიმდინარეობს";
 "toast.successLogout"                             = "თქვენ წარმატებით გამოხვედით სისტემიდან";
 "toast.userDeleted"                               = "თქვენი ანგარიში წარმატებით წაიშალა";

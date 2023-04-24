@@ -94,6 +94,13 @@ final class HomeModel: HomeModelProtocol {
                     .init(title: L10n.Action.gotIt, style: .accent(.autoCancelFeeding))
                 ]
             )
+        case .cameraAccess:
+            return .init(
+                title: L10n.Feeding.Alert.grantCameraPermission,
+                actions: [
+                    .init(title: L10n.Action.no, style: .inverted),
+                    .init(title: L10n.Action.openSettings, style: .accent(.cameraAccess))
+                ])
         }
     }
 
