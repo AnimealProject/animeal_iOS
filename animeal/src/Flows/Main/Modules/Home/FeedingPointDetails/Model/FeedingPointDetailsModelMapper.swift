@@ -82,7 +82,7 @@ extension FeedingPoint {
     var localizedName: String {
         switch Locale.current.languageCode {
         case "ka":
-            return description
+            return name
         default:
             return i18n?.first(where: { $0.locale == "en" })?.name ?? .empty
         }
