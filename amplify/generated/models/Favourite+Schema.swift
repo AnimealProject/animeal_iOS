@@ -8,7 +8,6 @@ extension Favourite {
     case id
     case userId
     case feedingPointId
-    case feedingPoint
     case createdAt
     case updatedAt
   }
@@ -39,7 +38,6 @@ extension Favourite {
       .id(),
       .field(favourite.userId, is: .required, ofType: .string),
       .field(favourite.feedingPointId, is: .required, ofType: .string),
-      .hasOne(favourite.feedingPoint, is: .required, ofType: FeedingPoint.self, associatedWith: FeedingPoint.keys.id, targetName: "feedingPointId"),
       .field(favourite.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(favourite.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )

@@ -86,6 +86,7 @@ extension FAQView {
         
         @EnvironmentObject var designEngine: StyleEngine
         @Binding var item: FAQViewItem
+        var showAnswer: Bool { !item.collapsed }
         let toggle: () -> Void
         
         var body: some View {
@@ -107,24 +108,27 @@ extension FAQView {
                     }
                 )
                 .buttonStyle(PlainButtonStyle())
+                .fixedSize(horizontal: false, vertical: true)
                 
-                VStack {
-                    HStack {
-                        Text(item.answer)
-                            .font(designEngine.fonts.primary.regular(14)?.font)
-                            .foregroundColor(designEngine.colors.textPrimary.color)
-                        Spacer()
+                if showAnswer {
+                    VStack {
+                        HStack {
+                            Text(item.answer)
+                                .font(designEngine.fonts.primary.regular(14)?.font)
+                                .foregroundColor(designEngine.colors.textPrimary.color)
+                            Spacer()
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(Constants.contentPadding)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                .stroke(designEngine.colors.backgroundSecondary.color, lineWidth: 1)
+                        )
                     }
-                    .frame(maxWidth: .infinity)
-                    .padding(Constants.contentPadding)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 12, style: .continuous)
-                            .stroke(designEngine.colors.backgroundSecondary.color, lineWidth: 1)
-                    )
+                    .padding(Constants.padding)
+                    .clipped()
                 }
-                .padding(Constants.padding)
-                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: item.collapsed ? 0 : .none)
-                .clipped()
+                
             }
         }
     }

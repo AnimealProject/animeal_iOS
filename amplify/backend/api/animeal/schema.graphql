@@ -496,10 +496,9 @@ type Favourite
     ]
   ) {
   id: ID!
-  userId: ID! @index(name: "byUserId", sortKeyFields: ["feedingPointId"])
+  userId: ID! @index(name: "byUserId", sortKeyFields: ["feedingPointId"], queryField: "favouritesByUserId")
   feedingPointId: ID!
-    @index(name: "byFeedingPointId", sortKeyFields: ["userId"])
-  feedingPoint: FeedingPoint! @hasOne(fields: ["feedingPointId"])
+    @index(name: "byFeedingPointId", sortKeyFields: ["userId"],  queryField: "favouritesByFeedingPointId")
 }
 
 type QuestionI18n @aws_api_key @aws_cognito_user_pools {
@@ -676,7 +675,6 @@ type FeedingPointConnection @aws_api_key @aws_cognito_user_pools {
   nextToken: String
 }
 
-
 type Query {
   translate(text: String!, to: String!, from: String): String!
     @function(name: "translate-${env}")
@@ -697,7 +695,6 @@ type Query {
   ): FeedingPointConnection @aws_api_key @aws_cognito_user_pools
 }
 
-
 type Mutation {
   startFeeding(feedingPointId: String!): String!
     @function(name: "startFeeding-${env}")
@@ -709,12 +706,20 @@ type Mutation {
     @aws_api_key
     @aws_cognito_user_pools
 
-  rejectFeeding(feedingId: String!, reason: String!, feeding: FeedingInput): String!
+  rejectFeeding(
+    feedingId: String!
+    reason: String!
+    feeding: FeedingInput
+  ): String!
     @function(name: "rejectFeeding-${env}")
     @aws_api_key
     @aws_cognito_user_pools
 
-  approveFeeding(feedingId: String!, reason: String!, feeding: FeedingInput): String!
+  approveFeeding(
+    feedingId: String!
+    reason: String!
+    feeding: FeedingInput
+  ): String!
     @function(name: "approveFeeding-${env}")
     @aws_api_key
     @aws_cognito_user_pools
@@ -723,5 +728,4 @@ type Mutation {
     @function(name: "rejectFeeding-${env}")
     @aws_api_key
     @aws_cognito_user_pools
-
 }

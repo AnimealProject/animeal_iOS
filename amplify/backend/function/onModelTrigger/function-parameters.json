@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "api": {
+      "animeal": [
+        "Query",
+        "Mutation"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

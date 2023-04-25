@@ -6,14 +6,20 @@
 //
 
 import Foundation
+import Services
 
 final class LoginModel: LoginModelProtocol {
     // MARK: - Dependencies
     private let providers: [LoginActionType: LoginProviding?]
+    private let userDefaultsManager: DefaultsServiceProtocol
 
     // MARK: - Initialization
-    init(providers: [LoginActionType: LoginProviding?]) {
+    init(
+        providers: [LoginActionType: LoginProviding?],
+        userDefaultsManager: DefaultsServiceProtocol = AppDelegate.shared.context.defaultsService
+    ) {
         self.providers = providers
+        self.userDefaultsManager = userDefaultsManager
     }
 
     // MARK: - Requests
@@ -50,6 +56,7 @@ final class LoginModel: LoginModelProtocol {
     }
 
     func proceedAuthentication(_ type: LoginActionType) async throws -> LoginModelStatus {
+        userDefaultsManager.write(key: LoginActionType.storableKey, value: type.rawValue)
         switch type {
         case .signInViaPhoneNumber:
             return .proceedWithCustomAuth

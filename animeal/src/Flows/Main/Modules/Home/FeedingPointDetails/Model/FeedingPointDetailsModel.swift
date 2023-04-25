@@ -82,9 +82,14 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
         }
 
         let history = try await context.feedingPointsService.fetchFeedingHistory(for: fullFeedingPoint.identifier)
+        guard !history.isEmpty else { return [] }
+        
         let historyUsers = history.map { $0.userId }
         let namesMap = try await context.profileService.fetchUserNames(for: historyUsers)
-        return mapper.map(history: history, namesMap: namesMap)[..<5].map { $0 }
+        
+        let feedingPointDetails = mapper.map(history: history, namesMap: namesMap)
+        let right = feedingPointDetails.count < 5 ? feedingPointDetails.count : 5
+        return feedingPointDetails[..<right].map { $0 }
     }
 
     func mutateFavorite() async throws -> Bool {

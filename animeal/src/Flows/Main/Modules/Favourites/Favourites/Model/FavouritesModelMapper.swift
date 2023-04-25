@@ -2,11 +2,11 @@ import Foundation
 
 // sourcery: AutoMockable
 protocol FavouriteModelMappable {
-    func mapFavourite(_ input: FavouriteFeedingPoint) -> FavouritesModel.FavouriteContent
+    func mapFavourite(_ input: FullFeedingPoint) -> FavouritesModel.FavouriteContent
 }
 
 final class FavouriteModelMapper: FavouriteModelMappable {
-    func mapFavourite(_ item: FavouriteFeedingPoint) -> FavouritesModel.FavouriteContent {
+    func mapFavourite(_ item: FullFeedingPoint) -> FavouritesModel.FavouriteContent {
         return FavouritesModel.FavouriteContent(
             feedingPointId: item.feedingPoint.id,
             header: FavouritesModel.Header(

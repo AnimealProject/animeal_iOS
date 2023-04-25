@@ -40,7 +40,7 @@ exports.handler = async (event) => {
 
   if (
     process.env.IS_APPROVAL_ENABLED === 'true' &&
-    !userData?.UserAttributes?.find((it) => it.Name === 'trusted')?.Value
+    !userData?.UserAttributes?.find((it) => it.Name === 'custom:trusted')?.Value
   ) {
     try {
       await dynamoDB
@@ -72,7 +72,7 @@ exports.handler = async (event) => {
     }
   } else if (
     process.env.IS_APPROVAL_ENABLED === 'true' &&
-    userData?.UserAttributes?.find((it) => it.Name === 'trusted')?.Value
+    userData?.UserAttributes?.find((it) => it.Name === 'custom:trusted')?.Value
   ) {
     try {
       await dynamoDB

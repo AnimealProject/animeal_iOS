@@ -6,7 +6,7 @@ import AWSAPIPlugin
 import AWSPluginsCore
 
 final class FavouritesModel: FavouritesModelProtocol {
-    typealias Context = FavoritesServiceHolder & DataStoreServiceHolder
+    typealias Context = FeedingPointsServiceHolder & DataStoreServiceHolder
 
     // MARK: - Private properties
     private let context: Context
@@ -24,12 +24,12 @@ final class FavouritesModel: FavouritesModelProtocol {
     // MARK: - Requests
     func fetchFavourites(force: Bool) async throws -> [FavouritesModel.FavouriteContent] {
         guard force else {
-            let result =  context.favoritesService.storedFavoriteFeedingPoints
+            let result = context.feedingPointsService.storedFavouriteFeedingPoints
             let content = result.map(self.mapper.mapFavourite)
             return content
         }
 
-        let result = try await context.favoritesService.fetchAll()
+        let result = try await context.feedingPointsService.fetchAllFavorites()
         let content = result.map(self.mapper.mapFavourite)
         return content
     }
