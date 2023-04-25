@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/aws-amplify/aws-appsync-realtime-client-ios.git",
       "state" : {
-        "revision" : "b036e83716789c13a3480eeb292b70caa54114f2",
-        "version" : "3.1.0"
+        "revision" : "3de274c68a3cb60c8aec18b5bc0a8c07860219cd",
+        "version" : "3.0.0"
       }
     },
     {
@@ -77,8 +77,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mattgallagher/CwlCatchException.git",
       "state" : {
-        "revision" : "3b123999de19bf04905bc1dfdb76f817b0f2cc00",
-        "version" : "2.1.2"
+        "revision" : "35f9e770f54ce62dd8526470f14c6e137cef3eea",
+        "version" : "2.1.1"
       }
     },
     {
@@ -86,8 +86,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mattgallagher/CwlPreconditionTesting.git",
       "state" : {
-        "revision" : "a23ded2c91df9156628a6996ab4f347526f17b6b",
-        "version" : "2.1.2"
+        "revision" : "c21f7bab5ca8eee0a9998bbd17ca1d0eb45d4688",
+        "version" : "2.1.0"
       }
     },
     {
@@ -167,8 +167,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mapbox/mapbox-common-ios.git",
       "state" : {
-        "revision" : "49f0c56ce7a113b4474e08837a1985cf1a8590b5",
-        "version" : "23.4.0"
+        "revision" : "012a2082e005e7fb375ca2743f6f921109f37d32",
+        "version" : "23.3.2"
       }
     },
     {
@@ -176,8 +176,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mapbox/mapbox-core-maps-ios.git",
       "state" : {
-        "revision" : "e30d14ca30bdd2071262ed997ff8694cea4b2c2c",
-        "version" : "10.12.2"
+        "revision" : "dae13ea834725edb95e74c8b632578ff92f12c6c",
+        "version" : "10.11.1"
       }
     },
     {
@@ -203,8 +203,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mapbox/mapbox-maps-ios.git",
       "state" : {
-        "revision" : "678843cd0152c5aa36ec7e2d78de4ea1cae9ebc7",
-        "version" : "10.12.2"
+        "revision" : "b1ecc114ba02d7c60d1dcf9e6c4f680a72e49d6d",
+        "version" : "10.11.1"
       }
     },
     {
@@ -212,8 +212,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mapbox/mapbox-navigation-ios.git",
       "state" : {
-        "revision" : "75764249d075b761a135867bca3d4e3dc9b6cbc7",
-        "version" : "2.12.0"
+        "revision" : "5689a87794357ecf265d73e3399e56b091006b85",
+        "version" : "2.11.0"
       }
     },
     {
@@ -221,8 +221,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mapbox/mapbox-navigation-native-ios.git",
       "state" : {
-        "revision" : "437c2fc63185144c50d82f3c163a85c72a2a75dc",
-        "version" : "130.1.0"
+        "revision" : "427002fa6047139894c8ff4e697217a81477bd86",
+        "version" : "126.0.3"
       }
     },
     {
@@ -365,8 +365,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/MaxDesiatov/XMLCoder.git",
       "state" : {
-        "revision" : "666227de3b4cf4adcce7c70b8b89f98c7df02754",
-        "version" : "0.16.0"
+        "revision" : "c438dad94f6a243b411b70a4b4bac54595064808",
+        "version" : "0.15.0"
       }
     }
   ],
