@@ -15,9 +15,16 @@ extension ProfileViewAction {
         )
 
         if isEnabled {
-            let buttonView = buttonsFactory.makeAccentButton()
-            buttonView.configure(model)
-            return buttonView
+            switch style {
+            case .primary:
+                let buttonView = buttonsFactory.makeAccentButton()
+                buttonView.configure(model)
+                return buttonView
+            case .secondary:
+                let buttonView = buttonsFactory.makeAccentInvertedButton()
+                buttonView.configure(model)
+                return buttonView
+            }
         } else {
             let buttonView = buttonsFactory.makeDisabledButton()
             buttonView.configure(model)

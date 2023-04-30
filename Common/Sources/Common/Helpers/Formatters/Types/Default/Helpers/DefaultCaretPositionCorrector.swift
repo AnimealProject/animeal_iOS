@@ -4,13 +4,13 @@ final class DefaultCaretPositionCorrector {
     // MARK: - Dependencies
     let textPattern: String
     let patternSymbol: Character
-    
+
     // MARK: - Initialization
     init(textPattern: String, patternSymbol: Character) {
         self.textPattern = textPattern
         self.patternSymbol = patternSymbol
     }
-    
+
     func calculateCaretPositionOffset(
         newText: String,
         originalRange range: Range<String.Index>,
@@ -29,7 +29,7 @@ final class DefaultCaretPositionCorrector {
         return offset
     }
 }
-    
+
 // MARK: - Private
 private extension DefaultCaretPositionCorrector {
     func offsetForRemove(newText: String, lowerBound: String.Index) -> Int {
@@ -48,7 +48,7 @@ private extension DefaultCaretPositionCorrector {
         let leftSlice = newText.leftSlice(end: index)
         return leftSlice.utf16.count
     }
-    
+
     func offsetForInsert(
         newText: String,
         lowerBound: String.Index,

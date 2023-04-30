@@ -21,7 +21,7 @@ public final class ButtonContainerView: UIView {
         item.translatesAutoresizingMaskIntoConstraints = false
         item.axis = .vertical
         item.spacing = Constants.spacing
-        item.distribution = .equalSpacing
+        item.distribution = .fillEqually
         return item
     }()
 
@@ -29,8 +29,9 @@ public final class ButtonContainerView: UIView {
     public var onTap: ((String) -> Void)?
 
     // MARK: - Initialization
-    public init() {
+    public init(axis: NSLayoutConstraint.Axis = .vertical) {
         super.init(frame: CGRect.zero)
+        self.containerView.axis = axis
         setup()
     }
 

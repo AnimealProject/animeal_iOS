@@ -1,18 +1,19 @@
 import UIKit
+import Common
 
 @MainActor
 enum ProfileAfterUnknownAuthAssembler {
     static func assembly(coordinator: ProfileCoordinatable) -> UIViewController {
         let context: AppContext = AppDelegate.shared.context
         let defaultsService = context.defaultsService
-        
+
         guard
             let authTypeValue: String = defaultsService.value(key: LoginActionType.storableKey),
             let authType = LoginActionType(rawValue: authTypeValue)
         else {
             return ProfileAfterSocialAuthAssembler.assembly(coordinator: coordinator)
         }
-        
+
         switch authType {
         case .signInViaPhoneNumber:
             return ProfileAfterCustomAuthAssembler.assembly(coordinator: coordinator)
@@ -25,9 +26,30 @@ enum ProfileAfterUnknownAuthAssembler {
 @MainActor
 enum ProfileAfterCustomAuthAssembler {
     static func assembly(coordinator: ProfileCoordinatable) -> UIViewController {
+        let modelState = ProfileModelState(items: .editableExceptPhone)
+        let manipulateItems = FetchProfileItemsUseCase(
+            state: modelState,
+            profileService: AppDelegate.shared.context.profileService,
+            phoneNumberProcessor: PhoneNumberRegionProcessor()
+        )
+        let manipulateActions = FetchProfileActionsUseCase(
+            actions: [
+                ProfileModelCancelAction(authenticationService: AppDelegate.shared.context.authenticationService),
+                ProfileModelDoneAction(validateItems: manipulateItems, isEnabled: false)
+            ]
+        )
+        let updateProfile = UpdateProfileUseCase(
+            state: modelState,
+            profileService: AppDelegate.shared.context.profileService
+        )
         let model = ProfileModel(
-            items: .editableExceptPhone,
-            actions: .completable
+            fetchItems: manipulateItems,
+            updateItems: manipulateItems,
+            validateItems: manipulateItems,
+            fetchItemRequiredAction: manipulateItems,
+            fetchActions: manipulateActions,
+            executeActions: manipulateActions,
+            updateProfile: updateProfile
         )
 
         let viewModel = ProfileViewModel(
@@ -45,9 +67,30 @@ enum ProfileAfterCustomAuthAssembler {
 @MainActor
 enum ProfileAfterSocialAuthAssembler {
     static func assembly(coordinator: ProfileCoordinatable) -> UIViewController {
+        let modelState = ProfileModelState(items: .editableExceptEmail)
+        let manipulateItems = FetchProfileItemsUseCase(
+            state: modelState,
+            profileService: AppDelegate.shared.context.profileService,
+            phoneNumberProcessor: PhoneNumberRegionProcessor()
+        )
+        let manipulateActions = FetchProfileActionsUseCase(
+            actions: [
+                ProfileModelCancelAction(authenticationService: AppDelegate.shared.context.authenticationService),
+                ProfileModelDoneAction(validateItems: manipulateItems, isEnabled: false)
+            ]
+        )
+        let updateProfile = UpdateProfileUseCase(
+            state: modelState,
+            profileService: AppDelegate.shared.context.profileService
+        )
         let model = ProfileModel(
-            items: .editableExceptEmail,
-            actions: .completable
+            fetchItems: manipulateItems,
+            updateItems: manipulateItems,
+            validateItems: manipulateItems,
+            fetchItemRequiredAction: manipulateItems,
+            fetchActions: manipulateActions,
+            executeActions: manipulateActions,
+            updateProfile: updateProfile
         )
 
         let viewModel = ProfileViewModel(
@@ -65,9 +108,29 @@ enum ProfileAfterSocialAuthAssembler {
 @MainActor
 enum ProfileChangeableAssembler {
     static func assembly(coordinator: ProfileCoordinatable) -> UIViewController {
+        let modelState = ProfileModelState(items: .readonly)
+        let manipulateItems = FetchProfileItemsUseCase(
+            state: modelState,
+            profileService: AppDelegate.shared.context.profileService,
+            phoneNumberProcessor: PhoneNumberRegionProcessor()
+        )
+        let manipulateActions = FetchProfileActionsUseCase(
+            actions: [
+                ProfileModelEditAction(state: modelState, validateItems: manipulateItems)
+            ]
+        )
+        let updateProfile = UpdateProfileUseCase(
+            state: modelState,
+            profileService: AppDelegate.shared.context.profileService
+        )
         let model = ProfileModel(
-            items: .readonly,
-            actions: .editable
+            fetchItems: manipulateItems,
+            updateItems: manipulateItems,
+            validateItems: manipulateItems,
+            fetchItemRequiredAction: manipulateItems,
+            fetchActions: manipulateActions,
+            executeActions: manipulateActions,
+            updateProfile: updateProfile
         )
 
         let viewModel = ProfileViewModel(

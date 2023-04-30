@@ -50,9 +50,7 @@ struct ProfileModelItem: Hashable, ProfileModelValidatable {
             _value = transform(newValue)
         }
     }
-    var date: Date? {
-        get { transformDate(text)}
-    }
+    var date: Date? { transformDate(text) }
     private var _value: String?
 
     init(
@@ -216,10 +214,10 @@ extension ProfileModelItem {
         let dateInInputFormat = DateFormatter.input.string(from: outputDate)
         return dateInInputFormat
     }
-    
+
     func transformDate(_ text: String?) -> Date? {
         guard let text: String = transformDate(text) else { return nil }
-        
+
         let date = DateFormatter.input.date(from: text)
         return date
     }
@@ -244,4 +242,102 @@ private extension DateFormatter {
         item.dateFormat = "dd/MM/yyyy"
         return item
     }()
+}
+
+extension Array where Element == ProfileModelItem {
+    static var editable: [ProfileModelItem] {
+        [
+            ProfileModelItem(identifier: UUID().uuidString, type: .name, style: .editable, state: .normal),
+            ProfileModelItem(identifier: UUID().uuidString, type: .surname, style: .editable, state: .normal),
+            ProfileModelItem(identifier: UUID().uuidString, type: .email, style: .editable, state: .normal),
+            ProfileModelItem(identifier: UUID().uuidString, type: .phone(.default), style: .editable, state: .normal),
+            ProfileModelItem(identifier: UUID().uuidString, type: .birthday, style: .editable, state: .normal)
+        ]
+    }
+
+    static var editableExceptEmail: [ProfileModelItem] {
+        [
+            ProfileModelItem(identifier: UUID().uuidString, type: .name, style: .editable, state: .normal),
+            ProfileModelItem(identifier: UUID().uuidString, type: .surname, style: .editable, state: .normal),
+            ProfileModelItem(identifier: UUID().uuidString, type: .email, style: .readonly, state: .normal),
+            ProfileModelItem(identifier: UUID().uuidString, type: .phone(.default), style: .editable, state: .normal),
+            ProfileModelItem(identifier: UUID().uuidString, type: .birthday, style: .editable, state: .normal)
+        ]
+    }
+
+    static var editableExceptPhone: [ProfileModelItem] {
+        [
+            ProfileModelItem(identifier: UUID().uuidString, type: .name, style: .editable, state: .normal),
+            ProfileModelItem(identifier: UUID().uuidString, type: .surname, style: .editable, state: .normal),
+            ProfileModelItem(identifier: UUID().uuidString, type: .email, style: .editable, state: .normal),
+            ProfileModelItem(identifier: UUID().uuidString, type: .phone(.default), style: .readonly, state: .normal),
+            ProfileModelItem(identifier: UUID().uuidString, type: .birthday, style: .editable, state: .normal)
+        ]
+    }
+
+    static var readonly: [ProfileModelItem] {
+        [
+            ProfileModelItem(identifier: UUID().uuidString, type: .name, style: .readonly, state: .normal),
+            ProfileModelItem(identifier: UUID().uuidString, type: .surname, style: .readonly, state: .normal),
+            ProfileModelItem(identifier: UUID().uuidString, type: .email, style: .readonly, state: .normal),
+            ProfileModelItem(identifier: UUID().uuidString, type: .phone(.GE), style: .readonly, state: .normal),
+            ProfileModelItem(identifier: UUID().uuidString, type: .birthday, style: .readonly, state: .normal)
+        ]
+    }
+
+    func toReadonly(
+        except: @escaping (ProfileModelItem) -> Bool = { _ in false }
+    ) -> [ProfileModelItem] {
+        map { item in
+            guard !except(item) else { return item }
+            var item = item
+            item.style = .readonly
+            return item
+        }
+    }
+
+    func toEditable(
+        except: @escaping (ProfileModelItem) -> Bool = { _ in false }
+    ) -> [ProfileModelItem] {
+        map { item in
+            guard !except(item) else { return item }
+            var item = item
+            item.style = .editable
+            return item
+        }
+    }
+}
+
+extension ProfileItemType {
+    var userAttributeKey: UserProfileAttributeKey {
+        switch self {
+        case .name:
+            return .name
+        case .surname:
+            return .familyName
+        case .email:
+            return .email
+        case .phone:
+            return .phoneNumber
+        case .birthday:
+            return .birthDate
+        }
+    }
+
+    init?(userAttributeKey: UserProfileAttributeKey) {
+        switch userAttributeKey {
+        case .name:
+            self = .name
+        case .familyName:
+            self = .surname
+        case .email:
+            self = .email
+        case .phoneNumber:
+            self = .phone(.GE)
+        case .birthDate:
+            self = .birthday
+        default:
+            return nil
+        }
+    }
 }

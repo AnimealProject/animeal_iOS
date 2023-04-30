@@ -37,6 +37,8 @@ internal enum L10n {
     internal static let logOut = L10n.tr("Localizable", "action.logOut", fallback: "Log out")
     /// No
     internal static let no = L10n.tr("Localizable", "action.no", fallback: "No")
+    /// No, thanks
+    internal static let noThanks = L10n.tr("Localizable", "action.noThanks", fallback: "No, thanks")
     /// Ok
     internal static let ok = L10n.tr("Localizable", "action.ok", fallback: "Ok")
     /// Open settings
@@ -105,6 +107,8 @@ internal enum L10n {
       internal static let feedingTimerOver = L10n.tr("Localizable", "feeding.alert.feedingTimerOver", fallback: "Your feeding timer is over. You can book a new feeding from the home page.")
       /// To continue please grant the permission to use the Camera
       internal static let grantCameraPermission = L10n.tr("Localizable", "feeding.alert.grantCameraPermission", fallback: "To continue please grant the permission to use the Camera")
+      /// We can calculate the route to the feeding point. To use the function please switch on the Location service
+      internal static let grantLocationPermission = L10n.tr("Localizable", "feeding.alert.grantLocationPermission", fallback: "We can calculate the route to the feeding point. To use the function please switch on the Location service")
     }
     internal enum Error {
       /// You can't start feeding while another one is in progress
@@ -170,6 +174,8 @@ internal enum L10n {
   internal enum Profile {
     /// Birthdate
     internal static let birthDate = L10n.tr("Localizable", "profile.birthDate", fallback: "Birthdate")
+    /// Cancel
+    internal static let cancel = L10n.tr("Localizable", "profile.cancel", fallback: "Cancel")
     /// Done
     internal static let done = L10n.tr("Localizable", "profile.done", fallback: "Done")
     /// Edit
@@ -188,6 +194,10 @@ internal enum L10n {
     internal static let subHeader = L10n.tr("Localizable", "profile.subHeader", fallback: "Please fill out the profile information")
     /// Surname
     internal static let surname = L10n.tr("Localizable", "profile.surname", fallback: "Surname")
+    internal enum Cancel {
+      /// Do you really want to cancel the registration?
+      internal static let dialogHeader = L10n.tr("Localizable", "profile.cancel.dialogHeader", fallback: "Do you really want to cancel the registration?")
+    }
     internal enum Errors {
       /// The age limit is %@ years
       internal static func ageLimit(_ p1: Any) -> String {

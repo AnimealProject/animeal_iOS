@@ -105,6 +105,9 @@
 		8360D1A3284E954900ACDEDB /* LoginModelOnboardingStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8360D1A2284E954900ACDEDB /* LoginModelOnboardingStep.swift */; };
 		8360D1A9284E9A9600ACDEDB /* LoginViewOnboardingStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8360D1A8284E9A9600ACDEDB /* LoginViewOnboardingStep.swift */; };
 		8360D1AF284F2A5E00ACDEDB /* LoginViewActionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8360D1AE284F2A5E00ACDEDB /* LoginViewActionEvent.swift */; };
+		8361BF7829FEB62200A07AB7 /* FetchProfileItemsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8361BF7729FEB62200A07AB7 /* FetchProfileItemsUseCase.swift */; };
+		8361BF7A29FEB63100A07AB7 /* FetchProfileActionsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8361BF7929FEB63100A07AB7 /* FetchProfileActionsUseCase.swift */; };
+		8361BF7D29FEC02100A07AB7 /* ProfileModelState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8361BF7C29FEC02100A07AB7 /* ProfileModelState.swift */; };
 		836840F128D1A1A800E1044E /* CustomAuthModelComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836840F028D1A1A800E1044E /* CustomAuthModelComponent.swift */; };
 		836840F328D1A7FE00E1044E /* CustomAuthModelItemError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836840F228D1A7FE00E1044E /* CustomAuthModelItemError.swift */; };
 		836840F528D1C50400E1044E /* CustomAuthModelOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836840F428D1C50400E1044E /* CustomAuthModelOptions.swift */; };
@@ -466,6 +469,9 @@
 		8360D1A2284E954900ACDEDB /* LoginModelOnboardingStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModelOnboardingStep.swift; sourceTree = "<group>"; };
 		8360D1A8284E9A9600ACDEDB /* LoginViewOnboardingStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewOnboardingStep.swift; sourceTree = "<group>"; };
 		8360D1AE284F2A5E00ACDEDB /* LoginViewActionEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewActionEvent.swift; sourceTree = "<group>"; };
+		8361BF7729FEB62200A07AB7 /* FetchProfileItemsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchProfileItemsUseCase.swift; sourceTree = "<group>"; };
+		8361BF7929FEB63100A07AB7 /* FetchProfileActionsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchProfileActionsUseCase.swift; sourceTree = "<group>"; };
+		8361BF7C29FEC02100A07AB7 /* ProfileModelState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModelState.swift; sourceTree = "<group>"; };
 		836840F028D1A1A800E1044E /* CustomAuthModelComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAuthModelComponent.swift; sourceTree = "<group>"; };
 		836840F228D1A7FE00E1044E /* CustomAuthModelItemError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAuthModelItemError.swift; sourceTree = "<group>"; };
 		836840F428D1C50400E1044E /* CustomAuthModelOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAuthModelOptions.swift; sourceTree = "<group>"; };
@@ -1123,6 +1129,23 @@
 				838EA9702942732B001F4D84 /* SearchSupplementaryShimmerView.swift */,
 			);
 			path = Supplementaries;
+			sourceTree = "<group>";
+		};
+		8361BF7629FEB4CC00A07AB7 /* UseCases */ = {
+			isa = PBXGroup;
+			children = (
+				8361BF7729FEB62200A07AB7 /* FetchProfileItemsUseCase.swift */,
+				8361BF7929FEB63100A07AB7 /* FetchProfileActionsUseCase.swift */,
+			);
+			path = UseCases;
+			sourceTree = "<group>";
+		};
+		8361BF7B29FEC00F00A07AB7 /* State */ = {
+			isa = PBXGroup;
+			children = (
+				8361BF7C29FEC02100A07AB7 /* ProfileModelState.swift */,
+			);
+			path = State;
 			sourceTree = "<group>";
 		};
 		836840F628D1ED1900E1044E /* Errors */ = {
@@ -2173,6 +2196,8 @@
 		FB0014482859FBF200943360 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				8361BF7B29FEC00F00A07AB7 /* State */,
+				8361BF7629FEB4CC00A07AB7 /* UseCases */,
 				83C7A97B28E38B8600F3D219 /* Items */,
 				FB00144E2859FCDD00943360 /* ProfileModel.swift */,
 			);
@@ -2518,6 +2543,7 @@
 				78BEB17E2936D99700A11CA7 /* FavouritesContract.swift in Sources */,
 				83757037299174DB00034C22 /* FetchFeedingPointsUseCase.swift in Sources */,
 				83F3CC14284771FB00C05298 /* LoginContract.swift in Sources */,
+				8361BF7829FEB62200A07AB7 /* FetchProfileItemsUseCase.swift in Sources */,
 				78BEB17C2936D97400A11CA7 /* FavouritesAssembler.swift in Sources */,
 				DB6B07CA28450A380009397B /* HomeViewController.swift in Sources */,
 				DBDB50212889725C003C6FF0 /* FeedingPointViewMapper.swift in Sources */,
@@ -2627,6 +2653,7 @@
 				83F3CC0E2847704300C05298 /* LoginViewController.swift in Sources */,
 				FBE017612874611600A79DB2 /* Navigator.swift in Sources */,
 				DB6B07C828450A380009397B /* SceneDelegate.swift in Sources */,
+				8361BF7D29FEC02100A07AB7 /* ProfileModelState.swift in Sources */,
 				DB916D0828F40A3F00DA8AA9 /* FeedingPointDetailsModelMapper.swift in Sources */,
 				835E149828FDD5A40044EC2F /* SearchModelItem.swift in Sources */,
 				DBC2BB4228BBAD2B0086EF52 /* MorePartitionModel.swift in Sources */,
@@ -2729,6 +2756,7 @@
 				8372CCFF28A437250085C6D1 /* CustomAuthModelNextStep.swift in Sources */,
 				83C7A99828E46D0E00F3D219 /* ProfileViewItemMapper.swift in Sources */,
 				83C24F84286D994A0086330B /* VerificationViewHeader.swift in Sources */,
+				8361BF7A29FEB63100A07AB7 /* FetchProfileActionsUseCase.swift in Sources */,
 				83A9A22428E1801000858190 /* VerificationAfterChangingUserAttributeWorker.swift in Sources */,
 				FBE017632874666000A79DB2 /* Coordinatable.swift in Sources */,
 				83C7A98C28E46BBF00F3D219 /* ProfileViewTextEvent.swift in Sources */,

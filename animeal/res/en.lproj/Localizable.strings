@@ -4,11 +4,11 @@
 "tabBar.more"                                     = "More";
 "segment.dogs"                                    = "Dogs";
 "segment.cats"                                    = "Cats";
+"loginScreen.text"                                = "Some of them are homeless, they need your help";
+"loginScreen.title"                               = "Take care of pets";
 "loginScreen.signInViaMobilePhone"                = "Sign in with Mobile";
 "loginScreen.signInViaFacebook"                   = "Sign in with Facebook";
 "loginScreen.signInViaApple"                      = "Sign in with Apple";
-"loginScreen.title"                               = "Take care of pets";
-"loginScreen.text"                                = "Some of them are homeless, they need your help";
 "favourites.header"                               = "Favorites";
 "favourites.empty"                                = "You don't have favorite feeding points yet. Press the heart button on the feeding point details to add that one as favourite";
 "profile.name"                                    = "Name";
@@ -19,8 +19,10 @@
 "profile.edit"                                    = "Edit";
 "profile.save"                                    = "Save";
 "profile.done"                                    = "Done";
+"profile.cancel"                                  = "Cancel";
 "profile.header"                                  = "Profile";
 "profile.subHeader"                               = "Please fill out the profile information";
+"profile.cancel.dialogHeader"                     = "Do you really want to cancel the registration?";
 "profile.errors.empty"                            = "Field is empty";
 "profile.errors.ageLimit"                         = "The age limit is %@ years";
 "profile.errors.incorrectFormat"                  = "Format is incorrect";
@@ -43,6 +45,7 @@
 "action.agree"                                    = "Agree";
 "action.ok"                                       = "Ok";
 "action.no"                                       = "No";
+"action.noThanks"                                 = "No, thanks";
 "action.gotIt"                                    = "Got it";
 "action.copyIBAN"                                 = "Copy IBAN";
 "action.deleteAccount"                            = "Delete Account";
@@ -75,6 +78,7 @@
 "feeding.alert.feedingTimerOver"                  = "Your feeding timer is over. You can book a new feeding from the home page.";
 "feeding.alert.feedingPointHasBooked"             = "Another user has booked the feeding for this feeding point";
 "feeding.alert.grantCameraPermission"             = "To continue please grant the permission to use the Camera";
+"feeding.alert.grantLocationPermission"           = "We can calculate the route to the feeding point. To use the function please switch on the Location service";
 "feeding.error.otherFeedingRunning"               = "You can't start feeding while another one is in progress";
 "toast.successLogout"                             = "You have successfully logged out";
 "toast.userDeleted"                               = "Your account has successfully been deleted";
