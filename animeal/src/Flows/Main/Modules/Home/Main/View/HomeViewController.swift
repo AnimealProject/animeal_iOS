@@ -51,26 +51,32 @@ class HomeViewController: UIViewController {
         bind()
         viewModel.load()
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        updateCameraEasePadding()
+    }
 }
 
 extension HomeViewController: HomeViewModelOutput {
     func applyFeedingPoints(_ feedingPoints: [FeedingPointViewItem]) {
-        mapView.viewAnnotations.removeAll()
-        feedingPoints.forEach { point in
-            let options = ViewAnnotationOptions(
-                geometry: MapboxMaps.Point(point.coordinates),
-                width: 60,
-                height: 60,
-                allowOverlap: false,
-                anchor: .center
+        mapView.setAnnotations(feedingPoints.reduce(into: [Annotation]()) { annotations, point in
+            annotations.append(
+                point.annotationModel.annotation(
+                    at: point.coordinates
+                )
             )
-            let feedingPointView = FeedingPointView()
-            feedingPointView.configure(point.viewModel)
-            feedingPointView.tapAction = { [weak self] pointId in
-                self?.viewModel.handleActionEvent(.tapFeedingPoint(pointId))
+            
+            if point.isSelected {
+                annotations.append(
+                    point.annotationModel.selectionAnnotation(
+                        for: point.radius.converted(to: .meters).value,
+                        at: point.coordinates
+                    )
+                )
             }
-            try? mapView.viewAnnotations.add(feedingPointView, options: options)
-        }
+        })
 
         self.mapView.cameraAnimationQueue.append {
             self.easeToClosesFeedingPointOnce(feedingPoints)
@@ -82,6 +88,13 @@ extension HomeViewController: HomeViewModelOutput {
         segmentedControl.onTap = { [weak self] selectedSegmentIndex in
             self?.viewModel.handleActionEvent(.tapFilterControl(selectedSegmentIndex))
         }
+    }
+    
+    func applyMapZoom(for pointsIds: [String]) {
+        mapView.easeToAnnotations(
+            mapView.getAnnotations(for: pointsIds),
+            duration: 0
+        )
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -124,6 +137,10 @@ private extension HomeViewController {
     func bind() {
         viewModel.onFeedingPointsHaveBeenPrepared = { [weak self] points in
             self?.applyFeedingPoints(points)
+        }
+        
+        viewModel.onFeadingPointsZoomRequired = { [weak self] points in
+            self?.applyMapZoom(for: points)
         }
 
         viewModel.onFeedingPointCameraMoveRequired = { [weak self] move in
@@ -301,10 +318,30 @@ private extension HomeViewController {
         mapView = NavigationMapController(frame: view.bounds)
         view.addSubview(mapView.view)
         mapView.mapboxMap.loadStyleURI(styleURI)
-
+        
+        mapView.didTapAnnotations = { [weak self] in
+            let points = Set($0.map(\.id))
+            self?.viewModel.handleActionEvent(.tapFeedingPoints(Array(points)))
+        }
+        
         mapView.cameraAnimationQueue.append {
             self.updateCameraSettings()
         }
+    }
+    
+    func updateCameraEasePadding() {
+        let segmentedControl = segmentedControl.superview?
+            .convert(segmentedControl.frame, to: mapView.view) ?? .zero
+        let userLocationButton = userLocationButton.superview?
+            .convert(userLocationButton.frame, to: mapView.view) ?? .zero
+        
+        let padding: CGFloat = 32
+        mapView.cameraEasePadding = UIEdgeInsets(
+            top: segmentedControl.maxY + padding,
+            left: padding,
+            bottom: mapView.view.bounds.maxY - userLocationButton.minY + padding,
+            right: padding
+        )
     }
 
     func updateCameraSettings() {
@@ -323,9 +360,7 @@ private extension HomeViewController {
 
     func easeToClosesFeedingPointOnce(_ items: [FeedingPointViewItem]) {
         DispatchQueue.once {
-            let coordinates = items.filter { viewItem in
-                viewItem.viewModel.kind.isHungerLevelHigh
-            }
+            let coordinates = items.filter(\.isHungerLevelHigh)
 
             if let location = mapView.findClosesLocation(coordinates.map { $0.coordinates }) {
                 self.mapView.easeToLocation(location, duration: 0)
@@ -345,5 +380,11 @@ private extension CircleButtonView {
         )
         myLocationButton.configure(model)
         return myLocationButton
+    }
+}
+
+private extension FeedingPointViewItem {
+    var isHungerLevelHigh: Bool {
+        annotationModel.hungerLevel == .high
     }
 }

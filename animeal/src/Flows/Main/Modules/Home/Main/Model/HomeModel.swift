@@ -62,7 +62,7 @@ final class HomeModel: HomeModelProtocol {
         context.defaultsService.write(key: Filter.selectedId, value: identifier.rawValue)
     }
 
-    func proceedFeedingPointSelection(_ identifier: String, completion: (([FeedingPoint]) -> Void)?) {
+    func proceedFeedingPointSelection(_ identifier: String) -> [FeedingPoint] {
         let modifiedPoints = cachedFeedingPoints.map { point in
             FeedingPoint(
                 identifier: point.identifier,
@@ -74,7 +74,7 @@ final class HomeModel: HomeModelProtocol {
             )
         }
         cachedFeedingPoints = modifiedPoints
-        completion?(self.applyFilter(self.cachedFeedingPoints))
+        return self.applyFilter(self.cachedFeedingPoints)
     }
 
     func fetchFeedingAction(request: HomeModel.FeedingActionRequest) -> HomeModel.FeedingAction {

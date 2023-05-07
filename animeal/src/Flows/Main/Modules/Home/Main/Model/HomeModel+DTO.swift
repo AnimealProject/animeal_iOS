@@ -24,6 +24,7 @@ extension HomeModel {
     struct Location {
         let latitude: Double
         let longitude: Double
+        let radius: Measurement<UnitLength>
     }
 
     struct FilterItem {
