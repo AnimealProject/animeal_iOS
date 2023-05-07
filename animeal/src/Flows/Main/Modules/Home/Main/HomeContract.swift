@@ -21,7 +21,7 @@ protocol HomeModelProtocol: AnyObject {
     func fetchFeedingPoint(_ pointId: String) async throws -> HomeModel.FeedingPoint
 
     func proceedFilter(_ identifier: HomeModel.FilterItemIdentifier)
-    func proceedFeedingPointSelection(_ identifier: String, completion: (([HomeModel.FeedingPoint]) -> Void)?)
+    func proceedFeedingPointSelection(_ identifier: String) -> [HomeModel.FeedingPoint]
 
     // Feeding flow
     func processStartFeeding(feedingPointId: String) async throws -> FeedingResponse
@@ -55,6 +55,7 @@ protocol HomeViewInteraction: AnyObject {
 protocol HomeViewState: AnyObject {
     var onFeedingPointsHaveBeenPrepared: (([FeedingPointViewItem]) -> Void)? { get set }
     var onFeedingPointCameraMoveRequired: ((FeedingPointCameraMove) -> Void)? { get set }
+    var onFeadingPointsZoomRequired: (([String]) -> Void)? { get set }
     var onSegmentsHaveBeenPrepared: ((FilterModel) -> Void)? { get set }
     var onRouteRequestHaveBeenPrepared: ((FeedingPointRouteRequest) -> Void)? { get set }
     var onFeedingActionHaveBeenPrepared: ((FeedingActionMapper.FeedingAction) -> Void)? { get set }
@@ -66,7 +67,7 @@ protocol HomeViewState: AnyObject {
 }
 
 enum HomeViewActionEvent {
-    case tapFeedingPoint(String)
+    case tapFeedingPoints([String])
     case tapFilterControl(Int)
     case tapCancelFeeding
     case autoCancelFeeding

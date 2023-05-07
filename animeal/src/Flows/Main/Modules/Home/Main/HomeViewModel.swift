@@ -23,6 +23,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     // MARK: - State
     var onFeedingPointsHaveBeenPrepared: (([FeedingPointViewItem]) -> Void)?
     var onFeedingPointCameraMoveRequired: ((FeedingPointCameraMove) -> Void)?
+    var onFeadingPointsZoomRequired: (([String]) -> Void)?
     var onSegmentsHaveBeenPrepared: ((FilterModel) -> Void)?
     var onRouteRequestHaveBeenPrepared: ((FeedingPointRouteRequest) -> Void)?
     var onFeedingActionHaveBeenPrepared: ((FeedingActionMapper.FeedingAction) -> Void)?
@@ -90,8 +91,12 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     // MARK: - Interaction
     func handleActionEvent(_ event: HomeViewActionEvent) {
         switch event {
-        case .tapFeedingPoint(let pointId):
+        case .tapFeedingPoints(let pointIds) where pointIds.count == 1:
+            guard let pointId = pointIds.first else { return }
             handleTapFeedingPoint(pointId: pointId)
+            onFeadingPointsZoomRequired?(pointIds)
+        case .tapFeedingPoints(let pointIds):
+            onFeadingPointsZoomRequired?(pointIds)
         case .tapFilterControl(let filterItemId):
             guard let itemIdentifier = HomeModel.FilterItemIdentifier(rawValue: filterItemId) else {
                 logError("[APP] \(#function) no filter with \(filterItemId)")
@@ -258,14 +263,12 @@ private extension HomeViewModel {
     }
 
     func proceedFeedingPointSelection(pointId: String) {
-        model.proceedFeedingPointSelection(pointId) { [weak self] points in
-            guard let self = self else { return }
-            let viewItems = points.map {
-                self.feedingPointViewMapper.mapFeedingPoint($0)
-            }
-            self.onFeedingPointsHaveBeenPrepared?(viewItems)
-            self.coordinator.routeTo(.details(pointId))
+        let points = model.proceedFeedingPointSelection(pointId)
+        let viewItems = points.map {
+            feedingPointViewMapper.mapFeedingPoint($0)
         }
+        onFeedingPointsHaveBeenPrepared?(viewItems)
+        coordinator.routeTo(.details(pointId))
     }
 
     func handleTapFeedingPoint(pointId: String) {
