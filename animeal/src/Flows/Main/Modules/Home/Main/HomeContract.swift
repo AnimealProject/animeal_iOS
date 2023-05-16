@@ -65,6 +65,7 @@ protocol HomeViewState: AnyObject {
     var onRequestToCamera: (() -> CameraAccessState)? { get set }
     var onCameraPermissionNativeRequired: (() -> Void)? { get set }
     var onCameraPermissionCustomRequired: (() -> Void)? { get set }
+    var onLocationPermissionRequired: (() -> Void)? { get set }
 }
 
 enum HomeViewActionEvent {
@@ -74,6 +75,7 @@ enum HomeViewActionEvent {
     case autoCancelFeeding
     case confirmCancelFeeding
     case getCameraPermission
+    case getLocationPermission
 }
 
 enum CameraAccessState {

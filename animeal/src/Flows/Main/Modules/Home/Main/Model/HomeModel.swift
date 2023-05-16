@@ -102,6 +102,13 @@ final class HomeModel: HomeModelProtocol {
                     .init(title: L10n.Action.no, style: .inverted),
                     .init(title: L10n.Action.openSettings, style: .accent(.cameraAccess))
                 ])
+        case .locationAccess:
+            return .init(
+                title: L10n.Feeding.Alert.grantLocationPermission,
+                actions: [
+                    .init(title: L10n.Action.noThanks, style: .inverted),
+                    .init(title: L10n.Action.openSettings, style: .accent(.locationAccess))
+                ])
         }
     }
 

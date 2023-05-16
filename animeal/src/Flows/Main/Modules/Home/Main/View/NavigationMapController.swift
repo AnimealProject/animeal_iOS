@@ -33,7 +33,7 @@ class NavigationMapController: NavigationViewControllerDelegate {
     }
 
     // MARK: - Accessible properties
-    var didChangeLocation: ((CLLocation) -> Void)?
+    var didChangeLocation: ((CLLocation, Bool) -> Void)?
     var didTapAnnotations: (([Annotation]) -> Void)?
 
     var view: UIView {
@@ -214,7 +214,10 @@ class NavigationMapController: NavigationViewControllerDelegate {
 // MARK: - Managing navigationRoute requests
 extension NavigationMapController {
     func requestRoute(destination: CLLocationCoordinate2D, completion: ((Result<Void, Error>) -> Void)?) {
-        guard let userLocation = navigationMapView.mapView.location.latestLocation else { return }
+        guard let userLocation = navigationMapView.mapView.location.latestLocation else {
+            completion?(.success(()))
+            return
+        }
 
         let location = CLLocation(
             latitude: userLocation.coordinate.latitude,
@@ -278,7 +281,11 @@ private extension NavigationMapController {
 // MARK: - LocationConsumer delegate conformance
 extension NavigationMapController: LocationConsumer {
     func locationUpdate(newLocation: MapboxMaps.Location) {
-        didChangeLocation?(newLocation.location)
+        if currentRoute == nil {
+            didChangeLocation?(newLocation.location, true)
+        } else {
+            didChangeLocation?(newLocation.location, false)
+        }
     }
 }
 

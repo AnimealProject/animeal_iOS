@@ -57,5 +57,6 @@ extension HomeModel {
         case cancelFeeding
         case autoCancelFeeding
         case cameraAccess
+        case locationAccess
     }
 }

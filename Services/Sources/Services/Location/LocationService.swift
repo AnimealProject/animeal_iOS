@@ -1,4 +1,5 @@
 import Foundation
+import CoreLocation
 import UIKit
 
 public protocol LocationServiceHolder {
@@ -7,6 +8,8 @@ public protocol LocationServiceHolder {
 
 // sourcery: AutoMockable
 public protocol LocationServiceProtocol {
+    // MARK: - location access status
+    var locationStatus: CLAuthorizationStatus { get }
     // MARK: - handle location once
     func requestLocation(for delegate: LocationServiceDelegate)
     // MARK: - handle Real-Time User Location Updates
@@ -32,6 +35,12 @@ public final class LocationService {
 
 // MARK: - LocationService
 extension LocationService: LocationServiceProtocol {
+    public var locationStatus: CLAuthorizationStatus {
+        get {
+            return locationManager.authorizationStatus
+        }
+    }
+    
     public func removeDelegate(_ delegate: LocationServiceDelegate) {
         liveStreamDelegates.removeDelegate(delegate)
     }

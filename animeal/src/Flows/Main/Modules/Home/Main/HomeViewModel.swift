@@ -32,6 +32,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     var onRequestToCamera: (() -> CameraAccessState)?
     var onCameraPermissionNativeRequired: (() -> Void)?
     var onCameraPermissionCustomRequired: (() -> Void)?
+    var onLocationPermissionRequired: (() -> Void)?
 
     // MARK: - Initialization
     init(
@@ -57,7 +58,8 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
         }
 
         coordinator.feedingDidStartedEvent = { [weak self] event in
-            guard let self = self else { return }
+            guard let self else { return }
+            
             switch self.feedingStatus {
             case .progress:
                 self.coordinator.displayAlert(
@@ -113,6 +115,8 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
             handleConfirmCancelFeeding()
         case .getCameraPermission:
             handleGetCameraPermission()
+        case .getLocationPermission:
+            handleGetLocationPermission()
         }
     }
 
@@ -143,13 +147,24 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
             return false
         }
     }
-
+    
     func startFeeding(feedingPointId id: String) {
         coordinator.displayActivityIndicator(waitUntil: { [weak self] in
             guard let self else { return }
+            
             let result = try await self.model.processStartFeeding(feedingPointId: id)
             let feedingPoint = try await self.model.fetchFeedingPoint(result.feedingPoint)
-
+            
+            switch self.locationService.locationStatus {
+            case .authorizedAlways, .authorizedWhenInUse:
+                break
+            case .denied, .restricted, .notDetermined:
+                let action = self.model.fetchFeedingAction(request: .locationAccess)
+                self.onFeedingActionHaveBeenPrepared?(self.feedingActionMapper.mapFeedingAction(action))
+            default:
+                break
+            }
+            
             switch self.onRequestToCamera?() ?? .denied {
             case .authorized:
                 break
@@ -242,6 +257,10 @@ private extension HomeViewModel {
     
     func handleGetCameraPermission() {
         onCameraPermissionCustomRequired?()
+    }
+    
+    func handleGetLocationPermission() {
+        onLocationPermissionRequired?()
     }
 
     func handleRejectFeeding() {
