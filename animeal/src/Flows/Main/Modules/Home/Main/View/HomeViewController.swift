@@ -182,6 +182,12 @@ private extension HomeViewController {
                 await self?.openSettings()
             }
         }
+        
+        viewModel.onLocationPermissionRequired = { [weak self] in
+            Task {
+                await self?.openSettings()
+            }
+        }
     }
 
     func handleFeedingAction(_ action: FeedingActionMapper.FeedingAction) {
@@ -201,6 +207,8 @@ private extension HomeViewController {
                         self.viewModel.handleActionEvent(.confirmCancelFeeding)
                     } else if action == .cameraAccess {
                         self.viewModel.handleActionEvent(.getCameraPermission)
+                    } else if action == .locationAccess {
+                        self.viewModel.handleActionEvent(.getLocationPermission)
                     }
                     alertViewController.dismiss(animated: true)
                 }
@@ -216,6 +224,20 @@ private extension HomeViewController {
         self.present(alertViewController, animated: true)
     }
 
+    func handleUpdatedRouteRequest(_ request: FeedingPointRouteRequest) {
+        mapView.requestRoute(destination: request.feedingPointCoordinates) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success:
+                if !request.isUnfinishedFeeding {
+                    self.viewModel.startFeeding(feedingPointId: request.feedingPointId)
+                }
+            case .failure(let error):
+                self.showErrorMessage(error.localizedDescription)
+            }
+        }
+    }
+    
     func handleRouteRequest(_ request: FeedingPointRouteRequest) {
         mapView.requestRoute(destination: request.feedingPointCoordinates) { [weak self] result in
             guard let self = self else { return }
@@ -236,11 +258,14 @@ private extension HomeViewController {
                     request.feedingPointCoordinates,
                     location: self.mapView.location.latestLocation?.location
                 )
-                self.mapView.didChangeLocation = { [weak self] location in
-                    self?.handleLocationChange(
-                        request.feedingPointCoordinates,
-                        location: location
-                    )
+                self.mapView.didChangeLocation = { [weak self] location, updated in
+                    if updated {
+                        self?.handleLocationUpdated(request: request,
+                                                    location: location)
+                    } else {
+                        self?.handleLocationChange(request.feedingPointCoordinates,
+                                                   location: location)
+                    }
                 }
                 if !request.isUnfinishedFeeding {
                     self.viewModel.startFeeding(feedingPointId: request.feedingPointId)
@@ -267,6 +292,24 @@ private extension HomeViewController {
             longitude: coordinates.longitude
         )
 
+        if let distance = location?.distance(from: feedingPointLocation) {
+            feedControl.updateDistance(distance)
+        }
+    }
+    
+    func handleLocationUpdated(request: FeedingPointRouteRequest,
+                               location: CLLocation?) {
+        var updateRequest = FeedingPointRouteRequest(feedingPointCoordinates: request.feedingPointCoordinates,
+                                           countdownTime: request.countdownTime,
+                                           feedingPointId: request.feedingPointId,
+                                           isUnfinishedFeeding: true)
+        handleUpdatedRouteRequest(updateRequest)
+        
+        let feedingPointLocation = CLLocation(
+            latitude: updateRequest.feedingPointCoordinates.latitude,
+            longitude: updateRequest.feedingPointCoordinates.longitude
+        )
+        
         if let distance = location?.distance(from: feedingPointLocation) {
             feedControl.updateDistance(distance)
         }
