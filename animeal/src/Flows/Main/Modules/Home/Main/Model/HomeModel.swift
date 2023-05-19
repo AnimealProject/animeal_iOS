@@ -1,6 +1,7 @@
 import Foundation
 import Services
 import Combine
+import Amplify
 
 final class HomeModel: HomeModelProtocol {
     typealias Context = DefaultsServiceHolder
@@ -186,6 +187,17 @@ final class HomeModel: HomeModelProtocol {
             throw L10n.Errors.somthingWrong.asBaseError()
         }
     }
+
+    func fetchActiveFeeding() async throws -> Feeding? {
+        guard let userId = await context.profileService.getCurrentUser()?.username else {
+            return nil
+        }
+        let userIdPredicate = QueryPredicateOperation(field: "userId", operator: .equals(userId))
+        return try await context.networkService.query(
+            request: .list(Feeding.self, where: userIdPredicate)
+        ).first
+    }
+
 }
 
 // MARK: Private API

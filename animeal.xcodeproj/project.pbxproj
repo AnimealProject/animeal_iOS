@@ -64,6 +64,8 @@
 		80138C16298196980010154A /* AboutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80138C11298196980010154A /* AboutViewModel.swift */; };
 		80138C1929828ACC0010154A /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80138C1829828ACC0010154A /* AboutView.swift */; };
 		80138C1B2982B4B30010154A /* AboutLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80138C1A2982B4B30010154A /* AboutLink.swift */; };
+		801F92D02A15057400BCF0BD /* AMURLSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801F92CF2A15057400BCF0BD /* AMURLSessionDelegate.swift */; };
+		801F92D22A1505CE00BCF0BD /* NetTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801F92D12A1505CE00BCF0BD /* NetTime.swift */; };
 		8076E8A4298FBC070048B97C /* FeedingFinishedAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8076E89F298FBC070048B97C /* FeedingFinishedAssembler.swift */; };
 		8076E8A5298FBC070048B97C /* FeedingFinishedContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8076E8A0298FBC070048B97C /* FeedingFinishedContract.swift */; };
 		8076E8A6298FBC070048B97C /* FeedingFinishedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8076E8A1298FBC070048B97C /* FeedingFinishedViewController.swift */; };
@@ -424,6 +426,8 @@
 		80138C11298196980010154A /* AboutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewModel.swift; sourceTree = "<group>"; };
 		80138C1829828ACC0010154A /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		80138C1A2982B4B30010154A /* AboutLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutLink.swift; sourceTree = "<group>"; };
+		801F92CF2A15057400BCF0BD /* AMURLSessionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMURLSessionDelegate.swift; sourceTree = "<group>"; };
+		801F92D12A1505CE00BCF0BD /* NetTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetTime.swift; sourceTree = "<group>"; };
 		8076E89F298FBC070048B97C /* FeedingFinishedAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingFinishedAssembler.swift; sourceTree = "<group>"; };
 		8076E8A0298FBC070048B97C /* FeedingFinishedContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingFinishedContract.swift; sourceTree = "<group>"; };
 		8076E8A1298FBC070048B97C /* FeedingFinishedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingFinishedViewController.swift; sourceTree = "<group>"; };
@@ -2079,6 +2083,8 @@
 				8324A2C2296B1EEB00AA5D32 /* NetworkRequestModels.swift */,
 				DBDC6E6F28C73E8F001B359D /* NetworkService.swift */,
 				DB84B31428CA13A60083D98C /* NetworkRequest.swift */,
+				801F92CF2A15057400BCF0BD /* AMURLSessionDelegate.swift */,
+				801F92D12A1505CE00BCF0BD /* NetTime.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -2611,6 +2617,7 @@
 				83C7A99F28E4A11A00F3D219 /* ProfileRoute.swift in Sources */,
 				8354135C290AED2600884430 /* PhoneCodesContract.swift in Sources */,
 				DBC5670528D879D100172FD5 /* FeedingPointDetailsViewMapper.swift in Sources */,
+				801F92D02A15057400BCF0BD /* AMURLSessionDelegate.swift in Sources */,
 				8385DB9E290EAD2900F64BCC /* SearchModelFilter.swift in Sources */,
 				8360D1A3284E954900ACDEDB /* LoginModelOnboardingStep.swift in Sources */,
 				FB001451285A097E00943360 /* ProfileAssembler.swift in Sources */,
@@ -2823,6 +2830,7 @@
 				1F770667D42E31D263AE67AB /* RelationPetFeedingPoint+Schema.swift in Sources */,
 				B8A233D7B15B4A46582895E9 /* RelationPetFeedingPoint.swift in Sources */,
 				74DE171718857E1BDAA82A57 /* RelationUserFeedingPoint+Schema.swift in Sources */,
+				801F92D22A1505CE00BCF0BD /* NetTime.swift in Sources */,
 				C059A696D2F75AE49A266D33 /* RelationUserFeedingPoint.swift in Sources */,
 				FF0D1A35DECA7017DE49AF15 /* RelationUserPet+Schema.swift in Sources */,
 				68EBA811759F197EE338048C /* RelationUserPet.swift in Sources */,
