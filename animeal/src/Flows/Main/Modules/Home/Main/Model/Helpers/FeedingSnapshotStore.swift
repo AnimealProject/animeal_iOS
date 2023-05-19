@@ -39,10 +39,12 @@ final class FeedingSnapshotStore: FeedingSnapshotStorable {
 struct FeedingSnapshot: Codable, Storeable {
     let pointId: String
     let feedStartingDate: Date
+    let startingTimeDiff: TimeInterval
 
     init(pointId: String, feedStartingDate: Date) {
         self.pointId = pointId
         self.feedStartingDate = feedStartingDate
+        self.startingTimeDiff = NetTime.serverTimeDifference
     }
 
     var storeData: Data? {

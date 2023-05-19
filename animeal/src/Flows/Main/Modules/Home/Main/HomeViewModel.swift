@@ -117,24 +117,23 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     }
 
     func fetchUnfinishedFeeding() async -> Bool {
-        guard
-            let snapshot = model.fetchFeedingSnapshot(),
-            (Date.now - Constants.feedingCountdownTimer) < snapshot.feedStartingDate
-        else {
+        guard let activeFeeding = try? await model.fetchActiveFeeding() else {
             return false
         }
         do {
-            let feedingPoint = try await model.fetchFeedingPoint(snapshot.pointId)
+            let snapshotTimeDiff = model.fetchFeedingSnapshot()?.startingTimeDiff ?? NetTime.serverTimeDifference
+            let timeDiff = snapshotTimeDiff - NetTime.serverTimeDifference
+            let feedingPoint = try await model.fetchFeedingPoint(activeFeeding.feedingPoint.id)
             let pointItemView = feedingPointViewMapper.mapFeedingPoint(feedingPoint)
             // Update view with feedingPoint details
             onFeedingPointsHaveBeenPrepared?([pointItemView])
             // Request build route
-            let timePassSinceFeedingStarted = Date.now - snapshot.feedStartingDate
+            let timePassSinceFeedingStarted = Date.now - activeFeeding.createdAt.foundationDate + timeDiff
             onRouteRequestHaveBeenPrepared?(
                 .init(
                     feedingPointCoordinates: pointItemView.coordinates,
                     countdownTime: Constants.feedingCountdownTimer - timePassSinceFeedingStarted,
-                    feedingPointId: snapshot.pointId,
+                    feedingPointId: activeFeeding.feedingPoint.id,
                     isUnfinishedFeeding: true
                 )
             )

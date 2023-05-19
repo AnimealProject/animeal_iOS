@@ -51,14 +51,14 @@ class FeedingPointDetailsModelMapper: FeedingPointDetailsModelMapperProtocol {
             case .inProgress:
                 let minutesLeft = DateFormatter.relativeShort.localizedString(
                     for: historyItem.updatedAt.foundationDate,
-                    relativeTo: Date.now
+                    relativeTo: NetTime.now
                 )
                 lastFeeded = "\(L10n.Feeding.Status.inprogress), \(minutesLeft)"
 
             default:
                 lastFeeded = DateFormatter.relativeFull.localizedString(
                     for: historyItem.updatedAt.foundationDate,
-                    relativeTo: Date.now
+                    relativeTo: NetTime.now
                 )
             }
             return FeedingPointDetailsModel.Feeder(
