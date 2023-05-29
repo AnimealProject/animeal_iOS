@@ -4,19 +4,19 @@
       "authorizationType": "AMAZON_COGNITO_USER_POOLS",
       "dependsOn": [
         {
-          "category": "auth",
-          "resourceName": "animeal8f90e9b68f90e9b6",
           "attributes": [
             "UserPoolId"
-          ]
+          ],
+          "category": "auth",
+          "resourceName": "animeal8f90e9b68f90e9b6"
         },
         {
-          "category": "function",
-          "resourceName": "AdminQueriesdbb0bdc6",
           "attributes": [
             "Arn",
             "Name"
-          ]
+          ],
+          "category": "function",
+          "resourceName": "AdminQueriesdbb0bdc6"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -61,58 +61,58 @@
       "customAuth": false,
       "dependsOn": [
         {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
           "category": "function",
           "resourceName": "animeal8f90e9b68f90e9b6CreateAuthChallenge",
-          "triggerProvider": "Cognito",
+          "triggerProvider": "Cognito"
+        },
+        {
           "attributes": [
             "Arn",
             "Name"
-          ]
-        },
-        {
+          ],
           "category": "function",
           "resourceName": "animeal8f90e9b68f90e9b6DefineAuthChallenge",
-          "triggerProvider": "Cognito",
+          "triggerProvider": "Cognito"
+        },
+        {
           "attributes": [
             "Arn",
             "Name"
-          ]
-        },
-        {
+          ],
           "category": "function",
           "resourceName": "animeal8f90e9b68f90e9b6PreSignup",
-          "triggerProvider": "Cognito",
+          "triggerProvider": "Cognito"
+        },
+        {
           "attributes": [
             "Arn",
             "Name"
-          ]
-        },
-        {
+          ],
           "category": "function",
           "resourceName": "animeal8f90e9b68f90e9b6VerifyAuthChallengeResponse",
-          "triggerProvider": "Cognito",
+          "triggerProvider": "Cognito"
+        },
+        {
           "attributes": [
             "Arn",
             "Name"
-          ]
-        },
-        {
+          ],
           "category": "function",
           "resourceName": "animeal8f90e9b68f90e9b6PostConfirmation",
-          "triggerProvider": "Cognito",
-          "attributes": [
-            "Arn",
-            "Name"
-          ]
+          "triggerProvider": "Cognito"
         },
         {
-          "category": "function",
-          "resourceName": "animeal8f90e9b68f90e9b6CustomMessage",
-          "triggerProvider": "Cognito",
           "attributes": [
             "Arn",
             "Name"
-          ]
+          ],
+          "category": "function",
+          "resourceName": "animeal8f90e9b68f90e9b6CustomMessage",
+          "triggerProvider": "Cognito"
         }
       ],
       "frontendAuthConfig": {
@@ -194,6 +194,11 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "animeal8f90e9b68f90e9b6CustomMessage": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "animeal8f90e9b68f90e9b6DefineAuthChallenge": {
       "build": true,
       "providerPlugin": "awscloudformation",
@@ -250,13 +255,13 @@
       "build": true,
       "dependsOn": [
         {
-          "category": "api",
-          "resourceName": "animeal",
           "attributes": [
             "GraphQLAPIIdOutput",
             "GraphQLAPIEndpointOutput",
             "GraphQLAPIKeyOutput"
-          ]
+          ],
+          "category": "api",
+          "resourceName": "animeal"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -266,20 +271,49 @@
       "build": true,
       "dependsOn": [
         {
-          "category": "api",
-          "resourceName": "animeal",
           "attributes": [
             "GraphQLAPIIdOutput",
             "GraphQLAPIEndpointOutput",
             "GraphQLAPIKeyOutput"
-          ]
+          ],
+          "category": "api",
+          "resourceName": "animeal"
         },
         {
-          "category": "auth",
-          "resourceName": "animeal8f90e9b68f90e9b6",
           "attributes": [
             "UserPoolId"
-          ]
+          ],
+          "category": "auth",
+          "resourceName": "animeal8f90e9b68f90e9b6"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "languages": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "onModelTrigger": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "animeal"
+        },
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ],
+          "category": "api",
+          "resourceName": "animeal"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -289,13 +323,13 @@
       "build": true,
       "dependsOn": [
         {
-          "category": "api",
-          "resourceName": "animeal",
           "attributes": [
             "GraphQLAPIIdOutput",
             "GraphQLAPIEndpointOutput",
             "GraphQLAPIKeyOutput"
-          ]
+          ],
+          "category": "api",
+          "resourceName": "animeal"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -346,29 +380,11 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
-    "languages": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
-    "animeal8f90e9b68f90e9b6CustomMessage": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
-    "onModelTrigger": {
+    "cognitoEventTriggerHandler": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda",
       "dependsOn": [
-        {
-          "category": "api",
-          "resourceName": "animeal",
-          "attributes": [
-            "GraphQLAPIIdOutput",
-            "GraphQLAPIEndpointOutput"
-          ]
-        },
         {
           "category": "api",
           "resourceName": "animeal",
@@ -407,256 +423,6 @@
       "isDefault": true,
       "providerPlugin": "awscloudformation",
       "service": "PlaceIndex"
-    }
-  },
-  "parameters": {
-    "AMPLIFY_function_AdminQueriesdbb0bdc6_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "AdminQueriesdbb0bdc6"
-        }
-      ]
-    },
-    "AMPLIFY_function_AdminQueriesdbb0bdc6_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "AdminQueriesdbb0bdc6"
-        }
-      ]
-    },
-    "AMPLIFY_function_animeal8f90e9b68f90e9b6CreateAuthChallenge_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "animeal8f90e9b68f90e9b6CreateAuthChallenge"
-        }
-      ]
-    },
-    "AMPLIFY_function_animeal8f90e9b68f90e9b6CreateAuthChallenge_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "animeal8f90e9b68f90e9b6CreateAuthChallenge"
-        }
-      ]
-    },
-    "AMPLIFY_function_animeal8f90e9b68f90e9b6DefineAuthChallenge_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "animeal8f90e9b68f90e9b6DefineAuthChallenge"
-        }
-      ]
-    },
-    "AMPLIFY_function_animeal8f90e9b68f90e9b6DefineAuthChallenge_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "animeal8f90e9b68f90e9b6DefineAuthChallenge"
-        }
-      ]
-    },
-    "AMPLIFY_function_animeal8f90e9b68f90e9b6PostConfirmation_GROUP": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "animeal8f90e9b68f90e9b6PostConfirmation"
-        }
-      ]
-    },
-    "AMPLIFY_function_animeal8f90e9b68f90e9b6PostConfirmation_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "animeal8f90e9b68f90e9b6PostConfirmation"
-        }
-      ]
-    },
-    "AMPLIFY_function_animeal8f90e9b68f90e9b6PostConfirmation_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "animeal8f90e9b68f90e9b6PostConfirmation"
-        }
-      ]
-    },
-    "AMPLIFY_function_animeal8f90e9b68f90e9b6PreSignup_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "animeal8f90e9b68f90e9b6PreSignup"
-        }
-      ]
-    },
-    "AMPLIFY_function_animeal8f90e9b68f90e9b6PreSignup_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "animeal8f90e9b68f90e9b6PreSignup"
-        }
-      ]
-    },
-    "AMPLIFY_function_animeal8f90e9b68f90e9b6VerifyAuthChallengeResponse_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "animeal8f90e9b68f90e9b6VerifyAuthChallengeResponse"
-        }
-      ]
-    },
-    "AMPLIFY_function_animeal8f90e9b68f90e9b6VerifyAuthChallengeResponse_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "animeal8f90e9b68f90e9b6VerifyAuthChallengeResponse"
-        }
-      ]
-    },
-    "AMPLIFY_function_approveFeeding_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "approveFeeding"
-        }
-      ]
-    },
-    "AMPLIFY_function_approveFeeding_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "approveFeeding"
-        }
-      ]
-    },
-    "AMPLIFY_function_autoResetStatus_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "autoResetStatus"
-        }
-      ]
-    },
-    "AMPLIFY_function_autoResetStatus_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "autoResetStatus"
-        }
-      ]
-    },
-    "AMPLIFY_function_feedingStreamTrigger_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "feedingStreamTrigger"
-        }
-      ]
-    },
-    "AMPLIFY_function_feedingStreamTrigger_isAutoApprovalEnabled": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "feedingStreamTrigger"
-        }
-      ]
-    },
-    "AMPLIFY_function_feedingStreamTrigger_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "feedingStreamTrigger"
-        }
-      ]
-    },
-    "AMPLIFY_function_finishFeeding_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "finishFeeding"
-        }
-      ]
-    },
-    "AMPLIFY_function_finishFeeding_isApprovalEnabled": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "finishFeeding"
-        }
-      ]
-    },
-    "AMPLIFY_function_finishFeeding_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "finishFeeding"
-        }
-      ]
-    },
-    "AMPLIFY_function_rejectFeeding_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "rejectFeeding"
-        }
-      ]
-    },
-    "AMPLIFY_function_rejectFeeding_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "rejectFeeding"
-        }
-      ]
-    },
-    "AMPLIFY_function_startFeeding_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "startFeeding"
-        }
-      ]
-    },
-    "AMPLIFY_function_startFeeding_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "startFeeding"
-        }
-      ]
-    },
-    "AMPLIFY_function_translate_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "translate"
-        }
-      ]
-    },
-    "AMPLIFY_function_translate_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "translate"
-        }
-      ]
-    },
-    "AMPLIFY_function_updateTranslationsTrigger_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "updateTranslationsTrigger"
-        }
-      ]
-    },
-    "AMPLIFY_function_updateTranslationsTrigger_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "updateTranslationsTrigger"
-        }
-      ]
     }
   },
   "storage": {

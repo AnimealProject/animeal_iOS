@@ -3,7 +3,7 @@
   "policyUUID": "d40b08a3",
   "bucketName": "animealstorage",
   "storageAccess": "auth",
-  "guestAccess": [],
+  "guestAccess": ["READ"],
   "authAccess": ["READ"],
   "groupAccess": {
     "Administrator": [

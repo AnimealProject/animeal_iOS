@@ -2,18 +2,18 @@ import Foundation
 import Services
 import Amplify
 
-final class AttachPhotoModel: AttachPhotoModelProtocol{
+final class AttachPhotoModel: AttachPhotoModelProtocol {
     // MARK: - Private properties
     private let mapper: AttachPhotoModelMapperProtocol
-    
+
     typealias Context = NetworkServiceHolder & DataStoreServiceHolder & UserProfileServiceHolder
     private let context: Context
-    
+
     // MARK: - DataStore properties
     let feedingPointId: String
-    
+
     private var feedingPoint: FeedingPoint?
-    
+
     // MARK: - Initialization
     init(
         pointId: String,
@@ -24,7 +24,7 @@ final class AttachPhotoModel: AttachPhotoModelProtocol{
         self.mapper = mapper
         self.context = context
     }
-    
+
     func fetchFeedingPoints(_ completion: ((AttachPhotoModel.PointContent) -> Void)?) {
         context.networkService.query(request: .get(FeedingPoint.self, byId: feedingPointId)) { [weak self] result in
             guard let self = self else { return }
@@ -75,7 +75,7 @@ extension AttachPhotoModel {
     struct PointContent {
         let content: Content
     }
-    
+
     struct Content {
         let cover: String?
         let title: String

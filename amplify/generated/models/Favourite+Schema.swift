@@ -7,6 +7,7 @@ extension Favourite {
    public enum CodingKeys: String, ModelKey {
     case id
     case userId
+    case sub
     case feedingPointId
     case createdAt
     case updatedAt
@@ -31,12 +32,14 @@ extension Favourite {
     
     model.attributes(
       .index(fields: ["userId", "feedingPointId"], name: "byUserId"),
+      .index(fields: ["sub", "feedingPointId"], name: "bySubId"),
       .index(fields: ["feedingPointId", "userId"], name: "byFeedingPointId")
     )
     
     model.fields(
       .id(),
       .field(favourite.userId, is: .required, ofType: .string),
+      .field(favourite.sub, is: .optional, ofType: .string),
       .field(favourite.feedingPointId, is: .required, ofType: .string),
       .field(favourite.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(favourite.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)

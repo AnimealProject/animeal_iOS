@@ -100,7 +100,7 @@ private extension AppDelegate {
             logError("[APP] Failed to initialize Amplify with \(error)")
         }
     }
-    
+
     func configureAppearance() {
         UINavigationBar.appearance().apply(style: .default)
     }
