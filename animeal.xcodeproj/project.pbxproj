@@ -88,6 +88,7 @@
 		83541361290AF1E200884430 /* PhoneCodesViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83541360290AF1E200884430 /* PhoneCodesViewItem.swift */; };
 		83541363290AF20200884430 /* PhoneCodesViewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83541362290AF20200884430 /* PhoneCodesViewSection.swift */; };
 		83541365290AF21F00884430 /* PhoneCodesViewActionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83541364290AF21F00884430 /* PhoneCodesViewActionEvent.swift */; };
+		8355D4D32A25CE2D00B29394 /* FeedingPointAnnotationModel+Annotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8355D4D22A25CE2D00B29394 /* FeedingPointAnnotationModel+Annotation.swift */; };
 		835E148828FDD4D40044EC2F /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835E148728FDD4D40044EC2F /* SearchViewController.swift */; };
 		835E148A28FDD4DC0044EC2F /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835E148928FDD4DC0044EC2F /* SearchViewModel.swift */; };
 		835E148C28FDD4E90044EC2F /* SearchAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835E148B28FDD4E90044EC2F /* SearchAssembler.swift */; };
@@ -454,6 +455,7 @@
 		83541360290AF1E200884430 /* PhoneCodesViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCodesViewItem.swift; sourceTree = "<group>"; };
 		83541362290AF20200884430 /* PhoneCodesViewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCodesViewSection.swift; sourceTree = "<group>"; };
 		83541364290AF21F00884430 /* PhoneCodesViewActionEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCodesViewActionEvent.swift; sourceTree = "<group>"; };
+		8355D4D22A25CE2D00B29394 /* FeedingPointAnnotationModel+Annotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedingPointAnnotationModel+Annotation.swift"; sourceTree = "<group>"; };
 		835E148728FDD4D40044EC2F /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		835E148928FDD4DC0044EC2F /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		835E148B28FDD4E90044EC2F /* SearchAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAssembler.swift; sourceTree = "<group>"; };
@@ -1025,6 +1027,14 @@
 				83541364290AF21F00884430 /* PhoneCodesViewActionEvent.swift */,
 			);
 			path = Items;
+			sourceTree = "<group>";
+		};
+		8355D4D12A25CE1C00B29394 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8355D4D22A25CE2D00B29394 /* FeedingPointAnnotationModel+Annotation.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		835E148628FDD4700044EC2F /* Search */ = {
@@ -1840,6 +1850,7 @@
 		DB0E43C428D07D53007A1EB1 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				8355D4D12A25CE1C00B29394 /* Extensions */,
 				807874D029D579390005D669 /* Shimmers */,
 				DBF56B5428CF40E300AB0BDF /* FeedingPointDetailsViewController.swift */,
 				DBC5670428D879D100172FD5 /* FeedingPointDetailsViewMapper.swift */,
@@ -2710,6 +2721,7 @@
 				D20DBC8B299D40BE003E0668 /* FAQViewModel.swift in Sources */,
 				7F5DE9D529BF37EE00C53087 /* LeaderboardCoordinator.swift in Sources */,
 				83C7A98828E45AFE00F3D219 /* ProfileModelItem.swift in Sources */,
+				8355D4D32A25CE2D00B29394 /* FeedingPointAnnotationModel+Annotation.swift in Sources */,
 				78BEB18E293811C900A11CA7 /* FavouritesModelMapper.swift in Sources */,
 				8312A5C1290AFE8F005C85CB /* PhoneCodesViewCell.swift in Sources */,
 				838B6B6E2868B021001DD111 /* VerificationViewModel.swift in Sources */,

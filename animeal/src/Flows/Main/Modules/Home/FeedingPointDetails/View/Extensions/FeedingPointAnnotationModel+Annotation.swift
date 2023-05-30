@@ -1,4 +1,5 @@
 import MapboxMaps
+import UIComponents
 import UIKit
 import Style
 
@@ -37,3 +38,4 @@ extension FeedingPointAnnotationModel {
         }
     }
 }
+

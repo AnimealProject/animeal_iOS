@@ -17,7 +17,10 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/CocoaLumberjack/CocoaLumberjack.git", from: "3.7.0"),
-        .package(name: "Firebase", url: "https://github.com/firebase/firebase-ios-sdk.git", .upToNextMajor(from: "8.10.0")
+        .package(
+            name: "Firebase",
+            url: "https://github.com/firebase/firebase-ios-sdk.git",
+            .upToNextMajor(from: "8.10.0")
         )
     ],
     targets: [
