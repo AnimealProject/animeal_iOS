@@ -15,7 +15,7 @@ public extension FeedingPointAnnotationModel {
     
     func annotation(at coordinates: CLLocationCoordinate2D) -> Annotation {
         var annotation = PointAnnotation(id: identifier, coordinate: coordinates)
-        annotation.image = .init(image: image, name: "\(kind)")
+        annotation.image = .init(image: image, name: "\(kind)_\(hungerLevel)")
         annotation.iconAnchor = .center
         return annotation
     }
