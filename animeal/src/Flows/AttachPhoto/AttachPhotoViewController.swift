@@ -4,6 +4,7 @@ import UIKit
 // SDK
 import UIComponents
 import Style
+import AVFoundation
 
 final class AttachPhotoViewController: UIViewController, AttachPhotoViewable {
     // MARK: - Constants
@@ -131,6 +132,9 @@ private extension AttachPhotoViewController {
     // MARK: - Bind
     func bind() {
         attachingPhotoView.onTapAttachPhoto = { [weak self] in
+            let cameraStatus = AVCaptureDevice.authorizationStatus(for: .video)
+            guard cameraStatus == .authorized else { return }
+            
             let vc = UIImagePickerController()
             vc.sourceType = .camera
             vc.allowsEditing = true
