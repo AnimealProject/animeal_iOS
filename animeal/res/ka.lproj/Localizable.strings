@@ -4,6 +4,8 @@
 "tabBar.more"                                     = "მეტი";
 "segment.dogs"                                    = "ძაღლები";
 "segment.cats"                                    = "კატები";
+"loginScreen.text"                                = "ზოგიერთი მათგანი უსახლკაროა, მათ თქვენი დახმარება სჭირდებათ";
+"loginScreen.title"                               = "იზრუნეთ შინაურ ცხოველებზე";
 "loginScreen.signInViaMobilePhone"                = "შედით მობილურით";
 "loginScreen.signInViaFacebook"                   = "Ფეისბუქზე შესვლა";
 "loginScreen.signInViaApple"                      = "შედით Apple-ით";
@@ -17,8 +19,10 @@
 "profile.edit"                                    = "რედაქტირება";
 "profile.save"                                    = "Გადარჩენა";
 "profile.done"                                    = "შესრულებულია";
+"profile.cancel"                                  = "გააუქმოს";
 "profile.header"                                  = "პროფილი";
 "profile.subHeader"                               = "გთხოვთ შეავსოთ პროფილის ინფორმაცია";
+"profile.cancel.dialogHeader"                     = "ნამდვილად გსურთ რეგისტრაციის გაუქმება?";
 "profile.errors.empty"                            = "ველი ცარიელია";
 "profile.errors.ageLimit"                         = "ასაკობრივი ზღვარი არის %@ წელი";
 "profile.errors.incorrectFormat"                  = "ფორმატი არასწორია";
@@ -41,6 +45,7 @@
 "action.agree"                                    = "ვეთანხმები";
 "action.ok"                                       = "Კარგი";
 "action.no"                                       = "არა";
+"action.noThanks"                                 = "Არა გმადლობთ";
 "action.gotIt"                                    = "Გავიგე";
 "action.copyIBAN"                                 = "კოპირება IBAN";
 "action.deleteAccount"                            = "Ანგარიშის წაშლა";
@@ -49,6 +54,7 @@
 "action.finish"                                   = "დასრულება";
 "action.showOnMap"                                = "რუკაზე ჩვენება";
 "action.backToHome"                               = "სახლში დაბრუნება";
+"action.openSettings"                             = "გახსენით პარამეტრები";
 "question.logoutAccount"                          = "დარწმუნებული ხართ, რომ გსურთ თქვენი ანგარიშიდან გამოსვლა?";
 "question.deleteAccount"                          = "დარწმუნებული ხართ, რომ გსურთ თქვენი ანგარიშის წაშლა?";
 "text.header.lastFeeder"                          = "ბოლო მიმწოდებელი";
@@ -71,6 +77,8 @@
 "feeding.alert.cancelFeeding"                     = "ნამდვილად გსურთ კვების გაუქმება?";
 "feeding.alert.feedingTimerOver"                  = "თქვენი კვების ტაიმერი დასრულდა. თქვენ შეგიძლიათ დაჯავშნოთ ახალი კვება საწყისი გვერდიდან";
 "feeding.alert.feedingPointHasBooked"             = "სხვა მომხმარებელმა დაჯავშნა კვება ამ კვების წერტილისთვის";
+"feeding.alert.grantCameraPermission"             = "გასაგრძელებლად გთხოვთ, მიანიჭოთ კამერის გამოყენების ნებართვა";
+"feeding.alert.grantLocationPermission"           = "შეგვიძლია გამოვთვალოთ მარშრუტი კვების პუნქტამდე. ფუნქციის გამოსაყენებლად, გთხოვთ, ჩართოთ მდებარეობის სერვისი";
 "feeding.error.otherFeedingRunning"               = "თქვენ ვერ დაიწყებთ კვებას, სანამ მეორე მიმდინარეობს";
 "toast.successLogout"                             = "თქვენ წარმატებით გამოხვედით სისტემიდან";
 "toast.userDeleted"                               = "თქვენი ანგარიში წარმატებით წაიშალა";

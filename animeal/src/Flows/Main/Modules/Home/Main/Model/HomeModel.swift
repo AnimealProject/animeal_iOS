@@ -1,6 +1,7 @@
 import Foundation
 import Services
 import Combine
+import Amplify
 
 final class HomeModel: HomeModelProtocol {
     typealias Context = DefaultsServiceHolder
@@ -62,7 +63,7 @@ final class HomeModel: HomeModelProtocol {
         context.defaultsService.write(key: Filter.selectedId, value: identifier.rawValue)
     }
 
-    func proceedFeedingPointSelection(_ identifier: String, completion: (([FeedingPoint]) -> Void)?) {
+    func proceedFeedingPointSelection(_ identifier: String) -> [FeedingPoint] {
         let modifiedPoints = cachedFeedingPoints.map { point in
             FeedingPoint(
                 identifier: point.identifier,
@@ -74,7 +75,7 @@ final class HomeModel: HomeModelProtocol {
             )
         }
         cachedFeedingPoints = modifiedPoints
-        completion?(self.applyFilter(self.cachedFeedingPoints))
+        return self.applyFilter(self.cachedFeedingPoints)
     }
 
     func fetchFeedingAction(request: HomeModel.FeedingActionRequest) -> HomeModel.FeedingAction {
@@ -94,6 +95,20 @@ final class HomeModel: HomeModelProtocol {
                     .init(title: L10n.Action.gotIt, style: .accent(.autoCancelFeeding))
                 ]
             )
+        case .cameraAccess:
+            return .init(
+                title: L10n.Feeding.Alert.grantCameraPermission,
+                actions: [
+                    .init(title: L10n.Action.no, style: .inverted),
+                    .init(title: L10n.Action.openSettings, style: .accent(.cameraAccess))
+                ])
+        case .locationAccess:
+            return .init(
+                title: L10n.Feeding.Alert.grantLocationPermission,
+                actions: [
+                    .init(title: L10n.Action.noThanks, style: .inverted),
+                    .init(title: L10n.Action.openSettings, style: .accent(.locationAccess))
+                ])
         }
     }
 
@@ -186,6 +201,17 @@ final class HomeModel: HomeModelProtocol {
             throw L10n.Errors.somthingWrong.asBaseError()
         }
     }
+
+    func fetchActiveFeeding() async throws -> Feeding? {
+        guard let userId = await context.profileService.getCurrentUser()?.username else {
+            return nil
+        }
+        let userIdPredicate = QueryPredicateOperation(field: "userId", operator: .equals(userId))
+        return try await context.networkService.query(
+            request: .list(Feeding.self, where: userIdPredicate)
+        ).first
+    }
+
 }
 
 // MARK: Private API

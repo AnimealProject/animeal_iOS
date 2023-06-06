@@ -23,11 +23,16 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     // MARK: - State
     var onFeedingPointsHaveBeenPrepared: (([FeedingPointViewItem]) -> Void)?
     var onFeedingPointCameraMoveRequired: ((FeedingPointCameraMove) -> Void)?
+    var onFeadingPointsZoomRequired: (([String]) -> Void)?
     var onSegmentsHaveBeenPrepared: ((FilterModel) -> Void)?
     var onRouteRequestHaveBeenPrepared: ((FeedingPointRouteRequest) -> Void)?
     var onFeedingActionHaveBeenPrepared: ((FeedingActionMapper.FeedingAction) -> Void)?
     var onFeedingHaveBeenCompleted: (() -> Void)?
     var onCurrentFeedingStateChanged: ((Bool) -> Void)?
+    var onRequestToCamera: (() -> CameraAccessState)?
+    var onCameraPermissionNativeRequired: (() -> Void)?
+    var onCameraPermissionCustomRequired: (() -> Void)?
+    var onLocationPermissionRequired: (() -> Void)?
 
     // MARK: - Initialization
     init(
@@ -53,7 +58,8 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
         }
 
         coordinator.feedingDidStartedEvent = { [weak self] event in
-            guard let self = self else { return }
+            guard let self else { return }
+            
             switch self.feedingStatus {
             case .progress:
                 self.coordinator.displayAlert(
@@ -87,8 +93,12 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     // MARK: - Interaction
     func handleActionEvent(_ event: HomeViewActionEvent) {
         switch event {
-        case .tapFeedingPoint(let pointId):
+        case .tapFeedingPoints(let pointIds) where pointIds.count == 1:
+            guard let pointId = pointIds.first else { return }
             handleTapFeedingPoint(pointId: pointId)
+            onFeadingPointsZoomRequired?(pointIds)
+        case .tapFeedingPoints(let pointIds):
+            onFeadingPointsZoomRequired?(pointIds)
         case .tapFilterControl(let filterItemId):
             guard let itemIdentifier = HomeModel.FilterItemIdentifier(rawValue: filterItemId) else {
                 logError("[APP] \(#function) no filter with \(filterItemId)")
@@ -103,28 +113,31 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
             handleRejectFeeding()
         case .confirmCancelFeeding:
             handleConfirmCancelFeeding()
+        case .getCameraPermission:
+            handleGetCameraPermission()
+        case .getLocationPermission:
+            handleGetLocationPermission()
         }
     }
 
     func fetchUnfinishedFeeding() async -> Bool {
-        guard
-            let snapshot = model.fetchFeedingSnapshot(),
-            (Date.now - Constants.feedingCountdownTimer) < snapshot.feedStartingDate
-        else {
+        guard let activeFeeding = try? await model.fetchActiveFeeding() else {
             return false
         }
         do {
-            let feedingPoint = try await model.fetchFeedingPoint(snapshot.pointId)
+            let snapshotTimeDiff = model.fetchFeedingSnapshot()?.startingTimeDiff ?? NetTime.serverTimeDifference
+            let timeDiff = snapshotTimeDiff - NetTime.serverTimeDifference
+            let feedingPoint = try await model.fetchFeedingPoint(activeFeeding.feedingPoint.id)
             let pointItemView = feedingPointViewMapper.mapFeedingPoint(feedingPoint)
             // Update view with feedingPoint details
             onFeedingPointsHaveBeenPrepared?([pointItemView])
             // Request build route
-            let timePassSinceFeedingStarted = Date.now - snapshot.feedStartingDate
+            let timePassSinceFeedingStarted = Date.now - activeFeeding.createdAt.foundationDate + timeDiff
             onRouteRequestHaveBeenPrepared?(
                 .init(
                     feedingPointCoordinates: pointItemView.coordinates,
                     countdownTime: Constants.feedingCountdownTimer - timePassSinceFeedingStarted,
-                    feedingPointId: snapshot.pointId,
+                    feedingPointId: activeFeeding.feedingPoint.id,
                     isUnfinishedFeeding: true
                 )
             )
@@ -134,12 +147,34 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
             return false
         }
     }
-
+    
     func startFeeding(feedingPointId id: String) {
         coordinator.displayActivityIndicator(waitUntil: { [weak self] in
             guard let self else { return }
+            
             let result = try await self.model.processStartFeeding(feedingPointId: id)
             let feedingPoint = try await self.model.fetchFeedingPoint(result.feedingPoint)
+            
+            switch self.locationService.locationStatus {
+            case .authorizedAlways, .authorizedWhenInUse:
+                break
+            case .denied, .restricted, .notDetermined:
+                let action = self.model.fetchFeedingAction(request: .locationAccess)
+                self.onFeedingActionHaveBeenPrepared?(self.feedingActionMapper.mapFeedingAction(action))
+            default:
+                break
+            }
+            
+            switch self.onRequestToCamera?() ?? .denied {
+            case .authorized:
+                break
+            case .notDetermined:
+                self.onCameraPermissionNativeRequired?()
+            case .denied:
+                let action = self.model.fetchFeedingAction(request: .cameraAccess)
+                self.onFeedingActionHaveBeenPrepared?(self.feedingActionMapper.mapFeedingAction(action))
+            }
+
             let pointItemView = self.feedingPointViewMapper.mapFeedingPoint(feedingPoint)
             self.onFeedingPointsHaveBeenPrepared?([pointItemView])
             self.feedingStatus = result.feedingStatus
@@ -219,6 +254,14 @@ private extension HomeViewModel {
             self.onFeedingPointsHaveBeenPrepared?(viewItems)
         }
     }
+    
+    func handleGetCameraPermission() {
+        onCameraPermissionCustomRequired?()
+    }
+    
+    func handleGetLocationPermission() {
+        onLocationPermissionRequired?()
+    }
 
     func handleRejectFeeding() {
         coordinator.displayActivityIndicator { [weak self] in
@@ -238,14 +281,12 @@ private extension HomeViewModel {
     }
 
     func proceedFeedingPointSelection(pointId: String) {
-        model.proceedFeedingPointSelection(pointId) { [weak self] points in
-            guard let self = self else { return }
-            let viewItems = points.map {
-                self.feedingPointViewMapper.mapFeedingPoint($0)
-            }
-            self.onFeedingPointsHaveBeenPrepared?(viewItems)
-            self.coordinator.routeTo(.details(pointId))
+        let points = model.proceedFeedingPointSelection(pointId)
+        let viewItems = points.map {
+            feedingPointViewMapper.mapFeedingPoint($0)
         }
+        onFeedingPointsHaveBeenPrepared?(viewItems)
+        coordinator.routeTo(.details(pointId))
     }
 
     func handleTapFeedingPoint(pointId: String) {

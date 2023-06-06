@@ -24,6 +24,7 @@ extension HomeModel {
     struct Location {
         let latitude: Double
         let longitude: Double
+        let radius: Measurement<UnitLength>
     }
 
     struct FilterItem {
@@ -55,5 +56,7 @@ extension HomeModel {
     enum FeedingActionRequest {
         case cancelFeeding
         case autoCancelFeeding
+        case cameraAccess
+        case locationAccess
     }
 }

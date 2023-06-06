@@ -51,14 +51,14 @@ class FeedingPointDetailsModelMapper: FeedingPointDetailsModelMapperProtocol {
             case .inProgress:
                 let minutesLeft = DateFormatter.relativeShort.localizedString(
                     for: historyItem.updatedAt.foundationDate,
-                    relativeTo: Date.now
+                    relativeTo: NetTime.now
                 )
                 lastFeeded = "\(L10n.Feeding.Status.inprogress), \(minutesLeft)"
 
             default:
                 lastFeeded = DateFormatter.relativeFull.localizedString(
                     for: historyItem.updatedAt.foundationDate,
-                    relativeTo: Date.now
+                    relativeTo: NetTime.now
                 )
             }
             return FeedingPointDetailsModel.Feeder(
@@ -82,7 +82,7 @@ extension FeedingPoint {
     var localizedName: String {
         switch Locale.current.languageCode {
         case "ka":
-            return description
+            return name
         default:
             return i18n?.first(where: { $0.locale == "en" })?.name ?? .empty
         }

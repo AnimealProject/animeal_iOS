@@ -107,7 +107,7 @@ public final class ActivityIndicatorView: UIView {
     public let color: UIColor
     public let padding: CGFloat
 
-    private(set) public var isAnimating: Bool = false
+    private(set) public var isAnimating = false
 
     // MARK: - Initialization
     public init(

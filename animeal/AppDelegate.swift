@@ -62,13 +62,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateProtocol {
 }
 
 private extension AppDelegate {
+
+    struct URLSessionFactory: URLSessionBehaviorFactory {
+        let configuration: URLSessionConfiguration
+        let delegateQueue: OperationQueue?
+
+        func makeSession(withDelegate delegate: URLSessionBehaviorDelegate?) -> URLSessionBehavior {
+            let urlSessionDelegate = AMURLSessionDelegate(amplifyDelegate: delegate)
+            let session = URLSession(configuration: configuration,
+                                     delegate: urlSessionDelegate,
+                                     delegateQueue: delegateQueue)
+            return session
+        }
+
+    }
+
+    static func makeDefault() -> URLSessionFactory {
+        let configuration = URLSessionConfiguration.default
+        configuration.tlsMinimumSupportedProtocolVersion = .TLSv12
+        configuration.tlsMaximumSupportedProtocolVersion = .TLSv13
+        let factory = URLSessionFactory(configuration: configuration, delegateQueue: nil)
+        return factory
+    }
+
     func configureAmplify() {
         do {
             try Amplify.add(plugin: AWSCognitoAuthPlugin())
             try Amplify.add(plugin: AWSS3StoragePlugin())
             let dataStorePlugin = AWSDataStorePlugin(modelRegistration: AmplifyModels())
             try Amplify.add(plugin: dataStorePlugin)
-            try Amplify.add(plugin: AWSAPIPlugin())
+            try Amplify.add(plugin: AWSAPIPlugin(sessionFactory: AppDelegate.makeDefault()))
             try Amplify.configure()
             try Amplify.API.add(interceptor: UrlQueryPlusFixInterceptor(), for: "AdminQueries")
             Amplify.Logging.logLevel = .verbose
@@ -77,7 +100,7 @@ private extension AppDelegate {
             logError("[APP] Failed to initialize Amplify with \(error)")
         }
     }
-    
+
     func configureAppearance() {
         UINavigationBar.appearance().apply(style: .default)
     }

@@ -42,6 +42,12 @@ export type AmplifyDependentResourcesAttributes = {
             "LambdaExecutionRole": "string",
             "Region": "string"
         },
+        "animeal8f90e9b68f90e9b6CustomMessage": {
+            "Name": "string",
+            "Arn": "string",
+            "LambdaExecutionRole": "string",
+            "Region": "string"
+        },
         "animeal8f90e9b68f90e9b6DefineAuthChallenge": {
             "Name": "string",
             "Arn": "string",
@@ -91,6 +97,18 @@ export type AmplifyDependentResourcesAttributes = {
             "Region": "string",
             "LambdaExecutionRole": "string"
         },
+        "languages": {
+            "Name": "string",
+            "Arn": "string",
+            "Region": "string",
+            "LambdaExecutionRole": "string"
+        },
+        "onModelTrigger": {
+            "Name": "string",
+            "Arn": "string",
+            "Region": "string",
+            "LambdaExecutionRole": "string"
+        },
         "rejectFeeding": {
             "Name": "string",
             "Arn": "string",
@@ -115,19 +133,7 @@ export type AmplifyDependentResourcesAttributes = {
             "Region": "string",
             "LambdaExecutionRole": "string"
         },
-        "languages": {
-            "Name": "string",
-            "Arn": "string",
-            "Region": "string",
-            "LambdaExecutionRole": "string"
-        },
-        "animeal8f90e9b68f90e9b6CustomMessage": {
-            "Name": "string",
-            "Arn": "string",
-            "LambdaExecutionRole": "string",
-            "Region": "string"
-        },
-        "onModelTrigger": {
+        "cognitoEventTriggerHandler": {
             "Name": "string",
             "Arn": "string",
             "Region": "string",

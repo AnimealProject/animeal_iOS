@@ -4,12 +4,15 @@ struct ProfileViewAction {
     let identifier: String
     let title: String
     let isEnabled: Bool
+    let style: ProfileActionStyle
 }
 
 extension ProfileViewAction {
     init(modelAction: ProfileModelAction) {
-        self.identifier = modelAction.identifier
-        self.title = modelAction.title
-        self.isEnabled = modelAction.isEnabled
+        let appearance = modelAction.appearance
+        self.identifier = appearance.identifier
+        self.title = appearance.title
+        self.isEnabled = appearance.isEnabled
+        self.style = appearance.style
     }
 }

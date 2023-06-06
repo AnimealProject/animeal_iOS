@@ -10,7 +10,7 @@ final class PhoneCodesViewModel: PhoneCodesViewModelProtocol {
 
     // MARK: - Dependencies
     private var selectedRegion: Region?
-    private let handler: (Region) -> Void
+    private let handler: (Region) async -> Void
     private let completion: (() -> Void)?
 
     // MARK: - State
@@ -20,7 +20,7 @@ final class PhoneCodesViewModel: PhoneCodesViewModelProtocol {
     // MARK: - Initialization
     init(
         selectedRegion: Region?,
-        handler: @escaping (Region) -> Void,
+        handler: @escaping (Region) async -> Void,
         completion: (() -> Void)? = nil
     ) {
         self.selectedRegion = selectedRegion
@@ -41,8 +41,8 @@ final class PhoneCodesViewModel: PhoneCodesViewModelProtocol {
         switch event {
         case .itemWasTapped(let identifier):
             guard let region = allRegions.first(where: { $0.rawValue == identifier }) else { return }
+            Task { [weak self] in await self?.handler(region) }
             selectedRegion = region
-            handler(region)
             updateSnapshot()
             completion?()
         }

@@ -33,7 +33,8 @@ class NavigationMapController: NavigationViewControllerDelegate {
     }
 
     // MARK: - Accessible properties
-    var didChangeLocation: ((CLLocation) -> Void)?
+    var didChangeLocation: ((CLLocation, Bool) -> Void)?
+    var didTapAnnotations: (([Annotation]) -> Void)?
 
     var view: UIView {
         return navigationMapView
@@ -47,11 +48,15 @@ class NavigationMapController: NavigationViewControllerDelegate {
         return navigationMapView.mapView.location
     }
 
-    var viewAnnotations: ViewAnnotationManager {
-        return navigationMapView.mapView.viewAnnotations
-    }
+    private lazy var annotationManager: (point: PointAnnotationManager, polygon: PolygonAnnotationManager) = {
+        let point = navigationMapView.mapView.annotations.makePointAnnotationManager()
+        let polygon = navigationMapView.mapView.annotations.makePolygonAnnotationManager(layerPosition: .below(point.id))
+        return (point, polygon)
+    }()
 
     var cameraAnimationQueue: [() -> Void] = []
+    
+    var cameraEasePadding: UIEdgeInsets = .zero
 
     // MARK: - Initialization
     init(frame: CGRect) {
@@ -73,6 +78,8 @@ class NavigationMapController: NavigationViewControllerDelegate {
             }
             self?.cameraAnimationQueue.removeAll()
         }
+        
+        annotationManager.point.delegate = self
     }
 
     // MARK: - Public API
@@ -91,6 +98,10 @@ class NavigationMapController: NavigationViewControllerDelegate {
     func easeToUserLocation() {
         easeToLocation(navigationMapView.mapView.location.latestLocation?.coordinate, duration: 0)
     }
+    
+    private func camera(for coordinates: [CLLocationCoordinate2D]) -> CameraOptions {
+        mapboxMap.camera(for: coordinates, padding: cameraEasePadding, bearing: 0, pitch: 0)
+    }
 
     func easeToLocation(
         _ locationCoordinate: CLLocationCoordinate2D?,
@@ -99,14 +110,68 @@ class NavigationMapController: NavigationViewControllerDelegate {
         completion: AnimationCompletion? = nil
     ) {
         navigationMapView.mapView.camera.ease(
-            to: CameraOptions(
-                center: locationCoordinate,
-                zoom: 16
-            ),
+            to: camera(for: [locationCoordinate].compactMap { $0 }),
             duration: duration,
             curve: curve,
             completion: completion
         )
+    }
+    
+    func easeToLocations(
+        _ locationCoordinates: [CLLocationCoordinate2D],
+        duration: TimeInterval,
+        curve: UIView.AnimationCurve = .easeOut,
+        completion: AnimationCompletion? = nil
+    ) {
+        
+        if locationCoordinates.count == 1, let locationCoordinate = locationCoordinates.first {
+            easeToLocation(locationCoordinate, duration: duration, curve: curve, completion: completion)
+            return
+        }
+        
+        navigationMapView.mapView.camera.ease(
+            to: camera(for: locationCoordinates),
+            duration: duration,
+            curve: curve,
+            completion: completion
+        )
+    }
+    
+    func easeToAnnotations(
+        _ annotations: [Annotation],
+        duration: TimeInterval,
+        curve: UIView.AnimationCurve = .easeOut,
+        completion: AnimationCompletion? = nil
+    ) {
+        let groupedAnnotations = Dictionary(grouping: annotations, by: \.id).values
+        let coordinates = groupedAnnotations.reduce(into: [CLLocationCoordinate2D]()) { result, annotations in
+            let coordinates = annotations.reduce(into: [CLLocationCoordinate2D]()) { result, annotation in
+                switch annotation.geometry {
+                case .point(let point):
+                    result.append(point.coordinates)
+                case .polygon(let polygon):
+                    guard let center = polygon.center else { return }
+                    let coordinates = polygon.coordinates.flatMap { $0 }
+                    
+                    let containsSameCenter = result.contains { $0.distance(to: center) < 5 }
+                    guard containsSameCenter else {
+                        result.append(contentsOf: coordinates)
+                        return
+                    }
+                    
+                    let radius = coordinates.first?.distance(to: center) ?? 0
+                    // append only polygons with distance to center or radius greater that 30 meters
+                    guard radius > 30 else { return }
+                    result.append(contentsOf: coordinates)
+                default:
+                    assertionFailure("Not supported geometry, \(annotation.geometry)")
+                }
+            }
+            
+            result.append(contentsOf: coordinates)
+        }
+        
+        easeToLocations(coordinates, duration: duration, curve: curve, completion: completion)
     }
 
     func findClosesLocation(_ locationCoordinates: [CLLocationCoordinate2D]) -> CLLocationCoordinate2D? {
@@ -134,12 +199,25 @@ class NavigationMapController: NavigationViewControllerDelegate {
         }
         return closestLocation?.coordinate
     }
+    
+    func setAnnotations(_ annotations: [Annotation]) {
+        annotationManager.point.annotations = annotations.compactMap { $0 as? PointAnnotation }
+        annotationManager.polygon.annotations = annotations.compactMap { $0 as? PolygonAnnotation }
+    }
+    
+    func getAnnotations(for ids: [String]) -> [Annotation] {
+        (annotationManager.point.annotations + annotationManager.polygon.annotations)
+            .filter { ids.contains($0.id) }
+    }
 }
 
 // MARK: - Managing navigationRoute requests
 extension NavigationMapController {
     func requestRoute(destination: CLLocationCoordinate2D, completion: ((Result<Void, Error>) -> Void)?) {
-        guard let userLocation = navigationMapView.mapView.location.latestLocation else { return }
+        guard let userLocation = navigationMapView.mapView.location.latestLocation else {
+            completion?(.success(()))
+            return
+        }
 
         let location = CLLocation(
             latitude: userLocation.coordinate.latitude,
@@ -203,7 +281,11 @@ private extension NavigationMapController {
 // MARK: - LocationConsumer delegate conformance
 extension NavigationMapController: LocationConsumer {
     func locationUpdate(newLocation: MapboxMaps.Location) {
-        didChangeLocation?(newLocation.location)
+        if currentRoute == nil {
+            didChangeLocation?(newLocation.location, true)
+        } else {
+            didChangeLocation?(newLocation.location, false)
+        }
     }
 }
 
@@ -213,17 +295,11 @@ extension  NavigationMapController: NavigationMapViewDelegate {
     func navigationMapView(_ mapView: NavigationMapView, didSelect route: Route) {
         self.currentRouteIndex = self.routes?.firstIndex(of: route) ?? 0
     }
+}
 
-    // Delegate method, which is called whenever final destination `PointAnnotation` is added on `MapView`.
-    func navigationMapView(
-        _ navigationMapView: NavigationMapView,
-        didAdd finalDestinationAnnotation: PointAnnotation,
-        pointAnnotationManager: PointAnnotationManager
-    ) {
-        // `PointAnnotationManager` is used to manage `PointAnnotation`s and is also exposed as
-        // a property in `NavigationMapView.pointAnnotationManager`. After any modifications to the
-        // `PointAnnotation` changes must be applied to `PointAnnotationManager.annotations`
-        // array. To remove all annotations for specific `PointAnnotationManager`, set an empty array.
-        pointAnnotationManager.annotations = []
+// MARK: - AnnotationInteractionDelegate conformance
+extension NavigationMapController: AnnotationInteractionDelegate {
+    func annotationManager(_ manager: AnnotationManager, didDetectTappedAnnotations annotations: [Annotation]) {
+        didTapAnnotations?(annotations)
     }
 }

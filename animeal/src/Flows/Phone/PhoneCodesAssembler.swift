@@ -9,7 +9,7 @@ import Common
 enum PhoneCodesAssembler {
     static func assemble(
         selectedRegion: Region?,
-        handler: @escaping (Region) -> Void,
+        handler: @escaping (Region) async -> Void,
         completion: (() -> Void)?
     ) -> UIViewController {
         let viewModel = PhoneCodesViewModel(

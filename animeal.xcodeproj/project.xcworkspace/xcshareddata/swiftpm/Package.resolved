@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/abseil-cpp-SwiftPM.git",
       "state" : {
-        "revision" : "d302de612e3d57c6f4afaf087da18fba8eac72a7",
-        "version" : "0.20220203.1"
+        "revision" : "583de9bd60f66b40e78d08599cc92036c2e7e4e1",
+        "version" : "0.20220203.2"
       }
     },
     {
@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/aws-amplify/aws-appsync-realtime-client-ios.git",
       "state" : {
-        "revision" : "3de274c68a3cb60c8aec18b5bc0a8c07860219cd",
-        "version" : "3.0.0"
+        "revision" : "b036e83716789c13a3480eeb292b70caa54114f2",
+        "version" : "3.1.0"
       }
     },
     {
@@ -59,8 +59,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/boringssl-SwiftPM.git",
       "state" : {
-        "revision" : "79db6516894a932d0ddaff3b05b9da1e4f6c4069",
-        "version" : "0.9.0"
+        "revision" : "dd3eda2b05a3f459fc3073695ad1b28659066eab",
+        "version" : "0.9.1"
       }
     },
     {
@@ -68,8 +68,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CocoaLumberjack/CocoaLumberjack.git",
       "state" : {
-        "revision" : "80ada1f753b0d53d9b57c465936a7c4169375002",
-        "version" : "3.7.4"
+        "revision" : "0188d31089b5881a269e01777be74c7316924346",
+        "version" : "3.8.0"
       }
     },
     {
@@ -77,8 +77,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mattgallagher/CwlCatchException.git",
       "state" : {
-        "revision" : "35f9e770f54ce62dd8526470f14c6e137cef3eea",
-        "version" : "2.1.1"
+        "revision" : "3b123999de19bf04905bc1dfdb76f817b0f2cc00",
+        "version" : "2.1.2"
       }
     },
     {
@@ -86,8 +86,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mattgallagher/CwlPreconditionTesting.git",
       "state" : {
-        "revision" : "c21f7bab5ca8eee0a9998bbd17ca1d0eb45d4688",
-        "version" : "2.1.0"
+        "revision" : "a23ded2c91df9156628a6996ab4f347526f17b6b",
+        "version" : "2.1.2"
       }
     },
     {
@@ -113,8 +113,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleDataTransport.git",
       "state" : {
-        "revision" : "b905c49326b72211531ed9d7baa02d724828a8dc",
-        "version" : "9.1.4"
+        "revision" : "7874c1b48cbffd086ce8a052c4be873a78613775",
+        "version" : "9.2.3"
       }
     },
     {
@@ -122,8 +122,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleUtilities.git",
       "state" : {
-        "revision" : "f4abe56ce62a779e64b525eb133c8fc2a84bbc1f",
-        "version" : "7.7.1"
+        "revision" : "871d43135925cde39ef7421d8723ce47edfdcc39",
+        "version" : "7.11.1"
       }
     },
     {
@@ -131,8 +131,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/grpc/grpc-ios.git",
       "state" : {
-        "revision" : "2af4f6e9c2b18beae228f50b1198c641be859d2b",
-        "version" : "1.44.2-grpc"
+        "revision" : "8440b914756e0d26d4f4d054a1c1581daedfc5b6",
+        "version" : "1.44.3-grpc"
       }
     },
     {
@@ -149,8 +149,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/onevcat/Kingfisher.git",
       "state" : {
-        "revision" : "90135885ef506506620c4911cefb55a95ca2a9a2",
-        "version" : "7.5.0"
+        "revision" : "e8625b80c413457b13ea9be75d07f6e9f5830c19",
+        "version" : "7.7.0"
       }
     },
     {
@@ -167,8 +167,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mapbox/mapbox-common-ios.git",
       "state" : {
-        "revision" : "012a2082e005e7fb375ca2743f6f921109f37d32",
-        "version" : "23.3.2"
+        "revision" : "a623ae13560c81085d2c63807143c83f46e69f2f",
+        "version" : "23.5.0"
       }
     },
     {
@@ -176,8 +176,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mapbox/mapbox-core-maps-ios.git",
       "state" : {
-        "revision" : "dae13ea834725edb95e74c8b632578ff92f12c6c",
-        "version" : "10.11.1"
+        "revision" : "cabf9a5c77f7a2582a14049ca295fef5ca439e71",
+        "version" : "10.13.1"
       }
     },
     {
@@ -203,8 +203,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mapbox/mapbox-maps-ios.git",
       "state" : {
-        "revision" : "b1ecc114ba02d7c60d1dcf9e6c4f680a72e49d6d",
-        "version" : "10.11.1"
+        "revision" : "e3e502e0cf5c0f8759960455711bc9dad1cf393e",
+        "version" : "10.13.1"
       }
     },
     {
@@ -212,8 +212,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mapbox/mapbox-navigation-ios.git",
       "state" : {
-        "revision" : "5689a87794357ecf265d73e3399e56b091006b85",
-        "version" : "2.11.0"
+        "revision" : "d3bb01ef54b41c739c5794bb61b0073e239e56a1",
+        "version" : "2.13.0"
       }
     },
     {
@@ -221,8 +221,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mapbox/mapbox-navigation-native-ios.git",
       "state" : {
-        "revision" : "427002fa6047139894c8ff4e697217a81477bd86",
-        "version" : "126.0.3"
+        "revision" : "df47d24b291302ee9b072510d646e7291207699b",
+        "version" : "132.2.0"
       }
     },
     {
@@ -249,7 +249,7 @@
       "location" : "https://github.com/Quick/Nimble.git",
       "state" : {
         "branch" : "main",
-        "revision" : "7d16c1cdf6fedfe559456bd933284e37cc481e13"
+        "revision" : "3f372afc6b9866296fcebbe2a46279c6b7271ddd"
       }
     },
     {
@@ -266,8 +266,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/promises.git",
       "state" : {
-        "revision" : "3e4e743631e86c8c70dbc6efdc7beaa6e90fd3bb",
-        "version" : "2.1.1"
+        "revision" : "ec957ccddbcc710ccc64c9dcbd4c7006fcf8b73a",
+        "version" : "2.2.0"
       }
     },
     {
@@ -276,7 +276,7 @@
       "location" : "https://github.com/Quick/Quick.git",
       "state" : {
         "branch" : "main",
-        "revision" : "1572f3972d0d6fe051743ccfb24a9f7c2ce45238"
+        "revision" : "e206b8deba0d01fce70388a6d9dc66cba5603958"
       }
     },
     {
@@ -338,8 +338,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-log.git",
       "state" : {
-        "revision" : "5d66f7ba25daf4f94100e7022febf3c75e37a6c7",
-        "version" : "1.4.2"
+        "revision" : "32e8d724467f8fe623624570367e3d50c5638e46",
+        "version" : "1.5.2"
       }
     },
     {
@@ -347,8 +347,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-protobuf.git",
       "state" : {
-        "revision" : "e1499bc69b9040b29184f7f2996f7bab467c1639",
-        "version" : "1.19.0"
+        "revision" : "0af9125c4eae12a4973fb66574c53a54962a9e1e",
+        "version" : "1.21.0"
       }
     },
     {
@@ -365,8 +365,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/MaxDesiatov/XMLCoder.git",
       "state" : {
-        "revision" : "c438dad94f6a243b411b70a4b4bac54595064808",
-        "version" : "0.15.0"
+        "revision" : "b1e944cbd0ef33787b13f639a5418d55b3bed501",
+        "version" : "0.17.1"
       }
     }
   ],

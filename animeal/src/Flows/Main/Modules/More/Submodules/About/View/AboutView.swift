@@ -87,7 +87,10 @@ struct AboutView: View {
             label: {
                 link.image
                     .resizable()
-                    .frame(width:  Constants.socialMediaIconSize, height:  Constants.socialMediaIconSize)
+                    .frame(
+                        width: Constants.socialMediaIconSize,
+                        height: Constants.socialMediaIconSize
+                    )
             }
         )
         .disabled(link.disabled)
@@ -107,7 +110,7 @@ struct AboutView: View {
 
 struct AboutView_Previews: PreviewProvider {
     static let designEngine: StyleEngine = StyleDefaultEngine()
-    static let model: AboutModel = AboutModel.previewModel
+    static let model = AboutModel.previewModel
 
     static var previews: some View {
         AboutView(model: model)

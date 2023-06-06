@@ -9,8 +9,8 @@ final class ProfileViewController: BaseViewController, ProfileViewable {
     private let headerView = TextBigTitleSubtitleView().prepareForAutoLayout()
     private let scrollView = UIScrollView().prepareForAutoLayout()
     private let contentView = UIStackView().prepareForAutoLayout()
-    private var inputViews: [TextInputDecoratable] = []
-    private let buttonsView = ButtonContainerView().prepareForAutoLayout()
+    private let inputsContentView = UIStackView().prepareForAutoLayout()
+    private let buttonsView = ButtonContainerView(axis: .horizontal).prepareForAutoLayout()
 
     // MARK: - Dependencies
     private let viewModel: ProfileViewModelProtocol
@@ -49,82 +49,18 @@ final class ProfileViewController: BaseViewController, ProfileViewable {
         headerView.configure(viewHeader.model)
     }
 
-    func applyItems(_ viewItems: [ProfileViewItem]) {
-        inputViews.forEach { $0.removeFromSuperview() }
-        viewItems.forEach { item in
-            switch item.type {
-            case .phone:
-                let inputView = PhoneInputView()
-                inputView.configure(item.phoneModel)
-                inputView.codeWasTapped = { [weak self] _ in
-                    self?.viewModel.handleActionEvent(
-                        ProfileViewActionEvent.itemWasTapped(item.identifier)
-                    )
-                }
-                inputView.didBeginEditing = { [weak self] textInput in
-                    guard let self = self else { return }
-                    let text = textInput.text
-                    let result = self.viewModel.handleItemEvent(
-                        .changeText(.beginEditing(item.identifier, text))
-                    )
-                    textInput.setCursorLocation(result.caretOffset)
-                }
-                inputView.shouldChangeCharacters = { [weak self] textInput, range, string in
-                    guard let self = self else { return true }
-                    let text = textInput.text
-                    let result = self.viewModel.handleItemEvent(
-                        .changeText(
-                            .shouldChangeCharactersIn(item.identifier, text, range, string)
-                        )
-                    )
-                    textInput.text = result.formattedText
-                    textInput.setCursorLocation(result.caretOffset)
-
-                    self.viewModel.handleItemEvent(
-                        .changeText(.didChange(item.identifier, text))
-                    )
-
-                    return false
-                }
-                inputView.didEndEditing = { [weak self] textInput in
-                    self?.viewModel.handleItemEvent(
-                        .changeText(.endEditing(item.identifier, textInput.text))
-                    )
-                }
-                inputViews.append(inputView)
-                contentView.addArrangedSubview(inputView)
-            case .birthday:
-                let inputView = DateInputView()
-                inputView.configure(item.dateModel)
-                inputViews.append(inputView)
-                contentView.addArrangedSubview(inputView)
-                inputView.valueWasChanged = { [weak self] textInput, date in
-                    let result = self?.viewModel.handleItemEvent(.changeDate(item.identifier, date))
-                    textInput.text = result?.formattedText
-                }
-                inputView.didEndEditing = { [weak self] textInput in
-                    self?.viewModel.handleItemEvent(
-                        .changeText(.endEditing(item.identifier, textInput.text))
-                    )
-                }
-            default:
-                let inputView = DefaultInputView()
-                inputView.configure(item.model)
-                inputViews.append(inputView)
-                contentView.addArrangedSubview(inputView)
-                inputView.didEndEditing = { [weak self] textInput in
-                    self?.viewModel.handleItemEvent(
-                        .changeText(.endEditing(item.identifier, textInput.text))
-                    )
-                }
-            }
+    func applyItemsSnapshot(_ viewItemsSnapshot: ProfileViewItemsSnapshot) {
+        if viewItemsSnapshot.resetPreviousItems {
+            createViewItems(viewItemsSnapshot.viewItems)
+        } else {
+            updateViewItems(viewItemsSnapshot.viewItems)
         }
     }
 
     func applyActions(_ viewActions: [ProfileViewAction]) {
         buttonsView.configure(viewActions.map { $0.buttonView })
     }
-    
+
     func applyConfiguration(_ viewConfiguration: ProfileViewConfiguration) {
         navigationItem.hidesBackButton = viewConfiguration.hidesBackButton
     }
@@ -160,7 +96,11 @@ private extension ProfileViewController {
         contentView.axis = .vertical
         contentView.spacing = 32.0
 
+        inputsContentView.axis = .vertical
+        inputsContentView.spacing = 32.0
+
         contentView.addArrangedSubview(headerView)
+        contentView.addArrangedSubview(inputsContentView)
 
         view.addSubview(buttonsView)
         buttonsView.leadingAnchor ~= view.leadingAnchor
@@ -178,8 +118,8 @@ private extension ProfileViewController {
         viewModel.onHeaderHasBeenPrepared = { [weak self] viewHeader in
             self?.applyHeader(viewHeader)
         }
-        viewModel.onItemsHaveBeenPrepared = { [weak self] viewItems in
-            self?.applyItems(viewItems)
+        viewModel.onItemsHaveBeenPrepared = { [weak self] viewSnapshot in
+            self?.applyItemsSnapshot(viewSnapshot)
         }
         viewModel.onActionsHaveBeenPrepared = { [weak self] viewActions in
             self?.applyActions(viewActions)
@@ -188,5 +128,115 @@ private extension ProfileViewController {
             self?.applyConfiguration(viewConfiguration)
         }
         viewModel.load()
+    }
+
+    // MARK: - Configuration
+    func createViewItems(_ viewItems: [ProfileViewItem]) {
+        inputsContentView.arrangedSubviews.forEach {
+            $0.removeFromSuperview()
+        }
+        viewItems.forEach { item in
+            switch item.type {
+            case .phone:
+                let inputView = PhoneInputView()
+                inputView.configure(item.phoneModel)
+                inputView.codeWasTapped = { [weak self] _ in
+                    self?.viewModel.handleActionEvent(
+                        ProfileViewActionEvent.itemWasTapped(item.identifier)
+                    )
+                }
+                inputView.didBeginEditing = { [weak self] textInput in
+                    guard let self = self else { return }
+                    let text = textInput.text
+                    let result = self.viewModel.handleItemEvent(
+                        .changeText(.beginEditing(item.identifier, text))
+                    )
+                    textInput.setCursorLocation(result.caretOffset)
+                }
+                inputView.shouldChangeCharacters = { [weak self] textInput, range, string in
+                    guard let self = self else { return true }
+                    let text = textInput.text
+                    let result = self.viewModel.handleItemEvent(
+                        .changeText(
+                            .shouldChangeCharactersIn(item.identifier, text, range, string)
+                        )
+                    )
+                    textInput.text = result.formattedText
+                    textInput.setCursorLocation(result.caretOffset)
+
+                    self.viewModel.handleItemEvent(
+                        .changeText(.didChange(item.identifier, result.formattedText))
+                    )
+
+                    return false
+                }
+                inputView.didEndEditing = { [weak self] textInput in
+                    self?.viewModel.handleItemEvent(
+                        .changeText(.endEditing(item.identifier, textInput.text))
+                    )
+                }
+                inputsContentView.addArrangedSubview(inputView)
+            case .birthday:
+                let inputView = DateInputView()
+                inputView.configure(item.dateModel)
+                inputsContentView.addArrangedSubview(inputView)
+                inputView.valueWasChanged = { [weak self] textInput, date in
+                    let result = self?.viewModel.handleItemEvent(.changeDate(item.identifier, date))
+                    textInput.text = result?.formattedText
+                }
+                inputView.didEndEditing = { [weak self] textInput in
+                    self?.viewModel.handleItemEvent(
+                        .changeText(.endEditing(item.identifier, textInput.text))
+                    )
+                }
+            default:
+                let inputView = DefaultInputView()
+                inputView.configure(item.model)
+                inputsContentView.addArrangedSubview(inputView)
+                inputView.shouldChangeCharacters = { [weak self] textInput, range, string in
+                    let text = textInput.text
+                        .map {
+                            let start = $0.index($0.startIndex, offsetBy: 0)
+                            let end =  $0.index($0.startIndex, offsetBy: range.location)
+                            let index = start..<end
+                            return String($0[index]) + string
+                        }
+                    self?.viewModel.handleItemEvent(
+                        .changeText(.didChange(item.identifier, text))
+                    )
+
+                    return true
+                }
+                inputView.didEndEditing = { [weak self] textInput in
+                    self?.viewModel.handleItemEvent(
+                        .changeText(.endEditing(item.identifier, textInput.text))
+                    )
+                }
+            }
+        }
+    }
+    
+    func updateViewItems(_ viewItems: [ProfileViewItem]) {
+        let identifiedViewInputs = inputsContentView.arrangedSubviews
+            .compactMap { $0 as? TextInputDecoratable }
+            .reduce([String: TextInputDecoratable]()) { partialResult, input in
+                var result = partialResult
+                result[input.identifier] = input
+                return result
+            }
+
+        viewItems.forEach { viewItem in
+            switch viewItem.type {
+            case .phone:
+                guard let inputView = identifiedViewInputs[viewItem.identifier] as? PhoneInputView else { return }
+                inputView.configure(viewItem.phoneModel)
+            case .birthday:
+                guard let inputView = identifiedViewInputs[viewItem.identifier] as? DateInputView else { return }
+                inputView.configure(viewItem.dateModel)
+            default:
+                guard let inputView = identifiedViewInputs[viewItem.identifier] as? DefaultInputView else { return }
+                inputView.configure(viewItem.model)
+            }
+        }
     }
 }
