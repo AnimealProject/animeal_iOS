@@ -43,6 +43,7 @@ typealias HomeCombinedViewModel = HomeViewModelLifeCycle
 protocol HomeViewModelLifeCycle: AnyObject {
     func setup()
     func load()
+    func refreshCurrentFeeding()
 }
 
 @MainActor

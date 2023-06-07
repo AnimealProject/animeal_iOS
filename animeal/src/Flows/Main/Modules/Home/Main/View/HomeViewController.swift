@@ -50,6 +50,14 @@ class HomeViewController: UIViewController {
         setup()
         bind()
         viewModel.load()
+
+        NotificationCenter.default.addObserver(
+            forName: UIApplication.willEnterForegroundNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.viewModel.refreshCurrentFeeding()
+        }
     }
     
     override func viewDidLayoutSubviews() {
