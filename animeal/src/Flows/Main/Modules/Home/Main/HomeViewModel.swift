@@ -59,7 +59,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
 
         coordinator.feedingDidStartedEvent = { [weak self] event in
             guard let self else { return }
-            
+
             switch self.feedingStatus {
             case .progress:
                 self.coordinator.displayAlert(
@@ -147,14 +147,14 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
             return false
         }
     }
-    
+
     func startFeeding(feedingPointId id: String) {
         coordinator.displayActivityIndicator(waitUntil: { [weak self] in
             guard let self else { return }
-            
+
             let result = try await self.model.processStartFeeding(feedingPointId: id)
             let feedingPoint = try await self.model.fetchFeedingPoint(result.feedingPoint)
-            
+
             switch self.locationService.locationStatus {
             case .authorizedAlways, .authorizedWhenInUse:
                 break
@@ -164,7 +164,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
             default:
                 break
             }
-            
+
             switch self.onRequestToCamera?() ?? .denied {
             case .authorized:
                 break

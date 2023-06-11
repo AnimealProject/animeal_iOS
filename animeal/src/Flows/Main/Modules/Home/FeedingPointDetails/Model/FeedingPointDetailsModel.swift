@@ -46,28 +46,28 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
     }
 
     func fetchFeedingPoint(_ completion: ((FeedingPointDetailsModel.PointContent) -> Void)?) {
-        let fullFeedingPoint = context.feedingPointsService.storedFeedingPoints.first { point in
-            point.feedingPoint.id == self.feedingPointId
-        }
+        Task { [weak self] in
+            guard let self else { return }
+            let fullFeedingPoint = context.feedingPointsService.storedFeedingPoints.first { point in
+                point.feedingPoint.id == self.feedingPointId
+            }
+            let canBook = try? await self.context.feedingPointsService
+                .canBookFeedingPoint(for: self.feedingPointId)
 
-        if let feedingPointModel = fullFeedingPoint {
-            cachedFeedingPoint = fullFeedingPoint
-            completion?(
-                mapper.map(
-                    feedingPointModel.feedingPoint,
-                    isFavorite: feedingPointModel.isFavorite
+            if let feedingPointModel = fullFeedingPoint {
+                cachedFeedingPoint = fullFeedingPoint
+                completion?(
+                    mapper.map(
+                        feedingPointModel.feedingPoint,
+                        isFavorite: feedingPointModel.isFavorite,
+                        isEnabled: canBook ?? false
+                    )
                 )
-            )
+            }
         }
     }
 
     func fetchFeedingHistory(_ completion: (([FeedingPointDetailsModel.Feeder]) -> Void)?) {
-        guard let fullFeedingPoint = context.feedingPointsService.storedFeedingPoints.first(where: { point in
-            point.feedingPoint.id == self.feedingPointId
-        }) else {
-            return
-        }
-
         Task {
             let history = try await self.fetchFeedingHistory()
             completion?(history)
@@ -83,10 +83,10 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
 
         let history = try await context.feedingPointsService.fetchFeedingHistory(for: fullFeedingPoint.identifier)
         guard !history.isEmpty else { return [] }
-        
+
         let historyUsers = history.map { $0.userId }
         let namesMap = try await context.profileService.fetchUserNames(for: historyUsers)
-        
+
         let feedingPointDetails = mapper.map(history: history, namesMap: namesMap)
         let right = feedingPointDetails.count < 5 ? feedingPointDetails.count : 5
         return feedingPointDetails[..<right].map { $0 }
@@ -123,19 +123,24 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
 
     private func subscribeForFeedingPointChangeEvents() {
         context.feedingPointsService.feedingPoints
-            .sink { [weak self] result in
-                guard let self else { return }
-                let points = result.uniqueValues
-                let updatedFeeding = points.first {
-                    $0.feedingPoint.id == self.feedingPointId
-                }
-                if let feedingPointModel = updatedFeeding,
-                    feedingPointModel != self.cachedFeedingPoint {
-                    self.cachedFeedingPoint = feedingPointModel
-                    self.onFeedingPointChange?(self.mapper.map(
-                        feedingPointModel.feedingPoint,
-                        isFavorite: feedingPointModel.isFavorite
-                    ))
+            .sink { result in
+                Task { [weak self] in
+                    guard let self else { return }
+                    let points = result.uniqueValues
+                    let updatedFeeding = points.first {
+                        $0.feedingPoint.id == self.feedingPointId
+                    }
+                    let canBook = try? await self.context.feedingPointsService
+                        .canBookFeedingPoint(for: self.feedingPointId)
+                    if let feedingPointModel = updatedFeeding,
+                       feedingPointModel != self.cachedFeedingPoint {
+                        self.cachedFeedingPoint = feedingPointModel
+                        self.onFeedingPointChange?(self.mapper.map(
+                            feedingPointModel.feedingPoint,
+                            isFavorite: feedingPointModel.isFavorite,
+                            isEnabled: canBook ?? false
+                        ))
+                    }
                 }
             }
             .store(in: &cancellables)

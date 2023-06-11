@@ -107,3 +107,33 @@ extension FeedingPoint: Hashable {
         hasher.combine(feedingPointCategoryId)
     }
 }
+
+extension FeedingStatus: Hashable { }
+
+extension Feeding: Hashable {
+    public static func == (lhs: Feeding, rhs: Feeding) -> Bool {
+        lhs.id == rhs.id &&
+        lhs.userId == rhs.userId &&
+        lhs.images == rhs.images &&
+        lhs.status == rhs.status &&
+        lhs.createdAt == rhs.createdAt &&
+        lhs.createdBy == rhs.createdBy &&
+        lhs.owner == rhs.owner &&
+        lhs.feedingPoint == rhs.feedingPoint &&
+        lhs.expireAt == rhs.expireAt
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        hasher.combine(userId)
+        hasher.combine(images)
+        hasher.combine(status)
+        hasher.combine(createdAt)
+        hasher.combine(createdBy)
+        hasher.combine(owner)
+        hasher.combine(feedingPoint)
+        hasher.combine(expireAt)
+        hasher.combine(updatedAt)
+        hasher.combine(updatedBy)
+    }
+}

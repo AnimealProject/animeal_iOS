@@ -16,9 +16,13 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
     var onMediaContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointMediaContent) -> Void)?
     var onFavoriteMutationFailed: (() -> Void)?
 
+    // TODO: Move this strange logic to model
     let isOverMap: Bool
+    private var shouldShowOnMap = true
     var showOnMapAction: ButtonView.Model? {
         if isOverMap { return .none }
+
+        if !shouldShowOnMap { return .none }
 
         return ButtonView.Model(
             identifier: UUID().uuidString,
@@ -76,6 +80,7 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
     }
 
     private func updateContent(_ modelContent: FeedingPointDetailsModel.PointContent) {
+        shouldShowOnMap = modelContent.action.isEnabled
         loadMediaContent(modelContent.content.header.cover)
         onContentHaveBeenPrepared?(contentMapper.mapFeedingPoint(modelContent))
     }
