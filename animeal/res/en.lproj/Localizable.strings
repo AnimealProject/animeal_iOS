@@ -61,6 +61,7 @@
 "text.oneHourToFeed"                              = "You will have 1 hour to feed the point";
 "text.thankYou"                                   = "Thank You!";
 "text.animalsAreFed"                              = "Animals are fed";
+"text.left"                                       = "left";
 "verification.title"                              = "Enter verification code";
 "verification.subtitle.filled"                    = "Code was sent to:";
 "verification.subtitle.empty"                     = "Code was sent to destination";

@@ -248,6 +248,8 @@ internal enum L10n {
   internal enum Text {
     /// Animals are fed
     internal static let animalsAreFed = L10n.tr("Localizable", "text.animalsAreFed", fallback: "Animals are fed")
+    /// left
+    internal static let `left` = L10n.tr("Localizable", "text.left", fallback: "left")
     /// You will have 1 hour to feed the point
     internal static let oneHourToFeed = L10n.tr("Localizable", "text.oneHourToFeed", fallback: "You will have 1 hour to feed the point")
     /// Thank You!

@@ -77,11 +77,11 @@ final class FeedingPointDetailsModelMapper: FeedingPointDetailsModelMapperProtoc
             let lastFeeded: String
             switch historyItem.status {
             case .inProgress:
-                let minutesLeft = DateFormatter.relativeShort.localizedString(
-                    for: historyItem.updatedAt.foundationDate,
-                    relativeTo: NetTime.now
-                )
-                lastFeeded = "\(L10n.Feeding.Status.inprogress), \(minutesLeft)"
+                let minutesLeft = DateFormatter.relativeShort.string(
+                    from: NetTime.now,
+                    to: historyItem.updatedAt.foundationDate
+                ) ?? "0"
+                lastFeeded = "\(L10n.Feeding.Status.inprogress), \(minutesLeft) \(L10n.Text.left)"
 
             default:
                 lastFeeded = DateFormatter.relativeFull.localizedString(
@@ -136,14 +136,12 @@ private extension DateFormatter {
         formatter.unitsStyle = .full
         return formatter
     }()
-
-    /// Short units style relative date time formatter
-    ///
-    /// Produces relative strings like: "34 min. ago", "2 h. ago" or "1 mo. ago"
-    static let relativeShort: RelativeDateTimeFormatter = {
-        let formatter = RelativeDateTimeFormatter()
-        formatter.dateTimeStyle = .named
+    
+    static let relativeShort: DateComponentsFormatter = {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.hour, .minute]
         formatter.unitsStyle = .short
         return formatter
     }()
+    
 }
