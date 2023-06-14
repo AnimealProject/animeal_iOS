@@ -84,10 +84,11 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
         let history = try await context.feedingPointsService.fetchFeedingHistory(for: fullFeedingPoint.identifier)
         guard !history.isEmpty else { return [] }
 
-        let historyUsers = history.map { $0.userId }
+        let sortedByDateHistory = history.sorted(by: { $0.updatedAt > $1.updatedAt })
+        let historyUsers = sortedByDateHistory.map { $0.userId }
         let namesMap = try await context.profileService.fetchUserNames(for: historyUsers)
 
-        let feedingPointDetails = mapper.map(history: history, namesMap: namesMap)
+        let feedingPointDetails = mapper.map(history: sortedByDateHistory, namesMap: namesMap)
         let right = feedingPointDetails.count < 5 ? feedingPointDetails.count : 5
         return feedingPointDetails[..<right].map { $0 }
     }
