@@ -1,10 +1,8 @@
-import Amplify
-
 public typealias AuthenticationErrorDescription = String
 public typealias AuthenticationRecoverySuggestion = String
 public typealias AuthenticationField = String
 
-public enum AuthenticationError: AmplifyError {
+public enum AuthenticationError {
     /// Caused by issue in the way auth category is configured
     case configuration(AuthenticationErrorDescription, AuthenticationRecoverySuggestion, Error? = nil)
 
@@ -30,7 +28,7 @@ public enum AuthenticationError: AmplifyError {
     case sessionExpired(AuthenticationErrorDescription, AuthenticationRecoverySuggestion, Error? = nil)
 }
 
-extension AuthenticationError {
+extension AuthenticationError: Error {
     public var underlyingError: Error? {
         switch self {
         case .configuration(_, _, let underlyingError),

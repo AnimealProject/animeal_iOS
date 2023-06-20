@@ -2,7 +2,7 @@
 import UIKit
 
 // SDK
-import Amplify
+import Services
 import UIComponents
 
 @MainActor
@@ -51,9 +51,11 @@ extension ActivityDisplayable where Self: AlertCoordinatable {
                 try await operation()
                 self?.hideActivityIndicator()
                 completion?(true)
-            } catch let error as AmplifyError {
+            }
+            catch let error as Services.AuthenticationError {
                 errorCompletion(with: error.errorDescription)
-            } catch let error {
+            }
+            catch let error {
                 errorCompletion(with: error.localizedDescription)
             }
         }
