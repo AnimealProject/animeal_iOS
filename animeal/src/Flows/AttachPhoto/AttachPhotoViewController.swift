@@ -12,7 +12,7 @@ final class AttachPhotoViewController: UIViewController, AttachPhotoViewable {
         static let itemHeight: CGFloat = 76.0
         static let offset: CGFloat = 20.0
     }
-    
+
     // MARK: - UI properties
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -21,7 +21,7 @@ final class AttachPhotoViewController: UIViewController, AttachPhotoViewable {
             .prepareForAutoLayout()
         return item
     }()
-    
+
     private lazy var attachingPhotoView: AttachPhotoView = {
         return AttachPhotoView(
             frame: view.bounds,
@@ -35,27 +35,27 @@ final class AttachPhotoViewController: UIViewController, AttachPhotoViewable {
             guard let self else { return UICollectionViewCell() }
             return self.cell(collectionView, for: indexPath, itemIdentifier: itemIdentifier)
         }
-    
+
     // MARK: - Dependencies
     private let viewModel: AttachPhotoViewModelProtocol
-    
+
     // MARK: - Initialization
     init(viewModel: AttachPhotoViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
         bind()
     }
-    
+
     // MARK: - State
     func applyContent(_ viewContent: AttachPhotoViewContent) {
         view.isHidden = false
@@ -67,11 +67,11 @@ final class AttachPhotoViewController: UIViewController, AttachPhotoViewable {
             isActive: viewContent.isActive)
         )
     }
-    
+
     func applySnapshot(_ snapshot: DataSourceSnapshot) {
         dataSource.apply(snapshot)
     }
-    
+
     func updateContent(with state: Bool) {
         attachingPhotoView.configureFinishButtonStyle(state)
     }
@@ -93,7 +93,7 @@ extension AttachPhotoViewController: UICollectionViewDelegateFlowLayout {
             )
         }
     }
-    
+
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
@@ -101,7 +101,7 @@ extension AttachPhotoViewController: UICollectionViewDelegateFlowLayout {
     ) -> CGFloat {
         return .zero
     }
-    
+
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
@@ -127,7 +127,7 @@ private extension AttachPhotoViewController {
             AttachPhotoViewCell.self,
             forCellWithReuseIdentifier: AttachPhotoViewCell.reuseIdentifier)
     }
-    
+
     // MARK: - Bind
     func bind() {
         attachingPhotoView.onTapAttachPhoto = { [weak self] in
@@ -137,7 +137,7 @@ private extension AttachPhotoViewController {
             vc.delegate = self
             self?.present(vc, animated: true)
         }
-        
+
         attachingPhotoView.onTapFinishButton = { [weak self] in
             self?.viewModel.handleActionEvent(.finish)
         }
@@ -148,14 +148,16 @@ private extension AttachPhotoViewController {
             self?.applySnapshot(viewSnapshot)
             self?.updateContent(with: !viewSnapshot.itemIdentifiers.isEmpty)
         }
-        
+
         viewModel.load()
     }
-    
+
     // MARK: - Cell provider
-    func cell(_ collectionView: UICollectionView,
-              for indexPath: IndexPath,
-              itemIdentifier: AttachPhotoViewItem) -> UICollectionViewCell {
+    func cell(
+        _ collectionView: UICollectionView,
+        for indexPath: IndexPath,
+        itemIdentifier: AttachPhotoViewItem
+    ) -> UICollectionViewCell {
         switch itemIdentifier {
         case let .common(placeimage):
             guard let cell = collectionView.dequeueReusableCell(
@@ -168,7 +170,7 @@ private extension AttachPhotoViewController {
             cell.onTapCloseAction = { [weak self] in
                 self?.viewModel.handleActionEvent(.removeImage(image: cellModel.image))
             }
-            
+
             return cell
         }
     }
@@ -177,12 +179,12 @@ private extension AttachPhotoViewController {
 extension AttachPhotoViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true)
-        
+
         guard let image = info[.editedImage] as? UIImage else {
             print("No image found")
             return
         }
-        
+
         self.viewModel.handleActionEvent(
             AttachPhotoViewActionEvent.addImage(image: image)
         )
@@ -193,7 +195,12 @@ extension AttachPhotoViewController: UINavigationControllerDelegate, UIImagePick
 private extension AttachPhotoViewController {
     //MARK: - Save image
     func saveImage(imageTake: UIImage) {
-        UIImageWriteToSavedPhotosAlbum(imageTake, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+        UIImageWriteToSavedPhotosAlbum(
+            imageTake,
+            self,
+            #selector(image(_:didFinishSavingWithError:contextInfo:)),
+            nil
+        )
     }
     
     //MARK: - Save Image callback
@@ -205,4 +212,3 @@ private extension AttachPhotoViewController {
         }
     }
 }
-

@@ -51,17 +51,16 @@ protocol FeedingPointsServiceProtocol: AnyObject {
     @discardableResult
     func fetch(byIdentifier identifier: String) async throws -> FullFeedingPoint
     func fetchFeedingHistory(for feedingPointId: String) async throws -> [FeedingHistory]
+    func canBookFeedingPoint(for identifier: String) async throws -> Bool
 
-    
     @discardableResult
     func fetchAllFavorites() async throws -> [FullFeedingPoint]
     @discardableResult
     func addToFavorites(byIdentifier identifier: String) async throws -> FavouriteFeedingPoint
     @discardableResult
     func deleteFromFavorites(byIdentifier identifier: String) async throws -> FavouriteFeedingPoint
-
     @discardableResult
-    func toggle(byIdentifier identifier: String) async throws -> FavouriteFeedingPoint
+    func toggleFavorite(byIdentifier identifier: String) async throws -> FavouriteFeedingPoint
 }
 
 final class FeedingPointsService: FeedingPointsServiceProtocol {
@@ -85,7 +84,7 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
     var storedFeedingPoints: [FullFeedingPoint] {
         innerFeedingPoints.value
     }
-    
+
     var storedFavouriteFeedingPoints: [FullFeedingPoint] {
         innerFeedingPoints.value.filter { $0.isFavorite }
     }
@@ -155,7 +154,35 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
 
         return point
     }
-    
+
+    func canBookFeedingPoint(for identifier: String) async throws -> Bool {
+        guard let point = innerFeedingPoints.value.first(
+            where: { $0.identifier == identifier }
+        )
+        else {
+            throw "[FeedingPointsService] Cannot fetch status because there is no feeding point for the provided identifier".asBaseError()
+        }
+
+        let currentUserId = await profileService.getCurrentUser()?.userId
+
+        let feedings = try await networkService
+            .query(request: .list(animeal.Feeding.self))
+
+        let userAlreadyBookedPoint = feedings
+            .filter { $0.userId == currentUserId }
+            .first { $0.status == .inProgress }
+
+        if userAlreadyBookedPoint != nil {
+            return false
+        } else {
+            let isPointBookedBySomeoneElse = feedings
+                .first { $0.feedingPoint.id == identifier }?
+                .status != .inProgress
+
+            return isPointBookedBySomeoneElse
+        }
+    }
+
     @discardableResult
     func fetchAllFavorites() async throws -> [FullFeedingPoint] {
         let result = try await fetchAll()
@@ -180,7 +207,7 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
     }
 
     @discardableResult
-    func toggle(byIdentifier identifier: String) async throws -> FavouriteFeedingPoint {
+    func toggleFavorite(byIdentifier identifier: String) async throws -> FavouriteFeedingPoint {
         guard let point = innerFeedingPoints.value.first(
             where: { $0.identifier == identifier }
         )

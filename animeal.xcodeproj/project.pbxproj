@@ -64,6 +64,8 @@
 		80138C16298196980010154A /* AboutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80138C11298196980010154A /* AboutViewModel.swift */; };
 		80138C1929828ACC0010154A /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80138C1829828ACC0010154A /* AboutView.swift */; };
 		80138C1B2982B4B30010154A /* AboutLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80138C1A2982B4B30010154A /* AboutLink.swift */; };
+		801F92D02A15057400BCF0BD /* AMURLSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801F92CF2A15057400BCF0BD /* AMURLSessionDelegate.swift */; };
+		801F92D22A1505CE00BCF0BD /* NetTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801F92D12A1505CE00BCF0BD /* NetTime.swift */; };
 		8076E8A4298FBC070048B97C /* FeedingFinishedAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8076E89F298FBC070048B97C /* FeedingFinishedAssembler.swift */; };
 		8076E8A5298FBC070048B97C /* FeedingFinishedContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8076E8A0298FBC070048B97C /* FeedingFinishedContract.swift */; };
 		8076E8A6298FBC070048B97C /* FeedingFinishedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8076E8A1298FBC070048B97C /* FeedingFinishedViewController.swift */; };
@@ -86,6 +88,7 @@
 		83541361290AF1E200884430 /* PhoneCodesViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83541360290AF1E200884430 /* PhoneCodesViewItem.swift */; };
 		83541363290AF20200884430 /* PhoneCodesViewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83541362290AF20200884430 /* PhoneCodesViewSection.swift */; };
 		83541365290AF21F00884430 /* PhoneCodesViewActionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83541364290AF21F00884430 /* PhoneCodesViewActionEvent.swift */; };
+		8355D4D32A25CE2D00B29394 /* FeedingPointAnnotationModel+Annotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8355D4D22A25CE2D00B29394 /* FeedingPointAnnotationModel+Annotation.swift */; };
 		835E148828FDD4D40044EC2F /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835E148728FDD4D40044EC2F /* SearchViewController.swift */; };
 		835E148A28FDD4DC0044EC2F /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835E148928FDD4DC0044EC2F /* SearchViewModel.swift */; };
 		835E148C28FDD4E90044EC2F /* SearchAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835E148B28FDD4E90044EC2F /* SearchAssembler.swift */; };
@@ -427,6 +430,8 @@
 		80138C11298196980010154A /* AboutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewModel.swift; sourceTree = "<group>"; };
 		80138C1829828ACC0010154A /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		80138C1A2982B4B30010154A /* AboutLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutLink.swift; sourceTree = "<group>"; };
+		801F92CF2A15057400BCF0BD /* AMURLSessionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMURLSessionDelegate.swift; sourceTree = "<group>"; };
+		801F92D12A1505CE00BCF0BD /* NetTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetTime.swift; sourceTree = "<group>"; };
 		8076E89F298FBC070048B97C /* FeedingFinishedAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingFinishedAssembler.swift; sourceTree = "<group>"; };
 		8076E8A0298FBC070048B97C /* FeedingFinishedContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingFinishedContract.swift; sourceTree = "<group>"; };
 		8076E8A1298FBC070048B97C /* FeedingFinishedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingFinishedViewController.swift; sourceTree = "<group>"; };
@@ -450,6 +455,7 @@
 		83541360290AF1E200884430 /* PhoneCodesViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCodesViewItem.swift; sourceTree = "<group>"; };
 		83541362290AF20200884430 /* PhoneCodesViewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCodesViewSection.swift; sourceTree = "<group>"; };
 		83541364290AF21F00884430 /* PhoneCodesViewActionEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCodesViewActionEvent.swift; sourceTree = "<group>"; };
+		8355D4D22A25CE2D00B29394 /* FeedingPointAnnotationModel+Annotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedingPointAnnotationModel+Annotation.swift"; sourceTree = "<group>"; };
 		835E148728FDD4D40044EC2F /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		835E148928FDD4DC0044EC2F /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		835E148B28FDD4E90044EC2F /* SearchAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAssembler.swift; sourceTree = "<group>"; };
@@ -1021,6 +1027,14 @@
 				83541364290AF21F00884430 /* PhoneCodesViewActionEvent.swift */,
 			);
 			path = Items;
+			sourceTree = "<group>";
+		};
+		8355D4D12A25CE1C00B29394 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8355D4D22A25CE2D00B29394 /* FeedingPointAnnotationModel+Annotation.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		835E148628FDD4700044EC2F /* Search */ = {
@@ -1836,6 +1850,7 @@
 		DB0E43C428D07D53007A1EB1 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				8355D4D12A25CE1C00B29394 /* Extensions */,
 				807874D029D579390005D669 /* Shimmers */,
 				DBF56B5428CF40E300AB0BDF /* FeedingPointDetailsViewController.swift */,
 				DBC5670428D879D100172FD5 /* FeedingPointDetailsViewMapper.swift */,
@@ -2102,6 +2117,8 @@
 				8324A2C2296B1EEB00AA5D32 /* NetworkRequestModels.swift */,
 				DBDC6E6F28C73E8F001B359D /* NetworkService.swift */,
 				DB84B31428CA13A60083D98C /* NetworkRequest.swift */,
+				801F92CF2A15057400BCF0BD /* AMURLSessionDelegate.swift */,
+				801F92D12A1505CE00BCF0BD /* NetTime.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -2637,6 +2654,7 @@
 				83C7A99F28E4A11A00F3D219 /* ProfileRoute.swift in Sources */,
 				8354135C290AED2600884430 /* PhoneCodesContract.swift in Sources */,
 				DBC5670528D879D100172FD5 /* FeedingPointDetailsViewMapper.swift in Sources */,
+				801F92D02A15057400BCF0BD /* AMURLSessionDelegate.swift in Sources */,
 				8385DB9E290EAD2900F64BCC /* SearchModelFilter.swift in Sources */,
 				8360D1A3284E954900ACDEDB /* LoginModelOnboardingStep.swift in Sources */,
 				FB001451285A097E00943360 /* ProfileAssembler.swift in Sources */,
@@ -2703,6 +2721,7 @@
 				D20DBC8B299D40BE003E0668 /* FAQViewModel.swift in Sources */,
 				7F5DE9D529BF37EE00C53087 /* LeaderboardCoordinator.swift in Sources */,
 				83C7A98828E45AFE00F3D219 /* ProfileModelItem.swift in Sources */,
+				8355D4D32A25CE2D00B29394 /* FeedingPointAnnotationModel+Annotation.swift in Sources */,
 				78BEB18E293811C900A11CA7 /* FavouritesModelMapper.swift in Sources */,
 				8312A5C1290AFE8F005C85CB /* PhoneCodesViewCell.swift in Sources */,
 				838B6B6E2868B021001DD111 /* VerificationViewModel.swift in Sources */,
@@ -2851,6 +2870,7 @@
 				1F770667D42E31D263AE67AB /* RelationPetFeedingPoint+Schema.swift in Sources */,
 				B8A233D7B15B4A46582895E9 /* RelationPetFeedingPoint.swift in Sources */,
 				74DE171718857E1BDAA82A57 /* RelationUserFeedingPoint+Schema.swift in Sources */,
+				801F92D22A1505CE00BCF0BD /* NetTime.swift in Sources */,
 				C059A696D2F75AE49A266D33 /* RelationUserFeedingPoint.swift in Sources */,
 				FF0D1A35DECA7017DE49AF15 /* RelationUserPet+Schema.swift in Sources */,
 				68EBA811759F197EE338048C /* RelationUserPet.swift in Sources */,
@@ -3067,7 +3087,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.30;
+				MARKETING_VERSION = 0.0.32;
 				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animeal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3107,7 +3127,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.30;
+				MARKETING_VERSION = 0.0.32;
 				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animealApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -4,7 +4,7 @@ extension Point: Hashable {
     public static func == (lhs: Point, rhs: Point) -> Bool {
         lhs.type == rhs.type && lhs.coordinates == rhs.coordinates
     }
-    
+
     public func hash(into hasher: inout Hasher) {
         hasher.combine(type)
         hasher.combine(coordinates)
@@ -15,7 +15,7 @@ extension Location: Hashable {
     public static func == (lhs: Location, rhs: Location) -> Bool {
         lhs.lat == rhs.lat && lhs.lon == rhs.lon
     }
-    
+
     public func hash(into hasher: inout Hasher) {
         hasher.combine(lat)
         hasher.combine(lon)
@@ -42,7 +42,7 @@ extension Category: Hashable {
         && lhs.updatedBy == rhs.updatedBy
         && lhs.owner == rhs.owner
     }
-    
+
     public func hash(into hasher: inout Hasher) {
         hasher.combine(id)
         hasher.combine(name)
@@ -81,7 +81,7 @@ extension FeedingPoint: Hashable {
         && lhs.cover == rhs.cover
         && lhs.feedingPointCategoryId == rhs.feedingPointCategoryId
     }
-    
+
     public func hash(into hasher: inout Hasher) {
         hasher.combine(id)
         hasher.combine(name)
@@ -108,3 +108,32 @@ extension FeedingPoint: Hashable {
     }
 }
 
+extension FeedingStatus: Hashable { }
+
+extension Feeding: Hashable {
+    public static func == (lhs: Feeding, rhs: Feeding) -> Bool {
+        lhs.id == rhs.id &&
+        lhs.userId == rhs.userId &&
+        lhs.images == rhs.images &&
+        lhs.status == rhs.status &&
+        lhs.createdAt == rhs.createdAt &&
+        lhs.createdBy == rhs.createdBy &&
+        lhs.owner == rhs.owner &&
+        lhs.feedingPoint == rhs.feedingPoint &&
+        lhs.expireAt == rhs.expireAt
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        hasher.combine(userId)
+        hasher.combine(images)
+        hasher.combine(status)
+        hasher.combine(createdAt)
+        hasher.combine(createdBy)
+        hasher.combine(owner)
+        hasher.combine(feedingPoint)
+        hasher.combine(expireAt)
+        hasher.combine(updatedAt)
+        hasher.combine(updatedBy)
+    }
+}

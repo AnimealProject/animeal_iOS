@@ -11,7 +11,8 @@ final class FeedingPointMapper: FeedingPointMappable {
             identifier: input.id,
             location: HomeModel.Location(
                 latitude: input.location.lat,
-                longitude: input.location.lon
+                longitude: input.location.lon,
+                radius: .init(value: input.distance, unit: .meters)
             ),
             pet: convert(categoryTag: input.category?.tag ?? .dogs),
             hungerLevel: conver(pointStatus: input.status),

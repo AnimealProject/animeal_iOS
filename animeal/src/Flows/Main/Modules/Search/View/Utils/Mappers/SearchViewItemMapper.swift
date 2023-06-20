@@ -35,11 +35,11 @@ final class SearchViewItemMapper: SearchViewItemMappable {
     private func mapStatus(_ input: SearchModelItemStatus) -> StatusView.Status {
         switch input {
         case .fed:
-            return .success("Newly feed")
+            return .success(L10n.Feeding.Status.fed)
         case .pending:
-            return .attention("12 hours since not fed")
+            return .attention(L10n.Feeding.Status.inprogress)
         case .starved:
-            return .error("There is no food")
+            return .error(L10n.Feeding.Status.starved)
         }
     }
 }

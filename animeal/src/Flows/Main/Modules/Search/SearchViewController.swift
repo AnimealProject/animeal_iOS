@@ -53,6 +53,9 @@ final class SearchViewController: UIViewController, SearchViewable {
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.addGestureRecognizer(UITapGestureRecognizer(target: view,
+                                                         action: #selector(UIView.endEditing(_:))))
+        
         setup()
         bind()
     }
@@ -207,6 +210,8 @@ private extension SearchViewController {
 
         collectionView.delegate = self
         collectionView.backgroundColor = designEngine.colors.backgroundPrimary
+        
+        collectionView.keyboardDismissMode = .onDrag
     }
 
     // MARK: - Bind
@@ -279,5 +284,11 @@ private extension SearchViewController {
             )
         }
         return cell
+    }
+}
+
+extension SearchViewController {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
 }

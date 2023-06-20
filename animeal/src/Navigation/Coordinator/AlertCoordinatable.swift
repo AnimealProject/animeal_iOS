@@ -65,7 +65,7 @@ extension ViewAlertAction {
             handler: handler
         )
     }
-    
+
     static func yes(handler: @escaping () -> Void = { }) -> Self {
         ViewAlertAction(
             title: L10n.Action.yes,
@@ -73,7 +73,7 @@ extension ViewAlertAction {
             handler: handler
         )
     }
-    
+
     static func no(handler: @escaping () -> Void = { }) -> Self {
         ViewAlertAction(
             title: L10n.Action.no,

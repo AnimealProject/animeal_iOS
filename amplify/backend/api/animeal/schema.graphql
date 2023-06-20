@@ -497,6 +497,7 @@ type Favourite
   ) {
   id: ID!
   userId: ID! @index(name: "byUserId", sortKeyFields: ["feedingPointId"], queryField: "favouritesByUserId")
+  sub: ID @index(name: "bySubId", sortKeyFields: ["feedingPointId"], queryField: "favouritesBySubId")
   feedingPointId: ID!
     @index(name: "byFeedingPointId", sortKeyFields: ["userId"],  queryField: "favouritesByFeedingPointId")
 }
@@ -729,3 +730,4 @@ type Mutation {
     @aws_api_key
     @aws_cognito_user_pools
 }
+

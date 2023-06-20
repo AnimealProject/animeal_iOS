@@ -50,27 +50,41 @@ class HomeViewController: UIViewController {
         setup()
         bind()
         viewModel.load()
+
+        NotificationCenter.default.addObserver(
+            forName: UIApplication.willEnterForegroundNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.viewModel.refreshCurrentFeeding()
+        }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        updateCameraEasePadding()
     }
 }
 
 extension HomeViewController: HomeViewModelOutput {
     func applyFeedingPoints(_ feedingPoints: [FeedingPointViewItem]) {
-        mapView.viewAnnotations.removeAll()
-        feedingPoints.forEach { point in
-            let options = ViewAnnotationOptions(
-                geometry: MapboxMaps.Point(point.coordinates),
-                width: 60,
-                height: 60,
-                allowOverlap: false,
-                anchor: .center
+        mapView.setAnnotations(feedingPoints.reduce(into: [Annotation]()) { annotations, point in
+            annotations.append(
+                point.annotationModel.annotation(
+                    at: point.coordinates
+                )
             )
-            let feedingPointView = FeedingPointView()
-            feedingPointView.configure(point.viewModel)
-            feedingPointView.tapAction = { [weak self] pointId in
-                self?.viewModel.handleActionEvent(.tapFeedingPoint(pointId))
+            
+            if point.isSelected {
+                annotations.append(
+                    point.annotationModel.selectionAnnotation(
+                        for: point.radius.converted(to: .meters).value,
+                        at: point.coordinates
+                    )
+                )
             }
-            try? mapView.viewAnnotations.add(feedingPointView, options: options)
-        }
+        })
 
         self.mapView.cameraAnimationQueue.append {
             self.easeToClosesFeedingPointOnce(feedingPoints)
@@ -82,6 +96,13 @@ extension HomeViewController: HomeViewModelOutput {
         segmentedControl.onTap = { [weak self] selectedSegmentIndex in
             self?.viewModel.handleActionEvent(.tapFilterControl(selectedSegmentIndex))
         }
+    }
+    
+    func applyMapZoom(for pointsIds: [String]) {
+        mapView.easeToAnnotations(
+            mapView.getAnnotations(for: pointsIds),
+            duration: 0
+        )
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -125,6 +146,10 @@ private extension HomeViewController {
         viewModel.onFeedingPointsHaveBeenPrepared = { [weak self] points in
             self?.applyFeedingPoints(points)
         }
+        
+        viewModel.onFeadingPointsZoomRequired = { [weak self] points in
+            self?.applyMapZoom(for: points)
+        }
 
         viewModel.onFeedingPointCameraMoveRequired = { [weak self] move in
             self?.handleCameraMove(move)
@@ -165,6 +190,12 @@ private extension HomeViewController {
                 await self?.openSettings()
             }
         }
+        
+        viewModel.onLocationPermissionRequired = { [weak self] in
+            Task {
+                await self?.openSettings()
+            }
+        }
     }
 
     func handleFeedingAction(_ action: FeedingActionMapper.FeedingAction) {
@@ -184,6 +215,8 @@ private extension HomeViewController {
                         self.viewModel.handleActionEvent(.confirmCancelFeeding)
                     } else if action == .cameraAccess {
                         self.viewModel.handleActionEvent(.getCameraPermission)
+                    } else if action == .locationAccess {
+                        self.viewModel.handleActionEvent(.getLocationPermission)
                     }
                     alertViewController.dismiss(animated: true)
                 }
@@ -199,6 +232,20 @@ private extension HomeViewController {
         self.present(alertViewController, animated: true)
     }
 
+    func handleUpdatedRouteRequest(_ request: FeedingPointRouteRequest) {
+        mapView.requestRoute(destination: request.feedingPointCoordinates) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success:
+                if !request.isUnfinishedFeeding {
+                    self.viewModel.startFeeding(feedingPointId: request.feedingPointId)
+                }
+            case .failure(let error):
+                self.showErrorMessage(error.localizedDescription)
+            }
+        }
+    }
+    
     func handleRouteRequest(_ request: FeedingPointRouteRequest) {
         mapView.requestRoute(destination: request.feedingPointCoordinates) { [weak self] result in
             guard let self = self else { return }
@@ -219,11 +266,14 @@ private extension HomeViewController {
                     request.feedingPointCoordinates,
                     location: self.mapView.location.latestLocation?.location
                 )
-                self.mapView.didChangeLocation = { [weak self] location in
-                    self?.handleLocationChange(
-                        request.feedingPointCoordinates,
-                        location: location
-                    )
+                self.mapView.didChangeLocation = { [weak self] location, updated in
+                    if updated {
+                        self?.handleLocationUpdated(request: request,
+                                                    location: location)
+                    } else {
+                        self?.handleLocationChange(request.feedingPointCoordinates,
+                                                   location: location)
+                    }
                 }
                 if !request.isUnfinishedFeeding {
                     self.viewModel.startFeeding(feedingPointId: request.feedingPointId)
@@ -250,6 +300,24 @@ private extension HomeViewController {
             longitude: coordinates.longitude
         )
 
+        if let distance = location?.distance(from: feedingPointLocation) {
+            feedControl.updateDistance(distance)
+        }
+    }
+    
+    func handleLocationUpdated(request: FeedingPointRouteRequest,
+                               location: CLLocation?) {
+        var updateRequest = FeedingPointRouteRequest(feedingPointCoordinates: request.feedingPointCoordinates,
+                                           countdownTime: request.countdownTime,
+                                           feedingPointId: request.feedingPointId,
+                                           isUnfinishedFeeding: true)
+        handleUpdatedRouteRequest(updateRequest)
+        
+        let feedingPointLocation = CLLocation(
+            latitude: updateRequest.feedingPointCoordinates.latitude,
+            longitude: updateRequest.feedingPointCoordinates.longitude
+        )
+        
         if let distance = location?.distance(from: feedingPointLocation) {
             feedControl.updateDistance(distance)
         }
@@ -301,10 +369,30 @@ private extension HomeViewController {
         mapView = NavigationMapController(frame: view.bounds)
         view.addSubview(mapView.view)
         mapView.mapboxMap.loadStyleURI(styleURI)
-
+        
+        mapView.didTapAnnotations = { [weak self] in
+            let points = Set($0.map(\.id))
+            self?.viewModel.handleActionEvent(.tapFeedingPoints(Array(points)))
+        }
+        
         mapView.cameraAnimationQueue.append {
             self.updateCameraSettings()
         }
+    }
+    
+    func updateCameraEasePadding() {
+        let segmentedControl = segmentedControl.superview?
+            .convert(segmentedControl.frame, to: mapView.view) ?? .zero
+        let userLocationButton = userLocationButton.superview?
+            .convert(userLocationButton.frame, to: mapView.view) ?? .zero
+        
+        let padding: CGFloat = 32
+        mapView.cameraEasePadding = UIEdgeInsets(
+            top: segmentedControl.maxY + padding,
+            left: padding,
+            bottom: mapView.view.bounds.maxY - userLocationButton.minY + padding,
+            right: padding
+        )
     }
 
     func updateCameraSettings() {
@@ -323,9 +411,7 @@ private extension HomeViewController {
 
     func easeToClosesFeedingPointOnce(_ items: [FeedingPointViewItem]) {
         DispatchQueue.once {
-            let coordinates = items.filter { viewItem in
-                viewItem.viewModel.kind.isHungerLevelHigh
-            }
+            let coordinates = items.filter(\.isHungerLevelHigh)
 
             if let location = mapView.findClosesLocation(coordinates.map { $0.coordinates }) {
                 self.mapView.easeToLocation(location, duration: 0)
@@ -345,5 +431,11 @@ private extension CircleButtonView {
         )
         myLocationButton.configure(model)
         return myLocationButton
+    }
+}
+
+private extension FeedingPointViewItem {
+    var isHungerLevelHigh: Bool {
+        annotationModel.hungerLevel == .high
     }
 }

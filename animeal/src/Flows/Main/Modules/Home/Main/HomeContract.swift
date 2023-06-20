@@ -21,7 +21,7 @@ protocol HomeModelProtocol: AnyObject {
     func fetchFeedingPoint(_ pointId: String) async throws -> HomeModel.FeedingPoint
 
     func proceedFilter(_ identifier: HomeModel.FilterItemIdentifier)
-    func proceedFeedingPointSelection(_ identifier: String, completion: (([HomeModel.FeedingPoint]) -> Void)?)
+    func proceedFeedingPointSelection(_ identifier: String) -> [HomeModel.FeedingPoint]
 
     // Feeding flow
     func processStartFeeding(feedingPointId: String) async throws -> FeedingResponse
@@ -31,6 +31,7 @@ protocol HomeModelProtocol: AnyObject {
     func fetchFeedingSnapshot() -> FeedingSnapshot?
     @discardableResult
     func processRejectFeeding() async throws -> FeedingResponse
+    func fetchActiveFeeding() async throws -> Feeding?
 }
 
 // MARK: - ViewModel
@@ -42,6 +43,7 @@ typealias HomeCombinedViewModel = HomeViewModelLifeCycle
 protocol HomeViewModelLifeCycle: AnyObject {
     func setup()
     func load()
+    func refreshCurrentFeeding()
 }
 
 @MainActor
@@ -55,6 +57,7 @@ protocol HomeViewInteraction: AnyObject {
 protocol HomeViewState: AnyObject {
     var onFeedingPointsHaveBeenPrepared: (([FeedingPointViewItem]) -> Void)? { get set }
     var onFeedingPointCameraMoveRequired: ((FeedingPointCameraMove) -> Void)? { get set }
+    var onFeadingPointsZoomRequired: (([String]) -> Void)? { get set }
     var onSegmentsHaveBeenPrepared: ((FilterModel) -> Void)? { get set }
     var onRouteRequestHaveBeenPrepared: ((FeedingPointRouteRequest) -> Void)? { get set }
     var onFeedingActionHaveBeenPrepared: ((FeedingActionMapper.FeedingAction) -> Void)? { get set }
@@ -63,15 +66,17 @@ protocol HomeViewState: AnyObject {
     var onRequestToCamera: (() -> CameraAccessState)? { get set }
     var onCameraPermissionNativeRequired: (() -> Void)? { get set }
     var onCameraPermissionCustomRequired: (() -> Void)? { get set }
+    var onLocationPermissionRequired: (() -> Void)? { get set }
 }
 
 enum HomeViewActionEvent {
-    case tapFeedingPoint(String)
+    case tapFeedingPoints([String])
     case tapFilterControl(Int)
     case tapCancelFeeding
     case autoCancelFeeding
     case confirmCancelFeeding
     case getCameraPermission
+    case getLocationPermission
 }
 
 enum CameraAccessState {

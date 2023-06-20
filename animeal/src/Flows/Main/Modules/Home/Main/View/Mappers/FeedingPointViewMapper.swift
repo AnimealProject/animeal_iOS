@@ -16,40 +16,39 @@ final class FeedingPointViewMapper: FeedingPointViewMappable {
                 latitude: input.location.latitude,
                 longitude: input.location.longitude
             ),
-            viewModel: FeedingPointView.Model(
+            radius: input.location.radius,
+            isSelected: input.isSelected,
+            annotationModel: FeedingPointAnnotationModel(
                 identifier: input.identifier,
-                isSelected: input.isSelected,
-                kind: convert(input)
+                kind: convert(input),
+                hungerLevel: convert(input.hungerLevel)
             )
         )
     }
 
-    private func convert(_ input: HomeModel.FeedingPoint) -> FeedingPointView.Kind {
-        var hungerLevel = FeedingPointView.HungerLevel.high
-        switch input.hungerLevel {
-        case .high:
-            hungerLevel = .high
-        case .mid:
-            hungerLevel = .medium
-        case .low:
-            hungerLevel = .low
+    private func convert(_ input: HomeModel.FeedingPoint) -> FeedingPointAnnotationModel.Kind {
+        if input.isFavorite {
+            return .fav
         }
-
-        switch input.isFavorite {
-        case true:
-            return .fav(hungerLevel)
-        case false:
-            switch input.pet {
-            case .cats:
-                return .cat(hungerLevel)
-            case .dogs:
-                return .dog(hungerLevel)
-            }
+        
+        switch input.pet {
+        case .cats: return .cat
+        case .dogs: return .dog
+        }
+    }
+    
+    private func convert(_ input: HomeModel.HungerLevel) -> FeedingPointAnnotationModel.HungerLevel {
+        switch input {
+        case .high: return .high
+        case .mid: return .medium
+        case .low: return .low
         }
     }
 }
 
 struct FeedingPointViewItem {
     let coordinates: CLLocationCoordinate2D
-    let viewModel: FeedingPointView.Model
+    let radius: Measurement<UnitLength>
+    let isSelected: Bool
+    let annotationModel: FeedingPointAnnotationModel
 }

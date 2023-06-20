@@ -20,7 +20,7 @@ final class ToggleFavoriteFeedingPointUseCase: ToggleFavoriteFeedingPointUseCase
     
     func callAsFunction(byIdentifier identifier: String) async {
         do {
-            try await feedingPointsService.toggle(byIdentifier: identifier)
+            try await feedingPointsService.toggleFavorite(byIdentifier: identifier)
         } catch {
             logError("[ToggleFavoriteFeedingPointUseCase] Impossible to add/delete feeding point.")
         }

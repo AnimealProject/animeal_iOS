@@ -3,14 +3,33 @@ import UIComponents
 import Common
 
 protocol FeedingPointDetailsModelMapperProtocol {
-    func map(_ item: FeedingPoint, isFavorite: Bool) -> FeedingPointDetailsModel.PointContent
-    func map(_ item: FeedingPoint, isFavorite: Bool, feeders: [FeedingPointDetailsModel.Feeder]) -> FeedingPointDetailsModel.PointContent
-    func map(history: [FeedingHistory], namesMap: [String: String]) -> [FeedingPointDetailsModel.Feeder]
+    func map(
+        _ item: FeedingPoint,
+        isFavorite: Bool,
+        isEnabled: Bool
+    ) -> FeedingPointDetailsModel.PointContent
+
+    func map(
+        _ item: FeedingPoint,
+        isFavorite: Bool,
+        isEnabled: Bool,
+        feeders: [FeedingPointDetailsModel.Feeder]
+    ) -> FeedingPointDetailsModel.PointContent
+
+    func map(
+        history: [FeedingHistory],
+        namesMap: [String: String]
+    ) -> [FeedingPointDetailsModel.Feeder]
 }
 
-class FeedingPointDetailsModelMapper: FeedingPointDetailsModelMapperProtocol {
-    func map(_ item: FeedingPoint, isFavorite: Bool, feeders: [FeedingPointDetailsModel.Feeder]) -> FeedingPointDetailsModel.PointContent {
-        return  FeedingPointDetailsModel.PointContent(
+final class FeedingPointDetailsModelMapper: FeedingPointDetailsModelMapperProtocol {
+    func map(
+        _ item: FeedingPoint,
+        isFavorite: Bool,
+        isEnabled: Bool,
+        feeders: [FeedingPointDetailsModel.Feeder]
+    ) -> FeedingPointDetailsModel.PointContent {
+        FeedingPointDetailsModel.PointContent(
             content: FeedingPointDetailsModel.Content(
                 header: FeedingPointDetailsModel.Header(
                     cover: item.cover,
@@ -24,13 +43,22 @@ class FeedingPointDetailsModelMapper: FeedingPointDetailsModelMapperProtocol {
             ), action: FeedingPointDetailsModel.Action(
                 identifier: UUID().uuidString,
                 title: L10n.Action.iWillFeed,
-                isEnabled: item.status == .starved
+                isEnabled: isEnabled
             )
         )
     }
 
-    func map(_ item: FeedingPoint, isFavorite: Bool) -> FeedingPointDetailsModel.PointContent {
-        return map(item, isFavorite: isFavorite, feeders: [])
+    func map(
+        _ item: FeedingPoint,
+        isFavorite: Bool,
+        isEnabled: Bool
+    ) -> FeedingPointDetailsModel.PointContent {
+        map(
+            item,
+            isFavorite: isFavorite,
+            isEnabled: isEnabled,
+            feeders: []
+        )
     }
 
     private func convertStatus(_ status: FeedingPointStatus) -> FeedingPointDetailsModel.Status {
@@ -51,14 +79,14 @@ class FeedingPointDetailsModelMapper: FeedingPointDetailsModelMapperProtocol {
             case .inProgress:
                 let minutesLeft = DateFormatter.relativeShort.localizedString(
                     for: historyItem.updatedAt.foundationDate,
-                    relativeTo: Date.now
+                    relativeTo: NetTime.now
                 )
                 lastFeeded = "\(L10n.Feeding.Status.inprogress), \(minutesLeft)"
 
             default:
                 lastFeeded = DateFormatter.relativeFull.localizedString(
                     for: historyItem.updatedAt.foundationDate,
-                    relativeTo: Date.now
+                    relativeTo: NetTime.now
                 )
             }
             return FeedingPointDetailsModel.Feeder(

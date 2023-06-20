@@ -147,7 +147,7 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
             }
             contentContainer.addArrangedSubview(button)
         }
-        
+
         var button: ButtonView
         if content.action.isEnabled {
             button = ButtonViewFactory().makeAccentButton()

@@ -27,13 +27,13 @@ final class AttachPhotoViewCell: UICollectionViewCell, AttachPhotoViewCellContai
     }
 
     private var model: Model?
-    
+
     // MARK: - Reuse identifier
     static var reuseIdentifier: String { String(describing: self) }
-    
+
     // MARK: - Public properties
     public var onTapCloseAction: (() -> Void)?
-    
+
     // MARK: - UI properties
     private lazy var placeImageView: UIImageView = {
         let imageView = UIImageView().prepareForAutoLayout()
@@ -44,24 +44,24 @@ final class AttachPhotoViewCell: UICollectionViewCell, AttachPhotoViewCellContai
         imageView.cornerRadius(Constants.imageCornerRadius)
         return imageView
     }()
-    
+
     private let circleView: UIView = {
         let view = UIView().prepareForAutoLayout()
         view.widthAnchor ~= Constants.circleSideSize
         view.heightAnchor ~= Constants.circleSideSize
         view.clipsToBounds = true
-        view.cornerRadius(Constants.circleSideSize/2)
+        view.cornerRadius(Constants.circleSideSize / 2)
         view.backgroundColor = .systemGray
         view.layer.borderWidth = 2
         view.layer.borderColor = view.designEngine.colors.backgroundPrimary.cgColor
         return view
     }()
-    
+
     private lazy var circleViewTapRecognizer = UITapGestureRecognizer(
         target: self,
         action: #selector(circleViewWasTapped)
     )
-    
+
     private lazy var closeImageView: UIImageView = {
         let imageView = UIImageView().prepareForAutoLayout()
         imageView.contentMode = .scaleToFill
@@ -71,24 +71,24 @@ final class AttachPhotoViewCell: UICollectionViewCell, AttachPhotoViewCellContai
         imageView.heightAnchor ~= Constants.closeIconSideSize
         return imageView
     }()
-    
+
     // MARK: - Initialization
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - Configuration
     func configure(_ model: Model) {
         self.model = model
         placeImageView.image = model.image
         setupProgressView()
     }
-    
+
     // MARK: - Setup
     private func setup() {
         contentView.backgroundColor = designEngine.colors.backgroundPrimary
@@ -96,12 +96,12 @@ final class AttachPhotoViewCell: UICollectionViewCell, AttachPhotoViewCellContai
         placeImageView.topAnchor ~= contentView.topAnchor + Constants.offset
         placeImageView.centerYAnchor ~= contentView.centerYAnchor
         placeImageView.centerXAnchor ~= contentView.centerXAnchor
-        
+
         contentView.addSubview(circleView)
         circleView.topAnchor ~= contentView.topAnchor
         circleView.trailingAnchor ~= contentView.trailingAnchor
         circleView.addGestureRecognizer(circleViewTapRecognizer)
-        
+
         contentView.addSubview(closeImageView)
         closeImageView.centerXAnchor ~= circleView.centerXAnchor
         closeImageView.centerYAnchor ~= circleView.centerYAnchor
@@ -125,7 +125,7 @@ final class AttachPhotoViewCell: UICollectionViewCell, AttachPhotoViewCellContai
         hostingViewController.view.bottomAnchor ~= contentView.bottomAnchor
         hostingViewController.view.backgroundColor = UIColor.clear
     }
-    
+
     // MARK: - Handlers
     @objc private func circleViewWasTapped() {
         onTapCloseAction?()

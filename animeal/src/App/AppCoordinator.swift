@@ -83,7 +83,7 @@ private extension AppCoordinator {
             }
         }
     }
-    
+
     @MainActor
     func move(isSignedIn: Bool, isCurrentUserValidated: Bool) {
         if isSignedIn, isCurrentUserValidated {
