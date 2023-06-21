@@ -42,7 +42,6 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
         self.feedingPointId = pointId
         self.mapper = mapper
         self.context = context
-        subscribeForFeedingPointChangeEvents()
     }
 
     func fetchFeedingPoint(_ completion: ((FeedingPointDetailsModel.PointContent) -> Void)?) {
@@ -120,31 +119,6 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
                 print(error.localizedDescription)
             }
         }
-    }
-
-    private func subscribeForFeedingPointChangeEvents() {
-        context.feedingPointsService.feedingPoints
-            .sink { result in
-                Task { [weak self] in
-                    guard let self else { return }
-                    let points = result.uniqueValues
-                    let updatedFeeding = points.first {
-                        $0.feedingPoint.id == self.feedingPointId
-                    }
-                    let canBook = try? await self.context.feedingPointsService
-                        .canBookFeedingPoint(for: self.feedingPointId)
-                    if let feedingPointModel = updatedFeeding,
-                       feedingPointModel != self.cachedFeedingPoint {
-                        self.cachedFeedingPoint = feedingPointModel
-                        self.onFeedingPointChange?(self.mapper.map(
-                            feedingPointModel.feedingPoint,
-                            isFavorite: feedingPointModel.isFavorite,
-                            isEnabled: canBook ?? false
-                        ))
-                    }
-                }
-            }
-            .store(in: &cancellables)
     }
 }
 
