@@ -131,9 +131,11 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
         contentContainer.addArrangedSubview(paragraphView)
         paragraphView.configure(content.placeDescription)
 
-        let feedingHistoryShimmerView = FeedingHistoryShimmerView()
-        feedingHistoryContainer.addArrangedSubview(feedingHistoryShimmerView)
-        feedingHistoryShimmerView.startAnimation(scheduler: viewModel.shimmerScheduler)
+        if feedingHistoryContainer.arrangedSubviews.isEmpty {
+            let feedingHistoryShimmerView = FeedingHistoryShimmerView()
+            feedingHistoryContainer.addArrangedSubview(feedingHistoryShimmerView)
+            feedingHistoryShimmerView.startAnimation(scheduler: viewModel.shimmerScheduler)
+        }
 
         contentContainer.addArrangedSubview(feedingHistoryContainer)
 
