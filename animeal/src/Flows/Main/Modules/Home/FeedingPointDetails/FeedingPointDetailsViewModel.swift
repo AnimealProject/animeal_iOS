@@ -107,7 +107,9 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
                 guard let self else { return }
                 do {
                     let success = try await model.mutateFavorite()
-                    if !success {
+                    if success {
+                        self.load()
+                    } else {
                         self.onFavoriteMutationFailed?()
                     }
                 } catch {
