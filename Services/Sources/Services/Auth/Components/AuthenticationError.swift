@@ -1,5 +1,3 @@
-import Foundation
-
 public typealias AuthenticationErrorDescription = String
 public typealias AuthenticationRecoverySuggestion = String
 public typealias AuthenticationField = String

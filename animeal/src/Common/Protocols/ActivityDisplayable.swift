@@ -2,6 +2,7 @@
 import UIKit
 
 // SDK
+import Services
 import UIComponents
 
 @MainActor
@@ -39,15 +40,23 @@ extension ActivityDisplayable where Self: AlertCoordinatable {
     ) {
         displayActivityIndicator(activityData: .default(caption: caption))
 
+        func errorCompletion(with message: String) {
+            hideActivityIndicator()
+            displayAlert(message: message)
+            completion?(false)
+        }
+
         Task { @MainActor [weak self] in
             do {
                 try await operation()
                 self?.hideActivityIndicator()
                 completion?(true)
-            } catch {
-                self?.hideActivityIndicator()
-                self?.displayAlert(message: error.localizedDescription)
-                completion?(false)
+            }
+            catch let error as Services.AuthenticationError {
+                errorCompletion(with: error.errorDescription)
+            }
+            catch let error {
+                errorCompletion(with: error.localizedDescription)
             }
         }
     }
