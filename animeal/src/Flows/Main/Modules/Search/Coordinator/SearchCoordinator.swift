@@ -61,15 +61,12 @@ extension SearchCoordinator: FeedingPointCoordinatable {
     func routeTo(_ route: FeedingPointRoute) {
         switch route {
         case .feed(let feedingDetails):
-            bottomSheetController?.dismissView { [weak self] in
-                guard let self else { return }
-                let screen = FeedingBookingModuleAssembler(
-                    coordinator: self,
-                    feedingDetails: feedingDetails
-                ).assemble()
-                screen.modalPresentationStyle = .overFullScreen
-                self._navigator.present(screen, animated: true, completion: nil)
-            }
+            let screen = FeedingBookingModuleAssembler(
+                coordinator: self,
+                feedingDetails: feedingDetails
+            ).assemble()
+            screen.modalPresentationStyle = .overFullScreen
+            bottomSheetController?.present(screen, animated: true)
         case .map(let pointIdentifier):
             bottomSheetController?.dismissView { [weak self] in
                 self?.switchFlowAction?(
@@ -89,6 +86,7 @@ extension SearchCoordinator: FeedingBookingCoordinatable {
                     .shouldSwitchToFeeding(feedDetails: feedDetails)
                 )
             }
+            bottomSheetController?.dismissView(completion: nil)
         case .cancel:
             _navigator.topViewController?.dismiss(animated: true, completion: nil)
         }
