@@ -72,13 +72,12 @@ extension HomeCoordinator: FeedingPointCoordinatable {
     func routeTo(_ route: FeedingPointRoute) {
         switch route {
         case .feed(let feedingDetails):
-            bottomSheetController?.dismissView {
-                let screen = FeedingBookingModuleAssembler(
-                    coordinator: self, feedingDetails: feedingDetails
-                ).assemble()
-                screen.modalPresentationStyle = .overFullScreen
-                self._navigator.present(screen, animated: true, completion: nil)
-            }
+            let screen = FeedingBookingModuleAssembler(
+                coordinator: self,
+                feedingDetails: feedingDetails
+            ).assemble()
+            screen.modalPresentationStyle = .overFullScreen
+            bottomSheetController?.present(screen, animated: true)
         case .map: break
         }
     }
@@ -92,6 +91,7 @@ extension HomeCoordinator: FeedingBookingCoordinatable {
         case .agree(let feedingPoint):
             feedingDidStartedEvent?(feedingPoint)
             _navigator.topViewController?.dismiss(animated: true, completion: nil)
+            bottomSheetController?.dismissView(completion: nil)
         }
     }
 }
