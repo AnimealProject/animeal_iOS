@@ -4,6 +4,17 @@ enum SearchModelItemStatus {
     case fed
     case pending
     case starved
+    
+    var statusText: String {
+        switch self {
+        case .fed:
+            return L10n.Feeding.Status.fed
+        case .pending:
+            return L10n.Feeding.Status.inprogress
+        case .starved:
+            return L10n.Feeding.Status.starved
+        }
+    }
 }
 
 enum SearchModelItemCategory: Int, CaseIterable {
