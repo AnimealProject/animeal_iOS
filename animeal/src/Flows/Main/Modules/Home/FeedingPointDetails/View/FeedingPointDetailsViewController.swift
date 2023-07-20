@@ -27,6 +27,7 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
         return stackView
     }()
     private let pointDetailsView = FeedingPointDetailsView()
+    private var shimmerAdded = false
 
     // MARK: - Dependencies
     private let viewModel: FeedingPointDetailsViewModelProtocol
@@ -131,10 +132,11 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
         contentContainer.addArrangedSubview(paragraphView)
         paragraphView.configure(content.placeDescription)
 
-        if feedingHistoryContainer.arrangedSubviews.isEmpty {
+        if !self.viewModel.historyInitialized && !self.shimmerAdded {
             let feedingHistoryShimmerView = FeedingHistoryShimmerView()
             feedingHistoryContainer.addArrangedSubview(feedingHistoryShimmerView)
             feedingHistoryShimmerView.startAnimation(scheduler: viewModel.shimmerScheduler)
+            self.shimmerAdded = true
         }
 
         contentContainer.addArrangedSubview(feedingHistoryContainer)
