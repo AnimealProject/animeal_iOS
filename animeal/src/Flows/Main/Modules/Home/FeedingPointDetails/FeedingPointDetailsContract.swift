@@ -32,6 +32,7 @@ protocol FeedingPointDetailsViewState: AnyObject {
     var onFavoriteMutationFailed: (() -> Void)? { get set }
     var showOnMapAction: ButtonView.Model? { get }
     var shimmerScheduler: ShimmerViewScheduler { get }
+    var historyInitialized: Bool { get }
 }
 
 // MARK: - Model

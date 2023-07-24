@@ -15,6 +15,7 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
     var onFeedingHistoryHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointFeeders) -> Void)?
     var onMediaContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointMediaContent) -> Void)?
     var onFavoriteMutationFailed: (() -> Void)?
+    var historyInitialized: Bool = false
 
     // TODO: Move this strange logic to model
     let isOverMap: Bool
@@ -58,6 +59,7 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
         }
         model.fetchFeedingHistory { [weak self] content in
             DispatchQueue.main.async {
+                self?.historyInitialized = true
                 self?.updateFeedingHistoryContent(content)
             }
         }
