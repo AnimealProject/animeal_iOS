@@ -1,4 +1,6 @@
 const axios = require('axios');
+const { CognitoIdentityServiceProvider } = require('aws-sdk');
+const cognitoIdentityServiceProvider = new CognitoIdentityServiceProvider();
 
 async function request(query, variables) {
   return axios({
@@ -13,6 +15,7 @@ async function request(query, variables) {
     },
   });
 }
+
 
 const updateFeedingPoint = async (params) =>
   request(
@@ -152,17 +155,74 @@ const updateFeedingPoint = async (params) =>
           }
           nextToken
         }
-        feedings {
+        cover
+        feedingPointCategoryId
+      }
+    }
+`,
+    params,
+  );
+const getFeedingPoint = async (params) =>
+  request(
+    `  query GetFeedingPoint($id: ID!) {
+      getFeedingPoint(id: $id) {
+        id
+        name
+        description
+        city
+        street
+        address
+        images
+        point {
+          type
+          coordinates
+        }
+        location {
+          lat
+          lon
+        }
+        region
+        neighborhood
+        distance
+        status
+        i18n {
+          locale
+          name
+          description
+          city
+          street
+          address
+          region
+          neighborhood
+        }
+        statusUpdatedAt
+        createdAt
+        updatedAt
+        createdBy
+        updatedBy
+        owner
+        pets {
           items {
             id
-            userId
-            images
-            status
-            createdAt
-            updatedAt
-            createdBy
-            updatedBy
-            owner
+            petId
+            feedingPointId
+            pet {
+              id
+              name
+              images
+              breed
+              color
+              chipNumber
+              vaccinatedAt
+              yearOfBirth
+              createdAt
+              updatedAt
+              createdBy
+              updatedBy
+              owner
+              cover
+              petCategoryId
+            }
             feedingPoint {
               id
               name
@@ -184,8 +244,56 @@ const updateFeedingPoint = async (params) =>
               cover
               feedingPointCategoryId
             }
-            expireAt
-            feedingPointFeedingsId
+            createdAt
+            updatedAt
+            owner
+          }
+          nextToken
+        }
+        category {
+          id
+          name
+          icon
+          tag
+          i18n {
+            locale
+            name
+          }
+          createdAt
+          updatedAt
+          createdBy
+          updatedBy
+          owner
+        }
+        users {
+          items {
+            id
+            userId
+            feedingPointId
+            feedingPoint {
+              id
+              name
+              description
+              city
+              street
+              address
+              images
+              region
+              neighborhood
+              distance
+              status
+              statusUpdatedAt
+              createdAt
+              updatedAt
+              createdBy
+              updatedBy
+              owner
+              cover
+              feedingPointCategoryId
+            }
+            createdAt
+            updatedAt
+            owner
           }
           nextToken
         }
@@ -196,8 +304,117 @@ const updateFeedingPoint = async (params) =>
 `,
     params,
   );
+const getUsersByFeedingPointId = async (params) =>
+  request(
+    `  query RelationUserFeedingPointByFeedingPointId(
+      $feedingPointId: ID!
+      $userId: ModelStringKeyConditionInput
+      $sortDirection: ModelSortDirection
+      $filter: ModelRelationUserFeedingPointFilterInput
+      $limit: Int
+      $nextToken: String
+    ) {
+      relationUserFeedingPointByFeedingPointId(
+        feedingPointId: $feedingPointId
+        userId: $userId
+        sortDirection: $sortDirection
+        filter: $filter
+        limit: $limit
+        nextToken: $nextToken
+      ) {
+        items {
+          id
+          userId
+          feedingPointId
+          feedingPoint {
+            id
+            name
+            description
+            city
+            street
+            address
+            images
+            point {
+              type
+              coordinates
+            }
+            location {
+              lat
+              lon
+            }
+            region
+            neighborhood
+            distance
+            status
+            i18n {
+              locale
+              name
+              description
+              city
+              street
+              address
+              region
+              neighborhood
+            }
+            statusUpdatedAt
+            createdAt
+            updatedAt
+            createdBy
+            updatedBy
+            owner
+            pets {
+              nextToken
+            }
+            category {
+              id
+              name
+              icon
+              tag
+              createdAt
+              updatedAt
+              createdBy
+              updatedBy
+              owner
+            }
+            users {
+              nextToken
+            }
+            cover
+            feedingPointCategoryId
+          }
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
+    }
+`,
+    params,
+  );
 
+async function getUser(username) {
+  const params = {
+    UserPoolId: process.env.AUTH_ANIMEAL8F90E9B68F90E9B6_USERPOOLID,
+    Username: username,
+  };
+
+  console.log(`Attempting to retrieve information for ${username}`);
+
+  try {
+    const result = await cognitoIdentityServiceProvider
+      .adminGetUser(params)
+      .promise();
+    return result;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
 
 module.exports = {
-  updateFeedingPoint
+  updateFeedingPoint,
+  getFeedingPoint,
+  getUser,
+  getUsersByFeedingPointId,
 };

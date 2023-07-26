@@ -163,24 +163,23 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
             throw "[FeedingPointsService] Cannot fetch status because there is no feeding point for the provided identifier".asBaseError()
         }
 
+        guard point.feedingPoint.status == .starved else {
+            return false
+        }
+
         let currentUserId = await profileService.getCurrentUser()?.userId
 
-        let feedings = try await networkService
-            .query(request: .list(animeal.Feeding.self))
+        let idPredicate = QueryPredicateOperation(field: "feedingPointFeedingsId", operator: .equals(identifier))
+        let userPredicate = QueryPredicateOperation(field: "userId", operator: .equals(currentUserId))
+        let statusPredicate = QueryPredicateOperation(field: "status", operator: .equals(FeedingStatus.inProgress.rawValue))
 
-        let userAlreadyBookedPoint = feedings
-            .filter { $0.userId == currentUserId }
-            .first { $0.status == .inProgress }
+        let idPredicates = QueryPredicateGroup(type: .or, predicates: [idPredicate, userPredicate])
+        let predicate = QueryPredicateGroup(type: .and, predicates: [idPredicates, statusPredicate])
 
-        if userAlreadyBookedPoint != nil {
-            return false
-        } else {
-            let isPointBookedBySomeoneElse = feedings
-                .first { $0.feedingPoint.id == identifier }?
-                .status != .inProgress
+        let feeding = try await networkService
+            .query(request: .list(animeal.Feeding.self, where: predicate)).first
 
-            return isPointBookedBySomeoneElse
-        }
+        return (feeding == nil)
     }
 
     @discardableResult
@@ -237,7 +236,7 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
                 userId: currentFeeding.userId,
                 createdAt: currentFeeding.createdAt,
                 updatedAt: Temporal.DateTime(Date(timeIntervalSince1970: TimeInterval(currentFeeding.expireAt))),
-                feedingPointId: currentFeeding.feedingPoint.id,
+                feedingPointId: currentFeeding.feedingPointFeedingsId,
                 status: currentFeeding.status
             )
             feedingHistory.insert(current, at: 0)

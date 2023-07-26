@@ -127,7 +127,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
         do {
             let snapshotTimeDiff = model.fetchFeedingSnapshot()?.startingTimeDiff ?? NetTime.serverTimeDifference
             let timeDiff = snapshotTimeDiff - NetTime.serverTimeDifference
-            let feedingPoint = try await model.fetchFeedingPoint(activeFeeding.feedingPoint.id)
+            let feedingPoint = try await model.fetchFeedingPoint(activeFeeding.feedingPointFeedingsId)
             let pointItemView = feedingPointViewMapper.mapFeedingPoint(feedingPoint)
             // Update view with feedingPoint details
             onFeedingPointsHaveBeenPrepared?([pointItemView])
@@ -137,7 +137,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
                 .init(
                     feedingPointCoordinates: pointItemView.coordinates,
                     countdownTime: Constants.feedingCountdownTimer - timePassSinceFeedingStarted,
-                    feedingPointId: activeFeeding.feedingPoint.id,
+                    feedingPointId: activeFeeding.feedingPointFeedingsId,
                     isUnfinishedFeeding: true
                 )
             )

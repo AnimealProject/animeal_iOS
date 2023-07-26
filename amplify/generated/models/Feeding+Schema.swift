@@ -14,8 +14,12 @@ extension Feeding {
     case createdBy
     case updatedBy
     case owner
-    case feedingPoint
+    case feedingPointDetails
+    case feedingPointFeedingsId
     case expireAt
+    case assignedModerators
+    case moderatedBy
+    case moderatedAt
   }
   
   public static let keys = CodingKeys.self
@@ -45,8 +49,12 @@ extension Feeding {
       .field(feeding.createdBy, is: .optional, ofType: .string),
       .field(feeding.updatedBy, is: .optional, ofType: .string),
       .field(feeding.owner, is: .optional, ofType: .string),
-      .belongsTo(feeding.feedingPoint, is: .required, ofType: FeedingPoint.self, targetName: "feedingPointFeedingsId"),
-      .field(feeding.expireAt, is: .required, ofType: .int)
+      .field(feeding.feedingPointDetails, is: .optional, ofType: .embedded(type: FeedingPointDetails.self)),
+      .field(feeding.feedingPointFeedingsId, is: .required, ofType: .string),
+      .field(feeding.expireAt, is: .required, ofType: .int),
+      .field(feeding.assignedModerators, is: .optional, ofType: .embeddedCollection(of: String.self)),
+      .field(feeding.moderatedBy, is: .optional, ofType: .string),
+      .field(feeding.moderatedAt, is: .optional, ofType: .dateTime)
     )
     }
 }

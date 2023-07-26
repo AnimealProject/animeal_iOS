@@ -20,7 +20,7 @@
       "function": {
         "AdminQueriesdbb0bdc6": {
           "deploymentBucketName": "amplify-animeal-test-155108-deployment",
-          "s3Key": "amplify-builds/AdminQueriesdbb0bdc6-75563276563345736a39-build.zip"
+          "s3Key": "amplify-builds/AdminQueriesdbb0bdc6-4b7a6a4648504b6b4441-build.zip"
         },
         "animeal8f90e9b68f90e9b6CreateAuthChallenge": {
           "deploymentBucketName": "amplify-animeal-test-155108-deployment",
@@ -28,7 +28,7 @@
         },
         "animeal8f90e9b68f90e9b6CustomMessage": {
           "deploymentBucketName": "amplify-animeal-test-155108-deployment",
-          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6CustomMessage-3337692f593159763748-build.zip"
+          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6CustomMessage-68547074514b7564556b-build.zip"
         },
         "animeal8f90e9b68f90e9b6DefineAuthChallenge": {
           "deploymentBucketName": "amplify-animeal-test-155108-deployment",
@@ -48,7 +48,7 @@
         },
         "approveFeeding": {
           "deploymentBucketName": "amplify-animeal-test-155108-deployment",
-          "s3Key": "amplify-builds/approveFeeding-56732f457a5258385776-build.zip"
+          "s3Key": "amplify-builds/approveFeeding-7872476b4f454676505a-build.zip"
         },
         "autoResetStatus": {
           "deploymentBucketName": "amplify-animeal-test-155108-deployment",
@@ -56,7 +56,7 @@
         },
         "feedingStreamTrigger": {
           "deploymentBucketName": "amplify-animeal-test-155108-deployment",
-          "s3Key": "amplify-builds/feedingStreamTrigger-3251542b5572582b7147-build.zip"
+          "s3Key": "amplify-builds/feedingStreamTrigger-49527847557834444d77-build.zip"
         },
         "finishFeeding": {
           "deploymentBucketName": "amplify-animeal-test-155108-deployment",
@@ -72,7 +72,7 @@
         },
         "rejectFeeding": {
           "deploymentBucketName": "amplify-animeal-test-155108-deployment",
-          "s3Key": "amplify-builds/rejectFeeding-59755631705979774377-build.zip"
+          "s3Key": "amplify-builds/rejectFeeding-56436a61687052434636-build.zip"
         },
         "startFeeding": {
           "deploymentBucketName": "amplify-animeal-test-155108-deployment",
@@ -90,6 +90,12 @@
           "deploymentBucketName": "amplify-animeal-test-155108-deployment",
           "s3Key": "amplify-builds/cognitoEventTriggerHandler-52787353516c4c564743-build.zip"
         }
+      },
+      "api": {
+        "animeal": {}
+      },
+      "storage": {
+        "animeal": {}
       }
     }
   },

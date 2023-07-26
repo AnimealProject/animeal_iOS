@@ -6,6 +6,11 @@
         "Mutation"
       ]
     },
+    "auth": {
+      "animeal8f90e9b68f90e9b6": [
+        "read"
+      ]
+    },
     "storage": {
       "FeedingPoint:@model(appsync)": [
         "create",
@@ -14,6 +19,12 @@
         "delete"
       ],
       "Feeding:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "FeedingUsers:@model(appsync)": [
         "create",
         "read",
         "update",
