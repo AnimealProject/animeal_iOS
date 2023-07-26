@@ -51,8 +51,14 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
             let fullFeedingPoint = context.feedingPointsService.storedFeedingPoints.first { point in
                 point.feedingPoint.id == self.feedingPointId
             }
-            let canBook = try? await self.context.feedingPointsService
-                .canBookFeedingPoint(for: self.feedingPointId)
+
+            var canBook = false
+            do {
+                canBook = try await self.context.feedingPointsService
+                    .canBookFeedingPoint(for: self.feedingPointId)
+            } catch {
+                logError(error.localizedDescription)
+            }
 
             if let feedingPointModel = fullFeedingPoint {
                 cachedFeedingPoint = fullFeedingPoint
@@ -60,7 +66,7 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
                     mapper.map(
                         feedingPointModel.feedingPoint,
                         isFavorite: feedingPointModel.isFavorite,
-                        isEnabled: canBook ?? false
+                        isEnabled: canBook
                     )
                 )
             }

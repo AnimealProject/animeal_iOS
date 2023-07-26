@@ -163,6 +163,10 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
             throw "[FeedingPointsService] Cannot fetch status because there is no feeding point for the provided identifier".asBaseError()
         }
 
+        guard point.feedingPoint.status == .starved else {
+            return false
+        }
+
         let currentUserId = await profileService.getCurrentUser()?.userId
 
         let feedings = try await networkService

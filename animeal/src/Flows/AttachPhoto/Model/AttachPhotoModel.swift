@@ -66,6 +66,9 @@ final class AttachPhotoModel: AttachPhotoModelProtocol {
             case .failure(let error):
                 // TODO: Handele error
                 print(error.localizedDescription)
+                DispatchQueue.main.async {
+                    completion?(nil)
+                }
             }
         }
     }

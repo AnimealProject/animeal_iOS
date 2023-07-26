@@ -66,6 +66,9 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
         viewModel.onFavoriteMutationFailed = { [weak self] in
             self?.applyFavoriteMutationFailed()
         }
+        viewModel.onRequestLocationAccess = { [weak self] in
+            self?.requestLocation()
+        }
     }
 
     // MARK: - Setup
@@ -184,5 +187,48 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
                 feedingHistoryContainer.addArrangedSubview(view)
             }
         }
+    }
+
+    func requestLocation() {
+        let title = L10n.Feeding.Alert.grantLocationPermission
+        let actions: [FeedingActionMapper.FeedingAction.Action] = [
+            .init(title: L10n.Action.noThanks, style: .inverted),
+            .init(title: L10n.Action.openSettings, style: .accent(.locationAccess))
+        ]
+
+        let alertViewController = AlertViewController(title: title)
+        actions.forEach { feedingAction in
+            var actionHandler: (() -> Void)?
+            switch feedingAction.style {
+            case .inverted:
+                actionHandler = {
+                    alertViewController.dismiss(animated: true)
+                }
+            case .accent:
+                actionHandler = { [weak self] in
+                    alertViewController.dismiss(animated: true)
+                    Task {
+                        await self?.openSettings()
+                    }
+                }
+                alertViewController.addAction(
+                    AlertAction(
+                        title: feedingAction.title,
+                        style: feedingAction.style.alertActionStyle,
+                        handler: actionHandler
+                    )
+                )
+            }
+            self.present(alertViewController, animated: true)
+        }
+    }
+
+    func openSettings() async {
+        guard let url = URL(string: UIApplication.openSettingsURLString),
+              UIApplication.shared.canOpenURL(url) else {
+            return
+        }
+
+        await UIApplication.shared.open(url)
     }
 }

@@ -26,6 +26,7 @@ protocol FeedingPointDetailsViewInteraction: AnyObject {
 
 @MainActor
 protocol FeedingPointDetailsViewState: AnyObject {
+    var onRequestLocationAccess: (() -> Void)? { get set }
     var onContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointDetailsViewItem) -> Void)? { get set }
     var onFeedingHistoryHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointFeeders) -> Void)? { get set }
     var onMediaContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointMediaContent) -> Void)? { get set }
@@ -72,4 +73,5 @@ enum FeedingPointEvent {
     case tapAction
     case tapFavorite
     case tapShowOnMap
+    case openSettings
 }
