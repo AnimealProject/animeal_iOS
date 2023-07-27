@@ -203,8 +203,9 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
             var actionHandler: (() -> Void)?
             switch feedingAction.style {
             case .inverted:
-                actionHandler = {
+                actionHandler = { [weak self] in
                     alertViewController.dismiss(animated: true)
+                    self?.viewModel.handleActionEvent(.tapCancelLocationRequest)
                 }
             case .accent:
                 actionHandler = { [weak self] in
@@ -213,16 +214,16 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
                         await self?.openSettings()
                     }
                 }
-                alertViewController.addAction(
-                    AlertAction(
-                        title: feedingAction.title,
-                        style: feedingAction.style.alertActionStyle,
-                        handler: actionHandler
-                    )
-                )
             }
-            self.present(alertViewController, animated: true)
+            alertViewController.addAction(
+                AlertAction(
+                    title: feedingAction.title,
+                    style: feedingAction.style.alertActionStyle,
+                    handler: actionHandler
+                )
+            )
         }
+        self.present(alertViewController, animated: true)
     }
 
     func openSettings() async {

@@ -139,8 +139,15 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
                 .map(identifier: model.feedingPointId)
             )
 
-        case .openSettings:
-            break
+        case .tapCancelLocationRequest:
+            coordinator.routeTo(
+                .feed(
+                    FeedingPointFeedDetails(
+                        identifier: model.feedingPointId,
+                        coordinates: model.feedingPointLocation
+                    )
+                )
+            )
         }
     }
 }

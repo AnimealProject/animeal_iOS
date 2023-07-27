@@ -74,5 +74,5 @@ enum FeedingPointEvent {
     case tapAction
     case tapFavorite
     case tapShowOnMap
-    case openSettings
+    case tapCancelLocationRequest
 }
