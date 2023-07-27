@@ -26,7 +26,6 @@ public struct FeedingPoint: Model {
   public var pets: List<RelationPetFeedingPoint>?
   public var category: Category?
   public var users: List<RelationUserFeedingPoint>?
-  public var feedings: List<Feeding>?
   public var cover: String?
   public var feedingPointCategoryId: String?
   
@@ -53,7 +52,6 @@ public struct FeedingPoint: Model {
       pets: List<RelationPetFeedingPoint> = [],
       category: Category? = nil,
       users: List<RelationUserFeedingPoint> = [],
-      feedings: List<Feeding> = [],
       cover: String? = nil,
       feedingPointCategoryId: String? = nil) {
       self.id = id
@@ -79,7 +77,6 @@ public struct FeedingPoint: Model {
       self.pets = pets
       self.category = category
       self.users = users
-      self.feedings = feedings
       self.cover = cover
       self.feedingPointCategoryId = feedingPointCategoryId
   }

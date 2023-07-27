@@ -63,9 +63,18 @@ const checkGroup = function (req, res, next) {
     return next();
   }
 
+  if (
+    ['/updateAttributesUser'].includes(req.path) &&
+    req?.apiGateway?.event?.requestContext?.authorizer?.claims?.username ===
+      req?.body?.username
+  ) {
+    return next();
+  }
+
   if (typeof allowedGroup === 'undefined' || allowedGroup === 'NONE') {
     return next();
   }
+
 
   // Fail if group enforcement is being used
   if (req.apiGateway.event.requestContext.authorizer.claims['cognito:groups']) {

@@ -19,6 +19,26 @@ export function override(resources: AmplifyAuthCognitoStackTemplate) {
 
   (<any>resources.userPool.userAttributeUpdateSettings).attributesRequireVerificationBeforeUpdate = ['phone_number'];
 
+  resources.userPoolClient.tokenValidityUnits = {
+    accessToken: 'minutes',
+    refreshToken: 'days',
+    idToken: 'minutes',
+  };
+
+  resources.userPoolClientWeb.tokenValidityUnits = {
+    accessToken: 'minutes',
+    refreshToken: 'days',
+    idToken: 'minutes',
+  };
+
+  resources.userPoolClient.accessTokenValidity = 60;
+  resources.userPoolClient.refreshTokenValidity = 365;
+  resources.userPoolClient.idTokenValidity = 60;
+
+  resources.userPoolClientWeb.accessTokenValidity = 60;
+  resources.userPoolClientWeb.refreshTokenValidity = 365;
+  resources.userPoolClientWeb.idTokenValidity = 60;
+
   const myCustomAttribute = [];
   if (!resources.userPool.schema) {
     resources.userPool.schema = [

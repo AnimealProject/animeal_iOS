@@ -1,6 +1,8 @@
 [
   {
-    "Action": [],
-    "Resource": []
+    "Action": [
+      "cognito-idp:adminListGroupsForUser"
+    ],
+    "Resource": ["*"]
   }
 ]
