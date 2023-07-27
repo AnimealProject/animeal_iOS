@@ -119,7 +119,7 @@ extension Feeding: Hashable {
         lhs.createdAt == rhs.createdAt &&
         lhs.createdBy == rhs.createdBy &&
         lhs.owner == rhs.owner &&
-        lhs.feedingPoint == rhs.feedingPoint &&
+        lhs.feedingPointFeedingsId == rhs.feedingPointFeedingsId &&
         lhs.expireAt == rhs.expireAt
     }
     
@@ -131,7 +131,7 @@ extension Feeding: Hashable {
         hasher.combine(createdAt)
         hasher.combine(createdBy)
         hasher.combine(owner)
-        hasher.combine(feedingPoint)
+        hasher.combine(feedingPointFeedingsId)
         hasher.combine(expireAt)
         hasher.combine(updatedAt)
         hasher.combine(updatedBy)

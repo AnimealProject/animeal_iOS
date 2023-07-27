@@ -28,10 +28,9 @@ exports.handler = async (event) => {
   const feedingInput = event.arguments.feeding;
   const reason = event.arguments.reason;
 
-  if (
-    process.env.IS_APPROVAL_ENABLED !== 'true' &&
-    !/Feeding has been finished by user/gi.test(reason)
-  ) {
+  const isCalledBySystem = /Feeding has been finished by user/gi.test(reason);
+
+  if (process.env.IS_APPROVAL_ENABLED !== 'true' && !isCalledBySystem) {
     throw new Error(`Operation isn't allowed. Approval process is disabled.`);
   }
 
@@ -70,8 +69,16 @@ exports.handler = async (event) => {
                 updatedBy: feeding.updatedBy,
                 owner: feeding.owner,
                 feedingPointId: feeding.feedingPointFeedingsId,
+                feedingPointDetails: feeding.feedingPointDetails,
+                assignedModerators: feeding.assignedModerators,
                 status: 'approved',
                 reason,
+                moderatedBy: isCalledBySystem
+                  ? 'System'
+                  : event?.identity?.username
+                  ? event?.identity?.username
+                  : 'Admin',
+                moderatedAt: new Date().toISOString(),
               },
               TableName: process.env.API_ANIMEAL_FEEDINGHISTORYTABLE_NAME,
             },

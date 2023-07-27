@@ -17,20 +17,27 @@ async function request(query, variables) {
 const getFeeding = async (params) => {
   return request(
     `
-  query GetFeeding($id: ID!) {
-    getFeeding(id: $id) {
-      id
-      userId
-      images
-      status
-      createdAt
-      updatedAt
-      createdBy
-      updatedBy
-      owner
-      feedingPointFeedingsId
+    query GetFeeding($id: ID!) {
+      getFeeding(id: $id) {
+        id
+        userId
+        images
+        status
+        createdAt
+        updatedAt
+        createdBy
+        updatedBy
+        owner
+        feedingPointFeedingsId
+        feedingPointDetails {
+          address
+        }
+        expireAt
+        assignedModerators
+        moderatedBy
+        moderatedAt
+      }
     }
-  }
 `,
     params,
   );
@@ -171,43 +178,6 @@ const updateFeedingPoint = async (params) =>
             createdAt
             updatedAt
             owner
-          }
-          nextToken
-        }
-        feedings {
-          items {
-            id
-            userId
-            images
-            status
-            createdAt
-            updatedAt
-            createdBy
-            updatedBy
-            owner
-            feedingPoint {
-              id
-              name
-              description
-              city
-              street
-              address
-              images
-              region
-              neighborhood
-              distance
-              status
-              statusUpdatedAt
-              createdAt
-              updatedAt
-              createdBy
-              updatedBy
-              owner
-              cover
-              feedingPointCategoryId
-            }
-            expireAt
-            feedingPointFeedingsId
           }
           nextToken
         }

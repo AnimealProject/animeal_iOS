@@ -17,6 +17,16 @@ enum CategoryTag {
   dogs
 }
 
+
+type FeedingPointDetails @aws_api_key @aws_cognito_user_pools {
+  address: String!
+}
+
+type UserAttribute @aws_api_key @aws_cognito_user_pools {
+  Name: String!
+  Value: String
+}
+
 type Location @aws_api_key @aws_cognito_user_pools {
   lat: Float!
   lon: Float!
@@ -179,7 +189,6 @@ type FeedingPoint
   category: Category @hasOne
   users: [RelationUserFeedingPoint!]
     @hasMany(indexName: "byFeedingPointId", fields: ["id"])
-  feedings: [Feeding!] @hasMany
   cover: String
 }
 
@@ -213,9 +222,39 @@ type Feeding
   createdBy: String
   updatedBy: String
   owner: String
-  feedingPoint: FeedingPoint! @belongsTo
+  feedingPointDetails: FeedingPointDetails
+  feedingPointFeedingsId: String!
   expireAt: AWSTimestamp!
+  assignedModerators: [String]
+  moderatedBy: String
+  moderatedAt: AWSDateTime
 }
+
+type FeedingUsers 
+  @searchable
+  @model
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["Administrator"]
+        operations: [create, read, update, delete]
+      }
+      {
+        allow: groups
+        groups: ["Moderator"]
+        operations: [create, read, update, delete]
+      }
+      { allow: groups, groups: ["Volunteer"], operations: [read] }
+      { allow: owner, operations: [create, read, update, delete] }
+      { allow: public, provider: apiKey }
+      { allow: private, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  attributes: [UserAttribute]
+}
+
 
 type FeedingHistory
   @searchable
@@ -247,8 +286,12 @@ type FeedingHistory
   updatedBy: String
   owner: String
   feedingPointId: String!
+  feedingPointDetails: FeedingPointDetails
   status: FeedingStatus
   reason: String
+  moderatedBy: String
+  moderatedAt: AWSDateTime
+  assignedModerators: [String]
 }
 
 type RelationPetFeedingPoint
@@ -584,6 +627,11 @@ input LocationInput {
   lon: Float
 }
 
+input FeedingPointDetailsInput {
+  address: String!
+}
+
+
 input FeedingInput {
   id: ID
   userId: String
@@ -594,6 +642,8 @@ input FeedingInput {
   updatedBy: String
   owner: String
   feedingPointFeedingsId: String
+  feedingPointDetails: FeedingPointDetailsInput
+  assignedModerators: [String]
 }
 
 input SearchableIDFilterInput {

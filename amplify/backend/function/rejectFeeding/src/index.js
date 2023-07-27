@@ -44,6 +44,9 @@ exports.handler = async (event) => {
   const isFeedingTimeExpiredReason = (reason) =>
     /Feeding time has expired/gi.test(reason);
 
+  const isCalledBySystem = event.fieldName !== 'rejectFeeding';
+  isApprovalTimeExpiredReason(reason) || isFeedingTimeExpiredReason(reason);
+
   if (
     process.env.IS_APPROVAL_ENABLED !== 'true' &&
     event.fieldName === 'rejectFeeding' &&
@@ -118,10 +121,18 @@ exports.handler = async (event) => {
                 updatedBy: feeding.updatedBy,
                 owner: feeding.owner,
                 feedingPointId: feeding.feedingPointFeedingsId,
+                feedingPointDetails: feeding.feedingPointDetails,
+                assignedModerators: feeding.assignedModerators,
                 status: !isApprovalTimeExpiredReason(reason)
                   ? 'rejected'
                   : 'outdated',
                 reason,
+                moderatedBy: isCalledBySystem
+                  ? 'System'
+                  : event?.identity?.username
+                  ? event?.identity?.username
+                  : 'Admin',
+                moderatedAt: new Date().toISOString(),
               },
               TableName: process.env.API_ANIMEAL_FEEDINGHISTORYTABLE_NAME,
             },
