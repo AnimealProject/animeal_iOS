@@ -71,7 +71,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
         }
 
         let viewAlert = ViewAlert(
-            title: "Do you really want to discard the changes?",
+            title: L10n.Profile.DiscardEdits.dialogHeader,
             actions: [
                 .no(),
                 .yes { [weak self] in
