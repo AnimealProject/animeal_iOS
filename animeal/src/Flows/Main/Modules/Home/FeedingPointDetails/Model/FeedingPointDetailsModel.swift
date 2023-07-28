@@ -31,7 +31,7 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
         )
     }
     // MARK: - Subscription Event
-    var onFeedingPointChange: ((FeedingPointDetailsModel.PointContent) -> Void)?
+    var onFeedingPointChange: ((FeedingPointDetailsModel.PointContent, Bool) -> Void)?
 
     // MARK: - Initialization
     init(
@@ -135,12 +135,18 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
                         .canBookFeedingPoint(for: self.feedingPointId)
                     if let feedingPointModel = updatedFeeding,
                        feedingPointModel != self.cachedFeedingPoint {
+                        var justFavoriteMutated = false
+                        if let cached = self.cachedFeedingPoint {
+                            justFavoriteMutated = self.onlyFavoriteMutatedOf(feedingPointModel,
+                                                                             and: cached)
+                        }
+                        
                         self.cachedFeedingPoint = feedingPointModel
                         self.onFeedingPointChange?(self.mapper.map(
                             feedingPointModel.feedingPoint,
                             isFavorite: feedingPointModel.isFavorite,
                             isEnabled: canBook ?? false
-                        ))
+                        ), justFavoriteMutated)
                     }
                 }
             }
@@ -186,5 +192,21 @@ extension FeedingPointDetailsModel {
         case success(String)
         case attention(String)
         case error(String)
+    }
+}
+
+fileprivate extension FeedingPointDetailsModel {
+    private func onlyFavoriteMutatedOf(_ left: FullFeedingPoint,
+                                       and right: FullFeedingPoint) -> Bool {
+        guard left != right else {
+            return false
+        }
+        
+        if left.identifier != right.identifier ||
+            left.imageURL != right.imageURL ||
+            left.feedingPoint != right.feedingPoint {
+            return false
+        }
+        return true
     }
 }
