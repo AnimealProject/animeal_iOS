@@ -137,8 +137,7 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
                        feedingPointModel != self.cachedFeedingPoint {
                         var justFavoriteMutated = false
                         if let cached = self.cachedFeedingPoint {
-                            justFavoriteMutated = self.onlyFavoriteMutatedOf(feedingPointModel,
-                                                                             and: cached)
+                            justFavoriteMutated = feedingPointModel.onlyFavoriteMutatedOf(cached)
                         }
                         
                         self.cachedFeedingPoint = feedingPointModel
@@ -195,16 +194,15 @@ extension FeedingPointDetailsModel {
     }
 }
 
-fileprivate extension FeedingPointDetailsModel {
-    private func onlyFavoriteMutatedOf(_ left: FullFeedingPoint,
-                                       and right: FullFeedingPoint) -> Bool {
-        guard left != right else {
+fileprivate extension FullFeedingPoint {
+    func onlyFavoriteMutatedOf(_ point: FullFeedingPoint) -> Bool {
+        guard self != point else {
             return false
         }
         
-        if left.identifier != right.identifier ||
-            left.imageURL != right.imageURL ||
-            left.feedingPoint != right.feedingPoint {
+        if self.identifier != point.identifier ||
+            self.imageURL != point.imageURL ||
+            self.feedingPoint != point.feedingPoint {
             return false
         }
         return true
