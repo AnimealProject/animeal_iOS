@@ -31,7 +31,7 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
         )
     }
     // MARK: - Subscription Event
-    var onFeedingPointChange: ((FeedingPointDetailsModel.PointContent) -> Void)?
+    var onFeedingPointChange: ((FeedingPointDetailsModel.PointContent, Bool) -> Void)?
 
     // MARK: - Initialization
     init(
@@ -135,12 +135,17 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
                         .canBookFeedingPoint(for: self.feedingPointId)
                     if let feedingPointModel = updatedFeeding,
                        feedingPointModel != self.cachedFeedingPoint {
+                        var justFavoriteMutated = false
+                        if let cached = self.cachedFeedingPoint {
+                            justFavoriteMutated = feedingPointModel.onlyFavoriteMutatedOf(cached)
+                        }
+                        
                         self.cachedFeedingPoint = feedingPointModel
                         self.onFeedingPointChange?(self.mapper.map(
                             feedingPointModel.feedingPoint,
                             isFavorite: feedingPointModel.isFavorite,
                             isEnabled: canBook ?? false
-                        ))
+                        ), justFavoriteMutated)
                     }
                 }
             }
@@ -186,5 +191,20 @@ extension FeedingPointDetailsModel {
         case success(String)
         case attention(String)
         case error(String)
+    }
+}
+
+fileprivate extension FullFeedingPoint {
+    func onlyFavoriteMutatedOf(_ point: FullFeedingPoint) -> Bool {
+        guard self != point else {
+            return false
+        }
+        
+        if self.identifier != point.identifier ||
+            self.imageURL != point.imageURL ||
+            self.feedingPoint != point.feedingPoint {
+            return false
+        }
+        return true
     }
 }

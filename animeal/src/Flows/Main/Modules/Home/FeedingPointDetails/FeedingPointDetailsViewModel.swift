@@ -15,6 +15,7 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
     var onFeedingHistoryHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointFeeders) -> Void)?
     var onMediaContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointMediaContent) -> Void)?
     var onFavoriteMutationFailed: (() -> Void)?
+    var onFavoriteMutation: (() -> Void)?
     var historyInitialized: Bool = false
 
     // TODO: Move this strange logic to model
@@ -63,9 +64,13 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
                 self?.updateFeedingHistoryContent(content)
             }
         }
-        model.onFeedingPointChange = { [weak self] content in
+        model.onFeedingPointChange = { [weak self] content, mutateFavorites in
             DispatchQueue.main.async {
-                self?.updateContent(content)
+                if mutateFavorites {
+                    self?.updateFavorites()
+                } else {
+                    self?.updateContent(content)
+                }
             }
         }
     }
@@ -85,6 +90,10 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
         shouldShowOnMap = modelContent.action.isEnabled
         loadMediaContent(modelContent.content.header.cover)
         onContentHaveBeenPrepared?(contentMapper.mapFeedingPoint(modelContent))
+    }
+    
+    private func updateFavorites() {
+        onFavoriteMutation?()
     }
 
     private func updateFeedingHistoryContent(_ modelContent: [FeedingPointDetailsModel.Feeder]) {
@@ -109,9 +118,7 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
                 guard let self else { return }
                 do {
                     let success = try await model.mutateFavorite()
-                    if success {
-                        self.load()
-                    } else {
+                    if !success {
                         self.onFavoriteMutationFailed?()
                     }
                 } catch {
