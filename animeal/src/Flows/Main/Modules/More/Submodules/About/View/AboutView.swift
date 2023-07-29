@@ -71,6 +71,7 @@ struct AboutView: View {
         Text(model.contentText)
             .font(designEngine.fonts.primary.regular(14)?.font)
             .foregroundColor(designEngine.colors.textPrimary.color)
+            .lineSpacing(5)
     }
 
     private var appVersionText: some View {

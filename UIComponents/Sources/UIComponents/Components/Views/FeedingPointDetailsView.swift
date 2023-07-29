@@ -27,6 +27,14 @@ public final class FeedingPointDetailsView: UIView {
         )
         imageView.isHighlighted = model.isHighlighted
     }
+    
+    public func configureFavorite(_ model: Model) {
+        imageView.image = Asset.Images.heartIcon.image
+        imageView.highlightedImage = Asset.Images.heartIcon.image.withTintColor(
+            designEngine.colors.error
+        )
+        imageView.isHighlighted = model.isHighlighted
+    }
 
     public func toggleHighlightState() {
         imageView.isHighlighted.toggle()
