@@ -7,6 +7,7 @@ import Common
 final class ProfileViewModel: ProfileViewModelProtocol {
     // MARK: - Private properties
     private var viewItems: [ProfileViewItem]
+    private var modelActions: [ProfileModelAction]
 
     // MARK: - Dependencies
     private let model: ProfileModelProtocol
@@ -35,6 +36,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
         self.configuration = configuration
         self.dateFormatter = dateFormatter
         self.viewItems = []
+        self.modelActions = []
     }
 
     // MARK: - Life cycle
@@ -58,6 +60,28 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     }
 
     // MARK: - Interaction
+
+    func handleBackButton() {
+        let canSave = modelActions.first(where: {
+            ($0 as? ProfileModelSaveAction)?.appearance.isEnabled == true
+        }) != nil
+        guard canSave else {
+            coordinator.move(to: .cancel)
+            return
+        }
+
+        let viewAlert = ViewAlert(
+            title: L10n.Profile.DiscardEdits.dialogHeader,
+            actions: [
+                .no(),
+                .yes { [weak self] in
+                    self?.coordinator.move(to: .cancel)
+                }
+            ]
+        )
+        coordinator.displayAlert(viewAlert)
+    }
+
     @discardableResult
     func handleItemEvent(_ event: ProfileViewItemEvent) -> ProfileViewText {
         switch event {
@@ -269,7 +293,7 @@ private extension ProfileViewModel {
     }
 
     func updateViewActions() async {
-        let modelActions = await model.fetchActions()
+        modelActions = await model.fetchActions()
         let viewActions = modelActions.map(ProfileViewAction.init)
         onActionsHaveBeenPrepared?(viewActions)
     }

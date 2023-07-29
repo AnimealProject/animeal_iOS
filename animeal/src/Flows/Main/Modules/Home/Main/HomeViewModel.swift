@@ -161,16 +161,6 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
             let result = try await self.model.processStartFeeding(feedingPointId: id)
             let feedingPoint = try await self.model.fetchFeedingPoint(result.feedingPoint)
 
-            switch self.locationService.locationStatus {
-            case .authorizedAlways, .authorizedWhenInUse:
-                break
-            case .denied, .restricted, .notDetermined:
-                let action = self.model.fetchFeedingAction(request: .locationAccess)
-                self.onFeedingActionHaveBeenPrepared?(self.feedingActionMapper.mapFeedingAction(action))
-            default:
-                break
-            }
-
             switch self.onRequestToCamera?() ?? .denied {
             case .authorized:
                 break
@@ -198,7 +188,10 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
                 let result = try await self.model.processFinishFeeding(imageKeys: imageKeys)
                 let feedingPoint = try await self.model.fetchFeedingPoint(result.feedingPoint)
                 let pointItemView = self.feedingPointViewMapper.mapFeedingPoint(feedingPoint)
-                self.onFeedingPointsHaveBeenPrepared?([pointItemView])
+
+                let points = try await self.model.fetchFeedingPoints()
+                let viewItems = points.map { self.feedingPointViewMapper.mapFeedingPoint($0) }
+                self.onFeedingPointsHaveBeenPrepared?(viewItems)
                 self.feedingStatus = result.feedingStatus
                 self.onFeedingHaveBeenCompleted?()
                 self.coordinator.routeTo(.feedingComplete)

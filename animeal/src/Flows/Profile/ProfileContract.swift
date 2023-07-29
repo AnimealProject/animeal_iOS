@@ -24,6 +24,7 @@ protocol ProfileViewInteraction: AnyObject {
     @discardableResult
     func handleItemEvent(_ event: ProfileViewItemEvent) -> ProfileViewText
     func handleActionEvent(_ event: ProfileViewActionEvent)
+    func handleBackButton()
 }
 
 @MainActor

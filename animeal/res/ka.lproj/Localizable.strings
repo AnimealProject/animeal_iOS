@@ -23,6 +23,7 @@
 "profile.header"                                  = "პროფილი";
 "profile.subHeader"                               = "გთხოვთ შეავსოთ პროფილის ინფორმაცია";
 "profile.cancel.dialogHeader"                     = "ნამდვილად გსურთ რეგისტრაციის გაუქმება?";
+"profile.discardEdits.dialogHeader"               = "ნამდვილად გსურთ ცვლილებების გაუქმება?";
 "profile.errors.empty"                            = "ველი ცარიელია";
 "profile.errors.ageLimit"                         = "ასაკობრივი ზღვარი არის %@ წელი";
 "profile.errors.incorrectFormat"                  = "ფორმატი არასწორია";

@@ -1,6 +1,7 @@
 import Foundation
 import CoreLocation
 import UIComponents
+import Services
 
 final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
                                           FeedingPointDetailsViewInteraction,
@@ -9,6 +10,7 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
     private let model: (FeedingPointDetailsModelProtocol & FeedingPointDetailsDataStoreProtocol)
     private let coordinator: FeedingPointCoordinatable
     private let contentMapper: FeedingPointDetailsViewMappable
+    private let locationService: LocationServiceProtocol
 
     // MARK: - State
     var onContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointDetailsViewItem) -> Void)?
@@ -16,6 +18,7 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
     var onMediaContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointMediaContent) -> Void)?
     var onFavoriteMutationFailed: (() -> Void)?
     var onFavoriteMutation: (() -> Void)?
+    var onRequestLocationAccess: (() -> Void)?
     var historyInitialized: Bool = false
 
     // TODO: Move this strange logic to model
@@ -39,6 +42,7 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
     init(
         isOverMap: Bool,
         model: (FeedingPointDetailsModelProtocol & FeedingPointDetailsDataStoreProtocol),
+        locationService: LocationServiceProtocol = AppDelegate.shared.context.locationService,
         contentMapper: FeedingPointDetailsViewMappable,
         coordinator: FeedingPointCoordinatable
     ) {
@@ -46,6 +50,7 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
         self.model = model
         self.contentMapper = contentMapper
         self.coordinator = coordinator
+        self.locationService = locationService
         setup()
     }
 
@@ -91,7 +96,7 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
         loadMediaContent(modelContent.content.header.cover)
         onContentHaveBeenPrepared?(contentMapper.mapFeedingPoint(modelContent))
     }
-    
+
     private func updateFavorites() {
         onFavoriteMutation?()
     }
@@ -105,14 +110,24 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
     func handleActionEvent(_ event: FeedingPointEvent) {
         switch event {
         case .tapAction:
-            coordinator.routeTo(
-                .feed(
-                    FeedingPointFeedDetails(
-                        identifier: model.feedingPointId,
-                        coordinates: model.feedingPointLocation
+            switch self.locationService.locationStatus {
+            case .authorizedAlways, .authorizedWhenInUse:
+                coordinator.routeTo(
+                    .feed(
+                        FeedingPointFeedDetails(
+                            identifier: model.feedingPointId,
+                            coordinates: model.feedingPointLocation
+                        )
                     )
                 )
-            )
+
+            case .denied, .restricted, .notDetermined:
+                self.onRequestLocationAccess?()
+
+            default:
+                break
+            }
+
         case .tapFavorite:
             Task { @MainActor [weak self] in
                 guard let self else { return }
@@ -125,9 +140,20 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
                     self.onFavoriteMutationFailed?()
                 }
             }
+
         case .tapShowOnMap:
             coordinator.routeTo(
                 .map(identifier: model.feedingPointId)
+            )
+
+        case .tapCancelLocationRequest:
+            coordinator.routeTo(
+                .feed(
+                    FeedingPointFeedDetails(
+                        identifier: model.feedingPointId,
+                        coordinates: model.feedingPointLocation
+                    )
+                )
             )
         }
     }

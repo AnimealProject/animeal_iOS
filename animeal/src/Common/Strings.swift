@@ -210,6 +210,10 @@ internal enum L10n {
       /// Do you really want to cancel the registration?
       internal static let dialogHeader = L10n.tr("Localizable", "profile.cancel.dialogHeader", fallback: "Do you really want to cancel the registration?")
     }
+    internal enum DiscardEdits {
+      /// Do you really want to discard the changes?
+      internal static let dialogHeader = L10n.tr("Localizable", "profile.discardEdits.dialogHeader", fallback: "Do you really want to discard the changes?")
+    }
     internal enum Errors {
       /// The age limit is %@ years
       internal static func ageLimit(_ p1: Any) -> String {

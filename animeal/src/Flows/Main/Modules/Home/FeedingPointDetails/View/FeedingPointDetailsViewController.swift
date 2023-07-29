@@ -67,9 +67,13 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
         viewModel.onFavoriteMutationFailed = { [weak self] in
             self?.applyFavoriteMutationFailed()
         }
-        
+
         viewModel.onFavoriteMutation = { [weak self] in
             self?.applyFavoriteMutation()
+        }
+
+        viewModel.onRequestLocationAccess = { [weak self] in
+            self?.requestLocation()
         }
     }
 
@@ -115,7 +119,7 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
     func applyFavoriteMutationFailed() {
         pointDetailsView.toggleHighlightState()
     }
-    
+
     func applyFavoriteMutation() {
         pointDetailsView.didTapOnFavorite = { [weak self] in
             self?.viewModel.handleActionEvent(.tapFavorite)
@@ -196,5 +200,49 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
                 feedingHistoryContainer.addArrangedSubview(view)
             }
         }
+    }
+
+    func requestLocation() {
+        let title = L10n.Feeding.Alert.grantLocationPermission
+        let actions: [FeedingActionMapper.FeedingAction.Action] = [
+            .init(title: L10n.Action.noThanks, style: .inverted),
+            .init(title: L10n.Action.openSettings, style: .accent(.locationAccess))
+        ]
+
+        let alertViewController = AlertViewController(title: title)
+        actions.forEach { feedingAction in
+            var actionHandler: (() -> Void)?
+            switch feedingAction.style {
+            case .inverted:
+                actionHandler = { [weak self] in
+                    alertViewController.dismiss(animated: true)
+                    self?.viewModel.handleActionEvent(.tapCancelLocationRequest)
+                }
+            case .accent:
+                actionHandler = { [weak self] in
+                    alertViewController.dismiss(animated: true)
+                    Task {
+                        await self?.openSettings()
+                    }
+                }
+            }
+            alertViewController.addAction(
+                AlertAction(
+                    title: feedingAction.title,
+                    style: feedingAction.style.alertActionStyle,
+                    handler: actionHandler
+                )
+            )
+        }
+        self.present(alertViewController, animated: true)
+    }
+
+    func openSettings() async {
+        guard let url = URL(string: UIApplication.openSettingsURLString),
+              UIApplication.shared.canOpenURL(url) else {
+            return
+        }
+
+        await UIApplication.shared.open(url)
     }
 }

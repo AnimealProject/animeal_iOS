@@ -21,7 +21,9 @@ final class AttachPhotoViewMapper: AttachPhotoViewMappable {
     }
 
     func mapFeedingPointMediaContent(_ input: Data?) -> AttachPhotoMediaContent? {
-        guard let data = input, let icon = UIImage(data: data) else { return nil }
+        guard let data = input, let icon = UIImage(data: data) else {
+            return AttachPhotoMediaContent(placeIcon: Asset.Images.placeCoverPlaceholder.image)
+        }
         return AttachPhotoMediaContent(placeIcon: icon)
     }
     

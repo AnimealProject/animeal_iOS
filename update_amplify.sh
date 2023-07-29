@@ -6,27 +6,27 @@ IFS='|'
 while getopts a:s:i:e:t:r:h flag
 do
     case "${flag}" in
-        a) 
+        a)
 	       # echo "Processing option 'a' with '${OPTARG}' argument"
 		   AWS_ACCESS_KEY_ID=${OPTARG}
 		   ;;
-        s) 
+        s)
 	       # echo "Processing option 's' with '${OPTARG}' argument"
 		   AWS_SECRET_ACCESS_KEY=${OPTARG}
            ;;
-        i)  
+        i)
 	        # echo "Processing option 'i' with '${OPTARG}' argument"
 			APP_ID=${OPTARG}
 			;;
-        e)  
+        e)
 	        # echo "Processing option 'e' with '${OPTARG}' argument"
 			AMPLIFY_ENV=${OPTARG}
 			;;
-        t) 
+        t)
 	        # echo "Processing option 't' with '${OPTARG}' argument"
 			FACEBOOK_CLIENT_ID=${OPTARG}
 			;;
-        r)  
+        r)
 			# echo "Processing option 'r' with '${OPTARG}' argument"
 			FACEBOOK_CLIENT_SECRET=${OPTARG}
 			;;
@@ -75,11 +75,11 @@ CATEGORIES="{\
 }"
 
 # For debug purposes
- # echo $AMPLIFY
- # echo $FRONTEND
- # echo $PROVIDERS
- # echo $AWSCLOUDFORMATIONCONFIG
- # echo $CATEGORIES
+  echo $AMPLIFY
+  echo $FRONTEND
+  echo $PROVIDERS
+  echo $AWSCLOUDFORMATIONCONFIG
+  echo $CATEGORIES
 
 
 amplify pull \

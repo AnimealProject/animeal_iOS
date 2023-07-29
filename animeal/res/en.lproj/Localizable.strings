@@ -23,6 +23,7 @@
 "profile.header"                                  = "Profile";
 "profile.subHeader"                               = "Please fill out the profile information";
 "profile.cancel.dialogHeader"                     = "Do you really want to cancel the registration?";
+"profile.discardEdits.dialogHeader"               = "Do you really want to discard the changes?";
 "profile.errors.empty"                            = "Field is empty";
 "profile.errors.ageLimit"                         = "The age limit is %@ years";
 "profile.errors.incorrectFormat"                  = "Format is incorrect";
