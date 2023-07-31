@@ -81,6 +81,8 @@ CATEGORIES="{\
   echo $AWSCLOUDFORMATIONCONFIG
   echo $CATEGORIES
 
+# Set up the amplify generated folder if not done already
+source Tools/check_amplify_generated_folders.sh
 
 amplify pull \
 --amplify $AMPLIFY \
