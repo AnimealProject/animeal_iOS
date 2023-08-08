@@ -112,7 +112,7 @@ extension FeedingPoint {
         case "ka":
             return name
         default:
-            return i18n?.first(where: { $0.locale == "en" })?.name ?? .empty
+            return i18n?.first(where: { $0.locale == "en" })?.name ?? name
         }
     }
 
