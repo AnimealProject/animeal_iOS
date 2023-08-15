@@ -99,30 +99,19 @@ final class FeedingPointDetailsModelMapper: FeedingPointDetailsModelMapperProtoc
 
 extension FeedingPoint {
     var localizedDescription: String {
-        switch Locale.current.languageCode {
-        case "ka":
-            return description
-        default:
-            return i18n?.first(where: { $0.locale == "en" })?.description ?? .empty
-        }
+        localized?.description ?? description
     }
 
     var localizedName: String {
-        switch Locale.current.languageCode {
-        case "ka":
-            return name
-        default:
-            return i18n?.first(where: { $0.locale == "en" })?.name ?? .empty
-        }
+        localized?.name ?? name
     }
 
     var localizedCity: String {
-        switch Locale.current.languageCode {
-        case "ka":
-            return city
-        default:
-            return i18n?.first(where: { $0.locale == "en" })?.city ?? .empty
-        }
+        localized?.city ?? city
+    }
+
+    private var localized: FeedingPointI18n? {
+        i18n?.first { $0.locale == Locale.current.languageCode }
     }
 }
 
