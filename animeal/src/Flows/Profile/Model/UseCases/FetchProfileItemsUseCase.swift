@@ -30,7 +30,8 @@ final class FetchProfileItemsUseCase {
     private let state: ProfileModelStateMutableProtocol
     private let profileService: UserProfileServiceProtocol
     private let phoneNumberProcessor: PhoneNumberRegionRecognizable
-
+    private let dateFormatter = DateFormatter()
+    
     init(
         state: ProfileModelStateMutableProtocol,
         profileService: UserProfileServiceProtocol,
@@ -44,6 +45,7 @@ final class FetchProfileItemsUseCase {
 
 extension FetchProfileItemsUseCase: FetchProfileItemsUseCaseLogic {
     func callAsFunction(force: Bool) async throws -> [ProfileModelItem] {
+        var isFacebook: Bool = false
         let items = await state.items
         guard force else { return items }
         let userAttributes = try await profileService.fetchUserAttributes()
@@ -54,6 +56,13 @@ extension FetchProfileItemsUseCase: FetchProfileItemsUseCaseLogic {
             result[attribute.key] = attribute
             return result
         }
+
+        userAttributes.forEach { attribute in
+            if (attribute.key == .unknown("identities")) && attribute.value.contains("Facebook") {
+                isFacebook = true
+            }
+        }
+        
         let filledItems = items.map {
             let key = $0.type.userAttributeKey
             var item = $0
@@ -65,6 +74,13 @@ extension FetchProfileItemsUseCase: FetchProfileItemsUseCaseLogic {
                     item.text = phoneNumberProcessor.processNumber(value)
                 } else {
                     item.text = nil
+                }
+            case .birthday where isFacebook:
+                dateFormatter.dateFormat = "MM/dd/yyyy"
+                if let birthDate = knownAttributes[key]?.value,
+                   let date = dateFormatter.date(from: birthDate) {
+                        dateFormatter.dateFormat = "dd/MM/yyyy"
+                        item.text = dateFormatter.string(from: date)
                 }
             default:
                 item.text = knownAttributes[key]?.value
