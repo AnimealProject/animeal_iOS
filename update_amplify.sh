@@ -3,7 +3,11 @@ set -e
 IFS='|'
 
 pwd
-#mkdir -p 'amplify/generated/models/'
+mkdir -p amplify/generated/models/
+ls -l
+ls -l amplify
+ls -l amplify/generated
+touch amplify/generated/models/.touch
 
 # Read arguments passed to a script:
 while getopts a:s:i:e:t:r:h flag
