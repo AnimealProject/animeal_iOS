@@ -2,6 +2,8 @@
 set -e
 IFS='|'
 
+mkdir -p 'amplify/generated/models/'
+
 # Read arguments passed to a script:
 while getopts a:s:i:e:t:r:h flag
 do
