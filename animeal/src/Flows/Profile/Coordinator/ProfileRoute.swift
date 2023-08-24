@@ -9,7 +9,7 @@ enum ProfileRoute {
     
     case done
     case cancel
-    case confirm(UserProfileCodeDeliveryDetails, UserProfileAttribute, ConfirmCompletion?)
+    case confirm(UserProfileCodeDeliveryDetails, UserProfileAttribute, Bool, ConfirmCompletion?)
     case picker(@MainActor () -> UIViewController?)
     case dismiss
 }

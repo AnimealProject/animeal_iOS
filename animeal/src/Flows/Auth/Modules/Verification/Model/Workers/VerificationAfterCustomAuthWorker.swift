@@ -68,4 +68,11 @@ final class VerificationAfterCustomAuthWorker: VerificationModelWorker {
             return .done
         }
     }
+
+    @discardableResult
+    func resendAttrUpdate(
+        forAttribute attribute: VerificationModelAttribute
+    ) async throws -> VerificationModelNextStep {
+        try await resendCode(forAttribute: attribute)
+    }
 }

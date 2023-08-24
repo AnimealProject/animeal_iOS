@@ -37,4 +37,19 @@ final class VerificationAfterChangingUserAttributeWorker: VerificationModelWorke
             )
         )
     }
+
+    @discardableResult
+    func resendAttrUpdate(
+        forAttribute attribute: VerificationModelAttribute
+    ) async throws -> VerificationModelNextStep {
+        let result = try await userProfileService.update(userAttribute:
+                .init(attribute.key.userAttributeKey, value: "+90"+attribute.value)
+        )
+        return .confirmSignInWithSMSMFACode(
+            VerificationModelCodeDeliveryDetails(
+                destination: .sms(nil),
+                attributeKey: attribute.key.userAttributeKey
+            )
+        )
+    }
 }

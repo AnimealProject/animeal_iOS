@@ -15,4 +15,9 @@ protocol VerificationModelWorker: AnyObject {
     func resendCode(
         forAttribute attribute: VerificationModelAttribute
     ) async throws -> VerificationModelNextStep
+
+    @discardableResult
+    func resendAttrUpdate(
+        forAttribute attribute: VerificationModelAttribute
+    ) async throws -> VerificationModelNextStep
 }
