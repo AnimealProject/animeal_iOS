@@ -68,8 +68,10 @@ final class UpdateProfileUseCase: UpdateProfileUseCaseLogic {
         }
         let result = try await profileService.update(userAttributes: changedAttributes)
         var resendMethod = ResendMethod.resendCode
-        if let phoneNumber = result[.phoneNumber], !phoneNumber.isUpdated {
-            resendMethod = .updateAttribute(phoneNumber.value)
+        if let phoneUpdateResult = result[.phoneNumber],
+           !phoneUpdateResult.isUpdated,
+           let phoneNumber = changedAttributes.first(where: { $0.key == .phoneNumber })?.value {
+            resendMethod = .updateAttribute(phoneNumber)
         }
         if let step = result.first(
             where: { if case .confirmAttributeWithCode = $0.value.nextStep { return true }; return false }

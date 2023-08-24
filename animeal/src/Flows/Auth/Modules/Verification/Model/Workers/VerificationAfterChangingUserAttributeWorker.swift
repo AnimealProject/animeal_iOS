@@ -43,7 +43,7 @@ final class VerificationAfterChangingUserAttributeWorker: VerificationModelWorke
         forAttribute attribute: VerificationModelAttribute
     ) async throws -> VerificationModelNextStep {
         let result = try await userProfileService.update(userAttribute:
-                .init(attribute.key.userAttributeKey, value: "+90"+attribute.value)
+                .init(attribute.key.userAttributeKey, value: attribute.value)
         )
         return .confirmSignInWithSMSMFACode(
             VerificationModelCodeDeliveryDetails(
