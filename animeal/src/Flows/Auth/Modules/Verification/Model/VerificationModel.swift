@@ -79,7 +79,7 @@ final class VerificationModel: VerificationModelProtocol {
         case .resendCode:
             try await worker.resendCode(forAttribute: attribute)
 
-        case let .updateAttribute(value)
+        case let .updateAttribute(value):
             let resendAttribute = VerificationModelAttribute(key: attribute.key, value: value)
             try await worker.resendAttrUpdate(forAttribute: resendAttribute)
         }
