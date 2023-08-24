@@ -6,5 +6,5 @@ import UIKit
 @MainActor
 class LoginViewModelTestsSpec: QuickSpec {
 
-    override func spec() { }
+    override class func spec() { }
 }

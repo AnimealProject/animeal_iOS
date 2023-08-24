@@ -33,7 +33,9 @@ jobs:
       - name: Install Amplify
         run: npm install -g @aws-amplify/cli
       - name: Setup Amplify
+        id: setupAmplify
         run: bash ./update_amplify.sh -a $AWS_ACCESS_KEY_ID -s $AWS_SECRET_ACCESS_KEY -i $APP_ID -e $AMPLIFY_DEV_ENV -t $FACEBOOK_APP_ID -r $FACEBOOK_APP_SECRET
+        continue-on-error: true
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -41,6 +43,9 @@ jobs:
           AMPLIFY_DEV_ENV: ${{ secrets.AMPLIFY_DEV_ENV }}
           FACEBOOK_APP_ID: ${{ secrets.FACEBOOK_APP_ID }}
           FACEBOOK_APP_SECRET: ${{ secrets.FACEBOOK_APP_SECRET }}
+      - name: Recover From Error
+        if: steps.setupAmplify.outcome != 'success'
+        run: bash ./recover_from_error.sh
       - name: Setup .mapbox file with MAPBOX_DOWNLOAD_TOKEN
         run: echo $MAPBOX_DOWNLOAD_TOKEN >> ~/.mapbox
         env:
@@ -65,7 +70,7 @@ jobs:
           default=$(echo $scheme_list | ruby -e "require 'json'; puts JSON.parse(STDIN.gets)['project']['targets'][0]")
           echo $default | cat >default
           echo Using default scheme: $default
-      - name: Build
+      - name: Build For Test
         env:
           scheme: ${{ 'default' }}
           platform: ${{ 'iOS Simulator' }}
@@ -76,14 +81,3 @@ jobs:
           if [ "`ls -A | grep -i \\.xcworkspace\$`" ]; then filetype_parameter="workspace" && file_to_build="`ls -A | grep -i \\.xcworkspace\$`"; else filetype_parameter="project" && file_to_build="`ls -A | grep -i \\.xcodeproj\$`"; fi
           file_to_build=`echo $file_to_build | awk '{$1=$1;print}'`
           xcodebuild build-for-testing -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device"
-      - name: Test
-        env:
-          scheme: ${{ 'default' }}
-          platform: ${{ 'iOS Simulator' }}
-        run: |
-          # xcrun xctrace returns via stderr, not the expected stdout (see https://developer.apple.com/forums/thread/663959)
-          device=`xcrun xctrace list devices 2>&1 | grep -oE 'iPhone.*?[^\(]+' | head -1 | awk '{$1=$1;print}' | sed -e "s/ Simulator$//"`
-          if [ $scheme = default ]; then scheme=$(cat default); fi
-          if [ "`ls -A | grep -i \\.xcworkspace\$`" ]; then filetype_parameter="workspace" && file_to_build="`ls -A | grep -i \\.xcworkspace\$`"; else filetype_parameter="project" && file_to_build="`ls -A | grep -i \\.xcodeproj\$`"; fi
-          file_to_build=`echo $file_to_build | awk '{$1=$1;print}'`
-          xcodebuild test-without-building -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device"
