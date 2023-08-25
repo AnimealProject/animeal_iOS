@@ -64,6 +64,10 @@ extension HomeCoordinator: HomeCoordinatable {
             let viewController = FeedingFinishedModuleAssembler(coordinator: self).assemble()
             viewController.modalPresentationStyle = .overFullScreen
             navigator.present(viewController, animated: true, completion: nil)
+        case .feedingTrustedComplete:
+            let viewController = FeedingFinishedModuleAssembler(coordinator: self).assemble()
+            viewController.modalPresentationStyle = .overFullScreen
+            navigator.present(viewController, animated: true, completion: nil)
         }
     }
 }

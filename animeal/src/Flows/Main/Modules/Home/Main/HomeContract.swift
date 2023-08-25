@@ -100,6 +100,7 @@ enum HomeRoute {
     case details(String)
     case attachPhoto(String)
     case feedingComplete
+    case feedingTrustedComplete
 }
 
 struct FeedingPointCameraMove {
