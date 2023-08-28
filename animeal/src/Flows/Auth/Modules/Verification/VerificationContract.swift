@@ -55,3 +55,8 @@ protocol VerificationAssembler {
 protocol VerificationCoordinatable: Coordinatable, AlertCoordinatable, ActivityDisplayable {
     func moveFromVerification(to route: VerificationRoute)
 }
+
+enum ResendMethod {
+    case resendCode
+    case updateAttribute(String)
+}

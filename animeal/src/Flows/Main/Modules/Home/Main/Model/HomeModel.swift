@@ -211,7 +211,6 @@ final class HomeModel: HomeModelProtocol {
             request: .list(Feeding.self, where: userIdPredicate)
         ).first
     }
-
 }
 
 // MARK: Private API

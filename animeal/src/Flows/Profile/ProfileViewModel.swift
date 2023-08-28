@@ -225,13 +225,13 @@ private extension ProfileViewModel {
         switch nextStep {
         case .done:
             coordinator.move(to: .done)
-        case let .confirm(details, attribute):
+        case let .confirm(details, attribute, resendMethod):
             let completion: (() -> Void)? = { [weak self] in
                 Task { [weak self] in
                     await self?.handleProceedAction(forIdentifier: actionIdentifier)
                 }
             }
-            coordinator.move(to: .confirm(details, attribute, completion))
+            coordinator.move(to: .confirm(details, attribute, resendMethod, completion))
         }
     }
 

@@ -17,6 +17,7 @@ final class VerificationModel: VerificationModelProtocol {
 
     @Published
     private var isResendActive = false
+    private let resendMethod: ResendMethod
     private let timeLeft: CurrentValueSubject<Int, Never>
     private let timerInterval: Int
     private let timerTimeout: Int
@@ -36,6 +37,7 @@ final class VerificationModel: VerificationModelProtocol {
     init(
         worker: VerificationModelWorker,
         attribute: VerificationModelAttribute,
+        resendMethod: ResendMethod,
         deliveryDestination: VerificationModelDeliveryDestination,
         code: VerificationModelCode = .empty(),
         timerInterval: Int = Constants.timeInterval,
@@ -43,6 +45,7 @@ final class VerificationModel: VerificationModelProtocol {
     ) {
         self.worker = worker
         self.attribute = attribute
+        self.resendMethod = resendMethod
         self.deliveryDestination = deliveryDestination
         self.timeLeft = CurrentValueSubject<Int, Never>(timerTimeout)
         self.timerInterval = timerInterval
@@ -72,7 +75,14 @@ final class VerificationModel: VerificationModelProtocol {
             throw VerificationModelCodeError.codeRequestTimeLimitExceeded
         }
         schedule()
-        try await worker.resendCode(forAttribute: attribute)
+        switch resendMethod {
+        case .resendCode:
+            try await worker.resendCode(forAttribute: attribute)
+
+        case let .updateAttribute(value):
+            let resendAttribute = VerificationModelAttribute(key: attribute.key, value: value)
+            try await worker.resendAttrUpdate(forAttribute: resendAttribute)
+        }
     }
 
     func validateCode(_ code: VerificationModelCode) throws {

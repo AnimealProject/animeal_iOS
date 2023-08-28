@@ -94,6 +94,7 @@ extension AuthCoordinator: CustomAuthCoordinatable {
             let viewController = VerificationAfterCustomAuthAssembler.assembly(
                 coordinator: self,
                 deliveryDestination: details.destination,
+                resendMethod: .resendCode,
                 completion: .none
             )
             _navigator.push(viewController, animated: true, completion: nil)
@@ -144,7 +145,7 @@ extension AuthCoordinator: ProfileCoordinatable {
             stop()
         case .cancel:
             _navigator.popToRoot(animated: true)
-        case let .confirm(details, attribute, completion):
+        case let .confirm(details, attribute, resendMethod, completion):
             let viewController = VerificationAfterProfileAuthAssembler.assembly(
                 coordinator: self,
                 deliveryDestination: details.destination,
@@ -152,6 +153,7 @@ extension AuthCoordinator: ProfileCoordinatable {
                     key: VerificationModelAttributeKey(userAttributeKey: attribute.key),
                     value: attribute.value
                 ),
+                resendMethod: resendMethod,
                 completion: completion
             )
             _navigator.push(viewController, animated: true, completion: nil)

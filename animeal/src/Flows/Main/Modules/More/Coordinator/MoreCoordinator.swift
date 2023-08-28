@@ -109,7 +109,7 @@ extension MoreCoordinator: ProfileCoordinatable {
             _navigator.pop(animated: true, completion: nil)
         case .cancel:
             _navigator.pop(animated: true, completion: nil)
-        case let .confirm(details, attribute, completion):
+        case let .confirm(details, attribute, resendMethod, completion):
             let viewController = VerificationAfterProfileAuthAssembler.assembly(
                 coordinator: self,
                 deliveryDestination: details.destination,
@@ -117,6 +117,7 @@ extension MoreCoordinator: ProfileCoordinatable {
                     key: VerificationModelAttributeKey(userAttributeKey: attribute.key),
                     value: attribute.value
                 ),
+                resendMethod: resendMethod,
                 completion: completion
             )
             _navigator.push(viewController, animated: true, completion: nil)

@@ -5,6 +5,7 @@ enum VerificationAfterCustomAuthAssembler {
     static func assembly(
         coordinator: VerificationCoordinatable,
         deliveryDestination: VerificationModelDeliveryDestination,
+        resendMethod: ResendMethod,
         completion: (() -> Void)?
     ) -> UIViewController {
         let model = VerificationModel(
@@ -13,6 +14,7 @@ enum VerificationAfterCustomAuthAssembler {
                 key: VerificationModelAttributeKey.preferredUsername,
                 value: deliveryDestination.value ?? .empty
             ),
+            resendMethod: resendMethod,
             deliveryDestination: deliveryDestination
         )
         let viewModel = VerificationViewModel(
@@ -32,6 +34,7 @@ enum VerificationAfterProfileAuthAssembler {
         coordinator: VerificationCoordinatable,
         deliveryDestination: VerificationModelDeliveryDestination,
         attribute: VerificationModelAttribute,
+        resendMethod: ResendMethod,
         completion: (() -> Void)?
     ) -> UIViewController {
         let model = VerificationModel(
@@ -39,6 +42,7 @@ enum VerificationAfterProfileAuthAssembler {
                 userProfileService: AppDelegate.shared.context.profileService
             ),
             attribute: attribute,
+            resendMethod: resendMethod,
             deliveryDestination: deliveryDestination
         )
         let viewModel = VerificationViewModel(

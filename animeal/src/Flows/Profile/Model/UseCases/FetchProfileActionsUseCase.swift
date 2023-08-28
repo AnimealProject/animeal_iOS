@@ -67,6 +67,12 @@ final class UpdateProfileUseCase: UpdateProfileUseCaseLogic {
             )
         }
         let result = try await profileService.update(userAttributes: changedAttributes)
+        var resendMethod = ResendMethod.resendCode
+        if let phoneUpdateResult = result[.phoneNumber],
+           !phoneUpdateResult.isUpdated,
+           let phoneNumber = changedAttributes.first(where: { $0.key == .phoneNumber })?.value {
+            resendMethod = .updateAttribute(phoneNumber)
+        }
         if let step = result.first(
             where: { if case .confirmAttributeWithCode = $0.value.nextStep { return true }; return false }
         ), case .confirmAttributeWithCode(let details, _) = step.value.nextStep {
@@ -75,9 +81,10 @@ final class UpdateProfileUseCase: UpdateProfileUseCaseLogic {
                 UserProfileAttribute(
                     step.key,
                     value: allItems.first(
-                        where: { $0.key.userAttributeKey == step.key}
+                        where: { $0.key.userAttributeKey == step.key }
                     )?.value.text ?? .empty
-                )
+                ),
+                resendMethod
             )
         } else {
             return .done
