@@ -5,6 +5,6 @@ import Foundation
 import Services
 
 enum ProfileModelNextStep {
-    case confirm(UserProfileCodeDeliveryDetails, UserProfileAttribute)
+    case confirm(UserProfileCodeDeliveryDetails, UserProfileAttribute, ResendMethod)
     case done
 }
