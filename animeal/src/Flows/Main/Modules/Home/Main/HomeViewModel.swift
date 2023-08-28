@@ -198,7 +198,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
                 self.feedingStatus = result.feedingStatus
                 self.onFeedingHaveBeenCompleted?()
 
-                let userAttributes = try await userProfileService.fetchUserAttributes()
+                let userAttributes = try await self.userProfileService.fetchUserAttributes()
                 let trusted = userAttributes.first { attribute in
                     attribute.key == .custom("trusted")
                 }?.value
