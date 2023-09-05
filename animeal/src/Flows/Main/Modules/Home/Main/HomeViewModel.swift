@@ -7,6 +7,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     // MARK: - Dependencies
     private let model: HomeModelProtocol
     private let locationService: LocationServiceProtocol
+    private let userProfileService: UserProfileServiceProtocol
     private let feedingPointViewMapper: FeedingPointViewMappable
     private let segmentsViewMapper: FilterViewMappable
     private let feedingActionMapper: FeedingActionMapper
@@ -39,12 +40,14 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
         model: HomeModelProtocol,
         coordinator: HomeCoordinatable & HomeCoordinatorEventHandlerProtocol,
         locationService: LocationServiceProtocol = AppDelegate.shared.context.locationService,
+        userProfileService: UserProfileServiceProtocol = AppDelegate.shared.context.profileService,
         feedingPointViewMapper: FeedingPointViewMappable = FeedingPointViewMapper(),
         feedingActionMapper: FeedingActionMapper = FeedingActionMapper(),
         segmentsViewMapper: FilterViewMappable = SegmentedControlMapper()
     ) {
         self.model = model
         self.locationService = locationService
+        self.userProfileService = userProfileService
         self.feedingPointViewMapper = feedingPointViewMapper
         self.feedingActionMapper = feedingActionMapper
         self.segmentsViewMapper = segmentsViewMapper
@@ -194,7 +197,17 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
                 self.onFeedingPointsHaveBeenPrepared?(viewItems)
                 self.feedingStatus = result.feedingStatus
                 self.onFeedingHaveBeenCompleted?()
-                self.coordinator.routeTo(.feedingComplete)
+
+                let userAttributes = try await self.userProfileService.fetchUserAttributes()
+                let trusted = userAttributes.first { attribute in
+                    attribute.key == .custom("trusted")
+                }?.value
+                
+                if trusted == "true" {
+                    self.coordinator.routeTo(.feedingTrustedComplete)
+                } else {
+                    self.coordinator.routeTo(.feedingComplete)
+                }
             } catch {
                 self.coordinator.displayAlert(message: error.localizedDescription)
             }
