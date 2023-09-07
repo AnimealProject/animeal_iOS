@@ -33,7 +33,7 @@ struct AboutView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: Constants.verticalSpacing) {
             GeometryReader { geometry in
-                ScrollView(.vertical) {
+                ScrollView(.vertical, showsIndicators: false) {
                     VStack() {
                         VStack(alignment: .leading, spacing: Constants.verticalSpacing) {
                             headerText
