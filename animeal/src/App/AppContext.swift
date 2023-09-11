@@ -16,6 +16,7 @@ import Services
 struct AppContext: AppContextProtocol {
     let analyticsService: AnalyticsServiceProtocol
     let devLoggerService: DevLoggerService
+    let cameraService: CameraServiceProtocol
     let locationService: LocationServiceProtocol
     let authenticationService: AuthenticationServiceProtocol
     let defaultsService: DefaultsServiceProtocol
@@ -29,6 +30,7 @@ struct AppContext: AppContextProtocol {
     static func context() -> AppContext {
         let analyticsService = AnalyticsService(logger: Log.shared)
         let devLoggerService = DevLoggerImplementation()
+        let cameraService = CameraService()
         let locationService = LocationService(locationManager: LocationManager(), logger: Log.shared)
         let authenticationService = AuthenticationService()
         let defaultsService = DefaultsService()
@@ -49,6 +51,7 @@ struct AppContext: AppContextProtocol {
         let context = AppContext(
             analyticsService: analyticsService,
             devLoggerService: devLoggerService,
+            cameraService: cameraService,
             locationService: locationService,
             authenticationService: authenticationService,
             defaultsService: defaultsService,

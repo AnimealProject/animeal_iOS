@@ -131,11 +131,14 @@ private extension AttachPhotoViewController {
     // MARK: - Bind
     func bind() {
         attachingPhotoView.onTapAttachPhoto = { [weak self] in
-            let vc = UIImagePickerController()
-            vc.sourceType = .camera
-            vc.allowsEditing = true
-            vc.delegate = self
-            self?.present(vc, animated: true)
+            if let granted = self?.viewModel.grantCameraPermission(),
+                granted {
+                let vc = UIImagePickerController()
+                vc.sourceType = .camera
+                vc.allowsEditing = true
+                vc.delegate = self
+                self?.present(vc, animated: true)
+            }
         }
 
         attachingPhotoView.onTapFinishButton = { [weak self] in
@@ -147,6 +150,16 @@ private extension AttachPhotoViewController {
         viewModel.onSnapshotHasBeenPrepared = { [weak self] viewSnapshot in
             self?.applySnapshot(viewSnapshot)
             self?.updateContent(with: !viewSnapshot.itemIdentifiers.isEmpty)
+        }
+        
+        viewModel.onCameraPermissionCustomRequired = { [weak self] in
+            Task {
+                await self?.openSettings()
+            }
+        }
+                
+        viewModel.onAttachPhotoActionHaveBeenPrepared = { [weak self] action in
+            self?.handleAttachPhotoAction(action)
         }
 
         viewModel.load()
@@ -210,5 +223,46 @@ private extension AttachPhotoViewController {
         } else {
             print("Success")
         }
+    }
+    
+    //MARK: - Open settings to update permissions
+    func openSettings() async {
+        guard let url = URL(string: UIApplication.openSettingsURLString),
+              UIApplication.shared.canOpenURL(url) else {
+            return
+        }
+        
+        await UIApplication.shared.open(url)
+    }
+    
+    func handleAttachPhotoAction(_ action: AttachPhotoModel.AttachPhotoAction) {
+        let alertViewController = AlertViewController(title: action.title)
+
+        action.actions.forEach { attachPhotoAction in
+            var actionHandler: (() -> Void)?
+            switch attachPhotoAction.style {
+            case .inverted:
+                actionHandler = {
+                    alertViewController.dismiss(animated: true)
+                }
+            case .accent(let action):
+                actionHandler = { [weak self] in
+                    guard let self = self else { return }
+                    if action == .cameraAccess {
+                        self.viewModel.handleActionEvent(.cameraAccess)
+                    }
+                    alertViewController.dismiss(animated: true)
+                }
+            }
+            
+            alertViewController.addAction(
+                AlertAction(
+                    title: attachPhotoAction.title,
+                    style: attachPhotoAction.style.alertActionStyle,
+                    handler: actionHandler
+                )
+            )
+        }
+        self.present(alertViewController, animated: true)
     }
 }

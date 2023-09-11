@@ -1,6 +1,7 @@
 import Foundation
 import Services
 import Amplify
+import UIComponents
 
 final class AttachPhotoModel: AttachPhotoModelProtocol {
     // MARK: - Private properties
@@ -72,9 +73,25 @@ final class AttachPhotoModel: AttachPhotoModelProtocol {
             }
         }
     }
+    
+    func fetchAttachPhotoAction(request: AttachPhotoRequest) -> AttachPhotoAction {
+        switch request {
+        case .cameraAccess:
+            return .init(
+                title: L10n.Feeding.Alert.grantCameraPermission,
+                actions: [
+                    .init(title: L10n.Action.no, style: .inverted),
+                    .init(title: L10n.Action.openSettings, style: .accent(.cameraAccess))
+                ])
+        }
+    }
 }
 
 extension AttachPhotoModel {
+    enum AttachPhotoRequest {
+        case cameraAccess
+    }
+    
     struct PointContent {
         let content: Content
     }
@@ -82,5 +99,29 @@ extension AttachPhotoModel {
     struct Content {
         let cover: String?
         let title: String
+    }
+    
+    struct AttachPhotoAction {
+        let title: String
+        let actions: [Action]
+
+        enum Style {
+            case accent(AttachPhotoRequest)
+            case inverted
+
+            var alertActionStyle: AlertAction.Style {
+                switch self {
+                case .accent:
+                    return .accent
+                case .inverted:
+                    return .inverted
+                }
+            }
+        }
+
+        struct Action {
+            let title: String
+            let style: Style
+        }
     }
 }

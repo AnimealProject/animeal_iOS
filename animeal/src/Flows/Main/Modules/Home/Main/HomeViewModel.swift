@@ -6,6 +6,7 @@ import Amplify
 final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeViewState {
     // MARK: - Dependencies
     private let model: HomeModelProtocol
+    private let cameraService: CameraServiceProtocol
     private let locationService: LocationServiceProtocol
     private let userProfileService: UserProfileServiceProtocol
     private let feedingPointViewMapper: FeedingPointViewMappable
@@ -30,8 +31,6 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     var onFeedingActionHaveBeenPrepared: ((FeedingActionMapper.FeedingAction) -> Void)?
     var onFeedingHaveBeenCompleted: (() -> Void)?
     var onCurrentFeedingStateChanged: ((Bool) -> Void)?
-    var onRequestToCamera: (() -> CameraAccessState)?
-    var onCameraPermissionNativeRequired: (() -> Void)?
     var onCameraPermissionCustomRequired: (() -> Void)?
     var onLocationPermissionRequired: (() -> Void)?
 
@@ -39,6 +38,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     init(
         model: HomeModelProtocol,
         coordinator: HomeCoordinatable & HomeCoordinatorEventHandlerProtocol,
+        cameraService: CameraServiceProtocol = AppDelegate.shared.context.cameraService,
         locationService: LocationServiceProtocol = AppDelegate.shared.context.locationService,
         userProfileService: UserProfileServiceProtocol = AppDelegate.shared.context.profileService,
         feedingPointViewMapper: FeedingPointViewMappable = FeedingPointViewMapper(),
@@ -46,6 +46,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
         segmentsViewMapper: FilterViewMappable = SegmentedControlMapper()
     ) {
         self.model = model
+        self.cameraService = cameraService
         self.locationService = locationService
         self.userProfileService = userProfileService
         self.feedingPointViewMapper = feedingPointViewMapper
@@ -164,12 +165,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
             let result = try await self.model.processStartFeeding(feedingPointId: id)
             let feedingPoint = try await self.model.fetchFeedingPoint(result.feedingPoint)
 
-            switch self.onRequestToCamera?() ?? .denied {
-            case .authorized:
-                break
-            case .notDetermined:
-                self.onCameraPermissionNativeRequired?()
-            case .denied:
+            cameraService.grantCameraPermission() {
                 let action = self.model.fetchFeedingAction(request: .cameraAccess)
                 self.onFeedingActionHaveBeenPrepared?(self.feedingActionMapper.mapFeedingAction(action))
             }
