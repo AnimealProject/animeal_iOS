@@ -165,7 +165,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
             let result = try await self.model.processStartFeeding(feedingPointId: id)
             let feedingPoint = try await self.model.fetchFeedingPoint(result.feedingPoint)
 
-            cameraService.grantCameraPermission() {
+            self.cameraService.grantCameraPermission() {
                 let action = self.model.fetchFeedingAction(request: .cameraAccess)
                 self.onFeedingActionHaveBeenPrepared?(self.feedingActionMapper.mapFeedingAction(action))
             }
