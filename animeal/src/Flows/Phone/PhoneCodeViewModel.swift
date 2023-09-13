@@ -37,14 +37,23 @@ final class PhoneCodesViewModel: PhoneCodesViewModelProtocol {
     }
 
     // MARK: - Interaction
+
+    /// This method does the following task:
+    /// 1. Update the selected region
+    /// 2. Update the callee view model.
+    /// 3. Update the view based on the updated view model in 2.
+    /// 4. Update model for this picker it helps the picker to highlight the last selected item
+    /// - Parameter event: an action event
     func handleActionEvent(_ event: PhoneCodesViewActionEvent) {
         switch event {
         case .itemWasTapped(let identifier):
             guard let region = allRegions.first(where: { $0.rawValue == identifier }) else { return }
-            Task { [weak self] in await self?.handler(region) }
-            selectedRegion = region
-            updateSnapshot()
-            completion?()
+            selectedRegion = region // 1.
+            Task { [weak self] in
+                await self?.handler(region) // 2.
+                self?.completion?() // 3.
+            }
+            updateSnapshot() // 4.
         }
     }
 }
