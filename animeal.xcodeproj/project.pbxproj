@@ -362,8 +362,6 @@
 		FBE017612874611600A79DB2 /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE017602874611600A79DB2 /* Navigator.swift */; };
 		FBE017632874666000A79DB2 /* Coordinatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE017622874666000A79DB2 /* Coordinatable.swift */; };
 		FBEB291F802113F2A65D62C9 /* FeedingPointConnection+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95550513A0326A8E443C7BCB /* FeedingPointConnection+Schema.swift */; };
-		FBFE40F02853448800316D58 /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = FBFE40EF2853448800316D58 /* Quick */; };
-		FBFE40F3285344B100316D58 /* Nimble in Frameworks */ = {isa = PBXBuildFile; productRef = FBFE40F2285344B100316D58 /* Nimble */; };
 		FF0D1A35DECA7017DE49AF15 /* RelationUserPet+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CE4BA48AE07A2C248C7246 /* RelationUserPet+Schema.swift */; };
 /* End PBXBuildFile section */
 
@@ -757,8 +755,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FBFE40F02853448800316D58 /* Quick in Frameworks */,
-				FBFE40F3285344B100316D58 /* Nimble in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2361,8 +2357,6 @@
 			);
 			name = animealTests;
 			packageProductDependencies = (
-				FBFE40EF2853448800316D58 /* Quick */,
-				FBFE40F2285344B100316D58 /* Nimble */,
 			);
 			productName = animealTests;
 			productReference = DB6B07D828450A3A0009397B /* animealTests.xctest */;
@@ -2422,8 +2416,6 @@
 			);
 			mainGroup = DB6B07B928450A380009397B;
 			packageReferences = (
-				FBFE40EE2853448800316D58 /* XCRemoteSwiftPackageReference "Quick" */,
-				FBFE40F1285344B100316D58 /* XCRemoteSwiftPackageReference "Nimble" */,
 				DBA3C7E528575CAF00B30A78 /* XCRemoteSwiftPackageReference "mapbox-maps-ios" */,
 				DB97C52829277BB50089A9FA /* XCRemoteSwiftPackageReference "mapbox-navigation-ios" */,
 				83F35A0429C3A8370006E307 /* XCRemoteSwiftPackageReference "amplify-swift" */,
@@ -3338,22 +3330,6 @@
 				minimumVersion = 10.5.0;
 			};
 		};
-		FBFE40EE2853448800316D58 /* XCRemoteSwiftPackageReference "Quick" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Quick/Quick.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-		FBFE40F1285344B100316D58 /* XCRemoteSwiftPackageReference "Nimble" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Quick/Nimble.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -3431,16 +3407,6 @@
 		FB43136A2848EA950084C21A /* UIComponents */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = UIComponents;
-		};
-		FBFE40EF2853448800316D58 /* Quick */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FBFE40EE2853448800316D58 /* XCRemoteSwiftPackageReference "Quick" */;
-			productName = Quick;
-		};
-		FBFE40F2285344B100316D58 /* Nimble */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FBFE40F1285344B100316D58 /* XCRemoteSwiftPackageReference "Nimble" */;
-			productName = Nimble;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
