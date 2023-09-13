@@ -32,8 +32,11 @@ protocol AttachPhotoViewState: AnyObject {
 
     var onContentHasBeenPrepared: ((AttachPhotoViewContent) -> Void)? { get set }
     var onSnapshotHasBeenPrepared: ((DataSourceSnapshot) -> Void)? { get set }
+    var onCameraPermissionCustomRequired: (() -> Void)? { get set }
+    var onAttachPhotoActionHaveBeenPrepared: ((AttachPhotoModel.AttachPhotoAction) -> Void)? { get set }
 
     func progressModel(for image: UIImage) -> ProgressViewModel?
+    func grantCameraPermission() -> Bool
 }
 
 
@@ -43,6 +46,7 @@ protocol AttachPhotoModelProtocol: AnyObject {
     func fetchFeedingPoints(_ completion: ((AttachPhotoModel.PointContent) -> Void)?)
     func fetchMediaContent(key: String, completion: ((Data?) -> Void)?)
     func uploadMediaContent(data: Data, progressListener: ((Double) -> Void)?) async throws -> String
+    func fetchAttachPhotoAction(request: AttachPhotoModel.AttachPhotoRequest) -> AttachPhotoModel.AttachPhotoAction
 }
 
 // MARK: - Coordinator

@@ -5,6 +5,7 @@ import UIKit
 import Common
 import Style
 import UIComponents
+import Services
 
 final class AttachPhotoViewModel: AttachPhotoViewModelProtocol {
 
@@ -18,20 +19,25 @@ final class AttachPhotoViewModel: AttachPhotoViewModelProtocol {
     // MARK: - Dependencies
     private let model: AttachPhotoModelProtocol
     private let contentMapper: AttachPhotoViewMappable
+    private let cameraService: CameraServiceProtocol
 
     // MARK: - State
     var onContentHasBeenPrepared: ((AttachPhotoViewContent) -> Void)?
     var onSnapshotHasBeenPrepared: ((DataSourceSnapshot) -> Void)?
+    var onCameraPermissionCustomRequired: (() -> Void)?
+    var onAttachPhotoActionHaveBeenPrepared: ((AttachPhotoModel.AttachPhotoAction) -> Void)?
 
     // MARK: - Initialization
     public init(
         model: AttachPhotoModelProtocol,
         contentMapper: AttachPhotoViewMappable,
-        coordinator: AttachPhotoCoordinatable & AttachPhotoCoordinatorEventHandlerProtocol
+        coordinator: AttachPhotoCoordinatable & AttachPhotoCoordinatorEventHandlerProtocol,
+        cameraService: CameraServiceProtocol = AppDelegate.shared.context.cameraService
     ) {
         self.model = model
         self.contentMapper = contentMapper
         self.coordinator = coordinator
+        self.cameraService = cameraService
     }
 
     // MARK: - Life cycle
@@ -42,6 +48,14 @@ final class AttachPhotoViewModel: AttachPhotoViewModelProtocol {
         createSnapshot()
     }
 
+    func grantCameraPermission() -> Bool {
+        return cameraService.grantCameraPermission() { [weak self] in
+            guard let self else { return }
+            let action = self.model.fetchAttachPhotoAction(request: .cameraAccess)
+            self.onAttachPhotoActionHaveBeenPrepared?(action)
+        }
+    }
+    
     func progressModel(for image: UIImage) -> ProgressViewModel? {
         photos[image]
     }
@@ -71,6 +85,8 @@ final class AttachPhotoViewModel: AttachPhotoViewModelProtocol {
                 }
             }
             self.coordinator.displayActivityIndicator(waitUntil: task, completion: nil)
+        case .cameraAccess:
+            self.onCameraPermissionCustomRequired?()
         }
     }
 }
@@ -87,6 +103,8 @@ private extension AttachPhotoViewModel {
             snapshot.deleteItems([item])
             photos.removeValue(forKey: image)
         case .finish:
+            break
+        case .cameraAccess:
             break
         }
         onSnapshotHasBeenPrepared?(snapshot)

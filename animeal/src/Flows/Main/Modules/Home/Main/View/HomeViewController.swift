@@ -25,11 +25,6 @@ class HomeViewController: UIViewController {
         return UITraitCollection.current.userInterfaceStyle == .dark
         ? StyleURI.dark : StyleURI.streets
     }
-    private var cameraAuthorizationStatus: AVAuthorizationStatus {
-        get {
-            return AVCaptureDevice.authorizationStatus(for: .video)
-        }
-    }
 
     // MARK: - Dependencies
     private let viewModel: HomeCombinedViewModel
@@ -173,16 +168,6 @@ private extension HomeViewController {
 
         viewModel.onCurrentFeedingStateChanged = { [weak self] isInProgress in
             self?.toggleRouteAndTimer(isVisible: isInProgress)
-        }
-        
-        viewModel.onRequestToCamera = { [weak self] in
-            self?.cameraAuthorized() ?? .denied
-        }
-        
-        viewModel.onCameraPermissionNativeRequired = { [weak self] in
-            Task {
-                await self?.requestCameraPermissionNative()
-            }
         }
         
         viewModel.onCameraPermissionCustomRequired = { [weak self] in
@@ -334,23 +319,6 @@ private extension HomeViewController {
 
     func handleCameraMove(_ move: FeedingPointCameraMove) {
         mapView.easeToLocation(move.feedingPointCoordinate, duration: 0)
-    }
-    
-    func cameraAuthorized() -> CameraAccessState {
-        switch cameraAuthorizationStatus {
-        case .authorized:
-            return .authorized
-        case .denied:
-            return .denied
-        case .notDetermined:
-            return .notDetermined
-        default:
-            return .denied
-        }
-    }
-    
-    func requestCameraPermissionNative() async {
-        await AVCaptureDevice.requestAccess(for: .video)
     }
     
     func openSettings() async {
