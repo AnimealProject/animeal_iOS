@@ -17,20 +17,14 @@ final class QuestionMapper: QuestionMappable {
 
 private extension Question {
     var localizedValue: String {
-        switch Locale.current.languageCode {
-        case "ka":
-            return value ?? .empty
-        default:
-            return i18n?.first(where: { $0.locale == "en" })?.value ?? .empty
-        }
+        localized?.value ?? value ?? .empty
     }
 
     var localizedAnswer: String {
-        switch Locale.current.languageCode {
-        case "ka":
-            return answer ?? .empty
-        default:
-            return i18n?.first(where: { $0.locale == "en" })?.answer ?? .empty
-        }
+        localized?.answer ?? answer ?? .empty
+    }
+
+    private var localized: QuestionI18n? {
+        i18n?.first { $0.locale == Locale.current.languageCode }
     }
 }
