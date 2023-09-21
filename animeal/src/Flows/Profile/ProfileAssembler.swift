@@ -38,6 +38,7 @@ enum ProfileAfterCustomAuthAssembler {
                 ProfileModelDoneAction(validateItems: manipulateItems, isEnabled: false)
             ]
         )
+        let discardChanges = ProfileModelDiscardChangesAction(state: modelState, validateItems: manipulateItems)
         let updateProfile = UpdateProfileUseCase(
             state: modelState,
             profileService: AppDelegate.shared.context.profileService
@@ -48,6 +49,7 @@ enum ProfileAfterCustomAuthAssembler {
             validateItems: manipulateItems,
             fetchItemRequiredAction: manipulateItems,
             fetchActions: manipulateActions,
+            discardActions: discardChanges,
             executeActions: manipulateActions,
             updateProfile: updateProfile
         )
@@ -79,6 +81,7 @@ enum ProfileAfterSocialAuthAssembler {
                 ProfileModelDoneAction(validateItems: manipulateItems, isEnabled: false)
             ]
         )
+        let discardChanges = ProfileModelDiscardChangesAction(state: modelState, validateItems: manipulateItems)
         let updateProfile = UpdateProfileUseCase(
             state: modelState,
             profileService: AppDelegate.shared.context.profileService
@@ -89,6 +92,7 @@ enum ProfileAfterSocialAuthAssembler {
             validateItems: manipulateItems,
             fetchItemRequiredAction: manipulateItems,
             fetchActions: manipulateActions,
+            discardActions: discardChanges,
             executeActions: manipulateActions,
             updateProfile: updateProfile
         )
@@ -119,6 +123,7 @@ enum ProfileChangeableAssembler {
                 ProfileModelEditAction(state: modelState, validateItems: manipulateItems)
             ]
         )
+        let discardChanges = ProfileModelDiscardChangesAction(state: modelState, validateItems: manipulateItems)
         let updateProfile = UpdateProfileUseCase(
             state: modelState,
             profileService: AppDelegate.shared.context.profileService
@@ -129,6 +134,7 @@ enum ProfileChangeableAssembler {
             validateItems: manipulateItems,
             fetchItemRequiredAction: manipulateItems,
             fetchActions: manipulateActions,
+            discardActions: discardChanges,
             executeActions: manipulateActions,
             updateProfile: updateProfile
         )

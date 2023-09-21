@@ -48,6 +48,7 @@ protocol ProfileModelProtocol {
     func fetchActions() async -> [ProfileModelAction]
     func executeAction(_ identifier: String) async throws -> ProfileModelIntermediateStep?
     func proceedAction(_ identifier: String) async throws -> ProfileModelNextStep
+    func discardAction() async throws -> [ProfileModelAction]
 }
 
 // MARK: - Coordinator

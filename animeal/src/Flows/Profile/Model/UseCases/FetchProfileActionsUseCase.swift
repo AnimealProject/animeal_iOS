@@ -3,6 +3,7 @@ import Services
 
 protocol FetchProfileActionsUseCaseLogic {
     func callAsFunction() async -> [ProfileModelAction]
+    func callAsFunction(executeAndUpdate actions: [ProfileModelAction]) async throws -> [ProfileModelAction]
 }
 
 protocol ExecuteProfileActionsUseCaseLogic {
@@ -16,6 +17,8 @@ final class FetchProfileActionsUseCase: FetchProfileActionsUseCaseLogic {
         self.actions = actions
     }
 
+    /// Triggers `onItemsDidChange` event on the list of all of actions and replaces the list of actions with the ones returned by update trigger method.
+    /// - Returns: the list of updated actions post the trigger event.
     func callAsFunction() async -> [ProfileModelAction] {
         actions = await actions.asyncMap { await $0.update(.onItemsDidChange) }
         return actions
@@ -23,6 +26,10 @@ final class FetchProfileActionsUseCase: FetchProfileActionsUseCaseLogic {
 }
 
 extension FetchProfileActionsUseCase: ExecuteProfileActionsUseCaseLogic {
+
+    /// Triggers the 'onClick' events for all the profile actions in addition to the execute event.
+    /// - Parameter identifier: identifier of the action
+    /// - Returns: any intermediate step post 'execution' of the action. Check the given execute method of the action.
     func callAsFunction(_ identifier: String) async throws -> ProfileModelIntermediateStep? {
         guard
             let actionIndex = actions.firstIndex(where: { $0.appearance.identifier == identifier })
@@ -36,12 +43,21 @@ extension FetchProfileActionsUseCase: ExecuteProfileActionsUseCaseLogic {
 
         return step
     }
+
+    func callAsFunction(executeAndUpdate actions: [ProfileModelAction]) async throws -> [ProfileModelAction] {
+        self.actions = try await actions.asyncMap {
+            try await $0.execute()
+            return await $0.update(.onClick)
+        }
+        return self.actions
+    }
 }
 
 protocol UpdateProfileUseCaseLogic {
     func callAsFunction(forActionIdentifier identifier: String) async throws -> ProfileModelNextStep
 }
 
+/// API call to update the user profile
 final class UpdateProfileUseCase: UpdateProfileUseCaseLogic {
     private let state: ProfileModelStateProtocol
     private let profileService: UserProfileServiceProtocol
@@ -50,7 +66,9 @@ final class UpdateProfileUseCase: UpdateProfileUseCaseLogic {
         self.state = state
         self.profileService = profileService
     }
-
+    /// Parse the current model into a form acceptable to the API calling entity. i.e. AWS auth SDK.
+    /// - Parameter identifier: identifier of the action
+    /// - Returns: next step for the action. in this case confirm or done.
     func callAsFunction(forActionIdentifier identifier: String) async throws -> ProfileModelNextStep {
         let allItems = await state.items.reduce(
             [ProfileItemType: ProfileModelItem]()
