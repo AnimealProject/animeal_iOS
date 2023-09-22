@@ -10,7 +10,7 @@ typealias DonateViewModelProtocol = DonateViewModelLifeCycle
     & DonateViewState
 
 protocol DonateViewModelLifeCycle: AnyObject {
-    func setup()
+    func set(delegate: DonateViewModelDelegate)
     func load()
 }
 
@@ -23,6 +23,9 @@ protocol DonateViewState: AnyObject, ObservableObject {
     var paymentMethodsItems: [PaymentMethodViewItem] { get set }
 }
 
+protocol DonateViewModelDelegate: AnyObject {
+    func didCopyPaymentMethod()
+}
 // MARK: - Model
 
 // sourcery: AutoMockable

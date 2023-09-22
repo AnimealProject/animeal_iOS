@@ -13,7 +13,8 @@ public enum Toast {
     public static func show(
         message: String,
         anchor: UIView,
-        configuration: Configuration = Configuration.default
+        configuration: Configuration = Configuration.default,
+        shouldShowAtBottom: Bool = false
     ) {
         let designEngine = UIView().designEngine
 
@@ -39,7 +40,12 @@ public enum Toast {
 
         anchor.addSubview(toastContainer.prepareForAutoLayout())
         toastLabel.centerXAnchor ~= anchor.centerXAnchor
-        toastLabel.topAnchor ~= anchor.safeAreaLayoutGuide.topAnchor + 24
+
+        if shouldShowAtBottom {
+            toastLabel.bottomAnchor ~= anchor.safeAreaLayoutGuide.bottomAnchor - 24
+        } else {
+            toastLabel.topAnchor ~= anchor.safeAreaLayoutGuide.topAnchor + 24
+        }
 
         UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn, animations: {
             toastContainer.alpha = 1
