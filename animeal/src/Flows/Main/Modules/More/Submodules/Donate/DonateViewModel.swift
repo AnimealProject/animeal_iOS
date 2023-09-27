@@ -10,6 +10,7 @@ final class DonateViewModel: DonateViewModelLifeCycle, DonateViewInteraction, Do
     private let model: DonateModelProtocol
     private let coordinator: MorePartitionCoordinatable
     private let mapper: DonatePaymentMethodViewMappable
+    private weak var delegate: DonateViewModelDelegate?
 
     @Published var paymentMethodsItems: [PaymentMethodViewItem] = []
 
@@ -22,13 +23,13 @@ final class DonateViewModel: DonateViewModelLifeCycle, DonateViewInteraction, Do
         self.model = model
         self.coordinator = coordinator
         self.mapper = mapper
-        setup()
     }
 
     // MARK: - Life cycle
-    func setup() {
+    func set(delegate: DonateViewModelDelegate) {
+        self.delegate = delegate
     }
-
+    
     func load() {
         Task { @MainActor [weak self] in
             guard let self else { return }
@@ -57,6 +58,7 @@ final class DonateViewModel: DonateViewModelLifeCycle, DonateViewInteraction, Do
     private func proceedPaymentMethod(id: PaymentMethodViewItem.ID) {
         guard let paymentMethod = model.getPaymentMethod(for: id) else { return }
         UIPasteboard.general.setValue(paymentMethod.accountDetails, forPasteboardType: UTType.plainText.identifier)
+        delegate?.didCopyPaymentMethod()
     }
 
     private func fetchIcons(for methods: [DonateModel.PaymentMethod]) async {
