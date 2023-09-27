@@ -42,7 +42,7 @@ exports.handler = async (event, context, callback) => {
       throw new Error('Failed to get Feeding point data.');
     }
     const assignedModeratorsIds = [];
-    const assignedModeratorsDynamoRecords = [];
+    const usersDynamoRecords = [];
 
     const assignedModerators = await PromiseBL.map(
       users.data.data.relationUserFeedingPointByFeedingPointId.items,
@@ -55,21 +55,39 @@ exports.handler = async (event, context, callback) => {
       },
     );
     assignedModerators.forEach((assignedModerator) => {
-      assignedModeratorsDynamoRecords.push({
+      usersDynamoRecords.push({
         Put: {
           Item: {
             id: assignedModerator.Username,
-            userAttributes: assignedModerator.UserAttributes,
+            attributes: assignedModerator.UserAttributes,
           },
           TableName: process.env.API_ANIMEAL_FEEDINGUSERSTABLE_NAME,
         },
       });
     });
 
+    if (
+      event?.identity?.username &&
+      !usersDynamoRecords.find((it) => it.Put.Item.id == event?.identity?.username)
+    ) {
+      const user = await getUser(event?.identity?.username);
+      usersDynamoRecords.push({
+        Put: {
+          Item: {
+            id: user.Username,
+            attributes: user.UserAttributes,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          },
+          TableName: process.env.API_ANIMEAL_FEEDINGUSERSTABLE_NAME,
+        },
+      });
+    }
+
     await dynamoDB
       .transactWrite({
         TransactItems: [
-          ...assignedModeratorsDynamoRecords,
+          ...usersDynamoRecords,
           {
             Put: {
               Item: {

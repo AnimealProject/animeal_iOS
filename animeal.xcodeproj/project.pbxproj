@@ -2356,8 +2356,6 @@
 				DB6B07DA28450A3A0009397B /* PBXTargetDependency */,
 			);
 			name = animealTests;
-			packageProductDependencies = (
-			);
 			productName = animealTests;
 			productReference = DB6B07D828450A3A0009397B /* animealTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";

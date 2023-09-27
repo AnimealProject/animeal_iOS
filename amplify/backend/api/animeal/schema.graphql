@@ -253,6 +253,9 @@ type FeedingUsers
   ) {
   id: ID!
   attributes: [UserAttribute]
+  createdAt: String
+  updatedAt: String
+  owner: String
 }
 
 

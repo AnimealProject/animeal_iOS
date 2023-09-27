@@ -36,6 +36,7 @@ public enum Asset {
     public static let darkTurquoise = ColorAsset(name: "DarkTurquoise")
     public static let geyser = ColorAsset(name: "Geyser")
     public static let light = ColorAsset(name: "Light")
+    public static let lightBackgroundButtonTint = ColorAsset(name: "LightBackgroundButtonTint")
     public static let orangePeel = ColorAsset(name: "OrangePeel")
   }
   public enum Images {

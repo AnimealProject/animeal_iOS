@@ -81,6 +81,7 @@ exports.handler = async (event) => {
       if (rejectFeedingRes.data?.errors?.length) {
         throw new Error('Failed to reject Feeding');
       }
+
       console.log('Successfully auto rejected pending record');
     }
 

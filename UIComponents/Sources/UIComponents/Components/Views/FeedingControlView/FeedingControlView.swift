@@ -7,6 +7,7 @@ public final class FeedingControlView: UIView {
     private var timerProvider: FeedingTimerProviderProtocol
     private let timeLeftLabel = UILabel()
     private let distanceLabel = UILabel()
+    private var cancelButton: UIButton?
     private let timeIntervalFormatter: DateComponentsFormatter = {
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.hour, .minute]
@@ -60,6 +61,11 @@ public final class FeedingControlView: UIView {
     public override var intrinsicContentSize: CGSize {
         return CGSize(width: (UIScreen.main.bounds.width - 40), height: 56)
     }
+
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        cancelButton?.apply(style: .buttonStyle)
+    }
 }
 
 // MARK: - Setup
@@ -94,7 +100,8 @@ private extension FeedingControlView {
         }
 
         let button = UIButton(primaryAction: action)
-        button.setImage(Asset.Images.crosIcon.image.withRenderingMode(.alwaysOriginal), for: .normal)
+        cancelButton = button
+        cancelButton?.apply(style: .buttonStyle)
 
         addSubview(button.prepareForAutoLayout())
         button.trailingAnchor ~= trailingAnchor
@@ -110,6 +117,16 @@ private extension FeedingControlView {
         }
         timerProvider.onTimerFinished = { [weak self] in
             self?.onTimerFinishHandler?()
+        }
+    }
+}
+
+private extension Style where Component == UIButton {
+    static var buttonStyle: Style<UIButton> {
+        .init { button in
+            let tintColor = Asset.Colors.lightBackgroundButtonTint.color
+            let image = UIImage(systemName: "xmark")?.withTintColor(tintColor, renderingMode: .alwaysOriginal)
+            button.setImage(image, for: .normal)
         }
     }
 }
