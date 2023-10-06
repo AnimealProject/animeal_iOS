@@ -210,6 +210,14 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
         }
         coordinator.displayActivityIndicator(waitUntil: task)
     }
+    
+    /// Checks if the selected filter type is same as recorded in user defaults. If Yes no need to update. If No update.
+    /// - Parameter selection: selected filter type. used to compare this with the selection recorded in user defaults.
+    func updateSelectionIfNeeded(for selection: HomeModel.FilterItemIdentifier) {
+        guard selection != model.selectedFilter else { return }
+        let feedingPoints = model.savedFeedingPoints
+        update(feedingPoints)
+    }
 }
 
 private extension HomeViewModel {
@@ -230,13 +238,20 @@ private extension HomeViewModel {
     func startFeedingPoinsEventsListener() {
         model.onFeedingPointChange = { [weak self] feedingPoints in
             guard let self else { return }
-            guard self.feedingStatus != .progress else { return }
-            let viewItems = feedingPoints.map {
-                self.feedingPointViewMapper.mapFeedingPoint($0)
-            }
-            DispatchQueue.main.async {
-                self.onFeedingPointsHaveBeenPrepared?(viewItems)
-            }
+            self.update(feedingPoints)
+        }
+    }
+
+    /// update the filtered feeding points in map. as well as selected segemented bar
+    /// - Parameter feedingPoints: feeding points fetched from the model
+    func update(_ feedingPoints: [HomeModel.FeedingPoint]) {
+        guard self.feedingStatus != .progress else { return }
+        let viewItems = feedingPoints.map {
+            self.feedingPointViewMapper.mapFeedingPoint($0)
+        }
+        DispatchQueue.main.async {
+            self.fetchFilterItems()
+            self.onFeedingPointsHaveBeenPrepared?(viewItems)
         }
     }
 

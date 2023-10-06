@@ -21,6 +21,7 @@ final class DonateViewController<ViewModel: DonateViewModelProtocol>: UIViewCont
         super.viewDidLoad()
         setup()
         viewModel.load()
+        viewModel.set(delegate: self)
     }
 
     // MARK: - Setup
@@ -47,5 +48,11 @@ final class DonateViewController<ViewModel: DonateViewModelProtocol>: UIViewCont
 
     @objc private func barButtonItemTapped() {
         viewModel.handleActionEvent(.back)
+    }
+}
+
+extension DonateViewController: DonateViewModelDelegate {
+    func didCopyPaymentMethod() {
+        Toast.show(message: L10n.Donate.Copy.text, anchor: view, shouldShowAtBottom: true)
     }
 }
