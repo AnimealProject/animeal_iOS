@@ -1,5 +1,4 @@
 import Foundation
-import UIComponents
 import AVFoundation
 
 public protocol CameraServiceProtocol {
