@@ -40,8 +40,8 @@ extension NetworkServiceProtocol {
             do {
                 for try await subscriptionEvent in subscription {
                     switch subscriptionEvent {
-                    case .connection(let subscriptionConnectionState):
-                        logDebug("Subscription connect state is \(subscriptionConnectionState)")
+                    case .connection:
+                        break
                     case .data(let result):
                         switch result {
                         case .success(let modelData):

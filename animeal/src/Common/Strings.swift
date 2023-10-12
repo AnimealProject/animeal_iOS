@@ -63,6 +63,10 @@ internal enum L10n {
   internal enum Donate {
     /// Donate
     internal static let title = L10n.tr("Localizable", "donate.title", fallback: "Donate")
+    internal enum Copy {
+      /// Text copied
+      internal static let text = L10n.tr("Localizable", "donate.copy.text", fallback: "Text copied")
+    }
     internal enum Footer {
       /// Thank you for donating!
       internal static let text = L10n.tr("Localizable", "donate.footer.text", fallback: "Thank you for donating!")
@@ -145,7 +149,7 @@ internal enum L10n {
     /// About (terms and conditions)
     internal static let about = L10n.tr("Localizable", "more.about", fallback: "About (terms and conditions)")
     /// Who are we?
-    /// Animal Project was founded in 2020 by animal lovers with different professions and experiences. For decades, our team members  have been independently helping strays and raising awareness through personal channels.
+    /// Animal Project was founded in 2020 by animal lovers with different professions and experiences. For decades, our team members have been independently helping strays and raising awareness through personal channels.
     /// 
     /// What is our goal?
     /// We exist so that dogs and cats no longer have to live in the streets of Georgia. Our goal is to create a habitable, comfortable environment for companion animals and raise awareness within our communities.
@@ -154,8 +158,8 @@ internal enum L10n {
     /// Our team heavily relies on international best practices and experience. Our areas of work include:
     /// · Raising social awareness;
     /// · Advocating with the government;
-    /// · Charitable and humanitarian projects in collaboration with the private sector, donor organizations, and local communities;
-    internal static let aboutContent = L10n.tr("Localizable", "more.aboutContent", fallback: "Who are we?\nAnimal Project was founded in 2020 by animal lovers with different professions and experiences. For decades, our team members  have been independently helping strays and raising awareness through personal channels.\n\nWhat is our goal?\nWe exist so that dogs and cats no longer have to live in the streets of Georgia. Our goal is to create a habitable, comfortable environment for companion animals and raise awareness within our communities.\n\nHow are we working on this goal?\nOur team heavily relies on international best practices and experience. Our areas of work include:\n· Raising social awareness;\n· Advocating with the government;\n· Charitable and humanitarian projects in collaboration with the private sector, donor organizations, and local communities;")
+    /// · Charitable and humanitarian projects in collaboration with the private sector, donor organizations, and local communities
+    internal static let aboutContent = L10n.tr("Localizable", "more.aboutContent", fallback: "Who are we?\nAnimal Project was founded in 2020 by animal lovers with different professions and experiences. For decades, our team members have been independently helping strays and raising awareness through personal channels.\n\nWhat is our goal?\nWe exist so that dogs and cats no longer have to live in the streets of Georgia. Our goal is to create a habitable, comfortable environment for companion animals and raise awareness within our communities.\n\nHow are we working on this goal?\nOur team heavily relies on international best practices and experience. Our areas of work include:\n· Raising social awareness;\n· Advocating with the government;\n· Charitable and humanitarian projects in collaboration with the private sector, donor organizations, and local communities")
     /// About
     internal static let aboutShort = L10n.tr("Localizable", "more.aboutShort", fallback: "About")
     /// Account

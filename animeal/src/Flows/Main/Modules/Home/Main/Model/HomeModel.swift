@@ -211,6 +211,22 @@ final class HomeModel: HomeModelProtocol {
             request: .list(Feeding.self, where: userIdPredicate)
         ).first
     }
+
+    /// Retrives selected filter type from the user defaults
+    var selectedFilter: HomeModel.FilterItemIdentifier {
+        let selectedId = context.defaultsService.value(key: Filter.selectedId) ?? 0
+        return HomeModel.FilterItemIdentifier(rawValue: selectedId) ?? .dogs
+    }
+
+    /// fetchs cached feeding points from the service. returns the feeding points as per selected pet
+    var savedFeedingPoints: [FeedingPoint] {
+        let points = context.feedingPointsService.storedFeedingPoints
+        let feedingPoints = points.map { point in
+            mapper.mapFeedingPoint(point.feedingPoint, isFavorite: point.isFavorite)
+        }
+        cachedFeedingPoints = feedingPoints
+        return applyFilter(cachedFeedingPoints)
+    }
 }
 
 // MARK: Private API
@@ -231,11 +247,6 @@ private extension HomeModel {
 
     enum Filter: String, LocalStorageKeysProtocol {
         case selectedId = "selectedFilterId"
-    }
-
-    var selectedFilter: HomeModel.FilterItemIdentifier {
-        let selectedId = context.defaultsService.value(key: Filter.selectedId) ?? 0
-        return HomeModel.FilterItemIdentifier(rawValue: selectedId) ?? .dogs
     }
 
     func applyFilter(_ points: [FeedingPoint]) -> [FeedingPoint] {

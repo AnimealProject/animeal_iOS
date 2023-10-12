@@ -54,11 +54,20 @@ class HomeViewController: UIViewController {
             self?.viewModel.refreshCurrentFeeding()
         }
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
         updateCameraEasePadding()
+    }
+
+    /// On view will appear passing the current selected tab to view model.
+    /// to help check if the view needs update in terms of displaying the feeding points on map + tab selection
+    /// - Parameter animated: if the transition was animated.
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let itemIdentifier = HomeModel.FilterItemIdentifier(rawValue: segmentedControl.selectedSegmentIndex) {
+            viewModel.updateSelectionIfNeeded(for: itemIdentifier)
+        }
     }
 }
 

@@ -9,6 +9,7 @@ extension FeedingUsers {
     case attributes
     case createdAt
     case updatedAt
+    case owner
   }
   
   public static let keys = CodingKeys.self
@@ -31,8 +32,9 @@ extension FeedingUsers {
     model.fields(
       .id(),
       .field(feedingUsers.attributes, is: .optional, ofType: .embeddedCollection(of: UserAttribute.self)),
-      .field(feedingUsers.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(feedingUsers.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+      .field(feedingUsers.createdAt, is: .optional, ofType: .string),
+      .field(feedingUsers.updatedAt, is: .optional, ofType: .string),
+      .field(feedingUsers.owner, is: .optional, ofType: .string)
     )
     }
 }
