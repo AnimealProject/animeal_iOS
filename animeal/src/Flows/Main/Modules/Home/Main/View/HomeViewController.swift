@@ -320,6 +320,7 @@ private extension HomeViewController {
     func toggleRouteAndTimer(isVisible: Bool) {
         if !isVisible {
             feedControl.stopTimer()
+            mapView.didChangeLocation = nil
             mapView.cancelRouteRequest()
         }
         segmentedControl.isHidden = isVisible
