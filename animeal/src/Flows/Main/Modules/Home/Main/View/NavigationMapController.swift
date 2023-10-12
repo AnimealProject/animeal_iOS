@@ -281,11 +281,8 @@ private extension NavigationMapController {
 // MARK: - LocationConsumer delegate conformance
 extension NavigationMapController: LocationConsumer {
     func locationUpdate(newLocation: MapboxMaps.Location) {
-        if currentRoute == nil {
-            didChangeLocation?(newLocation.location, true)
-        } else {
-            didChangeLocation?(newLocation.location, false)
-        }
+        if routeResponse == nil { return } // If no route no route draw.
+        didChangeLocation?(newLocation.location, currentRoute == nil)
     }
 }
 
