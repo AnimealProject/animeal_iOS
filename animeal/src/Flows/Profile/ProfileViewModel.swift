@@ -70,7 +70,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
         guard saveAction.appearance.isEnabled else {
             // User started to edit i.e. activated the edit mode but did not do any changes yet.
             // Exit from editing mode and stay on the same screen.
-            discardChanges()
+            coordinator.move(to: .cancel)
             return
         }
         // User has changes that can be saved alert him for changes.
@@ -84,6 +84,15 @@ final class ProfileViewModel: ProfileViewModelProtocol {
             ]
         )
         coordinator.displayAlert(viewAlert)
+    }
+    
+    func handleCancelButton() {
+        discardChanges()
+    }
+    
+    var didStartEditing: Bool {
+        // If there is no save action user didn't started to edit yet.
+        saveAction != nil
     }
 
     /// Discards current set of changes and updates the profile view to the intial state.
@@ -328,5 +337,10 @@ private extension ProfileViewModel {
     /// checks the action list and retruns the save action if available
     var saveAction: ProfileModelSaveAction? {
         modelActions.compactMap { $0 as? ProfileModelSaveAction }.first
+    }
+    
+    /// checks the action list and retruns the edit action if available
+    var editAction: ProfileModelEditAction? {
+        modelActions.compactMap { $0 as? ProfileModelEditAction }.first
     }
 }

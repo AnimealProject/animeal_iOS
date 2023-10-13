@@ -7,6 +7,7 @@ protocol ProfileViewable: AnyObject {
     func applyItemsSnapshot(_ viewItemsSnapshot: ProfileViewItemsSnapshot) 
     func applyActions(_ viewActions: [ProfileViewAction])
     func applyConfiguration(_ viewConfiguration: ProfileViewConfiguration)
+    func shouldShowCancelButton(_ shouldShow: Bool)
 }
 
 // MARK: - ViewModel
@@ -25,6 +26,7 @@ protocol ProfileViewInteraction: AnyObject {
     func handleItemEvent(_ event: ProfileViewItemEvent) -> ProfileViewText
     func handleActionEvent(_ event: ProfileViewActionEvent)
     func handleBackButton()
+    func handleCancelButton()
 }
 
 @MainActor
@@ -33,6 +35,7 @@ protocol ProfileViewState: AnyObject {
     var onItemsHaveBeenPrepared: ((ProfileViewItemsSnapshot) -> Void)? { get set }
     var onActionsHaveBeenPrepared: (([ProfileViewAction]) -> Void)? { get set }
     var onConfigurationHasBeenPrepared: ((ProfileViewConfiguration) -> Void)? { get set }
+    var didStartEditing: Bool { get }
 }
 
 // MARK: - Model
