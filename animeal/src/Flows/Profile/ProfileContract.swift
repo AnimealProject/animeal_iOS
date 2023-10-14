@@ -4,7 +4,7 @@ import Foundation
 @MainActor
 protocol ProfileViewable: AnyObject {
     func applyHeader(_ viewHeader: ProfileViewHeader)
-    func applyItemsSnapshot(_ viewItemsSnapshot: ProfileViewItemsSnapshot) 
+    func applyItemsSnapshot(_ viewItemsSnapshot: ProfileViewItemsSnapshot)
     func applyActions(_ viewActions: [ProfileViewAction])
     func applyConfiguration(_ viewConfiguration: ProfileViewConfiguration)
     func shouldShowCancelButton(_ shouldShow: Bool)

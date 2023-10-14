@@ -8,7 +8,7 @@ extension AttachPhotoView {
         public let hintTitle: String
         public let buttonTitle: String
         public let isActive: Bool
-    
+
         public init(
             placeTitle: String?,
             placeImage: UIImage?,

@@ -10,7 +10,6 @@ final class FeedingFinishedViewModel: FeedingFinishedViewModelLifeCycle, Feeding
     init(
         model: FeedingFinishedModelProtocol,
         coordinator: FeedingFinishedCoordinatable
-
     ) {
         self.model = model
         self.coordinator = coordinator

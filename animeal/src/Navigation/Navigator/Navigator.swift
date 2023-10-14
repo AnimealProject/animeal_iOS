@@ -70,7 +70,7 @@ public final class Navigator: Navigating {
     // MARK: - Push navigation
     func push(_ viewController: UIViewController, animated: Bool, completion: (() -> Void)?) {
         viewController.navigationItem.backButtonDisplayMode = .minimal
-        
+
         guard let completionClosure = completion else {
             navigationController?.pushViewController(viewController, animated: animated)
             return

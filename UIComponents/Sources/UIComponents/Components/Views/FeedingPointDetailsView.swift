@@ -27,7 +27,7 @@ public final class FeedingPointDetailsView: UIView {
         )
         imageView.isHighlighted = model.isHighlighted
     }
-    
+
     public func configureFavorite(_ model: Model) {
         imageView.image = Asset.Images.heartIcon.image
         imageView.highlightedImage = Asset.Images.heartIcon.image.withTintColor(
@@ -47,7 +47,7 @@ public final class FeedingPointDetailsView: UIView {
     public func reset() {
         imageView.isHighlighted = false
     }
-    
+
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 

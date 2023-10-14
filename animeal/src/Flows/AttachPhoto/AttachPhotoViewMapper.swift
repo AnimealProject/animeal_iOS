@@ -26,7 +26,6 @@ final class AttachPhotoViewMapper: AttachPhotoViewMappable {
         }
         return AttachPhotoMediaContent(placeIcon: icon)
     }
-    
 }
 
 extension AttachPhotoViewMapper {
@@ -34,7 +33,7 @@ extension AttachPhotoViewMapper {
         let name: String
         let image: UIImage
     }
-    
+
     struct AttachPhotoMediaContent {
         var placeIcon: UIImage
     }

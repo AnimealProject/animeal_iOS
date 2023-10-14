@@ -121,8 +121,8 @@ final class ProfileModelDiscardChangesAction: ProfileModelAction {
             validateItems: validateItems
         )
     }
-    
-    
+
+
     @discardableResult
     /// Reset the model to it's last known state. i.e. read only.
     /// - Returns: ProfileModelIntermediateStep. None for this case and there is no step after discarding the changes.

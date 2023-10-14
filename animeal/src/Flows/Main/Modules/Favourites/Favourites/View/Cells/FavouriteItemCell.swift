@@ -19,10 +19,10 @@ public final class FavouriteItemCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        
+
         apply(style: .cell)
         containerView.apply(style: .container)
         favouriteImageView.apply(style: .favouriteImage)
@@ -62,12 +62,12 @@ private extension FavouriteItemCell {
         containerView.trailingAnchor ~= safeArea.trailingAnchor - 30.0
         containerView.topAnchor ~= safeArea.topAnchor + 10.0
         containerView.bottomAnchor ~= safeArea.bottomAnchor - 10.0
-        
+
         containerView.addSubview(infoView.prepareForAutoLayout())
         infoView.leadingAnchor ~= containerView.leadingAnchor + 10.0
         infoView.topAnchor ~= containerView.topAnchor + 10.0
         infoView.bottomAnchor ~= containerView.bottomAnchor - 10.0
-        
+
         containerView.addSubview(favouriteImageView.prepareForAutoLayout())
         favouriteImageView.heightAnchor ~= 32.0
         favouriteImageView.widthAnchor ~= 32.0

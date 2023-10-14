@@ -151,13 +151,13 @@ private extension AttachPhotoViewController {
             self?.applySnapshot(viewSnapshot)
             self?.updateContent(with: !viewSnapshot.itemIdentifiers.isEmpty)
         }
-        
+
         viewModel.onCameraPermissionCustomRequired = { [weak self] in
             Task {
                 await self?.openSettings()
             }
         }
-                
+
         viewModel.onAttachPhotoActionHaveBeenPrepared = { [weak self] action in
             self?.handleAttachPhotoAction(action)
         }
@@ -190,7 +190,7 @@ private extension AttachPhotoViewController {
 }
 
 extension AttachPhotoViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         picker.dismiss(animated: true)
 
         guard let image = info[.editedImage] as? UIImage else {
@@ -206,7 +206,7 @@ extension AttachPhotoViewController: UINavigationControllerDelegate, UIImagePick
 }
 
 private extension AttachPhotoViewController {
-    //MARK: - Save image
+    // MARK: - Save image
     func saveImage(imageTake: UIImage) {
         UIImageWriteToSavedPhotosAlbum(
             imageTake,
@@ -215,8 +215,8 @@ private extension AttachPhotoViewController {
             nil
         )
     }
-    
-    //MARK: - Save Image callback
+
+    // MARK: - Save Image callback
     @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
         if let error = error {
             print(error.localizedDescription)
@@ -224,17 +224,17 @@ private extension AttachPhotoViewController {
             print("Success")
         }
     }
-    
-    //MARK: - Open settings to update permissions
+
+    // MARK: - Open settings to update permissions
     func openSettings() async {
         guard let url = URL(string: UIApplication.openSettingsURLString),
               UIApplication.shared.canOpenURL(url) else {
             return
         }
-        
+
         await UIApplication.shared.open(url)
     }
-    
+
     func handleAttachPhotoAction(_ action: AttachPhotoModel.AttachPhotoAction) {
         let alertViewController = AlertViewController(title: action.title)
 
@@ -254,7 +254,7 @@ private extension AttachPhotoViewController {
                     alertViewController.dismiss(animated: true)
                 }
             }
-            
+
             alertViewController.addAction(
                 AlertAction(
                     title: attachPhotoAction.title,

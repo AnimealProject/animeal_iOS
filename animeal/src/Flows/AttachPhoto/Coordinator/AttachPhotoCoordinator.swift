@@ -46,7 +46,7 @@ final class AttachPhotoCoordinator: Coordinatable, AttachPhotoCoordinatorEventHa
     }
 }
 
-extension AttachPhotoCoordinator: AttachPhotoCoordinatable {    
+extension AttachPhotoCoordinator: AttachPhotoCoordinatable {
     func routeTo(_ route: AttachPhotoRoute) {
         switch route {
         case .deletePhoto(let image):

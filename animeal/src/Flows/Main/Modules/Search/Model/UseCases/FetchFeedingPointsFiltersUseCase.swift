@@ -1,5 +1,5 @@
 import Foundation
 
 protocol FetchFeedingPointsFiltersUseCaseLogic {
-    func callAsFunction() -> [SearchModelFilter] 
+    func callAsFunction() -> [SearchModelFilter]
 }

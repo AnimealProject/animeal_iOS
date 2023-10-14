@@ -19,7 +19,7 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
     var onFavoriteMutationFailed: (() -> Void)?
     var onFavoriteMutation: (() -> Void)?
     var onRequestLocationAccess: (() -> Void)?
-    var historyInitialized: Bool = false
+    var historyInitialized = false
 
     // TODO: Move this strange logic to model
     let isOverMap: Bool

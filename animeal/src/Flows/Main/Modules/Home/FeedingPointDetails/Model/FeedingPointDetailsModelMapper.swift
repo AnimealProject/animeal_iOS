@@ -125,12 +125,11 @@ private extension DateFormatter {
         formatter.unitsStyle = .full
         return formatter
     }()
-    
+
     static let relativeShort: DateComponentsFormatter = {
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.hour, .minute]
         formatter.unitsStyle = .short
         return formatter
     }()
-    
 }

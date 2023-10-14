@@ -10,7 +10,7 @@ final class MoreCoordinator: Coordinatable, ActivityDisplayable, AlertCoordinata
     private var backwardEvent: HomeFlowBackwardEvent?
 
     private let tabBarVisibilityHandler: TabBarVisiblityHandler
-    
+
     let activityPresenter = ActivityIndicatorPresenter()
 
     // MARK: - Navigator
@@ -136,17 +136,17 @@ extension MoreCoordinator {
     class TabBarVisiblityHandler: NSObject, UINavigationControllerDelegate {
         init(navigationController: UINavigationController?) {
             super.init()
-            
+
             navigationController?.delegate = self
         }
-        
+
         func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
             let isInteractiveTransition = navigationController.interactivePopGestureRecognizer?.state == .began
             guard !isInteractiveTransition else { return }
             let isHidden = navigationController.viewControllers.first != viewController
             navigationController.customTabBarController?.setTabBarHidden(isHidden, animated: animated)
         }
-        
+
         func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
             guard navigationController.viewControllers.count == 1 else { return }
             navigationController.customTabBarController?.setTabBarHidden(false, animated: animated)

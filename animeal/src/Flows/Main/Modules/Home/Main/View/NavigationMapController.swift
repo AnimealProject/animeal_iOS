@@ -55,7 +55,7 @@ class NavigationMapController: NavigationViewControllerDelegate {
     }()
 
     var cameraAnimationQueue: [() -> Void] = []
-    
+
     var cameraEasePadding: UIEdgeInsets = .zero
 
     // MARK: - Initialization
@@ -78,7 +78,7 @@ class NavigationMapController: NavigationViewControllerDelegate {
             }
             self?.cameraAnimationQueue.removeAll()
         }
-        
+
         annotationManager.point.delegate = self
     }
 
@@ -98,7 +98,7 @@ class NavigationMapController: NavigationViewControllerDelegate {
     func easeToUserLocation() {
         easeToLocation(navigationMapView.mapView.location.latestLocation?.coordinate, duration: 0)
     }
-    
+
     private func camera(for coordinates: [CLLocationCoordinate2D]) -> CameraOptions {
         mapboxMap.camera(for: coordinates, padding: cameraEasePadding, bearing: 0, pitch: 0)
     }
@@ -116,19 +116,19 @@ class NavigationMapController: NavigationViewControllerDelegate {
             completion: completion
         )
     }
-    
+
     func easeToLocations(
         _ locationCoordinates: [CLLocationCoordinate2D],
         duration: TimeInterval,
         curve: UIView.AnimationCurve = .easeOut,
         completion: AnimationCompletion? = nil
     ) {
-        
+
         if locationCoordinates.count == 1, let locationCoordinate = locationCoordinates.first {
             easeToLocation(locationCoordinate, duration: duration, curve: curve, completion: completion)
             return
         }
-        
+
         navigationMapView.mapView.camera.ease(
             to: camera(for: locationCoordinates),
             duration: duration,
@@ -136,7 +136,7 @@ class NavigationMapController: NavigationViewControllerDelegate {
             completion: completion
         )
     }
-    
+
     func easeToAnnotations(
         _ annotations: [Annotation],
         duration: TimeInterval,
@@ -152,13 +152,13 @@ class NavigationMapController: NavigationViewControllerDelegate {
                 case .polygon(let polygon):
                     guard let center = polygon.center else { return }
                     let coordinates = polygon.coordinates.flatMap { $0 }
-                    
+
                     let containsSameCenter = result.contains { $0.distance(to: center) < 5 }
                     guard containsSameCenter else {
                         result.append(contentsOf: coordinates)
                         return
                     }
-                    
+
                     let radius = coordinates.first?.distance(to: center) ?? 0
                     // append only polygons with distance to center or radius greater that 30 meters
                     guard radius > 30 else { return }
@@ -167,10 +167,10 @@ class NavigationMapController: NavigationViewControllerDelegate {
                     assertionFailure("Not supported geometry, \(annotation.geometry)")
                 }
             }
-            
+
             result.append(contentsOf: coordinates)
         }
-        
+
         easeToLocations(coordinates, duration: duration, curve: curve, completion: completion)
     }
 
@@ -199,12 +199,12 @@ class NavigationMapController: NavigationViewControllerDelegate {
         }
         return closestLocation?.coordinate
     }
-    
+
     func setAnnotations(_ annotations: [Annotation]) {
         annotationManager.point.annotations = annotations.compactMap { $0 as? PointAnnotation }
         annotationManager.polygon.annotations = annotations.compactMap { $0 as? PolygonAnnotation }
     }
-    
+
     func getAnnotations(for ids: [String]) -> [Annotation] {
         (annotationManager.point.annotations + annotationManager.polygon.annotations)
             .filter { ids.contains($0.id) }

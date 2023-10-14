@@ -17,7 +17,7 @@ final class ToggleFavoriteFeedingPointUseCase: ToggleFavoriteFeedingPointUseCase
     ) {
         self.feedingPointsService = feedingPointsService
     }
-    
+
     func callAsFunction(byIdentifier identifier: String) async {
         do {
             try await feedingPointsService.toggleFavorite(byIdentifier: identifier)

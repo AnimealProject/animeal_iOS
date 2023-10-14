@@ -79,10 +79,10 @@ final class ShimmerGradientAnimatedView: UIView {
     func stopAnimation() {
         gradientLayer.removeAllAnimations()
     }
-    
+
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        
+
         updateColors()
     }
 }

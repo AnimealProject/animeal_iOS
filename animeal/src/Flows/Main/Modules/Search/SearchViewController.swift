@@ -55,7 +55,7 @@ final class SearchViewController: UIViewController, SearchViewable {
         super.viewDidLoad()
         view.addGestureRecognizer(UITapGestureRecognizer(target: view,
                                                          action: #selector(UIView.endEditing(_:))))
-        
+
         setup()
         bind()
     }
@@ -210,7 +210,7 @@ private extension SearchViewController {
 
         collectionView.delegate = self
         collectionView.backgroundColor = designEngine.colors.backgroundPrimary
-        
+
         collectionView.keyboardDismissMode = .onDrag
     }
 

@@ -13,11 +13,11 @@ public extension CameraServiceProtocol {
             return AVCaptureDevice.authorizationStatus(for: .video)
         }
     }
-    
+
     func requestCameraPermissionNative() async {
         await AVCaptureDevice.requestAccess(for: .video)
     }
-    
+
     func grantCameraPermission(customRequest: (() -> Void)? = nil) -> Bool {
         switch cameraAuthorizationStatus {
         case .authorized:
@@ -29,11 +29,11 @@ public extension CameraServiceProtocol {
         default:
             customRequest?()
         }
-        
+
         return cameraAuthorizationStatus == .authorized
     }
 }
 
-public final class CameraService: CameraServiceProtocol { 
+public final class CameraService: CameraServiceProtocol {
     public init() {}
 }

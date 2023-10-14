@@ -14,7 +14,7 @@ final class FAQModel: FAQModelProtocol {
         self.context = context
         self.mapper = mapper
     }
-    
+
     func fetchQuestions() async throws -> [Question] {
         let questions = try await context.networkService.query(request: .list(animeal.Question.self))
         return questions.map(mapper.mapQuestion)

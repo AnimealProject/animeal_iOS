@@ -19,14 +19,14 @@ final class DefaultRangeCalculator {
             in: range,
             patternSymbol: patternSymbol
         )
-        
+
         return currentText.getRangeWithOffsets(
             sourceRange: range,
             lowerBoundOffset: -numberOfFormatCharsBeforeRange,
             upperBoundOffset: -numberOfFormatCharsInRange
         )
     }
-    
+
     private func getNumberOfFormatChars(
         textPattern: String,
         text: String,
@@ -41,7 +41,7 @@ final class DefaultRangeCalculator {
         }
         return result
     }
-    
+
     private func getNumberOfFormatChars(
         textPattern: String,
         text: String,
@@ -51,7 +51,7 @@ final class DefaultRangeCalculator {
         let textSlice = text.slice(in: range)
         let textPatternRange = textPattern.getSameRange(asIn: text, sourceRange: range)
         let patternSlice = textPattern.slice(in: textPatternRange)
-        
+
         var result = 0
         for (textSliceCharIndex, textSliceChar) in textSlice.enumerated() {
             let isSameCharacter = patternSlice.isSameCharacter(at: textSliceCharIndex, character: textSliceChar)

@@ -15,7 +15,7 @@ final class LeaderboardCoordinator: Coordinatable {
     private var backwardEvent: HomeFlowBackwardEvent?
 
     // MARK: - Initialization
-    init(navigator: Navigator,completion: ((HomeFlowBackwardEvent?) -> Void)? = nil) {
+    init(navigator: Navigator, completion: ((HomeFlowBackwardEvent?) -> Void)? = nil) {
         self.navigator = navigator
         self.completion = completion
     }
