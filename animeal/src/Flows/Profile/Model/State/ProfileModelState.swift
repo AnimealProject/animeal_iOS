@@ -10,6 +10,7 @@ protocol ProfileModelStateMutableProtocol: ProfileModelStateProtocol {
     func updateItems(_ items: [ProfileModelItem]) async
     func updateIdentityItems(_ items: [ProfileModelItem]) async
     func updateChangedItemsTypes(_ types: Set<ProfileItemType>) async
+    func resetIndentityItems() async
 }
 
 actor ProfileModelState: ProfileModelStateMutableProtocol {
@@ -38,6 +39,11 @@ actor ProfileModelState: ProfileModelStateMutableProtocol {
 
     func updateChangedItemsTypes(_ types: Set<ProfileItemType>) {
         self.changedItemsTypes = types
+    }
+
+    func resetIndentityItems() {
+        self.items = self.identityItems
+        self.changedItemsTypes = .init()
     }
 }
 

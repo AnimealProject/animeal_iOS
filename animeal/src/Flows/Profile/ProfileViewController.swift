@@ -60,6 +60,7 @@ final class ProfileViewController: BaseViewController, ProfileViewable {
 
     func applyActions(_ viewActions: [ProfileViewAction]) {
         buttonsView.configure(viewActions.map { $0.buttonView })
+        shouldShowCancelButton(viewModel.didStartEditing)
     }
 
     func applyConfiguration(_ viewConfiguration: ProfileViewConfiguration) {
@@ -71,9 +72,16 @@ final class ProfileViewController: BaseViewController, ProfileViewable {
         }
     }
 
-    @objc
-    private func backTapped() {
+    @objc private func backTapped() {
         viewModel.handleBackButton()
+    }
+    @objc private func cancelTapped() {
+        viewModel.handleCancelButton()
+    }
+    
+    func shouldShowCancelButton(_ shouldShow: Bool) {
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
+        navigationItem.rightBarButtonItem = shouldShow ? cancelButton : nil
     }
 }
 

@@ -62,26 +62,51 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     // MARK: - Interaction
 
     func handleBackButton() {
-        let canSave = modelActions.first(where: {
-            ($0 as? ProfileModelSaveAction)?.appearance.isEnabled == true
-        }) != nil
-        guard canSave else {
+        guard let saveAction = saveAction else {
+            // User didn't start to edit. Safe to go back
             coordinator.move(to: .cancel)
             return
         }
-
+        guard saveAction.appearance.isEnabled else {
+            // User started to edit i.e. activated the edit mode but did not do any changes yet.
+            // Exit from editing mode and stay on the same screen.
+            coordinator.move(to: .cancel)
+            return
+        }
+        // User has changes that can be saved alert him for changes.
         let viewAlert = ViewAlert(
             title: L10n.Profile.DiscardEdits.dialogHeader,
             actions: [
                 .no(),
                 .yes { [weak self] in
-                    self?.coordinator.move(to: .cancel)
+                    self?.discardChanges()
                 }
             ]
         )
         coordinator.displayAlert(viewAlert)
     }
+    
+    func handleCancelButton() {
+        discardChanges()
+    }
+    
+    var didStartEditing: Bool {
+        // If there is no save action user didn't started to edit yet.
+        saveAction != nil
+    }
 
+    /// Discards current set of changes and updates the profile view to the intial state.
+    func discardChanges() {
+        updateViewItems(animated: false, resetPreviousItems: false) { [weak self] in
+            guard let self = self else {
+                return try await self?.model.fetchCachedItems() ?? []
+            }
+            modelActions = try await model.discardAction()
+            let viewActions = modelActions.map(ProfileViewAction.init)
+            onActionsHaveBeenPrepared?(viewActions)
+            return try await model.fetchCachedItems()
+        }
+    }
     @discardableResult
     func handleItemEvent(_ event: ProfileViewItemEvent) -> ProfileViewText {
         switch event {
@@ -305,4 +330,17 @@ private extension DateFormatter {
         item.dateFormat = "dd MMM, yyyy"
         return item
     }()
+}
+
+// MARK: - Check profile screen modes
+private extension ProfileViewModel {
+    /// checks the action list and retruns the save action if available
+    var saveAction: ProfileModelSaveAction? {
+        modelActions.compactMap { $0 as? ProfileModelSaveAction }.first
+    }
+    
+    /// checks the action list and retruns the edit action if available
+    var editAction: ProfileModelEditAction? {
+        modelActions.compactMap { $0 as? ProfileModelEditAction }.first
+    }
 }

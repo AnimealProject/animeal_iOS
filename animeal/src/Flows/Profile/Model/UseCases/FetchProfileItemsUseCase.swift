@@ -10,7 +10,7 @@ protocol FetchProfileItemsUseCaseLogic {
     func callAsFunction(_ identifier: String) async -> ProfileModelItem?
 }
 
-protocol FetchProfileItemRequiredActionUseCaseLogic {
+protocol FetchProfileItemRequiredActionUseCase {
     typealias ProfileItemRequiredAction = PhoneModelRequiredAction
 
     func callAsFunction(forIdentifier identifier: String) async -> ProfileItemRequiredAction?
@@ -18,8 +18,6 @@ protocol FetchProfileItemRequiredActionUseCaseLogic {
 
 protocol UpdateProfileItemsUseCaseLogic {
     func callAsFunction(_ text: String?, forIdentifier identifier: String) async
-    func callAsFunction(_ state: ProfileItemState, forIdentifier identifier: String) async
-    func callAsFunction(_ type: ProfileItemType, forIdentifier identifier: String) async
 }
 
 protocol ValidateProfileItemsUseCaseLogic {
@@ -31,7 +29,7 @@ final class FetchProfileItemsUseCase {
     private let profileService: UserProfileServiceProtocol
     private let phoneNumberProcessor: PhoneNumberRegionRecognizable
     private let dateFormatter = DateFormatter()
-    
+
     init(
         state: ProfileModelStateMutableProtocol,
         profileService: UserProfileServiceProtocol,
@@ -41,11 +39,51 @@ final class FetchProfileItemsUseCase {
         self.profileService = profileService
         self.phoneNumberProcessor = phoneNumberProcessor
     }
+
+    // MARK: - Private methods
+    /// update state i.e. error state / Normal state for a given identifier of the profile items, this updates the items. Identity items are un touched.
+    /// - Parameters:
+    ///   - itemState: the state of the profile item. i.e. error / normal
+    ///   - identifier: Identifer of the particular profile item which was updated.
+    private func callAsFunction(_ itemState: ProfileItemState, forIdentifier identifier: String) async {
+        var items = await state.items
+        guard
+            let itemIndex = items.firstIndex(where: { $0.identifier == identifier })
+        else { return }
+        
+        var value = items[itemIndex]
+        value.state = itemState
+        items[itemIndex] = value
+        
+        await state.updateItems(items)
+    }
+    
+    /// update type i.e. if the item is of type phone number OR email OR dirthdate, this updates the items. Identity items are un touched.
+    /// - Parameters:
+    ///   - type: the type of the profile item. i.e. name / surname / email / birthdate
+    ///   - identifier: Identifer of the particular profile item which was updated.
+    private func callAsFunction(_ type: ProfileItemType, forIdentifier identifier: String) async {
+        var items = await state.items
+        guard
+            let itemIndex = items.firstIndex(where: { $0.identifier == identifier })
+        else { return }
+        
+        var value = items[itemIndex]
+        value.type = type
+        items[itemIndex] = value
+        
+        await state.updateItems(items)
+    }
 }
 
 extension FetchProfileItemsUseCase: FetchProfileItemsUseCaseLogic {
+
+    /// Fetch profile data from AWS Auth API, fill up the parsed data into the profile model state, also updates the items and identity items to equal.
+    /// If we have any user state or profile data available. it updates it.
+    /// - Parameter force: True OR False, if it is true then the API calls is done for sure. If it is flase the API call is not done.
+    /// - Returns: Profile Model Item. this is the updated model.
     func callAsFunction(force: Bool) async throws -> [ProfileModelItem] {
-        var isFacebook: Bool = false
+        var isFacebook = false
         let items = await state.items
         guard force else { return items }
         let userAttributes = try await profileService.fetchUserAttributes()
@@ -62,7 +100,7 @@ extension FetchProfileItemsUseCase: FetchProfileItemsUseCaseLogic {
                 isFacebook = true
             }
         }
-        
+
         let filledItems = items.map {
             let key = $0.type.userAttributeKey
             var item = $0
@@ -91,13 +129,18 @@ extension FetchProfileItemsUseCase: FetchProfileItemsUseCaseLogic {
         await state.updateItems(filledItems)
         return filledItems
     }
-
+    /// Checks the items in the state list, return the item as per identifier. No modifcation of data here.
+    /// - Parameter identifier: identifier of the profile item. `ProfileModelItem`
+    /// - Returns: retruns the `ProfileModelItem` from the list of items.
     func callAsFunction(_ identifier: String) async -> ProfileModelItem? {
         await state.items.first { $0.identifier == identifier }
     }
 }
 
-extension FetchProfileItemsUseCase: FetchProfileItemRequiredActionUseCaseLogic {
+extension FetchProfileItemsUseCase: FetchProfileItemRequiredActionUseCase {
+    /// checks for a given item having the desired identifier. Perfoms another check where if the identifier is a phone componect opens up a picker to choose region. it helps to open the picker view controller with the given model.
+    /// - Parameter identifier: identifier of the profile item / component. ideally should be a phone component only.
+    /// - Returns: returns an `ProfileItemRequiredAction` this is same as `PhoneModelRequiredAction` \
     func callAsFunction(forIdentifier identifier: String) async -> ProfileItemRequiredAction? {
         let items = await state.items
         guard
@@ -118,6 +161,10 @@ extension FetchProfileItemsUseCase: FetchProfileItemRequiredActionUseCaseLogic {
 }
 
 extension FetchProfileItemsUseCase: UpdateProfileItemsUseCaseLogic {
+    /// update text / main value for a given identifier of the profile items, this updates the items and the changed item types. Identity items are un touched yet.
+    /// - Parameters:
+    ///   - text: the value of the profile item. for name is the updated name, for email it's the updated email.
+    ///   - identifier: Identifer of the particular profile item which was updated.
     func callAsFunction(_ text: String?, forIdentifier identifier: String) async {
         var items = await state.items
         guard
@@ -134,35 +181,12 @@ extension FetchProfileItemsUseCase: UpdateProfileItemsUseCaseLogic {
         await state.updateItems(items)
         await state.updateChangedItemsTypes(changedItemsTypes)
     }
-
-    func callAsFunction(_ itemState: ProfileItemState, forIdentifier identifier: String) async {
-        var items = await state.items
-        guard
-            let itemIndex = items.firstIndex(where: { $0.identifier == identifier })
-        else { return }
-
-        var value = items[itemIndex]
-        value.state = itemState
-        items[itemIndex] = value
-
-        await state.updateItems(items)
-    }
-
-    func callAsFunction(_ type: ProfileItemType, forIdentifier identifier: String) async {
-        var items = await state.items
-        guard
-            let itemIndex = items.firstIndex(where: { $0.identifier == identifier })
-        else { return }
-
-        var value = items[itemIndex]
-        value.type = type
-        items[itemIndex] = value
-
-        await state.updateItems(items)
-    }
 }
 
 extension FetchProfileItemsUseCase: ValidateProfileItemsUseCaseLogic {
+    /// Loops through all the profile elements to validate and update state  i.e. the error state or normal state conditionally, if the update check param is true + the changed item is in the `changedItemsTypes` set, only then the state is updated. Identity items are un touched.
+    /// - Parameter updateState: true of the state of the item should update. does the validaty check anyways. does not throw any error.
+    /// - Returns: true if the update to all the items happenned successfully.
     func callAsFunction(updateState: Bool) async -> Bool {
         let items = await state.items
 
@@ -185,7 +209,7 @@ extension FetchProfileItemsUseCase: ValidateProfileItemsUseCaseLogic {
                 return false
             }
         }
-
+        // Check if all the items did update successfully.
         return result.allSatisfy { $0 }
     }
 }

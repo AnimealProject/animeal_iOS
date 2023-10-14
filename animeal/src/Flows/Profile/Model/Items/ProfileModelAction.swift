@@ -90,7 +90,45 @@ final class ProfileModelCancelAction: ProfileModelAction {
     }
 
     func execute() async throws -> ProfileModelIntermediateStep? {
-        .cancel({ [weak self] in try await self?.authenticationService.signOut() })
+        .cancel { [weak self] in
+            try await self?.authenticationService.signOut()
+        }
+    }
+}
+
+final class ProfileModelDiscardChangesAction: ProfileModelAction {
+    // MARK: - Dependencies
+    private let state: ProfileModelStateMutableProtocol
+    private let validateItems: ValidateProfileItemsUseCaseLogic
+
+    // MARK: - Appearance
+    let appearance: ProfileModelActionAppearance
+
+    // MARK: - Initialization
+    init(state: ProfileModelStateMutableProtocol, validateItems: ValidateProfileItemsUseCaseLogic) {
+        self.state = state
+        self.validateItems = validateItems
+        self.appearance = .edit
+    }
+
+    // MARK: - Logic
+    // On update shoud return the next available action.
+    // Since discard changes resets the profile page to previous state.
+    // Return the next available action as edit action
+    func update(_ trigger: ProfileModelActionUpdateTrigger) async -> ProfileModelAction {
+        return ProfileModelEditAction(
+            state: state,
+            validateItems: validateItems
+        )
+    }
+    
+    
+    @discardableResult
+    /// Reset the model to it's last known state. i.e. read only.
+    /// - Returns: ProfileModelIntermediateStep. None for this case and there is no step after discarding the changes.
+    func execute() async -> ProfileModelIntermediateStep? {
+        await state.resetIndentityItems()
+        return .none
     }
 }
 
