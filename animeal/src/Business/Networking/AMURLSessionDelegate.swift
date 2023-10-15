@@ -11,7 +11,7 @@ import AWSAPIPlugin
 public typealias AuthChallengeDispositionHandler = (URLSession.AuthChallengeDisposition, URLCredential?) -> Void
 
 class AMURLSessionDelegate: NSObject {
-    
+
     private let amplifyDelegate: URLSessionBehaviorDelegate?
 
     private var responseDateFormatter: DateFormatter = {

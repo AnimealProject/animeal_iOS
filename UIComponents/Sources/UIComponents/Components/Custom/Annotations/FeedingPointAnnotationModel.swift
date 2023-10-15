@@ -12,11 +12,11 @@ public struct FeedingPointAnnotationModel {
         case medium
         case low
     }
-    
+
     public let identifier: String
     public let kind: Kind
     public let hungerLevel: HungerLevel
-    
+
     public init(
         identifier: String,
         kind: Kind,

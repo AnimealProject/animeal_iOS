@@ -12,7 +12,7 @@ public extension FeedingPointAnnotationModel {
         annotation.fillOutlineColor = .init(Asset.Colors.carminePink.color.withAlphaComponent(0.32))
         return annotation
     }
-    
+
     func annotation(at coordinates: CLLocationCoordinate2D) -> Annotation {
         var annotation = PointAnnotation(id: identifier, coordinate: coordinates)
         annotation.image = .init(image: image, name: "\(kind)_\(hungerLevel)")
@@ -27,15 +27,14 @@ extension FeedingPointAnnotationModel {
         case (.dog, .high): return Asset.Images.dogHungryHigh.image
         case (.dog, .medium): return Asset.Images.dogHungryMedium.image
         case (.dog, .low): return Asset.Images.dogHungryLow.image
-            
+
         case (.cat, .high): return Asset.Images.catHungryHigh.image
         case (.cat, .medium): return Asset.Images.catHungryMedium.image
         case (.cat, .low): return Asset.Images.catHungryLow.image
-            
+
         case (.fav, .high): return Asset.Images.favouriteHungryHigh.image
         case (.fav, .medium): return Asset.Images.favouriteHungryMedium.image
         case (.fav, .low): return Asset.Images.favouriteHungryLow.image
         }
     }
 }
-

@@ -63,7 +63,7 @@ public enum AuthenticationDetailedError: Error {
 
     /// Request was not completed because of any network related issue
     case network
-    
+
     /// SMS role related issue
     case smsRole
 

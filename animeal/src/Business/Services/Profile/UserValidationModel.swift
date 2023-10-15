@@ -23,7 +23,7 @@ final class UserValidationModel: UserProfileValidationModel {
 
     // MARK: - UserProfileValidationModel
     var validated: Bool { phoneNumberVerified && areAllNecessaryFieldsFilled }
-    
+
     func handleUserAttributesEvent(_ attributes: [UserProfileAttribute]) {
         var attributes = attributes.reduce([UserProfileAttributeKey: String]()) { partialResult, attribute in
             var result = partialResult

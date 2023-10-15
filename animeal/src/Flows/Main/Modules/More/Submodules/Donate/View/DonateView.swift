@@ -3,7 +3,7 @@ import SwiftUI
 import Kingfisher
 
 struct DonateView<ViewModel: DonateViewModelProtocol>: View {
-    
+
     // MARK: - UI Constants
 
     private enum Constants {
@@ -16,7 +16,7 @@ struct DonateView<ViewModel: DonateViewModelProtocol>: View {
 
     @EnvironmentObject var designEngine: StyleEngine
     @ObservedObject var viewModel: ViewModel
-    
+
     var body: some View {
         GeometryReader { geometry in
             ScrollView(.vertical) {
@@ -50,17 +50,17 @@ struct DonateView<ViewModel: DonateViewModelProtocol>: View {
         .fixedSize(horizontal: false, vertical: true)
         .foregroundColor(designEngine.colors.textPrimary.color)
     }
-    
+
     private var picture: some View {
         Image(asset: Asset.Images.donatePhoto)
-            .aspectRatio(1/2, contentMode: .fill)
+            .aspectRatio(1 / 2, contentMode: .fill)
             .cornerRadius(12)
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
                     .stroke(designEngine.colors.backgroundSecondary.color, lineWidth: .pixel)
             )
     }
-    
+
     private var paymentMethodsContent: some View {
         ForEach($viewModel.paymentMethodsItems) { item in
             PaymentMethodRow(
@@ -74,7 +74,7 @@ struct DonateView<ViewModel: DonateViewModelProtocol>: View {
             .frame(maxWidth: .infinity)
         }
     }
-    
+
     private var footerText: some View {
         Text(L10n.Donate.Footer.text)
             .font(designEngine.fonts.primary.regular(16)?.font)
@@ -89,7 +89,7 @@ extension DonateView {
         @EnvironmentObject var designEngine: StyleEngine
         @Binding var item: PaymentMethodViewItem
         let copyTapped: () -> Void
-        
+
         var body: some View {
             VStack(alignment: .leading, spacing: 0) {
                 Text(item.name)
@@ -98,18 +98,18 @@ extension DonateView {
                     .fixedSize(horizontal: false, vertical: true)
                     .frame(height: 14 * 1.5)
                     .padding(.bottom, 2)
-                
+
                 HStack(alignment: .center, spacing: 0) {
                     icon
                         .padding(.vertical, 15)
                         .padding(.leading, 18)
                         .padding(.trailing, 16)
-                    
+
                     Text(item.details)
                         .font(designEngine.fonts.primary.light(16)?.font)
                         .foregroundColor(designEngine.colors.textPrimary.color)
                         .lineLimit(1)
-                    
+
                     Spacer()
                     Button(action: copyTapped) {
                         Image(asset: Asset.Images.copy)
@@ -125,7 +125,7 @@ extension DonateView {
                 )
             }
         }
-        
+
         var icon: some View {
             KFImage(item.iconURL)
                 .loadDiskFileSynchronously()

@@ -74,7 +74,6 @@ private extension AppDelegate {
                                      delegateQueue: delegateQueue)
             return session
         }
-
     }
 
     static func makeDefault() -> URLSessionFactory {

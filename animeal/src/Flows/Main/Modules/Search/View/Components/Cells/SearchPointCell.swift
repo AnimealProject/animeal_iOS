@@ -81,17 +81,17 @@ final class SearchPointCell: UICollectionViewCell {
         innerView.topAnchor ~= containerView.topAnchor + 10.0
         innerView.trailingAnchor ~= containerView.trailingAnchor - 10.0
         innerView.bottomAnchor ~= containerView.bottomAnchor - 10.0
-        
+
         let gestureRecognizer = TapGestureRecognizer { [weak self] _ in
             guard let self = self else { return }
             self.didTapOnContent?()
         }
         innerView.addGestureRecognizer(gestureRecognizer)
     }
-    
+
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        
+
         containerView.apply(style: .container)
     }
 }

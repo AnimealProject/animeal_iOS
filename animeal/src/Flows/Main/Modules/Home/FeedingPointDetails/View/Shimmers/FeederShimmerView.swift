@@ -68,4 +68,3 @@ final class FeederShimmerView: UIView {
         return CGFloat.random(in: minWidth...maxWidth)
     }
 }
-

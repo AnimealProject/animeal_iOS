@@ -135,7 +135,7 @@ final class MainCoordinator: Coordinatable {
     // MARK: - Dependencies
     private let presentingWindow: UIWindow
     private let completion: (([HomeFlowBackwardEvent]) -> Void)?
-    
+
     var navigator: Navigating { _navigator }
 
     // MARK: - Initialization
@@ -162,7 +162,7 @@ final class MainCoordinator: Coordinatable {
         childCoordinators.removeAll()
         completion?(backwardEvents)
     }
-    
+
     func handleSwitchFlowAction(_ action: MainFlowSwitchAction) {
         switch action {
         case .shouldSwitchToMap(let pointIdentifier):

@@ -73,7 +73,7 @@ final class AttachPhotoModel: AttachPhotoModelProtocol {
             }
         }
     }
-    
+
     func fetchAttachPhotoAction(request: AttachPhotoRequest) -> AttachPhotoAction {
         switch request {
         case .cameraAccess:
@@ -91,7 +91,7 @@ extension AttachPhotoModel {
     enum AttachPhotoRequest {
         case cameraAccess
     }
-    
+
     struct PointContent {
         let content: Content
     }
@@ -100,7 +100,7 @@ extension AttachPhotoModel {
         let cover: String?
         let title: String
     }
-    
+
     struct AttachPhotoAction {
         let title: String
         let actions: [Action]

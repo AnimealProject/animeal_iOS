@@ -28,7 +28,7 @@ public protocol DataStoreServiceProtocol: AnyObject {
         progressListener: DataStoreUploadProgressHandler?
     ) async throws -> String
 
-    func getURL(key: String?) async throws -> URL? 
+    func getURL(key: String?) async throws -> URL?
 }
 
 extension DataStoreServiceProtocol {

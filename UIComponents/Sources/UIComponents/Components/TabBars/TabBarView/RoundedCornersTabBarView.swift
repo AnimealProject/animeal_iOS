@@ -51,10 +51,10 @@ public class RoundedCornersTabBarView: UIView {
     required public init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        
+
         updateSelection()
     }
 }
@@ -77,7 +77,7 @@ extension RoundedCornersTabBarView: TabBarView {
 
             return tabBarItemView
         }
-        
+
         UIView.performWithoutAnimation {
             updateSelection()
         }

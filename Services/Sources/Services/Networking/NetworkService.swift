@@ -23,7 +23,7 @@ public extension NetworkServiceProtocol {
             }
         }
     }
-    
+
     func query<Response: Decodable>(
         request: Request<Response>,
         completion: @escaping (Result<Response, Error>) -> Void

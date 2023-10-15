@@ -145,7 +145,7 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
                         if let cached = self.cachedFeedingPoint {
                             justFavoriteMutated = feedingPointModel.onlyFavoriteMutatedOf(cached)
                         }
-                        
+
                         self.cachedFeedingPoint = feedingPointModel
                         self.onFeedingPointChange?(self.mapper.map(
                             feedingPointModel.feedingPoint,
@@ -200,12 +200,12 @@ extension FeedingPointDetailsModel {
     }
 }
 
-fileprivate extension FullFeedingPoint {
+private extension FullFeedingPoint {
     func onlyFavoriteMutatedOf(_ point: FullFeedingPoint) -> Bool {
         guard self != point else {
             return false
         }
-        
+
         if self.identifier != point.identifier ||
             self.imageURL != point.imageURL ||
             self.feedingPoint != point.feedingPoint {

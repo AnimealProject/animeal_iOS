@@ -2,7 +2,7 @@ import Style
 import SwiftUI
 
 struct FAQView<ViewModel: FAQViewModelProtocol>: View {
-    
+
     // MARK: - UI Constants
 
     private enum Constants {
@@ -15,7 +15,7 @@ struct FAQView<ViewModel: FAQViewModelProtocol>: View {
 
     @EnvironmentObject var designEngine: StyleEngine
     @ObservedObject var viewModel: ViewModel
-    
+
     var body: some View {
         GeometryReader { geometry in
             ScrollView(.vertical) {
@@ -46,7 +46,7 @@ struct FAQView<ViewModel: FAQViewModelProtocol>: View {
         .fixedSize(horizontal: false, vertical: true)
         .foregroundColor(designEngine.colors.textPrimary.color)
     }
-    
+
     private var faqContent: some View {
         ForEach($viewModel.faqItems) { item in
             QuestionRow(
@@ -60,7 +60,7 @@ struct FAQView<ViewModel: FAQViewModelProtocol>: View {
             .frame(maxWidth: .infinity)
         }
     }
-    
+
     private var footerText: some View {
         Text(viewModel.footerText)
             .textSelection(.enabled)
@@ -78,17 +78,17 @@ extension FAQView {
             static var padding: EdgeInsets {
                 .init(top: 10, leading: 8, bottom: 10, trailing: 8)
             }
-            
+
             static var contentPadding: EdgeInsets {
                 .init(top: 15, leading: 21, bottom: 15, trailing: 14)
             }
         }
-        
+
         @EnvironmentObject var designEngine: StyleEngine
         @Binding var item: FAQViewItem
         var showAnswer: Bool { !item.collapsed }
         let toggle: () -> Void
-        
+
         var body: some View {
             VStack(spacing: 0) {
                 Button(
@@ -109,7 +109,7 @@ extension FAQView {
                 )
                 .buttonStyle(PlainButtonStyle())
                 .fixedSize(horizontal: false, vertical: true)
-                
+
                 if showAnswer {
                     VStack {
                         HStack {
@@ -128,7 +128,6 @@ extension FAQView {
                     .padding(Constants.padding)
                     .clipped()
                 }
-                
             }
         }
     }

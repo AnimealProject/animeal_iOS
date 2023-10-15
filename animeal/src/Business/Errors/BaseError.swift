@@ -14,21 +14,21 @@ class BaseError: NSError, LocalizedError {
         case entityExists
         case notAuthorized
         case serverError
-        
+
         static func from(nsError: NSError) -> Self {
             switch (nsError .domain, nsError.code) {
             case (NSURLErrorDomain, NSURLErrorNotConnectedToInternet),
                     (NSURLErrorDomain, NSURLErrorInternationalRoamingOff),
-                    (NSURLErrorDomain,NSURLErrorCannotConnectToHost),
+                    (NSURLErrorDomain, NSURLErrorCannotConnectToHost),
                     (NSURLErrorDomain, NSURLErrorDataNotAllowed),
-                    (NSURLErrorDomain,NSURLErrorNetworkConnectionLost),
-                    (NSURLErrorDomain,NSURLErrorSecureConnectionFailed),
+                    (NSURLErrorDomain, NSURLErrorNetworkConnectionLost),
+                    (NSURLErrorDomain, NSURLErrorSecureConnectionFailed),
                     (NSURLErrorDomain, NSURLErrorCannotFindHost): return .noInternet
             case (NSURLErrorDomain, NSURLErrorTimedOut): return .timeout
             default: return .unknown
             }
         }
-        
+
         static func from(statusCode: Int) -> Self? {
             switch statusCode {
             case 404: return .notFound
@@ -40,9 +40,9 @@ class BaseError: NSError, LocalizedError {
             }
         }
     }
-    
+
     let errorCode: Code
-    
+
     init(
         localizedDescription: String,
         failureReason: String? = nil,
@@ -50,30 +50,30 @@ class BaseError: NSError, LocalizedError {
         userInfo: [String: Any?]? = nil
     ) {
         self.errorCode = code
-        
+
         let info = [
             NSLocalizedDescriptionKey: localizedDescription,
             NSLocalizedFailureReasonErrorKey: failureReason
         ].merging(userInfo ?? [:]) { $1 }
         .compactMapValues { $0 }
-        
+
         super.init(
             domain: Constants.domain,
             code: errorCode.rawValue,
             userInfo: info
         )
     }
-    
+
     init(error: NSError) {
         self.errorCode = .from(nsError: error)
-        
+
         super.init(
             domain: error.domain,
             code: error.code,
             userInfo: error.userInfo
         )
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

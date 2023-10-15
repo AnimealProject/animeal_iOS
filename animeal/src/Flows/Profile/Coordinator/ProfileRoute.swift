@@ -6,7 +6,7 @@ import Services
 
 enum ProfileRoute {
     typealias ConfirmCompletion = () -> Void
-    
+
     case done
     case cancel
     case confirm(UserProfileCodeDeliveryDetails, UserProfileAttribute, ResendMethod, ConfirmCompletion?)

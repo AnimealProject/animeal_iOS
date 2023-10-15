@@ -31,7 +31,6 @@ final class FAQViewModel: FAQViewModelLifeCycle, FAQViewInteraction, FAQViewStat
 
     // MARK: - Life cycle
     func setup() {
-        
     }
 
     func load() {
@@ -58,7 +57,7 @@ final class FAQViewModel: FAQViewModelLifeCycle, FAQViewInteraction, FAQViewStat
     }
 
     // MARK: - Private
-    
+
     private func proceedItemCollapsedState(id: FAQViewItem.ID) {
         self.faqItems = faqItems.map {
             $0.makeCollapsed(for: id)

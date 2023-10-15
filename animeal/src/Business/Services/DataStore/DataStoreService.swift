@@ -25,7 +25,7 @@ final class DataStoreService: DataStoreServiceProtocol {
                 options: converter.convertDownloadDataRequestOptions(options)
             )
             let result = try await downloadTask.value
-    
+
             return result
         } catch let error as StorageError {
             throw converter.convertAmplifyError(error)

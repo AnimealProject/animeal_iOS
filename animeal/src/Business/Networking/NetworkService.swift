@@ -17,10 +17,10 @@ final class NetworkService: NetworkServiceProtocol {
             throw error
         }
     }
-    
+
     func query<Response: Decodable>(request: Request<Response>) async throws -> Response {
         let result = try await Amplify.API.query(request: request.convertToGraphQLRequest())
-        
+
         switch result {
         case .success(let response):
             return response

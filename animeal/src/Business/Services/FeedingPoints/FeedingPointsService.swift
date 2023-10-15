@@ -266,7 +266,7 @@ private extension FeedingPointsService {
 
         replaceFeedingPoint(feedingPoint, at: index)
     }
-    
+
     func updateFeedingPoint(_ favoriteFeedingPoint: FavouriteFeedingPoint) {
         guard let index = innerFeedingPoints.value.firstIndex(
             where: { $0.identifier == favoriteFeedingPoint.identifier }

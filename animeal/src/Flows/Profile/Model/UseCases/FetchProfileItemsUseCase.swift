@@ -50,14 +50,14 @@ final class FetchProfileItemsUseCase {
         guard
             let itemIndex = items.firstIndex(where: { $0.identifier == identifier })
         else { return }
-        
+
         var value = items[itemIndex]
         value.state = itemState
         items[itemIndex] = value
-        
+
         await state.updateItems(items)
     }
-    
+
     /// update type i.e. if the item is of type phone number OR email OR dirthdate, this updates the items. Identity items are un touched.
     /// - Parameters:
     ///   - type: the type of the profile item. i.e. name / surname / email / birthdate
@@ -67,11 +67,11 @@ final class FetchProfileItemsUseCase {
         guard
             let itemIndex = items.firstIndex(where: { $0.identifier == identifier })
         else { return }
-        
+
         var value = items[itemIndex]
         value.type = type
         items[itemIndex] = value
-        
+
         await state.updateItems(items)
     }
 }

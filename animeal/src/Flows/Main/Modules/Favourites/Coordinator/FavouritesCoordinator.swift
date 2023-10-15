@@ -72,7 +72,7 @@ extension FavouritesCoordinator: FavouritesCoordinatable {
 
 extension FavouritesCoordinator: FeedingPointCoordinatable {
     var isOverMap: Bool { false }
-    
+
     func routeTo(_ route: FeedingPointRoute) {
         switch route {
         case .feed(let feedingDetails):

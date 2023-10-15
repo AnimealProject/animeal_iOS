@@ -34,7 +34,7 @@ struct AboutView: View {
         VStack(alignment: .leading, spacing: Constants.verticalSpacing) {
             GeometryReader { geometry in
                 ScrollView(.vertical, showsIndicators: false) {
-                    VStack() {
+                    VStack {
                         VStack(alignment: .leading, spacing: Constants.verticalSpacing) {
                             headerText
                             photoImage

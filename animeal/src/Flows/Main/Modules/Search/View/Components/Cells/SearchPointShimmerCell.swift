@@ -30,7 +30,7 @@ final class SearchPointShimmerCell: UICollectionViewCell {
     private let innerView = ShimmerView(
         animationDirection: .leftRight
     ).prepareForAutoLayout()
-    
+
     private let containerView = UIView().prepareForAutoLayout()
 
     // MARK: - Handlers
@@ -46,10 +46,10 @@ final class SearchPointShimmerCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        
+
         containerView.apply(style: .container)
     }
 

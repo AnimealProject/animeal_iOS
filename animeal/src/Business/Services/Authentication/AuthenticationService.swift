@@ -32,7 +32,7 @@ final class AuthenticationService: AuthenticationServiceProtocol {
                 password: password.value,
                 options: signUpOptions
             )
-            
+
             guard let nextStep = converter.convertAmplifySignUpState(result) else {
                 throw AuthenticationError.unknown("Confirmation code sent to unknown destenation", nil)
             }
@@ -43,7 +43,6 @@ final class AuthenticationService: AuthenticationServiceProtocol {
         } catch {
             throw AuthenticationError.unknown(error.localizedDescription, error)
         }
-        
     }
 
     func signIn(
@@ -56,7 +55,7 @@ final class AuthenticationService: AuthenticationServiceProtocol {
 
         do {
             let result = try await Amplify.Auth.signIn(username: username.value, password: password.value)
-            
+
             return converter.convertAmplifySignInState(result)
         } catch let error as AuthError {
             throw converter.convertAmplifyError(error)
