@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+ build:
+    name: Build and Create IPA
+    runs-on: macos-13
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install and run 'bundle install'
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+          # runs 'bundle install' and caches installed gems automatically
+          bundler-cache: true
+      - name: Install npm
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install Amplify
+        run: npm install -g @aws-amplify/cli
+      - name: Setup Amplify
+        id: setupAmplify
+        run: bash ./update_amplify.sh -a $AWS_ACCESS_KEY_ID -s $AWS_SECRET_ACCESS_KEY -i $APP_ID -e $AMPLIFY_DEV_ENV -t $FACEBOOK_APP_ID -r $FACEBOOK_APP_SECRET
+        continue-on-error: true
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          APP_ID: ${{ secrets.APP_ID }}
+          AMPLIFY_DEV_ENV: ${{ secrets.AMPLIFY_DEV_ENV }}
+          FACEBOOK_APP_ID: ${{ secrets.FACEBOOK_APP_ID }}
+          FACEBOOK_APP_SECRET: ${{ secrets.FACEBOOK_APP_SECRET }}
+      - name: Recover From Setup Amplfy  Error
+        if: steps.setupAmplify.outcome != 'success'
+        run: bash ./recover_from_error.sh
+      - name: Setup .mapbox file with MAPBOX_DOWNLOAD_TOKEN
+        run: echo $MAPBOX_DOWNLOAD_TOKEN >> ~/.mapbox
+        env:
+          MAPBOX_DOWNLOAD_TOKEN: ${{ secrets.MAPBOX_DOWNLOAD_TOKEN }}
+      - name: Setup .netrc with MAPBOX_DOWNLOAD_TOKEN
+        run: |
+          echo 'machine api.mapbox.com' >> ~/.netrc
+          echo 'login mapbox' >> ~/.netrc
+          echo "password $MAPBOX_DOWNLOAD_TOKEN" >> ~/.netrc
+          chmod 0600 ~/.netrc
+        env:
+          MAPBOX_DOWNLOAD_TOKEN: ${{ secrets.MAPBOX_DOWNLOAD_TOKEN }}
+      - name: Install Swiftgen
+        run: brew install swiftgen
+      - name: Install xcbeautify
+        run: brew install xcbeautify
+      - name: Install GPG
+        run: brew install gnupg
+      - name: Set Xcode version
+        uses: maxim-lobanov/setup-xcode@v1
+        with: 
+          xcode-version: '14.2'
+      - name: Decrypt Files
+        run: ./provisioning/import_provisioning.sh
+        env:
+          UNLOCK_CERTIFICATE: ${{ secrets.UNLOCK_CERTIFICATE }}
+          CERTIFICATE_PASSWORD: ${{ secrets.CERTIFICATE_PASSWORD }}
+          PROVISIONING_PASSWORD: ${{ secrets.PROVISIONING_PASSWORD }}
+      - name: Generate Archive
+        run: xcodebuild -sdk iphoneos -project animeal.xcodeproj -configuration Release -scheme animeal -derivedDataPath DerivedData -archivePath DerivedData/Archive/animeal archive | xcbeautify --renderer github-actions
+      - name: Build IPA
+        run: xcodebuild -exportArchive -archivePath DerivedData/Archive/animeal.xcarchive -exportOptionsPlist provisioning/ExportOptions.plist -exportPath DerivedData/ipa
+      - name: Dump file hierarchy
+        run: ls -R
