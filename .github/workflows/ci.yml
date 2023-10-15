@@ -75,7 +75,7 @@ jobs:
           CERTIFICATE_PASSWORD: ${{ secrets.CERTIFICATE_PASSWORD }}
           PROVISIONING_PASSWORD: ${{ secrets.PROVISIONING_PASSWORD }}
       - name: Generate Archive
-        run: xcodebuild -sdk iphoneos -project animeal.xcodeproj -configuration Release -scheme animeal -derivedDataPath DerivedData -archivePath DerivedData/Archive/animeal archive | xcbeautify --renderer github-actions
+        run: xcodebuild -sdk iphoneos -project animeal.xcodeproj -configuration Release -scheme animeal -derivedDataPath DerivedData -archivePath DerivedData/Archive/animeal archive
       - name: Build IPA
         run: xcodebuild -exportArchive -archivePath DerivedData/Archive/animeal.xcarchive -exportOptionsPlist provisioning/ExportOptions.plist -exportPath DerivedData/ipa
       - name: Dump file hierarchy
