@@ -69,8 +69,8 @@ jobs:
       - name: Build and export IPA
         uses: yukiarrr/ios-build-action@v1.11.0
         with:
-          project-path: SampleJokes.xcodeproj
-          scheme: "SampleJokes"
+          project-path: animeal.xcodeproj
+          scheme: "animeal"
           export-method: "app-store"
           p12-base64: ${{ secrets.APPLE_DISTRIBUTION_CERTIFICATE }}
           mobileprovision-base64: ${{ secrets.APPLE_DISTRIBUTION_PROVISIONING_PROFILE }}
