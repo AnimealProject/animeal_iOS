@@ -11,10 +11,10 @@
 	<key>provisioningProfiles</key>
 	<dict>
 		<key>com.epmedu.animealApp</key>
-		<string>Epam Animeal Prod App Store Distribution</string>
+		<string>aa40ce2e-f1fe-4345-9470-de3203239eec</string>
 	</dict>
 	<key>signingCertificate</key>
-	<string>42B1315BAFB5B8B749319BC01AAE99DB1960D7E1</string>
+	<string>iPhone Distribution: EPAM SISTEMZ, IOOO (K36CA7QL4T)</string>
 	<key>signingStyle</key>
 	<string>manual</string>
 	<key>stripSwiftSymbols</key>
@@ -23,5 +23,7 @@
 	<string>K36CA7QL4T</string>
 	<key>uploadSymbols</key>
 	<true/>
+	<key>compileBitcode</key>
+	<false/>
 </dict>
 </plist>
