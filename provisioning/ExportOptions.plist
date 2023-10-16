@@ -11,10 +11,10 @@
 	<key>provisioningProfiles</key>
 	<dict>
 		<key>com.epmedu.animealApp</key>
-		<string>Animeal Development</string>
+		<string>bd4070c8-67e0-45b7-a691-a3557199bf1d</string>
 	</dict>
 	<key>signingCertificate</key>
-	<string>0A38D1A7A180528E31CA92C1672CF70D285BBD76</string>
+	<string>iPhone Developer: Pran Kishore (H9P3RBZ672)</string>
 	<key>signingStyle</key>
 	<string>manual</string>
 	<key>stripSwiftSymbols</key>
