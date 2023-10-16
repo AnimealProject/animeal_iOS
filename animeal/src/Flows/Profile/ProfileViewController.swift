@@ -78,7 +78,7 @@ final class ProfileViewController: BaseViewController, ProfileViewable {
     @objc private func cancelTapped() {
         viewModel.handleCancelButton()
     }
-    
+
     func shouldShowCancelButton(_ shouldShow: Bool) {
         let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
         navigationItem.rightBarButtonItem = shouldShow ? cancelButton : nil
@@ -216,7 +216,7 @@ private extension ProfileViewController {
                     let text = textInput.text
                         .map {
                             let start = $0.index($0.startIndex, offsetBy: 0)
-                            let end =  $0.index($0.startIndex, offsetBy: range.location)
+                            let end = $0.index($0.startIndex, offsetBy: range.location)
                             let index = start..<end
                             return String($0[index]) + string
                         }
@@ -234,7 +234,7 @@ private extension ProfileViewController {
             }
         }
     }
-    
+
     func updateViewItems(_ viewItems: [ProfileViewItem]) {
         let identifiedViewInputs = inputsContentView.arrangedSubviews
             .compactMap { $0 as? TextInputDecoratable }

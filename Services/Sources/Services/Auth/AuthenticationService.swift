@@ -45,7 +45,7 @@ public extension AuthenticationServiceProtocol {
             }
         }
     }
-    
+
     func signOut(handler: @escaping AuthenticationSignOutHanler) {
         Task { [weak self] in
             guard let self else { return }

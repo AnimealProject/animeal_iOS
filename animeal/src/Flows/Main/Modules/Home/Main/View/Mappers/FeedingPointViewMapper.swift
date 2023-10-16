@@ -30,13 +30,13 @@ final class FeedingPointViewMapper: FeedingPointViewMappable {
         if input.isFavorite {
             return .fav
         }
-        
+
         switch input.pet {
         case .cats: return .cat
         case .dogs: return .dog
         }
     }
-    
+
     private func convert(_ input: HomeModel.HungerLevel) -> FeedingPointAnnotationModel.HungerLevel {
         switch input {
         case .high: return .high

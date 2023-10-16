@@ -18,7 +18,7 @@ extension Style<UINavigationBar> {
             bar.largeTitleTextAttributes = [:]
             bar.backIndicatorImage = Asset.Images.arrowBackOffset.image
             bar.backIndicatorTransitionMaskImage = Asset.Images.arrowBackOffset.image
-            
+
             UINavigationBar.appearance().applyAppearanceForAllStates({
                 let appearance = UINavigationBarAppearance()
                 appearance.backgroundColor = bar.designEngine.colors.backgroundPrimary

@@ -4,7 +4,7 @@ import Style
 import Common
 import UniformTypeIdentifiers
 
-final class DonateViewModel: DonateViewModelLifeCycle, DonateViewInteraction, DonateViewState,  ObservableObject {
+final class DonateViewModel: DonateViewModelLifeCycle, DonateViewInteraction, DonateViewState, ObservableObject {
 
     // MARK: - Dependencies
     private let model: DonateModelProtocol
@@ -29,7 +29,7 @@ final class DonateViewModel: DonateViewModelLifeCycle, DonateViewInteraction, Do
     func set(delegate: DonateViewModelDelegate) {
         self.delegate = delegate
     }
-    
+
     func load() {
         Task { @MainActor [weak self] in
             guard let self else { return }
@@ -52,9 +52,9 @@ final class DonateViewModel: DonateViewModelLifeCycle, DonateViewInteraction, Do
             proceedPaymentMethod(id: id)
         }
     }
-    
+
     // MARK: - Private
-    
+
     private func proceedPaymentMethod(id: PaymentMethodViewItem.ID) {
         guard let paymentMethod = model.getPaymentMethod(for: id) else { return }
         UIPasteboard.general.setValue(paymentMethod.accountDetails, forPasteboardType: UTType.plainText.identifier)
@@ -64,8 +64,7 @@ final class DonateViewModel: DonateViewModelLifeCycle, DonateViewInteraction, Do
     private func fetchIcons(for methods: [DonateModel.PaymentMethod]) async {
         paymentMethodsItems = await methods.asyncMap { method in
             let iconURL: URL? = await {
-                do { return try await model.fetchIconURL(for: method.icon) }
-                catch { return nil }
+                do { return try await model.fetchIconURL(for: method.icon) } catch { return nil }
             }()
             return mapper.mapPaymentMethod(method, iconURL: iconURL)
         }

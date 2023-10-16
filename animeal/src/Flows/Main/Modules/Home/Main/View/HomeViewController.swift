@@ -79,7 +79,7 @@ extension HomeViewController: HomeViewModelOutput {
                     at: point.coordinates
                 )
             )
-            
+
             if point.isSelected {
                 annotations.append(
                     point.annotationModel.selectionAnnotation(
@@ -101,7 +101,7 @@ extension HomeViewController: HomeViewModelOutput {
             self?.viewModel.handleActionEvent(.tapFilterControl(selectedSegmentIndex))
         }
     }
-    
+
     func applyMapZoom(for pointsIds: [String]) {
         mapView.easeToAnnotations(
             mapView.getAnnotations(for: pointsIds),
@@ -150,7 +150,7 @@ private extension HomeViewController {
         viewModel.onFeedingPointsHaveBeenPrepared = { [weak self] points in
             self?.applyFeedingPoints(points)
         }
-        
+
         viewModel.onFeadingPointsZoomRequired = { [weak self] points in
             self?.applyMapZoom(for: points)
         }
@@ -178,13 +178,13 @@ private extension HomeViewController {
         viewModel.onCurrentFeedingStateChanged = { [weak self] isInProgress in
             self?.toggleRouteAndTimer(isVisible: isInProgress)
         }
-        
+
         viewModel.onCameraPermissionCustomRequired = { [weak self] in
             Task {
                 await self?.openSettings()
             }
         }
-        
+
         viewModel.onLocationPermissionRequired = { [weak self] in
             Task {
                 await self?.openSettings()
@@ -239,7 +239,7 @@ private extension HomeViewController {
             }
         }
     }
-    
+
     func handleRouteRequest(_ request: FeedingPointRouteRequest) {
         mapView.requestRoute(destination: request.feedingPointCoordinates) { [weak self] result in
             guard let self = self else { return }
@@ -298,7 +298,7 @@ private extension HomeViewController {
             feedControl.updateDistance(distance)
         }
     }
-    
+
     func handleLocationUpdated(request: FeedingPointRouteRequest,
                                location: CLLocation?) {
         var updateRequest = FeedingPointRouteRequest(feedingPointCoordinates: request.feedingPointCoordinates,
@@ -306,12 +306,12 @@ private extension HomeViewController {
                                            feedingPointId: request.feedingPointId,
                                            isUnfinishedFeeding: true)
         handleUpdatedRouteRequest(updateRequest)
-        
+
         let feedingPointLocation = CLLocation(
             latitude: updateRequest.feedingPointCoordinates.latitude,
             longitude: updateRequest.feedingPointCoordinates.longitude
         )
-        
+
         if let distance = location?.distance(from: feedingPointLocation) {
             feedControl.updateDistance(distance)
         }
@@ -330,13 +330,13 @@ private extension HomeViewController {
     func handleCameraMove(_ move: FeedingPointCameraMove) {
         mapView.easeToLocation(move.feedingPointCoordinate, duration: 0)
     }
-    
+
     func openSettings() async {
         guard let url = URL(string: UIApplication.openSettingsURLString),
               UIApplication.shared.canOpenURL(url) else {
             return
         }
-        
+
         await UIApplication.shared.open(url)
     }
 }
@@ -347,23 +347,23 @@ private extension HomeViewController {
         mapView = NavigationMapController(frame: view.bounds)
         view.addSubview(mapView.view)
         mapView.mapboxMap.loadStyleURI(styleURI)
-        
+
         mapView.didTapAnnotations = { [weak self] in
             let points = Set($0.map(\.id))
             self?.viewModel.handleActionEvent(.tapFeedingPoints(Array(points)))
         }
-        
+
         mapView.cameraAnimationQueue.append {
             self.updateCameraSettings()
         }
     }
-    
+
     func updateCameraEasePadding() {
         let segmentedControl = segmentedControl.superview?
             .convert(segmentedControl.frame, to: mapView.view) ?? .zero
         let userLocationButton = userLocationButton.superview?
             .convert(userLocationButton.frame, to: mapView.view) ?? .zero
-        
+
         let padding: CGFloat = 32
         mapView.cameraEasePadding = UIEdgeInsets(
             top: segmentedControl.maxY + padding,

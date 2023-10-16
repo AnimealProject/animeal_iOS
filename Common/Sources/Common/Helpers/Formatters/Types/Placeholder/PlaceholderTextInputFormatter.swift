@@ -106,7 +106,7 @@ extension String {
                 result[String(item.element)] = item.offset
                 return result
             }
-        
+
         let anotherStringIndexs = anotherString
             .enumerated()
             .reduce([String: Int]()) { partialResult, item in
@@ -114,11 +114,11 @@ extension String {
                 result[String(item.element)] = item.offset
                 return result
             }
-        
+
         let diff = Set(firstStringIndexs.keys).subtracting(Set(anotherStringIndexs.keys))
-        
+
         let diffValues = diff.compactMap { firstStringIndexs[$0] }
-        
+
         return diffValues.max()
     }
 }

@@ -49,13 +49,13 @@ final class AttachPhotoViewModel: AttachPhotoViewModelProtocol {
     }
 
     func grantCameraPermission() -> Bool {
-        return cameraService.grantCameraPermission() { [weak self] in
+        return cameraService.grantCameraPermission { [weak self] in
             guard let self else { return }
             let action = self.model.fetchAttachPhotoAction(request: .cameraAccess)
             self.onAttachPhotoActionHaveBeenPrepared?(action)
         }
     }
-    
+
     func progressModel(for image: UIImage) -> ProgressViewModel? {
         photos[image]
     }

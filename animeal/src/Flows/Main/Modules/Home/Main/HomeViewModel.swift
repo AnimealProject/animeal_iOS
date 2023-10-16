@@ -165,7 +165,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
             let result = try await self.model.processStartFeeding(feedingPointId: id)
             let feedingPoint = try await self.model.fetchFeedingPoint(result.feedingPoint)
 
-            self.cameraService.grantCameraPermission() {
+            self.cameraService.grantCameraPermission {
                 let action = self.model.fetchFeedingAction(request: .cameraAccess)
                 self.onFeedingActionHaveBeenPrepared?(self.feedingActionMapper.mapFeedingAction(action))
             }
@@ -198,7 +198,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
                 let trusted = userAttributes.first { attribute in
                     attribute.key == .custom("trusted")
                 }?.value
-                
+
                 if trusted == "true" {
                     self.coordinator.routeTo(.feedingTrustedComplete)
                 } else {
@@ -210,7 +210,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
         }
         coordinator.displayActivityIndicator(waitUntil: task)
     }
-    
+
     /// Checks if the selected filter type is same as recorded in user defaults. If Yes no need to update. If No update.
     /// - Parameter selection: selected filter type. used to compare this with the selection recorded in user defaults.
     func updateSelectionIfNeeded(for selection: HomeModel.FilterItemIdentifier) {
@@ -277,11 +277,11 @@ private extension HomeViewModel {
             self.onFeedingPointsHaveBeenPrepared?(viewItems)
         }
     }
-    
+
     func handleGetCameraPermission() {
         onCameraPermissionCustomRequired?()
     }
-    
+
     func handleGetLocationPermission() {
         onLocationPermissionRequired?()
     }

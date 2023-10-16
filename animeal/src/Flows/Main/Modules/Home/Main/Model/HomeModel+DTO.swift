@@ -3,7 +3,7 @@ import Foundation
 extension HomeModel {
     struct FeedingPoint {
         let identifier: String
-        var isSelected: Bool = false
+        var isSelected = false
         let location: Location
         let pet: Pet
         let hungerLevel: HungerLevel

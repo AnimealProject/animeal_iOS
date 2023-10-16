@@ -27,7 +27,7 @@ struct UserProfileAmplifyConverter: UserProfileAmplifyConverting, AmplifyUserPro
     func convertUserProfileAttribute(_ attribute: UserProfileAttribute) -> AuthUserAttribute {
         return AuthUserAttribute.init(convertUserProfileAttributeKey(attribute.key), value: attribute.value)
     }
-    
+
     func convertUserProfileAttributeKey(_ attributeKey: UserProfileAttributeKey) -> AuthUserAttributeKey {
         switch attributeKey {
         case .address:

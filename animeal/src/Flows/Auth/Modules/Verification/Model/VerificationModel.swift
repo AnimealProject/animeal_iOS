@@ -68,8 +68,7 @@ final class VerificationModel: VerificationModelProtocol {
 
     func requestNewCode(force: Bool) async throws {
         let isRequestNewCodeAvailable: Bool = {
-            if force { return true }
-            else { return isResendActive }
+            if force { return true } else { return isResendActive }
         }()
         guard isRequestNewCodeAvailable else {
             throw VerificationModelCodeError.codeRequestTimeLimitExceeded

@@ -122,7 +122,7 @@ extension Feeding: Hashable {
         lhs.feedingPointFeedingsId == rhs.feedingPointFeedingsId &&
         lhs.expireAt == rhs.expireAt
     }
-    
+
     public func hash(into hasher: inout Hasher) {
         hasher.combine(id)
         hasher.combine(userId)

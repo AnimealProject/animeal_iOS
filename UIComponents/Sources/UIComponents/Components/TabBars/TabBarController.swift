@@ -28,7 +28,7 @@ public class TabBarController: UIViewController {
     private let contentView = UIView()
     private var selectedViewController: UIViewController?
     private var contentViewBottomAnchor: NSLayoutConstraint?
-    private lazy var tabBarView: TabBarView =  {
+    private lazy var tabBarView: TabBarView = {
         let tabBarView = RoundedCornersTabBarView()
         tabBarView.onSelectedItemUpdate = { [weak self] in
             self?.changeSelectedViewController()

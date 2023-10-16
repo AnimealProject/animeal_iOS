@@ -52,7 +52,7 @@ struct FeedingFinishedView: View {
 
 struct FeedingFinishedView_Previews: PreviewProvider {
     static let designEngine: StyleEngine = StyleDefaultEngine()
-    static let model: FeedingFinishedModel = FeedingFinishedModel.previewModel
+    static let model = FeedingFinishedModel.previewModel
 
     static var previews: some View {
         FeedingFinishedView(model: model)

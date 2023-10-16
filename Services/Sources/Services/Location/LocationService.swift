@@ -40,7 +40,7 @@ extension LocationService: LocationServiceProtocol {
             return locationManager.authorizationStatus
         }
     }
-    
+
     public func removeDelegate(_ delegate: LocationServiceDelegate) {
         liveStreamDelegates.removeDelegate(delegate)
     }

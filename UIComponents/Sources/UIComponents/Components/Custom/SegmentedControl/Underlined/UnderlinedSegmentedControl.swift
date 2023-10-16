@@ -38,7 +38,7 @@ public class UnderlinedSegmentedControl: UIView {
     // MARK: - Constraints
     private var barWidthConstraint: NSLayoutConstraint?
     private var barCenterXConstraint: NSLayoutConstraint?
-    
+
     // MARK: - Handlers
     public var onSegmentWasChanged: ((String) -> Void)?
 

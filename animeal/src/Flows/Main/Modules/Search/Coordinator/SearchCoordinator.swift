@@ -57,7 +57,7 @@ extension SearchCoordinator: SearchCoordinatable {
     }
 }
 
-extension SearchCoordinator: FeedingPointCoordinatable {    
+extension SearchCoordinator: FeedingPointCoordinatable {
     func routeTo(_ route: FeedingPointRoute) {
         switch route {
         case .feed(let feedingDetails):
