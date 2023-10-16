@@ -2,22 +2,26 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>compileBitcode</key>
+	<false/>
+	<key>destination</key>
+	<string>export</string>
 	<key>method</key>
 	<string>development</string>
 	<key>provisioningProfiles</key>
 	<dict>
 		<key>com.epmedu.animealApp</key>
-		<string>bd4070c8-67e0-45b7-a691-a3557199bf1d</string>
+		<string>Animeal Development</string>
 	</dict>
 	<key>signingCertificate</key>
-	<string>iPhone Developer: Pran Kishore (H9P3RBZ672)</string>
+	<string>0A38D1A7A180528E31CA92C1672CF70D285BBD76</string>
 	<key>signingStyle</key>
 	<string>manual</string>
 	<key>stripSwiftSymbols</key>
 	<true/>
 	<key>teamID</key>
 	<string>K36CA7QL4T</string>
-	<key>compileBitcode</key>
-	<false/>
+	<key>thinning</key>
+	<string>&lt;none&gt;</string>
 </dict>
 </plist>
