@@ -65,7 +65,14 @@ jobs:
       - name: Set Xcode version
         uses: maxim-lobanov/setup-xcode@v1
         with: 
-          xcode-version: '14.2'
-      - name: Build For Test
-        run: |
-          xcodebuild build-for-testing -scheme animeal -project animeal.xcodeproj -destination "platform=iOS Simulator,name=iPhone 14,OS=16.2" -parallelizeTargets -showBuildTimingSummary | xcbeautify --renderer github-actions
+          xcode-version: '14.3.1'
+      - name: Decrypt Files
+        run: ./provisioning/import_provisioning.sh
+        env:
+          UNLOCK_CERTIFICATE: ${{ secrets.UNLOCK_CERTIFICATE }}
+      - name: Generate Archive
+        run: xcodebuild -sdk iphoneos -project animeal.xcodeproj -configuration Release -scheme animeal -derivedDataPath DerivedData -archivePath DerivedData/Archive/animeal archive
+      - name: Build IPA
+        run: xcodebuild -exportArchive -archivePath DerivedData/Archive/animeal.xcarchive -exportOptionsPlist provisioning/ExportOptions.plist -exportPath DerivedData/ipa
+      - name: Dump file hierarchy
+        run: ls -R
