@@ -2499,7 +2499,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\n\n# Check if the CI environment variable is set\nif [ -z \"${CI}\" ]; then\n  # The CI environment variable is not set, so run SwiftLint\n  if which swiftlint >/dev/null; then\n    swiftlint lint --config \"${PROJECT_DIR}/.swiftlint.yml\"\n  else\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n  fi\nelse\n  # The CI environment variable is set, so do nothing\n  echo \"SwiftLint checked on a seperate step in CI\"\nfi\n";
+			shellScript = "#!/bin/bash\n\n# Check if the CI environment variable is set\nif [ -z \"${CI}\" ]; then\n  if [[ \"$(uname -m)\" == arm64 ]]; then\n      export PATH=\"/opt/homebrew/bin:$PATH\"\n  fi\n  \n  # The CI environment variable is not set, so run SwiftLint\n  if which swiftlint >/dev/null; then\n    swiftlint lint --config \"${PROJECT_DIR}/.swiftlint.yml\"\n  else\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n  fi\nelse\n  # The CI environment variable is set, so do nothing\n  echo \"SwiftLint checked on a seperate step in CI\"\nfi\n";
 		};
 		DB5359AD286C59D000D2FF7F /* mapBox */ = {
 			isa = PBXShellScriptBuildPhase;
