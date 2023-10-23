@@ -64,7 +64,7 @@ internal enum L10n {
     /// Donate
     internal static let title = L10n.tr("Localizable", "donate.title", fallback: "Donate")
     internal enum Copy {
-      /// Text copied
+      /// Text is copied
       internal static let text = L10n.tr("Localizable", "donate.copy.text", fallback: "Text is copied")
     }
     internal enum Footer {
