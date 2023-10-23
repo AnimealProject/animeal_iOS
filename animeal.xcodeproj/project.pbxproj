@@ -2311,9 +2311,7 @@
 				DB6B07BF28450A380009397B /* Frameworks */,
 				DB6B07C028450A380009397B /* Resources */,
 				DB058D61284642D60064A21F /* swiftgen */,
-				DB4CA51E2845114E00050EA5 /* swiftlint */,
 				DB5359AD286C59D000D2FF7F /* mapBox */,
-				DBB32295287322A100A78E3E /* crashlytics */,
 			);
 			buildRules = (
 			);
@@ -2483,24 +2481,6 @@
 			shellPath = /bin/sh;
 			shellScript = "${PROJECT_DIR}/Tools/swiftgen/bin/swiftgen\n";
 		};
-		DB4CA51E2845114E00050EA5 /* swiftlint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = swiftlint;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\n\n# Check if the CI environment variable is set\nif [ -z \"${CI}\" ]; then\n  if [[ \"$(uname -m)\" == arm64 ]]; then\n      export PATH=\"/opt/homebrew/bin:$PATH\"\n  fi\n  \n  # The CI environment variable is not set, so run SwiftLint\n  if which swiftlint >/dev/null; then\n    swiftlint lint --config \"${PROJECT_DIR}/.swiftlint.yml\"\n  else\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n  fi\nelse\n  # The CI environment variable is set, so do nothing\n  echo \"SwiftLint checked on a seperate step in CI\"\nfi\n";
-		};
 		DB5359AD286C59D000D2FF7F /* mapBox */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2518,26 +2498,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# For how it works see https://docs.mapbox.com/help/troubleshooting/private-access-token-android-and-ios/\n# Look for a global file named 'mapbox' or '.mapbox' within the home directory\ntoken_file=~/.mapbox\ntoken=\"$(cat $token_file 2>/dev/null)\"\nif [ \"$token\" ]; then\n  plutil -replace MBXAccessToken -string $token \"$TARGET_BUILD_DIR/$INFOPLIST_PATH\"\nelse\n  echo 'warning: Missing Mapbox access token'\n  open 'https://account.mapbox.com/access-tokens/'\n  echo \"warning: Get an access token from <https://account.mapbox.com/access-tokens/>, then create a new file at $token_file that contains the access token.\"\nfi\n";
-		};
-		DBB32295287322A100A78E3E /* crashlytics */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
-				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
-			);
-			name = crashlytics;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
 		};
 		FBA263B7285348D300DBED37 /* Generate Sourcery Mocks */ = {
 			isa = PBXShellScriptBuildPhase;
