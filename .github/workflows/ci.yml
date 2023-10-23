@@ -14,10 +14,16 @@ jobs:
       uses: norio-nomura/action-swiftlint@3.2.1
 
  build:
-    name: Build and Test default scheme using iPhone simulator
+    name: Build and Generate IPA
     runs-on: macos-13
+    env:
+      GITHUB_ACTIONS_RUNNER_LOG_SIZE: 100
 
     steps:
+      - name: Set GITHUB_ACTIONS_RUNNER_LOG_SIZE
+        run: echo "GITHUB_ACTIONS_RUNNER_LOG_SIZE=$GITHUB_ACTIONS_RUNNER_LOG_SIZE"
+      - name: Print the current log size
+        run: du -sh $GITHUB_ACTIONS_RUNNER_LOG
       - name: Checkout
         uses: actions/checkout@v3
       - name: Install and run 'bundle install'
