@@ -16,14 +16,8 @@ jobs:
  build:
     name: Build and Generate IPA
     runs-on: macos-13
-    env:
-      GITHUB_ACTIONS_RUNNER_LOG_SIZE: 100
 
     steps:
-      - name: Set GITHUB_ACTIONS_RUNNER_LOG_SIZE
-        run: echo "GITHUB_ACTIONS_RUNNER_LOG_SIZE=$GITHUB_ACTIONS_RUNNER_LOG_SIZE"
-      - name: Print the current log size
-        run: du -sh $GITHUB_ACTIONS_RUNNER_LOG
       - name: Checkout
         uses: actions/checkout@v3
       - name: Install and run 'bundle install'
@@ -66,8 +60,6 @@ jobs:
           MAPBOX_DOWNLOAD_TOKEN: ${{ secrets.MAPBOX_DOWNLOAD_TOKEN }}
       - name: Install Swiftgen
         run: brew install swiftgen
-      - name: Install xcbeautify
-        run: brew install xcbeautify
       - name: Set Xcode version
         uses: maxim-lobanov/setup-xcode@v1
         with: 
@@ -77,9 +69,9 @@ jobs:
         env:
           UNLOCK_CERTIFICATE: ${{ secrets.UNLOCK_CERTIFICATE }}
       - name: Build Project
-        run: xcodebuild -sdk iphoneos -project animeal.xcodeproj -configuration Debug -scheme animeal -derivedDataPath DerivedData build | xcbeautify --renderer github-actions
+        run: xcodebuild -sdk iphoneos -project animeal.xcodeproj -configuration Debug -scheme animeal -derivedDataPath DerivedData build 
       - name: Create Archive
-        run: xcodebuild -archivePath DerivedData/Archive/animeal archive | xcbeautify --renderer github-actions
+        run: xcodebuild -archivePath DerivedData/Archive/animeal archive
       - name: Build IPA
         run: xcodebuild -exportArchive -archivePath DerivedData/Archive/animeal.xcarchive -exportOptionsPlist provisioning/ExportOptions.plist -exportPath DerivedData/ipa
       - name: Dump file hierarchy
