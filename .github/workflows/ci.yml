@@ -69,10 +69,10 @@ jobs:
         env:
           UNLOCK_CERTIFICATE: ${{ secrets.UNLOCK_CERTIFICATE }}
       - name: Build Project
-        run: xcodebuild -sdk iphoneos -project animeal.xcodeproj -configuration Debug -scheme animeal -derivedDataPath DerivedData build 
+        run: xcodebuild -sdk iphoneos -project animeal.xcodeproj -configuration Debug -scheme animeal -derivedDataPath DerivedData build -quiet -hideShellScriptEnvironment
       - name: Create Archive
-        run: xcodebuild -archivePath DerivedData/Archive/animeal archive
+        run: xcodebuild -archivePath DerivedData/Archive/animeal archive -quiet
       - name: Build IPA
-        run: xcodebuild -exportArchive -archivePath DerivedData/Archive/animeal.xcarchive -exportOptionsPlist provisioning/ExportOptions.plist -exportPath DerivedData/ipa
+        run: xcodebuild -exportArchive -archivePath DerivedData/Archive/animeal.xcarchive -exportOptionsPlist provisioning/ExportOptions.plist -exportPath DerivedData/ipa -quiet
       - name: Dump file hierarchy
         run: ls -R
