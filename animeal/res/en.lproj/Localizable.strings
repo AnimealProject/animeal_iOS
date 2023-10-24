@@ -96,7 +96,7 @@
 "donate.title"                                    = "Donate";
 "donate.header.text"                              = "We can leave a donation for animals and in support of the developers";
 "donate.footer.text"                              = "Thank you for donating!";
-"donate.copy.text"                                = "Text copied";
+"donate.copy.text"                                = "Text is copied";
 "about.appVersion"                                = "App version";
 "leaderBoard.header"                              = "Leaderboard";
 "leaderBoard.empty"                               = "Leaderboard will show the rating of volunteers";
