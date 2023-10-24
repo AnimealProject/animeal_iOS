@@ -65,9 +65,7 @@ jobs:
       - name: Set Xcode version
         uses: maxim-lobanov/setup-xcode@v1
         with: 
-          xcode-version: '14.2'
-      - name: Install GPG
-        run: brew install gnupg
+          xcode-version: '14.3'
       - name: Decrypt Files
         run: ./provisioning/import_provisioning.sh
         env:
@@ -75,7 +73,7 @@ jobs:
           CERTIFICATE_PASSWORD: ${{ secrets.CERTIFICATE_PASSWORD }}
           PROVISIONING_PASSWORD: ${{ secrets.PROVISIONING_PASSWORD }}
       - name: Generate Archive
-        run: xcodebuild -sdk iphoneos -project animeal.xcodeproj -configuration Release -scheme animeal -derivedDataPath DerivedData -archivePath DerivedData/Archive/animeal archive
+        run: xcodebuild -sdk iphoneos -project animeal.xcodeproj -configuration Release -scheme animeal -derivedDataPath DerivedData -archivePath DerivedData/Archive/animeal archive -quiet
       - name: Build IPA
         run: xcodebuild -exportArchive -archivePath DerivedData/Archive/animeal.xcarchive -exportOptionsPlist provisioning/ExportOptions.plist -exportPath DerivedData/ipa
       - name: Dump file hierarchy
