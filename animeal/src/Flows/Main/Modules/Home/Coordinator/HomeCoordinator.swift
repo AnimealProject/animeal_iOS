@@ -42,7 +42,8 @@ final class HomeCoordinator: Coordinatable, HomeCoordinatorEventHandlerProtocol 
 }
 
 extension HomeCoordinator: HomeCoordinatable {
-    @MainActor func routeTo(_ route: HomeRoute) {
+    @MainActor
+    func routeTo(_ route: HomeRoute) {
         switch route {
         case .details(let pointId):
             let viewController = FeedingPointDetailsModuleAssembler(

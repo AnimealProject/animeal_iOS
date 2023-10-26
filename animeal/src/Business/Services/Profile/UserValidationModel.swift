@@ -25,7 +25,7 @@ final class UserValidationModel: UserProfileValidationModel {
     var validated: Bool { phoneNumberVerified && areAllNecessaryFieldsFilled }
 
     func handleUserAttributesEvent(_ attributes: [UserProfileAttribute]) {
-        var attributes = attributes.reduce([UserProfileAttributeKey: String]()) { partialResult, attribute in
+        let attributes = attributes.reduce([UserProfileAttributeKey: String]()) { partialResult, attribute in
             var result = partialResult
             result[attribute.key] = attribute.value
             return result

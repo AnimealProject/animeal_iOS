@@ -262,11 +262,9 @@ private extension HomeViewController {
                 )
                 self.mapView.didChangeLocation = { [weak self] location, updated in
                     if updated {
-                        self?.handleLocationUpdated(request: request,
-                                                    location: location)
+                        self?.handleLocationUpdated(request: request, location: location)
                     } else {
-                        self?.handleLocationChange(request.feedingPointCoordinates,
-                                                   location: location)
+                        self?.handleLocationChange(request.feedingPointCoordinates, location: location)
                     }
                 }
                 if !request.isUnfinishedFeeding {
@@ -299,12 +297,16 @@ private extension HomeViewController {
         }
     }
 
-    func handleLocationUpdated(request: FeedingPointRouteRequest,
-                               location: CLLocation?) {
-        var updateRequest = FeedingPointRouteRequest(feedingPointCoordinates: request.feedingPointCoordinates,
+    func handleLocationUpdated(
+                               request: FeedingPointRouteRequest,
+                               location: CLLocation?
+                              ) {
+                                  let updateRequest = FeedingPointRouteRequest(
+                                           feedingPointCoordinates: request.feedingPointCoordinates,
                                            countdownTime: request.countdownTime,
                                            feedingPointId: request.feedingPointId,
-                                           isUnfinishedFeeding: true)
+                                           isUnfinishedFeeding: true
+                                           )
         handleUpdatedRouteRequest(updateRequest)
 
         let feedingPointLocation = CLLocation(

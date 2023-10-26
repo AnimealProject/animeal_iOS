@@ -15,8 +15,7 @@ final class VerificationModel: VerificationModelProtocol {
     // MARK: - Private properties
     private var code: VerificationModelCode
 
-    @Published
-    private var isResendActive = false
+    @Published private var isResendActive = false
     private let resendMethod: ResendMethod
     private let timeLeft: CurrentValueSubject<Int, Never>
     private let timerInterval: Int

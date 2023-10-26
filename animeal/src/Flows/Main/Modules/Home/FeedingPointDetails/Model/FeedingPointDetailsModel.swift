@@ -147,11 +147,13 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
                         }
 
                         self.cachedFeedingPoint = feedingPointModel
-                        self.onFeedingPointChange?(self.mapper.map(
-                            feedingPointModel.feedingPoint,
-                            isFavorite: feedingPointModel.isFavorite,
-                            isEnabled: canBook ?? false
-                        ), justFavoriteMutated)
+                        self.onFeedingPointChange?(
+                                                   self.mapper.map(
+                                                   feedingPointModel.feedingPoint,
+                                                   isFavorite: feedingPointModel.isFavorite,
+                                                   isEnabled: canBook ?? false
+                                                   ), justFavoriteMutated
+                                                   )
                     }
                 }
             }
