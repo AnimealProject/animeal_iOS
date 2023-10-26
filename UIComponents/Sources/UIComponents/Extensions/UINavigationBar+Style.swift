@@ -26,7 +26,10 @@ extension Style<UINavigationBar> {
                 appearance.shadowColor = .none
                 appearance.largeTitleTextAttributes = bar.largeTitleTextAttributes ?? [:]
                 appearance.titleTextAttributes = bar.titleTextAttributes ?? [:]
-                appearance.setBackIndicatorImage(bar.backIndicatorImage, transitionMaskImage: bar.backIndicatorTransitionMaskImage)
+                appearance.setBackIndicatorImage(
+                                                 bar.backIndicatorImage,
+                                                 transitionMaskImage: bar.backIndicatorTransitionMaskImage
+                                                )
                 return appearance
             }())
         }
@@ -35,7 +38,12 @@ extension Style<UINavigationBar> {
 
 extension UIBarButtonItem {
     public static func back(target: Any?, action: Selector?) -> UIBarButtonItem {
-        UIBarButtonItem(image: UINavigationBar.appearance().backIndicatorImage, style: .plain, target: target, action: action)
+        UIBarButtonItem(
+                        image: UINavigationBar.appearance().backIndicatorImage,
+                        style: .plain,
+                        target: target,
+                        action: action
+                      )
     }
 }
 

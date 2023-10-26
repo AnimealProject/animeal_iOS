@@ -19,12 +19,10 @@ final class AboutModel: AboutModelProtocol, ObservableObject {
 // MARK: - Preview
 extension AboutModel {
     static var previewModel: AboutModel {
-        // swiftlint:disable line_length
         return AboutModel(
             contentText: "\(L10n.More.aboutContent)",
             links: AboutLink.allCases,
             appVersion: "\(L10n.About.appVersion) \(AppInfo.appVersion)"
-            // swiftlint:enable line_length
         )
     }
 }

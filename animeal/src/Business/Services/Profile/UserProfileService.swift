@@ -144,7 +144,7 @@ final class UserProfileService: UserProfileServiceProtocol {
                     dict[item.id] = item.fullUserName
                 }
 
-                userNames.merge(userNamesBatch, uniquingKeysWith: { _, new in new })
+                userNames.merge(userNamesBatch) { _, new in new }
                 cachedUserNames = userNames
 
                 nextToken = list.nextToken

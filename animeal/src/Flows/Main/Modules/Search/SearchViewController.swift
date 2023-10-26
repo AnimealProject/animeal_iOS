@@ -53,8 +53,10 @@ final class SearchViewController: UIViewController, SearchViewable {
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addGestureRecognizer(UITapGestureRecognizer(target: view,
-                                                         action: #selector(UIView.endEditing(_:))))
+        view.addGestureRecognizer(UITapGestureRecognizer(
+                                                         target: view,
+                                                         action: #selector(UIView.endEditing(_:))
+                                                         ))
 
         setup()
         bind()

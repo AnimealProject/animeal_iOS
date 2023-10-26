@@ -69,9 +69,11 @@ private extension AppDelegate {
 
         func makeSession(withDelegate delegate: URLSessionBehaviorDelegate?) -> URLSessionBehavior {
             let urlSessionDelegate = AMURLSessionDelegate(amplifyDelegate: delegate)
-            let session = URLSession(configuration: configuration,
+            let session = URLSession(
+                                     configuration: configuration,
                                      delegate: urlSessionDelegate,
-                                     delegateQueue: delegateQueue)
+                                     delegateQueue: delegateQueue
+                                    )
             return session
         }
     }
