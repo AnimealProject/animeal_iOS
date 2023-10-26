@@ -3278,8 +3278,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/mapbox/mapbox-navigation-ios.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.8.1;
+				kind = exactVersion;
+				version = 2.17.0;
 			};
 		};
 		DBA3C7E528575CAF00B30A78 /* XCRemoteSwiftPackageReference "mapbox-maps-ios" */ = {
