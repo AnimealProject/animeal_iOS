@@ -211,8 +211,12 @@ final class ProfileViewModel: ProfileViewModelProtocol {
                             .no(),
                             .yes(handler: {
                                 Task { [weak self] in
-                                    try? await action()
-                                    self?.coordinator.move(to: .cancel)
+                                    do {
+                                        try await action()
+                                        self?.coordinator.move(to: .cancel)
+                                    } catch {
+                                        // cancelled, stay as is
+                                    }
                                 }
                             })
                         ]
