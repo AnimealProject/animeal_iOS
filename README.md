@@ -21,10 +21,9 @@ Architecture: MVVM + Flow Coordinator
 1. MapBOX
 2. AWS Amplify
 3. Sorcery
-4. Quick and Nimble
-5. CocoaLumberjackSwift
-6. Firebase
-7. Kingfisher
+4. CocoaLumberjackSwift
+5. Firebase
+6. Kingfisher
 
 
 ## Style guide

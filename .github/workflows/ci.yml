@@ -14,7 +14,7 @@ jobs:
       uses: norio-nomura/action-swiftlint@3.2.1
 
  build:
-    name: Build and Test default scheme using iPhone simulator
+    name: Build and Generate IPA
     runs-on: macos-13
 
     steps:
@@ -60,12 +60,19 @@ jobs:
           MAPBOX_DOWNLOAD_TOKEN: ${{ secrets.MAPBOX_DOWNLOAD_TOKEN }}
       - name: Install Swiftgen
         run: brew install swiftgen
-      - name: Install xcbeautify
-        run: brew install xcbeautify
       - name: Set Xcode version
         uses: maxim-lobanov/setup-xcode@v1
         with: 
           xcode-version: '14.3.1'
-      - name: Build For Test
-        run: |
-          xcodebuild test -scheme animeal -project animeal.xcodeproj -destination "platform=iOS Simulator,name=iPhone 14,OS=16.4" -parallelizeTargets -showBuildTimingSummary | xcbeautify --renderer github-actions
+      - name: Decrypt Files
+        run: ./provisioning/import_provisioning.sh
+        env:
+          UNLOCK_CERTIFICATE: ${{ secrets.UNLOCK_CERTIFICATE }}
+      - name: Build Project
+        run: xcodebuild -sdk iphoneos -project animeal.xcodeproj -configuration Debug -scheme animeal -derivedDataPath DerivedData build -quiet -hideShellScriptEnvironment
+      - name: Create Archive
+        run: xcodebuild -archivePath DerivedData/Archive/animeal archive -quiet
+      - name: Build IPA
+        run: xcodebuild -exportArchive -archivePath DerivedData/Archive/animeal.xcarchive -exportOptionsPlist provisioning/ExportOptions.plist -exportPath DerivedData/ipa -quiet
+      - name: Dump file hierarchy
+        run: ls -R
