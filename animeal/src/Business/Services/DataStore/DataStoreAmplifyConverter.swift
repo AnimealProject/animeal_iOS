@@ -38,23 +38,23 @@ struct DataStoreAmplifyConverter: AmplifyDataStoreConverting, DataStoreAmplifyCo
 
     func convertAmplifyError(_ amplifyError: StorageError) -> Services.DataStoreError {
         switch amplifyError {
-        case .accessDenied(let errorDescription, let recoverySuggestion, let underlyingError):
+        case let .accessDenied(errorDescription, recoverySuggestion, underlyingError):
             return .accessDenied(errorDescription, recoverySuggestion, underlyingError)
-        case .authError(let errorDescription, let recoverySuggestion, let underlyingError):
+        case let .authError(errorDescription, recoverySuggestion, underlyingError):
             return .authError(errorDescription, recoverySuggestion, underlyingError)
-        case .configuration(let errorDescription, let recoverySuggestion, let underlyingError):
+        case let .configuration(errorDescription, recoverySuggestion, underlyingError):
             return .configuration(errorDescription, recoverySuggestion, underlyingError)
-        case .httpStatusError(let status, let recoverySuggestion, let underlyingError):
+        case let .httpStatusError(status, recoverySuggestion, underlyingError):
             return .httpStatusError(status, recoverySuggestion, underlyingError)
-        case .keyNotFound(let key, let errorDescription, let recoverySuggestion, let underlyingError):
+        case let .keyNotFound(key, errorDescription, recoverySuggestion, underlyingError):
             return .keyNotFound(key, errorDescription, recoverySuggestion, underlyingError)
-        case .localFileNotFound(let errorDescription, let recoverySuggestion, let underlyingError):
+        case let .localFileNotFound(errorDescription, recoverySuggestion, underlyingError):
             return .localFileNotFound(errorDescription, recoverySuggestion, underlyingError)
-        case .service(let errorDescription, let recoverySuggestion, let underlyingError):
+        case let .service(errorDescription, recoverySuggestion, underlyingError):
             return .service(errorDescription, recoverySuggestion, underlyingError)
-        case .unknown(let errorDescription, let underlyingError):
+        case let .unknown(errorDescription, underlyingError):
             return .unknown(errorDescription, underlyingError)
-        case .validation(let field, let errorDescription, let recoverySuggestion, let underlyingError):
+        case let .validation(field, errorDescription, recoverySuggestion, underlyingError):
             return .validation(field, errorDescription, recoverySuggestion, underlyingError)
         }
     }
