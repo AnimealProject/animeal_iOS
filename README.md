@@ -1,3 +1,5 @@
+[![CI](https://github.com/AnimealProject/animeal_iOS/actions/workflows/ci.yml/badge.svg)](https://github.com/AnimealProject/animeal_iOS/actions/workflows/ci.yml)
+
 # Animeal iOS
 ### A project to help volunteers feed stray animals
 

@@ -101,10 +101,10 @@ final class ProfileViewModel: ProfileViewModelProtocol {
             guard let self = self else {
                 return try await self?.model.fetchCachedItems() ?? []
             }
-            modelActions = try await model.discardAction()
-            let viewActions = modelActions.map(ProfileViewAction.init)
-            onActionsHaveBeenPrepared?(viewActions)
-            return try await model.fetchCachedItems()
+            self.modelActions = try await self.model.discardAction()
+            let viewActions = self.modelActions.map(ProfileViewAction.init)
+            self.onActionsHaveBeenPrepared?(viewActions)
+            return try await self.model.fetchCachedItems()
         }
     }
     @discardableResult
