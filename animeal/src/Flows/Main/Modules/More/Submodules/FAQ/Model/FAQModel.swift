@@ -9,8 +9,10 @@ final class FAQModel: FAQModelProtocol {
     private let mapper: QuestionMappable
 
     // MARK: - Initialization
-    init(context: Context = AppDelegate.shared.context,
-         mapper: QuestionMappable = QuestionMapper()) {
+    init(
+        context: Context = AppDelegate.shared.context,
+        mapper: QuestionMappable = QuestionMapper()
+    ) {
         self.context = context
         self.mapper = mapper
     }

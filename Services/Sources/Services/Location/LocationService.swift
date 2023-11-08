@@ -36,9 +36,7 @@ public final class LocationService {
 // MARK: - LocationService
 extension LocationService: LocationServiceProtocol {
     public var locationStatus: CLAuthorizationStatus {
-        get {
             return locationManager.authorizationStatus
-        }
     }
 
     public func removeDelegate(_ delegate: LocationServiceDelegate) {

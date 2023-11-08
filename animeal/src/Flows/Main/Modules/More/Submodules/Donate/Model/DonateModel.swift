@@ -12,8 +12,10 @@ final class DonateModel: DonateModelProtocol {
     private var paymentMethods: [PaymentMethod] = []
 
     // MARK: - Initialization
-    init(context: Context = AppDelegate.shared.context,
-         mapper: DonatePaymentMethodMappable = DonatePaymentMethodMapper()) {
+    init(
+        context: Context = AppDelegate.shared.context,
+        mapper: DonatePaymentMethodMappable = DonatePaymentMethodMapper()
+    ) {
         self.context = context
         self.mapper = mapper
     }
@@ -27,7 +29,7 @@ final class DonateModel: DonateModelProtocol {
     }
 
     func getPaymentMethod(for id: String) -> PaymentMethod? {
-        paymentMethods.first(where: { $0.id == id })
+        paymentMethods.first { $0.id == id }
     }
 
     func fetchIconURL(for key: String) async throws -> URL? {

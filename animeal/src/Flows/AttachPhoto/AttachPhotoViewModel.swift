@@ -130,11 +130,11 @@ private extension AttachPhotoViewModel {
         }
         do {
             progressModel.isVisible = true
-            return try await model.uploadMediaContent(data: data, progressListener: { progress in
+            return try await model.uploadMediaContent(data: data) { progress in
                 DispatchQueue.main.async {
                     progressModel.updateProgress(progress)
                 }
-            })
+            }
         } catch {
             progressModel.isVisible = false
             throw error
