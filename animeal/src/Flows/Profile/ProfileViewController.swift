@@ -67,8 +67,8 @@ final class ProfileViewController: BaseViewController, ProfileViewable {
         navigationItem.hidesBackButton = viewConfiguration.hidesBackButton
         if !viewConfiguration.hidesBackButton {
             navigationItem.hidesBackButton = true
-            let img = UIImage(named: Asset.Images.arrowBackOffset.name)
-            let backButton = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(backTapped))
+            let image = UIImage(named: Asset.Images.arrowBackOffset.name)
+            let backButton = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backTapped))
             navigationItem.leftBarButtonItem = backButton
         }
     }
