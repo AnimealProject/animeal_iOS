@@ -32,11 +32,10 @@ class PlaceholderRangeCalculator {
         let textLeftSlice = text.leftSlice(end: before)
         let patternLeftSlice = textPattern.leftSlice(limit: textLeftSlice.count)
         var result = 0
-        for (textSliceChar, patternSliceChar) in zip(textLeftSlice, patternLeftSlice) {
-            if textSliceChar == patternSliceChar {
+        for (textSliceChar, patternSliceChar) in zip(textLeftSlice, patternLeftSlice)
+            where textSliceChar == patternSliceChar {
                 result += 1
             }
-        }
         return result
     }
 

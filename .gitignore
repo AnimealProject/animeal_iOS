@@ -34,3 +34,6 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
+
+# Sourcery generated file
+animealTests/Sourcery/Generated/

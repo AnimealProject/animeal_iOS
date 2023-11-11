@@ -3,6 +3,7 @@ excluded:
   - ${PWD}/DerivedData
   - Tools
   - amplify/generated
+  - animealTests/Sourcery/Generated
 
 disabled_rules:
   - discarded_notification_center_observer
