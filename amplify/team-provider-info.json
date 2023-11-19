@@ -14,87 +14,9 @@
     },
     "categories": {
       "auth": {
-        "animeal8f90e9b68f90e9b6": {},
-        "userPoolGroups": {}
-      },
-      "function": {
-        "AdminQueriesdbb0bdc6": {
-          "deploymentBucketName": "amplify-animeal-test-155108-deployment",
-          "s3Key": "amplify-builds/AdminQueriesdbb0bdc6-4b7a6a4648504b6b4441-build.zip"
-        },
-        "animeal8f90e9b68f90e9b6CreateAuthChallenge": {
-          "deploymentBucketName": "amplify-animeal-test-155108-deployment",
-          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6CreateAuthChallenge-6b4b44316b766f596761-build.zip"
-        },
-        "animeal8f90e9b68f90e9b6CustomMessage": {
-          "deploymentBucketName": "amplify-animeal-test-155108-deployment",
-          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6CustomMessage-68547074514b7564556b-build.zip"
-        },
-        "animeal8f90e9b68f90e9b6DefineAuthChallenge": {
-          "deploymentBucketName": "amplify-animeal-test-155108-deployment",
-          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6DefineAuthChallenge-7a4739656c476c4c766e-build.zip"
-        },
-        "animeal8f90e9b68f90e9b6PostConfirmation": {
-          "deploymentBucketName": "amplify-animeal-test-155108-deployment",
-          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6PostConfirmation-7768772f6a58744d4330-build.zip"
-        },
-        "animeal8f90e9b68f90e9b6PreSignup": {
-          "deploymentBucketName": "amplify-animeal-test-155108-deployment",
-          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6PreSignup-542f7a67336b66423366-build.zip"
-        },
-        "animeal8f90e9b68f90e9b6VerifyAuthChallengeResponse": {
-          "deploymentBucketName": "amplify-animeal-test-155108-deployment",
-          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6VerifyAuthChallengeResponse-2b2f394c584a67523570-build.zip"
-        },
-        "approveFeeding": {
-          "deploymentBucketName": "amplify-animeal-test-155108-deployment",
-          "s3Key": "amplify-builds/approveFeeding-7872476b4f454676505a-build.zip"
-        },
-        "autoResetStatus": {
-          "deploymentBucketName": "amplify-animeal-test-155108-deployment",
-          "s3Key": "amplify-builds/autoResetStatus-6f3541696e416f574c78-build.zip"
-        },
-        "feedingStreamTrigger": {
-          "deploymentBucketName": "amplify-animeal-test-155108-deployment",
-          "s3Key": "amplify-builds/feedingStreamTrigger-49527847557834444d77-build.zip"
-        },
-        "finishFeeding": {
-          "deploymentBucketName": "amplify-animeal-test-155108-deployment",
-          "s3Key": "amplify-builds/finishFeeding-44416f4b63354550666a-build.zip"
-        },
-        "languages": {
-          "deploymentBucketName": "amplify-animeal-test-155108-deployment",
-          "s3Key": "amplify-builds/languages-6232477955427469616b-build.zip"
-        },
-        "onModelTrigger": {
-          "deploymentBucketName": "amplify-animeal-test-155108-deployment",
-          "s3Key": "amplify-builds/onModelTrigger-5345494d544b4d54567a-build.zip"
-        },
-        "rejectFeeding": {
-          "deploymentBucketName": "amplify-animeal-test-155108-deployment",
-          "s3Key": "amplify-builds/rejectFeeding-56436a61687052434636-build.zip"
-        },
-        "startFeeding": {
-          "deploymentBucketName": "amplify-animeal-test-155108-deployment",
-          "s3Key": "amplify-builds/startFeeding-5941686b6c4d6a734a42-build.zip"
-        },
-        "translate": {
-          "deploymentBucketName": "amplify-animeal-test-155108-deployment",
-          "s3Key": "amplify-builds/translate-6b46754d586543315a63-build.zip"
-        },
-        "updateTranslationsTrigger": {
-          "deploymentBucketName": "amplify-animeal-test-155108-deployment",
-          "s3Key": "amplify-builds/updateTranslationsTrigger-63416a31666856526f78-build.zip"
-        },
-        "cognitoEventTriggerHandler": {
-          "deploymentBucketName": "amplify-animeal-test-155108-deployment",
-          "s3Key": "amplify-builds/cognitoEventTriggerHandler-52787353516c4c564743-build.zip"
-        }
+        "animeal8f90e9b68f90e9b6": {}
       },
       "api": {
-        "animeal": {}
-      },
-      "storage": {
         "animeal": {}
       }
     }
@@ -114,78 +36,10 @@
     },
     "categories": {
       "auth": {
-        "animeal8f90e9b68f90e9b6": {},
-        "userPoolGroups": {}
+        "animeal8f90e9b68f90e9b6": {}
       },
-      "function": {
-        "AdminQueriesdbb0bdc6": {
-          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/AdminQueriesdbb0bdc6-75563276563345736a39-build.zip"
-        },
-        "animeal8f90e9b68f90e9b6CreateAuthChallenge": {
-          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6CreateAuthChallenge-6b4b44316b766f596761-build.zip"
-        },
-        "animeal8f90e9b68f90e9b6DefineAuthChallenge": {
-          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6DefineAuthChallenge-7a4739656c476c4c766e-build.zip"
-        },
-        "animeal8f90e9b68f90e9b6PostConfirmation": {
-          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6PostConfirmation-7768772f6a58744d4330-build.zip"
-        },
-        "animeal8f90e9b68f90e9b6PreSignup": {
-          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6PreSignup-542f7a67336b66423366-build.zip"
-        },
-        "animeal8f90e9b68f90e9b6VerifyAuthChallengeResponse": {
-          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6VerifyAuthChallengeResponse-2b2f394c584a67523570-build.zip"
-        },
-        "approveFeeding": {
-          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/approveFeeding-56732f457a5258385776-build.zip"
-        },
-        "autoResetStatus": {
-          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/autoResetStatus-6f3541696e416f574c78-build.zip"
-        },
-        "feedingStreamTrigger": {
-          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/feedingStreamTrigger-3251542b5572582b7147-build.zip"
-        },
-        "finishFeeding": {
-          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/finishFeeding-44416f4b63354550666a-build.zip"
-        },
-        "rejectFeeding": {
-          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/rejectFeeding-59755631705979774377-build.zip"
-        },
-        "startFeeding": {
-          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/startFeeding-5941686b6c4d6a734a42-build.zip"
-        },
-        "translate": {
-          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/translate-6b46754d586543315a63-build.zip"
-        },
-        "updateTranslationsTrigger": {
-          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/updateTranslationsTrigger-63416a31666856526f78-build.zip"
-        },
-        "languages": {
-          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/languages-6232477955427469616b-build.zip"
-        },
-        "animeal8f90e9b68f90e9b6CustomMessage": {
-          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6CustomMessage-3337692f593159763748-build.zip"
-        },
-        "onModelTrigger": {
-          "deploymentBucketName": "amplify-animeal-dev-142117-deployment",
-          "s3Key": "amplify-builds/onModelTrigger-5345494d544b4d54567a-build.zip"
-        }
+      "api": {
+        "animeal": {}
       }
     }
   }

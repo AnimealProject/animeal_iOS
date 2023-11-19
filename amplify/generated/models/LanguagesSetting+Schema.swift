@@ -29,7 +29,8 @@ extension LanguagesSetting {
       rule(allow: .private, operations: [.read])
     ]
     
-    model.pluralName = "LanguagesSettings"
+    model.listPluralName = "LanguagesSettings"
+    model.syncPluralName = "LanguagesSettings"
     
     model.fields(
       .id(),

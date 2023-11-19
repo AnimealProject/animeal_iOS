@@ -28,7 +28,8 @@ extension Favourite {
       rule(allow: .private, operations: [.create, .read, .update, .delete])
     ]
     
-    model.pluralName = "Favourites"
+    model.listPluralName = "Favourites"
+    model.syncPluralName = "Favourites"
     
     model.attributes(
       .index(fields: ["userId", "feedingPointId"], name: "byUserId"),

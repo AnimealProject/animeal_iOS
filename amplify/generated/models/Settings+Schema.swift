@@ -27,7 +27,8 @@ extension Settings {
       rule(allow: .private, operations: [.read])
     ]
     
-    model.pluralName = "Settings"
+    model.listPluralName = "Settings"
+    model.syncPluralName = "Settings"
     
     model.fields(
       .id(),

@@ -15,7 +15,8 @@ extension CategoryI18n {
   public static let schema = defineSchema { model in
     let categoryI18n = CategoryI18n.keys
     
-    model.pluralName = "CategoryI18ns"
+    model.listPluralName = "CategoryI18ns"
+    model.syncPluralName = "CategoryI18ns"
     
     model.fields(
       .field(categoryI18n.locale, is: .required, ofType: .string),
