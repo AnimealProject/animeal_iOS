@@ -33,7 +33,8 @@ extension BankAccount {
       rule(allow: .private, operations: [.read])
     ]
     
-    model.pluralName = "BankAccounts"
+    model.listPluralName = "BankAccounts"
+    model.syncPluralName = "BankAccounts"
     
     model.fields(
       .id(),

@@ -14,7 +14,8 @@ extension FeedingPointDetails {
   public static let schema = defineSchema { model in
     let feedingPointDetails = FeedingPointDetails.keys
     
-    model.pluralName = "FeedingPointDetails"
+    model.listPluralName = "FeedingPointDetails"
+    model.syncPluralName = "FeedingPointDetails"
     
     model.fields(
       .field(feedingPointDetails.address, is: .required, ofType: .string)

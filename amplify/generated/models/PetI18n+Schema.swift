@@ -17,7 +17,8 @@ extension PetI18n {
   public static let schema = defineSchema { model in
     let petI18n = PetI18n.keys
     
-    model.pluralName = "PetI18ns"
+    model.listPluralName = "PetI18ns"
+    model.syncPluralName = "PetI18ns"
     
     model.fields(
       .field(petI18n.locale, is: .required, ofType: .string),

@@ -27,7 +27,8 @@ extension RelationUserPet {
       rule(allow: .private, operations: [.read])
     ]
     
-    model.pluralName = "RelationUserPets"
+    model.listPluralName = "RelationUserPets"
+    model.syncPluralName = "RelationUserPets"
     
     model.attributes(
       .index(fields: ["userId", "petId"], name: "byUserId"),

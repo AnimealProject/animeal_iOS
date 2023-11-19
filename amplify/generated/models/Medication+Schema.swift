@@ -29,7 +29,8 @@ extension Medication {
       rule(allow: .private, operations: [.read])
     ]
     
-    model.pluralName = "Medications"
+    model.listPluralName = "Medications"
+    model.syncPluralName = "Medications"
     
     model.attributes(
       .index(fields: ["petId", "date"], name: "byPetId")

@@ -31,7 +31,8 @@ extension Question {
       rule(allow: .private, operations: [.read])
     ]
     
-    model.pluralName = "Questions"
+    model.listPluralName = "Questions"
+    model.syncPluralName = "Questions"
     
     model.fields(
       .id(),

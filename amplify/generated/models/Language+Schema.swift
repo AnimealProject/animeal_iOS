@@ -30,7 +30,8 @@ extension Language {
       rule(allow: .private, operations: [.read])
     ]
     
-    model.pluralName = "Languages"
+    model.listPluralName = "Languages"
+    model.syncPluralName = "Languages"
     
     model.fields(
       .id(),

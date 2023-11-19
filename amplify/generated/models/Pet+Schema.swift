@@ -43,7 +43,8 @@ extension Pet {
       rule(allow: .private, operations: [.read])
     ]
     
-    model.pluralName = "Pets"
+    model.listPluralName = "Pets"
+    model.syncPluralName = "Pets"
     
     model.fields(
       .id(),

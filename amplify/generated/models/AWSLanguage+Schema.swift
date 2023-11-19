@@ -15,7 +15,8 @@ extension AWSLanguage {
   public static let schema = defineSchema { model in
     let aWSLanguage = AWSLanguage.keys
     
-    model.pluralName = "AWSLanguages"
+    model.listPluralName = "AWSLanguages"
+    model.syncPluralName = "AWSLanguages"
     
     model.fields(
       .field(aWSLanguage.code, is: .optional, ofType: .string),
