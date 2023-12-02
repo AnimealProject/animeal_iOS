@@ -154,7 +154,6 @@ final class MainCoordinator: Coordinatable {
     func start() {
         presentingWindow.rootViewController = rootTabBarController
         rootTabBarController.selectHomeTab()
-        _navigator.push(rootTabBarController, animated: false, completion: nil)
         presentingWindow.makeKeyAndVisible()
     }
 
