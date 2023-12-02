@@ -45,10 +45,6 @@ public final class Navigator: Navigating {
         self.init(navigationController: navigationController, rootViewControllerIndex: max(0, index))
     }
 
-    convenience init() {
-        self.init(navigationController: UINavigationController(), rootViewControllerIndex: 0)
-    }
-
     // MARK: - Child flow creation
     func makeChildNavigator() -> Navigating? {
         guard let navigationController = navigationController else {
