@@ -247,14 +247,8 @@ final class ProfileViewModel: ProfileViewModelProtocol {
 }
 
 private extension ProfileViewModel {
-    func processNextStep(
-        _ nextStep: ProfileModelNextStep,
-        actionIdentifier: String
-    ) {
-        switch nextStep {
-        case .done:
-            coordinator.move(to: .done)
-        case let .confirm(details, attribute, resendMethod):
+    func processNextStep(_ nextStep: ProfileModelNextStep, actionIdentifier: String) {
+        if case let .confirm(details, attribute, resendMethod) = nextStep {
             let completion: (() -> Void)? = { [weak self] in
                 Task { [weak self] in
                     await self?.handleProceedAction(forIdentifier: actionIdentifier)
