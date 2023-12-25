@@ -68,4 +68,4 @@ jobs:
           xcode-version: '15.1'
       - name: Build For Test
         run: |
-          xcodebuild test -scheme animeal -project animeal.xcodeproj -destination "platform=iOS Simulator,name=iPhone 14,OS=16.4" -parallelizeTargets -showBuildTimingSummary | xcbeautify --renderer github-actions
+          xcodebuild test -scheme animeal -project animeal.xcodeproj -destination "platform=iOS Simulator,name=iPhone 14,OS=17.2" -parallelizeTargets -showBuildTimingSummary | xcbeautify --renderer github-actions
