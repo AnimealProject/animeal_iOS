@@ -85,7 +85,7 @@ final class HomeModel: HomeModelProtocol {
                 title: L10n.Feeding.Alert.cancelFeeding,
                 actions: [
                     .init(title: L10n.Action.no, style: .inverted),
-                    .init(title: L10n.Action.ok, style: .accent(.cancelFeeding))
+                    .init(title: L10n.Action.yes, style: .accent(.cancelFeeding))
                 ]
             )
         case .autoCancelFeeding:
