@@ -73,6 +73,7 @@
 "verification.error.codeUnsupportedNextStep"      = "Code unsupported next step";
 "verification.error.codeTriesCountLimitExceeded"  = "Attempts to enter the verification code have ended. Try requesting the code again.";
 "verification.alert.resend"                       = "Resend";
+"verification.alert.next"                         = "Next";
 "verification.alert.cancel"                       = "Cancel";
 "feeding.status.fed"                              = "Newly fed";
 "feeding.status.starved"                          = "There is no food";

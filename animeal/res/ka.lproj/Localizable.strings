@@ -73,6 +73,7 @@
 "verification.error.codeUnsupportedNextStep"      = "შემდეგი ნაბიჯის კოდი მხარდაუჭერელია";
 "verification.error.codeTriesCountLimitExceeded"  = "დამადასტურებელი კოდის შეყვანის მცდელობები დასრულდა. ისევ სცადეთ კოდის მოთხოვნა.";
 "verification.alert.resend"                       = "Ხელახლა გაგზავნა";
+"verification.alert.next"                         = "შემდეგი";
 "verification.alert.cancel"                       = "გაუქმება";
 "feeding.status.fed"                              = "ახლად ყელში";
 "feeding.status.starved"                          = "საჭმელი არ არის";

@@ -291,6 +291,8 @@ internal enum L10n {
     internal enum Alert {
       /// Cancel
       internal static let cancel = L10n.tr("Localizable", "verification.alert.cancel", fallback: "Cancel")
+      /// Next
+      internal static let next = L10n.tr("Localizable", "verification.alert.next", fallback: "Next")
       /// Resend
       internal static let resend = L10n.tr("Localizable", "verification.alert.resend", fallback: "Resend")
     }
