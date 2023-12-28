@@ -8,6 +8,6 @@ struct CustomAuthViewAction {
 
 extension CustomAuthViewAction {
     static func next(isEnabled: Bool = false) -> CustomAuthViewAction {
-        CustomAuthViewAction(identifier: UUID().uuidString, title: "Next", isEnabled: isEnabled)
+        CustomAuthViewAction(identifier: UUID().uuidString, title: L10n.Verification.Alert.next, isEnabled: isEnabled)
     }
 }
