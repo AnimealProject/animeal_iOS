@@ -6,9 +6,9 @@
 "segment.cats"                                    = "კატები";
 "loginScreen.text"                                = "ზოგიერთი მათგანი უსახლკაროა, მათ თქვენი დახმარება სჭირდებათ";
 "loginScreen.title"                               = "იზრუნეთ შინაურ ცხოველებზე";
-"loginScreen.signInViaMobilePhone"                = "შედით მობილურით";
-"loginScreen.signInViaFacebook"                   = "Ფეისბუქზე შესვლა";
-"loginScreen.signInViaApple"                      = "შედით Apple-ით";
+"loginScreen.signInViaMobilePhone"                = "შესვლა მობილურით";
+"loginScreen.signInViaFacebook"                   = "შესვლა Facebook-ით";
+"loginScreen.signInViaApple"                      = "შესვლა Apple ID-ით";
 "favourites.header"                               = "რჩეულები";
 "favourites.empty"                                = "ჯერ არ გაქვთ საყვარელი კვების წერტილები. დააჭირეთ გულის ღილაკს კვების წერტილის დეტალებზე, რომ დაამატოთ ის, როგორც საყვარელი";
 "profile.name"                                    = "სახელი";
