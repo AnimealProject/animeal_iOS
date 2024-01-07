@@ -24,6 +24,7 @@ final class VerificationAfterChangingUserAttributeWorker: VerificationModelWorke
     }
 
     @discardableResult
+    // need to check
     func resendCode(
         forAttribute attribute: VerificationModelAttribute
     ) async throws -> VerificationModelNextStep {

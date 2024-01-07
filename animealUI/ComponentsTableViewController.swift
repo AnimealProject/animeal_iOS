@@ -375,7 +375,7 @@ class ComponentsTableViewController: UIViewController,
                     let feedingControllerView = FeedingControlView(
                         timerProvider: FeedingTimerProvider(
                             configuration: FeedingTimerProvider.Configuration(timerInterval: 1, countdownInterval: 239)
-                        )
+                        ), minuteText: L10n.Action.min
                     )
                     superView.addSubview(feedingControllerView.prepareForAutoLayout())
                     feedingControllerView.centerYAnchor ~= superView.centerYAnchor

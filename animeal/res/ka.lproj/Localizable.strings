@@ -53,6 +53,7 @@
 "action.deleteAccount"                            = "Ანგარიშის წაშლა";
 "action.iWillFeed"                                = "ვაჭმევ";
 "action.yes"                                      = "დიახ";
+"action.min"                                      = "წუთი";
 "action.finish"                                   = "დასრულება";
 "action.showOnMap"                                = "რუკაზე ჩვენება";
 "action.backToHome"                               = "სახლში დაბრუნება";

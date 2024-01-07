@@ -8,6 +8,7 @@ public final class FeedingControlView: UIView {
     private let timeLeftLabel = UILabel()
     private let distanceLabel = UILabel()
     private var cancelButton: UIButton?
+    private let minuteText: String
     private let timeIntervalFormatter: DateComponentsFormatter = {
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.hour, .minute]
@@ -26,9 +27,10 @@ public final class FeedingControlView: UIView {
 
     // MARK: - Initialization
     public init(
-        timerProvider: FeedingTimerProviderProtocol = FeedingTimerProvider(configuration: .default)
+        timerProvider: FeedingTimerProviderProtocol = FeedingTimerProvider(configuration: .default), minuteText : String
     ) {
         self.timerProvider = timerProvider
+        self.minuteText = minuteText
         super.init(frame: .zero)
         setupTimerProvider()
         setupViews()
@@ -112,8 +114,9 @@ private extension FeedingControlView {
 
     func setupTimerProvider() {
         timerProvider.onCountdownTimerChanged = { [weak self] timeInterval in
-            let timeLeft = self?.timeIntervalFormatter.string(from: timeInterval) ?? "0"
-            self?.timeLeftLabel.text = "\(timeLeft) min"
+            guard let self = self else { return }
+            let timeLeft = self.timeIntervalFormatter.string(from: timeInterval) ?? "0"
+            self.timeLeftLabel.text = "\(timeLeft) \(self.minuteText)"
         }
         timerProvider.onTimerFinished = { [weak self] in
             self?.onTimerFinishHandler?()

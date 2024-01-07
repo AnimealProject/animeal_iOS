@@ -44,7 +44,8 @@ final class VerificationAfterCustomAuthWorker: VerificationModelWorker {
     func resendCode(
         forAttribute attribute: VerificationModelAttribute
     ) async throws -> VerificationModelNextStep {
-        try await authenticationService.signOut()
+        // need to check
+//        try await authenticationService.signOut()
         let result = try await authenticationService.signIn(
             username: AuthenticationInput { attribute.value }
         )
