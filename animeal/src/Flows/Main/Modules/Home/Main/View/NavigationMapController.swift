@@ -117,6 +117,21 @@ class NavigationMapController: NavigationViewControllerDelegate {
         )
     }
 
+    func easeToDefaultZoomLocation(
+        _ locationCoordinate: CLLocationCoordinate2D?,
+        duration: TimeInterval
+    ) {
+        var cameraOptions = camera(for: [locationCoordinate].compactMap { $0 })
+        cameraOptions.zoom = 16.0
+        navigationMapView.mapView.camera.ease(
+            to: cameraOptions,
+            duration: duration,
+            curve: .easeOut,
+            completion: nil
+        )
+    }
+
+
     func easeToLocations(
         _ locationCoordinates: [CLLocationCoordinate2D],
         duration: TimeInterval,
