@@ -37,12 +37,16 @@ final class VerificationViewModel: VerificationViewModelLifeCycle, VerificationV
         model.requestNewCodeTimeLeft = { modelTimeLeft in
             Task { [weak self] in
                 guard let self else { return }
+                let text = modelTimeLeft.time > 0 ?
+                    L10n.Verification.ResendCode.titleTime :
+                    L10n.Verification.ResendCode.title
+                let time = modelTimeLeft.time > 0 ? self.timeFormatter.string(
+                    from: TimeInterval(modelTimeLeft.time)
+                ) : nil
                 self.onResendCodeHasBeenPrepared?(
                     VereficationViewResendCode(
-                        title: L10n.Verification.ResendCode.title,
-                        timeLeft: self.timeFormatter.string(
-                            from: TimeInterval(modelTimeLeft.time)
-                        )
+                        title: text,
+                        timeLeft: time
                     )
                 )
             }
