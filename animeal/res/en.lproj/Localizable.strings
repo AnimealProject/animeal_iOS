@@ -67,7 +67,8 @@
 "verification.title"                              = "Enter verification code";
 "verification.subtitle.filled"                    = "Code was sent to:";
 "verification.subtitle.empty"                     = "Code was sent to destination";
-"verification.resendCode.title"                   = "Resend code in";
+"verification.resendCode.title"                   = "Resend code";
+"verification.resendCode.titleTime"               = "Resend code in";
 "verification.error.codeDigitsCountDoesNotFit"    = "Code digits count doesn’t fit";
 "verification.error.codeRequestTimeLimitExceeded" = "Code request time limit exceeded";
 "verification.error.codeUnsupportedNextStep"      = "Code unsupported next step";
