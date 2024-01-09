@@ -53,6 +53,7 @@
 "action.deleteAccount"                            = "Delete Account";
 "action.iWillFeed"                                = "I will feed";
 "action.yes"                                      = "Yes";
+"action.min"                                      = "min";
 "action.finish"                                   = "Finish";
 "action.showOnMap"                                = "Show on map";
 "action.backToHome"                               = "Back to home";

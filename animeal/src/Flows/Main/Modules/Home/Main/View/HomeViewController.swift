@@ -10,7 +10,7 @@ class HomeViewController: UIViewController {
     private var mapView: NavigationMapController!
     private let segmentedControl = FilledSegmentedControl()
     private lazy var feedControl: FeedingControlView = {
-        let feedControl = FeedingControlView()
+        let feedControl = FeedingControlView( minuteText: L10n.Action.min)
         feedControl.onCloseHandler = { [weak self] in
             self?.viewModel.handleActionEvent(.tapCancelFeeding)
         }

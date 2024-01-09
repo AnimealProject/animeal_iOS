@@ -35,6 +35,8 @@ internal enum L10n {
     internal static let iWillFeed = L10n.tr("Localizable", "action.iWillFeed", fallback: "I will feed")
     /// Log out
     internal static let logOut = L10n.tr("Localizable", "action.logOut", fallback: "Log out")
+    /// min
+    internal static let min = L10n.tr("Localizable", "action.min", fallback: "min")
     /// No
     internal static let no = L10n.tr("Localizable", "action.no", fallback: "No")
     /// No, thanks
