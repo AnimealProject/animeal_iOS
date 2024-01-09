@@ -309,8 +309,10 @@ internal enum L10n {
       internal static let codeUnsupportedNextStep = L10n.tr("Localizable", "verification.error.codeUnsupportedNextStep", fallback: "Code unsupported next step")
     }
     internal enum ResendCode {
+      /// Resend code
+      internal static let title = L10n.tr("Localizable", "verification.resendCode.title", fallback: "Resend code")
       /// Resend code in
-      internal static let title = L10n.tr("Localizable", "verification.resendCode.title", fallback: "Resend code in")
+      internal static let titleTime = L10n.tr("Localizable", "verification.resendCode.titleTime", fallback: "Resend code in")
     }
     internal enum Subtitle {
       /// Code was sent to destination

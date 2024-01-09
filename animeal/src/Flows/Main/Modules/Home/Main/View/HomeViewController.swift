@@ -384,7 +384,7 @@ private extension HomeViewController {
                 latitude: 41.719545681547245,
                 longitude: 44.78956025041992
             )
-            mapView.easeToLocation(tbilisiCenterCoordinates, duration: 0)
+            mapView.easeToDefaultZoomLocation(tbilisiCenterCoordinates, duration: 0)
             userLocationButton.isUserInteractionEnabled = false
         }
     }
