@@ -27,7 +27,7 @@ public final class FeedingControlView: UIView {
 
     // MARK: - Initialization
     public init(
-        timerProvider: FeedingTimerProviderProtocol = FeedingTimerProvider(configuration: .default), minuteText : String
+        timerProvider: FeedingTimerProviderProtocol = FeedingTimerProvider(configuration: .default), minuteText: String
     ) {
         self.timerProvider = timerProvider
         self.minuteText = minuteText
