@@ -29,7 +29,7 @@
 "profile.errors.incorrectFormat"                  = "ფორმატი არასწორია";
 "profile.errors.incorrectCharactersLength"        = "სიგრძე უნდა იყოს 2-დან 35-მდე";
 "profile.errors.incorrectCharacters"              = "უნდა შეიცავდეს მხოლოდ ასოებს";
-"phone.title"                                     = "გთხოვთ შეიყვანოთ თქვენი ტელეფონის ნომერი\n";
+"phone.title"                                     = "გთხოვთ, შეიყვანოთ თქვენი ტელეფონი\n";
 "phone.fields.phoneTitlle"                        = "Ტელეფონის ნომერი";
 "phone.fields.passwordTitlle"                     = "პაროლი";
 "phone.errors.incorrectPhone"                     = "ტელეფონის ნომრის ფორმატი არასწორია";
