@@ -17,6 +17,33 @@ async function request(query, variables) {
 }
 
 
+const createFeedingExt = async (params) =>
+  request(
+    `  mutation CreateFeedingExt($input: CreateFeedingInput!) {
+      createFeedingExt(input: $input) {
+        id
+        userId
+        images
+        status
+        createdAt
+        updatedAt
+        createdBy
+        updatedBy
+        owner
+        feedingPointDetails {
+          address
+        }
+        feedingPointFeedingsId
+        expireAt
+        assignedModerators
+        moderatedBy
+        moderatedAt
+      }
+    }`,
+    params,
+  );
+
+
 const updateFeedingPoint = async (params) =>
   request(
     `mutation UpdateFeedingPoint(
@@ -417,4 +444,5 @@ module.exports = {
   getFeedingPoint,
   getUser,
   getUsersByFeedingPointId,
+  createFeedingExt,
 };

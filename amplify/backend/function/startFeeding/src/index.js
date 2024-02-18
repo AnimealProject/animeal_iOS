@@ -24,6 +24,7 @@ const {
   getFeedingPoint,
   getUser,
   getUsersByFeedingPointId,
+  createFeedingExt,
 } = require('./query');
 const PromiseBL = require('bluebird');
 
@@ -68,7 +69,9 @@ exports.handler = async (event, context, callback) => {
 
     if (
       event?.identity?.username &&
-      !usersDynamoRecords.find((it) => it.Put.Item.id == event?.identity?.username)
+      !usersDynamoRecords.find(
+        (it) => it.Put.Item.id == event?.identity?.username,
+      )
     ) {
       const user = await getUser(event?.identity?.username);
       usersDynamoRecords.push({
@@ -84,26 +87,28 @@ exports.handler = async (event, context, callback) => {
       });
     }
 
+    const feedingItem = {
+      id: feedingPointId,
+      images: [],
+      status: 'inProgress',
+      feedingPointFeedingsId: feedingPointId,
+      userId: event?.identity?.username || 'admin',
+      expireAt: Math.floor(expireAt.getTime() / 1000),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      feedingPointDetails: {
+        address: feedingPoint.data.data.getFeedingPoint.address,
+      },
+      assignedModerators: assignedModeratorsIds,
+    };
+
     await dynamoDB
       .transactWrite({
         TransactItems: [
           ...usersDynamoRecords,
           {
             Put: {
-              Item: {
-                id: feedingPointId,
-                images: [],
-                status: 'inProgress',
-                feedingPointFeedingsId: feedingPointId,
-                userId: event?.identity?.username || 'admin',
-                expireAt: Math.floor(expireAt.getTime() / 1000),
-                createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString(),
-                feedingPointDetails: {
-                  address: feedingPoint.data.data.getFeedingPoint.address,
-                },
-                assignedModerators: assignedModeratorsIds,
-              },
+              Item: feedingItem,
               TableName: process.env.API_ANIMEAL_FEEDINGTABLE_NAME,
               ConditionExpression: 'attribute_not_exists(id)',
             },
@@ -134,6 +139,10 @@ exports.handler = async (event, context, callback) => {
         id: feedingPointId,
         statusUpdatedAt: new Date().toISOString(),
       },
+    });
+
+    await createFeedingExt({
+      input: feedingItem,
     });
 
     if (updateRes?.data?.errors?.length) {

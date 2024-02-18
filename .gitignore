@@ -13,6 +13,10 @@ xcodebuild/
 *.xcscmblueprint
 Breakpoints.xcbkptlist
 
+
+# Sourcery generated file
+animealTests/Sourcery/Generated/
+
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
 amplify/.config/local-*
@@ -34,6 +38,3 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
-
-# Sourcery generated file
-animealTests/Sourcery/Generated/

@@ -51,8 +51,36 @@ const getUser = async (username, userPoolId) => {
   }
 };
 
+const updateFeedingExt = async (params) =>
+  request(
+    `  mutation UpdateFeedingExt($input: UpdateFeedingInput!) {
+      updateFeedingExt(input: $input) {
+        id
+        userId
+        images
+        status
+        createdAt
+        updatedAt
+        createdBy
+        updatedBy
+        owner
+        feedingPointDetails {
+          address
+        }
+        feedingPointFeedingsId
+        expireAt
+        assignedModerators
+        moderatedBy
+        moderatedAt
+      }
+    }`,
+    params,
+  );
+
+
 
 module.exports = module.exports = {
   approveFeeding,
   getUser,
+  updateFeedingExt,
 };
