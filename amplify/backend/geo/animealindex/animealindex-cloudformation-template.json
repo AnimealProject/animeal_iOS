@@ -368,5 +368,5 @@
       }
     }
   },
-  "Description": "{\"createdOn\":\"Windows\",\"createdBy\":\"Amplify\",\"createdWith\":\"8.5.0\",\"stackType\":\"geo-PlaceIndex\",\"metadata\":{}}"
+  "Description": "{\"createdOn\":\"Windows\",\"createdBy\":\"Amplify\",\"createdWith\":\"10.4.1\",\"stackType\":\"geo-PlaceIndex\",\"metadata\":{}}"
 }

@@ -16,7 +16,11 @@ Amplify Params - DO NOT EDIT */
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 
-const { getFeeding, updateFeedingPoint } = require('./query');
+const {
+  getFeeding,
+  updateFeedingPoint,
+  createFeedingHistoryExt,
+} = require('./query');
 var uuid = require('uuid');
 const AWS = require('aws-sdk');
 const dynamoDB = new AWS.DynamoDB.DocumentClient({});
@@ -54,32 +58,33 @@ exports.handler = async (event) => {
   }
 
   try {
+    const fidingItem = {
+      id: uuid.v4(),
+      userId: feeding.userId,
+      images: feeding.images,
+      createdAt: feeding.createdAt,
+      updatedAt: feeding.updatedAt,
+      createdBy: feeding.createdBy,
+      updatedBy: feeding.updatedBy,
+      owner: feeding.owner,
+      feedingPointId: feeding.feedingPointFeedingsId,
+      feedingPointDetails: feeding.feedingPointDetails,
+      assignedModerators: feeding.assignedModerators,
+      status: 'approved',
+      reason,
+      moderatedBy: isCalledBySystem
+        ? 'System'
+        : event?.identity?.username
+        ? event?.identity?.username
+        : 'Admin',
+      moderatedAt: new Date().toISOString(),
+    };
     await dynamoDB
       .transactWrite({
         TransactItems: [
           {
             Put: {
-              Item: {
-                id: uuid.v4(),
-                userId: feeding.userId,
-                images: feeding.images,
-                createdAt: feeding.createdAt,
-                updatedAt: feeding.updatedAt,
-                createdBy: feeding.createdBy,
-                updatedBy: feeding.updatedBy,
-                owner: feeding.owner,
-                feedingPointId: feeding.feedingPointFeedingsId,
-                feedingPointDetails: feeding.feedingPointDetails,
-                assignedModerators: feeding.assignedModerators,
-                status: 'approved',
-                reason,
-                moderatedBy: isCalledBySystem
-                  ? 'System'
-                  : event?.identity?.username
-                  ? event?.identity?.username
-                  : 'Admin',
-                moderatedAt: new Date().toISOString(),
-              },
+              Item: fidingItem,
               TableName: process.env.API_ANIMEAL_FEEDINGHISTORYTABLE_NAME,
             },
           },
@@ -132,6 +137,10 @@ exports.handler = async (event) => {
         id: feeding.feedingPointFeedingsId,
         statusUpdatedAt: new Date().toISOString(),
       },
+    });
+
+    await createFeedingHistoryExt({
+      input: fidingItem,
     });
 
     if (updateRes?.data?.errors?.length) {

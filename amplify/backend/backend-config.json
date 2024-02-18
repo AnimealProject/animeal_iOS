@@ -158,7 +158,97 @@
     }
   },
   "custom": {
+    "createFeedingExt": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIKeyOutput",
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "animeal"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "customCDK"
+    },
+    "createFeedingPointExt": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIKeyOutput",
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "animeal"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "customCDK"
+    },
+    "onCreateFeedingHistoryExt": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIKeyOutput",
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "animeal"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "customCDK"
+    },
+    "onUpdateFeedingHistoryExt": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIKeyOutput",
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "animeal"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "customCDK"
+    },
     "searchByBounds": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIKeyOutput",
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "animeal"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "customCDK"
+    },
+    "updateFeedingExt": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIKeyOutput",
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "animeal"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "customCDK"
+    },
+    "updateFeedingPointExt": {
       "dependsOn": [
         {
           "attributes": [

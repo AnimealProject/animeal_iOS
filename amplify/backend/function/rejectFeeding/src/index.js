@@ -29,7 +29,11 @@ Amplify Params - DO NOT EDIT */
 const AWS = require('aws-sdk');
 var uuid = require('uuid');
 const dynamoDB = new AWS.DynamoDB.DocumentClient({});
-const { updateFeedingPoint, getFeeding } = require('./query');
+const {
+  updateFeedingPoint,
+  getFeeding,
+  createFeedingHistoryExt,
+} = require('./query');
 
 exports.handler = async (event) => {
   console.log(`EVENT: ${JSON.stringify(event)}`);
@@ -76,6 +80,27 @@ exports.handler = async (event) => {
   }
 
   try {
+    const feedingHistoryItem = {
+      id: uuid.v4(),
+      userId: feeding.userId,
+      images: feeding.images,
+      createdAt: feeding.createdAt,
+      updatedAt: feeding.updatedAt,
+      createdBy: feeding.createdBy,
+      updatedBy: feeding.updatedBy,
+      owner: feeding.owner,
+      feedingPointId: feeding.feedingPointFeedingsId,
+      feedingPointDetails: feeding.feedingPointDetails,
+      assignedModerators: feeding.assignedModerators,
+      status: !isApprovalTimeExpiredReason(reason) ? 'rejected' : 'outdated',
+      reason,
+      moderatedBy: isCalledBySystem
+        ? 'System'
+        : event?.identity?.username
+        ? event?.identity?.username
+        : 'Admin',
+      moderatedAt: new Date().toISOString(),
+    };
     await dynamoDB
       .transactWrite({
         TransactItems: [
@@ -111,29 +136,7 @@ exports.handler = async (event) => {
           },
           {
             Put: {
-              Item: {
-                id: uuid.v4(),
-                userId: feeding.userId,
-                images: feeding.images,
-                createdAt: feeding.createdAt,
-                updatedAt: feeding.updatedAt,
-                createdBy: feeding.createdBy,
-                updatedBy: feeding.updatedBy,
-                owner: feeding.owner,
-                feedingPointId: feeding.feedingPointFeedingsId,
-                feedingPointDetails: feeding.feedingPointDetails,
-                assignedModerators: feeding.assignedModerators,
-                status: !isApprovalTimeExpiredReason(reason)
-                  ? 'rejected'
-                  : 'outdated',
-                reason,
-                moderatedBy: isCalledBySystem
-                  ? 'System'
-                  : event?.identity?.username
-                  ? event?.identity?.username
-                  : 'Admin',
-                moderatedAt: new Date().toISOString(),
-              },
+              Item: feedingHistoryItem,
               TableName: process.env.API_ANIMEAL_FEEDINGHISTORYTABLE_NAME,
             },
           },
@@ -162,6 +165,10 @@ exports.handler = async (event) => {
         id: feedingId,
         statusUpdatedAt: new Date().toISOString(),
       },
+    });
+
+    await createFeedingHistoryExt({
+      input: feedingHistoryItem,
     });
 
     if (updateRes?.data?.errors?.length) {

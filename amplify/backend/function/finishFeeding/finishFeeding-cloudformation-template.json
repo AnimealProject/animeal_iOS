@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "{\"createdOn\":\"Windows\",\"createdBy\":\"Amplify\",\"createdWith\":\"10.0.0\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
+  "Description": "{\"createdOn\":\"Windows\",\"createdBy\":\"Amplify\",\"createdWith\":\"10.4.1\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
   "Parameters": {
     "CloudWatchRule": {
       "Type": "String",
@@ -660,6 +660,14 @@
     "LambdaExecutionRole": {
       "Value": {
         "Ref": "LambdaExecutionRole"
+      }
+    },
+    "LambdaExecutionRoleArn": {
+      "Value": {
+        "Fn::GetAtt": [
+          "LambdaExecutionRole",
+          "Arn"
+        ]
       }
     }
   }

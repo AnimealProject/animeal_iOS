@@ -1,38 +1,17 @@
 {
   "test": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-animeal-test-155108-authRole",
-      "UnauthRoleArn": "arn:aws:iam::027735239009:role/amplify-animeal-test-155108-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::027735239009:role/amplify-animeal-test-155108-authRole",
+      "PermissionsBoundaryPolicyArn": "arn:aws:iam::027735239009:policy/eo_role_boundary",
+      "AuthRoleName": "amplify-animeal-test-151221-authRole",
+      "UnauthRoleArn": "arn:aws:iam::027735239009:role/amplify-animeal-test-151221-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::027735239009:role/amplify-animeal-test-151221-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-animeal-test-155108-deployment",
-      "UnauthRoleName": "amplify-animeal-test-155108-unauthRole",
-      "StackName": "amplify-animeal-test-155108",
-      "StackId": "arn:aws:cloudformation:us-east-1:027735239009:stack/amplify-animeal-test-155108/e688e1f0-61c7-11ed-bc59-1209a7a6d13f",
-      "AmplifyAppId": "d3u3uizwwbsxuy",
-      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-animeal-test-155108-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
-    },
-    "categories": {
-      "auth": {
-        "animeal8f90e9b68f90e9b6": {}
-      },
-      "api": {
-        "animeal": {}
-      }
-    }
-  },
-  "dev": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-animeal-dev-142117-authRole",
-      "UnauthRoleArn": "arn:aws:iam::027735239009:role/amplify-animeal-dev-142117-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::027735239009:role/amplify-animeal-dev-142117-authRole",
-      "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-animeal-dev-142117-deployment",
-      "UnauthRoleName": "amplify-animeal-dev-142117-unauthRole",
-      "StackName": "amplify-animeal-dev-142117",
-      "StackId": "arn:aws:cloudformation:us-east-1:027735239009:stack/amplify-animeal-dev-142117/5d7c60d0-2f68-11ed-af58-1258446b72c3",
-      "AmplifyAppId": "d3u3uizwwbsxuy",
-      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-animeal-dev-142117-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
+      "DeploymentBucketName": "amplify-animeal-test-151221-deployment",
+      "UnauthRoleName": "amplify-animeal-test-151221-unauthRole",
+      "StackName": "amplify-animeal-test-151221",
+      "StackId": "arn:aws:cloudformation:us-east-1:027735239009:stack/amplify-animeal-test-151221/87dab3b0-c5ba-11ee-a49f-121683bed319",
+      "AmplifyAppId": "d20qodrjjer852",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-animeal-test-151221-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
     },
     "categories": {
       "auth": {
