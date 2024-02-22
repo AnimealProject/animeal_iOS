@@ -15,9 +15,87 @@
     },
     "categories": {
       "auth": {
-        "animeal8f90e9b68f90e9b6": {}
+        "animeal8f90e9b68f90e9b6": {},
+        "userPoolGroups": {}
       },
       "api": {
+        "animeal": {}
+      },
+      "function": {
+        "AdminQueriesdbb0bdc6": {
+          "deploymentBucketName": "amplify-animeal-test-151221-deployment",
+          "s3Key": "amplify-builds/AdminQueriesdbb0bdc6-4b7a6a4648504b6b4441-build.zip"
+        },
+        "animeal8f90e9b68f90e9b6CreateAuthChallenge": {
+          "deploymentBucketName": "amplify-animeal-test-151221-deployment",
+          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6CreateAuthChallenge-6b4b44316b766f596761-build.zip"
+        },
+        "animeal8f90e9b68f90e9b6CustomMessage": {
+          "deploymentBucketName": "amplify-animeal-test-151221-deployment",
+          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6CustomMessage-68547074514b7564556b-build.zip"
+        },
+        "animeal8f90e9b68f90e9b6DefineAuthChallenge": {
+          "deploymentBucketName": "amplify-animeal-test-151221-deployment",
+          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6DefineAuthChallenge-7a4739656c476c4c766e-build.zip"
+        },
+        "animeal8f90e9b68f90e9b6PostConfirmation": {
+          "deploymentBucketName": "amplify-animeal-test-151221-deployment",
+          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6PostConfirmation-7768772f6a58744d4330-build.zip"
+        },
+        "animeal8f90e9b68f90e9b6PreSignup": {
+          "deploymentBucketName": "amplify-animeal-test-151221-deployment",
+          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6PreSignup-542f7a67336b66423366-build.zip"
+        },
+        "animeal8f90e9b68f90e9b6VerifyAuthChallengeResponse": {
+          "deploymentBucketName": "amplify-animeal-test-151221-deployment",
+          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6VerifyAuthChallengeResponse-2b2f394c584a67523570-build.zip"
+        },
+        "approveFeeding": {
+          "deploymentBucketName": "amplify-animeal-test-151221-deployment",
+          "s3Key": "amplify-builds/approveFeeding-677466757864344d6666-build.zip"
+        },
+        "autoResetStatus": {
+          "deploymentBucketName": "amplify-animeal-test-151221-deployment",
+          "s3Key": "amplify-builds/autoResetStatus-6f3541696e416f574c78-build.zip"
+        },
+        "cognitoEventTriggerHandler": {
+          "deploymentBucketName": "amplify-animeal-test-151221-deployment",
+          "s3Key": "amplify-builds/cognitoEventTriggerHandler-52787353516c4c564743-build.zip"
+        },
+        "feedingStreamTrigger": {
+          "deploymentBucketName": "amplify-animeal-test-151221-deployment",
+          "s3Key": "amplify-builds/feedingStreamTrigger-6d42686b50662f6b6d71-build.zip"
+        },
+        "finishFeeding": {
+          "deploymentBucketName": "amplify-animeal-test-151221-deployment",
+          "s3Key": "amplify-builds/finishFeeding-6d3065626d3053634d63-build.zip"
+        },
+        "languages": {
+          "deploymentBucketName": "amplify-animeal-test-151221-deployment",
+          "s3Key": "amplify-builds/languages-6232477955427469616b-build.zip"
+        },
+        "onModelTrigger": {
+          "deploymentBucketName": "amplify-animeal-test-151221-deployment",
+          "s3Key": "amplify-builds/onModelTrigger-5345494d544b4d54567a-build.zip"
+        },
+        "rejectFeeding": {
+          "deploymentBucketName": "amplify-animeal-test-151221-deployment",
+          "s3Key": "amplify-builds/rejectFeeding-73427736507833377741-build.zip"
+        },
+        "startFeeding": {
+          "deploymentBucketName": "amplify-animeal-test-151221-deployment",
+          "s3Key": "amplify-builds/startFeeding-39686c68586b614b6e32-build.zip"
+        },
+        "translate": {
+          "deploymentBucketName": "amplify-animeal-test-151221-deployment",
+          "s3Key": "amplify-builds/translate-6b46754d586543315a63-build.zip"
+        },
+        "updateTranslationsTrigger": {
+          "deploymentBucketName": "amplify-animeal-test-151221-deployment",
+          "s3Key": "amplify-builds/updateTranslationsTrigger-63416a31666856526f78-build.zip"
+        }
+      },
+      "storage": {
         "animeal": {}
       }
     }
