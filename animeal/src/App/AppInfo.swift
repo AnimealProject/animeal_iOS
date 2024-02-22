@@ -2,7 +2,7 @@ import Foundation
 
 enum AppInfo {
     static var appId: String {
-        return "1641080306"
+        return "6478071465"
     }
 
     static var bundle: String {
