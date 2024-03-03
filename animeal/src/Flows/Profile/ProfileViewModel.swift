@@ -255,6 +255,13 @@ private extension ProfileViewModel {
                 }
             }
             coordinator.move(to: .confirm(details, attribute, resendMethod, completion))
+        } else if case .done = nextStep, modelActions.count > 1 {
+            // As per EPMEDU-2899 need to keep the user on profile screen post update.
+            // Since this same screen is resused on registration need to redirect the user to home screen.
+            // TODO: make a way to understand the user is creating an account vs user is updating profile.
+            // for now simple work aorund is to check how any actions are there in the screen.
+            // If there are 2 actions then registration. 1 actions then profile update.
+            coordinator.move(to: .done)
         }
     }
 
