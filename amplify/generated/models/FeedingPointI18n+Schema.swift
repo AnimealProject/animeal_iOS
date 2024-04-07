@@ -21,7 +21,8 @@ extension FeedingPointI18n {
   public static let schema = defineSchema { model in
     let feedingPointI18n = FeedingPointI18n.keys
     
-    model.pluralName = "FeedingPointI18ns"
+    model.listPluralName = "FeedingPointI18ns"
+    model.syncPluralName = "FeedingPointI18ns"
     
     model.fields(
       .field(feedingPointI18n.locale, is: .required, ofType: .string),

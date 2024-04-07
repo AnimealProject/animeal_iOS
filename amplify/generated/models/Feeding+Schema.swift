@@ -37,7 +37,8 @@ extension Feeding {
       rule(allow: .private, operations: [.read])
     ]
     
-    model.pluralName = "Feedings"
+    model.listPluralName = "Feedings"
+    model.syncPluralName = "Feedings"
     
     model.fields(
       .id(),

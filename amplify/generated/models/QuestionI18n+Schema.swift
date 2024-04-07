@@ -16,7 +16,8 @@ extension QuestionI18n {
   public static let schema = defineSchema { model in
     let questionI18n = QuestionI18n.keys
     
-    model.pluralName = "QuestionI18ns"
+    model.listPluralName = "QuestionI18ns"
+    model.syncPluralName = "QuestionI18ns"
     
     model.fields(
       .field(questionI18n.locale, is: .required, ofType: .string),

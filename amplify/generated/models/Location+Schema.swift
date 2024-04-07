@@ -15,7 +15,8 @@ extension Location {
   public static let schema = defineSchema { model in
     let location = Location.keys
     
-    model.pluralName = "Locations"
+    model.listPluralName = "Locations"
+    model.syncPluralName = "Locations"
     
     model.fields(
       .field(location.lat, is: .required, ofType: .double),

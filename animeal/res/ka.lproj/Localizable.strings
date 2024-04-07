@@ -6,9 +6,9 @@
 "segment.cats"                                    = "კატები";
 "loginScreen.text"                                = "ზოგიერთი მათგანი უსახლკაროა, მათ თქვენი დახმარება სჭირდებათ";
 "loginScreen.title"                               = "იზრუნეთ შინაურ ცხოველებზე";
-"loginScreen.signInViaMobilePhone"                = "შედით მობილურით";
-"loginScreen.signInViaFacebook"                   = "Ფეისბუქზე შესვლა";
-"loginScreen.signInViaApple"                      = "შედით Apple-ით";
+"loginScreen.signInViaMobilePhone"                = "შესვლა მობილურით";
+"loginScreen.signInViaFacebook"                   = "შესვლა Facebook-ით";
+"loginScreen.signInViaApple"                      = "შესვლა Apple ID-ით";
 "favourites.header"                               = "რჩეულები";
 "favourites.empty"                                = "ჯერ არ გაქვთ საყვარელი კვების წერტილები. დააჭირეთ გულის ღილაკს კვების წერტილის დეტალებზე, რომ დაამატოთ ის, როგორც საყვარელი";
 "profile.name"                                    = "სახელი";
@@ -29,7 +29,7 @@
 "profile.errors.incorrectFormat"                  = "ფორმატი არასწორია";
 "profile.errors.incorrectCharactersLength"        = "სიგრძე უნდა იყოს 2-დან 35-მდე";
 "profile.errors.incorrectCharacters"              = "უნდა შეიცავდეს მხოლოდ ასოებს";
-"phone.title"                                     = "გთხოვთ შეიყვანოთ თქვენი ტელეფონის ნომერი\n";
+"phone.title"                                     = "გთხოვთ, შეიყვანოთ თქვენი ტელეფონი\n";
 "phone.fields.phoneTitlle"                        = "Ტელეფონის ნომერი";
 "phone.fields.passwordTitlle"                     = "პაროლი";
 "phone.errors.incorrectPhone"                     = "ტელეფონის ნომრის ფორმატი არასწორია";
@@ -53,6 +53,7 @@
 "action.deleteAccount"                            = "Ანგარიშის წაშლა";
 "action.iWillFeed"                                = "ვაჭმევ";
 "action.yes"                                      = "დიახ";
+"action.min"                                      = "წუთი";
 "action.finish"                                   = "დასრულება";
 "action.showOnMap"                                = "რუკაზე ჩვენება";
 "action.backToHome"                               = "სახლში დაბრუნება";
@@ -67,12 +68,14 @@
 "verification.title"                              = "შეიყვანეთ დამადასტურებელი კოდი";
 "verification.subtitle.filled"                    = "კოდი გაიგზავნა:";
 "verification.subtitle.empty"                     = "კოდი გაიგზავნა დანიშნულების ადგილზე";
-"verification.resendCode.title"                   = "კოდის ხელახლა გაგზავნა";
+"verification.resendCode.title"                   = "Კოდის გადაგზავნა";
+"verification.resendCode.titleTime"               = "კოდის ხელახლა გაგზავნა";
 "verification.error.codeDigitsCountDoesNotFit"    = "კოდის ციფრების რაოდენობა არ ჯდება";
 "verification.error.codeRequestTimeLimitExceeded" = "კოდის მოთხოვნის დროის ლიმიტი გადაჭარბებულია";
 "verification.error.codeUnsupportedNextStep"      = "შემდეგი ნაბიჯის კოდი მხარდაუჭერელია";
 "verification.error.codeTriesCountLimitExceeded"  = "დამადასტურებელი კოდის შეყვანის მცდელობები დასრულდა. ისევ სცადეთ კოდის მოთხოვნა.";
 "verification.alert.resend"                       = "Ხელახლა გაგზავნა";
+"verification.alert.next"                         = "შემდეგი";
 "verification.alert.cancel"                       = "გაუქმება";
 "feeding.status.fed"                              = "ახლად ყელში";
 "feeding.status.starved"                          = "საჭმელი არ არის";
@@ -96,7 +99,7 @@
 "donate.title"                                    = "შემოწირულობა";
 "donate.header.text"                              = "ჩვენ შეგვიძლია დავტოვოთ შემოწირულობა ცხოველებისთვის და დეველოპერების მხარდასაჭერად";
 "donate.footer.text"                              = "გმადლობთ შემოწირულობისთვის!";
-"donate.copy.text"                                = "ტექსტი დაკოპირებულია";
+"donate.copy.text"                                = "ანგარიში დაკოპირებულია";
 "about.appVersion"                                = "აპლიკაციის ვერსია";
 "leaderBoard.header"                              = "ლიდერბორდი";
 "leaderBoard.empty"                               = "ლიდერბორდი აჩვენებს მოხალისეთა რეიტინგს";

@@ -28,6 +28,105 @@ import CoreLocation
 
 
 
+class AboutModelProtocolMock: AboutModelProtocol {
+    var contentText: String {
+        get { return underlyingContentText }
+        set(value) { underlyingContentText = value }
+    }
+    var underlyingContentText: String!
+    var links: [AboutLink] = []
+    var appVersion: String {
+        get { return underlyingAppVersion }
+        set(value) { underlyingAppVersion = value }
+    }
+    var underlyingAppVersion: String!
+
+}
+class AttachPhotoModelProtocolMock: AttachPhotoModelProtocol {
+
+    // MARK: - fetchFeedingPoints
+
+    var fetchFeedingPointsCallsCount = 0
+    var fetchFeedingPointsCalled: Bool {
+        return fetchFeedingPointsCallsCount > 0
+    }
+    var fetchFeedingPointsReceivedCompletion: (((AttachPhotoModel.PointContent) -> Void))?
+    var fetchFeedingPointsReceivedInvocations: [(((AttachPhotoModel.PointContent) -> Void))?] = []
+    var fetchFeedingPointsClosure: ((((AttachPhotoModel.PointContent) -> Void)?) -> Void)?
+
+    func fetchFeedingPoints(_ completion: ((AttachPhotoModel.PointContent) -> Void)?) {
+        fetchFeedingPointsCallsCount += 1
+        fetchFeedingPointsReceivedCompletion = completion
+        fetchFeedingPointsReceivedInvocations.append(completion)
+        fetchFeedingPointsClosure?(completion)
+    }
+
+    // MARK: - fetchMediaContent
+
+    var fetchMediaContentKeyCompletionCallsCount = 0
+    var fetchMediaContentKeyCompletionCalled: Bool {
+        return fetchMediaContentKeyCompletionCallsCount > 0
+    }
+    var fetchMediaContentKeyCompletionReceivedArguments: (key: String, completion: ((Data?) -> Void)?)?
+    var fetchMediaContentKeyCompletionReceivedInvocations: [(key: String, completion: ((Data?) -> Void)?)] = []
+    var fetchMediaContentKeyCompletionClosure: ((String, ((Data?) -> Void)?) -> Void)?
+
+    func fetchMediaContent(key: String, completion: ((Data?) -> Void)?) {
+        fetchMediaContentKeyCompletionCallsCount += 1
+        fetchMediaContentKeyCompletionReceivedArguments = (key: key, completion: completion)
+        fetchMediaContentKeyCompletionReceivedInvocations.append((key: key, completion: completion))
+        fetchMediaContentKeyCompletionClosure?(key, completion)
+    }
+
+    // MARK: - uploadMediaContent
+
+    var uploadMediaContentDataProgressListenerThrowableError: Error?
+    var uploadMediaContentDataProgressListenerCallsCount = 0
+    var uploadMediaContentDataProgressListenerCalled: Bool {
+        return uploadMediaContentDataProgressListenerCallsCount > 0
+    }
+    var uploadMediaContentDataProgressListenerReceivedArguments: (data: Data, progressListener: ((Double) -> Void)?)?
+    var uploadMediaContentDataProgressListenerReceivedInvocations: [(data: Data, progressListener: ((Double) -> Void)?)] = []
+    var uploadMediaContentDataProgressListenerReturnValue: String!
+    var uploadMediaContentDataProgressListenerClosure: ((Data, ((Double) -> Void)?) async throws -> String)?
+
+    func uploadMediaContent(data: Data, progressListener: ((Double) -> Void)?) async throws -> String {
+        if let error = uploadMediaContentDataProgressListenerThrowableError {
+            throw error
+        }
+        uploadMediaContentDataProgressListenerCallsCount += 1
+        uploadMediaContentDataProgressListenerReceivedArguments = (data: data, progressListener: progressListener)
+        uploadMediaContentDataProgressListenerReceivedInvocations.append((data: data, progressListener: progressListener))
+        if let uploadMediaContentDataProgressListenerClosure = uploadMediaContentDataProgressListenerClosure {
+            return try await uploadMediaContentDataProgressListenerClosure(data, progressListener)
+        } else {
+            return uploadMediaContentDataProgressListenerReturnValue
+        }
+    }
+
+    // MARK: - fetchAttachPhotoAction
+
+    var fetchAttachPhotoActionRequestCallsCount = 0
+    var fetchAttachPhotoActionRequestCalled: Bool {
+        return fetchAttachPhotoActionRequestCallsCount > 0
+    }
+    var fetchAttachPhotoActionRequestReceivedRequest: AttachPhotoModel.AttachPhotoRequest?
+    var fetchAttachPhotoActionRequestReceivedInvocations: [AttachPhotoModel.AttachPhotoRequest] = []
+    var fetchAttachPhotoActionRequestReturnValue: AttachPhotoModel.AttachPhotoAction!
+    var fetchAttachPhotoActionRequestClosure: ((AttachPhotoModel.AttachPhotoRequest) -> AttachPhotoModel.AttachPhotoAction)?
+
+    func fetchAttachPhotoAction(request: AttachPhotoModel.AttachPhotoRequest) -> AttachPhotoModel.AttachPhotoAction {
+        fetchAttachPhotoActionRequestCallsCount += 1
+        fetchAttachPhotoActionRequestReceivedRequest = request
+        fetchAttachPhotoActionRequestReceivedInvocations.append(request)
+        if let fetchAttachPhotoActionRequestClosure = fetchAttachPhotoActionRequestClosure {
+            return fetchAttachPhotoActionRequestClosure(request)
+        } else {
+            return fetchAttachPhotoActionRequestReturnValue
+        }
+    }
+
+}
 class CustomAuthModelProtocolMock: CustomAuthModelProtocol {
 
     // MARK: - fetchItems
@@ -210,6 +309,179 @@ class CustomAuthViewItemMappableMock: CustomAuthViewItemMappable {
     }
 
 }
+class DonateModelProtocolMock: DonateModelProtocol {
+
+    // MARK: - fetchPaymentMethods
+
+    var fetchPaymentMethodsThrowableError: Error?
+    var fetchPaymentMethodsCallsCount = 0
+    var fetchPaymentMethodsCalled: Bool {
+        return fetchPaymentMethodsCallsCount > 0
+    }
+    var fetchPaymentMethodsReturnValue: [DonateModel.PaymentMethod]!
+    var fetchPaymentMethodsClosure: (() async throws -> [DonateModel.PaymentMethod])?
+
+    func fetchPaymentMethods() async throws -> [DonateModel.PaymentMethod] {
+        if let error = fetchPaymentMethodsThrowableError {
+            throw error
+        }
+        fetchPaymentMethodsCallsCount += 1
+        if let fetchPaymentMethodsClosure = fetchPaymentMethodsClosure {
+            return try await fetchPaymentMethodsClosure()
+        } else {
+            return fetchPaymentMethodsReturnValue
+        }
+    }
+
+    // MARK: - getPaymentMethod
+
+    var getPaymentMethodForCallsCount = 0
+    var getPaymentMethodForCalled: Bool {
+        return getPaymentMethodForCallsCount > 0
+    }
+    var getPaymentMethodForReceivedId: String?
+    var getPaymentMethodForReceivedInvocations: [String] = []
+    var getPaymentMethodForReturnValue: DonateModel.PaymentMethod?
+    var getPaymentMethodForClosure: ((String) -> DonateModel.PaymentMethod?)?
+
+    func getPaymentMethod(for id: String) -> DonateModel.PaymentMethod? {
+        getPaymentMethodForCallsCount += 1
+        getPaymentMethodForReceivedId = id
+        getPaymentMethodForReceivedInvocations.append(id)
+        if let getPaymentMethodForClosure = getPaymentMethodForClosure {
+            return getPaymentMethodForClosure(id)
+        } else {
+            return getPaymentMethodForReturnValue
+        }
+    }
+
+    // MARK: - fetchIconURL
+
+    var fetchIconURLForThrowableError: Error?
+    var fetchIconURLForCallsCount = 0
+    var fetchIconURLForCalled: Bool {
+        return fetchIconURLForCallsCount > 0
+    }
+    var fetchIconURLForReceivedKey: String?
+    var fetchIconURLForReceivedInvocations: [String] = []
+    var fetchIconURLForReturnValue: URL?
+    var fetchIconURLForClosure: ((String) async throws -> URL?)?
+
+    func fetchIconURL(for key: String) async throws -> URL? {
+        if let error = fetchIconURLForThrowableError {
+            throw error
+        }
+        fetchIconURLForCallsCount += 1
+        fetchIconURLForReceivedKey = key
+        fetchIconURLForReceivedInvocations.append(key)
+        if let fetchIconURLForClosure = fetchIconURLForClosure {
+            return try await fetchIconURLForClosure(key)
+        } else {
+            return fetchIconURLForReturnValue
+        }
+    }
+
+}
+class DonatePaymentMethodMappableMock: DonatePaymentMethodMappable {
+
+    // MARK: - mapPaymentMethod
+
+    var mapPaymentMethodCallsCount = 0
+    var mapPaymentMethodCalled: Bool {
+        return mapPaymentMethodCallsCount > 0
+    }
+    var mapPaymentMethodReceivedInput: animeal.BankAccount?
+    var mapPaymentMethodReceivedInvocations: [animeal.BankAccount] = []
+    var mapPaymentMethodReturnValue: DonateModel.PaymentMethod!
+    var mapPaymentMethodClosure: ((animeal.BankAccount) -> DonateModel.PaymentMethod)?
+
+    func mapPaymentMethod(_ input: animeal.BankAccount) -> DonateModel.PaymentMethod {
+        mapPaymentMethodCallsCount += 1
+        mapPaymentMethodReceivedInput = input
+        mapPaymentMethodReceivedInvocations.append(input)
+        if let mapPaymentMethodClosure = mapPaymentMethodClosure {
+            return mapPaymentMethodClosure(input)
+        } else {
+            return mapPaymentMethodReturnValue
+        }
+    }
+
+}
+class DonatePaymentMethodViewMappableMock: DonatePaymentMethodViewMappable {
+
+    // MARK: - mapPaymentMethod
+
+    var mapPaymentMethodIconURLCallsCount = 0
+    var mapPaymentMethodIconURLCalled: Bool {
+        return mapPaymentMethodIconURLCallsCount > 0
+    }
+    var mapPaymentMethodIconURLReceivedArguments: (input: DonateModel.PaymentMethod, iconURL: URL?)?
+    var mapPaymentMethodIconURLReceivedInvocations: [(input: DonateModel.PaymentMethod, iconURL: URL?)] = []
+    var mapPaymentMethodIconURLReturnValue: PaymentMethodViewItem!
+    var mapPaymentMethodIconURLClosure: ((DonateModel.PaymentMethod, URL?) -> PaymentMethodViewItem)?
+
+    func mapPaymentMethod(_ input: DonateModel.PaymentMethod, iconURL: URL?) -> PaymentMethodViewItem {
+        mapPaymentMethodIconURLCallsCount += 1
+        mapPaymentMethodIconURLReceivedArguments = (input: input, iconURL: iconURL)
+        mapPaymentMethodIconURLReceivedInvocations.append((input: input, iconURL: iconURL))
+        if let mapPaymentMethodIconURLClosure = mapPaymentMethodIconURLClosure {
+            return mapPaymentMethodIconURLClosure(input, iconURL)
+        } else {
+            return mapPaymentMethodIconURLReturnValue
+        }
+    }
+
+}
+class FAQModelProtocolMock: FAQModelProtocol {
+
+    // MARK: - fetchQuestions
+
+    var fetchQuestionsThrowableError: Error?
+    var fetchQuestionsCallsCount = 0
+    var fetchQuestionsCalled: Bool {
+        return fetchQuestionsCallsCount > 0
+    }
+    var fetchQuestionsReturnValue: [FAQModel.Question]!
+    var fetchQuestionsClosure: (() async throws -> [FAQModel.Question])?
+
+    func fetchQuestions() async throws -> [FAQModel.Question] {
+        if let error = fetchQuestionsThrowableError {
+            throw error
+        }
+        fetchQuestionsCallsCount += 1
+        if let fetchQuestionsClosure = fetchQuestionsClosure {
+            return try await fetchQuestionsClosure()
+        } else {
+            return fetchQuestionsReturnValue
+        }
+    }
+
+}
+class FavouriteModelMappableMock: FavouriteModelMappable {
+
+    // MARK: - mapFavourite
+
+    var mapFavouriteCallsCount = 0
+    var mapFavouriteCalled: Bool {
+        return mapFavouriteCallsCount > 0
+    }
+    var mapFavouriteReceivedInput: FullFeedingPoint?
+    var mapFavouriteReceivedInvocations: [FullFeedingPoint] = []
+    var mapFavouriteReturnValue: FavouritesModel.FavouriteContent!
+    var mapFavouriteClosure: ((FullFeedingPoint) -> FavouritesModel.FavouriteContent)?
+
+    func mapFavourite(_ input: FullFeedingPoint) -> FavouritesModel.FavouriteContent {
+        mapFavouriteCallsCount += 1
+        mapFavouriteReceivedInput = input
+        mapFavouriteReceivedInvocations.append(input)
+        if let mapFavouriteClosure = mapFavouriteClosure {
+            return mapFavouriteClosure(input)
+        } else {
+            return mapFavouriteReturnValue
+        }
+    }
+
+}
 class FeedingActionMappableMock: FeedingActionMappable {
 
     // MARK: - mapFeedingAction
@@ -238,31 +510,57 @@ class FeedingActionMappableMock: FeedingActionMappable {
 class FeedingBookingModelProtocolMock: FeedingBookingModelProtocol {
 
 }
+class FeedingFinishedModelProtocolMock: FeedingFinishedModelProtocol {
+
+}
 class FeedingPointDetailsDataStoreProtocolMock: FeedingPointDetailsDataStoreProtocol {
     var feedingPointId: String {
         get { return underlyingFeedingPointId }
         set(value) { underlyingFeedingPointId = value }
     }
     var underlyingFeedingPointId: String!
+    var feedingPointLocation: CLLocationCoordinate2D {
+        get { return underlyingFeedingPointLocation }
+        set(value) { underlyingFeedingPointLocation = value }
+    }
+    var underlyingFeedingPointLocation: CLLocationCoordinate2D!
 
 }
 class FeedingPointDetailsModelProtocolMock: FeedingPointDetailsModelProtocol {
+    var onFeedingPointChange: ((FeedingPointDetailsModel.PointContent, Bool) -> Void)?
 
-    // MARK: - fetchFeedingPoints
+    // MARK: - fetchFeedingPoint
 
-    var fetchFeedingPointsCallsCount = 0
-    var fetchFeedingPointsCalled: Bool {
-        return fetchFeedingPointsCallsCount > 0
+    var fetchFeedingPointCallsCount = 0
+    var fetchFeedingPointCalled: Bool {
+        return fetchFeedingPointCallsCount > 0
     }
-    var fetchFeedingPointsReceivedCompletion: (((FeedingPointDetailsModel.PointContent) -> Void))?
-    var fetchFeedingPointsReceivedInvocations: [(((FeedingPointDetailsModel.PointContent) -> Void))?] = []
-    var fetchFeedingPointsClosure: ((((FeedingPointDetailsModel.PointContent) -> Void)?) -> Void)?
+    var fetchFeedingPointReceivedCompletion: (((FeedingPointDetailsModel.PointContent) -> Void))?
+    var fetchFeedingPointReceivedInvocations: [(((FeedingPointDetailsModel.PointContent) -> Void))?] = []
+    var fetchFeedingPointClosure: ((((FeedingPointDetailsModel.PointContent) -> Void)?) -> Void)?
 
-    func fetchFeedingPoints(_ completion: ((FeedingPointDetailsModel.PointContent) -> Void)?) {
-        fetchFeedingPointsCallsCount += 1
-        fetchFeedingPointsReceivedCompletion = completion
-        fetchFeedingPointsReceivedInvocations.append(completion)
-        fetchFeedingPointsClosure?(completion)
+    func fetchFeedingPoint(_ completion: ((FeedingPointDetailsModel.PointContent) -> Void)?) {
+        fetchFeedingPointCallsCount += 1
+        fetchFeedingPointReceivedCompletion = completion
+        fetchFeedingPointReceivedInvocations.append(completion)
+        fetchFeedingPointClosure?(completion)
+    }
+
+    // MARK: - fetchFeedingHistory
+
+    var fetchFeedingHistoryCallsCount = 0
+    var fetchFeedingHistoryCalled: Bool {
+        return fetchFeedingHistoryCallsCount > 0
+    }
+    var fetchFeedingHistoryReceivedCompletion: ((([FeedingPointDetailsModel.Feeder]) -> Void))?
+    var fetchFeedingHistoryReceivedInvocations: [((([FeedingPointDetailsModel.Feeder]) -> Void))?] = []
+    var fetchFeedingHistoryClosure: (((([FeedingPointDetailsModel.Feeder]) -> Void)?) -> Void)?
+
+    func fetchFeedingHistory(_ completion: (([FeedingPointDetailsModel.Feeder]) -> Void)?) {
+        fetchFeedingHistoryCallsCount += 1
+        fetchFeedingHistoryReceivedCompletion = completion
+        fetchFeedingHistoryReceivedInvocations.append(completion)
+        fetchFeedingHistoryClosure?(completion)
     }
 
     // MARK: - fetchMediaContent
@@ -284,19 +582,24 @@ class FeedingPointDetailsModelProtocolMock: FeedingPointDetailsModelProtocol {
 
     // MARK: - mutateFavorite
 
-    var mutateFavoriteCompletionCallsCount = 0
-    var mutateFavoriteCompletionCalled: Bool {
-        return mutateFavoriteCompletionCallsCount > 0
+    var mutateFavoriteThrowableError: Error?
+    var mutateFavoriteCallsCount = 0
+    var mutateFavoriteCalled: Bool {
+        return mutateFavoriteCallsCount > 0
     }
-    var mutateFavoriteCompletionReceivedCompletion: (((Bool) -> Void))?
-    var mutateFavoriteCompletionReceivedInvocations: [(((Bool) -> Void))?] = []
-    var mutateFavoriteCompletionClosure: ((((Bool) -> Void)?) -> Void)?
+    var mutateFavoriteReturnValue: Bool!
+    var mutateFavoriteClosure: (() async throws -> Bool)?
 
-    func mutateFavorite(completion: ((Bool) -> Void)?) {
-        mutateFavoriteCompletionCallsCount += 1
-        mutateFavoriteCompletionReceivedCompletion = completion
-        mutateFavoriteCompletionReceivedInvocations.append(completion)
-        mutateFavoriteCompletionClosure?(completion)
+    func mutateFavorite() async throws -> Bool {
+        if let error = mutateFavoriteThrowableError {
+            throw error
+        }
+        mutateFavoriteCallsCount += 1
+        if let mutateFavoriteClosure = mutateFavoriteClosure {
+            return try await mutateFavoriteClosure()
+        } else {
+            return mutateFavoriteReturnValue
+        }
     }
 
 }
@@ -346,28 +649,50 @@ class FeedingPointDetailsViewMappableMock: FeedingPointDetailsViewMappable {
         }
     }
 
+    // MARK: - mapFeedingHistory
+
+    var mapFeedingHistoryCallsCount = 0
+    var mapFeedingHistoryCalled: Bool {
+        return mapFeedingHistoryCallsCount > 0
+    }
+    var mapFeedingHistoryReceivedInput: [FeedingPointDetailsModel.Feeder]?
+    var mapFeedingHistoryReceivedInvocations: [[FeedingPointDetailsModel.Feeder]] = []
+    var mapFeedingHistoryReturnValue: FeedingPointDetailsViewMapper.FeedingPointFeeders!
+    var mapFeedingHistoryClosure: (([FeedingPointDetailsModel.Feeder]) -> FeedingPointDetailsViewMapper.FeedingPointFeeders)?
+
+    func mapFeedingHistory(_ input: [FeedingPointDetailsModel.Feeder]) -> FeedingPointDetailsViewMapper.FeedingPointFeeders {
+        mapFeedingHistoryCallsCount += 1
+        mapFeedingHistoryReceivedInput = input
+        mapFeedingHistoryReceivedInvocations.append(input)
+        if let mapFeedingHistoryClosure = mapFeedingHistoryClosure {
+            return mapFeedingHistoryClosure(input)
+        } else {
+            return mapFeedingHistoryReturnValue
+        }
+    }
+
 }
 class FeedingPointMappableMock: FeedingPointMappable {
 
     // MARK: - mapFeedingPoint
 
-    var mapFeedingPointCallsCount = 0
-    var mapFeedingPointCalled: Bool {
-        return mapFeedingPointCallsCount > 0
+    var mapFeedingPointIsFavoriteCallsCount = 0
+    var mapFeedingPointIsFavoriteCalled: Bool {
+        return mapFeedingPointIsFavoriteCallsCount > 0
     }
-    var mapFeedingPointReceivedInput: animeal.FeedingPoint?
-    var mapFeedingPointReceivedInvocations: [animeal.FeedingPoint] = []
-    var mapFeedingPointReturnValue: HomeModel.FeedingPoint!
-    var mapFeedingPointClosure: ((animeal.FeedingPoint) -> HomeModel.FeedingPoint)?
+    var mapFeedingPointIsFavoriteReceivedArguments: (input: animeal.FeedingPoint, isFavorite: Bool)?
+    var mapFeedingPointIsFavoriteReceivedInvocations: [(input: animeal.FeedingPoint, isFavorite: Bool)] = []
+    var mapFeedingPointIsFavoriteReturnValue: HomeModel.FeedingPoint!
+    var mapFeedingPointIsFavoriteClosure: ((animeal.FeedingPoint, Bool) -> HomeModel.FeedingPoint)?
 
-    func mapFeedingPoint(_ input: animeal.FeedingPoint) -> HomeModel.FeedingPoint {
-        mapFeedingPointCallsCount += 1
-        mapFeedingPointReceivedInput = input
-        mapFeedingPointReceivedInvocations.append(input)
-        if let mapFeedingPointClosure = mapFeedingPointClosure {
-            return mapFeedingPointClosure(input)
+    func mapFeedingPoint(_ input: animeal.FeedingPoint, isFavorite: Bool) -> HomeModel.FeedingPoint {
+        mapFeedingPointIsFavoriteCallsCount += 1
+        mapFeedingPointIsFavoriteReceivedArguments = (input: input, isFavorite: isFavorite)
+        mapFeedingPointIsFavoriteReceivedInvocations.append((input: input, isFavorite: isFavorite))
+        if let mapFeedingPointIsFavoriteClosure = mapFeedingPointIsFavoriteClosure {
+            return mapFeedingPointIsFavoriteClosure(input, isFavorite)
         } else {
-            return mapFeedingPointReturnValue
+            return mapFeedingPointIsFavoriteReturnValue
         }
     }
 
@@ -423,22 +748,34 @@ class FilterViewMappableMock: FilterViewMappable {
 
 }
 class HomeModelProtocolMock: HomeModelProtocol {
+    var onFeedingPointChange: (([HomeModel.FeedingPoint]) -> Void)?
+    var selectedFilter: HomeModel.FilterItemIdentifier {
+        get { return underlyingSelectedFilter }
+        set(value) { underlyingSelectedFilter = value }
+    }
+    var underlyingSelectedFilter: HomeModel.FilterItemIdentifier!
+    var savedFeedingPoints: [HomeModel.FeedingPoint] = []
 
     // MARK: - fetchFeedingPoints
 
+    var fetchFeedingPointsThrowableError: Error?
     var fetchFeedingPointsCallsCount = 0
     var fetchFeedingPointsCalled: Bool {
         return fetchFeedingPointsCallsCount > 0
     }
-    var fetchFeedingPointsReceivedCompletion: ((([HomeModel.FeedingPoint]) -> Void))?
-    var fetchFeedingPointsReceivedInvocations: [((([HomeModel.FeedingPoint]) -> Void))?] = []
-    var fetchFeedingPointsClosure: (((([HomeModel.FeedingPoint]) -> Void)?) -> Void)?
+    var fetchFeedingPointsReturnValue: [HomeModel.FeedingPoint]!
+    var fetchFeedingPointsClosure: (() async throws -> [HomeModel.FeedingPoint])?
 
-    func fetchFeedingPoints(_ completion: (([HomeModel.FeedingPoint]) -> Void)?) {
+    func fetchFeedingPoints() async throws -> [HomeModel.FeedingPoint] {
+        if let error = fetchFeedingPointsThrowableError {
+            throw error
+        }
         fetchFeedingPointsCallsCount += 1
-        fetchFeedingPointsReceivedCompletion = completion
-        fetchFeedingPointsReceivedInvocations.append(completion)
-        fetchFeedingPointsClosure?(completion)
+        if let fetchFeedingPointsClosure = fetchFeedingPointsClosure {
+            return try await fetchFeedingPointsClosure()
+        } else {
+            return fetchFeedingPointsReturnValue
+        }
     }
 
     // MARK: - fetchFilterItems
@@ -525,32 +862,162 @@ class HomeModelProtocolMock: HomeModelProtocol {
 
     // MARK: - proceedFeedingPointSelection
 
-    var proceedFeedingPointSelectionCompletionCallsCount = 0
-    var proceedFeedingPointSelectionCompletionCalled: Bool {
-        return proceedFeedingPointSelectionCompletionCallsCount > 0
+    var proceedFeedingPointSelectionCallsCount = 0
+    var proceedFeedingPointSelectionCalled: Bool {
+        return proceedFeedingPointSelectionCallsCount > 0
     }
-    var proceedFeedingPointSelectionCompletionReceivedArguments: (identifier: String, completion: (([HomeModel.FeedingPoint]) -> Void)?)?
-    var proceedFeedingPointSelectionCompletionReceivedInvocations: [(identifier: String, completion: (([HomeModel.FeedingPoint]) -> Void)?)] = []
-    var proceedFeedingPointSelectionCompletionClosure: ((String, (([HomeModel.FeedingPoint]) -> Void)?) -> Void)?
+    var proceedFeedingPointSelectionReceivedIdentifier: String?
+    var proceedFeedingPointSelectionReceivedInvocations: [String] = []
+    var proceedFeedingPointSelectionReturnValue: [HomeModel.FeedingPoint]!
+    var proceedFeedingPointSelectionClosure: ((String) -> [HomeModel.FeedingPoint])?
 
-    func proceedFeedingPointSelection(_ identifier: String, completion: (([HomeModel.FeedingPoint]) -> Void)?) {
-        proceedFeedingPointSelectionCompletionCallsCount += 1
-        proceedFeedingPointSelectionCompletionReceivedArguments = (identifier: identifier, completion: completion)
-        proceedFeedingPointSelectionCompletionReceivedInvocations.append((identifier: identifier, completion: completion))
-        proceedFeedingPointSelectionCompletionClosure?(identifier, completion)
+    func proceedFeedingPointSelection(_ identifier: String) -> [HomeModel.FeedingPoint] {
+        proceedFeedingPointSelectionCallsCount += 1
+        proceedFeedingPointSelectionReceivedIdentifier = identifier
+        proceedFeedingPointSelectionReceivedInvocations.append(identifier)
+        if let proceedFeedingPointSelectionClosure = proceedFeedingPointSelectionClosure {
+            return proceedFeedingPointSelectionClosure(identifier)
+        } else {
+            return proceedFeedingPointSelectionReturnValue
+        }
+    }
+
+    // MARK: - processStartFeeding
+
+    var processStartFeedingFeedingPointIdThrowableError: Error?
+    var processStartFeedingFeedingPointIdCallsCount = 0
+    var processStartFeedingFeedingPointIdCalled: Bool {
+        return processStartFeedingFeedingPointIdCallsCount > 0
+    }
+    var processStartFeedingFeedingPointIdReceivedFeedingPointId: String?
+    var processStartFeedingFeedingPointIdReceivedInvocations: [String] = []
+    var processStartFeedingFeedingPointIdReturnValue: FeedingResponse!
+    var processStartFeedingFeedingPointIdClosure: ((String) async throws -> FeedingResponse)?
+
+    func processStartFeeding(feedingPointId: String) async throws -> FeedingResponse {
+        if let error = processStartFeedingFeedingPointIdThrowableError {
+            throw error
+        }
+        processStartFeedingFeedingPointIdCallsCount += 1
+        processStartFeedingFeedingPointIdReceivedFeedingPointId = feedingPointId
+        processStartFeedingFeedingPointIdReceivedInvocations.append(feedingPointId)
+        if let processStartFeedingFeedingPointIdClosure = processStartFeedingFeedingPointIdClosure {
+            return try await processStartFeedingFeedingPointIdClosure(feedingPointId)
+        } else {
+            return processStartFeedingFeedingPointIdReturnValue
+        }
     }
 
     // MARK: - processCancelFeeding
 
+    var processCancelFeedingThrowableError: Error?
     var processCancelFeedingCallsCount = 0
     var processCancelFeedingCalled: Bool {
         return processCancelFeedingCallsCount > 0
     }
-    var processCancelFeedingClosure: (() -> Void)?
+    var processCancelFeedingReturnValue: FeedingResponse!
+    var processCancelFeedingClosure: (() async throws -> FeedingResponse)?
 
-    func processCancelFeeding() {
+    @discardableResult
+    func processCancelFeeding() async throws -> FeedingResponse {
+        if let error = processCancelFeedingThrowableError {
+            throw error
+        }
         processCancelFeedingCallsCount += 1
-        processCancelFeedingClosure?()
+        if let processCancelFeedingClosure = processCancelFeedingClosure {
+            return try await processCancelFeedingClosure()
+        } else {
+            return processCancelFeedingReturnValue
+        }
+    }
+
+    // MARK: - processFinishFeeding
+
+    var processFinishFeedingImageKeysThrowableError: Error?
+    var processFinishFeedingImageKeysCallsCount = 0
+    var processFinishFeedingImageKeysCalled: Bool {
+        return processFinishFeedingImageKeysCallsCount > 0
+    }
+    var processFinishFeedingImageKeysReceivedImageKeys: [String]?
+    var processFinishFeedingImageKeysReceivedInvocations: [[String]] = []
+    var processFinishFeedingImageKeysReturnValue: FeedingResponse!
+    var processFinishFeedingImageKeysClosure: (([String]) async throws -> FeedingResponse)?
+
+    func processFinishFeeding(imageKeys: [String]) async throws -> FeedingResponse {
+        if let error = processFinishFeedingImageKeysThrowableError {
+            throw error
+        }
+        processFinishFeedingImageKeysCallsCount += 1
+        processFinishFeedingImageKeysReceivedImageKeys = imageKeys
+        processFinishFeedingImageKeysReceivedInvocations.append(imageKeys)
+        if let processFinishFeedingImageKeysClosure = processFinishFeedingImageKeysClosure {
+            return try await processFinishFeedingImageKeysClosure(imageKeys)
+        } else {
+            return processFinishFeedingImageKeysReturnValue
+        }
+    }
+
+    // MARK: - fetchFeedingSnapshot
+
+    var fetchFeedingSnapshotCallsCount = 0
+    var fetchFeedingSnapshotCalled: Bool {
+        return fetchFeedingSnapshotCallsCount > 0
+    }
+    var fetchFeedingSnapshotReturnValue: FeedingSnapshot?
+    var fetchFeedingSnapshotClosure: (() -> FeedingSnapshot?)?
+
+    func fetchFeedingSnapshot() -> FeedingSnapshot? {
+        fetchFeedingSnapshotCallsCount += 1
+        if let fetchFeedingSnapshotClosure = fetchFeedingSnapshotClosure {
+            return fetchFeedingSnapshotClosure()
+        } else {
+            return fetchFeedingSnapshotReturnValue
+        }
+    }
+
+    // MARK: - processRejectFeeding
+
+    var processRejectFeedingThrowableError: Error?
+    var processRejectFeedingCallsCount = 0
+    var processRejectFeedingCalled: Bool {
+        return processRejectFeedingCallsCount > 0
+    }
+    var processRejectFeedingReturnValue: FeedingResponse!
+    var processRejectFeedingClosure: (() async throws -> FeedingResponse)?
+
+    @discardableResult
+    func processRejectFeeding() async throws -> FeedingResponse {
+        if let error = processRejectFeedingThrowableError {
+            throw error
+        }
+        processRejectFeedingCallsCount += 1
+        if let processRejectFeedingClosure = processRejectFeedingClosure {
+            return try await processRejectFeedingClosure()
+        } else {
+            return processRejectFeedingReturnValue
+        }
+    }
+
+    // MARK: - fetchActiveFeeding
+
+    var fetchActiveFeedingThrowableError: Error?
+    var fetchActiveFeedingCallsCount = 0
+    var fetchActiveFeedingCalled: Bool {
+        return fetchActiveFeedingCallsCount > 0
+    }
+    var fetchActiveFeedingReturnValue: Feeding?
+    var fetchActiveFeedingClosure: (() async throws -> Feeding?)?
+
+    func fetchActiveFeeding() async throws -> Feeding? {
+        if let error = fetchActiveFeedingThrowableError {
+            throw error
+        }
+        fetchActiveFeedingCallsCount += 1
+        if let fetchActiveFeedingClosure = fetchActiveFeedingClosure {
+            return try await fetchActiveFeedingClosure()
+        } else {
+            return fetchActiveFeedingReturnValue
+        }
     }
 
 }
@@ -592,6 +1059,11 @@ class LocationServiceDelegateMock: LocationServiceDelegate {
 
 }
 class LocationServiceProtocolMock: LocationServiceProtocol {
+    var locationStatus: CLAuthorizationStatus {
+        get { return underlyingLocationStatus }
+        set(value) { underlyingLocationStatus = value }
+    }
+    var underlyingLocationStatus: CLAuthorizationStatus!
 
     // MARK: - requestLocation
 
@@ -642,59 +1114,6 @@ class LocationServiceProtocolMock: LocationServiceProtocol {
         stopUpdatingLocationForReceivedDelegate = delegate
         stopUpdatingLocationForReceivedInvocations.append(delegate)
         stopUpdatingLocationForClosure?(delegate)
-    }
-
-}
-class LoginCoordinatableMock: LoginCoordinatable {
-    var navigator: Navigating {
-        get { return underlyingNavigator }
-        set(value) { underlyingNavigator = value }
-    }
-    var underlyingNavigator: Navigating!
-
-    // MARK: - moveFromLogin
-
-    var moveFromLoginToCallsCount = 0
-    var moveFromLoginToCalled: Bool {
-        return moveFromLoginToCallsCount > 0
-    }
-    var moveFromLoginToReceivedRoute: LoginRoute?
-    var moveFromLoginToReceivedInvocations: [LoginRoute] = []
-    var moveFromLoginToClosure: ((LoginRoute) -> Void)?
-
-    func moveFromLogin(to route: LoginRoute) {
-        moveFromLoginToCallsCount += 1
-        moveFromLoginToReceivedRoute = route
-        moveFromLoginToReceivedInvocations.append(route)
-        moveFromLoginToClosure?(route)
-    }
-
-    // MARK: - start
-
-    var startCallsCount = 0
-    var startCalled: Bool {
-        return startCallsCount > 0
-    }
-    var startClosure: (() -> Void)?
-
-    @MainActor
-    func start() {
-        startCallsCount += 1
-        startClosure?()
-    }
-
-    // MARK: - stop
-
-    var stopCallsCount = 0
-    var stopCalled: Bool {
-        return stopCallsCount > 0
-    }
-    var stopClosure: (() -> Void)?
-
-    @MainActor
-    func stop() {
-        stopCallsCount += 1
-        stopClosure?()
     }
 
 }
@@ -950,6 +1369,56 @@ class ProfileViewItemMappableMock: ProfileViewItemMappable {
     }
 
 }
+class QuestionMappableMock: QuestionMappable {
+
+    // MARK: - mapQuestion
+
+    var mapQuestionCallsCount = 0
+    var mapQuestionCalled: Bool {
+        return mapQuestionCallsCount > 0
+    }
+    var mapQuestionReceivedInput: animeal.Question?
+    var mapQuestionReceivedInvocations: [animeal.Question] = []
+    var mapQuestionReturnValue: FAQModel.Question!
+    var mapQuestionClosure: ((animeal.Question) -> FAQModel.Question)?
+
+    func mapQuestion(_ input: animeal.Question) -> FAQModel.Question {
+        mapQuestionCallsCount += 1
+        mapQuestionReceivedInput = input
+        mapQuestionReceivedInvocations.append(input)
+        if let mapQuestionClosure = mapQuestionClosure {
+            return mapQuestionClosure(input)
+        } else {
+            return mapQuestionReturnValue
+        }
+    }
+
+}
+class QuestionViewMappableMock: QuestionViewMappable {
+
+    // MARK: - mapQuestion
+
+    var mapQuestionCallsCount = 0
+    var mapQuestionCalled: Bool {
+        return mapQuestionCallsCount > 0
+    }
+    var mapQuestionReceivedInput: FAQModel.Question?
+    var mapQuestionReceivedInvocations: [FAQModel.Question] = []
+    var mapQuestionReturnValue: FAQViewItem!
+    var mapQuestionClosure: ((FAQModel.Question) -> FAQViewItem)?
+
+    func mapQuestion(_ input: FAQModel.Question) -> FAQViewItem {
+        mapQuestionCallsCount += 1
+        mapQuestionReceivedInput = input
+        mapQuestionReceivedInvocations.append(input)
+        if let mapQuestionClosure = mapQuestionClosure {
+            return mapQuestionClosure(input)
+        } else {
+            return mapQuestionReturnValue
+        }
+    }
+
+}
 class SearchModelProtocolMock: SearchModelProtocol {
 
     // MARK: - fetchFilteringText
@@ -996,25 +1465,65 @@ class SearchModelProtocolMock: SearchModelProtocol {
         }
     }
 
+    // MARK: - fetchFeedingPointsFilters
+
+    var fetchFeedingPointsFiltersCallsCount = 0
+    var fetchFeedingPointsFiltersCalled: Bool {
+        return fetchFeedingPointsFiltersCallsCount > 0
+    }
+    var fetchFeedingPointsFiltersReturnValue: [SearchModelFilter]!
+    var fetchFeedingPointsFiltersClosure: (() async -> [SearchModelFilter])?
+
+    func fetchFeedingPointsFilters() async -> [SearchModelFilter] {
+        fetchFeedingPointsFiltersCallsCount += 1
+        if let fetchFeedingPointsFiltersClosure = fetchFeedingPointsFiltersClosure {
+            return await fetchFeedingPointsFiltersClosure()
+        } else {
+            return fetchFeedingPointsFiltersReturnValue
+        }
+    }
+
     // MARK: - filterFeedingPoints
 
-    var filterFeedingPointsCallsCount = 0
-    var filterFeedingPointsCalled: Bool {
-        return filterFeedingPointsCallsCount > 0
+    var filterFeedingPointsWithSearchStringCallsCount = 0
+    var filterFeedingPointsWithSearchStringCalled: Bool {
+        return filterFeedingPointsWithSearchStringCallsCount > 0
     }
-    var filterFeedingPointsReceivedSearchString: String?
-    var filterFeedingPointsReceivedInvocations: [String?] = []
-    var filterFeedingPointsReturnValue: [SearchModelSection]!
-    var filterFeedingPointsClosure: ((String?) async -> [SearchModelSection])?
+    var filterFeedingPointsWithSearchStringReceivedSearchString: String?
+    var filterFeedingPointsWithSearchStringReceivedInvocations: [String?] = []
+    var filterFeedingPointsWithSearchStringReturnValue: [SearchModelSection]!
+    var filterFeedingPointsWithSearchStringClosure: ((String?) async -> [SearchModelSection])?
 
-    func filterFeedingPoints(_ searchString: String?) async -> [SearchModelSection] {
-        filterFeedingPointsCallsCount += 1
-        filterFeedingPointsReceivedSearchString = searchString
-        filterFeedingPointsReceivedInvocations.append(searchString)
-        if let filterFeedingPointsClosure = filterFeedingPointsClosure {
-            return await filterFeedingPointsClosure(searchString)
+    func filterFeedingPoints(withSearchString searchString: String?) async -> [SearchModelSection] {
+        filterFeedingPointsWithSearchStringCallsCount += 1
+        filterFeedingPointsWithSearchStringReceivedSearchString = searchString
+        filterFeedingPointsWithSearchStringReceivedInvocations.append(searchString)
+        if let filterFeedingPointsWithSearchStringClosure = filterFeedingPointsWithSearchStringClosure {
+            return await filterFeedingPointsWithSearchStringClosure(searchString)
         } else {
-            return filterFeedingPointsReturnValue
+            return filterFeedingPointsWithSearchStringReturnValue
+        }
+    }
+
+    // MARK: - filterFeedingPoints
+
+    var filterFeedingPointsWithFilterCallsCount = 0
+    var filterFeedingPointsWithFilterCalled: Bool {
+        return filterFeedingPointsWithFilterCallsCount > 0
+    }
+    var filterFeedingPointsWithFilterReceivedIdentifier: String?
+    var filterFeedingPointsWithFilterReceivedInvocations: [String] = []
+    var filterFeedingPointsWithFilterReturnValue: [SearchModelSection]!
+    var filterFeedingPointsWithFilterClosure: ((String) async -> [SearchModelSection])?
+
+    func filterFeedingPoints(withFilter identifier: String) async -> [SearchModelSection] {
+        filterFeedingPointsWithFilterCallsCount += 1
+        filterFeedingPointsWithFilterReceivedIdentifier = identifier
+        filterFeedingPointsWithFilterReceivedInvocations.append(identifier)
+        if let filterFeedingPointsWithFilterClosure = filterFeedingPointsWithFilterClosure {
+            return await filterFeedingPointsWithFilterClosure(identifier)
+        } else {
+            return filterFeedingPointsWithFilterReturnValue
         }
     }
 
@@ -1033,6 +1542,23 @@ class SearchModelProtocolMock: SearchModelProtocol {
         toogleFeedingPointForIdentifierReceivedIdentifier = identifier
         toogleFeedingPointForIdentifierReceivedInvocations.append(identifier)
         toogleFeedingPointForIdentifierClosure?(identifier)
+    }
+
+    // MARK: - toogleFavorite
+
+    var toogleFavoriteForIdentifierCallsCount = 0
+    var toogleFavoriteForIdentifierCalled: Bool {
+        return toogleFavoriteForIdentifierCallsCount > 0
+    }
+    var toogleFavoriteForIdentifierReceivedIdentifier: String?
+    var toogleFavoriteForIdentifierReceivedInvocations: [String] = []
+    var toogleFavoriteForIdentifierClosure: ((String) async -> Void)?
+
+    func toogleFavorite(forIdentifier identifier: String) async {
+        toogleFavoriteForIdentifierCallsCount += 1
+        toogleFavoriteForIdentifierReceivedIdentifier = identifier
+        toogleFavoriteForIdentifierReceivedInvocations.append(identifier)
+        await toogleFavoriteForIdentifierClosure?(identifier)
     }
 
 }

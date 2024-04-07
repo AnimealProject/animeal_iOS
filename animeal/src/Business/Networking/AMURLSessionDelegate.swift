@@ -31,10 +31,7 @@ class AMURLSessionDelegate: NSObject {
 
 extension AMURLSessionDelegate: URLSessionDataDelegate {
 
-    @objc public func urlSession(_ session: URLSession,
-                                 dataTask: URLSessionDataTask,
-                                 didReceive data: Data) {
-
+    @objc public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
         let httpResponse = dataTask.response as? HTTPURLResponse
         if let serverDateString = httpResponse?.value(forHTTPHeaderField: "date"),
            let serverDate = responseDateFormatter.date(from: serverDateString) {
@@ -43,9 +40,7 @@ extension AMURLSessionDelegate: URLSessionDataDelegate {
         }
 
         // Pass further to amplify default handler
-        amplifyDelegate?.urlSessionBehavior(session,
-                                            dataTaskBehavior: dataTask,
-                                            didReceive: data)
+        amplifyDelegate?.urlSessionBehavior(session, dataTaskBehavior: dataTask, didReceive: data)
     }
 }
 
@@ -53,9 +48,11 @@ extension AMURLSessionDelegate: URLSessionDataDelegate {
 
 extension AMURLSessionDelegate: URLSessionDelegate {
 
-    @objc public func urlSession(_ session: URLSession,
+    @objc public func urlSession(
+                                 _ session: URLSession,
                                  didReceive challenge: URLAuthenticationChallenge,
-                                 completionHandler: @escaping AuthChallengeDispositionHandler) {
+                                 completionHandler: @escaping AuthChallengeDispositionHandler
+                                ) {
 
         completionHandler(.performDefaultHandling, nil)
     }
@@ -63,17 +60,20 @@ extension AMURLSessionDelegate: URLSessionDelegate {
 
 extension AMURLSessionDelegate: URLSessionTaskDelegate {
 
-    @objc public func urlSession(_ session: URLSession,
+    @objc public func urlSession(
+                                 _ session: URLSession,
                                  task: URLSessionTask,
                                  didReceive challenge: URLAuthenticationChallenge,
-                                 completionHandler: @escaping AuthChallengeDispositionHandler) {
-
+                                 completionHandler: @escaping AuthChallengeDispositionHandler
+                                 ) {
         completionHandler(.performDefaultHandling, nil)
     }
 
-    @objc public func urlSession(_ session: URLSession,
+    @objc public func urlSession(
+                                 _ session: URLSession,
                                  task: URLSessionTask,
-                                 didCompleteWithError error: Error?) {
+                                 didCompleteWithError error: Error?
+                                ) {
 
         amplifyDelegate?.urlSessionBehavior(
             session,

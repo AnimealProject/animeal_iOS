@@ -104,7 +104,31 @@ final class AuthenticationService: AuthenticationServiceProtocol {
     }
 
     func signOut() async throws {
-        _ = await Amplify.Auth.signOut()
+        let result = await Amplify.Auth.signOut()
+        // Amplify.Auth.signOut() result is an empty protocol
+        // but actually we recieve AWSCognitoSignOutResult instance
+        if let cognitoResult = result as? AWSCognitoSignOutResult {
+            switch cognitoResult {
+            case .complete:
+                return
+
+            // This cases are rare edge cases, code below not dev tested
+            case let .partial(revokeTokenError, globalSignOutError, hostedUIError):
+                if let error = revokeTokenError {
+                    throw converter.convertAmplifyError(error.error)
+                }
+                if let error = globalSignOutError {
+                    throw converter.convertAmplifyError(error.error)
+                }
+                if let error = hostedUIError {
+                    throw converter.convertAmplifyError(error.error)
+                }
+
+            // If user cancels system modal, we receive .failed(.cancelSignOut)
+            case let .failed(error):
+                throw converter.convertAmplifyError(error)
+            }
+        }
     }
 
     func confirmSignUp(

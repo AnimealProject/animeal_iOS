@@ -188,9 +188,38 @@ const getFeeding = async (params) => {
     params,
   );
 };
+const createFeedingHistoryExt = async (params) => {
+  return request(
+    `
+    mutation CreateFeedingHistoryExt($input: CreateFeedingHistoryInput!) {
+      createFeedingHistoryExt(input: $input) {
+        id
+        userId
+        images
+        createdAt
+        updatedAt
+        createdBy
+        updatedBy
+        owner
+        feedingPointId
+        feedingPointDetails {
+          address
+        }
+        status
+        reason
+        moderatedBy
+        moderatedAt
+        assignedModerators
+      }
+    }
+  `,
+    params,
+  );
+};
 
 
 module.exports = {
   updateFeedingPoint,
-  getFeeding
+  getFeeding,
+  createFeedingHistoryExt
 };

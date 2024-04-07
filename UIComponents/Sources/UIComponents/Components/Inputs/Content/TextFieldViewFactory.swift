@@ -17,7 +17,7 @@ public struct TextFieldViewFactory: StyleEngineContainable, TextFieldGenerating 
         textField.tintColor = designEngine.colors.accent
         textField.autocorrectionType = .no
         textField.spellCheckingType = .no
-
+        textField.autocapitalizationType = .none
         return textField
     }
 

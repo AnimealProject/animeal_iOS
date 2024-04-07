@@ -15,7 +15,8 @@ extension UserAttribute {
   public static let schema = defineSchema { model in
     let userAttribute = UserAttribute.keys
     
-    model.pluralName = "UserAttributes"
+    model.listPluralName = "UserAttributes"
+    model.syncPluralName = "UserAttributes"
     
     model.fields(
       .field(userAttribute.Name, is: .required, ofType: .string),

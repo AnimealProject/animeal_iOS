@@ -211,8 +211,12 @@ final class ProfileViewModel: ProfileViewModelProtocol {
                             .no(),
                             .yes(handler: {
                                 Task { [weak self] in
-                                    try? await action()
-                                    self?.coordinator.move(to: .cancel)
+                                    do {
+                                        try await action()
+                                        self?.coordinator.move(to: .cancel)
+                                    } catch {
+                                        // cancelled, stay as is
+                                    }
                                 }
                             })
                         ]
@@ -243,20 +247,21 @@ final class ProfileViewModel: ProfileViewModelProtocol {
 }
 
 private extension ProfileViewModel {
-    func processNextStep(
-        _ nextStep: ProfileModelNextStep,
-        actionIdentifier: String
-    ) {
-        switch nextStep {
-        case .done:
-            coordinator.move(to: .done)
-        case let .confirm(details, attribute, resendMethod):
+    func processNextStep(_ nextStep: ProfileModelNextStep, actionIdentifier: String) {
+        if case let .confirm(details, attribute, resendMethod) = nextStep {
             let completion: (() -> Void)? = { [weak self] in
                 Task { [weak self] in
                     await self?.handleProceedAction(forIdentifier: actionIdentifier)
                 }
             }
             coordinator.move(to: .confirm(details, attribute, resendMethod, completion))
+        } else if case .done = nextStep, modelActions.count > 1 {
+            // As per EPMEDU-2899 need to keep the user on profile screen post update.
+            // Since this same screen is resused on registration need to redirect the user to home screen.
+            // TODO: make a way to understand the user is creating an account vs user is updating profile.
+            // for now simple work aorund is to check how any actions are there in the screen.
+            // If there are 2 actions then registration. 1 actions then profile update.
+            coordinator.move(to: .done)
         }
     }
 

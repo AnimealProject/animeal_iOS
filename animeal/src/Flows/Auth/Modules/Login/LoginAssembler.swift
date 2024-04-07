@@ -15,10 +15,12 @@ final class LoginModuleAssembler {
         let model = LoginModel(
             providers: [
                 LoginActionType.signInViaPhoneNumber: nil,
+                /*
                 LoginActionType.signInViaFacebook: FacebookLoginProvider(
                     presentationAnchor: window,
                     authenticationService: AppDelegate.shared.context.authenticationService
                 ),
+                */
                 LoginActionType.signInViaAppleID: AppleLoginProvider(
                     presentationAnchor: window,
                     authenticationService: AppDelegate.shared.context.authenticationService

@@ -35,6 +35,8 @@ internal enum L10n {
     internal static let iWillFeed = L10n.tr("Localizable", "action.iWillFeed", fallback: "I will feed")
     /// Log out
     internal static let logOut = L10n.tr("Localizable", "action.logOut", fallback: "Log out")
+    /// min
+    internal static let min = L10n.tr("Localizable", "action.min", fallback: "min")
     /// No
     internal static let no = L10n.tr("Localizable", "action.no", fallback: "No")
     /// No, thanks
@@ -64,8 +66,8 @@ internal enum L10n {
     /// Donate
     internal static let title = L10n.tr("Localizable", "donate.title", fallback: "Donate")
     internal enum Copy {
-      /// Text copied
-      internal static let text = L10n.tr("Localizable", "donate.copy.text", fallback: "Text copied")
+      /// Text is copied
+      internal static let text = L10n.tr("Localizable", "donate.copy.text", fallback: "Text is copied")
     }
     internal enum Footer {
       /// Thank you for donating!
@@ -291,6 +293,8 @@ internal enum L10n {
     internal enum Alert {
       /// Cancel
       internal static let cancel = L10n.tr("Localizable", "verification.alert.cancel", fallback: "Cancel")
+      /// Next
+      internal static let next = L10n.tr("Localizable", "verification.alert.next", fallback: "Next")
       /// Resend
       internal static let resend = L10n.tr("Localizable", "verification.alert.resend", fallback: "Resend")
     }
@@ -305,8 +309,10 @@ internal enum L10n {
       internal static let codeUnsupportedNextStep = L10n.tr("Localizable", "verification.error.codeUnsupportedNextStep", fallback: "Code unsupported next step")
     }
     internal enum ResendCode {
+      /// Resend code
+      internal static let title = L10n.tr("Localizable", "verification.resendCode.title", fallback: "Resend code")
       /// Resend code in
-      internal static let title = L10n.tr("Localizable", "verification.resendCode.title", fallback: "Resend code in")
+      internal static let titleTime = L10n.tr("Localizable", "verification.resendCode.titleTime", fallback: "Resend code in")
     }
     internal enum Subtitle {
       /// Code was sent to destination

@@ -8,13 +8,15 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.epmedu.animeal</string>
+			<string>com.epmedu.animealMobile</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>animeal</string>
 			</array>
 		</dict>
 	</array>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fb</string>

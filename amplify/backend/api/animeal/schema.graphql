@@ -17,6 +17,146 @@ enum CategoryTag {
   dogs
 }
 
+input PointInput {
+  type: String!
+  coordinates: [Float!]!
+}
+
+input FeedingPointI18nInput {
+  locale: String!
+  name: String
+  description: String
+  city: String
+  street: String
+  address: String
+  region: String
+  neighborhood: String
+}
+
+
+input CreateFeedingHistoryInput {
+  id: ID
+  userId: String!
+  images: [String!]!
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+  createdBy: String
+  updatedBy: String
+  owner: String
+  feedingPointId: String!
+  feedingPointDetails: FeedingPointDetailsInput
+  status: FeedingStatus
+  reason: String
+  moderatedBy: String
+  moderatedAt: AWSDateTime
+  assignedModerators: [String]
+}
+
+input UpdateFeedingHistoryInput {
+  id: ID!
+  userId: String
+  images: [String!]
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+  createdBy: String
+  updatedBy: String
+  owner: String
+  feedingPointId: String
+  feedingPointDetails: FeedingPointDetailsInput
+  status: FeedingStatus
+  reason: String
+  moderatedBy: String
+  moderatedAt: AWSDateTime
+  assignedModerators: [String]
+}
+
+input CreateFeedingPointInput {
+  id: ID
+  name: String!
+  description: String!
+  city: String!
+  street: String!
+  address: String!
+  images: [String!]
+  point: PointInput!
+  location: LocationInput!
+  region: String!
+  neighborhood: String!
+  distance: Float!
+  status: FeedingPointStatus!
+  i18n: [FeedingPointI18nInput!]
+  statusUpdatedAt: AWSDateTime!
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+  createdBy: String
+  updatedBy: String
+  owner: String
+  cover: String
+  feedingPointCategoryId: ID
+}
+
+input UpdateFeedingPointInput {
+  id: ID!
+  name: String
+  description: String
+  city: String
+  street: String
+  address: String
+  images: [String!]
+  point: PointInput
+  location: LocationInput
+  region: String
+  neighborhood: String
+  distance: Float
+  status: FeedingPointStatus
+  i18n: [FeedingPointI18nInput!]
+  statusUpdatedAt: AWSDateTime
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+  createdBy: String
+  updatedBy: String
+  owner: String
+  cover: String
+  feedingPointCategoryId: ID
+}
+
+
+input CreateFeedingInput {
+  id: ID
+  userId: String!
+  images: [String!]!
+  status: FeedingStatus!
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+  createdBy: String
+  updatedBy: String
+  owner: String
+  feedingPointDetails: FeedingPointDetailsInput
+  feedingPointFeedingsId: String!
+  expireAt: AWSTimestamp!
+  assignedModerators: [String]
+  moderatedBy: String
+  moderatedAt: AWSDateTime
+}
+
+input UpdateFeedingInput {
+  id: ID!
+  userId: String
+  images: [String!]
+  status: FeedingStatus
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+  createdBy: String
+  updatedBy: String
+  owner: String
+  feedingPointDetails: FeedingPointDetailsInput
+  feedingPointFeedingsId: String
+  expireAt: AWSTimestamp
+  assignedModerators: [String]
+  moderatedBy: String
+  moderatedAt: AWSDateTime
+}
+
 
 type FeedingPointDetails @aws_api_key @aws_cognito_user_pools {
   address: String!
@@ -782,5 +922,33 @@ type Mutation {
     @function(name: "rejectFeeding-${env}")
     @aws_api_key
     @aws_cognito_user_pools
+   
+  createFeedingPointExt(input: CreateFeedingPointInput!): FeedingPoint @aws_api_key @aws_cognito_user_pools
+  updateFeedingPointExt(input: UpdateFeedingPointInput!): FeedingPoint @aws_api_key @aws_cognito_user_pools
+
+  createFeedingExt(input: CreateFeedingInput!): Feeding @aws_api_key @aws_cognito_user_pools
+  updateFeedingExt(input: UpdateFeedingInput!): Feeding @aws_api_key @aws_cognito_user_pools
+
+  createFeedingHistoryExt(input: CreateFeedingHistoryInput!): FeedingHistory @aws_api_key @aws_cognito_user_pools
+  updateFeedingHistoryExt(input: UpdateFeedingHistoryInput!): FeedingHistory @aws_api_key @aws_cognito_user_pools
 }
+
+type Subscription {
+  onUpdateFeedingExt: Feeding
+    @aws_subscribe(mutations: ["updateFeedingExt", "updateFeeding"]) @aws_api_key @aws_cognito_user_pools
+  onCreateFeedingExt: Feeding
+    @aws_subscribe(mutations: ["createFeedingExt", "createFeeding"]) @aws_api_key @aws_cognito_user_pools
+  
+  onUpdateFeedingPointExt: FeedingPoint
+    @aws_subscribe(mutations: ["updateFeedingPointExt", "updateFeedingPoint"]) @aws_api_key @aws_cognito_user_pools
+  onCreateFeedingPointExt: FeedingPoint
+    @aws_subscribe(mutations: ["createFeedingPointExt", "createFeedingPoint"]) @aws_api_key @aws_cognito_user_pools
+  
+  onUpdateFeedingHistoryExt: FeedingHistory
+    @aws_subscribe(mutations: ["updateFeedingHistoryExt", "updateFeedingHistory"]) @aws_api_key @aws_cognito_user_pools
+  onCreateFeedingHistoryExt: FeedingHistory
+    @aws_subscribe(mutations: ["createFeedingHistoryExt", "createFeedingHistory"]) @aws_api_key @aws_cognito_user_pools
+}
+
+
 

@@ -20,12 +20,28 @@ Amplify Params - DO NOT EDIT */
 const AWS = require('aws-sdk');
 const dynamoDB = new AWS.DynamoDB.DocumentClient({});
 
-const { approveFeeding, getUser } = require('./query');
+const { approveFeeding, getUser, updateFeedingExt } = require('./query');
 
 exports.handler = async (event) => {
   console.log(`EVENT: ${JSON.stringify(event)}`);
   const feedingId = event.arguments.feedingId;
   const images = event.arguments.images;
+
+  const feedingItem = await dynamoDB
+    .get({
+      TableName: process.env.API_ANIMEAL_FEEDINGTABLE_NAME,
+      Key: {
+        id: feedingId,
+      },
+    })
+    .promise();
+
+  if (!feedingItem.Item) {
+    throw new Error('Feeding not found');
+  }
+
+  delete feedingItem.Item.statusUpdatedAt;
+
   let userData = null;
   if (event?.identity?.username) {
     userData = await getUser(
@@ -66,6 +82,15 @@ exports.handler = async (event) => {
           ],
         })
         .promise();
+
+      await updateFeedingExt({
+        input: {
+          ...feedingItem.Item,
+          status: 'pending',
+          images,
+        },
+      });
+
       return feedingId;
     } catch (e) {
       throw new Error(`Failed to finish feeding. Erorr: ${e.message}`);
@@ -94,6 +119,12 @@ exports.handler = async (event) => {
           ],
         })
         .promise();
+      await updateFeedingExt({
+        input: {
+          ...feedingItem.Item,
+          images,
+        },
+      });
     } catch (e) {
       throw new Error(`Failed to finish feeding. Erorr: ${e.message}`);
     }
@@ -131,6 +162,12 @@ exports.handler = async (event) => {
           ],
         })
         .promise();
+      await updateFeedingExt({
+        input: {
+          ...feedingItem.Item,
+          images,
+        },
+      });
     } catch (e) {
       throw new Error(`Failed to finish feeding. Erorr: ${e.message}`);
     }

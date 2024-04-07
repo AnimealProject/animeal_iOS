@@ -1,10 +1,11 @@
 import UIKit
 import Common
-@MainActor
 
+
+@MainActor
 final class AttachPhotoAssembler {
-    private let pointId: String
-    private let coordinator: AttachPhotoCoordinatable & AttachPhotoCoordinatorEventHandlerProtocol
+     private let pointId: String
+     private let coordinator: AttachPhotoCoordinatable & AttachPhotoCoordinatorEventHandlerProtocol
 
     // MARK: - Initialization
     init(pointId: String, coordinator: AttachPhotoCoordinatable & AttachPhotoCoordinatorEventHandlerProtocol ) {

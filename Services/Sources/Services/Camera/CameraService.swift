@@ -9,9 +9,7 @@ public protocol CameraServiceProtocol {
 
 public extension CameraServiceProtocol {
     var cameraAuthorizationStatus: AVAuthorizationStatus {
-        get {
             return AVCaptureDevice.authorizationStatus(for: .video)
-        }
     }
 
     func requestCameraPermissionNative() async {

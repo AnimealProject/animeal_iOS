@@ -32,7 +32,8 @@ extension Category {
       rule(allow: .private, operations: [.read])
     ]
     
-    model.pluralName = "Categories"
+    model.listPluralName = "Categories"
+    model.syncPluralName = "Categories"
     
     model.fields(
       .id(),

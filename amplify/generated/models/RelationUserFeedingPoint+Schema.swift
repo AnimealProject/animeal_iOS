@@ -27,7 +27,8 @@ extension RelationUserFeedingPoint {
       rule(allow: .private, operations: [.read])
     ]
     
-    model.pluralName = "RelationUserFeedingPoints"
+    model.listPluralName = "RelationUserFeedingPoints"
+    model.syncPluralName = "RelationUserFeedingPoints"
     
     model.attributes(
       .index(fields: ["userId", "feedingPointId"], name: "byUserId"),

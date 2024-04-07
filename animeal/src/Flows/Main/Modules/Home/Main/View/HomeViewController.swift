@@ -10,7 +10,7 @@ class HomeViewController: UIViewController {
     private var mapView: NavigationMapController!
     private let segmentedControl = FilledSegmentedControl()
     private lazy var feedControl: FeedingControlView = {
-        let feedControl = FeedingControlView()
+        let feedControl = FeedingControlView( minuteText: L10n.Action.min)
         feedControl.onCloseHandler = { [weak self] in
             self?.viewModel.handleActionEvent(.tapCancelFeeding)
         }
@@ -262,11 +262,9 @@ private extension HomeViewController {
                 )
                 self.mapView.didChangeLocation = { [weak self] location, updated in
                     if updated {
-                        self?.handleLocationUpdated(request: request,
-                                                    location: location)
+                        self?.handleLocationUpdated(request: request, location: location)
                     } else {
-                        self?.handleLocationChange(request.feedingPointCoordinates,
-                                                   location: location)
+                        self?.handleLocationChange(request.feedingPointCoordinates, location: location)
                     }
                 }
                 if !request.isUnfinishedFeeding {
@@ -299,12 +297,16 @@ private extension HomeViewController {
         }
     }
 
-    func handleLocationUpdated(request: FeedingPointRouteRequest,
-                               location: CLLocation?) {
-        var updateRequest = FeedingPointRouteRequest(feedingPointCoordinates: request.feedingPointCoordinates,
+    func handleLocationUpdated(
+                               request: FeedingPointRouteRequest,
+                               location: CLLocation?
+                              ) {
+                                  let updateRequest = FeedingPointRouteRequest(
+                                           feedingPointCoordinates: request.feedingPointCoordinates,
                                            countdownTime: request.countdownTime,
                                            feedingPointId: request.feedingPointId,
-                                           isUnfinishedFeeding: true)
+                                           isUnfinishedFeeding: true
+                                           )
         handleUpdatedRouteRequest(updateRequest)
 
         let feedingPointLocation = CLLocation(
@@ -382,7 +384,7 @@ private extension HomeViewController {
                 latitude: 41.719545681547245,
                 longitude: 44.78956025041992
             )
-            mapView.easeToLocation(tbilisiCenterCoordinates, duration: 0)
+            mapView.easeToDefaultZoomLocation(tbilisiCenterCoordinates, duration: 0)
             userLocationButton.isUserInteractionEnabled = false
         }
     }

@@ -24,6 +24,7 @@ final class VerificationAfterChangingUserAttributeWorker: VerificationModelWorke
     }
 
     @discardableResult
+    // need to check
     func resendCode(
         forAttribute attribute: VerificationModelAttribute
     ) async throws -> VerificationModelNextStep {
@@ -42,7 +43,7 @@ final class VerificationAfterChangingUserAttributeWorker: VerificationModelWorke
     func resendAttrUpdate(
         forAttribute attribute: VerificationModelAttribute
     ) async throws -> VerificationModelNextStep {
-        let result = try await userProfileService.update(userAttribute:
+        _ = try await userProfileService.update(userAttribute:
                 .init(attribute.key.userAttributeKey, value: attribute.value)
         )
         return .confirmSignInWithSMSMFACode(

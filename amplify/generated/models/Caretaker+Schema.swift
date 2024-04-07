@@ -16,7 +16,8 @@ extension Caretaker {
   public static let schema = defineSchema { model in
     let caretaker = Caretaker.keys
     
-    model.pluralName = "Caretakers"
+    model.listPluralName = "Caretakers"
+    model.syncPluralName = "Caretakers"
     
     model.fields(
       .field(caretaker.fullName, is: .optional, ofType: .string),

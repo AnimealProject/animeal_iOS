@@ -16,7 +16,7 @@ final class SearchFeedingPointsUseCase: SearchFeedingPointsUseCaseLogic {
         else { return sections }
 
         let filteredSections: [SearchModelSection] = sections.compactMap { section in
-            let items = section.items.filter { $0.name.contains(searchString) }
+            let items = section.items.filter { $0.name.localizedCaseInsensitiveContains(searchString) }
             guard !items.isEmpty else { return nil }
 
             return SearchModelSection(

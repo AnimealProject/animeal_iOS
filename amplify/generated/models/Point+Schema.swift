@@ -15,7 +15,8 @@ extension Point {
   public static let schema = defineSchema { model in
     let point = Point.keys
     
-    model.pluralName = "Points"
+    model.listPluralName = "Points"
+    model.syncPluralName = "Points"
     
     model.fields(
       .field(point.type, is: .required, ofType: .string),

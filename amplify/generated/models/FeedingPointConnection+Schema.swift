@@ -16,7 +16,8 @@ extension FeedingPointConnection {
   public static let schema = defineSchema { model in
     let feedingPointConnection = FeedingPointConnection.keys
     
-    model.pluralName = "FeedingPointConnections"
+    model.listPluralName = "FeedingPointConnections"
+    model.syncPluralName = "FeedingPointConnections"
     
     model.fields(
       .field(feedingPointConnection.items, is: .required, ofType: .collection(of: FeedingPoint.self)),

@@ -2,10 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CLIENT_ID</key>
-	<string>397207162579-t4i4a41lnufl6jm20esigjr8qhdsmqsc.apps.googleusercontent.com</string>
-	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.397207162579-t4i4a41lnufl6jm20esigjr8qhdsmqsc</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>397207162579-71cjc37lm6kq3584p0dgq3tr4tdroql9.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyDluqN6jg9CdqL9fEFI42TjWXm1lm3JiD4</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +11,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.epmedu.animeal</string>
+	<string>com.epmedu.animealMobile</string>
 	<key>PROJECT_ID</key>
 	<string>animeal-project</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +27,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:397207162579:ios:12c7a2957e252c6a774e26</string>
+	<string>1:397207162579:ios:326b7ff58418b548774e26</string>
 </dict>
 </plist>

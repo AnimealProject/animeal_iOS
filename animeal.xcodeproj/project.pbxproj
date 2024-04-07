@@ -2499,7 +2499,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\n\n# Check if the CI environment variable is set\nif [ -z \"${CI}\" ]; then\n  # The CI environment variable is not set, so run SwiftLint\n  if which swiftlint >/dev/null; then\n    swiftlint lint --config \"${PROJECT_DIR}/.swiftlint.yml\"\n  else\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n  fi\nelse\n  # The CI environment variable is set, so do nothing\n  echo \"SwiftLint checked on a seperate step in CI\"\nfi\n";
+			shellScript = "#!/bin/bash\n\n# Check if the CI environment variable is set\nif [ -z \"${CI}\" ]; then\n  if [[ \"$(uname -m)\" == arm64 ]]; then\n      export PATH=\"/opt/homebrew/bin:$PATH\"\n  fi\n  \n  # The CI environment variable is not set, so run SwiftLint\n  if which swiftlint >/dev/null; then\n    swiftlint lint --config \"${PROJECT_DIR}/.swiftlint.yml\"\n  else\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n  fi\nelse\n  # The CI environment variable is set, so do nothing\n  echo \"SwiftLint checked on a seperate step in CI\"\nfi\n";
 		};
 		DB5359AD286C59D000D2FF7F /* mapBox */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2527,8 +2527,11 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
-				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist",
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist",
+				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
 			);
 			name = crashlytics;
 			outputFileListPaths = (
@@ -3075,11 +3078,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Pran Kishore (H9P3RBZ672)";
+				CODE_SIGN_IDENTITY = "Apple Development: Pran Kishore (CM95PV92ZY)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 8;
-				DEVELOPMENT_TEAM = K36CA7QL4T;
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = K36CA7QL4T;
+				CURRENT_PROJECT_VERSION = 17;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 2JSLPH439W;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 2JSLPH439W;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = animeal/res/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "";
@@ -3100,7 +3104,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.0.33;
-				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animealApp;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animealMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Animeal Development";
@@ -3115,12 +3120,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: EPAM SISTEMZ, IOOO (K36CA7QL4T)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: EPAM SISTEMZ, IOOO (K36CA7QL4T)";
+				CODE_SIGN_IDENTITY = "Apple Distribution: Animals Project, NCLE (2JSLPH439W)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution: Animals Project, NCLE (2JSLPH439W)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 8;
-				DEVELOPMENT_TEAM = K36CA7QL4T;
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = K36CA7QL4T;
+				CURRENT_PROJECT_VERSION = 17;
+				DEVELOPMENT_TEAM = 2JSLPH439W;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 2JSLPH439W;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = animeal/res/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "";
@@ -3141,10 +3146,11 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.0.33;
-				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animealApp;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animealMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Epam Animeal Prod App Store Distribution";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Epam Animeal Prod App Store Distribution";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Animeal App Store Distribution";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

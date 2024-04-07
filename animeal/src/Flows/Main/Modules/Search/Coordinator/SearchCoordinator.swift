@@ -78,7 +78,8 @@ extension SearchCoordinator: FeedingPointCoordinatable {
 }
 
 extension SearchCoordinator: FeedingBookingCoordinatable {
-    @MainActor func routeTo(_ route: FeedingBookingRoute) {
+    @MainActor
+    func routeTo(_ route: FeedingBookingRoute) {
         switch route {
         case .agree(let feedDetails):
             navigator.topViewController?.dismiss(animated: true) { [weak self] in

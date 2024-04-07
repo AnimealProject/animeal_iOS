@@ -133,11 +133,11 @@ private extension AttachPhotoViewController {
         attachingPhotoView.onTapAttachPhoto = { [weak self] in
             if let granted = self?.viewModel.grantCameraPermission(),
                 granted {
-                let vc = UIImagePickerController()
-                vc.sourceType = .camera
-                vc.allowsEditing = true
-                vc.delegate = self
-                self?.present(vc, animated: true)
+                let viewController = UIImagePickerController()
+                viewController.sourceType = .camera
+                viewController.allowsEditing = true
+                viewController.delegate = self
+                self?.present(viewController, animated: true)
             }
         }
 
