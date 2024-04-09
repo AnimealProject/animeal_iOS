@@ -39,3 +39,10 @@ https://colors.artyclick.com/color-name-finder/
 Note: 
 1. for API keys and other secret please connect with one of our group members.
 2. for first time on boarding guys in case the `update_amplify.sh` script failes. Please run the `recover_from_error.sh`
+
+## Generate the string file
+
+We needed to convert the certificate and provisioning profile to base 64 string format so that it can be used in the github actions secrets. Hence we used the following commands to convert the files to base 64 format.
+
+openssl base64 -in dev-certificates.p12 -A | tr -d '\n' > dev-certificates_base64.txt
+openssl base64 -in Animeal_Development_latest.mobileprovision -A | tr -d '\n' > Animeal_Development_latest_base64.txt
