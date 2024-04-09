@@ -78,3 +78,4 @@ jobs:
           code-signing-identity: "Apple Development: Pran Kishore (CM95PV92ZY)"
           export-options: "ExportOptions.plist"
           team-id: "2JSLPH439W"
+          configuration: "Debug"
