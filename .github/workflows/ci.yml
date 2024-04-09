@@ -79,3 +79,8 @@ jobs:
           export-options: "ExportOptions.plist"
           team-id: "2JSLPH439W"
           configuration: "Debug"
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: output  # Name of the artifact (optional)
+          path: '**/*.ipa'  # Wildcard pattern to match output.ipa
