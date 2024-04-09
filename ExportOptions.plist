@@ -5,20 +5,20 @@
 	<key>manageAppVersionAndBuildNumber</key>
 	<false/>
 	<key>method</key>
-	<string>app-store</string>
+	<string>development</string>
 	<key>provisioningProfiles</key>
 	<dict>
-		<key>com.epmedu.animealApp</key>
-		<string>aa40ce2e-f1fe-4345-9470-de3203239eec</string>
+		<key>com.epmedu.animealMobile</key>
+		<string>0563f355-19be-4a51-8405-18b2c166161f</string>
 	</dict>
 	<key>signingCertificate</key>
-	<string>iPhone Distribution: EPAM SISTEMZ, IOOO (K36CA7QL4T)</string>
+	<string>Apple Development: Pran Kishore (CM95PV92ZY)</string>
 	<key>signingStyle</key>
 	<string>manual</string>
 	<key>stripSwiftSymbols</key>
 	<true/>
 	<key>teamID</key>
-	<string>K36CA7QL4T</string>
+	<string>2JSLPH439W</string>
 	<key>uploadSymbols</key>
 	<true/>
 	<key>compileBitcode</key>
