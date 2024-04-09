@@ -1,4 +1,4 @@
-name: CI
+name: Unit Test
 
 on:
   pull_request:
@@ -60,27 +60,12 @@ jobs:
           MAPBOX_DOWNLOAD_TOKEN: ${{ secrets.MAPBOX_DOWNLOAD_TOKEN }}
       - name: Install Swiftgen
         run: brew install swiftgen
-      - name: Install xcbeautify
-        run: brew install xcbeautify
+      - name: Check Amplify Version
+        run: amplify --version
       - name: Set Xcode version
         uses: maxim-lobanov/setup-xcode@v1
         with: 
           xcode-version: '15.1'
-      - name: Build and export IPA
-        uses: yukiarrr/ios-build-action@v1.11.2
-        with:
-          project-path: animeal.xcodeproj
-          scheme: "animeal"
-          export-method: "development"
-          p12-base64: ${{ secrets.APPLE_DISTRIBUTION_CERTIFICATE }}
-          mobileprovision-base64: ${{ secrets.APPLE_DISTRIBUTION_PROVISIONING_PROFILE }}
-          certificate-password: ${{ secrets.UNLOCK_CERTIFICATE }}
-          code-signing-identity: "Apple Development: Pran Kishore (CM95PV92ZY)"
-          export-options: "ExportOptions.plist"
-          team-id: "2JSLPH439W"
-          configuration: "Debug"
-      - name: Upload Build Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: output  # Name of the artifact (optional)
-          path: '**/*.ipa'  # Wildcard pattern to match output.ipa
+      - name: Build For Test
+        run: |
+          xcodebuild test -scheme animeal -project animeal.xcodeproj -destination "platform=iOS Simulator,name=iPhone 14,OS=17.2" -parallelizeTargets -showBuildTimingSummary | xcbeautify --renderer github-actions
