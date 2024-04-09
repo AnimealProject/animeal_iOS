@@ -75,6 +75,6 @@ jobs:
           p12-base64: ${{ secrets.APPLE_DISTRIBUTION_CERTIFICATE }}
           mobileprovision-base64: ${{ secrets.APPLE_DISTRIBUTION_PROVISIONING_PROFILE }}
           certificate-password: ${{ secrets.UNLOCK_CERTIFICATE }}
-          code-signing-identity: "iPhone Distribution: EPAM SISTEMZ, IOOO (K36CA7QL4T)"
+          code-signing-identity: "Apple Development: Pran Kishore (CM95PV92ZY)"
           export-options: "ExportOptions.plist"
-          team-id: "K36CA7QL4T"
+          team-id: "2JSLPH439W"
