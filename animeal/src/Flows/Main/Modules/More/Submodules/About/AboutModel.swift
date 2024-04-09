@@ -22,7 +22,7 @@ extension AboutModel {
         return AboutModel(
             contentText: "\(L10n.More.aboutContent)",
             links: AboutLink.allCases,
-            appVersion: "\(L10n.About.appVersion) \(AppInfo.appVersion)"
+            appVersion: "\(L10n.About.appVersion) \(AppInfo.appVersion) (\(AppInfo.appBuildNumber))"
         )
     }
 }
