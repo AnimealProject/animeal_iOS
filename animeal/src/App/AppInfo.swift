@@ -17,6 +17,10 @@ enum AppInfo {
         return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? .empty
     }
 
+    static var appBuildNumber: String {
+        return Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? .empty
+    }
+
     static var appStoreShareUrl: String {
         return "https://itunes.apple.com/us/app/iapps/id\(appId)?mt=8"
     }
