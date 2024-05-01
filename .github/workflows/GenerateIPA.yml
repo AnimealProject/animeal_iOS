@@ -1,0 +1,82 @@
+name: Generate IPA
+
+on:
+  workflow_dispatch:
+
+jobs:
+ SwiftLint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: GitHub Action for SwiftLint
+      uses: norio-nomura/action-swiftlint@3.2.1
+
+ build:
+    name: Build and Test default scheme using iPhone simulator
+    runs-on: macos-13
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install and run 'bundle install'
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+          # runs 'bundle install' and caches installed gems automatically
+          bundler-cache: true
+      - name: Install npm
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install Amplify
+        run: npm install -g @aws-amplify/cli
+      - name: Setup Amplify
+        id: setupAmplify
+        run: bash ./update_amplify.sh -a $AWS_ACCESS_KEY_ID -s $AWS_SECRET_ACCESS_KEY -i $APP_ID -e $AMPLIFY_DEV_ENV -t $FACEBOOK_APP_ID -r $FACEBOOK_APP_SECRET
+        continue-on-error: true
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          APP_ID: ${{ secrets.APP_ID }}
+          AMPLIFY_DEV_ENV: ${{ secrets.AMPLIFY_DEV_ENV }}
+          FACEBOOK_APP_ID: ${{ secrets.FACEBOOK_APP_ID }}
+          FACEBOOK_APP_SECRET: ${{ secrets.FACEBOOK_APP_SECRET }}
+      - name: Recover From Setup Amplfy  Error
+        if: steps.setupAmplify.outcome != 'success'
+        run: bash ./recover_from_error.sh
+      - name: Setup .mapbox file with MAPBOX_DOWNLOAD_TOKEN
+        run: echo $MAPBOX_DOWNLOAD_TOKEN >> ~/.mapbox
+        env:
+          MAPBOX_DOWNLOAD_TOKEN: ${{ secrets.MAPBOX_DOWNLOAD_TOKEN }}
+      - name: Setup .netrc with MAPBOX_DOWNLOAD_TOKEN
+        run: |
+          echo 'machine api.mapbox.com' >> ~/.netrc
+          echo 'login mapbox' >> ~/.netrc
+          echo "password $MAPBOX_DOWNLOAD_TOKEN" >> ~/.netrc
+          chmod 0600 ~/.netrc
+        env:
+          MAPBOX_DOWNLOAD_TOKEN: ${{ secrets.MAPBOX_DOWNLOAD_TOKEN }}
+      - name: Install Swiftgen
+        run: brew install swiftgen
+      - name: Set Xcode version
+        uses: maxim-lobanov/setup-xcode@v1
+        with: 
+          xcode-version: '15.1'
+      - name: Build and export IPA
+        uses: yukiarrr/ios-build-action@v1.11.2
+        with:
+          project-path: animeal.xcodeproj
+          scheme: "animeal"
+          export-method: "development"
+          p12-base64: ${{ secrets.APPLE_DISTRIBUTION_CERTIFICATE }}
+          mobileprovision-base64: ${{ secrets.APPLE_DISTRIBUTION_PROVISIONING_PROFILE }}
+          certificate-password: ${{ secrets.UNLOCK_CERTIFICATE }}
+          code-signing-identity: "Apple Development: Pran Kishore (CM95PV92ZY)"
+          export-options: "ExportOptions.plist"
+          team-id: "2JSLPH439W"
+          configuration: "Debug"
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: output  # Name of the artifact (optional)
+          path: '**/*.ipa'  # Wildcard pattern to match output.ipa
