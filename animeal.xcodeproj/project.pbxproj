@@ -241,6 +241,7 @@
 		8F5C10B2C66F528FEE0C18F4 /* Favourite.swift in Sources */ = {isa = PBXBuildFile; fileRef = E700F57F429C6E6593684341 /* Favourite.swift */; };
 		916158A01E8C9CF111B616B4 /* FeedingPointI18n.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC783B4669B3726AA33D8A7 /* FeedingPointI18n.swift */; };
 		9522C3FA58BF89826BB2D27F /* Feeding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6918D9E98B7A31C94E11F61A /* Feeding.swift */; };
+		9BA0DBB32BE6A7E600663EF6 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 9BA0DBB22BE6A7E600663EF6 /* PrivacyInfo.xcprivacy */; };
 		9FAE26445420DFE979D48E46 /* Settings+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536B40393A9F76F900523AE3 /* Settings+Schema.swift */; };
 		A8C82F5EA242B4E574055D0F /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA61C9B5FAD8F3476DAD592 /* Question.swift */; };
 		AA7331C285ADDCCBA8CF7FEA /* Location+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = A99BD777ACB782FC6228A40A /* Location+Schema.swift */; };
@@ -595,6 +596,7 @@
 		8CD69A6F89E3BC60EA232408 /* Language+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "Language+Schema.swift"; path = "amplify/generated/models/Language+Schema.swift"; sourceTree = "<group>"; };
 		8F4A7CF4F0C1D848CC47A162 /* Location.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Location.swift; path = amplify/generated/models/Location.swift; sourceTree = "<group>"; };
 		95550513A0326A8E443C7BCB /* FeedingPointConnection+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "FeedingPointConnection+Schema.swift"; path = "amplify/generated/models/FeedingPointConnection+Schema.swift"; sourceTree = "<group>"; };
+		9BA0DBB22BE6A7E600663EF6 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		A599E2C6DF76CD81C5AD66D9 /* FeedingPointConnection.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = FeedingPointConnection.swift; path = amplify/generated/models/FeedingPointConnection.swift; sourceTree = "<group>"; };
 		A73CF697E0ED36B966DB6DD9 /* Medication.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Medication.swift; path = amplify/generated/models/Medication.swift; sourceTree = "<group>"; };
 		A8CB79619259AF5F554F3EC7 /* Language.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Language.swift; path = amplify/generated/models/Language.swift; sourceTree = "<group>"; };
@@ -2002,6 +2004,7 @@
 				DB6B07C728450A380009397B /* SceneDelegate.swift */,
 				DB4CA51C28450FEE00050EA5 /* src */,
 				DB4CA51D2845104900050EA5 /* res */,
+				9BA0DBB22BE6A7E600663EF6 /* PrivacyInfo.xcprivacy */,
 			);
 			path = animeal;
 			sourceTree = "<group>";
@@ -2435,6 +2438,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DB4459E2287330CD00541570 /* GoogleService-Info.plist in Resources */,
+				9BA0DBB32BE6A7E600663EF6 /* PrivacyInfo.xcprivacy in Resources */,
 				DB0D671528466D6200930564 /* Localizable.strings in Resources */,
 				DB6B07D228450A390009397B /* LaunchScreen.storyboard in Resources */,
 				DB0D4A8228856D2C001750BC /* Assets.xcassets in Resources */,
