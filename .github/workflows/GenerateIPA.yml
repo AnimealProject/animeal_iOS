@@ -81,9 +81,9 @@ jobs:
           name: output  # Name of the artifact (optional)
           path: '**/*.ipa'  # Wildcard pattern to match output.ipa
       - name: upload artifact to Firebase App Distribution
-        uses: wzieba/Firebase-Distribution-Github-Action@v1.7.0
+        uses: nickwph/firebase-app-distribution-action@v1.2.1
         with:
-          appId: ${{secrets.FIREBASE_APP_ID}}
-          serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
+          app: ${{secrets.FIREBASE_APP_ID}}
+          credentials-file: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
           groups: qa_team
           file: /Users/runner/work/animeal_iOS/animeal_iOS/output.ipa
