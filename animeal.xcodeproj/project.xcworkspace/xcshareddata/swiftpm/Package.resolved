@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/aws-amplify/amplify-swift",
       "state" : {
-        "revision" : "7e8bc10cebe655c5b778e0a0e29e278b3e99e08b",
-        "version" : "2.6.0"
+        "revision" : "7846328106dba471b3fb35170155e92aad50d427",
+        "version" : "2.33.3"
       }
     },
     {
@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/aws-amplify/amplify-swift-utils-notifications.git",
       "state" : {
-        "revision" : "d4fd3c17e8d40efc821f448d3d6cff75b8f3b0dd",
-        "version" : "1.0.0"
+        "revision" : "959eec669ba97c7d923b963c3e66ca8a0b2737f6",
+        "version" : "1.1.1"
       }
     },
     {
@@ -37,21 +37,12 @@
       }
     },
     {
-      "identity" : "aws-appsync-realtime-client-ios",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/aws-amplify/aws-appsync-realtime-client-ios.git",
-      "state" : {
-        "revision" : "b036e83716789c13a3480eeb292b70caa54114f2",
-        "version" : "3.1.0"
-      }
-    },
-    {
       "identity" : "aws-crt-swift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/awslabs/aws-crt-swift",
       "state" : {
-        "revision" : "afe23a2a2f6cf78e6d8803d7c9e0c8e6f50b6915",
-        "version" : "0.4.0"
+        "revision" : "0d0a0cf2e2cb780ceeceac190b4ede94f4f96902",
+        "version" : "0.26.0"
       }
     },
     {
@@ -59,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/awslabs/aws-sdk-swift.git",
       "state" : {
-        "revision" : "30649be4b9d0788f987ae851c48d48ac6d00f2c2",
-        "version" : "0.6.1"
+        "revision" : "47922c05dd66be717c7bce424651a534456717b7",
+        "version" : "0.36.2"
       }
     },
     {
@@ -246,10 +237,10 @@
     {
       "identity" : "smithy-swift",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/awslabs/smithy-swift",
+      "location" : "https://github.com/smithy-lang/smithy-swift",
       "state" : {
-        "revision" : "3e9e420f69c28dee260c03b19c3e93b392128d42",
-        "version" : "0.6.1"
+        "revision" : "8a5b0105c1b8a1d26a9435fb0af3959a7f5de578",
+        "version" : "0.41.1"
       }
     },
     {
@@ -266,17 +257,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/stephencelis/SQLite.swift.git",
       "state" : {
-        "revision" : "5f5ad81ac0d0a0f3e56e39e646e8423c617df523",
-        "version" : "0.13.2"
-      }
-    },
-    {
-      "identity" : "starscream",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/daltoniam/Starscream",
-      "state" : {
-        "revision" : "df8d82047f6654d8e4b655d1b1525c64e1059d21",
-        "version" : "4.0.4"
+        "revision" : "e78ae0220e17525a15ac68c697a155eb7a672a8e",
+        "version" : "0.15.0"
       }
     },
     {
@@ -286,15 +268,6 @@
       "state" : {
         "revision" : "46989693916f56d1186bd59ac15124caef896560",
         "version" : "1.3.1"
-      }
-    },
-    {
-      "identity" : "swift-collections",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-collections",
-      "state" : {
-        "revision" : "937e904258d22af6e447a0b72c0bc67583ef64a2",
-        "version" : "1.0.4"
       }
     },
     {
@@ -322,15 +295,6 @@
       "state" : {
         "revision" : "f0afe204b4266337066a436becab62fdd2b32378",
         "version" : "2.7.0"
-      }
-    },
-    {
-      "identity" : "xmlcoder",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/MaxDesiatov/XMLCoder.git",
-      "state" : {
-        "revision" : "b1e944cbd0ef33787b13f639a5418d55b3bed501",
-        "version" : "0.17.1"
       }
     }
   ],
