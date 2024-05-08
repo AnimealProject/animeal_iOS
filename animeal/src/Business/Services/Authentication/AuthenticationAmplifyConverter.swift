@@ -209,7 +209,7 @@ struct AuthenticationAmplifyConverter: AuthenticationAmplifyConverting, AmplifyA
                     additionalInfo
                 )
             )
-        case .done:
+        case .done, .confirmSignInWithTOTPCode, .continueSignInWithTOTPSetup(_), .continueSignInWithMFASelection(_):
             return AuthenticationSignInState(
                 nextStep: AuthenticationSignInStep.done
             )
