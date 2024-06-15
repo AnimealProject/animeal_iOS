@@ -52,8 +52,8 @@ final class ProfileModel: ProfileModelProtocol {
         await fetchItems(identifier)
     }
 
-    func updateItem(_ text: String?, forIdentifier identifier: String) async {
-        await updateItems(text, forIdentifier: identifier)
+    func updateItem(_ text: String?, _ selected: Bool, forIdentifier identifier: String) async {
+        await updateItems(text, selected, forIdentifier: identifier)
     }
 
     func validateItems() async -> Bool {

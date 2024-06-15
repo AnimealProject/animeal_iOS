@@ -10,4 +10,5 @@ enum ProfileViewTextEvent {
 enum ProfileViewItemEvent {
     case changeText(ProfileViewTextEvent)
     case changeDate(String, Date)
+    case clickCheckBox(String, Bool)
 }

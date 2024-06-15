@@ -50,8 +50,17 @@ struct ProfileModelItem: Hashable, ProfileModelValidatable {
             _value = transform(newValue)
         }
     }
+    var selected: Bool {
+        get {
+            style == .readonly ? true : _selected ?? false
+        }
+        set {
+            _selected = style == .readonly ? true : newValue
+        }
+    }
     var date: Date? { transformDate(text) }
     private var _value: String?
+    private var _selected: Bool?
 
     init(
         identifier: String,
@@ -80,7 +89,7 @@ struct ProfileModelItem: Hashable, ProfileModelValidatable {
         case .phone(let region):
             return try validatePhone(region)
         case .birthday:
-            return try validateDate()
+            return try validateCheckBox()
         }
     }
 
@@ -165,6 +174,13 @@ extension ProfileModelItem {
         }
 
         return region.phoneNumberCode + text
+    }
+
+    func validateCheckBox() throws -> String {
+        guard selected == true else {
+            throw ProfileModelItemAgeError(selected: false)
+        }
+        return ""
     }
 
     func validateDate() throws -> String {

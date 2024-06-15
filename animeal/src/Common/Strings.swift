@@ -194,6 +194,8 @@ internal enum L10n {
     internal static let birthDate = L10n.tr("Localizable", "profile.birthDate", fallback: "Birthdate")
     /// Cancel
     internal static let cancel = L10n.tr("Localizable", "profile.cancel", fallback: "Cancel")
+    /// You acknowledge that you are atleast 15 years old
+    internal static let consent = L10n.tr("Localizable", "profile.consent", fallback: "You acknowledge that you are atleast 15 years old")
     /// Done
     internal static let done = L10n.tr("Localizable", "profile.done", fallback: "Done")
     /// Edit

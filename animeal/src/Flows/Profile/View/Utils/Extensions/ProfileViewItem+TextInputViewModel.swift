@@ -4,7 +4,7 @@ import UIKit
 // SDK
 import UIComponents
 
-extension ProfileViewItem {
+extension ProfileTextFieldViewItem {
     var phoneModel: PhoneInputView.Model {
         switch state {
         case .normal:

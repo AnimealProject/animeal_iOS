@@ -6,7 +6,7 @@ import Common
 
 final class ProfileViewModel: ProfileViewModelProtocol {
     // MARK: - Private properties
-    private var viewItems: [ProfileViewItem]
+    private var viewItems: [ProfileViewItemProtocol]
     private var modelActions: [ProfileModelAction]
 
     // MARK: - Dependencies
@@ -114,8 +114,14 @@ final class ProfileViewModel: ProfileViewModelProtocol {
             return handleTextEvent(textEvent)
         case let .changeDate(identifier, date):
             let text = dateFormatter.string(from: date)
-            Task { [weak self] in await self?.model.updateItem(text, forIdentifier: identifier) }
+            Task { [weak self] in await self?.model.updateItem(text, false, forIdentifier: identifier) }
             return ProfileViewText(caretOffset: text.count, formattedText: text)
+        case let .clickCheckBox(identifier, selected):
+            Task { [weak self] in
+                await self?.model.updateItem(nil, selected, forIdentifier: identifier)
+                await self?.validateItems()
+            }
+            return ProfileViewText(caretOffset: .zero, formattedText: nil)
         }
     }
 
@@ -127,10 +133,10 @@ final class ProfileViewModel: ProfileViewModelProtocol {
                 formattedText: text
             )
         case let .didChange(identifier, text):
-            guard let formatter = viewItems.first(where: { $0.identifier == identifier })?.formatter
+            guard let formatter = viewItems.compactMap({ $0 as? ProfileTextFieldViewItem }).first(where: { $0.identifier == identifier })?.formatter
             else {
                 Task { [weak self] in
-                    await self?.model.updateItem(text, forIdentifier: identifier)
+                    await self?.model.updateItem(text, false, forIdentifier: identifier)
                     await self?.updateViewActions()
                 }
                 return ProfileViewText(
@@ -140,7 +146,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
             }
             let unformattedText = formatter.unformat(text ?? .empty)
             Task { [weak self] in
-                await self?.model.updateItem(unformattedText, forIdentifier: identifier)
+                await self?.model.updateItem(unformattedText, false, forIdentifier: identifier)
                 await self?.updateViewActions()
             }
             return ProfileViewText(
@@ -148,7 +154,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
                 formattedText: text
             )
         case let .shouldChangeCharactersIn(identifier, text, range, replacementString):
-            guard let formatter = viewItems.first(where: { $0.identifier == identifier })?.formatter
+            guard let formatter = viewItems.compactMap({ $0 as? ProfileTextFieldViewItem }).first(where: { $0.identifier == identifier })?.formatter
             else {
                 let text = (text ?? .empty) + replacementString
                 return ProfileViewText(
@@ -166,10 +172,10 @@ final class ProfileViewModel: ProfileViewModelProtocol {
                 formattedText: result.formattedText
             )
         case let .endEditing(identifier, text):
-            guard let formatter = viewItems.first(where: { $0.identifier == identifier })?.formatter
+            guard let formatter = viewItems.compactMap({ $0 as? ProfileTextFieldViewItem }).first(where: { $0.identifier == identifier })?.formatter
             else {
                 Task { [weak self] in
-                    await self?.model.updateItem(text, forIdentifier: identifier)
+                    await self?.model.updateItem(text, false, forIdentifier: identifier)
                     await self?.validateItems()
                 }
                 return ProfileViewText(
@@ -179,7 +185,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
             }
             let unformattedText = formatter.unformat(text ?? .empty)
             Task { [weak self] in
-                await self?.model.updateItem(unformattedText, forIdentifier: identifier)
+                await self?.model.updateItem(unformattedText, false, forIdentifier: identifier)
                 await self?.validateItems()
             }
 
@@ -232,7 +238,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
                     let completion: () -> Void = {
                         Task { @MainActor [weak self] in
                             guard let self else { return }
-                            await self.model.updateItem(nil, forIdentifier: identifier)
+                            await self.model.updateItem(nil, false, forIdentifier: identifier)
                             self.updateViewItems(animated: false, resetPreviousItems: false) { [weak self] in
                                 try await self?.model.fetchCachedItems() ?? []
                             }

@@ -36,7 +36,7 @@ final class UserValidationModel: UserProfileValidationModel {
         emailVerified = attributes[.emailVerified]
             .map { Bool($0) ?? false } ?? false
 
-        areAllNecessaryFieldsFilled = [UserProfileAttributeKey.name, .familyName, .email, .birthDate, .phoneNumber]
+        areAllNecessaryFieldsFilled = [UserProfileAttributeKey.name, .familyName, .email, .phoneNumber]
             .allSatisfy { attributes[$0]?.isEmpty == false }
     }
 }

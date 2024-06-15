@@ -43,7 +43,7 @@ protocol ProfileModelProtocol {
     func fetchCachedItems() async throws -> [ProfileModelItem]
     func fetchItems() async throws -> [ProfileModelItem]
     func fetchItem(_ identifier: String) async -> ProfileModelItem?
-    func updateItem(_ text: String?, forIdentifier identifier: String) async
+    func updateItem(_ text: String?, _ selected: Bool, forIdentifier identifier: String) async
     func validateItems() async -> Bool
 
     func fetchRequiredAction(forIdentifier identifier: String) async -> PhoneModelRequiredAction?

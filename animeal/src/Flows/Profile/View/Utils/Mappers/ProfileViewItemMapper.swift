@@ -8,16 +8,16 @@ import Style
 
 // sourcery: AutoMockable
 protocol ProfileViewItemMappable {
-    func mapItem(_ input: ProfileModelItem) -> ProfileViewItem
-    func mapItems(_ input: [ProfileModelItem]) -> [ProfileViewItem]
+    func mapItem(_ input: ProfileModelItem) -> ProfileViewItemProtocol
+    func mapItems(_ input: [ProfileModelItem]) -> [ProfileViewItemProtocol]
 }
 
 struct ProfileViewItemMapper: ProfileViewItemMappable {
-    func mapItem(_ input: ProfileModelItem) -> ProfileViewItem {
+    func mapItem(_ input: ProfileModelItem) -> ProfileViewItemProtocol {
         switch input.type {
         case .phone(let region):
             guard let placeholder = region.phoneNumberPlaceholder else {
-                let viewItem = ProfileViewItem(
+                let viewItem = ProfileTextFieldViewItem(
                     identifier: input.identifier,
                     type: input.type,
                     state: input.state,
@@ -37,7 +37,7 @@ struct ProfileViewItemMapper: ProfileViewItemMappable {
             let formatter = DefaultTextInputFormatter.phoneNumberFormatter(
                 placeholder
             )
-            let viewItem = ProfileViewItem(
+            let viewItem = ProfileTextFieldViewItem(
                 identifier: input.identifier,
                 type: input.type,
                 state: input.state,
@@ -54,30 +54,18 @@ struct ProfileViewItemMapper: ProfileViewItemMappable {
             )
             return viewItem
         case .birthday:
-            let viewItem = ProfileViewItem(
+            let state: CheckBoxState = input.selected ? .checked : .unchecked
+            let viewItem = ProfileAgeConsentViewItem(
                 identifier: input.identifier,
                 type: input.type,
                 state: input.state,
-                formatter: nil,
                 isEditable: input.isEditable,
                 title: input.type.title,
-                content: DateTextContentView.Model(
-                    placeholder: input.type.title,
-                    text: input.text,
-                    date: input.date,
-                    isEditable: input.isEditable,
-                    rightActions: [
-                        .init(
-                            identifier: UUID().uuidString,
-                            icon: Asset.Images.calendar.image,
-                            action: nil
-                        )
-                    ]
-                )
+                ageConsentModel: AgeConsentView.AgeConsentViewModel(state: state, title: L10n.Profile.consent)
             )
             return viewItem
         default:
-            let viewItem = ProfileViewItem(
+            let viewItem = ProfileTextFieldViewItem(
                 identifier: input.identifier,
                 type: input.type,
                 state: input.state,
@@ -94,7 +82,7 @@ struct ProfileViewItemMapper: ProfileViewItemMappable {
         }
     }
 
-    func mapItems(_ input: [ProfileModelItem]) -> [ProfileViewItem] {
+    func mapItems(_ input: [ProfileModelItem]) -> [ProfileViewItemProtocol] {
         return input.map(mapItem)
     }
 }
