@@ -165,9 +165,9 @@ final class ProfileModelEditAction: ProfileModelAction {
         let items = await state.items
         let editableItems = items.toEditable { item in
             switch item.type {
-            case .name, .surname, .email, .birthday:
+            case .name, .surname, .email:
                 return false
-            case .phone:
+            case .phone, .birthday:
                 return true
             }
         }
@@ -218,9 +218,9 @@ final class ProfileModelSaveAction: ProfileModelAction {
         let items = await state.items
         let editableItems = items.toEditable { item in
             switch item.type {
-            case .name, .surname, .email, .birthday:
+            case .name, .surname, .email:
                 return false
-            case .phone:
+            case .phone, .birthday:
                 return true
             }
         }

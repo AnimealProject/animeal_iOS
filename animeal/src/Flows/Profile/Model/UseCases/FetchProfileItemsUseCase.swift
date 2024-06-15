@@ -17,7 +17,7 @@ protocol FetchProfileItemRequiredActionUseCase {
 }
 
 protocol UpdateProfileItemsUseCaseLogic {
-    func callAsFunction(_ text: String?, forIdentifier identifier: String) async
+    func callAsFunction(_ text: String?, _ selected: Bool, forIdentifier identifier: String) async
 }
 
 protocol ValidateProfileItemsUseCaseLogic {
@@ -113,13 +113,6 @@ extension FetchProfileItemsUseCase: FetchProfileItemsUseCaseLogic {
                 } else {
                     item.text = nil
                 }
-            case .birthday where isFacebook:
-                dateFormatter.dateFormat = "MM/dd/yyyy"
-                if let birthDate = knownAttributes[key]?.value,
-                   let date = dateFormatter.date(from: birthDate) {
-                        dateFormatter.dateFormat = "dd/MM/yyyy"
-                        item.text = dateFormatter.string(from: date)
-                }
             default:
                 item.text = knownAttributes[key]?.value
             }
@@ -165,7 +158,7 @@ extension FetchProfileItemsUseCase: UpdateProfileItemsUseCaseLogic {
     /// - Parameters:
     ///   - text: the value of the profile item. for name is the updated name, for email it's the updated email.
     ///   - identifier: Identifer of the particular profile item which was updated.
-    func callAsFunction(_ text: String?, forIdentifier identifier: String) async {
+    func callAsFunction(_ text: String?, _ selected: Bool, forIdentifier identifier: String) async {
         var items = await state.items
         guard
             let itemIndex = items.firstIndex(where: { $0.identifier == identifier })
@@ -173,6 +166,7 @@ extension FetchProfileItemsUseCase: UpdateProfileItemsUseCaseLogic {
 
         var value = items[itemIndex]
         value.text = text
+        value.selected = selected
         items[itemIndex] = value
 
         var changedItemsTypes = await state.changedItemsTypes

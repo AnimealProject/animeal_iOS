@@ -151,15 +151,16 @@ private extension ProfileViewController {
     }
 
     // MARK: - Configuration
-    func createViewItems(_ viewItems: [ProfileViewItem]) {
+    func createViewItems(_ viewItems: [ProfileViewItemProtocol]) {
         inputsContentView.arrangedSubviews.forEach {
             $0.removeFromSuperview()
         }
         viewItems.forEach { item in
             switch item.type {
             case .phone:
+                guard let model = (item as? ProfileTextFieldViewItem)?.phoneModel else { return }
                 let inputView = PhoneInputView()
-                inputView.configure(item.phoneModel)
+                inputView.configure(model)
                 inputView.codeWasTapped = { [weak self] _ in
                     self?.viewModel.handleActionEvent(
                         ProfileViewActionEvent.itemWasTapped(item.identifier)
@@ -196,22 +197,18 @@ private extension ProfileViewController {
                     )
                 }
                 inputsContentView.addArrangedSubview(inputView)
-            case .birthday:
-                let inputView = DateInputView()
-                inputView.configure(item.dateModel)
-                inputsContentView.addArrangedSubview(inputView)
-                inputView.valueWasChanged = { [weak self] textInput, date in
-                    let result = self?.viewModel.handleItemEvent(.changeDate(item.identifier, date))
-                    textInput.text = result?.formattedText
+            case .birthday:                
+                guard let model: AgeConsentView.AgeConsentViewModel = (item as? ProfileAgeConsentViewItem)?.ageConsentModel else { return }
+                let ageConsentView = AgeConsentView()
+                ageConsentView.onTap = { [weak self] selected in
+                    self?.viewModel.handleItemEvent(.clickCheckBox(item.identifier ,selected))
                 }
-                inputView.didEndEditing = { [weak self] textInput in
-                    self?.viewModel.handleItemEvent(
-                        .changeText(.endEditing(item.identifier, textInput.text))
-                    )
-                }
+                ageConsentView.configure(model)
+                inputsContentView.addArrangedSubview(ageConsentView)
             default:
+                guard let model = (item as? ProfileTextFieldViewItem)?.model else { return }
                 let inputView = DefaultInputView()
-                inputView.configure(item.model)
+                inputView.configure(model)
                 inputsContentView.addArrangedSubview(inputView)
                 inputView.shouldChangeCharacters = { [weak self] textInput, range, string in
                     let text = textInput.text
@@ -236,7 +233,7 @@ private extension ProfileViewController {
         }
     }
 
-    func updateViewItems(_ viewItems: [ProfileViewItem]) {
+    func updateViewItems(_ viewItems: [ProfileViewItemProtocol]) {
         let identifiedViewInputs = inputsContentView.arrangedSubviews
             .compactMap { $0 as? TextInputDecoratable }
             .reduce([String: TextInputDecoratable]()) { partialResult, input in
@@ -245,18 +242,22 @@ private extension ProfileViewController {
                 return result
             }
 
+        let ageConsentView = inputsContentView.arrangedSubviews
+            .compactMap { $0 as? AgeConsentView }.first
+
         viewItems.forEach { viewItem in
             switch viewItem.type {
             case .phone:
                 guard let inputView = identifiedViewInputs[viewItem.identifier] as? PhoneInputView else { return }
-                inputView.configure(viewItem.phoneModel)
+                inputView.configure((viewItem as! ProfileTextFieldViewItem).phoneModel)
             case .birthday:
-                guard let inputView = identifiedViewInputs[viewItem.identifier] as? DateInputView else { return }
-                inputView.configure(viewItem.dateModel)
+                guard let inputView = ageConsentView, let model = (viewItem as? ProfileAgeConsentViewItem)?.ageConsentModel else { return }
+                inputView.configure(model)
             default:
                 guard let inputView = identifiedViewInputs[viewItem.identifier] as? DefaultInputView else { return }
-                inputView.configure(viewItem.model)
+                inputView.configure((viewItem as! ProfileTextFieldViewItem).model)
             }
         }
+        
     }
 }

@@ -1332,10 +1332,10 @@ class ProfileViewItemMappableMock: ProfileViewItemMappable {
     }
     var mapItemReceivedInput: ProfileModelItem?
     var mapItemReceivedInvocations: [ProfileModelItem] = []
-    var mapItemReturnValue: ProfileViewItem!
-    var mapItemClosure: ((ProfileModelItem) -> ProfileViewItem)?
+    var mapItemReturnValue: ProfileViewItemProtocol!
+    var mapItemClosure: ((ProfileModelItem) -> ProfileViewItemProtocol)?
 
-    func mapItem(_ input: ProfileModelItem) -> ProfileViewItem {
+    func mapItem(_ input: ProfileModelItem) -> ProfileViewItemProtocol {
         mapItemCallsCount += 1
         mapItemReceivedInput = input
         mapItemReceivedInvocations.append(input)
@@ -1354,10 +1354,10 @@ class ProfileViewItemMappableMock: ProfileViewItemMappable {
     }
     var mapItemsReceivedInput: [ProfileModelItem]?
     var mapItemsReceivedInvocations: [[ProfileModelItem]] = []
-    var mapItemsReturnValue: [ProfileViewItem]!
-    var mapItemsClosure: (([ProfileModelItem]) -> [ProfileViewItem])?
+    var mapItemsReturnValue: [ProfileViewItemProtocol]!
+    var mapItemsClosure: (([ProfileModelItem]) -> [ProfileViewItemProtocol])?
 
-    func mapItems(_ input: [ProfileModelItem]) -> [ProfileViewItem] {
+    func mapItems(_ input: [ProfileModelItem]) -> [ProfileViewItemProtocol] {
         mapItemsCallsCount += 1
         mapItemsReceivedInput = input
         mapItemsReceivedInvocations.append(input)
