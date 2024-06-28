@@ -10,6 +10,7 @@ import UIKit
 
 // SDK
 import UIComponents
+import Services
 
 final class LoginViewController: UIViewController, LoginViewable {
     // MARK: - UI properties
@@ -53,6 +54,16 @@ final class LoginViewController: UIViewController, LoginViewable {
         viewModel.load()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        AppDelegate.shared.context.analyticsService.logEvent(
+            ScreenViewEvent(
+                screenName: AnalyticsScreen.screenForViewController(self).description,
+                trackablePolicy: .multipleTracking,
+                targets: [AnalyticsTargetType.firebase]
+            )
+        )
+    }
     // MARK: - State
     func applyOnboarding(_ onboardingSteps: [LoginViewOnboardingStep]) {
         onboardingView.configure(
