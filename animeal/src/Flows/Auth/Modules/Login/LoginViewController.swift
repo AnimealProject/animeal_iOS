@@ -90,6 +90,7 @@ final class LoginViewController: UIViewController, LoginViewable {
         ).isActive = true
         onboardingView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         onboardingView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        onboardingView.isUserInteractionEnabled = false
 
         view.addSubview(buttonsView)
         buttonsView.topAnchor.constraint(equalTo: onboardingView.bottomAnchor).isActive = true
