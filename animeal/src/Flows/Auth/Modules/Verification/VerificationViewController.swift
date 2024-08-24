@@ -3,6 +3,7 @@ import UIKit
 
 // SDK
 import UIComponents
+import Services
 
 final class VerificationViewController: BaseViewController, VerificationViewModelOutput {
     // MARK: - UI properties
@@ -29,6 +30,17 @@ final class VerificationViewController: BaseViewController, VerificationViewMode
         setup()
         bind()
         viewModel.load()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        AppDelegate.shared.context.analyticsService.logEvent(
+            ScreenViewEvent(
+                screenName: AnalyticsScreen.screenForViewController(self).description,
+                trackablePolicy: .multipleTracking,
+                targets: [AnalyticsTargetType.firebase]
+            )
+        )
     }
 
     override func handleKeyboardNotification(keyboardData: KeyboardData) {

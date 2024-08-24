@@ -80,8 +80,10 @@ extension LocationService: ApplicationDelegateService {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [AnyHashable: Any]?
     ) -> Bool {
-        locationManager.requestAuthorization(mode: .onlyInUse) {[weak self] status in
-            self?.logger.info("[LocationService] Current authorization status: \(status)")
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            self?.locationManager.requestAuthorization(mode: .onlyInUse) {[weak self] status in
+                self?.logger.info("[LocationService] Current authorization status: \(status)")
+            }
         }
         return true
     }

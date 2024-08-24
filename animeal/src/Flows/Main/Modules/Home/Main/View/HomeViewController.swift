@@ -3,6 +3,7 @@ import AVFoundation
 import Style
 import UIComponents
 import Common
+import Services
 @_spi(Experimental) import MapboxMaps
 
 class HomeViewController: UIViewController {
@@ -68,6 +69,17 @@ class HomeViewController: UIViewController {
         if let itemIdentifier = HomeModel.FilterItemIdentifier(rawValue: segmentedControl.selectedSegmentIndex) {
             viewModel.updateSelectionIfNeeded(for: itemIdentifier)
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        AppDelegate.shared.context.analyticsService.logEvent(
+            ScreenViewEvent(
+                screenName: AnalyticsScreen.screenForViewController(self).description,
+                trackablePolicy: .multipleTracking,
+                targets: [AnalyticsTargetType.firebase]
+            )
+        )
     }
 }
 

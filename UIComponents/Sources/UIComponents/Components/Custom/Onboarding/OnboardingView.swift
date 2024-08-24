@@ -79,6 +79,7 @@ public final class OnboardingView: UIView {
                 numberOfSteps: model.steps.count
             )
         )
+        stepperView.isHidden = true
     }
 
     // MARK: - Setup

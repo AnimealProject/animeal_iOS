@@ -132,12 +132,14 @@ private extension CustomAuthViewController {
             case .phone:
                 let inputView = PhoneInputView()
                 inputView.configure(item.phoneModel)
+                #if DEBUG
                 inputView.codeWasTapped = { [weak self] _ in
                     self?.view.endEditing(true)
                     self?.viewModel.handleActionEvent(
                         CustomAuthViewActionEvent.itemWasTapped(item.identifier)
                     )
                 }
+                #endif
                 inputView.didBeginEditing = { [weak self] textInput in
                     guard let self = self else { return }
                     let text = textInput.text
