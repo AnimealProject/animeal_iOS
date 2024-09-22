@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Services
 
 final class LoginViewModel: LoginViewModelLifeCycle, LoginViewInteraction, LoginViewState {
     // MARK: - Private properties
@@ -56,25 +57,27 @@ final class LoginViewModel: LoginViewModelLifeCycle, LoginViewInteraction, Login
         switch event {
         case .tapInside(let identifier):
             let modelActions = model.fetchActions()
-            guard let modelAction = modelActions
-                .first(where: { $0.identifier == identifier })
-            else { return }
-            let type = modelAction.type
-            Task { [weak self] in
-                guard let self else { return }
-                do {
-                    let result = try await self.model.proceedAuthentication(type)
-                    switch result {
-                    case .proceedWithCustomAuth:
-                        self.coordinator.moveFromLogin(to: LoginRoute.customAuthentication)
-                    case .confirmationCodeSent:
-                        self.coordinator.moveFromLogin(to: LoginRoute.codeConfirmation)
-                    case .authentificated:
-                        self.coordinator.moveFromLogin(to: LoginRoute.done)
-                    }
-                } catch {
-                    self.onErrorIsNeededToDisplay?(error.localizedDescription)
+            let modelAction = modelActions.first(where: { $0.identifier == identifier })
+            guard let modelAction else { return }
+            proceedWithAuthentication(with: modelAction.type)
+        }
+    }
+
+    private func proceedWithAuthentication(with type: LoginActionType) {
+        Task { [weak self] in
+            guard let self else { return }
+            do {
+                let result = try await self.model.proceedAuthentication(type)
+                switch result {
+                case .proceedWithCustomAuth:
+                    coordinator.moveFromLogin(to: LoginRoute.customAuthentication)
+                case .confirmationCodeSent:
+                    coordinator.moveFromLogin(to: LoginRoute.codeConfirmation)
+                case .authentificated:
+                    coordinator.moveFromLogin(to: LoginRoute.done)
                 }
+            } catch {
+                onErrorIsNeededToDisplay?(error.localizedDescription)
             }
         }
     }

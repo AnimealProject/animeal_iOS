@@ -6,7 +6,7 @@ public class AnalyticsEvent {
     public let name: String
     public let trackablePolicy: AnalyticsTrackablePolicy
     public let targets: [AnalyticsTargetType]
-    public let parameters: [String: String]
+    public let parameters: [String: String?]
 
     var debugDescription: String {
         return eventId
@@ -23,7 +23,7 @@ public class AnalyticsEvent {
         name: String,
         trackablePolicy: AnalyticsTrackablePolicy = .multipleTracking,
         targets: [AnalyticsTargetType],
-        parameters: [String: String] = [:]
+        parameters: [String: String?] = [:]
     ) {
         self.name = name
         self.trackablePolicy = trackablePolicy
