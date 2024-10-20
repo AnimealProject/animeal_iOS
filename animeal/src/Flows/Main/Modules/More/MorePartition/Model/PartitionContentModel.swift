@@ -67,3 +67,4 @@ struct PartitionContentModel {
         }
     }
 }
+// swiftlint:enable nesting

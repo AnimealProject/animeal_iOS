@@ -4,6 +4,8 @@ excluded:
   - Tools
   - amplify/generated
   - animealTests/Sourcery/Generated
+  - animeal/src/Common/Strings.swift
+  - Style/Sources/Style/Assets.swift
 
 disabled_rules:
   - discarded_notification_center_observer
@@ -51,6 +53,7 @@ opt_in_rules:
   - unused_import
   - vertical_whitespace_closing_braces
   - yoda_condition
+  - attribute_name_spacing
 
 
 custom_rules:

@@ -98,9 +98,8 @@ final class LoginViewController: UIViewController, LoginViewable {
         buttonsView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         buttonsView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         buttonsView.onTap = { [weak self] identifier in
-            self?.viewModel.handleActionEvent(
-                LoginViewActionEvent.tapInside(identifier)
-            )
+            self?.viewModel.handleActionEvent(LoginViewActionEvent.tapInside(identifier))
+            self?.logLoginButtonTap(identifier)
         }
     }
 
@@ -112,5 +111,16 @@ final class LoginViewController: UIViewController, LoginViewable {
         viewModel.onActionsHaveBeenPrepaped = { [weak self] viewActions in
             self?.applyActions(viewActions)
         }
+    }
+
+    private func logLoginButtonTap(_ identifier: String) {
+        AppDelegate.shared.context.analyticsService.logEvent(
+            UserInteractionEvent(
+                eventName: identifier,
+                screen: AnalyticsScreen.screenForViewController(self),
+                trackablePolicy: .multipleTracking,
+                targets: [AnalyticsTargetType.firebase]
+            )
+        )
     }
 }

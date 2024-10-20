@@ -101,6 +101,9 @@ struct AuthenticationAmplifyConverter: AuthenticationAmplifyConverting, AmplifyA
 
     func convertOriginalError(_ originalError: Error?) -> AuthenticationDetailedError? {
         guard let originalError = originalError as? AWSCognitoAuthError else { return nil }
+        defer {
+            logError(originalError)
+        }
         switch originalError {
         case .userNotFound:
             return AuthenticationDetailedError.userNotFound
@@ -290,3 +293,14 @@ struct AuthenticationAmplifyConverter: AuthenticationAmplifyConverting, AmplifyA
     }
 }
 // swiftlint:enable cyclomatic_complexity
+
+extension AuthenticationAmplifyConverter {
+    /// Log error to firebase crashlytics non fatal error
+    /// - Parameter error: the error object
+    func logError(_ error: Error) {
+        let className = String(describing: Self.self)
+        let baseError = BaseError(localizedDescription: error.localizedDescription)
+        let errorEvent = ErrorEvent(screenClass: className, error: baseError)
+        AppDelegate.shared.context.analyticsService.logEvent(errorEvent)
+    }
+}

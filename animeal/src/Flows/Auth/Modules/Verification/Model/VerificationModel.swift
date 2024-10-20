@@ -96,15 +96,28 @@ final class VerificationModel: VerificationModelProtocol {
                     .confirmSignInWithNewPassword,
                     .resetPassword,
                     .confirmSignUp:
-                throw VerificationModelCodeError.codeUnsupportedNextStep
+                let error = VerificationModelCodeError.codeUnsupportedNextStep
+                logError(error)
+                throw error
             case .done: return
             }
         } catch AuthenticationError.notAuthorized {
-            throw VerificationModelCodeError.codeTriesCountLimitExceeded
+            let error = VerificationModelCodeError.codeTriesCountLimitExceeded
+            logError(error)
+            throw error
         } catch {
-            print(error)
+            let baseError = BaseError(localizedDescription: error.localizedDescription)
+            logError(baseError)
             throw error
         }
+    }
+    
+    /// Log error to firebase crashlytics non fatal error
+    /// - Parameter error: the error object
+    func logError(_ error: LocalizedError) {
+        let className = String(describing: Self.self)
+        let errorEvent = ErrorEvent(screenClass: className, error: error)
+        AppDelegate.shared.context.analyticsService.logEvent(errorEvent)
     }
 }
 
