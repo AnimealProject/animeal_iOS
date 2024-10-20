@@ -51,6 +51,7 @@ opt_in_rules:
   - unused_import
   - vertical_whitespace_closing_braces
   - yoda_condition
+  - attribute_name_spacing
 
 
 custom_rules:
