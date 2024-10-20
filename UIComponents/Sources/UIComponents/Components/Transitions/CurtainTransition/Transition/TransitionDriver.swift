@@ -170,3 +170,4 @@ private extension UIPanGestureRecognizer {
         return percentIncrement
     }
 }
+// swiftlint:enable all
