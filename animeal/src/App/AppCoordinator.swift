@@ -61,12 +61,14 @@ final class AppCoordinator: AppCoordinatable {
             guard let self, let session = try? await self.authenticationService.fetchAuthSession()
             else { return }
             try? await self.profileService.fetchUserAttributes()
+            let userValidationModel = profileService.getCurrentUserValidationModel()
             let isUserValidated = self.profileService
                 .getCurrentUserValidationModel()
                 .validated
             self.move(
                 isSignedIn: session.isSignedIn,
-                isCurrentUserValidated: isUserValidated
+                isCurrentUserValidated: isUserValidated,
+                userMode: userValidationModel.userMode
             )
         }
     }
@@ -85,22 +87,11 @@ private extension AppCoordinator {
     }
 
     @MainActor
-    func move(isSignedIn: Bool, isCurrentUserValidated: Bool) {
-        if isSignedIn, isCurrentUserValidated {
-            let mainCoordinator = MainCoordinator(
-                presentingWindow: mainWindow
-            ) { [weak self] events in
-                self?.childCoordinators.removeAll()
-                self?.start()
-                events.forEach { event in
-                    switch event {
-                    case .event(let action):
-                        self?.homeFlowBackwardAction.append(action)
-                    }
-                }
-            }
-            childCoordinators.append(mainCoordinator)
-            mainCoordinator.start()
+    func move(isSignedIn: Bool, isCurrentUserValidated: Bool, userMode: UserMode?) {
+        if userMode == .guest {
+            startMainFlow()
+        } else if isSignedIn, isCurrentUserValidated {
+            startMainFlow()
         } else {
             let authenticationCoordinator = AuthCoordinator(
                 presentingWindow: authWindow
@@ -127,6 +118,24 @@ private extension AppCoordinator {
                 completion(false)
             }
         }
+    }
+
+    @MainActor
+    private func startMainFlow() {
+        let mainCoordinator = MainCoordinator(
+            presentingWindow: mainWindow
+        ) { [weak self] events in
+            self?.childCoordinators.removeAll()
+            self?.start()
+            events.forEach { event in
+                switch event {
+                case .event(let action):
+                    self?.homeFlowBackwardAction.append(action)
+                }
+            }
+        }
+        childCoordinators.append(mainCoordinator)
+        mainCoordinator.start()
     }
 }
 

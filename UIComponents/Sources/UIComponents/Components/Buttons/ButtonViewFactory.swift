@@ -80,6 +80,28 @@ public struct ButtonViewFactory: ButtonViewGenerating, StyleEngineContainable {
         return ButtonView(contentView: button)
     }
 
+    public func makeSignInWithGuestButton() -> ButtonView {
+        let button = UIButton()
+        button.layer.cornerRadius = Constants.cornerRadius
+        button.clipsToBounds = true
+        button.layer.borderColor = designEngine.colors.accent.cgColor
+        button.layer.borderWidth = 1
+
+        button.backgroundColor = designEngine.colors.backgroundPrimary
+        button.titleLabel?.font = designEngine.fonts.primary.bold(16.0)
+        button.setTitleColor(
+            designEngine.colors.accent,
+            for: UIControl.State.normal
+        )
+        button.setTitleColor(
+            designEngine.colors.accent.withAlphaComponent(0.5),
+            for: UIControl.State.highlighted
+        )
+        button.titleEdgeInsets = Constants.titleInsets
+
+        return ButtonView(contentView: button)
+    }
+
     public func makeAccentButton() -> ButtonView {
         let button = UIButton()
         button.layer.cornerRadius = Constants.cornerRadius

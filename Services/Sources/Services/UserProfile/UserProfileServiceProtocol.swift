@@ -1,16 +1,23 @@
 import Foundation
 
+public enum UserMode {
+    case guest
+    case registered
+}
+
 public protocol UserProfileServiceHolder {
     var profileService: UserProfileServiceProtocol { get }
 }
 
 public protocol UserProfileValidationModel {
     var isSignedIn: Bool { get }
+    var userMode: UserMode? { get }
     var validated: Bool { get }
     var phoneNumberVerified: Bool { get }
     var emailVerified: Bool { get }
 
     func handleUserAttributesEvent(_ attributes: [UserProfileAttribute])
+    func set(userMode: UserMode?)
 }
 
 public protocol UserProfileServiceProtocol: AnyObject {

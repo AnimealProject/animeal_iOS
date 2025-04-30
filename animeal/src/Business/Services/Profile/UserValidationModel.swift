@@ -12,6 +12,7 @@ final class UserValidationModel: UserProfileValidationModel {
 
     // MARK: - Accessible properties
     private(set) var isSignedIn = false
+    private(set) var userMode: UserMode?
     private(set) var phoneNumberVerified = false
     private(set) var emailVerified = false
     private(set) var areAllNecessaryFieldsFilled = false
@@ -22,7 +23,7 @@ final class UserValidationModel: UserProfileValidationModel {
     }
 
     // MARK: - UserProfileValidationModel
-    var validated: Bool { phoneNumberVerified && areAllNecessaryFieldsFilled }
+    var validated: Bool { phoneNumberVerified && areAllNecessaryFieldsFilled || userMode == .guest}
 
     func handleUserAttributesEvent(_ attributes: [UserProfileAttribute]) {
         let attributes = attributes.reduce([UserProfileAttributeKey: String]()) { partialResult, attribute in
@@ -38,6 +39,10 @@ final class UserValidationModel: UserProfileValidationModel {
 
         areAllNecessaryFieldsFilled = [UserProfileAttributeKey.name, .familyName, .email, .phoneNumber]
             .allSatisfy { attributes[$0]?.isEmpty == false }
+    }
+
+    func set(userMode: UserMode?) {
+        self.userMode = userMode
     }
 }
 

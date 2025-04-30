@@ -37,6 +37,8 @@ final class LoginViewActionMapper: LoginViewActionMappable {
             return L10n.LoginScreen.signInViaFacebook
         case .signInViaAppleID:
             return L10n.LoginScreen.signInViaApple
+        case .signInAsGuest:
+            return "SignIn Via Guest"
         }
     }
 
@@ -48,6 +50,8 @@ final class LoginViewActionMapper: LoginViewActionMappable {
             return Asset.Images.signInFacebook.name
         case .signInViaAppleID:
             return Asset.Images.signInApple.name
+        case .signInAsGuest:
+            return Asset.Images.signInGuest.name
         }
     }
 }
