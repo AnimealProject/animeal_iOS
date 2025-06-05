@@ -3,11 +3,11 @@
 
 
 "@types/aws-lambda@^8.10.92":
-  version "8.10.103"
-  resolved "https://registry.yarnpkg.com/@types/aws-lambda/-/aws-lambda-8.10.103.tgz#9f0d748036a206ebe4a3eb19febc53b52ee36352"
-  integrity sha512-mYWsrM5YPmnyJru7kMDX8RYSc486sDqVOP1kUdotthD3YjJ57iTBN3N7MMtL1qdVoPW2YmCnNnWscyidmPe6Gw==
+  version "8.10.138"
+  resolved "https://registry.yarnpkg.com/@types/aws-lambda/-/aws-lambda-8.10.138.tgz#11d0b6978c00ab34c38532f04306bb2e6f78163e"
+  integrity sha512-71EHMl70TPWIAsFuHd85NHq6S6T2OOjiisPTrH7RgcjzpJpPh4RQJv7PvVvIxc6PIp8CLV7F9B+TdjcAES5vcA==
 
 crypto-secure-random-digit@^1.0.10:
   version "1.0.10"
-  resolved "https://registry.yarnpkg.com/crypto-secure-random-digit/-/crypto-secure-random-digit-1.0.10.tgz#68cba3079e3bd0ea2d0df8eecef6f63101c9e7e2"
+  resolved "https://registry.npmjs.org/crypto-secure-random-digit/-/crypto-secure-random-digit-1.0.10.tgz"
   integrity sha512-s8lDlKys87l8++pXrY8SxX3Uu31lQrpQDlPRGmR4r3y3iRqQiXj9ejAF1TsCU4w38mIXR72D571ujqzT+rcpCA==

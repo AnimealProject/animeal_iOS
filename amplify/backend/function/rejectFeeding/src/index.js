@@ -1,16 +1,8 @@
 /* Amplify Params - DO NOT EDIT
+	API_ANIMEAL_FEEDINGCONSTRAINTTABLE_ARN
+	API_ANIMEAL_FEEDINGCONSTRAINTTABLE_NAME
 	API_ANIMEAL_FEEDINGHISTORYTABLE_ARN
 	API_ANIMEAL_FEEDINGHISTORYTABLE_NAME
-	API_ANIMEAL_FEEDINGPOINTTABLE_ARN
-	API_ANIMEAL_FEEDINGPOINTTABLE_NAME
-	API_ANIMEAL_FEEDINGTABLE_ARN
-	API_ANIMEAL_FEEDINGTABLE_NAME
-	API_ANIMEAL_GRAPHQLAPIENDPOINTOUTPUT
-	API_ANIMEAL_GRAPHQLAPIIDOUTPUT
-	API_ANIMEAL_GRAPHQLAPIKEYOUTPUT
-	ENV
-	REGION
-Amplify Params - DO NOT EDIT */ /* Amplify Params - DO NOT EDIT
 	API_ANIMEAL_FEEDINGPOINTTABLE_ARN
 	API_ANIMEAL_FEEDINGPOINTTABLE_NAME
 	API_ANIMEAL_FEEDINGTABLE_ARN
@@ -27,12 +19,12 @@ Amplify Params - DO NOT EDIT */
  */
 
 const AWS = require('aws-sdk');
-var uuid = require('uuid');
 const dynamoDB = new AWS.DynamoDB.DocumentClient({});
 const {
   updateFeedingPoint,
   getFeeding,
   createFeedingHistoryExt,
+  deleteFeedingExt,
 } = require('./query');
 
 exports.handler = async (event) => {
@@ -48,8 +40,8 @@ exports.handler = async (event) => {
   const isFeedingTimeExpiredReason = (reason) =>
     /Feeding time has expired/gi.test(reason);
 
-  const isCalledBySystem = event.fieldName !== 'rejectFeeding';
-  isApprovalTimeExpiredReason(reason) || isFeedingTimeExpiredReason(reason);
+  const isCalledBySystem =
+    isApprovalTimeExpiredReason(reason) || isFeedingTimeExpiredReason(reason);
 
   if (
     process.env.IS_APPROVAL_ENABLED !== 'true' &&
@@ -62,11 +54,20 @@ exports.handler = async (event) => {
 
   let feeding = null;
 
+  const feedingPointConstraintsItem = await dynamoDB
+    .get({
+      Key: {
+        id: feedingId,
+      },
+      TableName: process.env.API_ANIMEAL_FEEDINGCONSTRAINTTABLE_NAME,
+    })
+    .promise();
+
   if (feedingInput) {
     feeding = feedingInput;
   } else {
     const feedingRes = await getFeeding({
-      id: feedingId,
+      id: feedingPointConstraintsItem.Item.feedingHistoryId,
     });
 
     if (feedingRes.data?.errors?.length) {
@@ -81,7 +82,7 @@ exports.handler = async (event) => {
 
   try {
     const feedingHistoryItem = {
-      id: uuid.v4(),
+      id: feeding.id,
       userId: feeding.userId,
       images: feeding.images,
       createdAt: feeding.createdAt,
@@ -108,20 +109,26 @@ exports.handler = async (event) => {
             Delete: {
               TableName: process.env.API_ANIMEAL_FEEDINGTABLE_NAME,
               Key: {
-                id: feedingId,
+                id: feeding.id,
               },
               ConditionExpression: ConditionExpression
                 ? `${ConditionExpression} ${
-                    event.fieldName === 'rejectFeeding' &&
-                    !isFeedingTimeExpiredReason(reason)
+                    (event.fieldName === 'rejectFeeding' &&
+                      !isFeedingTimeExpiredReason(reason)) ||
+                    (!feedingInput &&
+                      event.fieldName !== 'cancelFeeding' &&
+                      event.fieldName !== 'expireFeeding')
                       ? 'AND #status = :pending'
                       : 'AND #status = :inProgress'
                   }`
                 : ConditionExpression,
 
               ExpressionAttributeValues: ConditionExpression
-                ? event.fieldName === 'rejectFeeding' &&
-                  !isFeedingTimeExpiredReason(reason)
+                ? (event.fieldName === 'rejectFeeding' &&
+                    !isFeedingTimeExpiredReason(reason)) ||
+                  (!feedingInput &&
+                    event.fieldName !== 'cancelFeeding' &&
+                    event.fieldName !== 'expireFeeding')
                   ? {
                       ':pending': 'pending',
                     }
@@ -135,6 +142,15 @@ exports.handler = async (event) => {
             },
           },
           {
+            Delete: {
+              Key: {
+                id: feeding.feedingPointFeedingsId,
+              },
+              TableName: process.env.API_ANIMEAL_FEEDINGCONSTRAINTTABLE_NAME,
+              ConditionExpression: 'attribute_exists(id)',
+            },
+          },
+          {
             Put: {
               Item: feedingHistoryItem,
               TableName: process.env.API_ANIMEAL_FEEDINGHISTORYTABLE_NAME,
@@ -142,19 +158,39 @@ exports.handler = async (event) => {
           },
           {
             Update: {
-              ExpressionAttributeValues: {
-                ':value': 'starved',
-                ':date': new Date().toISOString(),
-              },
               Key: {
-                id: feedingId,
+                id: feeding.feedingPointFeedingsId,
               },
               ExpressionAttributeNames: {
                 '#status': 'status',
               },
+              ExpressionAttributeValues:
+                (event.fieldName === 'rejectFeeding' &&
+                  !isFeedingTimeExpiredReason(reason)) ||
+                (!feedingInput &&
+                  event.fieldName !== 'cancelFeeding' &&
+                  event.fieldName !== 'expireFeeding')
+                  ? {
+                      ':pending': 'pending',
+                      ':value': 'starved',
+                      ':date': new Date().toISOString(),
+                    }
+                  : {
+                      ':inProgress': 'inProgress',
+                      ':value': 'starved',
+                      ':date': new Date().toISOString(),
+                    },
               TableName: process.env.API_ANIMEAL_FEEDINGPOINTTABLE_NAME,
               UpdateExpression: 'SET #status = :value, statusUpdatedAt = :date',
-              ConditionExpression,
+
+              ConditionExpression:
+                (event.fieldName === 'rejectFeeding' &&
+                  !isFeedingTimeExpiredReason(reason)) ||
+                (!feedingInput &&
+                  event.fieldName !== 'cancelFeeding' &&
+                  event.fieldName !== 'expireFeeding')
+                  ? 'attribute_exists(id) AND #status = :pending'
+                  : 'attribute_exists(id) AND #status = :inProgress',
             },
           },
         ],
@@ -162,13 +198,17 @@ exports.handler = async (event) => {
       .promise();
     const updateRes = await updateFeedingPoint({
       input: {
-        id: feedingId,
+        id: feeding.feedingPointFeedingsId,
         statusUpdatedAt: new Date().toISOString(),
       },
     });
 
     await createFeedingHistoryExt({
       input: feedingHistoryItem,
+    });
+
+    await deleteFeedingExt({
+      input: feeding,
     });
 
     if (updateRes?.data?.errors?.length) {

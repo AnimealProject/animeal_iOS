@@ -218,8 +218,40 @@ const createFeedingHistoryExt = async (params) => {
   );
 };
 
-module.exports = module.exports = {
+const deleteFeedingExt = async (params) => {
+  return request(
+    `
+  mutation DeleteFeedingExt($input: DeleteFeedingExtInput!) {
+    deleteFeedingExt(input: $input) {
+      id
+      userId
+      images
+      status
+      createdAt
+      updatedAt
+      createdBy
+      updatedBy
+      owner
+      feedingPointDetails {
+        address
+      }
+      feedingPointFeedingsId
+      expireAt
+      assignedModerators
+      moderatedBy
+      moderatedAt
+    }
+  }
+`,
+    params,
+  );
+};
+
+
+module.exports = {
   getFeeding,
   updateFeedingPoint,
-  createFeedingHistoryExt
+  createFeedingHistoryExt,
+  deleteFeedingExt,
 };
+

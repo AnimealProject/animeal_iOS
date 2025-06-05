@@ -3,9 +3,9 @@
 
 
 "@types/aws-lambda@^8.10.92":
-  version "8.10.109"
-  resolved "https://registry.npmjs.org/@types/aws-lambda/-/aws-lambda-8.10.109.tgz"
-  integrity sha512-/ME92FneNyXQzrAfcnQQlW1XkCZGPDlpi2ao1MJwecN+6SbeonKeggU8eybv1DfKli90FAVT1MlIZVXfwVuCyg==
+  version "8.10.138"
+  resolved "https://registry.yarnpkg.com/@types/aws-lambda/-/aws-lambda-8.10.138.tgz#11d0b6978c00ab34c38532f04306bb2e6f78163e"
+  integrity sha512-71EHMl70TPWIAsFuHd85NHq6S6T2OOjiisPTrH7RgcjzpJpPh4RQJv7PvVvIxc6PIp8CLV7F9B+TdjcAES5vcA==
 
 asynckit@^0.4.0:
   version "0.4.0"

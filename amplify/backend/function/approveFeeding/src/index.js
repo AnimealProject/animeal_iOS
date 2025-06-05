@@ -1,4 +1,6 @@
 /* Amplify Params - DO NOT EDIT
+	API_ANIMEAL_FEEDINGCONSTRAINTTABLE_ARN
+	API_ANIMEAL_FEEDINGCONSTRAINTTABLE_NAME
 	API_ANIMEAL_FEEDINGHISTORYTABLE_ARN
 	API_ANIMEAL_FEEDINGHISTORYTABLE_NAME
 	API_ANIMEAL_FEEDINGPOINTTABLE_ARN
@@ -20,8 +22,8 @@ const {
   getFeeding,
   updateFeedingPoint,
   createFeedingHistoryExt,
+  deleteFeedingExt,
 } = require('./query');
-var uuid = require('uuid');
 const AWS = require('aws-sdk');
 const dynamoDB = new AWS.DynamoDB.DocumentClient({});
 
@@ -33,9 +35,29 @@ exports.handler = async (event) => {
   const reason = event.arguments.reason;
 
   const isCalledBySystem = /Feeding has been finished by user/gi.test(reason);
+  const isTrustedUser = /Has been auto-approved for trusted user/gi.test(
+    reason,
+  );
 
-  if (process.env.IS_APPROVAL_ENABLED !== 'true' && !isCalledBySystem) {
+  if (
+    process.env.IS_APPROVAL_ENABLED !== 'true' &&
+    !isCalledBySystem &&
+    !isTrustedUser
+  ) {
     throw new Error(`Operation isn't allowed. Approval process is disabled.`);
+  }
+
+  const feedingPointConstraintsItem = await dynamoDB
+    .get({
+      Key: {
+        id: feedingId,
+      },
+      TableName: process.env.API_ANIMEAL_FEEDINGCONSTRAINTTABLE_NAME,
+    })
+    .promise();
+
+  if (!feedingPointConstraintsItem.Item) {
+    throw new Error('Feeding not found');
   }
 
   let feeding = null;
@@ -44,7 +66,7 @@ exports.handler = async (event) => {
     feeding = feedingInput;
   } else {
     const feedingRes = await getFeeding({
-      id: feedingId,
+      id: feedingPointConstraintsItem.Item.feedingHistoryId,
     });
 
     if (feedingRes.data?.errors?.length) {
@@ -59,7 +81,7 @@ exports.handler = async (event) => {
 
   try {
     const fidingItem = {
-      id: uuid.v4(),
+      id: feeding.id,
       userId: feeding.userId,
       images: feeding.images,
       createdAt: feeding.createdAt,
@@ -92,9 +114,11 @@ exports.handler = async (event) => {
             Delete: {
               ExpressionAttributeValues:
                 process.env.IS_APPROVAL_ENABLED === 'true'
-                  ? {
-                      ':pending': 'pending',
-                    }
+                  ? isTrustedUser
+                    ? { ':inProgress': 'inProgress' }
+                    : {
+                        ':pending': 'pending',
+                      }
                   : null,
               ExpressionAttributeNames:
                 process.env.IS_APPROVAL_ENABLED === 'true'
@@ -104,20 +128,45 @@ exports.handler = async (event) => {
                   : null,
               TableName: process.env.API_ANIMEAL_FEEDINGTABLE_NAME,
               Key: {
-                id: feedingId,
+                id: feeding.id,
               },
               ConditionExpression:
                 process.env.IS_APPROVAL_ENABLED === 'true'
-                  ? 'attribute_exists(id) AND #status = :pending'
+                  ? isTrustedUser
+                    ? 'attribute_exists(id) AND #status = :inProgress'
+                    : 'attribute_exists(id) AND #status = :pending'
                   : 'attribute_exists(id)',
             },
           },
           {
-            Update: {
-              ExpressionAttributeValues: {
-                ':value': 'fed',
-                ':date': new Date().toISOString(),
+            Delete: {
+              Key: {
+                id: feeding.feedingPointFeedingsId,
               },
+              TableName: process.env.API_ANIMEAL_FEEDINGCONSTRAINTTABLE_NAME,
+              ConditionExpression: 'attribute_exists(id)',
+            },
+          },
+          {
+            Update: {
+              ExpressionAttributeValues:
+                process.env.IS_APPROVAL_ENABLED === 'true'
+                  ? isTrustedUser
+                    ? {
+                        ':inProgress': 'inProgress',
+                        ':value': 'fed',
+                        ':date': new Date().toISOString(),
+                      }
+                    : {
+                        ':pending': 'pending',
+                        ':value': 'fed',
+                        ':date': new Date().toISOString(),
+                      }
+                  : {
+                      ':inProgress': 'inProgress',
+                      ':value': 'fed',
+                      ':date': new Date().toISOString(),
+                    },
               Key: {
                 id: feeding.feedingPointFeedingsId,
               },
@@ -126,7 +175,12 @@ exports.handler = async (event) => {
               },
               TableName: process.env.API_ANIMEAL_FEEDINGPOINTTABLE_NAME,
               UpdateExpression: 'SET #status = :value, statusUpdatedAt = :date',
-              ConditionExpression: 'attribute_exists(id)',
+              ConditionExpression:
+                process.env.IS_APPROVAL_ENABLED === 'true'
+                  ? isTrustedUser
+                    ? 'attribute_exists(id) AND #status = :inProgress'
+                    : 'attribute_exists(id) AND #status = :pending'
+                  : 'attribute_exists(id) AND #status = :inProgress',
             },
           },
         ],
@@ -141,6 +195,10 @@ exports.handler = async (event) => {
 
     await createFeedingHistoryExt({
       input: fidingItem,
+    });
+
+    await deleteFeedingExt({
+      input: feeding,
     });
 
     if (updateRes?.data?.errors?.length) {

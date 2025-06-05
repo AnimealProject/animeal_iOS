@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "axios": "latest",
-    "bluebird": "^3.7.2"
+    "bluebird": "^3.7.2",
+    "uuid": "^9.0.0"
   }
 }

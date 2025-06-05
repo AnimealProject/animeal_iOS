@@ -1,4 +1,6 @@
 /* Amplify Params - DO NOT EDIT
+	API_ANIMEAL_FEEDINGCONSTRAINTTABLE_ARN
+	API_ANIMEAL_FEEDINGCONSTRAINTTABLE_NAME
 	API_ANIMEAL_FEEDINGHISTORYTABLE_ARN
 	API_ANIMEAL_FEEDINGHISTORYTABLE_NAME
 	API_ANIMEAL_FEEDINGPOINTTABLE_ARN
@@ -17,21 +19,40 @@ Amplify Params - DO NOT EDIT */
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 
+
 const AWS = require('aws-sdk');
 const dynamoDB = new AWS.DynamoDB.DocumentClient({});
 
-const { approveFeeding, getUser, updateFeedingExt } = require('./query');
+const {
+  approveFeeding,
+  getUser,
+  updateFeedingExt,
+  updateFeedingPoint,
+} = require('./query');
 
 exports.handler = async (event) => {
   console.log(`EVENT: ${JSON.stringify(event)}`);
   const feedingId = event.arguments.feedingId;
   const images = event.arguments.images;
 
+  const feedingPointConstraintsItem = await dynamoDB
+    .get({
+      Key: {
+        id: feedingId,
+      },
+      TableName: process.env.API_ANIMEAL_FEEDINGCONSTRAINTTABLE_NAME,
+    })
+    .promise();
+
+  if (!feedingPointConstraintsItem.Item) {
+    throw new Error('Feeding not found');
+  }
+
   const feedingItem = await dynamoDB
     .get({
       TableName: process.env.API_ANIMEAL_FEEDINGTABLE_NAME,
       Key: {
-        id: feedingId,
+        id: feedingPointConstraintsItem.Item.feedingHistoryId,
       },
     })
     .promise();
@@ -56,7 +77,10 @@ exports.handler = async (event) => {
 
   if (
     process.env.IS_APPROVAL_ENABLED === 'true' &&
-    !userData?.UserAttributes?.find((it) => it.Name === 'custom:trusted')?.Value
+    (!userData?.UserAttributes?.find((it) => it.Name === 'custom:trusted')
+      ?.Value ||
+      userData?.UserAttributes?.find((it) => it.Name === 'custom:trusted')
+        ?.Value === 'false')
   ) {
     try {
       await dynamoDB
@@ -69,7 +93,7 @@ exports.handler = async (event) => {
                   ':images': images,
                 },
                 Key: {
-                  id: feedingId,
+                  id: feedingPointConstraintsItem.Item.feedingHistoryId,
                 },
                 ExpressionAttributeNames: {
                   '#status': 'status',
@@ -77,6 +101,23 @@ exports.handler = async (event) => {
                 TableName: process.env.API_ANIMEAL_FEEDINGTABLE_NAME,
                 UpdateExpression: 'SET #status = :value, images = :images',
                 ConditionExpression: 'attribute_exists(id)',
+              },
+            },
+            {
+              Update: {
+                ExpressionAttributeValues: {
+                  ':value': 'pending',
+                  ':inProgress': 'inProgress',
+                },
+                Key: {
+                  id: feedingId,
+                },
+                ExpressionAttributeNames: {
+                  '#status': 'status',
+                },
+                TableName: process.env.API_ANIMEAL_FEEDINGPOINTTABLE_NAME,
+                UpdateExpression: 'SET #status = :value',
+                ConditionExpression: 'attribute_exists(id) AND #status = :inProgress',
               },
             },
           ],
@@ -91,13 +132,27 @@ exports.handler = async (event) => {
         },
       });
 
+      const updateRes = await updateFeedingPoint({
+        input: {
+          id: feedingId,
+          statusUpdatedAt: new Date().toISOString(),
+        },
+      });
+
+      if (updateRes?.data?.errors?.length) {
+        throw new Error('Failed to finish Feeding.');
+      }
+
       return feedingId;
     } catch (e) {
       throw new Error(`Failed to finish feeding. Erorr: ${e.message}`);
     }
   } else if (
     process.env.IS_APPROVAL_ENABLED === 'true' &&
-    userData?.UserAttributes?.find((it) => it.Name === 'custom:trusted')?.Value
+    userData?.UserAttributes?.find((it) => it.Name === 'custom:trusted')
+      ?.Value &&
+    userData?.UserAttributes?.find((it) => it.Name === 'custom:trusted')
+      ?.Value === 'true'
   ) {
     try {
       await dynamoDB
@@ -109,7 +164,7 @@ exports.handler = async (event) => {
                   ':images': images,
                 },
                 Key: {
-                  id: feedingId,
+                  id: feedingPointConstraintsItem.Item.feedingHistoryId,
                 },
                 TableName: process.env.API_ANIMEAL_FEEDINGTABLE_NAME,
                 UpdateExpression: 'SET images = :images',
@@ -152,7 +207,7 @@ exports.handler = async (event) => {
                   ':images': images,
                 },
                 Key: {
-                  id: feedingId,
+                  id: feedingPointConstraintsItem.Item.feedingHistoryId,
                 },
                 TableName: process.env.API_ANIMEAL_FEEDINGTABLE_NAME,
                 UpdateExpression: 'SET images = :images',

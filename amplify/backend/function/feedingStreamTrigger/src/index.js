@@ -1,4 +1,6 @@
 /* Amplify Params - DO NOT EDIT
+	API_ANIMEAL_FEEDINGCONSTRAINTTABLE_ARN
+	API_ANIMEAL_FEEDINGCONSTRAINTTABLE_NAME
 	API_ANIMEAL_FEEDINGTABLE_ARN
 	API_ANIMEAL_FEEDINGTABLE_NAME
 	API_ANIMEAL_GRAPHQLAPIENDPOINTOUTPUT
@@ -11,6 +13,7 @@ Amplify Params - DO NOT EDIT */
 /**
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
+
 const AWS = require('aws-sdk');
 const { rejectFeeding, approveFeeding } = require('./query');
 const dynamoDB = new AWS.DynamoDB.DocumentClient({});
@@ -25,6 +28,27 @@ exports.handler = async (event) => {
     const trackableEvents = ['REMOVE'];
     const trackableEventsToProlongExpirationDate = ['MODIFY'];
 
+    if (oldImage.feedingPointFeedingsId && trackableEvents.includes(record.eventName)) {
+      const feedingPointConstraintsItem = await dynamoDB
+        .get({
+          Key: {
+            id: oldImage.feedingPointFeedingsId,
+          },
+          TableName: process.env.API_ANIMEAL_FEEDINGCONSTRAINTTABLE_NAME,
+        })
+        .promise();
+
+      if (
+        (feedingPointConstraintsItem?.Item &&
+          feedingPointConstraintsItem?.Item?.feedingHistoryId !==
+            oldImage.id) ||
+        !feedingPointConstraintsItem?.Item
+      ) {
+        console.log('Feeding has been already processed, skipping...');
+        return;
+      }
+    }
+
     if (
       trackableEvents.includes(record.eventName) &&
       oldImage.status === 'pending' &&
@@ -32,7 +56,7 @@ exports.handler = async (event) => {
       new Date(oldImage.expireAt * 1000).getTime() < new Date().getTime()
     ) {
       const approveFeedingRes = await approveFeeding({
-        feedingId: oldImage.id,
+        feedingId: oldImage.feedingPointFeedingsId,
         reason: 'Has been auto approved',
         feeding: {
           id: oldImage.id,
@@ -58,7 +82,7 @@ exports.handler = async (event) => {
       new Date(oldImage.expireAt * 1000).getTime() < new Date().getTime()
     ) {
       const rejectFeedingRes = await rejectFeeding({
-        feedingId: oldImage.id,
+        feedingId: oldImage.feedingPointFeedingsId,
         reason:
           oldImage.status == 'pending'
             ? 'Approval time has expired'
@@ -87,7 +111,8 @@ exports.handler = async (event) => {
 
     if (
       trackableEventsToProlongExpirationDate.includes(record.eventName) &&
-      newImage.status === 'pending' && oldImage.status === 'inProgress'
+      newImage.status === 'pending' &&
+      oldImage.status === 'inProgress'
     ) {
       try {
         const expireAt = new Date();

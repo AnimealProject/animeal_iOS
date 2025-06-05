@@ -24,19 +24,19 @@
       "function": {
         "AdminQueriesdbb0bdc6": {
           "deploymentBucketName": "amplify-animeal-test-151221-deployment",
-          "s3Key": "amplify-builds/AdminQueriesdbb0bdc6-4b7a6a4648504b6b4441-build.zip"
+          "s3Key": "amplify-builds/AdminQueriesdbb0bdc6-2b44652f4f7668495172-build.zip"
         },
         "animeal8f90e9b68f90e9b6CreateAuthChallenge": {
           "deploymentBucketName": "amplify-animeal-test-151221-deployment",
-          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6CreateAuthChallenge-6b4b44316b766f596761-build.zip"
+          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6CreateAuthChallenge-6d4639383631556c5165-build.zip"
         },
         "animeal8f90e9b68f90e9b6CustomMessage": {
           "deploymentBucketName": "amplify-animeal-test-151221-deployment",
-          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6CustomMessage-68547074514b7564556b-build.zip"
+          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6CustomMessage-55384c79464563677369-build.zip"
         },
         "animeal8f90e9b68f90e9b6DefineAuthChallenge": {
           "deploymentBucketName": "amplify-animeal-test-151221-deployment",
-          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6DefineAuthChallenge-7a4739656c476c4c766e-build.zip"
+          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6DefineAuthChallenge-6e70625570666a6a6f76-build.zip"
         },
         "animeal8f90e9b68f90e9b6PostConfirmation": {
           "deploymentBucketName": "amplify-animeal-test-151221-deployment",
@@ -44,11 +44,11 @@
         },
         "animeal8f90e9b68f90e9b6PreSignup": {
           "deploymentBucketName": "amplify-animeal-test-151221-deployment",
-          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6PreSignup-542f7a67336b66423366-build.zip"
+          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6PreSignup-4d654a73706b4c2f746a-build.zip"
         },
         "animeal8f90e9b68f90e9b6VerifyAuthChallengeResponse": {
           "deploymentBucketName": "amplify-animeal-test-151221-deployment",
-          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6VerifyAuthChallengeResponse-2b2f394c584a67523570-build.zip"
+          "s3Key": "amplify-builds/animeal8f90e9b68f90e9b6VerifyAuthChallengeResponse-486a4254666d306a4f37-build.zip"
         },
         "approveFeeding": {
           "deploymentBucketName": "amplify-animeal-test-151221-deployment",
@@ -56,11 +56,11 @@
         },
         "autoResetStatus": {
           "deploymentBucketName": "amplify-animeal-test-151221-deployment",
-          "s3Key": "amplify-builds/autoResetStatus-6f3541696e416f574c78-build.zip"
+          "s3Key": "amplify-builds/autoResetStatus-484466797a336b4a4375-build.zip"
         },
         "cognitoEventTriggerHandler": {
           "deploymentBucketName": "amplify-animeal-test-151221-deployment",
-          "s3Key": "amplify-builds/cognitoEventTriggerHandler-52787353516c4c564743-build.zip"
+          "s3Key": "amplify-builds/cognitoEventTriggerHandler-637a5038466d72702f74-build.zip"
         },
         "feedingStreamTrigger": {
           "deploymentBucketName": "amplify-animeal-test-151221-deployment",
@@ -72,11 +72,11 @@
         },
         "languages": {
           "deploymentBucketName": "amplify-animeal-test-151221-deployment",
-          "s3Key": "amplify-builds/languages-6232477955427469616b-build.zip"
+          "s3Key": "amplify-builds/languages-42797a7131636c5a564f-build.zip"
         },
         "onModelTrigger": {
           "deploymentBucketName": "amplify-animeal-test-151221-deployment",
-          "s3Key": "amplify-builds/onModelTrigger-5345494d544b4d54567a-build.zip"
+          "s3Key": "amplify-builds/onModelTrigger-626e757a2b7473734738-build.zip"
         },
         "rejectFeeding": {
           "deploymentBucketName": "amplify-animeal-test-151221-deployment",
@@ -88,11 +88,11 @@
         },
         "translate": {
           "deploymentBucketName": "amplify-animeal-test-151221-deployment",
-          "s3Key": "amplify-builds/translate-6b46754d586543315a63-build.zip"
+          "s3Key": "amplify-builds/translate-4870586473445033536a-build.zip"
         },
         "updateTranslationsTrigger": {
           "deploymentBucketName": "amplify-animeal-test-151221-deployment",
-          "s3Key": "amplify-builds/updateTranslationsTrigger-63416a31666856526f78-build.zip"
+          "s3Key": "amplify-builds/updateTranslationsTrigger-67463258616f4f496a75-build.zip"
         }
       },
       "storage": {

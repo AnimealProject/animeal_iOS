@@ -17,6 +17,11 @@ export function override(resources: AmplifyAuthCognitoStackTemplate) {
     sourceArn: `arn:aws:ses:${region}:${accountId}:identity/animeal.ge`,
   };
 
+  resources.userPoolClientLambda.runtime = 'nodejs16.x';
+  resources.hostedUICustomResource.runtime = 'nodejs16.x';
+  resources.oAuthCustomResource.runtime = 'nodejs16.x';
+  resources.hostedUIProvidersCustomResource.runtime = 'nodejs16.x';
+
   (<any>resources.userPool.userAttributeUpdateSettings).attributesRequireVerificationBeforeUpdate = ['phone_number'];
 
   resources.userPoolClient.tokenValidityUnits = {
@@ -52,6 +57,13 @@ export function override(resources: AmplifyAuthCognitoStackTemplate) {
       {
         name: 'login_method',
         attributeDataType: 'String',
+        developerOnlyAttribute: false,
+        mutable: true,
+        required: false,
+      },
+      {
+        name: 'age_verified',
+        attributeDataType: 'Boolean',
         developerOnlyAttribute: false,
         mutable: true,
         required: false,

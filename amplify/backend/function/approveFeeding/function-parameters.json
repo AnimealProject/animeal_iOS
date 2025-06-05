@@ -19,6 +19,12 @@
         "update",
         "delete"
       ],
+      "FeedingConstraint:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
       "FeedingHistory:@model(appsync)": [
         "create",
         "read",
