@@ -6,6 +6,9 @@ excluded:
   - animealTests/Sourcery/Generated
   - animeal/src/Common/Strings.swift
   - Style/Sources/Style/Assets.swift
+  - "**/.build"
+  - "**/DerivedData"
+  - "**/.swiftpm"
 
 disabled_rules:
   - discarded_notification_center_observer
