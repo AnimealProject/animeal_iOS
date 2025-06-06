@@ -188,6 +188,21 @@
       "providerPlugin": "awscloudformation",
       "service": "customCDK"
     },
+    "deleteFeedingExt": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIKeyOutput",
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "animeal"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "customCDK"
+    },
     "onCreateFeedingHistoryExt": {
       "dependsOn": [
         {

@@ -1,4 +1,6 @@
 /* Amplify Params - DO NOT EDIT
+	API_ANIMEAL_FEEDINGCONSTRAINTTABLE_ARN
+	API_ANIMEAL_FEEDINGCONSTRAINTTABLE_NAME
 	API_ANIMEAL_FEEDINGPOINTTABLE_ARN
 	API_ANIMEAL_FEEDINGPOINTTABLE_NAME
 	API_ANIMEAL_FEEDINGTABLE_ARN
@@ -18,6 +20,7 @@ Amplify Params - DO NOT EDIT */
  */
 
 const AWS = require('aws-sdk');
+var uuid = require('uuid');
 const dynamoDB = new AWS.DynamoDB.DocumentClient({});
 const {
   updateFeedingPoint,
@@ -49,12 +52,12 @@ exports.handler = async (event, context, callback) => {
       users.data.data.relationUserFeedingPointByFeedingPointId.items,
       (user) => {
         assignedModeratorsIds.push(user.userId);
-        return getUser(user.userId);
+        return getUser(user.userId).catch(() => null);
       },
       {
         concurrency: 5,
       },
-    );
+    ).filter((it) => it);
     assignedModerators.forEach((assignedModerator) => {
       usersDynamoRecords.push({
         Put: {
@@ -66,6 +69,10 @@ exports.handler = async (event, context, callback) => {
         },
       });
     });
+
+    if (!assignedModerators.length) {
+      throw new Error("There aren't any active assigned moderators");
+    }
 
     if (
       event?.identity?.username &&
@@ -88,7 +95,7 @@ exports.handler = async (event, context, callback) => {
     }
 
     const feedingItem = {
-      id: feedingPointId,
+      id: uuid.v4(),
       images: [],
       status: 'inProgress',
       feedingPointFeedingsId: feedingPointId,
@@ -108,17 +115,26 @@ exports.handler = async (event, context, callback) => {
           ...usersDynamoRecords,
           {
             Put: {
+              Item: {
+                id: feedingPointId,
+                feedingHistoryId: feedingItem.id,
+              },
+              TableName: process.env.API_ANIMEAL_FEEDINGCONSTRAINTTABLE_NAME,
+              ConditionExpression: 'attribute_not_exists(id)',
+            },
+          },
+          {
+            Put: {
               Item: feedingItem,
               TableName: process.env.API_ANIMEAL_FEEDINGTABLE_NAME,
-              ConditionExpression: 'attribute_not_exists(id)',
             },
           },
           {
             Update: {
               ExpressionAttributeValues: {
-                ':value': 'pending',
+                ':value': 'inProgress',
                 ':date': new Date().toISOString(),
-                ':fed': 'fed',
+                ':starved': 'starved',
               },
               Key: {
                 id: feedingPointId,
@@ -128,7 +144,7 @@ exports.handler = async (event, context, callback) => {
               },
               TableName: process.env.API_ANIMEAL_FEEDINGPOINTTABLE_NAME,
               UpdateExpression: 'SET #status = :value, statusUpdatedAt = :date',
-              ConditionExpression: `attribute_exists(id) AND #status <> :fed`,
+              ConditionExpression: `attribute_exists(id) AND #status = :starved`,
             },
           },
         ],

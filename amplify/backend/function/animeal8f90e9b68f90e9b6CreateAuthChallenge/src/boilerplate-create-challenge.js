@@ -2,6 +2,14 @@ const digitGenerator = require('crypto-secure-random-digit');
 const AWS = require('aws-sdk');
 const sns = new AWS.SNS();
 
+const TEST_ACCOUNTS = {
+  '+995555666777': '353535',
+  '+995444555666': '454545',
+  '+995324555328': '757575',
+  '+995987987987': '272727',
+  '+995111222333': '999999'
+}
+
 async function sendChallengeCode(phoneNumber, passCode) {
   const params = {
     Message: 'Your secret code: ' + passCode,
@@ -21,6 +29,14 @@ async function createAuthChallenge(event) {
     event.request.session.length == 0
   ) {
     passCode = digitGenerator.randomDigits(6).join('');
+
+    // TEST ACCOUNT
+    if (
+      Object.keys(TEST_ACCOUNTS).includes(event.request.userAttributes.phone_number)
+    ) {
+      passCode = TEST_ACCOUNTS[event.request.userAttributes.phone_number];
+    }
+
     await sendChallengeCode(
       event.request.userAttributes.phone_number,
       passCode,

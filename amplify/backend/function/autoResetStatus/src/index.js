@@ -19,7 +19,6 @@ const { searchFeedingPoints, updateFeedingPoint } = require('./query');
 exports.handler = async (event) => {
   console.log(`EVENT: ${JSON.stringify(event)}`);
 
-
   // expire records last been fed 12 hours ago
   const filterDate = new Date(new Date().getTime() - 12 * 60 * 60 * 1000);
   const filteredFeedingPoints = await searchFeedingPoints({
@@ -46,6 +45,7 @@ exports.handler = async (event) => {
                 ExpressionAttributeValues: {
                   ':value': 'starved',
                   ':date': new Date().toISOString(),
+                  ':currentStatus': 'fed',
                 },
                 Key: {
                   id: record.id,
@@ -56,7 +56,8 @@ exports.handler = async (event) => {
                 TableName: process.env.API_ANIMEAL_FEEDINGPOINTTABLE_NAME,
                 UpdateExpression:
                   'SET #status = :value, statusUpdatedAt = :date',
-                ConditionExpression: 'attribute_exists(id)',
+                ConditionExpression:
+                  'attribute_exists(id) AND #status = :currentStatus',
               },
             },
           ],

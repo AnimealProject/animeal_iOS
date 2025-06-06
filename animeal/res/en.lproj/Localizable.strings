@@ -29,6 +29,7 @@
 "profile.errors.incorrectFormat"                  = "Format is incorrect";
 "profile.errors.incorrectCharactersLength"        = "Length must be between 2 and 35";
 "profile.errors.incorrectCharacters"              = "Must contain only letters";
+"profile.consent"                                 = "You acknowledge that you are atleast 15 years old";
 "phone.title"                                     = "Please, enter your phone";
 "phone.fields.phoneTitlle"                        = "Phone Number";
 "phone.fields.passwordTitlle"                     = "Password";

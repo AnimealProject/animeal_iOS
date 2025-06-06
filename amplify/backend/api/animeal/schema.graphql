@@ -2,7 +2,9 @@ enum FeedingPointStatus {
   fed
   pending
   starved
+  inProgress
 }
+
 
 enum FeedingStatus {
   approved
@@ -122,6 +124,24 @@ input UpdateFeedingPointInput {
 
 
 input CreateFeedingInput {
+  id: ID
+  userId: String!
+  images: [String!]!
+  status: FeedingStatus!
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+  createdBy: String
+  updatedBy: String
+  owner: String
+  feedingPointDetails: FeedingPointDetailsInput
+  feedingPointFeedingsId: String!
+  expireAt: AWSTimestamp!
+  assignedModerators: [String]
+  moderatedBy: String
+  moderatedAt: AWSDateTime
+}
+
+input DeleteFeedingExtInput {
   id: ID
   userId: String!
   images: [String!]!
@@ -363,11 +383,36 @@ type Feeding
   updatedBy: String
   owner: String
   feedingPointDetails: FeedingPointDetails
-  feedingPointFeedingsId: String!
+  feedingPointFeedingsId: String! @index(name: "byFeedingPointId", queryField: "feedingByFeedingPointId")
   expireAt: AWSTimestamp!
   assignedModerators: [String]
   moderatedBy: String
   moderatedAt: AWSDateTime
+}
+
+
+type FeedingConstraint
+  @model(queries: null, mutations: null, subscriptions: null)
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["Administrator"]
+        operations: [create, read, update, delete]
+      }
+      {
+        allow: groups
+        groups: ["Moderator"]
+        operations: [create, read, update, delete]
+      }
+      { allow: groups, groups: ["Volunteer"], operations: [read] }
+      { allow: owner, operations: [create, read, update, delete] }
+      { allow: public, provider: apiKey }
+      { allow: private, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  feedingHistoryId: String
 }
 
 type FeedingUsers 
@@ -428,7 +473,7 @@ type FeedingHistory
   createdBy: String
   updatedBy: String
   owner: String
-  feedingPointId: String!
+  feedingPointId: String! @index(name: "byFeedingPointId", queryField: "feedingHistoryByFeedingPointId")
   feedingPointDetails: FeedingPointDetails
   status: FeedingStatus
   reason: String
@@ -922,6 +967,11 @@ type Mutation {
     @function(name: "rejectFeeding-${env}")
     @aws_api_key
     @aws_cognito_user_pools
+
+  expireFeeding(feedingId: String!, reason: String!): String!
+    @function(name: "rejectFeeding-${env}")
+    @aws_api_key
+    @aws_cognito_user_pools
    
   createFeedingPointExt(input: CreateFeedingPointInput!): FeedingPoint @aws_api_key @aws_cognito_user_pools
   updateFeedingPointExt(input: UpdateFeedingPointInput!): FeedingPoint @aws_api_key @aws_cognito_user_pools
@@ -931,6 +981,8 @@ type Mutation {
 
   createFeedingHistoryExt(input: CreateFeedingHistoryInput!): FeedingHistory @aws_api_key @aws_cognito_user_pools
   updateFeedingHistoryExt(input: UpdateFeedingHistoryInput!): FeedingHistory @aws_api_key @aws_cognito_user_pools
+
+  deleteFeedingExt(input: DeleteFeedingExtInput!): Feeding @aws_api_key @aws_cognito_user_pools
 }
 
 type Subscription {
@@ -948,6 +1000,10 @@ type Subscription {
     @aws_subscribe(mutations: ["updateFeedingHistoryExt", "updateFeedingHistory"]) @aws_api_key @aws_cognito_user_pools
   onCreateFeedingHistoryExt: FeedingHistory
     @aws_subscribe(mutations: ["createFeedingHistoryExt", "createFeedingHistory"]) @aws_api_key @aws_cognito_user_pools
+
+  onDeleteFeedingExt: Feeding
+    @aws_subscribe(mutations: ["deleteFeedingExt", "deleteFeeding"]) @aws_api_key @aws_cognito_user_pools
+
 }
 
 
