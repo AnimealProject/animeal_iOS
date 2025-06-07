@@ -11,6 +11,5 @@ protocol Stopable {
 }
 
 protocol Coordinatable: Starting, Stopable {
-    @MainActor
-    var navigator: Navigating { get }
+    @MainActor var navigator: Navigating { get }
 }

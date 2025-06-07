@@ -54,14 +54,16 @@ class NavigationMapController: NavigationViewControllerDelegate {
         return (point, polygon)
     }()
 
-    var cameraAnimationQueue: [() -> Void] = []
+    var cameraAnimationQueue = [() -> Void]()
 
     var cameraEasePadding: UIEdgeInsets = .zero
 
     // MARK: - Initialization
     init(frame: CGRect) {
         navigationMapView = NavigationMapView(frame: frame, navigationCameraType: .mobile)
-        navigationMapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        navigationMapView.autoresizingMask = UIView.AutoresizingMask(
+            [.flexibleWidth, .flexibleHeight]
+        )
         navigationMapView.userLocationStyle = .puck2D(configuration: .makeDefault(showBearing: true))
         navigationMapView.delegate = self
 
@@ -203,11 +205,10 @@ class NavigationMapController: NavigationViewControllerDelegate {
                 longitude: locationCoordinate.longitude
             )
 
-            if
-               let distance = currentLocation?.distance(from: location),
+            if let distance = currentLocation?.distance(from: location),
                distance <= permittedDistinationInMeters,
-               smallestDistance == nil || distance < smallestDistance ?? 0
-            {
+               smallestDistance == nil || distance < smallestDistance ?? 0 {
+
                 closestLocation = location
                 smallestDistance = distance
             }

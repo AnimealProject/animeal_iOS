@@ -19,7 +19,7 @@ protocol AmplifyAuthenticationConverting {
     func convertAuthenticationAttribute(_ attribute: AuthenticationUserAttribute) -> AuthUserAttribute
 }
 
-// swiftlint:disable cyclomatic_complexity
+// swiftlint:disable cyclomatic_complexity type_body_length
 struct AuthenticationAmplifyConverter: AuthenticationAmplifyConverting, AmplifyAuthenticationConverting {
     func convertAuthenticationAttribute(_ attribute: AuthenticationUserAttribute) -> AuthUserAttribute {
         switch attribute.key {
@@ -212,7 +212,7 @@ struct AuthenticationAmplifyConverter: AuthenticationAmplifyConverting, AmplifyA
                     additionalInfo
                 )
             )
-        case .done, .confirmSignInWithTOTPCode, .continueSignInWithTOTPSetup(_), .continueSignInWithMFASelection(_):
+        case .done, .confirmSignInWithTOTPCode, .continueSignInWithTOTPSetup, .continueSignInWithMFASelection:
             return AuthenticationSignInState(
                 nextStep: AuthenticationSignInStep.done
             )
@@ -292,7 +292,7 @@ struct AuthenticationAmplifyConverter: AuthenticationAmplifyConverting, AmplifyA
         }
     }
 }
-// swiftlint:enable cyclomatic_complexity
+// swiftlint:enable cyclomatic_complexity type_body_length
 
 extension AuthenticationAmplifyConverter {
     /// Log error to firebase crashlytics non fatal error

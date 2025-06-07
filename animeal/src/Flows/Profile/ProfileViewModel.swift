@@ -133,7 +133,8 @@ final class ProfileViewModel: ProfileViewModelProtocol {
                 formattedText: text
             )
         case let .didChange(identifier, text):
-            guard let formatter = viewItems.compactMap({ $0 as? ProfileTextFieldViewItem }).first(where: { $0.identifier == identifier })?.formatter
+            guard let formatter = viewItems.compactMap({ $0 as? ProfileTextFieldViewItem })
+                .first(where: { $0.identifier == identifier })?.formatter
             else {
                 Task { [weak self] in
                     await self?.model.updateItem(text, false, forIdentifier: identifier)
@@ -154,7 +155,8 @@ final class ProfileViewModel: ProfileViewModelProtocol {
                 formattedText: text
             )
         case let .shouldChangeCharactersIn(identifier, text, range, replacementString):
-            guard let formatter = viewItems.compactMap({ $0 as? ProfileTextFieldViewItem }).first(where: { $0.identifier == identifier })?.formatter
+            guard let formatter = viewItems.compactMap({ $0 as? ProfileTextFieldViewItem })
+                .first(where: { $0.identifier == identifier })?.formatter
             else {
                 let text = (text ?? .empty) + replacementString
                 return ProfileViewText(
@@ -172,7 +174,8 @@ final class ProfileViewModel: ProfileViewModelProtocol {
                 formattedText: result.formattedText
             )
         case let .endEditing(identifier, text):
-            guard let formatter = viewItems.compactMap({ $0 as? ProfileTextFieldViewItem }).first(where: { $0.identifier == identifier })?.formatter
+            guard let formatter = viewItems.compactMap({ $0 as? ProfileTextFieldViewItem })
+                .first(where: { $0.identifier == identifier })?.formatter
             else {
                 Task { [weak self] in
                     await self?.model.updateItem(text, false, forIdentifier: identifier)
@@ -215,7 +218,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
                         title: L10n.Profile.Cancel.dialogHeader,
                         actions: [
                             .no(),
-                            .yes(handler: {
+                            .yes {
                                 Task { [weak self] in
                                     do {
                                         try await action()
@@ -224,7 +227,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
                                         // cancelled, stay as is
                                     }
                                 }
-                            })
+                            }
                         ]
                     )
                     self.coordinator.displayAlert(viewAlert)
@@ -245,7 +248,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
                             self.coordinator.move(to: .dismiss)
                         }
                     }
-                    self.coordinator.move(to: .picker({ openPickerComponents.maker(completion) }))
+                    self.coordinator.move(to: .picker { openPickerComponents.maker(completion) })
                 }
             }
         }

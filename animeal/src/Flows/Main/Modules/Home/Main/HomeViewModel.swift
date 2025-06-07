@@ -153,9 +153,9 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     }
 
     func refreshCurrentFeeding() {
-        coordinator.displayActivityIndicator(waitUntil: { [weak self] in
+        coordinator.displayActivityIndicator { [weak self] in
             _ = await self?.fetchUnfinishedFeeding()
-        })
+        }
     }
 
     func startFeeding(feedingPointId id: String) {

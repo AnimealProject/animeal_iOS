@@ -91,7 +91,10 @@ final class AuthenticationService: AuthenticationServiceProtocol {
             }
         case .facebook(let presentationAnchor):
             do {
-                let result = try await Amplify.Auth.signInWithWebUI(for: .facebook, presentationAnchor: presentationAnchor)
+                let result = try await Amplify.Auth.signInWithWebUI(
+                    for: .facebook,
+                    presentationAnchor: presentationAnchor
+                )
                 return converter.convertAmplifySignInState(result)
             } catch let error as AuthError {
                 throw converter.convertAmplifyError(error)

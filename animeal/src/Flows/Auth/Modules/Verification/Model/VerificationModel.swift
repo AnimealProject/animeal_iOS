@@ -111,7 +111,7 @@ final class VerificationModel: VerificationModelProtocol {
             throw error
         }
     }
-    
+
     /// Log error to firebase crashlytics non fatal error
     /// - Parameter error: the error object
     func logError(_ error: LocalizedError) {

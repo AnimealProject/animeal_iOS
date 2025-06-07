@@ -25,7 +25,7 @@ final class CustomAuthModel: CustomAuthModelProtocol {
     }
 
     // MARK: - Requests
-    func fetchItems() -> [CustomAuthModelItem] { items.values.map { $0 } }
+    func fetchItems() -> [CustomAuthModelItem] { Array(items.values) }
 
     func fetchItem(_ identifier: String) -> CustomAuthModelItem? {
         guard

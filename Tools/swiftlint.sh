@@ -18,6 +18,6 @@ if [ -z "${CI_ENV}" ]; then
   fi
 else
   # The CI environment variable is set, so do nothing
-  echo "SwiftLint checked on a seperate step in CI"
+  echo "SwiftLint checked on a separate step in CI"
 fi
 

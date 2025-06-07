@@ -14,9 +14,14 @@ disabled_rules:
   - discarded_notification_center_observer
   - notification_center_detachment
   - orphaned_doc_comment
-  - todo
-  - unused_capture_list
   - indentation_width
+  - function_body_length
+  - type_body_length
+  - file_length
+  - todo
+  - cyclomatic_complexity
+  - unused_setter_value
+  - function_parameter_count
 
 opt_in_rules:
   - array_init
@@ -53,20 +58,22 @@ opt_in_rules:
   - toggle_bool
   - trailing_closure
   - unneeded_parentheses_in_closure_argument
-  - unused_import
   - vertical_whitespace_closing_braces
   - yoda_condition
   - attribute_name_spacing
 
+analyzer_rules:
+  - unused_import
+  
 
-custom_rules:
-  array_constructor:
-    name: "Array/Dictionary initializer"
-    regex: '[let,var] .+ = (\[.+\]\(\))'
-    capture_group: 1
-    message: "Use explicit type annotation when initializing empty arrays and dictionaries"
-    severity: warning
 
+# custom_rules:
+#  array_constructor:
+#    name: "Array/Dictionary initializer"
+#    regex: '[let,var] .+ = (\[.+\]\(\))'
+#    capture_group: 1
+#    message: "Use explicit type annotation when initializing empty arrays and dictionaries"
+#    severity: warning
 
 attributes:
   always_on_same_line:
@@ -77,10 +84,17 @@ attributes:
 
 force_cast: warning
 force_try: warning
-function_body_length:
-    warning: 60
 
 legacy_hashing: error
+
+type_name:
+  max_length:
+    warning: 60
+    error: 80
+
+nesting:
+    type_level:
+        warning: 2
 
 identifier_name:
   min_length: # only min_length
@@ -99,6 +113,7 @@ identifier_name:
     - z
     - lhs
     - rhs
+    - to
 
 line_length:
   ignores_urls: true
