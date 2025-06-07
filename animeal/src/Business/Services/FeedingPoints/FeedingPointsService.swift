@@ -160,7 +160,8 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
             where: { $0.identifier == identifier }
         )
         else {
-            throw "[FeedingPointsService] Cannot fetch status because there is no feeding point for the provided identifier".asBaseError()
+            throw ("[FeedingPointsService] Cannot fetch status because there is no feeding point for the" +
+                   " provided identifier").asBaseError()
         }
 
         guard point.feedingPoint.status == .starved else {
@@ -171,7 +172,10 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
 
         let idPredicate = QueryPredicateOperation(field: "feedingPointFeedingsId", operator: .equals(identifier))
         let userPredicate = QueryPredicateOperation(field: "userId", operator: .equals(currentUserId))
-        let statusPredicate = QueryPredicateOperation(field: "status", operator: .equals(FeedingStatus.inProgress.rawValue))
+        let statusPredicate = QueryPredicateOperation(
+            field: "status",
+            operator: .equals(FeedingStatus.inProgress.rawValue)
+        )
 
         let idPredicates = QueryPredicateGroup(type: .or, predicates: [idPredicate, userPredicate])
         let predicate = QueryPredicateGroup(type: .and, predicates: [idPredicates, statusPredicate])
@@ -194,7 +198,8 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
             where: { $0.identifier == identifier }
         )
         else {
-            throw "[FeedingPointsService] Cannot add to favorites because there is no feeding point for the provided identifier".asBaseError()
+            throw ("[FeedingPointsService] Cannot add to favorites because there is no feeding point" +
+                  " for the provided identifier").asBaseError()
         }
 
         return try await favoritesService.add(point.feedingPoint)
@@ -211,7 +216,8 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
             where: { $0.identifier == identifier }
         )
         else {
-            throw "[FeedingPointsService] Cannot toggle because there is no feeding point for the provided identifier".asBaseError()
+            throw ("[FeedingPointsService] Cannot toggle because there is no feeding point for" +
+                   " the provided identifier").asBaseError()
         }
 
         if point.isFavorite {
@@ -223,11 +229,19 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
 
     func fetchFeedingHistory(for feedingPointId: String) async throws -> [FeedingHistory] {
         let idPredicate = QueryPredicateOperation(field: "feedingPointId", operator: .equals(feedingPointId))
-        let statusPredicate = QueryPredicateOperation(field: "status", operator: .notEqual(FeedingStatus.rejected.rawValue))
+        let statusPredicate = QueryPredicateOperation(
+            field: "status",
+            operator: .notEqual(FeedingStatus.rejected.rawValue)
+        )
         let predicate = QueryPredicateGroup(type: .and, predicates: [idPredicate, statusPredicate])
-        async let fetchFeedingHistory = networkService.query(request: .list(FeedingHistory.self, where: predicate))
+        async let fetchFeedingHistory = networkService.query(
+            request: .list(FeedingHistory.self, where: predicate)
+        )
 
-        let feedingsIdPredicate = QueryPredicateOperation(field: "feedingPointFeedingsId", operator: .equals(feedingPointId))
+        let feedingsIdPredicate = QueryPredicateOperation(
+            field: "feedingPointFeedingsId",
+            operator: .equals(feedingPointId)
+        )
         async let fetchActiveFeedings = networkService.query(request: .list(Feeding.self, where: feedingsIdPredicate))
 
         var (activeFeedings, feedingHistory) = try await (fetchActiveFeedings, fetchFeedingHistory)

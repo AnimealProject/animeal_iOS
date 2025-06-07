@@ -98,9 +98,9 @@ final class UpdateProfileUseCase: UpdateProfileUseCaseLogic {
                 details,
                 UserProfileAttribute(
                     step.key,
-                    value: allItems.first(
-                        where: { $0.key.userAttributeKey == step.key }
-                    )?.value.text ?? .empty
+                    value: allItems.first {
+                        $0.key.userAttributeKey == step.key
+                    }?.value.text ?? .empty
                 ),
                 resendMethod
             )

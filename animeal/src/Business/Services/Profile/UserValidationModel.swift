@@ -8,7 +8,7 @@ import Services
 
 final class UserValidationModel: UserProfileValidationModel {
     // MARK: - Private Properties
-    private var listeners: [AuthChannelEventsListener] = []
+    private var listeners = [AuthChannelEventsListener]()
 
     // MARK: - Accessible properties
     private(set) var isSignedIn = false

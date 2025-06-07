@@ -4,7 +4,8 @@ import Style
 import UIComponents
 import Common
 import Services
-@_spi(Experimental) import MapboxMaps
+@_spi(Experimental)
+import MapboxMaps
 
 class HomeViewController: UIViewController {
     // MARK: - Private properties
@@ -70,7 +71,7 @@ class HomeViewController: UIViewController {
             viewModel.updateSelectionIfNeeded(for: itemIdentifier)
         }
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         AppDelegate.shared.context.analyticsService.logEvent(

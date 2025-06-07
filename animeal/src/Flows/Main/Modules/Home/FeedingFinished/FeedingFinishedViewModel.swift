@@ -1,6 +1,8 @@
 import Foundation
 
-final class FeedingFinishedViewModel: FeedingFinishedViewModelLifeCycle, FeedingFinishedViewInteraction, FeedingFinishedViewState {
+final class FeedingFinishedViewModel: FeedingFinishedViewModelLifeCycle,
+                                      FeedingFinishedViewInteraction,
+                                      FeedingFinishedViewState {
 
     // MARK: - Dependencies
     private let model: FeedingFinishedModelProtocol

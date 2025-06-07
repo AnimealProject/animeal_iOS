@@ -137,7 +137,7 @@ final class CustomAuthViewModel: CustomAuthViewModelProtocol {
                     self.coordinator.moveFromCustomAuth(to: .dismiss)
                 }
                 coordinator.moveFromCustomAuth(
-                    to: .picker({ openPickerComponents.maker(completion) })
+                    to: .picker { openPickerComponents.maker(completion) }
                 )
             }
         }

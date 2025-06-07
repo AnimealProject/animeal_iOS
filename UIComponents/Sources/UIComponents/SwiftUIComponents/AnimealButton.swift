@@ -21,7 +21,7 @@ public struct AnimealButton: View {
     }
 
     public var body: some View {
-        Button(action: action, label: {
+        Button(action: action) {
             HStack {
                 Spacer()
                 Text(title)
@@ -30,7 +30,7 @@ public struct AnimealButton: View {
                 Spacer()
             }
             .frame(height: 60)
-        })
+        }
         .background(Asset.Colors.darkTurquoise.swiftUIColor)
         .cornerRadius(30)
     }

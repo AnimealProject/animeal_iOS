@@ -97,7 +97,7 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
 
         let feedingPointDetails = mapper.map(history: sortedByDateHistory, namesMap: namesMap)
         let right = feedingPointDetails.count < 5 ? feedingPointDetails.count : 5
-        return feedingPointDetails[..<right].map { $0 }
+        return Array(feedingPointDetails[..<right])
     }
 
     func mutateFavorite() async throws -> Bool {

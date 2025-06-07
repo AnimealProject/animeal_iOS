@@ -79,7 +79,9 @@ final class MorePartitionModel: MorePartitionModelProtocol {
             return PartitionContentModel(
                 header: PartitionContentModel.Header(title: L10n.More.aboutShort),
                 content: PartitionContentModel.Content(
-                    bottomTextBlock: PartitionContentModel.TextBlock(title: "\(L10n.About.appVersion) \(AppInfo.appVersion)")
+                    bottomTextBlock: PartitionContentModel.TextBlock(
+                        title: "\(L10n.About.appVersion) \(AppInfo.appVersion)"
+                    )
                 ),
                 footer: nil
             )

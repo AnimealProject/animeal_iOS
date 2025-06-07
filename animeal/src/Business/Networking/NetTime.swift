@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class NetTime {
+enum NetTime {
     public static var serverTimeDifference: TimeInterval = 0
     public static var serverNow = Date.now
     public static var now: Date {

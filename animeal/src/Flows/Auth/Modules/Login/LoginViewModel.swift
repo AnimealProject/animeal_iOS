@@ -57,7 +57,7 @@ final class LoginViewModel: LoginViewModelLifeCycle, LoginViewInteraction, Login
         switch event {
         case .tapInside(let identifier):
             let modelActions = model.fetchActions()
-            let modelAction = modelActions.first(where: { $0.identifier == identifier })
+            let modelAction = modelActions.first { $0.identifier == identifier }
             guard let modelAction else { return }
             proceedWithAuthentication(with: modelAction.type)
         }

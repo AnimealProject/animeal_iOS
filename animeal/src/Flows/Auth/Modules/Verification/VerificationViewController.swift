@@ -31,7 +31,7 @@ final class VerificationViewController: BaseViewController, VerificationViewMode
         bind()
         viewModel.load()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         AppDelegate.shared.context.analyticsService.logEvent(

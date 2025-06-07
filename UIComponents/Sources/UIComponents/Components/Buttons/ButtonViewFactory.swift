@@ -13,8 +13,7 @@ public struct ButtonViewFactory: ButtonViewGenerating, StyleEngineContainable {
     private enum Constants {
         static let height: CGFloat = 60.0
         static let cornerRadius: CGFloat = 30.0
-        static let titleInsets: UIEdgeInsets =
-            UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: -10.0)
+        static let titleInsets = UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: -10.0)
     }
 
     // MARK: - Initialization

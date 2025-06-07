@@ -11,8 +11,7 @@ public final class ButtonContainerView: UIView {
     // MARK: - Constants
     private enum Constants {
         static let spacing: CGFloat = 28.0
-        static let contentInsets: UIEdgeInsets =
-            UIEdgeInsets(top: 30.0, left: 30.0, bottom: 30.0, right: 30.0)
+        static let contentInsets = UIEdgeInsets(top: 30.0, left: 30.0, bottom: 30.0, right: 30.0)
     }
 
     // MARK: - Private properties

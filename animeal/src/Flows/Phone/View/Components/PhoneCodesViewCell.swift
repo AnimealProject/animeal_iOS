@@ -8,7 +8,7 @@ protocol PhoneCodesViewCellContainable where Self: UICollectionViewCell {
 }
 
 extension PhoneCodesViewCommonCell {
-    struct Model {
+    struct Model: Hashable {
         let identifier: String
         let icon: UIImage?
         let title: String

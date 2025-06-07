@@ -18,14 +18,14 @@ public final class AgeConsentView: UIStackView {
         }
     }
 
-    public var onTap: ((Bool) -> (Void))?
+    public var onTap: ((Bool) -> Void)?
 
     // MARK: - Initialization
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
-    
+
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -87,7 +87,7 @@ public extension AgeConsentView {
             self.state = state
             self.title = title
         }
-    
+
         func toggleState() {
             switch state {
             case .checked:
