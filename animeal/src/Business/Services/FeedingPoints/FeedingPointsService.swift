@@ -161,7 +161,7 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
         )
         else {
             throw ("[FeedingPointsService] Cannot fetch status because there is no feeding point for the" +
-                   "provided identifier").asBaseError()
+                   " provided identifier").asBaseError()
         }
 
         guard point.feedingPoint.status == .starved else {
