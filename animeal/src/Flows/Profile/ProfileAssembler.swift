@@ -19,6 +19,8 @@ enum ProfileAfterUnknownAuthAssembler {
             return ProfileAfterCustomAuthAssembler.assembly(coordinator: coordinator)
         case .signInViaAppleID, .signInViaFacebook:
             return ProfileAfterSocialAuthAssembler.assembly(coordinator: coordinator)
+        case .signInAsGuest:
+            return ProfileAfterCustomAuthAssembler.assembly(coordinator: coordinator)
         }
     }
 }

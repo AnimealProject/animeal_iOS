@@ -4,4 +4,5 @@ enum LoginRoute {
     case customAuthentication
     case codeConfirmation
     case done
+    case doneAsGuest
 }

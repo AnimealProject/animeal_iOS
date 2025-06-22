@@ -85,6 +85,8 @@ final class LoginModel: LoginModelProtocol {
                     }
                 }
             }
+        case .signInAsGuest:
+            return .authenticatedAsGuest
         }
     }
 }

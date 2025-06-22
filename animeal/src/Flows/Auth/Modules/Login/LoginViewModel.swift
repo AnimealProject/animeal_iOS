@@ -75,6 +75,8 @@ final class LoginViewModel: LoginViewModelLifeCycle, LoginViewInteraction, Login
                     coordinator.moveFromLogin(to: LoginRoute.codeConfirmation)
                 case .authentificated:
                     coordinator.moveFromLogin(to: LoginRoute.done)
+                case .authenticatedAsGuest:
+                    coordinator.moveFromLogin(to: LoginRoute.doneAsGuest)
                 }
             } catch {
                 onErrorIsNeededToDisplay?(error.localizedDescription)

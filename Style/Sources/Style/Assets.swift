@@ -79,6 +79,7 @@ public enum Asset {
     public static let redUncheckedIcon = ImageAsset(name: "red_unchecked_icon")
     public static let signInApple = ImageAsset(name: "sign_in_apple")
     public static let signInFacebook = ImageAsset(name: "sign_in_facebook")
+    public static let signInGuest = ImageAsset(name: "sign_in_guest")
     public static let signInMobile = ImageAsset(name: "sign_in_mobile")
     public static let attentionStatus = ImageAsset(name: "attention_status")
     public static let errorStatus = ImageAsset(name: "error_status")
