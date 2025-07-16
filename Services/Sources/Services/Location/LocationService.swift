@@ -74,7 +74,7 @@ extension LocationService: LocationServiceProtocol {
             locationManager.stopUpdatingLocation()
         }
     }
-    
+
     public func requestLocationAuthorization(mode: AuthorizationMode) {
             locationManager.requestAuthorization(mode: mode) { [weak self] status in
                 self?.logger.info("[LocationService] Location authorization updated to: \(status)")

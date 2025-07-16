@@ -69,7 +69,7 @@ class HomeViewController: UIViewController {
         if let itemIdentifier = HomeModel.FilterItemIdentifier(rawValue: segmentedControl.selectedSegmentIndex) {
             viewModel.updateSelectionIfNeeded(for: itemIdentifier)
         }
-        
+
         viewModel.requestLocationPermission()
     }
     
