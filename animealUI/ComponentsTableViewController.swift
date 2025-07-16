@@ -167,19 +167,9 @@ class ComponentsTableViewController: UIViewController,
                     let signInWithMobileButton = buttonsFactory.makeSignInWithMobileButton()
                     signInWithMobileButton.configure(signInWithMobileModel)
 
-                    let signInWithFacebookModel = ButtonView.Model(
-                        identifier: "signInWithFacebookButton",
-                        viewType: ButtonView.self,
-                        icon: Asset.Images.signInFacebook.image,
-                        title: "Sign in with Facebook"
-                    )
-                    let signInWithFacebookButton = buttonsFactory.makeSignInWithFacebookButton()
-                    signInWithFacebookButton.configure(signInWithFacebookModel)
-
                     element.configure([
                         signInWithAppleButtonView,
                         signInWithMobileButton,
-                        signInWithFacebookButton
                     ])
 
                     element.onTap = { [weak self] identifier in

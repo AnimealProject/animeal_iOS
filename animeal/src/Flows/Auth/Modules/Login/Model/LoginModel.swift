@@ -60,7 +60,7 @@ final class LoginModel: LoginModelProtocol {
         switch type {
         case .signInViaPhoneNumber:
             return .proceedWithCustomAuth
-        case .signInViaFacebook, .signInViaAppleID:
+        case .signInViaAppleID:
             guard let provider = providers[type] else {
                 throw "There is now provider for type \(type)".asBaseError()
             }

@@ -33,8 +33,6 @@ final class LoginViewActionMapper: LoginViewActionMappable {
         switch input.type {
         case .signInViaPhoneNumber:
             return L10n.LoginScreen.signInViaMobilePhone
-        case .signInViaFacebook:
-            return L10n.LoginScreen.signInViaFacebook
         case .signInViaAppleID:
             return L10n.LoginScreen.signInViaApple
         }
@@ -44,8 +42,6 @@ final class LoginViewActionMapper: LoginViewActionMappable {
         switch input.type {
         case .signInViaPhoneNumber:
             return Asset.Images.signInMobile.name
-        case .signInViaFacebook:
-            return Asset.Images.signInFacebook.name
         case .signInViaAppleID:
             return Asset.Images.signInApple.name
         }

@@ -89,15 +89,6 @@ final class AuthenticationService: AuthenticationServiceProtocol {
             } catch {
                 throw AuthenticationError.unknown(error.localizedDescription, error)
             }
-        case .facebook(let presentationAnchor):
-            do {
-                let result = try await Amplify.Auth.signInWithWebUI(for: .facebook, presentationAnchor: presentationAnchor)
-                return converter.convertAmplifySignInState(result)
-            } catch let error as AuthError {
-                throw converter.convertAmplifyError(error)
-            } catch {
-                throw AuthenticationError.unknown(error.localizedDescription, error)
-            }
         default:
             throw AuthenticationError.unknown("Unknown social web ui provider.", nil)
         }

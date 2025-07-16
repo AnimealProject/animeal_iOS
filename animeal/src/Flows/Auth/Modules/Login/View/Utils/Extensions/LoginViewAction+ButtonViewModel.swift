@@ -26,16 +26,6 @@ extension LoginViewAction {
             let buttonView = buttonsFactory.makeSignInWithMobileButton()
             buttonView.configure(model)
             return buttonView
-        case .signInViaFacebook:
-            let model = ButtonView.Model(
-                identifier: identifier,
-                viewType: ButtonView.self,
-                icon: ImageAsset.Image(named: associatedIcon),
-                title: title
-            )
-            let buttonView = buttonsFactory.makeSignInWithFacebookButton()
-            buttonView.configure(model)
-            return buttonView
         case .signInViaAppleID:
             let model = ButtonView.Model(
                 identifier: identifier,

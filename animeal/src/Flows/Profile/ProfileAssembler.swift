@@ -17,7 +17,7 @@ enum ProfileAfterUnknownAuthAssembler {
         switch authType {
         case .signInViaPhoneNumber:
             return ProfileAfterCustomAuthAssembler.assembly(coordinator: coordinator)
-        case .signInViaAppleID, .signInViaFacebook:
+        case .signInViaAppleID:
             return ProfileAfterSocialAuthAssembler.assembly(coordinator: coordinator)
         }
     }

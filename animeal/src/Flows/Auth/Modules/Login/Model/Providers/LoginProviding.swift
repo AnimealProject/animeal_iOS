@@ -25,21 +25,3 @@ final class AppleLoginProvider: LoginProviding {
         }
     }
 }
-
-final class FacebookLoginProvider: LoginProviding {
-    private let presentationAnchor: UIWindow
-    private let authenticationService: AuthenticationServiceProtocol
-
-    init(presentationAnchor: UIWindow, authenticationService: AuthenticationServiceProtocol) {
-        self.presentationAnchor = presentationAnchor
-        self.authenticationService = authenticationService
-    }
-
-    func authenticate(_ listener: @escaping LoginListener) {
-        authenticationService.signIn(
-            provider: AuthenticationProvider.facebook(presentationAnchor)
-        ) { result in
-            listener(result)
-        }
-    }
-}
