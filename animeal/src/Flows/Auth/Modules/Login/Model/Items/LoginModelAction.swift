@@ -11,6 +11,7 @@ import Services
 enum LoginActionType: String {
     case signInViaPhoneNumber
     case signInViaAppleID
+    case signInAsGuest
 
     var priority: Int {
         switch self {
@@ -18,6 +19,8 @@ enum LoginActionType: String {
             return 0
         case .signInViaAppleID:
             return 2
+        case .signInAsGuest:
+            return 3
         }
     }
 }
@@ -44,6 +47,8 @@ struct LoginModelAction {
         case .signInViaPhoneNumber:
             return true
         case .signInViaAppleID:
+            return false
+        case .signInAsGuest:
             return false
         }
     }

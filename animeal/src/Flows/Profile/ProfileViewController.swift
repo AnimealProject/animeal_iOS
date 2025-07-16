@@ -81,7 +81,12 @@ final class ProfileViewController: BaseViewController, ProfileViewable {
     }
 
     func shouldShowCancelButton(_ shouldShow: Bool) {
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
+        let cancelButton = UIBarButtonItem(
+            title: "Cancel",
+            style: .plain,
+            target: self,
+            action: #selector(cancelTapped)
+        )
         navigationItem.rightBarButtonItem = shouldShow ? cancelButton : nil
     }
 }
@@ -199,11 +204,16 @@ private extension ProfileViewController {
                     )
                 }
                 inputsContentView.addArrangedSubview(inputView)
-            case .birthday:                
-                guard let model: AgeConsentView.AgeConsentViewModel = (item as? ProfileAgeConsentViewItem)?.ageConsentModel else { return }
+            case .birthday:
+                guard let model: AgeConsentView.AgeConsentViewModel
+                        = (item as? ProfileAgeConsentViewItem)?.ageConsentModel else {
+
+                    return
+                }
+
                 let ageConsentView = AgeConsentView()
                 ageConsentView.onTap = { [weak self] selected in
-                    self?.viewModel.handleItemEvent(.clickCheckBox(item.identifier ,selected))
+                    self?.viewModel.handleItemEvent(.clickCheckBox(item.identifier, selected))
                 }
                 ageConsentView.configure(model)
                 inputsContentView.addArrangedSubview(ageConsentView)
@@ -250,16 +260,25 @@ private extension ProfileViewController {
         viewItems.forEach { viewItem in
             switch viewItem.type {
             case .phone:
-                guard let inputView = identifiedViewInputs[viewItem.identifier] as? PhoneInputView else { return }
-                inputView.configure((viewItem as! ProfileTextFieldViewItem).phoneModel)
+                guard let inputView = identifiedViewInputs[viewItem.identifier] as? PhoneInputView,
+                      let item = viewItem as? ProfileTextFieldViewItem else {
+
+                    return
+                }
+
+                inputView.configure(item.phoneModel)
+
             case .birthday:
-                guard let inputView = ageConsentView, let model = (viewItem as? ProfileAgeConsentViewItem)?.ageConsentModel else { return }
+                guard let inputView = ageConsentView,
+                      let model = (viewItem as? ProfileAgeConsentViewItem)?.ageConsentModel else { return }
                 inputView.configure(model)
+
             default:
-                guard let inputView = identifiedViewInputs[viewItem.identifier] as? DefaultInputView else { return }
-                inputView.configure((viewItem as! ProfileTextFieldViewItem).model)
+                guard let inputView = identifiedViewInputs[viewItem.identifier] as? DefaultInputView,
+                      let item = viewItem as? ProfileTextFieldViewItem else { return }
+
+                    inputView.configure(item.model)
             }
         }
-        
     }
 }

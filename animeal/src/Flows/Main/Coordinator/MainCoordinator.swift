@@ -26,7 +26,10 @@ final class MainCoordinator: Coordinatable {
     private var backwardEvents: [HomeFlowBackwardEvent] = []
 
     private var homeCoordinator: (HomeCoordinatable & HomeCoordinatorEventHandlerProtocol)? {
-        let coordinator = childCoordinators.first { $0 is HomeCoordinatable && $0 is HomeCoordinatorEventHandlerProtocol }
+        let coordinator = childCoordinators.first {
+            $0 is HomeCoordinatable &&
+            $0 is HomeCoordinatorEventHandlerProtocol
+        }
         return coordinator as? (HomeCoordinatable & HomeCoordinatorEventHandlerProtocol)
     }
 
@@ -41,14 +44,13 @@ final class MainCoordinator: Coordinatable {
 
         let leaderboardNavigationController = UINavigationController()
         let leaderboardCoordinator = LeaderboardCoordinator(
-            navigator: Navigator(navigationController: leaderboardNavigationController),
-            completion: { [weak self] event in
-                if let event = event {
-                    self?.backwardEvents.append(event)
-                }
-                self?.stop()
+            navigator: Navigator(navigationController: leaderboardNavigationController)
+        ) { [weak self] event in
+            if let event = event {
+                self?.backwardEvents.append(event)
             }
-            )
+            self?.stop()
+        }
         leaderboardCoordinator.start()
 
         let favouritesNavigationController = UINavigationController()

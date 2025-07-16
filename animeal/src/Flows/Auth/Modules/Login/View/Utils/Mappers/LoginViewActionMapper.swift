@@ -34,7 +34,9 @@ final class LoginViewActionMapper: LoginViewActionMappable {
         case .signInViaPhoneNumber:
             return L10n.LoginScreen.signInViaMobilePhone
         case .signInViaAppleID:
-            return L10n.LoginScreen.signInViaApple
+            L10n.LoginScreen.signInViaApple
+        case .signInAsGuest:
+            L10n.LoginScreen.continueAsGuest
         }
     }
 
@@ -44,6 +46,8 @@ final class LoginViewActionMapper: LoginViewActionMappable {
             return Asset.Images.signInMobile.name
         case .signInViaAppleID:
             return Asset.Images.signInApple.name
+        case .signInAsGuest:
+            return Asset.Images.signInGuest.name
         }
     }
 }

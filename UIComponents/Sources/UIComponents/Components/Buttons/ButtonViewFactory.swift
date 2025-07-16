@@ -12,8 +12,7 @@ public struct ButtonViewFactory: ButtonViewGenerating, StyleEngineContainable {
     private enum Constants {
         static let height: CGFloat = 60.0
         static let cornerRadius: CGFloat = 30.0
-        static let titleInsets: UIEdgeInsets =
-            UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: -10.0)
+        static let titleInsets = UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: -10.0)
     }
 
     // MARK: - Initialization
@@ -53,6 +52,28 @@ public struct ButtonViewFactory: ButtonViewGenerating, StyleEngineContainable {
         )
         button.setTitleColor(
             designEngine.colors.textSecondary,
+            for: UIControl.State.highlighted
+        )
+        button.titleEdgeInsets = Constants.titleInsets
+
+        return ButtonView(contentView: button)
+    }
+
+    public func makeSignInWithGuestButton() -> ButtonView {
+        let button = UIButton()
+        button.layer.cornerRadius = Constants.cornerRadius
+        button.clipsToBounds = true
+        button.layer.borderColor = designEngine.colors.accent.cgColor
+        button.layer.borderWidth = 1
+
+        button.backgroundColor = designEngine.colors.backgroundPrimary
+        button.titleLabel?.font = designEngine.fonts.primary.bold(16.0)
+        button.setTitleColor(
+            designEngine.colors.accent,
+            for: UIControl.State.normal
+        )
+        button.setTitleColor(
+            designEngine.colors.accent.withAlphaComponent(0.5),
             for: UIControl.State.highlighted
         )
         button.titleEdgeInsets = Constants.titleInsets

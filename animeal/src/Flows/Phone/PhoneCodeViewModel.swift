@@ -67,14 +67,15 @@ private extension PhoneCodesViewModel {
 
     func updateSnapshot() {
         let viewItems = allRegions.map { region in
-            let item = PhoneCodesViewItem.common(
+            let parameters = PhoneCodesViewItem.Parameters(
                 identifier: region.rawValue,
                 isSelected: region == selectedRegion,
                 flag: region.flag,
                 code: region.phoneNumberCode,
                 countryName: region.countryName ?? .empty
             )
-            return item
+
+            return PhoneCodesViewItem.common(parameters)
         }
 
         let viewSection = PhoneCodesViewSection.main

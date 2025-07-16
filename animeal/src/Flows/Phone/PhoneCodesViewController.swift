@@ -153,7 +153,7 @@ private extension PhoneCodesViewController {
         itemIdentifier: PhoneCodesViewItem
     ) -> UICollectionViewCell {
         switch itemIdentifier {
-        case let .common(identifier, isSelected, flag, code, countryName):
+        case let .common(parameters):
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: PhoneCodesViewCommonCell.reuseIdentifier,
                 for: indexPath
@@ -161,11 +161,11 @@ private extension PhoneCodesViewController {
             else { return UICollectionViewCell() }
             cell.configure(
                 PhoneCodesViewCommonCell.Model(
-                    identifier: identifier,
-                    icon: flag,
-                    title: code,
-                    subtitle: countryName,
-                    isSelected: isSelected
+                    identifier: parameters.identifier,
+                    icon: parameters.flag,
+                    title: parameters.code,
+                    subtitle: parameters.countryName,
+                    isSelected: parameters.isSelected
                 )
             )
             return cell

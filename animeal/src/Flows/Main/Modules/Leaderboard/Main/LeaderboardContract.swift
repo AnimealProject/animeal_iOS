@@ -37,7 +37,9 @@ public protocol LeaderboardItem {
 }
 
 // MARK: - ViewModel
-typealias LeaderboardViewModelProtocol = LeaderboardViewModelLifeCycle & LeaderboardViewInteraction & LeaderboardViewState
+typealias LeaderboardViewModelProtocol = LeaderboardViewModelLifeCycle &
+    LeaderboardViewInteraction &
+    LeaderboardViewState
 
 @MainActor
 protocol LeaderboardViewModelLifeCycle: AnyObject {

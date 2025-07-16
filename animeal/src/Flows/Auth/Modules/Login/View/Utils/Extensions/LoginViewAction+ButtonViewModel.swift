@@ -36,6 +36,16 @@ extension LoginViewAction {
             let buttonView = buttonsFactory.makeSignInWithAppleButton()
             buttonView.configure(model)
             return buttonView
+        case .signInAsGuest:
+            let model = ButtonView.Model(
+                identifier: identifier,
+                viewType: ButtonView.self,
+                icon: ImageAsset.Image(named: associatedIcon),
+                title: title
+            )
+            let buttonView = buttonsFactory.makeSignInWithGuestButton()
+            buttonView.configure(model)
+            return buttonView
         }
     }
 }

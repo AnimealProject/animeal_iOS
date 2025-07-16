@@ -1,7 +1,7 @@
 import UIKit
 import Common
 
-final class FAQModuleAssembler {
+enum FAQModuleAssembler {
     static func assemble(coordinator: MorePartitionCoordinatable) -> UIViewController {
         let model = FAQModel()
         let viewModel = FAQViewModel(

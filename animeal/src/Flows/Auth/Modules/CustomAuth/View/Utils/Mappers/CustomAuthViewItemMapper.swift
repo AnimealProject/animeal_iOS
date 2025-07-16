@@ -89,7 +89,7 @@ extension Region {
             guard let digitsCount = phoneNumberDigitsCount.max()
             else { return nil }
             return (0..<digitsCount)
-                .reduce("", { partialResult, _ in partialResult + "x" })
+                .reduce("") { partialResult, _ in partialResult + "x" }
         }
     }
 

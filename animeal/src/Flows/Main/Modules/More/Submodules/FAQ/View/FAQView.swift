@@ -49,14 +49,11 @@ struct FAQView<ViewModel: FAQViewModelProtocol>: View {
 
     private var faqContent: some View {
         ForEach($viewModel.faqItems) { item in
-            QuestionRow(
-                item: item,
-                toggle: {
-                    self.viewModel.handleActionEvent(
-                        .toggleItem(item.id)
-                    )
-                }
-            )
+            QuestionRow(item: item) {
+                self.viewModel.handleActionEvent(
+                    .toggleItem(item.id)
+                )
+            }
             .frame(maxWidth: .infinity)
         }
     }

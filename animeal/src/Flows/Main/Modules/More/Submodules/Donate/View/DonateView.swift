@@ -63,14 +63,11 @@ struct DonateView<ViewModel: DonateViewModelProtocol>: View {
 
     private var paymentMethodsContent: some View {
         ForEach($viewModel.paymentMethodsItems) { item in
-            PaymentMethodRow(
-                item: item,
-                copyTapped: {
-                    self.viewModel.handleActionEvent(
-                        .tapOnCopyPaymentMethod(id: item.id)
-                    )
-                }
-            )
+            PaymentMethodRow(item: item) {
+                self.viewModel.handleActionEvent(
+                    .tapOnCopyPaymentMethod(id: item.id)
+                )
+            }
             .frame(maxWidth: .infinity)
         }
     }

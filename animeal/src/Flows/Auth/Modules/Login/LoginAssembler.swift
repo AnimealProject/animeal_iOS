@@ -18,7 +18,8 @@ final class LoginModuleAssembler {
                 LoginActionType.signInViaAppleID: AppleLoginProvider(
                     presentationAnchor: window,
                     authenticationService: AppDelegate.shared.context.authenticationService
-                )
+                ),
+                LoginActionType.signInAsGuest: nil
             ]
         )
         let viewModel = LoginViewModel(

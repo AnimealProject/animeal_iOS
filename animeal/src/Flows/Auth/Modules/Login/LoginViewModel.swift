@@ -57,7 +57,7 @@ final class LoginViewModel: LoginViewModelLifeCycle, LoginViewInteraction, Login
         switch event {
         case .tapInside(let identifier):
             let modelActions = model.fetchActions()
-            let modelAction = modelActions.first(where: { $0.identifier == identifier })
+            let modelAction = modelActions.first { $0.identifier == identifier }
             guard let modelAction else { return }
             proceedWithAuthentication(with: modelAction.type)
         }
@@ -75,6 +75,8 @@ final class LoginViewModel: LoginViewModelLifeCycle, LoginViewInteraction, Login
                     coordinator.moveFromLogin(to: LoginRoute.codeConfirmation)
                 case .authentificated:
                     coordinator.moveFromLogin(to: LoginRoute.done)
+                case .authenticatedAsGuest:
+                    coordinator.moveFromLogin(to: LoginRoute.doneAsGuest)
                 }
             } catch {
                 onErrorIsNeededToDisplay?(error.localizedDescription)

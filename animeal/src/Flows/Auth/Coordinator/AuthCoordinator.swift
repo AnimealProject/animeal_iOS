@@ -81,8 +81,13 @@ extension AuthCoordinator: LoginCoordinatable {
                 guard let self else { return }
                 try? await self.context.profileService.fetchUserAttributes()
                 let validationModel = self.context.profileService.getCurrentUserValidationModel()
+                context.profileService.getCurrentUserValidationModel().set(userMode: .registered)
                 self.moveLoggedInUser(isProfileValid: validationModel.validated)
             }
+        case .doneAsGuest:
+            context.profileService.getCurrentUserValidationModel().set(userMode: .guest)
+            stop()
+            presentingWindow.makeKeyAndVisible()
         }
     }
 }
