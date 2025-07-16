@@ -95,7 +95,7 @@ private extension AppDelegate {
             try Amplify.add(plugin: AWSAPIPlugin(sessionFactory: AppDelegate.makeDefault()))
             try Amplify.configure()
             try Amplify.API.add(interceptor: UrlQueryPlusFixInterceptor(), for: "AdminQueries")
-            Amplify.Logging.logLevel = .error
+            Amplify.Logging.logLevel = .verbose
             logInfo("[APP] Amplify configured")
         } catch {
             logError("[APP] Failed to initialize Amplify with \(error)")

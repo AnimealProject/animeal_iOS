@@ -8,6 +8,8 @@ public protocol LocationServiceHolder {
 
 // sourcery: AutoMockable
 public protocol LocationServiceProtocol {
+    // MARK: - Request location permissions
+        func requestLocationAuthorization(mode: AuthorizationMode)
     // MARK: - location access status
     var locationStatus: CLAuthorizationStatus { get }
     // MARK: - handle location once
@@ -72,6 +74,12 @@ extension LocationService: LocationServiceProtocol {
             locationManager.stopUpdatingLocation()
         }
     }
+    
+    public func requestLocationAuthorization(mode: AuthorizationMode) {
+            locationManager.requestAuthorization(mode: mode) { [weak self] status in
+                self?.logger.info("[LocationService] Location authorization updated to: \(status)")
+            }
+        }
 }
 
 // MARK: - ApplicationService
@@ -80,11 +88,7 @@ extension LocationService: ApplicationDelegateService {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [AnyHashable: Any]?
     ) -> Bool {
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            self?.locationManager.requestAuthorization(mode: .onlyInUse) {[weak self] status in
-                self?.logger.info("[LocationService] Current authorization status: \(status)")
-            }
-        }
+        logger.info("[LocationService] Application registered, but location authorization will be requested later.")
         return true
     }
 }
