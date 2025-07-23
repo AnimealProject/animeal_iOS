@@ -46,6 +46,7 @@ protocol HomeViewModelLifeCycle: AnyObject {
     func load()
     func refreshCurrentFeeding()
     func updateSelectionIfNeeded(for selection: HomeModel.FilterItemIdentifier)
+    func requestLocationPermission()
 }
 
 @MainActor

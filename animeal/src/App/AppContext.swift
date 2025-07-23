@@ -63,7 +63,6 @@ struct AppContext: AppContextProtocol {
             applicationDelegateServices: [
                 analyticsService,
                 devLoggerService,
-                locationService,
                 defaultsService
             ]
         )

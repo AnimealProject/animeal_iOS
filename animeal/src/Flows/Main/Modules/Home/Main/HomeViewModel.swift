@@ -94,6 +94,10 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
         }
     }
 
+    func requestLocationPermission() {
+        self.locationService.requestLocationAuthorization(mode: .onlyInUse)
+    }
+
     // MARK: - Interaction
     func handleActionEvent(_ event: HomeViewActionEvent) {
         switch event {
