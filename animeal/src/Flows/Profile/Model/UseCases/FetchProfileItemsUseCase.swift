@@ -83,7 +83,6 @@ extension FetchProfileItemsUseCase: FetchProfileItemsUseCaseLogic {
     /// - Parameter force: True OR False, if it is true then the API calls is done for sure. If it is flase the API call is not done.
     /// - Returns: Profile Model Item. this is the updated model.
     func callAsFunction(force: Bool) async throws -> [ProfileModelItem] {
-        var isFacebook = false
         let items = await state.items
         guard force else { return items }
         let userAttributes = try await profileService.fetchUserAttributes()
@@ -93,12 +92,6 @@ extension FetchProfileItemsUseCase: FetchProfileItemsUseCaseLogic {
             var result = partialResult
             result[attribute.key] = attribute
             return result
-        }
-
-        userAttributes.forEach { attribute in
-            if (attribute.key == .unknown("identities")) && attribute.value.contains("Facebook") {
-                isFacebook = true
-            }
         }
 
         let filledItems = items.map {

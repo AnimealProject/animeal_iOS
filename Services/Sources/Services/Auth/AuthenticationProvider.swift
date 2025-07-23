@@ -11,7 +11,5 @@ public enum AuthenticationCustomAttributesKey {
 public enum AuthenticationProvider {
     case apple(AuthenticationPresentationAnchor)
 
-    case facebook(AuthenticationPresentationAnchor)
-
     case custom(AuthenticationCustomAttributes)
 }

@@ -2,7 +2,6 @@ import UIKit
 
 public protocol ButtonViewGenerating {
     func makeSignInWithAppleButton() -> ButtonView
-    func makeSignInWithFacebookButton() -> ButtonView
     func makeSignInWithMobileButton() -> ButtonView
 
     func makeMyLocationButton() -> ButtonView
@@ -26,26 +25,6 @@ public struct ButtonViewFactory: ButtonViewGenerating, StyleEngineContainable {
         button.clipsToBounds = true
 
         button.backgroundColor = designEngine.colors.alwaysDark
-        button.titleLabel?.font = designEngine.fonts.primary.medium(16.0)
-        button.setTitleColor(
-            designEngine.colors.alwaysLight,
-            for: UIControl.State.normal
-        )
-        button.setTitleColor(
-            designEngine.colors.textSecondary,
-            for: UIControl.State.highlighted
-        )
-        button.titleEdgeInsets = Constants.titleInsets
-
-        return ButtonView(contentView: button)
-    }
-
-    public func makeSignInWithFacebookButton() -> ButtonView {
-        let button = UIButton()
-        button.layer.cornerRadius = Constants.cornerRadius
-        button.clipsToBounds = true
-
-        button.backgroundColor = designEngine.colors.elementSpecial
         button.titleLabel?.font = designEngine.fonts.primary.medium(16.0)
         button.setTitleColor(
             designEngine.colors.alwaysLight,

@@ -10,7 +10,6 @@ import Services
 
 enum LoginActionType: String {
     case signInViaPhoneNumber
-    case signInViaFacebook
     case signInViaAppleID
     case signInAsGuest
 
@@ -18,8 +17,6 @@ enum LoginActionType: String {
         switch self {
         case .signInViaPhoneNumber:
             return 0
-        case .signInViaFacebook:
-            return 1
         case .signInViaAppleID:
             return 2
         case .signInAsGuest:
@@ -49,8 +46,6 @@ struct LoginModelAction {
         switch type {
         case .signInViaPhoneNumber:
             return true
-        case .signInViaFacebook:
-            return false
         case .signInViaAppleID:
             return false
         case .signInAsGuest:
