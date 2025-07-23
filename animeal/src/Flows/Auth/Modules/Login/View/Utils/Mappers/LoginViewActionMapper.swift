@@ -32,7 +32,7 @@ final class LoginViewActionMapper: LoginViewActionMappable {
     private func mapTitle(_ input: LoginModelAction) -> String {
         switch input.type {
         case .signInViaPhoneNumber:
-            return L10n.LoginScreen.signInViaMobilePhone
+            L10n.LoginScreen.signInViaMobilePhone
         case .signInViaAppleID:
             L10n.LoginScreen.signInViaApple
         case .signInAsGuest:
