@@ -9,7 +9,7 @@ public protocol LocationServiceHolder {
 // sourcery: AutoMockable
 public protocol LocationServiceProtocol {
     // MARK: - Request location permissions
-        func requestLocationAuthorization(mode: AuthorizationMode)
+    func requestLocationAuthorization(mode: AuthorizationMode)
     // MARK: - location access status
     var locationStatus: CLAuthorizationStatus { get }
     // MARK: - handle location once
