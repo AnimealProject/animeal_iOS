@@ -41,6 +41,7 @@ enum MoreRoute {
     case faq
     case about
     case account
+    case alert
 
     init?(rawValue: String) {
         switch rawValue {
