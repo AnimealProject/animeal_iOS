@@ -24,6 +24,7 @@ final class MainCoordinator: Coordinatable {
     private let _navigator: Navigating
     private var childCoordinators: [Coordinatable]
     private var backwardEvents: [HomeFlowBackwardEvent] = []
+    private let viewModel: MainCoordinatorViewModelProtocol
 
     private var homeCoordinator: (HomeCoordinatable & HomeCoordinatorEventHandlerProtocol)? {
         let coordinator = childCoordinators.first {
@@ -89,6 +90,7 @@ final class MainCoordinator: Coordinatable {
 
         return TabBarController(items: [
             TabBarControllerItem(
+                identifier: .search,
                 tabBarItemView: PlainTabBarItemView(
                     model: TabBarItemViewModel(
                         icon: Asset.Images.glass.image,
@@ -98,6 +100,7 @@ final class MainCoordinator: Coordinatable {
                 viewController: searchNavigationController
             ),
             TabBarControllerItem(
+                identifier: .favorites,
                 tabBarItemView: PlainTabBarItemView(
                     model: TabBarItemViewModel(
                         icon: Asset.Images.heart.image,
@@ -106,6 +109,7 @@ final class MainCoordinator: Coordinatable {
                 ), viewController: favouritesNavigationController
             ),
             TabBarControllerItem(
+                identifier: .home,
                 tabBarItemView: HomeTabBarItemView(
                     model: TabBarItemViewModel(
                         icon: Asset.Images.home.image
@@ -114,6 +118,7 @@ final class MainCoordinator: Coordinatable {
                 viewController: homeNavigtionController
             ),
             TabBarControllerItem(
+                identifier: .leaderBoard,
                 tabBarItemView: PlainTabBarItemView(
                     model: TabBarItemViewModel(
                         icon: Asset.Images.podium.image,
@@ -123,6 +128,7 @@ final class MainCoordinator: Coordinatable {
                 viewController: leaderboardNavigationController
             ),
             TabBarControllerItem(
+                identifier: .more,
                 tabBarItemView: PlainTabBarItemView(
                     model: TabBarItemViewModel(
                         icon: Asset.Images.more.image,
@@ -131,7 +137,7 @@ final class MainCoordinator: Coordinatable {
                 ),
                 viewController: moreNavigtionController
             )
-        ])
+        ], delegate: self)
     }()
 
     // MARK: - Dependencies
@@ -143,10 +149,12 @@ final class MainCoordinator: Coordinatable {
     // MARK: - Initialization
     init(
         presentingWindow: UIWindow,
+        viewModel: MainCoordinatorViewModelProtocol,
         completion: (([HomeFlowBackwardEvent]) -> Void)?
     ) {
         self.presentingWindow = presentingWindow
         self.completion = completion
+        self.viewModel = viewModel
         let navigationController = UINavigationController()
         self._navigator = Navigator(navigationController: navigationController)
         self.childCoordinators = []
@@ -175,6 +183,12 @@ final class MainCoordinator: Coordinatable {
             feedingDidStartedEvent(feedDetails)
             rootTabBarController.selectHomeTab()
         }
+    }
+}
+
+extension MainCoordinator: TabBarControllerDelegate {
+    func tabBarController(_ controller: TabBarController, shouldSelectTab identifier: TabIdentifier) -> Bool {
+        viewModel.canShowTab(with: identifier)
     }
 }
 

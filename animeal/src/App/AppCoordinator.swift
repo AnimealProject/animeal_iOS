@@ -123,7 +123,8 @@ private extension AppCoordinator {
     @MainActor
     private func startMainFlow() {
         let mainCoordinator = MainCoordinator(
-            presentingWindow: mainWindow
+            presentingWindow: mainWindow,
+            viewModel: MainCoordinatorViewModel(userProfileService: profileService)
         ) { [weak self] events in
             self?.childCoordinators.removeAll()
             self?.start()
