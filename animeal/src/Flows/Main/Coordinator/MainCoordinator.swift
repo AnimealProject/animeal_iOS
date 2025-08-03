@@ -1,5 +1,6 @@
 // System
 import UIKit
+import SwiftUI
 
 // SDK
 import UIComponents
@@ -25,6 +26,7 @@ final class MainCoordinator: Coordinatable {
     private var childCoordinators: [Coordinatable]
     private var backwardEvents: [HomeFlowBackwardEvent] = []
     private let viewModel: MainCoordinatorViewModelProtocol
+    private var lastAllowedTab: TabIdentifier = .home
 
     private var homeCoordinator: (HomeCoordinatable & HomeCoordinatorEventHandlerProtocol)? {
         let coordinator = childCoordinators.first {
@@ -188,7 +190,50 @@ final class MainCoordinator: Coordinatable {
 
 extension MainCoordinator: TabBarControllerDelegate {
     func tabBarController(_ controller: TabBarController, shouldSelectTab identifier: TabIdentifier) -> Bool {
-        viewModel.canShowTab(with: identifier)
+        let canShow = viewModel.canShowTab(with: identifier)
+        guard canShow else {
+            presentGuestAlert()
+            let index = controller.items.firstIndex { $0.identifier == lastAllowedTab }
+            controller.selectedViewController(index: index)
+            return false
+        }
+
+        lastAllowedTab = identifier
+        return true
+    }
+
+    private func presentGuestAlert() {
+        let alertVC = UIHostingController(
+            rootView: GuestAlertWrapperView { [weak self] in
+                self?.dismissGuestAlert()
+            }
+        )
+        alertVC.view.backgroundColor = .clear
+        alertVC.modalPresentationStyle = .overFullScreen
+        rootTabBarController.present(alertVC, animated: false, completion: nil)
+    }
+
+    private func dismissGuestAlert() {
+        rootTabBarController.presentedViewController?.dismiss(animated: true, completion: nil)
+    }
+
+    private func makeGuestAlertView() -> some View {
+        CustomAlertView(
+            viewModel: CustomAlertView.ViewModel(
+                title: "Your are logged in as a guest. Register quickly with basic details for a better experience.",
+                message: nil,
+                primaryButtonTitle: "Register",
+                secondaryButtonTitle: "Cancel"
+            ) { [weak self] action in
+                switch action {
+                case .primary:
+                    self?.dismissGuestAlert()
+                case .secondary:
+                    self?.dismissGuestAlert()
+                }
+            },
+            isPresented: true
+        )
     }
 }
 

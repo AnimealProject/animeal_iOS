@@ -5,7 +5,7 @@ import Style
 
 public struct CustomAlertView: View {
 
-    @EnvironmentObject var designEngine: StyleEngine
+    var designEngine: StyleEngine = StyleDefaultEngine()
 
     private let viewModel: ViewModel
     private let isPresented: Bool
@@ -151,6 +151,44 @@ extension CustomAlertView {
         public enum Action {
             case primary
             case secondary
+        }
+    }
+}
+
+// MARK: - GuestAlertWrapperView
+public struct GuestAlertWrapperView: View {
+    @State private var showAlert = false
+    let dismiss: () -> Void
+
+    public init(dismiss: @escaping () -> Void) {
+        self.dismiss = dismiss
+    }
+
+    public var body: some View {
+        CustomAlertView(
+            viewModel: CustomAlertView.ViewModel(
+                title: "Your are logged in as a guest. Register quickly with basic details for a better experience.",
+                message: nil,
+                primaryButtonTitle: "Register",
+                secondaryButtonTitle: "Cancel"
+            ) { _ in
+                dismissAlert()
+            },
+            isPresented: showAlert
+        )
+        .onAppear {
+            DispatchQueue.main.async {
+                showAlert = true
+            }
+        }
+    }
+
+    private func dismissAlert() {
+        withAnimation {
+            showAlert = false
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            dismiss()
         }
     }
 }
