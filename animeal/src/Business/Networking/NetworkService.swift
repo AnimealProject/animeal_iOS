@@ -24,7 +24,6 @@ final class NetworkService: NetworkServiceProtocol {
     func query<Response: Decodable>(request: Request<Response>) async throws -> Response {
         do {
             let result = try await Amplify.API.query(request: request.convertToGraphQLRequest())
-            
             switch result {
             case .success(let response):
                 return response
@@ -35,17 +34,17 @@ final class NetworkService: NetworkServiceProtocol {
             throw mapAmplifyError(error)
         }
     }
-    
+
     // MARK: - Private Methods
-    
+
     private func mapAmplifyError(_ error: Error) -> BaseError {
         let nsError = error as NSError
-        
+
         // Check if it's a network-related error
         if nsError.domain == NSURLErrorDomain {
             return BaseError.init(error: nsError)
         }
-        
+
         // Check if it's an Amplify API error
         if let amplifyError = error as? APIError {
             return amplifyError.errorDescription.asBaseError(
@@ -53,7 +52,7 @@ final class NetworkService: NetworkServiceProtocol {
                 code: BaseError.Code.from(nsError: nsError)
             )
         }
-        
+
         // Default case - return a generic error
         return L10n.Errors.somthingWrong.asBaseError(
             failureReason: error.localizedDescription,

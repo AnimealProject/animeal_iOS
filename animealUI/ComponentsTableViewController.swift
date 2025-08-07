@@ -169,7 +169,7 @@ class ComponentsTableViewController: UIViewController,
 
                     element.configure([
                         signInWithAppleButtonView,
-                        signInWithMobileButton,
+                        signInWithMobileButton
                     ])
 
                     element.onTap = { [weak self] identifier in
