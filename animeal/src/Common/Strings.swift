@@ -80,7 +80,7 @@ internal enum L10n {
   }
   internal enum Errors {
     /// Oops something goes wrong!
-    internal static let somthingWrong = L10n.tr("Localizable", "errors.somthingWrong", fallback: "Oops something goes wrong!")
+    internal static let somethingWrong = L10n.tr("Localizable", "errors.somthingWrong", fallback: "Oops something goes wrong!")
   }
   internal enum Faq {
     /// FAQ

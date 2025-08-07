@@ -54,7 +54,7 @@ final class NetworkService: NetworkServiceProtocol {
         }
 
         // Default case - return a generic error
-        return L10n.Errors.somthingWrong.asBaseError(
+        return L10n.Errors.somethingWrong.asBaseError(
             failureReason: error.localizedDescription,
             code: .unknown
         )

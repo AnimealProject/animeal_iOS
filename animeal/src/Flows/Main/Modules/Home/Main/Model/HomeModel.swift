@@ -40,7 +40,7 @@ final class HomeModel: HomeModelProtocol {
             cachedFeedingPoints = feedingPoints
             return applyFilter(cachedFeedingPoints)
         } catch {
-            throw L10n.Errors.somthingWrong.asBaseError()
+            throw L10n.Errors.somethingWrong.asBaseError()
         }
     }
 
@@ -128,7 +128,7 @@ final class HomeModel: HomeModelProtocol {
                 feedingPoint: result.cancelFeeding,
                 feedingStatus: .none)
         } catch {
-            throw L10n.Errors.somthingWrong.asBaseError()
+            throw L10n.Errors.somethingWrong.asBaseError()
         }
     }
 
@@ -139,7 +139,7 @@ final class HomeModel: HomeModelProtocol {
             guard let feeding = try await context.networkService.query(
                 request: .get(Feeding.self, byId: feedingId)
             ) else {
-                throw L10n.Errors.somthingWrong.asBaseError()
+                throw L10n.Errors.somethingWrong.asBaseError()
             }
             let result = try await context.networkService.query(
                 request: .customMutation(
@@ -155,7 +155,7 @@ final class HomeModel: HomeModelProtocol {
                 feedingStatus: .none
             )
         } catch {
-            throw L10n.Errors.somthingWrong.asBaseError()
+            throw L10n.Errors.somethingWrong.asBaseError()
         }
     }
 
@@ -185,7 +185,7 @@ final class HomeModel: HomeModelProtocol {
                 feedingStatus: .none
             )
         } catch {
-            throw L10n.Errors.somthingWrong.asBaseError()
+            throw L10n.Errors.somethingWrong.asBaseError()
         }
     }
 
@@ -198,7 +198,7 @@ final class HomeModel: HomeModelProtocol {
             }
             return self.mapper.mapFeedingPoint(point, isFavorite: isFavorite)
         } else {
-            throw L10n.Errors.somthingWrong.asBaseError()
+            throw L10n.Errors.somethingWrong.asBaseError()
         }
     }
 

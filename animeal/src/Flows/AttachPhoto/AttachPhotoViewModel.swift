@@ -123,7 +123,7 @@ private extension AttachPhotoViewModel {
 
     private func uploadMedia(image: UIImage, progressModel: ProgressViewModel) async throws -> String {
         guard let data = image.jpegData(compressionQuality: 1) else {
-            throw L10n.Errors.somthingWrong.asBaseError()
+            throw L10n.Errors.somethingWrong.asBaseError()
         }
         defer {
             progressModel.isVisible = false
