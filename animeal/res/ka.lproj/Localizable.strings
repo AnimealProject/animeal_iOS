@@ -15,6 +15,7 @@
 "profile.surname"                                 = "გვარი";
 "profile.phoneNumber"                             = "Ტელეფონის ნომერი";
 "profile.email"                                   = "ელ.ფოსტა";
+"profile.consent"                                 = "";
 "profile.birthDate"                               = "Დაბადების თარიღი";
 "profile.edit"                                    = "რედაქტირება";
 "profile.save"                                    = "Გადარჩენა";
@@ -26,6 +27,7 @@
 "profile.discardEdits.dialogHeader"               = "ნამდვილად გსურთ ცვლილებების გაუქმება?";
 "profile.errors.empty"                            = "ველი ცარიელია";
 "profile.errors.ageLimit"                         = "ასაკობრივი ზღვარი არის %@ წელი";
+"profile.errors.incorrectEmailAddress"            = "";
 "profile.errors.incorrectFormat"                  = "ფორმატი არასწორია";
 "profile.errors.incorrectCharactersLength"        = "სიგრძე უნდა იყოს 2-დან 35-მდე";
 "profile.errors.incorrectCharacters"              = "უნდა შეიცავდეს მხოლოდ ასოებს";
@@ -104,3 +106,5 @@
 "leaderBoard.empty"                               = "ლიდერბორდი აჩვენებს მოხალისეთა რეიტინგს";
 "verification.resendCode.titleTime"               = "კოდის ხელახლა გაგზავნა";
 "loginScreen.continueAsGuest"                     = "შესვლა სტუმრად";
+"loginScreen.registerOrLogin"                     = "";
+"loginScreen.register"                            = "";
