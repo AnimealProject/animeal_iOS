@@ -107,4 +107,4 @@
 "verification.resendCode.titleTime"               = "კოდის ხელახლა გაგზავნა";
 "loginScreen.continueAsGuest"                     = "შესვლა სტუმრად";
 "loginScreen.registerOrLogin"                     = "";
-"loginScreen.register"                            = "";
+"action.register"                                 = "";

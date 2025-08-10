@@ -45,6 +45,8 @@ internal enum L10n {
     internal static let ok = L10n.tr("Localizable", "action.ok", fallback: "Ok")
     /// Open settings
     internal static let openSettings = L10n.tr("Localizable", "action.openSettings", fallback: "Open settings")
+    /// Register
+    internal static let register = L10n.tr("Localizable", "action.register", fallback: "Register")
     /// Show on map
     internal static let showOnMap = L10n.tr("Localizable", "action.showOnMap", fallback: "Show on map")
     /// Yes
@@ -138,6 +140,8 @@ internal enum L10n {
   internal enum LoginScreen {
     /// Continue as a Guest
     internal static let continueAsGuest = L10n.tr("Localizable", "loginScreen.continueAsGuest", fallback: "Continue as a Guest")
+    /// Register or log in to unlock advanced features!
+    internal static let registerOrLogin = L10n.tr("Localizable", "loginScreen.registerOrLogin", fallback: "Register or log in to unlock advanced features!")
     /// Sign in with Apple
     internal static let signInViaApple = L10n.tr("Localizable", "loginScreen.signInViaApple", fallback: "Sign in with Apple")
     /// Sign in with Facebook
@@ -235,6 +239,8 @@ internal enum L10n {
       internal static let incorrectCharacters = L10n.tr("Localizable", "profile.errors.incorrectCharacters", fallback: "Must contain only letters")
       /// Length must be between 2 and 35
       internal static let incorrectCharactersLength = L10n.tr("Localizable", "profile.errors.incorrectCharactersLength", fallback: "Length must be between 2 and 35")
+      /// Please enter a valid email address
+      internal static let incorrectEmailAddress = L10n.tr("Localizable", "profile.errors.incorrectEmailAddress", fallback: "Please enter a valid email address")
       /// Format is incorrect
       internal static let incorrectFormat = L10n.tr("Localizable", "profile.errors.incorrectFormat", fallback: "Format is incorrect")
     }

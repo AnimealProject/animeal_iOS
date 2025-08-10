@@ -107,4 +107,4 @@
 "verification.resendCode.titleTime"               = "Resend code in";
 "loginScreen.continueAsGuest"                     = "Continue as a Guest";
 "loginScreen.registerOrLogin"                     = "Register or log in to unlock advanced features!";
-"loginScreen.register"                            = "Register";
+"action.register"                                 = "Register";

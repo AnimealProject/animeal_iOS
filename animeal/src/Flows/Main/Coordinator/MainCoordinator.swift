@@ -216,25 +216,6 @@ extension MainCoordinator: TabBarControllerDelegate {
     private func dismissGuestAlert() {
         rootTabBarController.presentedViewController?.dismiss(animated: true, completion: nil)
     }
-
-    private func makeGuestAlertView() -> some View {
-        CustomAlertView(
-            viewModel: CustomAlertView.ViewModel(
-                title: "Your are logged in as a guest. Register quickly with basic details for a better experience.",
-                message: nil,
-                primaryButtonTitle: "Register",
-                secondaryButtonTitle: "Cancel"
-            ) { [weak self] action in
-                switch action {
-                case .primary:
-                    self?.dismissGuestAlert()
-                case .secondary:
-                    self?.dismissGuestAlert()
-                }
-            },
-            isPresented: true
-        )
-    }
 }
 
 private extension TabBarController {
