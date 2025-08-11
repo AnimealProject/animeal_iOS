@@ -60,7 +60,7 @@ public final class Navigator: Navigating {
     }
 
     func dismiss(animated: Bool, completion: (() -> Void)?) {
-        navigationController?.presentedViewController?.dismiss(animated: animated, completion: completion)
+        navigationController?.presentingViewController?.dismiss(animated: animated, completion: completion)
     }
 
     // MARK: - Push navigation

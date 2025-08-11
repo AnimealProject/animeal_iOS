@@ -35,7 +35,7 @@ public struct GuestAlertWrapperView: View {
         }
 
         Task {
-            try? await Task.sleep(nanoseconds: 300_000_000)
+            try? await Task.sleep(nanoseconds: UIComponents.defaultAnimationDuration)
             await MainActor.run { dismiss() }
         }
     }
