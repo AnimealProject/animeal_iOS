@@ -15,6 +15,7 @@
 "profile.surname"                                 = "Surname";
 "profile.phoneNumber"                             = "Phone Number";
 "profile.email"                                   = "E-mail";
+"profile.consent"                                 = "You acknowledge that you are atleast 15 years old";
 "profile.birthDate"                               = "Birthdate";
 "profile.edit"                                    = "Edit";
 "profile.save"                                    = "Save";
@@ -26,10 +27,10 @@
 "profile.discardEdits.dialogHeader"               = "Do you really want to discard the changes?";
 "profile.errors.empty"                            = "Field is empty";
 "profile.errors.ageLimit"                         = "The age limit is %@ years";
+"profile.errors.incorrectEmailAddress"            = "Please enter a valid email address";
 "profile.errors.incorrectFormat"                  = "Format is incorrect";
 "profile.errors.incorrectCharactersLength"        = "Length must be between 2 and 35";
 "profile.errors.incorrectCharacters"              = "Must contain only letters";
-"profile.consent"                                 = "You acknowledge that you are atleast 15 years old";
 "phone.title"                                     = "Please, enter your phone";
 "phone.fields.phoneTitlle"                        = "Phone Number";
 "phone.fields.passwordTitlle"                     = "Password";
@@ -105,3 +106,5 @@
 "leaderBoard.empty"                               = "Leaderboard will show the rating of volunteers";
 "verification.resendCode.titleTime"               = "Resend code in";
 "loginScreen.continueAsGuest"                     = "Continue as a Guest";
+"loginScreen.registerOrLogin"                     = "Register or log in to unlock advanced features!";
+"action.register"                                 = "Register";

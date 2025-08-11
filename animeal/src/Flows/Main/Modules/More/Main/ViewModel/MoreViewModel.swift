@@ -1,4 +1,5 @@
 import Foundation
+import Services
 
 final class MoreViewModel: MoreViewModelLifeCycle, MoreViewInteraction, MoreViewState {
 
@@ -6,6 +7,7 @@ final class MoreViewModel: MoreViewModelLifeCycle, MoreViewInteraction, MoreView
     private let model: MoreModelProtocol
     private let coordinator: MoreCoordinatable
     private let mapper: MoreItemViewMappable
+    private let userProfileService: UserProfileServiceProtocol
 
     // MARK: - State
     var onActionsHaveBeenPrepared: (([MoreItemView]) -> Void)?
@@ -14,11 +16,13 @@ final class MoreViewModel: MoreViewModelLifeCycle, MoreViewInteraction, MoreView
     init(
         coordinator: MoreCoordinatable,
         mapper: MoreItemViewMappable = MoreItemViewMapper(),
-        model: MoreModelProtocol
+        model: MoreModelProtocol,
+        userProfileService: UserProfileServiceProtocol
     ) {
         self.coordinator = coordinator
         self.mapper = mapper
         self.model = model
+        self.userProfileService = userProfileService
     }
 
     // MARK: - Life cycle
@@ -38,7 +42,26 @@ final class MoreViewModel: MoreViewModelLifeCycle, MoreViewInteraction, MoreView
             guard let route = MoreRoute(rawValue: identifier) else {
                 return
             }
+
+            guard canRouteTo(route: route) else {
+                coordinator.routeTo(.alert)
+                return
+            }
+
             coordinator.routeTo(route)
+        }
+    }
+
+    func canRouteTo(route: MoreRoute) -> Bool {
+        guard userProfileService.getCurrentUserValidationModel().userMode == .guest else {
+            return true
+        }
+
+        switch route {
+        case .profilePage, .account:
+            return false
+        case .donate, .faq, .about, .alert:
+            return true
         }
     }
 }

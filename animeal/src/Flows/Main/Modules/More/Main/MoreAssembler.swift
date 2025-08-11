@@ -3,6 +3,7 @@ import Common
 
 final class MoreModuleAssembler {
     private let coordinator: MoreCoordinatable
+    private let userProfileService = AppDelegate.shared.context.profileService
 
     init(coordinator: MoreCoordinatable) {
         self.coordinator = coordinator
@@ -10,7 +11,7 @@ final class MoreModuleAssembler {
 
     func assemble() -> UIViewController {
         let model = MoreModel()
-        let viewModel = MoreViewModel(coordinator: coordinator, model: model)
+        let viewModel = MoreViewModel(coordinator: coordinator, model: model, userProfileService: userProfileService)
         let view = MoreViewController(viewModel: viewModel)
 
         viewModel.onActionsHaveBeenPrepared = { [weak view] actions in

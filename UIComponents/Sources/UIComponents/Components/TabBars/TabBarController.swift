@@ -7,22 +7,39 @@ public protocol TabBarControllerProtocol {
     func selectedViewController(index: Int?)
 }
 
+public enum TabIdentifier: String, CaseIterable {
+    case home
+    case search
+    case favorites
+    case leaderBoard
+    case more
+}
+
 public struct TabBarControllerItem {
+    public let identifier: TabIdentifier
     public let tabBarItemView: TabBarItemView
     public let viewController: UIViewController
 
     public init(
+        identifier: TabIdentifier,
         tabBarItemView: TabBarItemView,
         viewController: UIViewController
     ) {
+        self.identifier = identifier
         self.tabBarItemView = tabBarItemView
         self.viewController = viewController
     }
 }
 
+public protocol TabBarControllerDelegate: AnyObject {
+    func tabBarController(_ controller: TabBarController, shouldSelectTab identifier: TabIdentifier) -> Bool
+}
+
 public class TabBarController: UIViewController {
     // MARK: - Public properties
     public let items: [TabBarControllerItem]
+    public let itemsByIdentifier: [TabIdentifier: TabBarControllerItem]
+    public weak var delegate: TabBarControllerDelegate?
 
     // MARK: - Private properties
     private let contentView = UIView()
@@ -40,8 +57,10 @@ public class TabBarController: UIViewController {
     }()
 
     // MARK: - Initialization
-    public init(items: [TabBarControllerItem]) {
+    public init(items: [TabBarControllerItem], delegate: TabBarControllerDelegate) {
         self.items = items
+        self.itemsByIdentifier = Dictionary(uniqueKeysWithValues: items.map { ($0.identifier, $0) })
+        self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -107,9 +126,17 @@ extension TabBarController: TabBarControllerProtocol {
 private extension TabBarController {
     // MARK: - Private interface
     func changeSelectedViewController() {
-        guard let index = tabBarView.selectedItemIndex else { return }
-        let newViewController = items[safe: index]?.viewController
+        guard let index = tabBarView.selectedItemIndex,
+              let identifier = items[safe: index]?.identifier else {
+            assertionFailure("Selected item index is out of bounds or identifier is nil.")
+            return
+        }
 
+        guard delegate?.tabBarController(self, shouldSelectTab: identifier) == true else {
+            return
+        }
+
+        let newViewController = itemsByIdentifier[identifier]?.viewController
         if selectedViewController == newViewController,
             let navigation = selectedViewController as? UINavigationController {
             // As in standard UITabBarController.

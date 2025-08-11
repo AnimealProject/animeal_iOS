@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import SwiftUI
 import UIComponents
 
 @MainActor
@@ -55,7 +56,7 @@ final class MoreCoordinator: Coordinatable, ActivityDisplayable, AlertCoordinata
 
 extension MoreCoordinator: MoreCoordinatable {
     func routeTo(_ route: MoreRoute) {
-        var viewController: UIViewController
+        var viewController: UIViewController?
         switch route {
         case .profilePage:
             viewController = ProfileChangeableAssembler.assembly(coordinator: self)
@@ -67,8 +68,28 @@ extension MoreCoordinator: MoreCoordinatable {
             viewController = AboutModuleAssembler.assemble(coordinator: self)
         case .account:
             viewController = MorePartitionModuleAssembler(coordinator: self).assemble(.account)
+        case .alert:
+            presentGuestAlert()
         }
-        _navigator.push(viewController, animated: true, completion: nil)
+
+        if let viewController {
+            _navigator.push(viewController, animated: true, completion: nil)
+        }
+    }
+
+    private func presentGuestAlert() {
+        let alertVC = UIHostingController(
+            rootView: GuestAlertWrapperView { [weak self] in
+                self?.dismissGuestAlert()
+            }
+        )
+        alertVC.view.backgroundColor = .clear
+        alertVC.modalPresentationStyle = .overFullScreen
+        _navigator.present(alertVC, animated: false, completion: nil)
+    }
+
+    private func dismissGuestAlert() {
+        _navigator.dismiss(animated: false, completion: nil)
     }
 }
 
