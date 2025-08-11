@@ -50,7 +50,9 @@ class NavigationMapController: NavigationViewControllerDelegate {
 
     private lazy var annotationManager: (point: PointAnnotationManager, polygon: PolygonAnnotationManager) = {
         let point = navigationMapView.mapView.annotations.makePointAnnotationManager()
-        let polygon = navigationMapView.mapView.annotations.makePolygonAnnotationManager(layerPosition: .below(point.id))
+        let polygon = navigationMapView.mapView
+            .annotations
+            .makePolygonAnnotationManager(layerPosition: .below(point.id))
         return (point, polygon)
     }()
 

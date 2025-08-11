@@ -8,25 +8,56 @@ import Amplify
 
 final class NetworkService: NetworkServiceProtocol {
     func mutate<Response: Decodable>(request: Request<Response>) async throws -> Response {
-        let result = try await Amplify.API.mutate(request: request.convertToGraphQLRequest())
-
-        switch result {
-        case .success(let response):
-            return response
-        case .failure(let error):
-            throw error
+        do {
+            let result = try await Amplify.API.mutate(request: request.convertToGraphQLRequest())
+            switch result {
+            case .success(let response):
+                return response
+            case .failure(let error):
+                throw mapAmplifyError(error)
+            }
+        } catch {
+            throw mapAmplifyError(error)
         }
     }
 
     func query<Response: Decodable>(request: Request<Response>) async throws -> Response {
-        let result = try await Amplify.API.query(request: request.convertToGraphQLRequest())
-
-        switch result {
-        case .success(let response):
-            return response
-        case .failure(let error):
-            throw error
+        do {
+            let result = try await Amplify.API.query(request: request.convertToGraphQLRequest())
+            switch result {
+            case .success(let response):
+                return response
+            case .failure(let error):
+                throw mapAmplifyError(error)
+            }
+        } catch {
+            throw mapAmplifyError(error)
         }
+    }
+
+    // MARK: - Private Methods
+
+    private func mapAmplifyError(_ error: Error) -> BaseError {
+        let nsError = error as NSError
+
+        // Check if it's a network-related error
+        if nsError.domain == NSURLErrorDomain {
+            return BaseError.init(error: nsError)
+        }
+
+        // Check if it's an Amplify API error
+        if let amplifyError = error as? APIError {
+            return amplifyError.errorDescription.asBaseError(
+                failureReason: amplifyError.localizedDescription,
+                code: BaseError.Code.from(nsError: nsError)
+            )
+        }
+
+        // Default case - return a generic error
+        return L10n.Errors.somethingWrong.asBaseError(
+            failureReason: error.localizedDescription,
+            code: .unknown
+        )
     }
 }
 
