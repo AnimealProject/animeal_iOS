@@ -138,7 +138,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
             else {
                 Task { [weak self] in
                     await self?.model.updateItem(text, false, forIdentifier: identifier)
-                    await self?.updateViewActions()
+                    await self?.validateItems()
                 }
                 return ProfileViewText(
                     caretOffset: text?.count ?? .zero,
