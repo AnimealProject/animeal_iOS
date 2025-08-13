@@ -72,8 +72,8 @@ internal enum L10n {
       internal static let text = L10n.tr("Localizable", "donate.copy.text", fallback: "Text copied")
     }
     internal enum Footer {
-      /// Thank you for donating!
-      internal static let text = L10n.tr("Localizable", "donate.footer.text", fallback: "Thank you for donating!")
+      /// Thank you - your donation makes a difference!
+      internal static let text = L10n.tr("Localizable", "donate.footer.text", fallback: "Thank you - your donation makes a difference!")
     }
     internal enum Header {
       /// We can leave a donation for animals and in support of the developers
@@ -82,7 +82,7 @@ internal enum L10n {
   }
   internal enum Errors {
     /// Oops something goes wrong!
-    internal static let somethingWrong = L10n.tr("Localizable", "errors.somthingWrong", fallback: "Oops something goes wrong!")
+    internal static let somethingWrong = L10n.tr("Localizable", "errors.somethingWrong", fallback: "Oops something goes wrong!")
   }
   internal enum Faq {
     /// FAQ
@@ -115,8 +115,8 @@ internal enum L10n {
       internal static let feedingTimerOver = L10n.tr("Localizable", "feeding.alert.feedingTimerOver", fallback: "Your feeding timer is over. You can book a new feeding from the home page.")
       /// To continue please grant the permission to use the Camera
       internal static let grantCameraPermission = L10n.tr("Localizable", "feeding.alert.grantCameraPermission", fallback: "To continue please grant the permission to use the Camera")
-      /// We can calculate the route to the feeding point. To use the function please switch on the Location service
-      internal static let grantLocationPermission = L10n.tr("Localizable", "feeding.alert.grantLocationPermission", fallback: "We can calculate the route to the feeding point. To use the function please switch on the Location service")
+      /// We can't calculate the route to the feeding point. To use the function please switch on the Location service
+      internal static let grantLocationPermission = L10n.tr("Localizable", "feeding.alert.grantLocationPermission", fallback: "We can't calculate the route to the feeding point. To use the function please switch on the Location service")
     }
     internal enum Error {
       /// You can't start feeding while another one is in progress

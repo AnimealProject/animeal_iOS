@@ -147,14 +147,7 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
             )
 
         case .tapCancelLocationRequest:
-            coordinator.routeTo(
-                .feed(
-                    FeedingPointFeedDetails(
-                        identifier: model.feedingPointId,
-                        coordinates: model.feedingPointLocation
-                    )
-                )
-            )
+            break
         }
     }
 }
