@@ -63,7 +63,7 @@
 "question.deleteAccount"                          = "დარწმუნებული ხართ, რომ გსურთ თქვენი ანგარიშის წაშლა?";
 "action.min"                                      = "წუთი";
 "text.header.lastFeeder"                          = "ბოლო მიმწოდებელი";
-"text.oneHourToFeed"                              = "თქვენ გექნებათ 1 საათი წერტილის შესანახად";
+"text.oneHourToFeed"                              = "თქვენ გექნებათ 1 საათი საკვების მიწოდებისათვის კვების პუნქტზე. წინასწარ დიდი მადლობა!\n\n";
 "text.thankYou"                                   = "Გმადლობთ";
 "text.animalsAreFed"                              = "ცხოველები იკვებება";
 "text.left"                                       = "დატოვა";
