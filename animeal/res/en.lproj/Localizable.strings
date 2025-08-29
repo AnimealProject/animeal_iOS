@@ -63,7 +63,7 @@
 "question.deleteAccount"                          = "Are you sure you want to delete your account?";
 "action.min"                                      = "min";
 "text.header.lastFeeder"                          = "Last feeder";
-"text.oneHourToFeed"                              = "You will have 1 hour to feed the point";
+"text.oneHourToFeed"                              = "You will have 1 hour to provide food at the Feeding Point. Thank you in advance!";
 "text.thankYou"                                   = "Thank You!";
 "text.animalsAreFed"                              = "Animals are fed";
 "text.left"                                       = "left";

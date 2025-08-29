@@ -28,6 +28,9 @@ private extension TextHeaderTitleView {
         titleView.trailingAnchor ~= trailingAnchor
         titleView.topAnchor ~= topAnchor
         titleView.bottomAnchor ~= bottomAnchor
+        titleView.numberOfLines = 0
+        titleView.textAlignment = .center
+        titleView.lineBreakMode = .byWordWrapping
 
         titleView.textColor = designEngine.colors.textPrimary
         titleView.font = designEngine.fonts.primary.bold(18)

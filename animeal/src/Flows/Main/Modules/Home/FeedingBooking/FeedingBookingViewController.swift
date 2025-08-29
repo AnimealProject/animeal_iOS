@@ -55,6 +55,8 @@ final class FeedingBookingViewController: UIViewController, FeedingBookingViewab
         contentView.addSubview(header.prepareForAutoLayout())
         header.centerXAnchor ~= contentView.centerXAnchor
         header.topAnchor ~= topImageView.bottomAnchor + 40
+        header.leadingAnchor ~= contentView.leadingAnchor + 16 // Add side constraints
+        header.trailingAnchor ~= contentView.trailingAnchor - 16 // Add side constraints
 
         let centerImageView = UIImageView(image: Asset.Images.bigDogAtBowlIcon.image)
         centerImageView.contentMode = .scaleAspectFit
