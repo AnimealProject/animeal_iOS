@@ -10,7 +10,7 @@ final class QuestionMapper: QuestionMappable {
         FAQModel.Question(
             id: input.id,
             question: input.localizedValue,
-            answer: input.localizedAnswer
+            answer: input.answer ?? input.localizedAnswer
         )
     }
 }
