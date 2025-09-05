@@ -45,10 +45,14 @@ internal enum L10n {
     internal static let ok = L10n.tr("Localizable", "action.ok", fallback: "Ok")
     /// Open settings
     internal static let openSettings = L10n.tr("Localizable", "action.openSettings", fallback: "Open settings")
+    /// Privacy Policy
+    internal static let privacyPolicy = L10n.tr("Localizable", "action.privacyPolicy", fallback: "Privacy Policy")
     /// Register
     internal static let register = L10n.tr("Localizable", "action.register", fallback: "Register")
     /// Show on map
     internal static let showOnMap = L10n.tr("Localizable", "action.showOnMap", fallback: "Show on map")
+    /// Terms & Conditions
+    internal static let termsAndConditions = L10n.tr("Localizable", "action.termsAndConditions", fallback: "Terms & Conditions")
     /// Yes
     internal static let yes = L10n.tr("Localizable", "action.yes", fallback: "Yes")
   }

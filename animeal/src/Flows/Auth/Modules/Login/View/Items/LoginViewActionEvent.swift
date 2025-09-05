@@ -9,4 +9,5 @@ import Foundation
 
 enum LoginViewActionEvent {
     case tapInside(_ identifier: String)
+    case tapOnLegalLink(_ identifier: String)
 }

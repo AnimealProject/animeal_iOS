@@ -7,6 +7,7 @@
 
 // System
 import UIKit
+import SafariServices
 
 // SDK
 import UIComponents
@@ -32,6 +33,8 @@ final class LoginViewController: UIViewController, LoginViewable {
         item.layer.shadowRadius = 4.0
         return item
     }()
+    
+    private let legalLinksRow = TextLegalLinksRow()
 
     // MARK: - Dependencies
     private let viewModel: LoginViewModelProtocol
@@ -74,9 +77,28 @@ final class LoginViewController: UIViewController, LoginViewable {
     }
 
     func applyActions(_ actions: [LoginViewAction]) {
-        buttonsView.configure(
-            actions.map { $0.buttonView }
+        var actionsStack: [UIView] = actions.map { $0.buttonView }
+        
+        let termsModel = ButtonView.Model(
+            identifier: "https://animalproject.ge/about.html",
+            viewType: ButtonView.self,
+            title: L10n.Action.termsAndConditions
         )
+        
+        let privacyModel = ButtonView.Model(
+            identifier: "https://animalproject.ge/contact.html",
+            viewType: ButtonView.self,
+            title: L10n.Action.privacyPolicy
+        )
+        
+        // Create and append a TextLegalLinksRow to the list of views
+        legalLinksRow.configure(with: TextLegalLinksRow.Model(
+            leftButtonModel: termsModel,
+            rightButtonModel: privacyModel
+        ))
+        actionsStack.append(legalLinksRow)
+        
+        buttonsView.configure(actionsStack)
     }
 
     // MARK: - Setup
@@ -101,6 +123,9 @@ final class LoginViewController: UIViewController, LoginViewable {
             self?.viewModel.handleActionEvent(LoginViewActionEvent.tapInside(identifier))
             self?.logLoginButtonTap(identifier)
         }
+        legalLinksRow.onTap = { [weak self] identifier in
+            self?.viewModel.handleActionEvent(LoginViewActionEvent.tapOnLegalLink(identifier))
+        }
     }
 
     // MARK: - Binding
@@ -110,6 +135,9 @@ final class LoginViewController: UIViewController, LoginViewable {
         }
         viewModel.onActionsHaveBeenPrepaped = { [weak self] viewActions in
             self?.applyActions(viewActions)
+        }
+        viewModel.onOpenWebPage = { [weak self] urlString in
+            self?.openWebPage(with: urlString)
         }
     }
 
@@ -122,5 +150,17 @@ final class LoginViewController: UIViewController, LoginViewable {
                 targets: [AnalyticsTargetType.firebase]
             )
         )
+    }
+
+    private func openWebPage(with urlString: String) {
+        guard let url = URL(string: urlString) else {
+            print("Invalid URL: \(urlString)") // Log anything unexpected
+            return
+        }
+        
+        // Create an SFSafariViewController instance
+        let safariVC = SFSafariViewController(url: url)
+        safariVC.preferredControlTintColor = .systemBlue
+        present(safariVC, animated: true, completion: nil)
     }
 }

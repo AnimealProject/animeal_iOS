@@ -108,3 +108,5 @@
 "loginScreen.continueAsGuest"                     = "შესვლა სტუმრად";
 "loginScreen.registerOrLogin"                     = "";
 "action.register"                                 = "";
+"action.termsAndConditions"                       = "";
+"action.privacyPolicy"                            = "";
