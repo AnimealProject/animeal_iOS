@@ -11,6 +11,22 @@ final class CustomAuthViewController: BaseViewController, CustomAuthViewable {
     private let contentView = UIStackView().prepareForAutoLayout()
     private let inputsContentView = UIStackView().prepareForAutoLayout()
     private let buttonsView = ButtonContainerView().prepareForAutoLayout()
+    private let legalTermsLabel: LinkLabel = {
+        let linkLabel = LinkLabel()
+        linkLabel.numberOfLines = 0
+        linkLabel.lineBreakMode = .byWordWrapping
+        let termsString = L10n.Action.termsAndConditions
+        let privacyString = L10n.Action.privacyPolicy
+        let legalTermsString = L10n.Action.acknowledgeTCandPP
+        
+        let termsRange = (legalTermsString as NSString).range(of: termsString)
+        let privacyRange = (legalTermsString as NSString).range(of: privacyString)
+        
+        linkLabel.configure(text: legalTermsString, termsRange: termsRange, privacyRange: privacyRange)
+        
+        return linkLabel
+    }().prepareForAutoLayout()
+
 
     // MARK: - Dependencies
     private let viewModel: CustomAuthViewModelProtocol
@@ -91,10 +107,19 @@ private extension CustomAuthViewController {
         contentView.spacing = 58.0
 
         inputsContentView.axis = .vertical
-        inputsContentView.spacing = 58.0
+        inputsContentView.spacing = 16.0
 
         contentView.addArrangedSubview(headerView)
         contentView.addArrangedSubview(inputsContentView)
+        
+        legalTermsLabel.setContentHuggingPriority(.required, for: .vertical)
+        legalTermsLabel.linkTapHandler = { identifier in
+            if identifier == "terms" {
+                // Show Terms
+            } else if identifier == "privacy" {
+                // Show Privacy Policy
+            }
+        }
 
         view.addSubview(buttonsView)
         buttonsView.leadingAnchor ~= view.leadingAnchor
@@ -180,6 +205,7 @@ private extension CustomAuthViewController {
                 inputsContentView.addArrangedSubview(inputView)
             }
         }
+        inputsContentView.addArrangedSubview(legalTermsLabel)
     }
 
     func updateViewItems(_ viewItems: [CustomAuthViewItem]) {
