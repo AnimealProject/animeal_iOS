@@ -108,3 +108,5 @@
 "loginScreen.continueAsGuest"                     = "Continue as a Guest";
 "loginScreen.registerOrLogin"                     = "Register or log in to unlock advanced features!";
 "action.register"                                 = "Register";
+"action.termsAndConditions"                       = "Terms & Conditions";
+"action.privacyPolicy"                            = "Privacy Policy";

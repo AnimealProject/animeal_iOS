@@ -18,9 +18,9 @@ enum LoginActionType: String {
         case .signInViaPhoneNumber:
             return 0
         case .signInViaAppleID:
-            return 2
+            return 1
         case .signInAsGuest:
-            return 3
+            return 2
         }
     }
 }

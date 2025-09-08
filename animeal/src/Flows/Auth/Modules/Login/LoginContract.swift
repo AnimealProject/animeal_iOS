@@ -27,6 +27,7 @@ protocol LoginViewInteraction: AnyObject {
 protocol LoginViewState: AnyObject {
     var onOnboardingStepsHaveBeenPrepared: (([LoginViewOnboardingStep]) -> Void)? { get set }
     var onActionsHaveBeenPrepaped: (([LoginViewAction]) -> Void)? { get set }
+    var onOpenWebPage: ((String) -> Void)? { get set }
 }
 
 // MARK: - Model

@@ -22,6 +22,7 @@ final class LoginViewModel: LoginViewModelLifeCycle, LoginViewInteraction, Login
     var onOnboardingStepsHaveBeenPrepared: (([LoginViewOnboardingStep]) -> Void)?
     var onActionsHaveBeenPrepaped: (([LoginViewAction]) -> Void)?
     var onErrorIsNeededToDisplay: ((String) -> Void)?
+    var onOpenWebPage: ((String) -> Void)?
 
     // MARK: - Initialization
     init(
@@ -60,6 +61,9 @@ final class LoginViewModel: LoginViewModelLifeCycle, LoginViewInteraction, Login
             let modelAction = modelActions.first { $0.identifier == identifier }
             guard let modelAction else { return }
             proceedWithAuthentication(with: modelAction.type)
+            
+        case .tapOnLegalLink(let identifier):
+            onOpenWebPage?(identifier)
         }
     }
 
