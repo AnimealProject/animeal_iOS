@@ -7,6 +7,9 @@
 
 import UIKit
 
+// SDK
+import Common
+
 public extension LinkLabel {
     struct Link {
         public let range: NSRange
@@ -42,7 +45,7 @@ public final class LinkLabel: UILabel {
             .foregroundColor: designEngine.colors.textPrimary,
             .font: designEngine.fonts.primary.light(14) ?? UIFont.systemFont(ofSize: 14),
         ])
-        let accentColor = designEngine.colors.accent//UIColor.systemBlue // [Use your DesignEngine color]
+        let accentColor = designEngine.colors.accent
 
         // Style links
         attributed.addAttributes([
@@ -59,8 +62,8 @@ public final class LinkLabel: UILabel {
 
         // Save link ranges/identifiers
         links = [
-            Link(range: termsRange, identifier: "terms"),
-            Link(range: privacyRange, identifier: "privacy")
+            Link(range: termsRange, identifier: Constants.URLs.termsAndConditions),
+            Link(range: privacyRange, identifier: Constants.URLs.privacyPolicy)
         ]
     }
 
@@ -92,7 +95,7 @@ public final class LinkLabel: UILabel {
 
         let glyphIndex = layoutManager.glyphIndex(for: point, in: textContainer)
         let characterIndex = layoutManager.characterIndexForGlyph(at: glyphIndex)
-
+        
         for link in links {
             if NSLocationInRange(characterIndex, link.range) {
                 linkTapHandler?(link.identifier)

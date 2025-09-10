@@ -12,6 +12,7 @@ import SafariServices
 // SDK
 import UIComponents
 import Services
+import Common
 
 final class LoginViewController: UIViewController, LoginViewable {
     // MARK: - UI properties
@@ -80,13 +81,13 @@ final class LoginViewController: UIViewController, LoginViewable {
         var actionsStack: [UIView] = actions.map { $0.buttonView }
         
         let termsModel = ButtonView.Model(
-            identifier: "https://animalproject.ge/about.html",
+            identifier: Constants.URLs.termsAndConditions,
             viewType: ButtonView.self,
             title: L10n.Action.termsAndConditions
         )
         
         let privacyModel = ButtonView.Model(
-            identifier: "https://animalproject.ge/contact.html",
+            identifier: Constants.URLs.privacyPolicy,
             viewType: ButtonView.self,
             title: L10n.Action.privacyPolicy
         )

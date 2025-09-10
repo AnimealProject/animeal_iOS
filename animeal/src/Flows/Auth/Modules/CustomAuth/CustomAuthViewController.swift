@@ -1,5 +1,6 @@
 // System
 import UIKit
+import SafariServices
 
 // SDK
 import UIComponents
@@ -14,7 +15,6 @@ final class CustomAuthViewController: BaseViewController, CustomAuthViewable {
     private let legalTermsLabel: LinkLabel = {
         let linkLabel = LinkLabel()
         linkLabel.numberOfLines = 0
-        linkLabel.lineBreakMode = .byWordWrapping
         let termsString = L10n.Action.termsAndConditions
         let privacyString = L10n.Action.privacyPolicy
         let legalTermsString = L10n.Action.acknowledgeTCandPP
@@ -113,12 +113,8 @@ private extension CustomAuthViewController {
         contentView.addArrangedSubview(inputsContentView)
         
         legalTermsLabel.setContentHuggingPriority(.required, for: .vertical)
-        legalTermsLabel.linkTapHandler = { identifier in
-            if identifier == "terms" {
-                // Show Terms
-            } else if identifier == "privacy" {
-                // Show Privacy Policy
-            }
+        legalTermsLabel.linkTapHandler = { [weak self] identifier in
+            self?.viewModel.handleActionEvent(.legalLinkTapped(identifier))
         }
 
         view.addSubview(buttonsView)
@@ -142,6 +138,9 @@ private extension CustomAuthViewController {
         }
         viewModel.onActionsHaveBeenPrepared = { [weak self] viewActions in
             self?.applyActions(viewActions)
+        }
+        viewModel.onOpenWebPage = { [weak self] url in
+            self?.openWebPage(with: url)
         }
 
         viewModel.load()
@@ -228,4 +227,16 @@ private extension CustomAuthViewController {
             }
         }
     }
+    
+    func openWebPage(with urlString: String) {
+            guard let url = URL(string: urlString) else {
+                print("Invalid URL: \(urlString)") // Log anything unexpected
+                return
+            }
+
+            // Create an SFSafariViewController instance
+            let safariVC = SFSafariViewController(url: url)
+            safariVC.preferredControlTintColor = .systemBlue
+            present(safariVC, animated: true, completion: nil)
+        }
 }
