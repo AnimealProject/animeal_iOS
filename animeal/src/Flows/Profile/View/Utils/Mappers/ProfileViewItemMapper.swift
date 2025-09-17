@@ -64,17 +64,6 @@ struct ProfileViewItemMapper: ProfileViewItemMappable {
                 ageConsentModel: AgeConsentView.AgeConsentViewModel(state: state, title: L10n.Profile.consent)
             )
             return viewItem
-        case .legal:
-            let state: CheckBoxState = input.selected ? .checked : .unchecked
-            let viewItem = ProfileLegalAcknowledgeViewItem(
-                identifier: input.identifier,
-                type: input.type,
-                state: input.state,
-                isEditable: input.isEditable,
-                title: input.type.title,
-                legalAcknowledgeModel: LegalAcknowledgeView.LegalAcknowledgeViewModel(state: state, title: L10n.Action.termsAndConditions)
-            )
-            return viewItem
         default:
             let viewItem = ProfileTextFieldViewItem(
                 identifier: input.identifier,

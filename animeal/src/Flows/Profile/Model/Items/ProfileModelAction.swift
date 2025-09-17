@@ -166,7 +166,7 @@ final class ProfileModelEditAction: ProfileModelAction {
             switch item.type {
             case .name, .surname, .email:
                 return false
-            case .phone, .birthday, .legal:
+            case .phone, .birthday:
                 return true
             }
         }
@@ -219,7 +219,7 @@ final class ProfileModelSaveAction: ProfileModelAction {
             switch item.type {
             case .name, .surname, .email:
                 return false
-            case .phone, .birthday, .legal:
+            case .phone, .birthday:
                 return true
             }
         }

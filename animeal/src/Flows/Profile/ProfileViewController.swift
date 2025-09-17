@@ -217,19 +217,6 @@ private extension ProfileViewController {
                 }
                 ageConsentView.configure(model)
                 inputsContentView.addArrangedSubview(ageConsentView)
-            case .legal:
-                guard let model: LegalAcknowledgeView.LegalAcknowledgeViewModel
-                        = (item as? ProfileLegalAcknowledgeViewItem)?.legalAcknowledgeModel else {
-
-                    return
-                }
-
-                let legalAcknowledgeView = LegalAcknowledgeView()
-                legalAcknowledgeView.onTap = { [weak self] selected in
-                    self?.viewModel.handleItemEvent(.clickCheckBox(item.identifier, selected))
-                }
-                legalAcknowledgeView.configure(model)
-                inputsContentView.addArrangedSubview(legalAcknowledgeView)
             default:
                 guard let model = (item as? ProfileTextFieldViewItem)?.model else { return }
                 let inputView = DefaultInputView()

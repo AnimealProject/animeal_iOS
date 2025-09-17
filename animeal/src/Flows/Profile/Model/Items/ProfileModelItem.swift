@@ -8,8 +8,6 @@ enum ProfileItemType: Hashable {
     case email
     case phone(Region)
     case birthday
-    case legal
-
 
     var title: String {
         switch self {
@@ -23,8 +21,6 @@ enum ProfileItemType: Hashable {
             return L10n.Profile.phoneNumber
         case .birthday:
             return L10n.Profile.birthDate
-        case .legal:
-            return L10n.Action.acknowledgeTCandPP
         }
     }
 }
@@ -94,14 +90,12 @@ struct ProfileModelItem: Hashable, ProfileModelValidatable {
             return try validatePhone(region)
         case .birthday:
             return try validateCheckBox()
-        case .legal:
-            return try validateCheckBox()
         }
     }
 
     func transform(_ text: String?) -> String? {
         switch type {
-        case .name, .surname, .email, .legal:
+        case .name, .surname, .email:
             return text
         case .phone(let region):
             return trasformPhone(text, region: region)
@@ -303,8 +297,7 @@ extension Array where Element == ProfileModelItem {
             ProfileModelItem(identifier: UUID().uuidString, type: .surname, style: .readonly, state: .normal),
             ProfileModelItem(identifier: UUID().uuidString, type: .email, style: .readonly, state: .normal),
             ProfileModelItem(identifier: UUID().uuidString, type: .phone(.GE), style: .readonly, state: .normal),
-            ProfileModelItem(identifier: UUID().uuidString, type: .birthday, style: .readonly, state: .normal),
-            ProfileModelItem(identifier: UUID().uuidString, type: .legal, style: .readonly, state: .normal)
+            ProfileModelItem(identifier: UUID().uuidString, type: .birthday, style: .readonly, state: .normal)
         ]
     }
 
@@ -344,8 +337,6 @@ extension ProfileItemType {
             return .phoneNumber
         case .birthday:
             return .birthDate
-        case .legal:
-            return .custom("")
         }
     }
 

@@ -22,10 +22,6 @@ protocol ProfileViewAgeConsentProtocol: ProfileViewItemProtocol {
     var ageConsentModel: AgeConsentView.AgeConsentViewModel { get }
 }
 
-protocol ProfileLegalAcknowledgeProtocol: ProfileViewItemProtocol {
-    var legalAcknowledgeModel: LegalAcknowledgeView.LegalAcknowledgeViewModel { get }
-}
-
 struct ProfileViewItemsSnapshot {
     let resetPreviousItems: Bool
     let viewItems: [ProfileViewItemProtocol]
@@ -48,13 +44,4 @@ struct ProfileAgeConsentViewItem: ProfileViewAgeConsentProtocol {
     let isEditable: Bool
     let title: String
     let ageConsentModel: AgeConsentView.AgeConsentViewModel
-}
-
-struct ProfileLegalAcknowledgeViewItem: ProfileLegalAcknowledgeProtocol {
-    let identifier: String
-    let type: ProfileItemType
-    let state: ProfileItemState
-    let isEditable: Bool
-    let title: String
-    let legalAcknowledgeModel: LegalAcknowledgeView.LegalAcknowledgeViewModel
 }
