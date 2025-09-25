@@ -43,14 +43,14 @@ public final class ButtonContainerView: UIView {
         containerView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         // Iterate over each UIView in the array
         content.forEach { item in
-            
+
             // If the item is a ButtonView, set its onTap behavior
             if let buttonView = item as? ButtonView {
                 buttonView.onTap = { [weak self] identifier in
                     self?.onTap?(identifier)
                 }
             }
-            
+
             containerView.addArrangedSubview(item)
         }
     }
