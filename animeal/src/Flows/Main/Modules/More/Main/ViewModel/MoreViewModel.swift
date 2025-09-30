@@ -62,6 +62,10 @@ final class MoreViewModel: MoreViewModelLifeCycle, MoreViewInteraction, MoreView
             return false
         case .donate, .faq, .about, .alert:
             return true
+        case .termsAndConditions:
+            return true
+        case .privacyPolicy:
+            return true
         }
     }
 }

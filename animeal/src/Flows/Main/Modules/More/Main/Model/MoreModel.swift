@@ -12,7 +12,9 @@ final class MoreModel: MoreModelProtocol {
             MoreActionModel(type: .donate, title: L10n.More.donate),
             MoreActionModel(type: .faq, title: L10n.More.faq),
             MoreActionModel(type: .about, title: L10n.More.aboutShort),
-            MoreActionModel(type: .account, title: L10n.More.account)
+            MoreActionModel(type: .account, title: L10n.More.account),
+            MoreActionModel(type: .termsAndConditions, title: L10n.Action.termsAndConditions),
+            MoreActionModel(type: .privacyPolicy, title: L10n.Action.privacyPolicy)
         ]
     }
 }
