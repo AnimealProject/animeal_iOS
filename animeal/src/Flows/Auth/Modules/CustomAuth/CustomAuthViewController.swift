@@ -1,5 +1,6 @@
 // System
 import UIKit
+import SafariServices
 
 // SDK
 import UIComponents
@@ -11,6 +12,21 @@ final class CustomAuthViewController: BaseViewController, CustomAuthViewable {
     private let contentView = UIStackView().prepareForAutoLayout()
     private let inputsContentView = UIStackView().prepareForAutoLayout()
     private let buttonsView = ButtonContainerView().prepareForAutoLayout()
+    private let legalTermsLabel: LinkLabel = {
+        let linkLabel = LinkLabel()
+        linkLabel.numberOfLines = 0
+        let termsString = L10n.Action.termsAndConditions
+        let privacyString = L10n.Action.privacyPolicy
+        let legalTermsString = L10n.Action.acknowledgeTCandPP
+        
+        let termsRange = (legalTermsString as NSString).range(of: termsString)
+        let privacyRange = (legalTermsString as NSString).range(of: privacyString)
+        
+        linkLabel.configure(text: legalTermsString, termsRange: termsRange, privacyRange: privacyRange)
+        
+        return linkLabel
+    }().prepareForAutoLayout()
+
 
     // MARK: - Dependencies
     private let viewModel: CustomAuthViewModelProtocol
@@ -91,10 +107,15 @@ private extension CustomAuthViewController {
         contentView.spacing = 58.0
 
         inputsContentView.axis = .vertical
-        inputsContentView.spacing = 58.0
+        inputsContentView.spacing = 16.0
 
         contentView.addArrangedSubview(headerView)
         contentView.addArrangedSubview(inputsContentView)
+        
+        legalTermsLabel.setContentHuggingPriority(.required, for: .vertical)
+        legalTermsLabel.linkTapHandler = { [weak self] identifier in
+            self?.viewModel.handleActionEvent(.legalLinkTapped(identifier))
+        }
 
         view.addSubview(buttonsView)
         buttonsView.leadingAnchor ~= view.leadingAnchor
@@ -117,6 +138,9 @@ private extension CustomAuthViewController {
         }
         viewModel.onActionsHaveBeenPrepared = { [weak self] viewActions in
             self?.applyActions(viewActions)
+        }
+        viewModel.onOpenWebPage = { [weak self] url in
+            self?.openWebPage(with: url)
         }
 
         viewModel.load()
@@ -180,6 +204,7 @@ private extension CustomAuthViewController {
                 inputsContentView.addArrangedSubview(inputView)
             }
         }
+        inputsContentView.addArrangedSubview(legalTermsLabel)
     }
 
     func updateViewItems(_ viewItems: [CustomAuthViewItem]) {
@@ -202,4 +227,16 @@ private extension CustomAuthViewController {
             }
         }
     }
+    
+    func openWebPage(with urlString: String) {
+            guard let url = URL(string: urlString) else {
+                print("Invalid URL: \(urlString)") // Log anything unexpected
+                return
+            }
+
+            // Create an SFSafariViewController instance
+            let safariVC = SFSafariViewController(url: url)
+            safariVC.preferredControlTintColor = .systemBlue
+            present(safariVC, animated: true, completion: nil)
+        }
 }

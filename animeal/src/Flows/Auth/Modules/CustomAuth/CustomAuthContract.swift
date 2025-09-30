@@ -28,6 +28,7 @@ protocol CustomAuthViewState: AnyObject {
     var onHeaderHasBeenPrepared: ((CustomAuthViewHeader) -> Void)? { get set }
     var onItemsHaveBeenPrepared: ((CustomAuthUpdateViewItemsSnapshot) -> Void)? { get set }
     var onActionsHaveBeenPrepared: (([CustomAuthViewAction]) -> Void)? { get set }
+    var onOpenWebPage: ((String) -> Void)? { get set }
 }
 
 // MARK: - Model

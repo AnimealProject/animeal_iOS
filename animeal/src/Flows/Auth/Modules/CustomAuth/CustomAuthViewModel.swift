@@ -18,6 +18,7 @@ final class CustomAuthViewModel: CustomAuthViewModelProtocol {
     var onHeaderHasBeenPrepared: ((CustomAuthViewHeader) -> Void)?
     var onItemsHaveBeenPrepared: ((CustomAuthUpdateViewItemsSnapshot) -> Void)?
     var onActionsHaveBeenPrepared: (([CustomAuthViewAction]) -> Void)?
+    var onOpenWebPage: ((String) -> Void)?
 
     // MARK: - Initialization
     init(
@@ -140,6 +141,8 @@ final class CustomAuthViewModel: CustomAuthViewModelProtocol {
                     to: .picker { openPickerComponents.maker(completion) }
                 )
             }
+        case .legalLinkTapped(let identifier):
+            onOpenWebPage?(identifier)
         }
     }
 }

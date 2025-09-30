@@ -11,7 +11,7 @@ public extension TextLegalLinksRow {
     struct Model {
         public let leftButtonModel: ButtonView.Model
         public let rightButtonModel: ButtonView.Model
-        
+ 
         public init(leftButtonModel: ButtonView.Model, rightButtonModel: ButtonView.Model) {
             self.leftButtonModel = leftButtonModel
             self.rightButtonModel = rightButtonModel
@@ -20,31 +20,31 @@ public extension TextLegalLinksRow {
 }
 
 public final class TextLegalLinksRow: UIView {
-    
+
     private let leftButton = TextButtonView(contentView: UIButton())
     private let rightButton = TextButtonView(contentView: UIButton())
-    
+
     // Init
     public override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
         setupConstraints()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // Configure with Model
     public func configure(with model: Model) {
         // Create button models for Terms & Conditions and Privacy Policy
         leftButton.configure(model.leftButtonModel)
         rightButton.configure(model.rightButtonModel)
-        
+
         leftButton.onTap = { [weak self] identifier in
             self?.onTap?(identifier)
         }
-        
+
         rightButton.onTap = { [weak self] identifier in
             self?.onTap?(identifier)
         }
@@ -72,7 +72,7 @@ public final class TextLegalLinksRow: UIView {
             // Position the right button
             rightButton.trailingAnchor.constraint(equalTo: trailingAnchor),
             rightButton.topAnchor.constraint(equalTo: topAnchor),
-            rightButton.bottomAnchor.constraint(equalTo: bottomAnchor),
+            rightButton.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 }

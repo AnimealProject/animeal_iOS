@@ -15,6 +15,8 @@ internal enum L10n {
     internal static let appVersion = L10n.tr("Localizable", "about.appVersion", fallback: "App version")
   }
   internal enum Action {
+    /// By continuing, you agree to Animeal's Terms & Conditions and Privacy Policy
+    internal static let acknowledgeTCandPP = L10n.tr("Localizable", "action.acknowledgeTCandPP", fallback: "By continuing, you agree to Animeal's Terms & Conditions and Privacy Policy")
     /// Agree
     internal static let agree = L10n.tr("Localizable", "action.agree", fallback: "Agree")
     /// Back to home
