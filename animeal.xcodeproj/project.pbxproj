@@ -3339,7 +3339,7 @@
 			repositoryURL = "https://github.com/aws-amplify/amplify-swift";
 			requirement = {
 				kind = exactVersion;
-				version = 2.33.3;
+				version = 2.51.0;
 			};
 		};
 		DB97C52829277BB50089A9FA /* XCRemoteSwiftPackageReference "mapbox-navigation-ios" */ = {

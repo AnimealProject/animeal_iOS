@@ -159,12 +159,26 @@ struct AuthenticationAmplifyConverter: AuthenticationAmplifyConverting, AmplifyA
             return AuthenticationDetailedError.limitExceededException
         case .resourceConflictException:
             return AuthenticationDetailedError.resourceConflictException
+        case .webAuthnChallengeNotFound:
+            return AuthenticationDetailedError.webAuthnChallengeNotFound
+        case .webAuthnClientMismatch:
+            return AuthenticationDetailedError.webAuthnClientMismatch
+        case .webAuthnNotSupported:
+            return AuthenticationDetailedError.webAuthnNotSupported
+        case .webAuthnNotEnabled:
+            return AuthenticationDetailedError.webAuthnNotEnabled
+        case .webAuthnOriginNotAllowed:
+            return AuthenticationDetailedError.webAuthnOriginNotAllowed
+        case .webAuthnRelyingPartyMismatch:
+            return AuthenticationDetailedError.webAuthnRelyingPartyMismatch
+        case .webAuthnConfigurationMissing:
+            return AuthenticationDetailedError.webAuthnConfigurationMissing
         }
     }
 
     func convertAmplifySignUpState(_ state: AuthSignUpResult) -> AuthenticationSignUpState? {
         switch state.nextStep {
-        case .done:
+        case .done, .completeAutoSignIn(_):
             return AuthenticationSignUpState(
                 AuthenticationSignUpStep.done
             )
@@ -213,6 +227,14 @@ struct AuthenticationAmplifyConverter: AuthenticationAmplifyConverting, AmplifyA
                 )
             )
         case .done, .confirmSignInWithTOTPCode, .continueSignInWithTOTPSetup, .continueSignInWithMFASelection:
+            return AuthenticationSignInState(
+                nextStep: AuthenticationSignInStep.done
+            )
+        case .confirmSignInWithPassword,
+             .continueSignInWithEmailMFASetup,
+             .continueSignInWithMFASetupSelection,
+             .confirmSignInWithOTP,
+             .continueSignInWithFirstFactorSelection:
             return AuthenticationSignInState(
                 nextStep: AuthenticationSignInStep.done
             )

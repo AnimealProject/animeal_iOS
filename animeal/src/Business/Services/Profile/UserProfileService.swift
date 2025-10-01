@@ -139,7 +139,7 @@ final class UserProfileService: UserProfileServiceProtocol {
                 }
                 let request = RESTRequest(path: path, queryParameters: query, body: nil)
                 let result = try await Amplify.API.get(request: request)
-                let list: UserList = try JSONDecoder().decode(responseBody: result)
+                let list: UserList = try JSONDecoder().decode(UserList.self, from: result)
                 let userNamesBatch: [String: String] = list.users.reduce(into: [:]) { dict, item in
                     dict[item.id] = item.fullUserName
                 }
