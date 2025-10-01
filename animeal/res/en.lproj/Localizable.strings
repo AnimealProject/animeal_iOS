@@ -110,3 +110,4 @@
 "action.register"                                 = "Register";
 "action.termsAndConditions"                       = "Terms & Conditions";
 "action.privacyPolicy"                            = "Privacy Policy";
+"action.acknowledgeTCandPP"                       = "By continuing, you agree to Animeal's Terms & Conditions and Privacy Policy";
