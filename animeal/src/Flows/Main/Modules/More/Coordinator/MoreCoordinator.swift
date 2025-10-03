@@ -1,7 +1,9 @@
+import Common
 import Foundation
 import UIKit
 import SwiftUI
 import UIComponents
+import SafariServices
 
 @MainActor
 final class MoreCoordinator: Coordinatable, ActivityDisplayable, AlertCoordinatable {
@@ -70,11 +72,23 @@ extension MoreCoordinator: MoreCoordinatable {
             viewController = MorePartitionModuleAssembler(coordinator: self).assemble(.account)
         case .alert:
             presentGuestAlert()
+        case .termsAndConditions:
+            openSafariView(Constants.URLs.termsAndConditions)
+        case .privacyPolicy:
+            openSafariView(Constants.URLs.privacyPolicy)
         }
 
         if let viewController {
             _navigator.push(viewController, animated: true, completion: nil)
         }
+    }
+
+    private func openSafariView(_ url: String) {
+        guard let url = URL(string: url) else {
+            return
+        }
+        let safariVC = SFSafariViewController(url: url)
+        _navigator.present(safariVC, animated: true, completion: nil)
     }
 
     private func presentGuestAlert() {
