@@ -23,7 +23,13 @@ final class UserValidationModel: UserProfileValidationModel {
     }
 
     // MARK: - UserProfileValidationModel
-    var validated: Bool { phoneNumberVerified && areAllNecessaryFieldsFilled || userMode == .guest}
+    var validated: Bool {
+        guard userMode != .guest else {
+            return true
+        }
+
+        return phoneNumberVerified && areAllNecessaryFieldsFilled
+    }
 
     func handleUserAttributesEvent(_ attributes: [UserProfileAttribute]) {
         let attributes = attributes.reduce([UserProfileAttributeKey: String]()) { partialResult, attribute in
@@ -43,6 +49,14 @@ final class UserValidationModel: UserProfileValidationModel {
 
     func set(userMode: UserMode?) {
         self.userMode = userMode
+    }
+
+    func reset() {
+        isSignedIn = false
+        userMode = nil
+        phoneNumberVerified = false
+        emailVerified = false
+        areAllNecessaryFieldsFilled = false
     }
 }
 

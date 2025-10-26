@@ -1,12 +1,13 @@
 import Common
 import Foundation
 import UIKit
+import Services
 import SwiftUI
 import UIComponents
 import SafariServices
 
 @MainActor
-final class MoreCoordinator: Coordinatable, ActivityDisplayable, AlertCoordinatable {
+final class MoreCoordinator: Coordinatable, ActivityDisplayable, AlertCoordinatable, GuestAlertCoordinatable {
     // MARK: - Dependencies
     private var _navigator: Navigating
     private let completion: ((HomeFlowBackwardEvent?) -> Void)?
@@ -71,7 +72,17 @@ extension MoreCoordinator: MoreCoordinatable {
         case .account:
             viewController = MorePartitionModuleAssembler(coordinator: self).assemble(.account)
         case .alert:
-            presentGuestAlert()
+            presentGuestAlert(
+                onRegister: { [weak self] in
+                    self?.dismissGuestAlert(animated: false) {
+                        self?.backwardEvent = .event(.needsAuthentication)
+                        self?.stop()
+                    }
+                },
+                onDismiss: { [weak self] in
+                    self?.dismissGuestAlert(animated: false)
+                }
+            )
         case .termsAndConditions:
             openSafariView(Constants.URLs.termsAndConditions)
         case .privacyPolicy:

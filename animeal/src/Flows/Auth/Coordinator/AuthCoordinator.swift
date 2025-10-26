@@ -61,7 +61,9 @@ final class AuthCoordinator: Coordinatable, AlertCoordinatable, ActivityDisplaya
             ProfileAfterUnknownAuthAssembler.assembly(coordinator: $0)
         }
     ) {
-        guard !isProfileValid else { return stop() }
+        guard !isProfileValid else {
+            return stop()
+        }
 
         let viewController = profileMaker(self)
         _navigator.push(viewController, animated: false, completion: nil)
@@ -72,6 +74,7 @@ extension AuthCoordinator: LoginCoordinatable {
     func moveFromLogin(to route: LoginRoute) {
         switch route {
         case .customAuthentication:
+            context.profileService.getCurrentUserValidationModel().reset()
             let viewController = CustomAuthAssembler.assembly(coordinator: self)
             _navigator.push(viewController, animated: true, completion: nil)
         case .codeConfirmation:
@@ -85,6 +88,7 @@ extension AuthCoordinator: LoginCoordinatable {
                 self.moveLoggedInUser(isProfileValid: validationModel.validated)
             }
         case .doneAsGuest:
+            context.profileService.getCurrentUserValidationModel().reset()
             context.profileService.getCurrentUserValidationModel().set(userMode: .guest)
             stop()
             presentingWindow.makeKeyAndVisible()
@@ -133,8 +137,10 @@ extension AuthCoordinator: VerificationCoordinatable {
         case .finish:
             Task { [weak self] in
                 guard let self else { return }
+                
                 try? await self.context.profileService.fetchUserAttributes()
                 let validationModel = self.context.profileService.getCurrentUserValidationModel()
+                self.context.profileService.getCurrentUserValidationModel().set(userMode: .registered)
                 self.moveLoggedInUser(isProfileValid: validationModel.validated) {
                     ProfileAfterUnknownAuthAssembler.assembly(coordinator: $0)
                 }

@@ -18,6 +18,7 @@ public protocol UserProfileValidationModel {
 
     func handleUserAttributesEvent(_ attributes: [UserProfileAttribute])
     func set(userMode: UserMode?)
+    func reset()
 }
 
 public protocol UserProfileServiceProtocol: AnyObject {
@@ -28,6 +29,10 @@ public protocol UserProfileServiceProtocol: AnyObject {
     /// Returns the currently logged in user validation model
     ///
     func getCurrentUserValidationModel() -> UserProfileValidationModel
+    
+    /// Prepares the validation model for authentication flow
+    ///
+    func prepareForAuthentication()
 
     /// Fetch user attributes for the current user.
     ///
