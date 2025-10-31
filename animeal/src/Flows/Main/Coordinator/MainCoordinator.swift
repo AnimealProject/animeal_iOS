@@ -12,6 +12,7 @@ enum HomeFlowBackwardEvent {
 
 enum HomeFlowBackwardAction {
     case shouldShowToast(String)
+    case needsAuthentication
 }
 
 enum MainFlowSwitchAction {
@@ -20,7 +21,7 @@ enum MainFlowSwitchAction {
 }
 
 @MainActor
-final class MainCoordinator: Coordinatable {
+final class MainCoordinator: Coordinatable, GuestAlertCoordinatable {
     // MARK: - Private properties
     private let _navigator: Navigating
     private var childCoordinators: [Coordinatable]
@@ -192,7 +193,16 @@ extension MainCoordinator: TabBarControllerDelegate {
     func tabBarController(_ controller: TabBarController, shouldSelectTab identifier: TabIdentifier) -> Bool {
         let canShow = viewModel.canShowTab(with: identifier)
         guard canShow else {
-            presentGuestAlert()
+            presentGuestAlert(
+                onRegister: { [weak self] in
+                    self?.dismissGuestAlert(animated: true) {
+                        self?.startLoginFlow()
+                    }
+                },
+                onDismiss: { [weak self] in
+                    self?.dismissGuestAlert()
+                }
+            )
             let index = controller.items.firstIndex { $0.identifier == lastAllowedTab }
             controller.selectedViewController(index: index)
             return false
@@ -202,19 +212,16 @@ extension MainCoordinator: TabBarControllerDelegate {
         return true
     }
 
-    private func presentGuestAlert() {
-        let alertVC = UIHostingController(
-            rootView: GuestAlertWrapperView { [weak self] in
-                self?.dismissGuestAlert()
-            }
-        )
-        alertVC.view.backgroundColor = .clear
-        alertVC.modalPresentationStyle = .overFullScreen
-        rootTabBarController.present(alertVC, animated: false, completion: nil)
-    }
-
-    private func dismissGuestAlert() {
-        rootTabBarController.presentedViewController?.dismiss(animated: true, completion: nil)
+    private func startLoginFlow() {
+        let authCoordinator = AuthCoordinator(
+            presentingWindow: presentingWindow
+        ) { [weak self] in
+            self?.childCoordinators.removeAll()
+            self?.start()
+        }
+        childCoordinators.removeAll()
+        childCoordinators.append(authCoordinator)
+        authCoordinator.start()
     }
 }
 

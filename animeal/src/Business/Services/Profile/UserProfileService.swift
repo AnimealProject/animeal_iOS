@@ -35,6 +35,10 @@ final class UserProfileService: UserProfileServiceProtocol {
     func getCurrentUserValidationModel() -> UserProfileValidationModel {
         return userValidationModel
     }
+    
+    func prepareForAuthentication() {
+        userValidationModel.reset()
+    }
 
     @discardableResult
     func fetchUserAttributes() async throws -> [UserProfileAttribute] {

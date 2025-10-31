@@ -261,9 +261,9 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
 
 private extension FeedingPointsService {
     func updateFeedingPoint(byIdentifier identifier: String) {
-        Task { [weak self] in
+        Task {
             do {
-                try await self?.fetch(byIdentifier: identifier)
+                try await fetch(byIdentifier: identifier)
             } catch {
                 logError("[FeedingPointsService] Feeding point cannot be updated by identifier due to absence.")
             }

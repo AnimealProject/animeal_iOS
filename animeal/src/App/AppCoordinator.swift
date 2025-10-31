@@ -83,6 +83,11 @@ private extension AppCoordinator {
             if let view = self.authWindow.rootViewController?.view {
                 Toast.show(message: title, anchor: view)
             }
+        case .needsAuthentication:
+            profileService.prepareForAuthentication()
+            Task { @MainActor in
+                self.startAuthFlow()
+            }
         }
     }
 
@@ -93,18 +98,7 @@ private extension AppCoordinator {
         } else if isSignedIn, isCurrentUserValidated {
             startMainFlow()
         } else {
-            let authenticationCoordinator = AuthCoordinator(
-                presentingWindow: authWindow
-            ) { [weak self] in
-                self?.childCoordinators.removeAll()
-                self?.start()
-            }
-            childCoordinators.append(authenticationCoordinator)
-            authenticationCoordinator.start()
-            homeFlowBackwardAction.forEach { action in
-                handleBackwardAction(action)
-            }
-            homeFlowBackwardAction.removeAll()
+            startAuthFlow()
         }
     }
 
@@ -127,16 +121,42 @@ private extension AppCoordinator {
             viewModel: MainCoordinatorViewModel(userProfileService: profileService)
         ) { [weak self] events in
             self?.childCoordinators.removeAll()
-            self?.start()
+            
+            var shouldRestartFlow = true
             events.forEach { event in
                 switch event {
                 case .event(let action):
-                    self?.homeFlowBackwardAction.append(action)
+                    if case .needsAuthentication = action {
+                        shouldRestartFlow = false
+                        self?.handleBackwardAction(action)
+                    } else {
+                        self?.homeFlowBackwardAction.append(action)
+                    }
                 }
+            }
+            
+            if shouldRestartFlow {
+                self?.start()
             }
         }
         childCoordinators.append(mainCoordinator)
         mainCoordinator.start()
+    }
+    
+    @MainActor
+    private func startAuthFlow() {
+        let authenticationCoordinator = AuthCoordinator(
+            presentingWindow: authWindow
+        ) { [weak self] in
+            self?.childCoordinators.removeAll()
+            self?.start()
+        }
+        childCoordinators.append(authenticationCoordinator)
+        authenticationCoordinator.start()
+        homeFlowBackwardAction.forEach { action in
+            handleBackwardAction(action)
+        }
+        homeFlowBackwardAction.removeAll()
     }
 }
 
