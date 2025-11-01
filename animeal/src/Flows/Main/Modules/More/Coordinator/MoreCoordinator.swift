@@ -102,17 +102,6 @@ extension MoreCoordinator: MoreCoordinatable {
         _navigator.present(safariVC, animated: true, completion: nil)
     }
 
-    private func presentGuestAlert() {
-        let alertVC = UIHostingController(
-            rootView: GuestAlertWrapperView { [weak self] in
-                self?.dismissGuestAlert()
-            }
-        )
-        alertVC.view.backgroundColor = .clear
-        alertVC.modalPresentationStyle = .overFullScreen
-        _navigator.present(alertVC, animated: false, completion: nil)
-    }
-
     private func dismissGuestAlert() {
         _navigator.dismiss(animated: false, completion: nil)
     }
