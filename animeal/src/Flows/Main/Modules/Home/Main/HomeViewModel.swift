@@ -317,6 +317,23 @@ private extension HomeViewModel {
     }
 
     func handleTapFeedingPoint(pointId: String) {
+        // Check if user is in guest mode
+        let userValidationModel = userProfileService.getCurrentUserValidationModel()
+        if userValidationModel.userMode == .guest {
+            coordinator.presentGuestAlert(
+                onRegister: { [weak self] in
+                    guard let self = self else { return }
+                    self.coordinator.dismissGuestAlert(animated: true) {
+                        self.coordinator.needsAuthenticationEvent?()
+                    }
+                },
+                onDismiss: { [weak self] in
+                    self?.coordinator.dismissGuestAlert(animated: true, completion: nil)
+                }
+            )
+            return
+        }
+
         switch feedingStatus {
         case .progress:
             coordinator.routeTo(.attachPhoto(pointId))

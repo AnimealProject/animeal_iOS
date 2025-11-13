@@ -5,7 +5,7 @@ import UIKit
 import UIComponents
 import Style
 
-final class HomeCoordinator: Coordinatable, HomeCoordinatorEventHandlerProtocol {
+final class HomeCoordinator: Coordinatable, HomeCoordinatorEventHandlerProtocol, GuestAlertCoordinatable {
     // MARK: - Dependencies
     private let _navigator: Navigating
     private let completion: (() -> Void)?
@@ -20,6 +20,7 @@ final class HomeCoordinator: Coordinatable, HomeCoordinatorEventHandlerProtocol 
     var feedingDidStartedEvent: ((FeedingPointFeedDetails) -> Void)?
     var feedingDidFinishEvent: (([String]) -> Void)?
     var moveToFeedingPointEvent: ((String) -> Void)?
+    var needsAuthenticationEvent: (() -> Void)?
 
     // MARK: - Initialization
     init(

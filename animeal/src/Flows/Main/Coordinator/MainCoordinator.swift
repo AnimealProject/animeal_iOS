@@ -87,12 +87,21 @@ final class MainCoordinator: Coordinatable, GuestAlertCoordinatable {
         ) { [weak self] in
             self?.stop()
         }
+        homeCoordinator.needsAuthenticationEvent = { [weak self] in
+            self?.startLoginFlow()
+        }
         homeCoordinator.start()
 
-        childCoordinators = [moreCoordinator, homeCoordinator, favouritesCoordinator, leaderboardCoordinator]
+        childCoordinators = [
+            moreCoordinator,
+            homeCoordinator,
+            favouritesCoordinator,
+            leaderboardCoordinator
+        ]
 
-        return TabBarController(items: [
-            TabBarControllerItem(
+        return TabBarController(
+            items: [
+                TabBarControllerItem(
                 identifier: .search,
                 tabBarItemView: PlainTabBarItemView(
                     model: TabBarItemViewModel(

@@ -59,6 +59,9 @@
 		78BEB18E293811C900A11CA7 /* FavouritesModelMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BEB18D293811C900A11CA7 /* FavouritesModelMapper.swift */; };
 		7F171C972E22C26400EA33F9 /* MainCoordinatorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F171C962E22C25900EA33F9 /* MainCoordinatorViewModel.swift */; };
 		7F1FB4F92E488B7100C5955C /* GuestAlertWrapperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1FB4F82E488B6E00C5955C /* GuestAlertWrapperView.swift */; };
+		7F2D5D8F2EC0B21200072E38 /* MockFeedingPointsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2D5D8E2EC0B21200072E38 /* MockFeedingPointsService.swift */; };
+		7F2D5D902EC0B21200072E38 /* FeedingPointsServiceAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2D5D8D2EC0B21200072E38 /* FeedingPointsServiceAdapter.swift */; };
+		7F2D5D922EC0BB2E00072E38 /* MockFeedingPointGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2D5D912EC0BB2E00072E38 /* MockFeedingPointGenerator.swift */; };
 		7F5DE9D529BF37EE00C53087 /* LeaderboardCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5DE9D429BF37EE00C53087 /* LeaderboardCoordinator.swift */; };
 		7F5DE9DA29BF3A5700C53087 /* LeaderboardModuleAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5DE9D929BF3A5700C53087 /* LeaderboardModuleAssembler.swift */; };
 		7F5DE9DC29BF3D7200C53087 /* LeaderboardContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5DE9DB29BF3D7200C53087 /* LeaderboardContract.swift */; };
@@ -431,6 +434,9 @@
 		78BEB18D293811C900A11CA7 /* FavouritesModelMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesModelMapper.swift; sourceTree = "<group>"; };
 		7F171C962E22C25900EA33F9 /* MainCoordinatorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinatorViewModel.swift; sourceTree = "<group>"; };
 		7F1FB4F82E488B6E00C5955C /* GuestAlertWrapperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestAlertWrapperView.swift; sourceTree = "<group>"; };
+		7F2D5D8D2EC0B21200072E38 /* FeedingPointsServiceAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingPointsServiceAdapter.swift; sourceTree = "<group>"; };
+		7F2D5D8E2EC0B21200072E38 /* MockFeedingPointsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFeedingPointsService.swift; sourceTree = "<group>"; };
+		7F2D5D912EC0BB2E00072E38 /* MockFeedingPointGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFeedingPointGenerator.swift; sourceTree = "<group>"; };
 		7F5DE9D429BF37EE00C53087 /* LeaderboardCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardCoordinator.swift; sourceTree = "<group>"; };
 		7F5DE9D929BF3A5700C53087 /* LeaderboardModuleAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardModuleAssembler.swift; sourceTree = "<group>"; };
 		7F5DE9DB29BF3D7200C53087 /* LeaderboardContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardContract.swift; sourceTree = "<group>"; };
@@ -1604,6 +1610,9 @@
 			isa = PBXGroup;
 			children = (
 				83D2BE8C299CF86400AA1BC4 /* FeedingPointsService.swift */,
+				7F2D5D8D2EC0B21200072E38 /* FeedingPointsServiceAdapter.swift */,
+				7F2D5D8E2EC0B21200072E38 /* MockFeedingPointsService.swift */,
+				7F2D5D912EC0BB2E00072E38 /* MockFeedingPointGenerator.swift */,
 			);
 			path = FeedingPoints;
 			sourceTree = "<group>";
@@ -2628,6 +2637,8 @@
 				838EA96F29426FA7001F4D84 /* SearchPointShimmerCell.swift in Sources */,
 				8372CCE128A18B030085C6D1 /* CustomAuthViewText.swift in Sources */,
 				DB5F694428ED6CD000D8714E /* FeedingBookingViewController.swift in Sources */,
+				7F2D5D8F2EC0B21200072E38 /* MockFeedingPointsService.swift in Sources */,
+				7F2D5D902EC0B21200072E38 /* FeedingPointsServiceAdapter.swift in Sources */,
 				837F1FB328868C3A001FABC5 /* AuthenticationService.swift in Sources */,
 				83F3CC1D2847808200C05298 /* LoginModelAction.swift in Sources */,
 				835E14A028FDE79B0044EC2F /* SearchViewSection.swift in Sources */,
@@ -2754,6 +2765,7 @@
 				045178EF2992506E00061683 /* DonateViewController.swift in Sources */,
 				838B6B752868B061001DD111 /* VerificationAssembler.swift in Sources */,
 				D20DBC8B299D40BE003E0668 /* FAQViewModel.swift in Sources */,
+				7F2D5D922EC0BB2E00072E38 /* MockFeedingPointGenerator.swift in Sources */,
 				7F5DE9D529BF37EE00C53087 /* LeaderboardCoordinator.swift in Sources */,
 				83C7A98828E45AFE00F3D219 /* ProfileModelItem.swift in Sources */,
 				8355D4D32A25CE2D00B29394 /* FeedingPointAnnotationModel+Annotation.swift in Sources */,

@@ -14,7 +14,7 @@ public extension LinkLabel {
     struct Link {
         public let range: NSRange
         public let identifier: String
-        
+
         public init(
             range: NSRange,
             identifier: String
@@ -27,7 +27,7 @@ public extension LinkLabel {
 
 public final class LinkLabel: UILabel {
     var links: [Link] = []
-    public var linkTapHandler: ((String) -> Void)? = nil
+    public var linkTapHandler: ((String) -> Void)?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -43,7 +43,7 @@ public final class LinkLabel: UILabel {
     public func configure(text: String, termsRange: NSRange, privacyRange: NSRange) {
         let attributed = NSMutableAttributedString(string: text, attributes: [
             .foregroundColor: designEngine.colors.textPrimary,
-            .font: designEngine.fonts.primary.light(14) ?? UIFont.systemFont(ofSize: 14),
+            .font: designEngine.fonts.primary.light(14) ?? UIFont.systemFont(ofSize: 14)
         ])
         let accentColor = designEngine.colors.accent
 
@@ -95,7 +95,7 @@ public final class LinkLabel: UILabel {
 
         let glyphIndex = layoutManager.glyphIndex(for: point, in: textContainer)
         let characterIndex = layoutManager.characterIndexForGlyph(at: glyphIndex)
-        
+
         for link in links {
             if NSLocationInRange(characterIndex, link.range) {
                 linkTapHandler?(link.identifier)
