@@ -1,5 +1,6 @@
 // System
 import Foundation
+import Combine
 
 // SDK
 import Services
@@ -8,17 +9,22 @@ import Amplify
 final class UserProfileService: UserProfileServiceProtocol {
     // MARK: - Private properties
     private let converter: UserProfileAmplifyConverting & AmplifyUserProfileConverting
-    private let userValidationModel: UserProfileValidationModel
+    private let userValidationModel: UserValidationModel
     private var cachedUserNames: [String: String]?
     private var userNamesNextToken: String?
 
     // MARK: - Initialization
     init(
         converter: UserProfileAmplifyConverting & AmplifyUserProfileConverting = UserProfileAmplifyConverter(),
-        userValidationModel: UserProfileValidationModel = UserValidationModel()
+        userValidationModel: UserValidationModel = UserValidationModel()
     ) {
         self.converter = converter
-        self.userValidationModel = UserValidationModel()
+        self.userValidationModel = userValidationModel
+    }
+
+    // MARK: - Publishers
+    var userModePublisher: AnyPublisher<UserMode?, Never> {
+        userValidationModel.userModePublisher
     }
 
     // MARK: - Main methods
@@ -35,7 +41,7 @@ final class UserProfileService: UserProfileServiceProtocol {
     func getCurrentUserValidationModel() -> UserProfileValidationModel {
         return userValidationModel
     }
-    
+
     func prepareForAuthentication() {
         userValidationModel.reset()
     }

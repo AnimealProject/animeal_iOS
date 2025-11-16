@@ -1,21 +1,13 @@
-//
-//  MockFeedingPointsService.swift
-//  animeal
-//
-//  Created on 02.11.2025.
-//
-
 import Foundation
 import Combine
 import Amplify
+
+// MARK: - MockFeedingPointsService
 
 final class MockFeedingPointsService: FeedingPointsServiceProtocol {
 
     private let innerFeedingPoints = CurrentValueSubject<[FullFeedingPoint], Never>([])
     private let innerChangedFeedingPoint = PassthroughSubject<FullFeedingPoint, Never>()
-
-    private var mockHistory: [String: [FeedingHistory]] = [:]
-    private var mockFeedings: [String: Feeding] = [:]
 
     var feedingPoints: AnyPublisher<[FullFeedingPoint], Never> {
         innerFeedingPoints.eraseToAnyPublisher()
@@ -37,6 +29,134 @@ final class MockFeedingPointsService: FeedingPointsServiceProtocol {
         setupMockData()
     }
 
+    // MARK: - Data Loading
+
+    /// Loads mock data from Bundle JSON file
+    private func setupMockData() {
+        guard let points = loadFromBundle() else {
+            logError("[MockFeedingPointsService] Failed to load guestmock.json - no data available!")
+            innerFeedingPoints.send([])
+            return
+        }
+
+        logInfo("[MockFeedingPointsService] Loaded \(points.count) points from guestmock.json")
+        innerFeedingPoints.send(points)
+    }
+    
+    /// Attempts to load feeding points from Bundle JSON file
+    /// - Returns: Array of FullFeedingPoint if successful, nil otherwise
+    private func loadFromBundle() -> [FullFeedingPoint]? {
+        guard let url = Bundle.main.url(forResource: "guestmock", withExtension: "json") else {
+            logWarning("[MockFeedingPointsService] guestmock.json not found in Bundle")
+            return nil
+        }
+
+        do {
+            let data = try Data(contentsOf: url)
+            let decoder = JSONDecoder()
+            let response = try decoder.decode(MockFeedingPointsResponse.self, from: data)
+
+            let points = response.feedingPoints.map { dto in
+                convertToFullFeedingPoint(dto)
+            }
+
+            return points
+        } catch {
+            logError("[MockFeedingPointsService] Failed to parse guestmock.json: \(error)")
+            return nil
+        }
+    }
+
+    /// Converts MockFeedingPoint to FullFeedingPoint
+    private func convertToFullFeedingPoint(_ dto: MockFeedingPoint) -> FullFeedingPoint {
+        let status = parseFeedingPointStatus(dto.status)
+        let category = createCategory(from: dto.category)
+        
+        let location = Location(
+            lat: dto.location.lat,
+            lon: dto.location.lon
+        )
+        
+        let point = Point(
+            type: "Point",
+            coordinates: [dto.location.lon, dto.location.lat]
+        )
+        
+        let feedingPoint = FeedingPoint(
+            id: dto.id,
+            name: "",
+            description: "",
+            city: "",
+            street: "",
+            address: "",
+            images: nil,
+            point: point,
+            location: location,
+            region: "",
+            neighborhood: "",
+            distance: 0.0,
+            status: status,
+            i18n: nil,
+            statusUpdatedAt: Temporal.DateTime.now(),
+            createdAt: Temporal.DateTime.now(),
+            updatedAt: Temporal.DateTime.now(),
+            createdBy: nil,
+            updatedBy: nil,
+            owner: nil,
+            pets: [],
+            category: category,
+            users: [],
+            cover: nil,
+            feedingPointCategoryId: category?.id
+        )
+        
+        return FullFeedingPoint(
+            feedingPoint: feedingPoint,
+            isFavorite: false,
+            imageURL: nil
+        )
+    }
+    
+    /// Creates Category from string
+    private func createCategory(from categoryString: String) -> Category? {
+        let tag: CategoryTag
+        switch categoryString.lowercased() {
+        case "dogs":
+            tag = .dogs
+        case "cats":
+            tag = .cats
+        default:
+            logWarning("[MockFeedingPointsService] Unknown category '\(categoryString)', defaulting to dogs")
+            tag = .dogs
+        }
+        
+        return Category(
+            id: "mock-category-\(categoryString)",
+            name: categoryString.capitalized,
+            icon: "",
+            tag: tag,
+            createdAt: Temporal.DateTime.now(),
+            updatedAt: Temporal.DateTime.now()
+        )
+    }
+
+    /// Parses status string to FeedingPointStatus enum
+    private func parseFeedingPointStatus(_ statusString: String) -> FeedingPointStatus {
+        switch statusString.lowercased() {
+        case "starved":
+            return .starved
+        case "fed":
+            return .fed
+        case "pending":
+            return .pending
+        default:
+            logWarning("[MockFeedingPointsService] Unknown status '\(statusString)', defaulting to starved")
+            return .starved
+        }
+    }
+
+    // MARK: - FeedingPointsServiceProtocol Implementation
+
     func fetchAll() async throws -> [FullFeedingPoint] {
         try await Task.sleep(nanoseconds: 500_000_000)
         return storedFeedingPoints
@@ -44,145 +164,47 @@ final class MockFeedingPointsService: FeedingPointsServiceProtocol {
 
     func fetch(byIdentifier identifier: String) async throws -> FullFeedingPoint {
         try await Task.sleep(nanoseconds: 300_000_000)
-        
+
         guard let point = storedFeedingPoints.first(where: { $0.identifier == identifier }) else {
             throw "[MockFeedingPointsService] Feeding point not found for identifier: \(identifier)".asBaseError()
         }
-        
+
         return point
     }
-    
+
     func fetchFeedingHistory(for feedingPointId: String) async throws -> [FeedingHistory] {
-        try await Task.sleep(nanoseconds: 300_000_000)
-        
-        if let history = mockHistory[feedingPointId] {
-            return history
-        }
-        
-        let history = MockFeedingPointGenerator.generateMockFeedingHistory(
-            for: feedingPointId,
-            count: Int.random(in: 3...7)
-        )
-        mockHistory[feedingPointId] = history
-        return history
+        // Guest mode doesn't need feeding history - return empty
+        try await Task.sleep(nanoseconds: 100_000_000)
+        return []
     }
-    
+
     func canBookFeedingPoint(for identifier: String) async throws -> Bool {
-        try await Task.sleep(nanoseconds: 200_000_000)
-        
-        guard let point = storedFeedingPoints.first(where: { $0.identifier == identifier }) else {
-            throw "[MockFeedingPointsService] Cannot check booking status - point not found".asBaseError()
-        }
-        
-        guard point.feedingPoint.status == .starved else {
-            return false
-        }
-        
-        return mockFeedings[identifier] == nil
+        // Guest mode can't book - always return false
+        try await Task.sleep(nanoseconds: 100_000_000)
+        return false
     }
-    
+
     func fetchAllFavorites() async throws -> [FullFeedingPoint] {
-        try await Task.sleep(nanoseconds: 400_000_000)
-        return storedFavouriteFeedingPoints
+        // Guest mode doesn't support favorites - return empty
+        try await Task.sleep(nanoseconds: 100_000_000)
+        return []
     }
-    
+
     func addToFavorites(byIdentifier identifier: String) async throws -> FavouriteFeedingPoint {
-        try await Task.sleep(nanoseconds: 300_000_000)
-        
-        guard let index = storedFeedingPoints.firstIndex(where: { $0.identifier == identifier }) else {
-            throw "[MockFeedingPointsService] Cannot add to favorites - point not found".asBaseError()
-        }
-        
-        var points = storedFeedingPoints
-        points[index].isFavorite = true
-        innerFeedingPoints.send(points)
-        innerChangedFeedingPoint.send(points[index])
-        
-        return FavouriteFeedingPoint(feedingPointId: identifier, isFavorite: true)
+        // Guest mode can't add favorites - throw error or return mock
+        try await Task.sleep(nanoseconds: 100_000_000)
+        throw "[MockFeedingPointsService] Guest mode does not support favorites".asBaseError()
     }
-    
+
     func deleteFromFavorites(byIdentifier identifier: String) async throws -> FavouriteFeedingPoint {
-        try await Task.sleep(nanoseconds: 300_000_000)
-        
-        guard let index = storedFeedingPoints.firstIndex(where: { $0.identifier == identifier }) else {
-            throw "[MockFeedingPointsService] Cannot remove from favorites - point not found".asBaseError()
-        }
-        
-        var points = storedFeedingPoints
-        points[index].isFavorite = false
-        innerFeedingPoints.send(points)
-        innerChangedFeedingPoint.send(points[index])
-        
-        return FavouriteFeedingPoint(feedingPointId: identifier, isFavorite: false)
+        // Guest mode can't delete favorites - throw error
+        try await Task.sleep(nanoseconds: 100_000_000)
+        throw "[MockFeedingPointsService] Guest mode does not support favorites".asBaseError()
     }
-    
+
     func toggleFavorite(byIdentifier identifier: String) async throws -> FavouriteFeedingPoint {
-        guard let point = storedFeedingPoints.first(where: { $0.identifier == identifier }) else {
-            throw "[MockFeedingPointsService] Cannot toggle favorite - point not found".asBaseError()
-        }
-        
-        if point.isFavorite {
-            return try await deleteFromFavorites(byIdentifier: identifier)
-        } else {
-            return try await addToFavorites(byIdentifier: identifier)
-        }
-    }
-    
-    private func setupMockData() {
-        let mockPoints = MockFeedingPointGenerator.generateMockFeedingPoints(count: 15)
-        innerFeedingPoints.send(mockPoints)
-        
-        for point in mockPoints where Bool.random() {
-            if let feeding = MockFeedingPointGenerator.generateMockFeeding(for: point.identifier) {
-                mockFeedings[point.identifier] = feeding
-            }
-        }
-    }
-    
-    func updatePointStatus(identifier: String, newStatus: FeedingPointStatus) {
-        guard let index = storedFeedingPoints.firstIndex(where: { $0.identifier == identifier }) else {
-            return
-        }
-        
-        var points = storedFeedingPoints
-        var point = points[index]
-        
-        let updatedFeedingPoint = FeedingPoint(
-            id: point.feedingPoint.id,
-            name: point.feedingPoint.name,
-            description: point.feedingPoint.description,
-            city: point.feedingPoint.city,
-            street: point.feedingPoint.street,
-            address: point.feedingPoint.address,
-            images: point.feedingPoint.images,
-            point: point.feedingPoint.point,
-            location: point.feedingPoint.location,
-            region: point.feedingPoint.region,
-            neighborhood: point.feedingPoint.neighborhood,
-            distance: point.feedingPoint.distance,
-            status: newStatus,
-            i18n: point.feedingPoint.i18n,
-            statusUpdatedAt: Temporal.DateTime.now(),
-            createdAt: point.feedingPoint.createdAt,
-            updatedAt: Temporal.DateTime.now(),
-            createdBy: point.feedingPoint.createdBy,
-            updatedBy: point.feedingPoint.updatedBy,
-            owner: point.feedingPoint.owner,
-            pets: point.feedingPoint.pets ?? [],
-            category: point.feedingPoint.category,
-            users: point.feedingPoint.users ?? [],
-            cover: point.feedingPoint.cover,
-            feedingPointCategoryId: point.feedingPoint.feedingPointCategoryId
-        )
-        
-        point = FullFeedingPoint(
-            feedingPoint: updatedFeedingPoint,
-            isFavorite: point.isFavorite,
-            imageURL: point.imageURL
-        )
-        
-        points[index] = point
-        innerFeedingPoints.send(points)
-        innerChangedFeedingPoint.send(point)
+        // Guest mode can't toggle favorites - throw error
+        try await Task.sleep(nanoseconds: 100_000_000)
+        throw "[MockFeedingPointsService] Guest mode does not support favorites".asBaseError()
     }
 }

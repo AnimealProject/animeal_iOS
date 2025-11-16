@@ -1,4 +1,5 @@
 import Foundation
+import Combine
 
 public enum UserMode {
     case guest
@@ -21,7 +22,13 @@ public protocol UserProfileValidationModel {
     func reset()
 }
 
-public protocol UserProfileServiceProtocol: AnyObject {
+/// Protocol for services that provide observable user mode changes
+public protocol UserModeObservable: AnyObject {
+    /// Publisher that emits user mode changes
+    var userModePublisher: AnyPublisher<UserMode?, Never> { get }
+}
+
+public protocol UserProfileServiceProtocol: UserModeObservable {
     /// Returns the currently logged in user.
     ///
     func getCurrentUser() async -> UserCurrentProfile?
@@ -29,7 +36,7 @@ public protocol UserProfileServiceProtocol: AnyObject {
     /// Returns the currently logged in user validation model
     ///
     func getCurrentUserValidationModel() -> UserProfileValidationModel
-    
+
     /// Prepares the validation model for authentication flow
     ///
     func prepareForAuthentication()
