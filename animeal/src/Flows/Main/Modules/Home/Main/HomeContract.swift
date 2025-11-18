@@ -81,14 +81,17 @@ enum HomeViewActionEvent {
 }
 
 // MARK: - Coordinator
-protocol HomeCoordinatable: AlertCoordinatable, ActivityDisplayable {
+protocol HomeCoordinatable: AlertCoordinatable, ActivityDisplayable, GuestAlertCoordinatable {
     func routeTo(_ route: HomeRoute)
+    @MainActor
+    func dismissGuestAlert(animated: Bool, completion: (() -> Void)?)
 }
 
 protocol HomeCoordinatorEventHandlerProtocol {
     var feedingDidStartedEvent: ((FeedingPointFeedDetails) -> Void)? { get set }
     var feedingDidFinishEvent: (([String]) -> Void)? { get set }
     var moveToFeedingPointEvent: ((String) -> Void)? { get set }
+    var needsAuthenticationEvent: (() -> Void)? { get set }
 }
 
 enum HomeRoute {

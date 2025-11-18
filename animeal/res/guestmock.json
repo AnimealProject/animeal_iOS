@@ -1,0 +1,49 @@
+{
+  "feedingPoints": [
+    {
+      "id": "mock-dog-1",
+      "location": {
+        "lat": 41.7151,
+        "lon": 44.8271
+      },
+      "status": "starved",
+      "category": "dogs"
+    },
+    {
+      "id": "mock-dog-2",
+      "location": {
+        "lat": 41.6415,
+        "lon": 41.6334
+      },
+      "status": "fed",
+      "category": "dogs"
+    },
+    {
+      "id": "mock-cat-1",
+      "location": {
+        "lat": 42.2679,
+        "lon": 42.6941
+      },
+      "status": "starved",
+      "category": "cats"
+    },
+    {
+      "id": "mock-cat-2",
+      "location": {
+        "lat": 43.0449,
+        "lon": 42.7291
+      },
+      "status": "pending",
+      "category": "cats"
+    },
+    {
+      "id": "mock-cat-3",
+      "location": {
+        "lat": 41.9847,
+        "lon": 44.1089
+      },
+      "status": "starved",
+      "category": "cats"
+    }
+  ]
+}

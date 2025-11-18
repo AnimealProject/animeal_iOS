@@ -1,4 +1,5 @@
 import Foundation
+import Combine
 
 // SDK
 import Amplify
@@ -9,13 +10,23 @@ import Services
 final class UserValidationModel: UserProfileValidationModel {
     // MARK: - Private Properties
     private var listeners = [AuthChannelEventsListener]()
+    private let userModeSubject = CurrentValueSubject<UserMode?, Never>(nil)
 
     // MARK: - Accessible properties
     private(set) var isSignedIn = false
-    private(set) var userMode: UserMode?
+    private(set) var userMode: UserMode? {
+        didSet {
+            userModeSubject.send(userMode)
+        }
+    }
     private(set) var phoneNumberVerified = false
     private(set) var emailVerified = false
     private(set) var areAllNecessaryFieldsFilled = false
+
+    // MARK: - Publishers
+    var userModePublisher: AnyPublisher<UserMode?, Never> {
+        userModeSubject.eraseToAnyPublisher()
+    }
 
     // MARK: - Initialization
     init() {
