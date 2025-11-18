@@ -106,8 +106,8 @@
 "leaderBoard.empty"                               = "Leaderboard will show the rating of volunteers";
 "verification.resendCode.titleTime"               = "Resend code in";
 "loginScreen.continueAsGuest"                     = "Continue as a Guest";
-"loginScreen.registerOrLogin"                     = "Register or log in to unlock advanced features!";
-"action.register"                                 = "Register";
+"loginScreen.registerOrLogin"                     = "You're just one step away from joining our community of heroes! By registering or logging in, you can actively contribute to feeding and protecting these amazing animals.\n\nTogether, we can ensure they thrive in a safe and healthy environment.";
+"action.register"                                 = "Register/Log-in";
 "action.termsAndConditions"                       = "Terms & Conditions";
 "action.privacyPolicy"                            = "Privacy Policy";
 "action.acknowledgeTCandPP"                       = "By continuing, you agree to Animeal's Terms & Conditions and Privacy Policy";

@@ -49,8 +49,8 @@ internal enum L10n {
     internal static let openSettings = L10n.tr("Localizable", "action.openSettings", fallback: "Open settings")
     /// Privacy Policy
     internal static let privacyPolicy = L10n.tr("Localizable", "action.privacyPolicy", fallback: "Privacy Policy")
-    /// Register
-    internal static let register = L10n.tr("Localizable", "action.register", fallback: "Register")
+    /// Register/Log-in
+    internal static let register = L10n.tr("Localizable", "action.register", fallback: "Register/Log-in")
     /// Show on map
     internal static let showOnMap = L10n.tr("Localizable", "action.showOnMap", fallback: "Show on map")
     /// Terms & Conditions
@@ -146,8 +146,10 @@ internal enum L10n {
   internal enum LoginScreen {
     /// Continue as a Guest
     internal static let continueAsGuest = L10n.tr("Localizable", "loginScreen.continueAsGuest", fallback: "Continue as a Guest")
-    /// Register or log in to unlock advanced features!
-    internal static let registerOrLogin = L10n.tr("Localizable", "loginScreen.registerOrLogin", fallback: "Register or log in to unlock advanced features!")
+    /// You're just one step away from joining our community of heroes! By registering or logging in, you can actively contribute to feeding and protecting these amazing animals.
+    /// 
+    /// Together, we can ensure they thrive in a safe and healthy environment.
+    internal static let registerOrLogin = L10n.tr("Localizable", "loginScreen.registerOrLogin", fallback: "You're just one step away from joining our community of heroes! By registering or logging in, you can actively contribute to feeding and protecting these amazing animals.\n\nTogether, we can ensure they thrive in a safe and healthy environment.")
     /// Sign in with Apple
     internal static let signInViaApple = L10n.tr("Localizable", "loginScreen.signInViaApple", fallback: "Sign in with Apple")
     /// Sign in with Facebook
