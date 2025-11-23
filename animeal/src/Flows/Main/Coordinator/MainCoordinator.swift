@@ -202,14 +202,14 @@ extension MainCoordinator: TabBarControllerDelegate {
     func tabBarController(_ controller: TabBarController, shouldSelectTab identifier: TabIdentifier) -> Bool {
         let canShow = viewModel.canShowTab(with: identifier)
         guard canShow else {
-            presentGuestAlert(
+            presentGuestAlertForTabBar(
                 onRegister: { [weak self] in
-                    self?.dismissGuestAlert(animated: true) {
+                    self?.dismissGuestAlertForTabBar(animated: true) {
                         self?.startLoginFlow()
                     }
                 },
                 onDismiss: { [weak self] in
-                    self?.dismissGuestAlert()
+                    self?.dismissGuestAlertForTabBar()
                 }
             )
             let index = controller.items.firstIndex { $0.identifier == lastAllowedTab }
@@ -219,6 +219,25 @@ extension MainCoordinator: TabBarControllerDelegate {
 
         lastAllowedTab = identifier
         return true
+    }
+
+    private func presentGuestAlertForTabBar(
+        onRegister: @escaping () -> Void,
+        onDismiss: @escaping () -> Void
+    ) {
+        let alertVC = UIHostingController(
+            rootView: GuestAlertWrapperView(
+                onRegister: onRegister,
+                onDismiss: onDismiss
+            )
+        )
+        alertVC.view.backgroundColor = .clear
+        alertVC.modalPresentationStyle = .overFullScreen
+        rootTabBarController.present(alertVC, animated: false, completion: nil)
+    }
+
+    private func dismissGuestAlertForTabBar(animated: Bool = true, completion: (() -> Void)? = nil) {
+        rootTabBarController.presentedViewController?.dismiss(animated: animated, completion: completion)
     }
 
     private func startLoginFlow() {
