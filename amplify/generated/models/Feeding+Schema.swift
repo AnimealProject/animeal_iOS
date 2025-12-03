@@ -40,6 +40,10 @@ extension Feeding {
     model.listPluralName = "Feedings"
     model.syncPluralName = "Feedings"
     
+    model.attributes(
+      .index(fields: ["feedingPointFeedingsId"], name: "byFeedingPointId")
+    )
+    
     model.fields(
       .id(),
       .field(feeding.userId, is: .required, ofType: .string),

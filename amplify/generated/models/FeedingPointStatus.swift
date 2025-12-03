@@ -6,4 +6,5 @@ public enum FeedingPointStatus: String, EnumPersistable {
   case fed
   case pending
   case starved
+  case inProgress
 }

@@ -4,6 +4,7 @@ enum SearchModelItemStatus {
     case fed
     case pending
     case starved
+    case inProgress
 }
 
 enum SearchModelItemCategory: Int, CaseIterable {
@@ -39,6 +40,8 @@ extension SearchModelItemStatus {
             self = .pending
         case .starved:
             self = .starved
+        case .inProgress:
+            self = .inProgress
         }
     }
 }

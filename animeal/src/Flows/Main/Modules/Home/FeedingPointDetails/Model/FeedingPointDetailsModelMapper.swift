@@ -67,7 +67,7 @@ final class FeedingPointDetailsModelMapper: FeedingPointDetailsModelMapperProtoc
             return .success(L10n.Feeding.Status.fed)
         case .starved:
             return .error(L10n.Feeding.Status.starved)
-        case .pending:
+        case .pending, .inProgress:
             return .attention(L10n.Feeding.Status.inprogress)
         }
     }

@@ -36,7 +36,7 @@ final class SearchViewItemMapper: SearchViewItemMappable {
         switch input {
         case .fed:
             return .success(L10n.Feeding.Status.fed)
-        case .pending:
+        case .pending, .inProgress:
             return .attention(L10n.Feeding.Status.inprogress)
         case .starved:
             return .error(L10n.Feeding.Status.starved)
