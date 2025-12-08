@@ -9,19 +9,14 @@ import Amplify
 final class PublicNetworkService: NetworkServiceProtocol {
 
     func query<Response: Decodable>(request: Request<Response>) async throws -> Response {
-        do {
-            // Guest user - always use API Key
-            let result = try await Amplify.API.query(
-                request: request.convertToGraphQLRequest(authMode: .apiKey)
-            )
-
-            switch result {
-            case .success(let response):
-                return response
-            case .failure(let error):
-                throw mapAmplifyError(error)
-            }
-        } catch {
+        let result = try await Amplify.API.query(
+            request: request.convertToGraphQLRequest(authMode: .apiKey)
+        )
+        
+        switch result {
+        case .success(let response):
+            return response
+        case .failure(let error):
             throw mapAmplifyError(error)
         }
     }
