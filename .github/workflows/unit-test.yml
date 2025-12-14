@@ -73,12 +73,11 @@ jobs:
       - name: Build For Test
         run: |
           set -o pipefail
-          xcodebuild test -scheme animeal -project animeal.xcodeproj -destination "platform=iOS Simulator,name=iPhone 16,OS=18.5" -parallelizeTargets -showBuildTimingSummary -quiet 2>&1 | tee build_output.log
+          xcodebuild test -scheme animeal -project animeal.xcodeproj -destination "platform=iOS Simulator,name=iPhone 16,OS=18.5" -parallelizeTargets -showBuildTimingSummary 2>&1 | xcbeautify --renderer github-actions
           
           BUILD_EXIT_CODE=${PIPESTATUS[0]}
           if [ $BUILD_EXIT_CODE -ne 0 ]; then
             echo "::error::Build failed with exit code $BUILD_EXIT_CODE"
-            grep -E "error:" build_output.log | tail -20 || true
             exit $BUILD_EXIT_CODE
           fi
           
