@@ -46,6 +46,10 @@ jobs:
       - name: Recover From Setup Amplfy  Error
         if: steps.setupAmplify.outcome != 'success'
         run: bash ./recover_from_error.sh
+      
+      - name: Sync Models with Backend Schema
+        run: amplify codegen models
+      
       - name: Setup .mapbox file with MAPBOX_DOWNLOAD_TOKEN
         run: echo $MAPBOX_DOWNLOAD_TOKEN >> ~/.mapbox
         env:
@@ -68,4 +72,13 @@ jobs:
           xcode-version: '16.4'
       - name: Build For Test
         run: |
-          xcodebuild test -scheme animeal -project animeal.xcodeproj -destination "platform=iOS Simulator,name=iPhone 16,OS=18.5" -parallelizeTargets -showBuildTimingSummary | xcbeautify --renderer github-actions
+          set -o pipefail
+          xcodebuild test -scheme animeal -project animeal.xcodeproj -destination "platform=iOS Simulator,name=iPhone 16,OS=18.5" -parallelizeTargets -showBuildTimingSummary 2>&1 | xcbeautify --renderer github-actions
+          
+          BUILD_EXIT_CODE=${PIPESTATUS[0]}
+          if [ $BUILD_EXIT_CODE -ne 0 ]; then
+            echo "::error::Build failed with exit code $BUILD_EXIT_CODE"
+            exit $BUILD_EXIT_CODE
+          fi
+          
+          echo "✅ Build and tests passed successfully"

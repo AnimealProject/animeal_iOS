@@ -5,13 +5,14 @@ import Foundation
 // Contains the set of classes that conforms to the `Model` protocol. 
 
 final public class AmplifyModels: AmplifyModelRegistration {
-  public let version: String = "17ca906ddcb4d7b1ccdc2e3d36212e32"
+  public let version: String = "7c733dbb9c6ae98d269db3c38b9230ca"
   
   public func registerModels(registry: ModelRegistry.Type) {
     ModelRegistry.register(modelType: Pet.self)
     ModelRegistry.register(modelType: Category.self)
     ModelRegistry.register(modelType: FeedingPoint.self)
     ModelRegistry.register(modelType: Feeding.self)
+    ModelRegistry.register(modelType: FeedingConstraint.self)
     ModelRegistry.register(modelType: FeedingUsers.self)
     ModelRegistry.register(modelType: FeedingHistory.self)
     ModelRegistry.register(modelType: RelationPetFeedingPoint.self)

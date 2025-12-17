@@ -24,7 +24,7 @@ final class FeedingPointMapper: FeedingPointMappable {
         switch pointStatus {
         case .starved:
             return .high
-        case .pending:
+        case .pending, .inProgress:
             return .mid
         case .fed:
             return .low

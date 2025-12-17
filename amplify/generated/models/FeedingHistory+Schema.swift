@@ -40,6 +40,10 @@ extension FeedingHistory {
     model.listPluralName = "FeedingHistories"
     model.syncPluralName = "FeedingHistories"
     
+    model.attributes(
+      .index(fields: ["feedingPointId"], name: "byFeedingPointId")
+    )
+    
     model.fields(
       .id(),
       .field(feedingHistory.userId, is: .required, ofType: .string),

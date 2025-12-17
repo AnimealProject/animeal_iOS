@@ -3,25 +3,26 @@ import Services
 
 // MARK: - DonateModel
 final class DonateModel: DonateModelProtocol {
-    typealias Context = DefaultsServiceHolder & NetworkServiceHolder & DataStoreServiceHolder
-
     // MARK: - Private properties
-    private let context: Context
+    private let networkService: NetworkServiceProtocol
+    private let dataStoreService: DataStoreServiceProtocol
     private let mapper: DonatePaymentMethodMappable
 
     private var paymentMethods: [PaymentMethod] = []
 
     // MARK: - Initialization
     init(
-        context: Context = AppDelegate.shared.context,
+        networkService: NetworkServiceProtocol = AdaptiveNetworkService(),
+        dataStoreService: DataStoreServiceProtocol = AppDelegate.shared.context.dataStoreService,
         mapper: DonatePaymentMethodMappable = DonatePaymentMethodMapper()
     ) {
-        self.context = context
+        self.networkService = networkService
+        self.dataStoreService = dataStoreService
         self.mapper = mapper
     }
 
     func fetchPaymentMethods() async throws -> [DonateModel.PaymentMethod] {
-        let methods = try await context.networkService.query(request: .list(animeal.BankAccount.self))
+        let methods = try await networkService.query(request: .list(animeal.BankAccount.self))
         self.paymentMethods = methods
             .map(mapper.mapPaymentMethod)
             .filter(\.enabled)
@@ -33,7 +34,7 @@ final class DonateModel: DonateModelProtocol {
     }
 
     func fetchIconURL(for key: String) async throws -> URL? {
-        try await context.dataStoreService.getURL(key: key)
+        try await dataStoreService.getURL(key: key)
     }
 }
 

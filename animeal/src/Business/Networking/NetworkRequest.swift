@@ -165,13 +165,14 @@ private extension Request {
 }
 
 extension Request {
-    func convertToGraphQLRequest() -> GraphQLRequest<R> {
+    func convertToGraphQLRequest(authMode: AWSAuthorizationType? = nil) -> GraphQLRequest<R> {
         return GraphQLRequest<R>(
             apiName: self.apiName,
             document: self.document,
             variables: self.variables,
             responseType: self.responseType,
-            decodePath: decodePath
+            decodePath: decodePath,
+            authMode: authMode
         )
     }
 }
