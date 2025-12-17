@@ -2,6 +2,9 @@ name: Generate IPA
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - develop
 
 jobs:
  SwiftLint:
@@ -44,6 +47,10 @@ jobs:
       - name: Recover From Setup Amplfy  Error
         if: steps.setupAmplify.outcome != 'success'
         run: bash ./recover_from_error.sh
+      
+      - name: Sync Models with Backend Schema
+        run: amplify codegen models
+      
       - name: Setup .mapbox file with MAPBOX_DOWNLOAD_TOKEN
         run: echo $MAPBOX_DOWNLOAD_TOKEN >> ~/.mapbox
         env:
