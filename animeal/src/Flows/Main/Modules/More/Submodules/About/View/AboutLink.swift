@@ -55,7 +55,7 @@ extension AboutLink {
             return "linkedin://company/animalprojectgeorgia"
 
         case .website:
-            return nil
+            return "https://animalproject.ge/"
         }
     }
 
@@ -71,7 +71,7 @@ extension AboutLink {
             return "https://www.linkedin.com/company/animalprojectgeorgia/"
 
         case .website:
-            return nil
+            return "https://animalproject.ge/"
         }
     }
 }
