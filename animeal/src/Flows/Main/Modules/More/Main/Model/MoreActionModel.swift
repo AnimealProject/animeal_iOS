@@ -7,10 +7,10 @@ struct MoreActionModel {
 
 enum MoreActionType: String {
     case profilePage
-    case donate
     case faq
+    case donate
     case about
-    case account
     case termsAndConditions
     case privacyPolicy
+    case account
 }

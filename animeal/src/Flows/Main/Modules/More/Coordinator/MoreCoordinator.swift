@@ -63,14 +63,12 @@ extension MoreCoordinator: MoreCoordinatable {
         switch route {
         case .profilePage:
             viewController = ProfileChangeableAssembler.assembly(coordinator: self)
-        case .donate:
-            viewController = DonateModuleAssembler.assemble(coordinator: self)
         case .faq:
             viewController = FAQModuleAssembler.assemble(coordinator: self)
+        case .donate:
+            viewController = DonateModuleAssembler.assemble(coordinator: self)
         case .about:
             viewController = AboutModuleAssembler.assemble(coordinator: self)
-        case .account:
-            viewController = MorePartitionModuleAssembler(coordinator: self).assemble(.account)
         case .alert:
             presentGuestAlert(
                 onRegister: { [weak self] in
@@ -87,6 +85,8 @@ extension MoreCoordinator: MoreCoordinatable {
             openSafariView(Constants.URLs.termsAndConditions)
         case .privacyPolicy:
             openSafariView(Constants.URLs.privacyPolicy)
+        case .account:
+            viewController = MorePartitionModuleAssembler(coordinator: self).assemble(.account)
         }
 
         if let viewController {

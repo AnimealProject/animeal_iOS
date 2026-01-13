@@ -37,30 +37,30 @@ protocol MoreCoordinatable: Coordinatable {
 // MARK: - Enums
 enum MoreRoute {
     case profilePage
-    case donate
     case faq
+    case donate
     case about
-    case account
     case alert
     case termsAndConditions
     case privacyPolicy
+    case account
 
     init?(rawValue: String) {
         switch rawValue {
         case MoreActionType.profilePage.rawValue:
             self = .profilePage
-        case MoreActionType.donate.rawValue:
-            self = .donate
         case MoreActionType.faq.rawValue:
             self = .faq
+        case MoreActionType.donate.rawValue:
+            self = .donate
         case MoreActionType.about.rawValue:
             self = .about
-        case MoreActionType.account.rawValue:
-            self = .account
         case MoreActionType.termsAndConditions.rawValue:
             self = .termsAndConditions
         case MoreActionType.privacyPolicy.rawValue:
             self = .privacyPolicy
+        case MoreActionType.account.rawValue:
+            self = .account
         default:
             return nil
         }
