@@ -32,6 +32,7 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
     }
     // MARK: - Subscription Event
     var onFeedingPointChange: ((FeedingPointDetailsModel.PointContent, Bool) -> Void)?
+    var onModeratorsChange: (([FeedingPointDetailsModel.Moderator]) -> Void)?
 
     // MARK: - Initialization
     init(
@@ -43,6 +44,7 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
         self.mapper = mapper
         self.context = context
         subscribeForFeedingPointChangeEvents()
+        subscribeForFeedingPointModerators()
     }
 
     func fetchFeedingPoint(_ completion: ((FeedingPointDetailsModel.PointContent) -> Void)?) {
@@ -98,6 +100,34 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
         let feedingPointDetails = mapper.map(history: sortedByDateHistory, namesMap: namesMap)
         let right = feedingPointDetails.count < 5 ? feedingPointDetails.count : 5
         return Array(feedingPointDetails[..<right])
+    }
+    
+    private func fetchAssignedModerators() async throws -> [FeedingPointDetailsModel.Moderator] {
+        guard let fullFeedingPoint = context.feedingPointsService.storedFeedingPoints.first(where: { point in
+            point.feedingPoint.id == self.feedingPointId
+        }) else {
+            return []
+        }
+        
+        let history = try await context.feedingPointsService.fetchFeedingHistory(for: fullFeedingPoint.identifier)
+        guard !history.isEmpty else { return [] }
+        
+        let sortedByDateHistory = history.sorted { $0.updatedAt > $1.updatedAt }
+
+        let ids: [String] = sortedByDateHistory
+            .compactMap { $0.assignedModerators }
+            .flatMap { $0 }
+            .compactMap { $0 }
+        
+        let uniqueIds = Array(Set(ids))
+        guard !uniqueIds.isEmpty else { return [] }
+        
+        let namesMap = try await context.profileService.fetchUserNames(for: uniqueIds)
+        
+        let mapped = uniqueIds.map { id in
+            FeedingPointDetailsModel.Moderator(name: namesMap[id] ?? "Unknown")
+        }
+        return Array(mapped.prefix(10))
     }
 
     func mutateFavorite() async throws -> Bool {
@@ -160,6 +190,30 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
             }
             .store(in: &cancellables)
     }
+    
+    private func subscribeForFeedingPointModerators() {
+        context.profileService.userRolePublisher
+            .map { roles in
+                roles.contains(.admin) || roles.contains(.moderator)
+            }
+            .sink { [weak self] canSeeModerators in
+                guard let self = self else { return }
+                
+                if !canSeeModerators {
+                    DispatchQueue.main.async {
+                        self.onModeratorsChange?([])
+                    }
+                    return
+                }
+                
+                Task { [weak self] in
+                    guard let self else { return }
+                    let moderators = (try? await self.fetchAssignedModerators()) ?? []
+                    self.onModeratorsChange?(moderators)
+                }
+            }
+            .store(in: &cancellables)
+    }
 }
 
 extension FeedingPointDetailsModel {
@@ -173,12 +227,17 @@ extension FeedingPointDetailsModel {
         let description: Description
         let status: Status
         let feeders: [Feeder]
+        let moderators: [Moderator]
         let isFavorite: Bool
     }
 
     struct Feeder {
         let name: String
         let lastFeeded: String
+    }
+    
+    struct Moderator {
+        let name: String
     }
 
     struct Header {

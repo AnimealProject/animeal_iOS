@@ -16,10 +16,12 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
     var onContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointDetailsViewItem) -> Void)?
     var onFeedingHistoryHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointFeeders) -> Void)?
     var onMediaContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointMediaContent) -> Void)?
+    var onModeratorsHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointModerators) -> Void)?
     var onFavoriteMutationFailed: (() -> Void)?
     var onFavoriteMutation: (() -> Void)?
     var onRequestLocationAccess: (() -> Void)?
     var historyInitialized = false
+    var moderatorsInitialized = false
 
     // TODO: Move this strange logic to model
     let isOverMap: Bool
@@ -35,7 +37,8 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
             title: L10n.Action.showOnMap
         )
     }
-
+    private var allModerators: [FeedingPointDetailsModel.Moderator] = []
+    private var isModeratorsExpanded = false
     let shimmerScheduler = ShimmerViewScheduler()
 
     // MARK: - Initialization
@@ -69,6 +72,12 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
                 self?.updateFeedingHistoryContent(content)
             }
         }
+        model.onModeratorsChange = { [weak self] moderators in
+            DispatchQueue.main.async {
+                self?.moderatorsInitialized = true
+                self?.updateModeratorsContent(moderators)
+            }
+        }
         model.onFeedingPointChange = { [weak self] content, mutateFavorites in
             DispatchQueue.main.async {
                 if mutateFavorites {
@@ -95,6 +104,32 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
         shouldShowOnMap = modelContent.action.isEnabled
         loadMediaContent(modelContent.content.header.cover)
         onContentHaveBeenPrepared?(contentMapper.mapFeedingPoint(modelContent))
+    }
+    
+    private func updateModeratorsContent(_ moderators: [FeedingPointDetailsModel.Moderator]) {
+        if moderators.isEmpty {
+            isModeratorsExpanded = false
+            allModerators = []
+        }
+        allModerators = moderators
+        let shown: [FeedingPointDetailsModel.Moderator]
+        let canShowMore: Bool
+        
+        if isModeratorsExpanded {
+            let limit = 10
+            shown = Array(moderators.prefix(limit))
+            canShowMore = false
+        } else {
+            if allModerators.count > 5 {
+                shown = []
+                canShowMore = true
+            } else {
+                shown = moderators
+                canShowMore = false
+            }
+        }
+        let mapped = contentMapper.mapModerators(shown, canShowMore: canShowMore, totalCount: allModerators.count)
+        onModeratorsHaveBeenPrepared?(mapped)
     }
 
     private func updateFavorites() {
@@ -148,6 +183,10 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
 
         case .tapCancelLocationRequest:
             break
+            
+        case .tapShowMoreModerators:
+            isModeratorsExpanded = true
+            updateModeratorsContent(allModerators)
         }
     }
 }

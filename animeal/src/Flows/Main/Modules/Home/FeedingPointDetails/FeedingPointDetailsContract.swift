@@ -30,11 +30,13 @@ protocol FeedingPointDetailsViewState: AnyObject {
     var onContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointDetailsViewItem) -> Void)? { get set }
     var onFeedingHistoryHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointFeeders) -> Void)? { get set }
     var onMediaContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointMediaContent) -> Void)? { get set }
+    var onModeratorsHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointModerators) -> Void)? { get set }
     var onFavoriteMutationFailed: (() -> Void)? { get set }
     var onFavoriteMutation: (() -> Void)? { get set }
     var showOnMapAction: ButtonView.Model? { get }
     var shimmerScheduler: ShimmerViewScheduler { get }
     var historyInitialized: Bool { get }
+    var moderatorsInitialized: Bool { get }
 }
 
 // MARK: - Model
@@ -42,6 +44,7 @@ protocol FeedingPointDetailsViewState: AnyObject {
 // sourcery: AutoMockable
 protocol FeedingPointDetailsModelProtocol: AnyObject {
     var onFeedingPointChange: ((FeedingPointDetailsModel.PointContent, Bool) -> Void)? { get set }
+    var onModeratorsChange: (([FeedingPointDetailsModel.Moderator]) -> Void)? { get set }
 
     func fetchFeedingPoint(_ completion: ((FeedingPointDetailsModel.PointContent) -> Void)?)
     func fetchFeedingHistory(_ completion: (([FeedingPointDetailsModel.Feeder]) -> Void)?)
@@ -76,4 +79,5 @@ enum FeedingPointEvent {
     case tapFavorite
     case tapShowOnMap
     case tapCancelLocationRequest
+    case tapShowMoreModerators
 }

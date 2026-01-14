@@ -26,7 +26,11 @@ final class UserProfileService: UserProfileServiceProtocol {
     var userModePublisher: AnyPublisher<UserMode?, Never> {
         userValidationModel.userModePublisher
     }
-
+    
+    var userRolePublisher: AnyPublisher<Set<UserRole>, Never> {
+        userValidationModel.userRolePublisher
+    }
+    
     // MARK: - Main methods
     func getCurrentUser() async -> UserCurrentProfile? {
         guard let user = try? await Amplify.Auth.getCurrentUser() else {

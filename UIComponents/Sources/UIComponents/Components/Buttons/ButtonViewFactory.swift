@@ -146,4 +146,8 @@ public struct ButtonViewFactory: ButtonViewGenerating, StyleEngineContainable {
     public func makeTextButton() -> ButtonView {
         TextButtonView(contentView: UIButton(type: .system))
     }
+    
+    public func makeArrowButton() -> ButtonView {
+        ArrowButtonView(contentView: UIButton(type: .system))
+    }
 }
