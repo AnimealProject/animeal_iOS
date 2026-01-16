@@ -101,11 +101,10 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     // MARK: - Interaction
     func handleActionEvent(_ event: HomeViewActionEvent) {
         switch event {
-        case .tapFeedingPoints(let pointIds) where pointIds.count == 1:
-            guard let pointId = pointIds.first else { return }
-            handleTapFeedingPoint(pointId: pointId)
-            onFeadingPointsZoomRequired?(pointIds)
         case .tapFeedingPoints(let pointIds):
+            if let firstPointId = pointIds.first {
+                handleTapFeedingPoint(pointId: firstPointId)
+            }
             onFeadingPointsZoomRequired?(pointIds)
         case .tapFilterControl(let filterItemId):
             guard let itemIdentifier = HomeModel.FilterItemIdentifier(rawValue: filterItemId) else {
@@ -143,7 +142,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
             let timePassSinceFeedingStarted = Date.now - activeFeeding.createdAt.foundationDate + timeDiff
             onRouteRequestHaveBeenPrepared?(
                 .init(
-                    feedingPointCoordinates: pointItemView.coordinates,
+                    feedingPointCoordinates: pointItemView.originalCoordinates,
                     countdownTime: Constants.feedingCountdownTimer - timePassSinceFeedingStarted,
                     feedingPointId: activeFeeding.feedingPointFeedingsId,
                     isUnfinishedFeeding: true
@@ -193,7 +192,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
                 let pointItemView = self.feedingPointViewMapper.mapFeedingPoint(feedingPoint)
 
                 let points = try await self.model.fetchFeedingPoints()
-                let viewItems = points.map { self.feedingPointViewMapper.mapFeedingPoint($0) }
+                let viewItems = self.feedingPointViewMapper.mapFeedingPoints(points)
                 self.onFeedingPointsHaveBeenPrepared?(viewItems)
                 self.feedingStatus = result.feedingStatus
                 self.onFeedingHaveBeenCompleted?()
@@ -229,7 +228,7 @@ private extension HomeViewModel {
         let task = { [weak self] in
             guard let self else { return }
             let points = try await self.model.fetchFeedingPoints()
-            let viewItems = points.map { self.feedingPointViewMapper.mapFeedingPoint($0) }
+            let viewItems = self.feedingPointViewMapper.mapFeedingPoints(points)
             self.onFeedingPointsHaveBeenPrepared?(viewItems)
         }
         if isInitialLoad {
@@ -250,9 +249,7 @@ private extension HomeViewModel {
     /// - Parameter feedingPoints: feeding points fetched from the model
     func update(_ feedingPoints: [HomeModel.FeedingPoint]) {
         guard self.feedingStatus != .progress else { return }
-        let viewItems = feedingPoints.map {
-            self.feedingPointViewMapper.mapFeedingPoint($0)
-        }
+        let viewItems = feedingPointViewMapper.mapFeedingPoints(feedingPoints)
         DispatchQueue.main.async {
             self.fetchFilterItems()
             self.onFeedingPointsHaveBeenPrepared?(viewItems)
@@ -277,7 +274,7 @@ private extension HomeViewModel {
                 logError("[APP] \(#function) failed to cancel feeding: \(error.localizedDescription)")
             }
             let points = try await self.model.fetchFeedingPoints()
-            let viewItems = points.map { self.feedingPointViewMapper.mapFeedingPoint($0) }
+            let viewItems = self.feedingPointViewMapper.mapFeedingPoints(points)
             self.onFeedingPointsHaveBeenPrepared?(viewItems)
         }
     }
@@ -300,7 +297,7 @@ private extension HomeViewModel {
                 logError("[APP] \(#function) failed to reject feeding: \(error.localizedDescription)")
             }
             let points = try await self.model.fetchFeedingPoints()
-            let viewItems = points.map { self.feedingPointViewMapper.mapFeedingPoint($0) }
+            let viewItems = self.feedingPointViewMapper.mapFeedingPoints(points)
             let action = self.model.fetchFeedingAction(request: .autoCancelFeeding)
             self.onFeedingActionHaveBeenPrepared?(self.feedingActionMapper.mapFeedingAction(action))
             self.onFeedingPointsHaveBeenPrepared?(viewItems)
@@ -309,9 +306,7 @@ private extension HomeViewModel {
 
     func proceedFeedingPointSelection(pointId: String) {
         let points = model.proceedFeedingPointSelection(pointId)
-        let viewItems = points.map {
-            feedingPointViewMapper.mapFeedingPoint($0)
-        }
+        let viewItems = feedingPointViewMapper.mapFeedingPoints(points)
         onFeedingPointsHaveBeenPrepared?(viewItems)
         coordinator.routeTo(.details(pointId))
     }
