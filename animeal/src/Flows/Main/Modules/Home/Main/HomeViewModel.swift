@@ -250,7 +250,7 @@ private extension HomeViewModel {
     func update(_ feedingPoints: [HomeModel.FeedingPoint]) {
         guard self.feedingStatus != .progress else { return }
         let viewItems = feedingPointViewMapper.mapFeedingPoints(feedingPoints)
-        Task { @MainActor in
+        DispatchQueue.main.async {
             self.fetchFilterItems()
             self.onFeedingPointsHaveBeenPrepared?(viewItems)
         }

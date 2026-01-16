@@ -28,30 +28,23 @@ final class FeedingPointViewMapper: FeedingPointViewMappable {
     // MARK: - Public API
 
     func mapFeedingPoints(_ inputs: [HomeModel.FeedingPoint]) -> [FeedingPointViewItem] {
-        var coordinateGroups: [String: [HomeModel.FeedingPoint]] = [:]
-
-        for point in inputs {
-            let key = coordinateKey(point.location.latitude, point.location.longitude)
-            coordinateGroups[key, default: []].append(point)
-        }
-
-        var result: [FeedingPointViewItem] = []
-
-        let sortedKeys = coordinateGroups.keys.sorted()
-        for key in sortedKeys {
-            guard let group = coordinateGroups[key] else { continue }
-
-            if group.count == 1, let point = group.first {
-                result.append(mapFeedingPoint(point))
-            } else if group.count > 1 {
-                let sortedGroup = group.sorted { $0.identifier < $1.identifier }
-                for (index, point) in sortedGroup.enumerated() {
-                    result.append(mapFeedingPoint(point, offsetIndex: index, totalCount: sortedGroup.count))
+        let coordinateGroups = Dictionary(
+            grouping: inputs,
+            by: { coordinateKey($0.location.latitude, $0.location.longitude) }
+        )
+        
+        return coordinateGroups
+            .sorted(by: { $0.key < $1.key })
+            .flatMap { _, group -> [FeedingPointViewItem] in
+                if group.count == 1 {
+                    return group.compactMap { mapFeedingPoint($0) }
+                } else {
+                    let sortedGroup = group.sorted { $0.identifier < $1.identifier }
+                    return sortedGroup.enumerated().map { index, point in
+                        mapFeedingPoint(point, offsetIndex: index, totalCount: sortedGroup.count)
+                    }
                 }
             }
-        }
-
-        return result
     }
 
     func mapFeedingPoint(_ input: HomeModel.FeedingPoint) -> FeedingPointViewItem {
