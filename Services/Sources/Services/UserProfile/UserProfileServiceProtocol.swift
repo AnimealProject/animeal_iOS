@@ -20,7 +20,6 @@ public protocol UserProfileValidationModel {
     var isSignedIn: Bool { get }
     var userMode: UserMode? { get }
     var roles: Set<UserRole> { get }
-    var isModeratorOrAdmin: Bool { get }
     var validated: Bool { get }
     var phoneNumberVerified: Bool { get }
     var emailVerified: Bool { get }
@@ -36,7 +35,7 @@ public protocol UserModeObservable: AnyObject {
     var userModePublisher: AnyPublisher<UserMode?, Never> { get }
 }
 
-/// Protocol for services that provide observable user mode changes
+/// Protocol for services that provide observable user role changes
 public protocol UserRoleObservable: AnyObject {
     /// Publisher that emits user role changes
     var userRolePublisher: AnyPublisher<Set<UserRole>, Never> { get }

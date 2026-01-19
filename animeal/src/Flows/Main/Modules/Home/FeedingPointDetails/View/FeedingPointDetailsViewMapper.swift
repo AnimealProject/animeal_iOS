@@ -45,11 +45,7 @@ final class FeedingPointDetailsViewMapper: FeedingPointDetailsViewMappable {
             feedingPointFeeders: FeedingPointFeeders(
                 title: L10n.Text.Header.lastFeeder,
                 feeders: feeders
-            ), feedingPointModerators: FeedingPointModerators(
-                title: "",
-                moderators: [],
-                canShowMore: false,
-                totalCount: 0)
+            )
         )
     }
 
@@ -77,7 +73,7 @@ final class FeedingPointDetailsViewMapper: FeedingPointDetailsViewMappable {
     ) -> FeedingPointModerators {
         let moderators = input.map { FeedingPointModerators.Moderator(name: $0.name) }
         return FeedingPointModerators(
-            title: "Assigned moderators", // replace with L10n
+            title: L10n.Text.Header.assignedModerators,
             moderators: moderators,
             canShowMore: canShowMore,
             totalCount: totalCount
@@ -103,7 +99,6 @@ extension FeedingPointDetailsViewMapper {
         let placeDescription: TextParagraphView.Model
         let action: Action
         let feedingPointFeeders: FeedingPointFeeders
-        let feedingPointModerators: FeedingPointModerators
     }
 
     struct FeedingPointFeeders {

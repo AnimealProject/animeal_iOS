@@ -107,28 +107,31 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
     }
     
     private func updateModeratorsContent(_ moderators: [FeedingPointDetailsModel.Moderator]) {
-        if moderators.isEmpty {
-            isModeratorsExpanded = false
+        guard !moderators.isEmpty else {
             allModerators = []
+            isModeratorsExpanded = false
+            let mapped = contentMapper.mapModerators([], canShowMore: false, totalCount: 0)
+            onModeratorsHaveBeenPrepared?(mapped)
+            return
         }
         allModerators = moderators
-        let shown: [FeedingPointDetailsModel.Moderator]
+        let moderatorsToDisplay: [FeedingPointDetailsModel.Moderator]
         let canShowMore: Bool
         
         if isModeratorsExpanded {
-            let limit = 10
-            shown = Array(moderators.prefix(limit))
+            let limit = ModeratorDisplayConstants.expandedLimit
+            moderatorsToDisplay = Array(moderators.prefix(limit))
             canShowMore = false
         } else {
-            if allModerators.count > 5 {
-                shown = []
+            if allModerators.count > ModeratorDisplayConstants.collapsedThreshold {
+                moderatorsToDisplay = []
                 canShowMore = true
             } else {
-                shown = moderators
+                moderatorsToDisplay = moderators
                 canShowMore = false
             }
         }
-        let mapped = contentMapper.mapModerators(shown, canShowMore: canShowMore, totalCount: allModerators.count)
+        let mapped = contentMapper.mapModerators(moderatorsToDisplay, canShowMore: canShowMore, totalCount: allModerators.count)
         onModeratorsHaveBeenPrepared?(mapped)
     }
 
@@ -188,5 +191,12 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
             isModeratorsExpanded = true
             updateModeratorsContent(allModerators)
         }
+    }
+}
+
+private extension FeedingPointDetailsViewModel {
+    enum ModeratorDisplayConstants {
+        static let collapsedThreshold = 5   /// show "Show more" if total > 5
+        static let expandedLimit = 10  /// max shown after expand
     }
 }

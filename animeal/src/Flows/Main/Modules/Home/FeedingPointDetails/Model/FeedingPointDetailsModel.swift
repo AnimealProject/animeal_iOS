@@ -15,6 +15,7 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
     private let context: Context
     private var cachedFeedingPoint: FullFeedingPoint?
     private var cancellables = Set<AnyCancellable>()
+    private var moderatorsTask: Task<Void, Never>?
 
     // MARK: - DataStore properties
     let feedingPointId: String
@@ -196,17 +197,19 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
             .map { roles in
                 roles.contains(.admin) || roles.contains(.moderator)
             }
+            .removeDuplicates()
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] canSeeModerators in
-                guard let self = self else { return }
+                guard let self else { return }
+                
+                moderatorsTask?.cancel()
+                moderatorsTask = nil
                 
                 if !canSeeModerators {
-                    DispatchQueue.main.async {
-                        self.onModeratorsChange?([])
-                    }
+                    self.onModeratorsChange?([])
                     return
                 }
-                
-                Task { [weak self] in
+                moderatorsTask = Task { [weak self] in
                     guard let self else { return }
                     let moderators = (try? await self.fetchAssignedModerators()) ?? []
                     self.onModeratorsChange?(moderators)

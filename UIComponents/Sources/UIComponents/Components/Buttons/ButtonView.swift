@@ -37,15 +37,17 @@ open class ButtonView: UIView {
 
     // MARK: - Private properties
     public let contentView: UIButton
+    private let height: CGFloat
 
     // MARK: - Public properties
     public var identifier: String
     public var onTap: ((String) -> Void)?
 
     // MARK: - Initialization
-    public init(contentView: UIButton) {
+    public init(contentView: UIButton, height: CGFloat = 60.0) {
         self.contentView = contentView
         self.identifier = UUID().uuidString
+        self.height = height
         super.init(frame: CGRect.zero)
         setup()
     }
@@ -68,7 +70,7 @@ open class ButtonView: UIView {
         contentView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         contentView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         contentView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        contentView.heightAnchor.constraint(equalToConstant: Constants.height).isActive = true
+        contentView.heightAnchor.constraint(equalToConstant: height).isActive = true
 
         contentView.addTarget(
             self,

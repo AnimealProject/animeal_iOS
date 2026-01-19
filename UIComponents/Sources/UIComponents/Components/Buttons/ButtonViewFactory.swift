@@ -1,4 +1,5 @@
 import UIKit
+import Style
 
 public protocol ButtonViewGenerating {
     func makeSignInWithAppleButton() -> ButtonView
@@ -148,6 +149,23 @@ public struct ButtonViewFactory: ButtonViewGenerating, StyleEngineContainable {
     }
     
     public func makeArrowButton() -> ButtonView {
-        ArrowButtonView(contentView: UIButton(type: .system))
+        let button = UIButton().apply(style: .arrowIcon)
+        return ButtonView(contentView: button, height: 16)
+    }
+}
+
+private extension Style where Component == UIButton {
+    static var arrowIcon: Style<UIButton> {
+        .init { button in
+            let designEngine = button.designEngine
+            
+            button.setTitle(nil, for: .normal)
+            button.backgroundColor = .clear
+            button.tintColor = designEngine.colors.textPrimary
+            button.imageView?.contentMode = .scaleAspectFit
+            
+            let font = designEngine.fonts.primary.bold(16) ?? .systemFont(ofSize: 16, weight: .bold)
+            button.setPreferredSymbolConfiguration(.init(font: font), forImageIn: .normal)
+        }
     }
 }

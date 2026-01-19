@@ -25,14 +25,9 @@ final class UserValidationModel: UserProfileValidationModel {
             userRoleSubject.send(roles)
         }
     }
-    var isModeratorOrAdmin: Bool {
-        roles.contains(.admin) || roles.contains(.moderator)
-    }
     private(set) var phoneNumberVerified = false
     private(set) var emailVerified = false
     private(set) var areAllNecessaryFieldsFilled = false
-    private var lastRefreshAt: Date?
-    private let refreshCooldown: TimeInterval = 30
     
     // MARK: - Publishers
     var userModePublisher: AnyPublisher<UserMode?, Never> {
@@ -116,8 +111,11 @@ private extension UserValidationModel {
             case HubPayload.EventName.Auth.fetchSessionAPI:
                 logInfo("[App] \(#function) Auth.fetchSessionAPI event occurred in AUTH channel")
                 self.isSignedIn = self.checkIfUserSignedIn(payload.data)
-                if !self.isSignedIn { self.roles = [] } else {
-                    self.updateRolesFromSessionData(payload.data) }
+                if !self.isSignedIn {
+                    self.roles = []
+                } else {
+                    self.updateRolesFromSessionData(payload.data)
+                }
             default:
                 break
             }
@@ -147,17 +145,18 @@ private extension UserValidationModel {
 }
 
 private extension UserValidationModel {
+    /// Updates user roles from Cognito group claims (`cognito:groups`) in the ID token using the current auth session.
     func updateRolesFromSessionData(_ data: Any?) {
         guard let event = data as? Result<AuthSession, AuthError>,
               case let .success(session) = event,
-              let tokensProvider = session as? AuthCognitoTokensProvider,
-              case let .success(tokens) = tokensProvider.getCognitoTokens()
+              let tokens = try? (session as? AuthCognitoTokensProvider)?.getCognitoTokens().get(),
+              let claims = try? AWSAuthService().getTokenClaims(tokenString: tokens.idToken).get()
         else {
             roles = []
             return
         }
         
-        let groups = decodeCognitoGroups(from: tokens.idToken)
+        let groups = (claims["cognito:groups"] as? [String]) ?? []
         let normalized = Set(groups.map { $0.lowercased() })
         
         var newRoles = Set<UserRole>()
@@ -168,25 +167,5 @@ private extension UserValidationModel {
         if roles != newRoles {
             roles = newRoles
         }
-    }
-    
-    func decodeCognitoGroups(from idToken: String) -> [String] {
-        let segments = idToken.split(separator: ".")
-        guard segments.count >= 2 else { return [] }
-        
-        let payloadSegment = String(segments[1])
-        
-        let base64 = payloadSegment
-            .replacingOccurrences(of: "-", with: "+")
-            .replacingOccurrences(of: "_", with: "/")
-            .padding(toLength: ((payloadSegment.count + 3) / 4) * 4,
-                     withPad: "=",
-                     startingAt: 0)
-        
-        guard let data = Data(base64Encoded: base64),
-              let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
-        else { return [] }
-        
-        return (json["cognito:groups"] as? [String]) ?? []
     }
 }

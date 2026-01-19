@@ -34,7 +34,6 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
     }()
     private let pointDetailsView = FeedingPointDetailsView()
     private var shimmerAdded = false
-    private var moderatorsExpanded = false
     private var moderatorsShimmerAdded = false
     
     // MARK: - Dependencies
@@ -166,7 +165,7 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
             button.configure(
                 ButtonView.Model(
                     identifier: UUID().uuidString,
-                    viewType: ArrowButtonView.self,
+                    viewType: ButtonView.self,
                     icon: UIImage(systemName: "chevron.down"))
             )
             button.onTap = { [weak self] _ in
