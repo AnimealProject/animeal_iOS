@@ -39,6 +39,7 @@ final class FeedingPointDetailsModelMapper: FeedingPointDetailsModelMapperProtoc
                 ),
                 status: convertStatus(item.status),
                 feeders: feeders,
+                moderators: [],
                 isFavorite: isFavorite
             ), action: FeedingPointDetailsModel.Action(
                 identifier: UUID().uuidString,

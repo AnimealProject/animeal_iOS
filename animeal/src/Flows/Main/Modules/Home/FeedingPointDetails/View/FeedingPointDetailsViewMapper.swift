@@ -13,6 +13,11 @@ protocol FeedingPointDetailsViewMappable {
     func mapFeedingHistory(
         _ input: [FeedingPointDetailsModel.Feeder]
     ) -> FeedingPointDetailsViewMapper.FeedingPointFeeders
+    func mapModerators(
+        _ input: [FeedingPointDetailsModel.Moderator],
+        canShowMore: Bool,
+        totalCount: Int
+    ) -> FeedingPointDetailsViewMapper.FeedingPointModerators
 }
 
 final class FeedingPointDetailsViewMapper: FeedingPointDetailsViewMappable {
@@ -60,7 +65,21 @@ final class FeedingPointDetailsViewMapper: FeedingPointDetailsViewMappable {
             feeders: feeders
         )
     }
-
+    
+    func mapModerators(
+        _ input: [FeedingPointDetailsModel.Moderator],
+        canShowMore: Bool,
+        totalCount: Int
+    ) -> FeedingPointModerators {
+        let moderators = input.map { FeedingPointModerators.Moderator(name: $0.name) }
+        return FeedingPointModerators(
+            title: L10n.Text.Header.assignedModerators,
+            moderators: moderators,
+            canShowMore: canShowMore,
+            totalCount: totalCount
+        )
+    }
+    
     private func convert(_ status: FeedingPointDetailsModel.Status) -> StatusView.Model {
         switch status {
         case .attention(let message):
@@ -91,7 +110,18 @@ extension FeedingPointDetailsViewMapper {
             let lastFeeded: String
         }
     }
-
+    
+    struct FeedingPointModerators {
+        let title: String
+        let moderators: [Moderator]
+        let canShowMore: Bool
+        let totalCount: Int
+        
+        struct Moderator {
+            let name: String
+        }
+    }
+    
     struct FeedingPointMediaContent {
         var pointDetailsIcon: UIImage
     }

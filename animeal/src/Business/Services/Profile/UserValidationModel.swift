@@ -11,7 +11,8 @@ final class UserValidationModel: UserProfileValidationModel {
     // MARK: - Private Properties
     private var listeners = [AuthChannelEventsListener]()
     private let userModeSubject = CurrentValueSubject<UserMode?, Never>(nil)
-
+    private let userRoleSubject = CurrentValueSubject<Set<UserRole>, Never>([])
+    
     // MARK: - Accessible properties
     private(set) var isSignedIn = false
     private(set) var userMode: UserMode? {
@@ -19,15 +20,24 @@ final class UserValidationModel: UserProfileValidationModel {
             userModeSubject.send(userMode)
         }
     }
+    private(set) var roles: Set<UserRole> = [] {
+        didSet {
+            userRoleSubject.send(roles)
+        }
+    }
     private(set) var phoneNumberVerified = false
     private(set) var emailVerified = false
     private(set) var areAllNecessaryFieldsFilled = false
-
+    
     // MARK: - Publishers
     var userModePublisher: AnyPublisher<UserMode?, Never> {
         userModeSubject.eraseToAnyPublisher()
     }
-
+    
+    var userRolePublisher: AnyPublisher<Set<UserRole>, Never> {
+        userRoleSubject.eraseToAnyPublisher()
+    }
+    
     // MARK: - Initialization
     init() {
         listenAuthChannelMessages()
@@ -68,6 +78,7 @@ final class UserValidationModel: UserProfileValidationModel {
         phoneNumberVerified = false
         emailVerified = false
         areAllNecessaryFieldsFilled = false
+        roles = []
     }
 }
 
@@ -89,15 +100,22 @@ private extension UserValidationModel {
                 self.emailVerified = false
                 self.phoneNumberVerified = false
                 self.isSignedIn = false
+                self.roles = []
             case HubPayload.EventName.Auth.fetchUserAttributesAPI:
                 logInfo("[App] \(#function) Auth.fetchUserAttributesAPI event occurred in AUTH channel")
             case HubPayload.EventName.Auth.sessionExpired:
                 logInfo("[App] \(#function) Auth.sessionExpired event occurred in AUTH channel")
                 self.isSignedIn = false
+                self.roles = []
                 self.handleSessionExpiredEvent()
             case HubPayload.EventName.Auth.fetchSessionAPI:
                 logInfo("[App] \(#function) Auth.fetchSessionAPI event occurred in AUTH channel")
                 self.isSignedIn = self.checkIfUserSignedIn(payload.data)
+                if !self.isSignedIn {
+                    self.roles = []
+                } else {
+                    self.updateRolesFromSessionData(payload.data)
+                }
             default:
                 break
             }
@@ -118,10 +136,36 @@ private extension UserValidationModel {
         }
         return false
     }
-
+    
     func handleSessionExpiredEvent() {
         listeners.forEach { listener in
             listener.listenAuthChannelEvents(event: .sessionExpired)
+        }
+    }
+}
+
+private extension UserValidationModel {
+    /// Updates user roles from Cognito group claims (`cognito:groups`) in the ID token using the current auth session.
+    func updateRolesFromSessionData(_ data: Any?) {
+        guard let event = data as? Result<AuthSession, AuthError>,
+              case let .success(session) = event,
+              let tokens = try? (session as? AuthCognitoTokensProvider)?.getCognitoTokens().get(),
+              let claims = try? AWSAuthService().getTokenClaims(tokenString: tokens.idToken).get()
+        else {
+            roles = []
+            return
+        }
+        
+        let groups = (claims["cognito:groups"] as? [String]) ?? []
+        let normalized = Set(groups.map { $0.lowercased() })
+        
+        var newRoles = Set<UserRole>()
+        if normalized.contains("administrator") { newRoles.insert(.admin) }
+        if normalized.contains("moderator") { newRoles.insert(.moderator) }
+        if normalized.contains("volunteer") { newRoles.insert(.volunteer) }
+        
+        if roles != newRoles {
+            roles = newRoles
         }
     }
 }

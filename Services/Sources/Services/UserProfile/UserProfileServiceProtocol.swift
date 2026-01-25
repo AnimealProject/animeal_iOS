@@ -6,6 +6,12 @@ public enum UserMode {
     case registered
 }
 
+public enum UserRole: String, Hashable {
+    case volunteer
+    case moderator
+    case admin
+}
+
 public protocol UserProfileServiceHolder {
     var profileService: UserProfileServiceProtocol { get }
 }
@@ -13,6 +19,7 @@ public protocol UserProfileServiceHolder {
 public protocol UserProfileValidationModel {
     var isSignedIn: Bool { get }
     var userMode: UserMode? { get }
+    var roles: Set<UserRole> { get }
     var validated: Bool { get }
     var phoneNumberVerified: Bool { get }
     var emailVerified: Bool { get }
@@ -28,7 +35,13 @@ public protocol UserModeObservable: AnyObject {
     var userModePublisher: AnyPublisher<UserMode?, Never> { get }
 }
 
-public protocol UserProfileServiceProtocol: UserModeObservable {
+/// Protocol for services that provide observable user role changes
+public protocol UserRoleObservable: AnyObject {
+    /// Publisher that emits user role changes
+    var userRolePublisher: AnyPublisher<Set<UserRole>, Never> { get }
+}
+
+public protocol UserProfileServiceProtocol: UserModeObservable, UserRoleObservable {
     /// Returns the currently logged in user.
     ///
     func getCurrentUser() async -> UserCurrentProfile?

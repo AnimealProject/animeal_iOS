@@ -295,6 +295,8 @@ internal enum L10n {
     /// Thank You!
     internal static let thankYou = L10n.tr("Localizable", "text.thankYou", fallback: "Thank You!")
     internal enum Header {
+      /// Assigned Moderators
+      internal static let assignedModerators = L10n.tr("Localizable", "text.header.assignedModerators", fallback: "Assigned Moderators")
       /// Last feeder
       internal static let lastFeeder = L10n.tr("Localizable", "text.header.lastFeeder", fallback: "Last feeder")
     }

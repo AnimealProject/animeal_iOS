@@ -301,6 +301,7 @@
 		C21173D3F00EA2227C126EF6 /* QuestionI18n+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353541A22B004F10D26B741A /* QuestionI18n+Schema.swift */; };
 		C2744A856776544005086938 /* FeedingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FD88DC75911C04106149D6 /* FeedingStatus.swift */; };
 		C539E64E7DD90F921CB32D61 /* UserAttribute+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE3D1C1303F2703ACF8DF4E /* UserAttribute+Schema.swift */; };
+		C7C990982F1850D500286979 /* ModeratorsShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C990972F1850D500286979 /* ModeratorsShimmerView.swift */; };
 		CAAFF8418A0419B14F7461B1 /* RelationPetFeedingPoint+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12E8D4947DDBC6278B003F58 /* RelationPetFeedingPoint+Schema.swift */; };
 		CBC2C7CF54215BF6AF61524E /* FeedingPointStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761104F96C616340746249C7 /* FeedingPointStatus.swift */; };
 		CEE0B500A76F27824D7AD4E8 /* FeedingPointDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8F2323D475DB12AA76C105 /* FeedingPointDetails.swift */; };
@@ -678,6 +679,7 @@
 		C189FE7FA4A378D3B032D1DB /* FeedingHistory.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = FeedingHistory.swift; path = amplify/generated/models/FeedingHistory.swift; sourceTree = "<group>"; };
 		C45B7650A014076E116C8BD5 /* Category.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Category.swift; path = amplify/generated/models/Category.swift; sourceTree = "<group>"; };
 		C5A3F3180005C29FF765CAC8 /* FeedingPoint+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "FeedingPoint+Schema.swift"; path = "amplify/generated/models/FeedingPoint+Schema.swift"; sourceTree = "<group>"; };
+		C7C990972F1850D500286979 /* ModeratorsShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeratorsShimmerView.swift; sourceTree = "<group>"; };
 		D09306992965933E00BABB17 /* AttachPhotoAssembler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttachPhotoAssembler.swift; sourceTree = "<group>"; };
 		D093069B2965934400BABB17 /* AttachPhotoContract.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttachPhotoContract.swift; sourceTree = "<group>"; };
 		D093069D2965934900BABB17 /* AttachPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttachPhotoViewController.swift; sourceTree = "<group>"; };
@@ -1079,6 +1081,7 @@
 			children = (
 				807874D129D579510005D669 /* FeederShimmerView.swift */,
 				807874D329D57E790005D669 /* FeedingHistoryShimmerView.swift */,
+				C7C990972F1850D500286979 /* ModeratorsShimmerView.swift */,
 			);
 			path = Shimmers;
 			sourceTree = "<group>";
@@ -2987,6 +2990,7 @@
 				F0C51AC9C71D7585539B42A1 /* Question+Schema.swift in Sources */,
 				A8C82F5EA242B4E574055D0F /* Question.swift in Sources */,
 				BB4A5BFB84887A576BBEA62D /* QuestionI18n+Schema.swift in Sources */,
+				C7C990982F1850D500286979 /* ModeratorsShimmerView.swift in Sources */,
 				4AA077256022E92280815D22 /* QuestionI18n.swift in Sources */,
 				1F770667D42E31D263AE67AB /* RelationPetFeedingPoint+Schema.swift in Sources */,
 				B8A233D7B15B4A46582895E9 /* RelationPetFeedingPoint.swift in Sources */,

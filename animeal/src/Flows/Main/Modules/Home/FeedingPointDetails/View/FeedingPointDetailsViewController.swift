@@ -26,9 +26,16 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
         stackView.spacing = Constants.stackSpacing
         return stackView
     }()
+    private let moderatorsContainer: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = Constants.stackSpacing
+        return stackView
+    }()
     private let pointDetailsView = FeedingPointDetailsView()
     private var shimmerAdded = false
-
+    private var moderatorsShimmerAdded = false
+    
     // MARK: - Dependencies
     private let viewModel: FeedingPointDetailsViewModelProtocol
 
@@ -75,6 +82,10 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
         viewModel.onRequestLocationAccess = { [weak self] in
             self?.requestLocation()
         }
+        
+        viewModel.onModeratorsHaveBeenPrepared = { [weak self] moderators in
+            self?.applyModeratorsContent(moderators)
+        }
     }
 
     // MARK: - Setup
@@ -115,7 +126,55 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
     ) {
         pointDetailsView.setIcon(content.pointDetailsIcon)
     }
+    
+    func applyModeratorsContent(
+        _ content: FeedingPointDetailsViewMapper.FeedingPointModerators
+    ) {
+        moderatorsContainer.arrangedSubviews.forEach { $0.removeFromSuperview() }
 
+        guard content.totalCount > 0 else {
+            moderatorsContainer.isHidden = true
+            return
+        }
+        moderatorsContainer.isHidden = false
+        
+        let containerView = UIStackView()
+        containerView.axis = .horizontal
+        containerView.alignment = .center
+        containerView.distribution = .equalSpacing
+        moderatorsContainer.addArrangedSubview(containerView)
+
+        let title = TextTitleView()
+        title.configure(TextTitleView.Model(title: content.title))
+        containerView.addArrangedSubview(title)
+
+        content.moderators.forEach { moderator in
+            let view = FeederView()
+            view.configure(
+                FeederView.Model(
+                    title: moderator.name,
+                    subtitle: "",
+                    icon: Asset.Images.feederPlaceholderIcon.image
+                )
+            )
+            moderatorsContainer.addArrangedSubview(view)
+        }
+
+        if content.canShowMore {
+            let button = ButtonViewFactory().makeArrowButton()
+            button.configure(
+                ButtonView.Model(
+                    identifier: UUID().uuidString,
+                    viewType: ButtonView.self,
+                    icon: UIImage(systemName: "chevron.down"))
+            )
+            button.onTap = { [weak self] _ in
+                self?.viewModel.handleActionEvent(.tapShowMoreModerators)
+            }
+            containerView.addArrangedSubview(button)
+        }
+    }
+    
     func applyFavoriteMutationFailed() {
         pointDetailsView.toggleHighlightState()
     }
@@ -152,9 +211,16 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
             feedingHistoryShimmerView.startAnimation(scheduler: viewModel.shimmerScheduler)
             self.shimmerAdded = true
         }
-
+        
+        if !viewModel.moderatorsInitialized && !moderatorsShimmerAdded {
+            let moderatorsShimmerView = ModeratorsShimmerView()
+            moderatorsContainer.addArrangedSubview(moderatorsShimmerView)
+            moderatorsShimmerView.startAnimation(scheduler: viewModel.shimmerScheduler)
+            moderatorsShimmerAdded = true
+        }
+        
         contentContainer.addArrangedSubview(feedingHistoryContainer)
-
+        contentContainer.addArrangedSubview(moderatorsContainer)
         contentContainer.addArrangedSubview(UIView())
 
         if let model = viewModel.showOnMapAction {
