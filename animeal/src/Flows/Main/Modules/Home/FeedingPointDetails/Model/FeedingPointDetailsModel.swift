@@ -47,6 +47,12 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
         subscribeForFeedingPointChangeEvents()
         subscribeForFeedingPointModerators()
     }
+    
+    // MARK: - Deinitialization
+    deinit {
+        moderatorsTask?.cancel()
+        moderatorsTask = nil
+    }
 
     func fetchFeedingPoint(_ completion: ((FeedingPointDetailsModel.PointContent) -> Void)?) {
         Task { [weak self] in
@@ -198,7 +204,6 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
                 roles.contains(.admin) || roles.contains(.moderator)
             }
             .removeDuplicates()
-            .receive(on: DispatchQueue.main)
             .sink { [weak self] canSeeModerators in
                 guard let self else { return }
                 
@@ -206,13 +211,19 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
                 moderatorsTask = nil
                 
                 if !canSeeModerators {
-                    self.onModeratorsChange?([])
+                    Task { @MainActor in
+                        self.onModeratorsChange?([])
+                    }
                     return
                 }
                 moderatorsTask = Task { [weak self] in
                     guard let self else { return }
                     let moderators = (try? await self.fetchAssignedModerators()) ?? []
-                    self.onModeratorsChange?(moderators)
+                    
+                    guard !Task.isCancelled else { return }
+                    await MainActor.run {
+                        self.onModeratorsChange?(moderators)
+                    }
                 }
             }
             .store(in: &cancellables)
