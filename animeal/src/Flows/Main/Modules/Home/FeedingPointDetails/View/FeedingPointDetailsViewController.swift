@@ -167,7 +167,7 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
             showMoreButtonContainer.alignment = .trailing
             
             let button = ButtonViewFactory().makeTextButton()
-            let model = ButtonView.Model(identifier: UUID().uuidString, viewType: ButtonView.self, title: "Click for more")
+            let model = ButtonView.Model(identifier: UUID().uuidString, viewType: ButtonView.self, title: L10n.Action.showAll(content.totalCount))
             button.configure(model)
             button.onTap = { [weak self] _ in
                 self?.viewModel.handleActionEvent(.tapShowMoreModerators)

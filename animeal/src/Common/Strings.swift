@@ -51,6 +51,10 @@ internal enum L10n {
     internal static let privacyPolicy = L10n.tr("Localizable", "action.privacyPolicy", fallback: "Privacy Policy")
     /// Register/Log-in
     internal static let register = L10n.tr("Localizable", "action.register", fallback: "Register/Log-in")
+    /// Show All (%@)
+    internal static func showAll(_ p1: Any) -> String {
+      return L10n.tr("Localizable", "action.showAll", String(describing: p1), fallback: "Show All (%@)")
+    }
     /// Show on map
     internal static let showOnMap = L10n.tr("Localizable", "action.showOnMap", fallback: "Show on map")
     /// Terms & Conditions
