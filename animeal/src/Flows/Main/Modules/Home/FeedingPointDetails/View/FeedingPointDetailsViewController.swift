@@ -159,20 +159,36 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
             )
             moderatorsContainer.addArrangedSubview(view)
         }
-
+        
         if content.canShowMore {
-            let button = ButtonViewFactory().makeArrowButton()
-            button.configure(
-                ButtonView.Model(
-                    identifier: UUID().uuidString,
-                    viewType: ButtonView.self,
-                    icon: UIImage(systemName: "chevron.down"))
-            )
+            let showMoreButtonContainer = UIStackView()
+            showMoreButtonContainer.axis = .horizontal
+            showMoreButtonContainer.distribution = .equalSpacing
+            showMoreButtonContainer.alignment = .trailing
+            
+            let button = ButtonViewFactory().makeTextButton()
+            let model = ButtonView.Model(identifier: UUID().uuidString, viewType: ButtonView.self, title: "Click for more")
+            button.configure(model)
             button.onTap = { [weak self] _ in
                 self?.viewModel.handleActionEvent(.tapShowMoreModerators)
             }
-            containerView.addArrangedSubview(button)
+            showMoreButtonContainer.addArrangedSubview(button)
+            showMoreButtonContainer.addArrangedSubview(UIView())
+            moderatorsContainer.addArrangedSubview(showMoreButtonContainer)
         }
+
+        let button = ButtonViewFactory().makeArrowButton()
+        let iconName = content.isExpanded ? "chevron.up" : "chevron.down"
+        button.configure(
+            ButtonView.Model(
+                identifier: UUID().uuidString,
+                viewType: ButtonView.self,
+                icon: UIImage(systemName: iconName))
+        )
+        button.onTap = { [weak self] _ in
+            self?.viewModel.handleActionEvent(.tapToggleModeratorsVisibility)
+        }
+        containerView.addArrangedSubview(button)
     }
     
     func applyFavoriteMutationFailed() {
