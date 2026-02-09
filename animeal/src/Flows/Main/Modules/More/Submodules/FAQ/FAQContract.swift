@@ -21,7 +21,7 @@ protocol FAQViewInteraction: AnyObject {
 
 protocol FAQViewState: AnyObject, ObservableObject {
     var faqItems: [FAQViewItem] { get set }
-    var footerText: LocalizedStringKey { get }
+    var footerText: AttributedString { get }
 }
 
 // MARK: - Model

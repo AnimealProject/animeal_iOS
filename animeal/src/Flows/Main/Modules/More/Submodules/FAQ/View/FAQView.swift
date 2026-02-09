@@ -62,10 +62,9 @@ struct FAQView<ViewModel: FAQViewModelProtocol>: View {
         Text(viewModel.footerText)
             .textSelection(.enabled)
             .font(designEngine.fonts.primary.regular(16)?.font)
-            .foregroundColor(designEngine.colors.textPrimary.color)
-            .accentColor(designEngine.colors.textPrimary.color)
             .multilineTextAlignment(.center)
             .frame(maxWidth: .infinity)
+            .tint(.blue)
     }
 }
 

@@ -11,10 +11,19 @@ final class FAQViewModel: FAQViewModelLifeCycle, FAQViewInteraction, FAQViewStat
     private let mapper: QuestionViewMappable
 
     @Published var faqItems: [FAQViewItem] = []
-    let footerText: LocalizedStringKey = {
+    let footerText: AttributedString = {
         let email = "hi@animalproject.ge"
-        let link = "[\(email)](mailto:\(email))"
-        return LocalizedStringKey(L10n.Faq.Footer.text(link))
+        var text = AttributedString(
+            L10n.Faq.Footer.text(email)
+        )
+
+        if let range = text.range(of: email) {
+            text[range].link = URL(string: "mailto:\(email)")
+            text[range].foregroundColor = .blue
+            text[range].underlineStyle = .single
+        }
+
+        return text
     }()
 
     // MARK: - Initialization
