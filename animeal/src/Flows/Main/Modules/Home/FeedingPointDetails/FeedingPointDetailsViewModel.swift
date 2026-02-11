@@ -75,8 +75,8 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
         }
         model.onModeratorsChange = { [weak self] moderators in
             DispatchQueue.main.async {
-                self?.moderatorsInitialized = true
-                self?.updateModeratorsContent(moderators)
+                self?.setModerators(moderators)
+                self?.updateModeratorsContent()
             }
         }
         model.onFeedingPointChange = { [weak self] content, mutateFavorites in
@@ -107,13 +107,12 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
         onContentHaveBeenPrepared?(contentMapper.mapFeedingPoint(modelContent))
     }
     
-    private func updateModeratorsContent(_ moderators: [FeedingPointDetailsModel.Moderator]) {
-        guard !moderators.isEmpty else {
+    private func updateModeratorsContent() {
+        guard !self.allModerators.isEmpty else {
             let mapped = contentMapper.mapModerators([], canShowMore: false, isExpanded: false, totalCount: 0)
             onModeratorsHaveBeenPrepared?(mapped)
             return
         }
-        allModerators = moderators
         
         let moderatorsToDisplay: [FeedingPointDetailsModel.Moderator]
         let limit = ModeratorDisplayConstants.expandedLimit
@@ -130,6 +129,11 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
         let canShowMore = hasMoreThanLimit && isModeratorsExpanded && !didRequestAllModerators
         let mapped = contentMapper.mapModerators(moderatorsToDisplay, canShowMore: canShowMore, isExpanded: isModeratorsExpanded, totalCount: totalCount)
         onModeratorsHaveBeenPrepared?(mapped)
+    }
+    
+    private func setModerators(_ moderators: [FeedingPointDetailsModel.Moderator]) {
+        self.moderatorsInitialized = true
+        self.allModerators = moderators
     }
 
     private func updateFavorites() {
@@ -186,11 +190,12 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
             
         case .tapShowMoreModerators:
             didRequestAllModerators = true
-            updateModeratorsContent(allModerators)
+            updateModeratorsContent()
+            
         case .tapToggleModeratorsVisibility:
             isModeratorsExpanded.toggle()
             didRequestAllModerators = false
-            updateModeratorsContent(allModerators)
+            updateModeratorsContent()
         }
     }
 }
