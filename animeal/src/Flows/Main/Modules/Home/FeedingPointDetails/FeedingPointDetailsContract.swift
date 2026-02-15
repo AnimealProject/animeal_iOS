@@ -80,4 +80,5 @@ enum FeedingPointEvent {
     case tapShowOnMap
     case tapCancelLocationRequest
     case tapShowMoreModerators
+    case tapToggleModeratorsVisibility
 }

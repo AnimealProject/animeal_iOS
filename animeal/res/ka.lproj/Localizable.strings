@@ -112,3 +112,4 @@
 "action.privacyPolicy"                            = "";
 "action.acknowledgeTCandPP"                       = "";
 "text.header.assignedModerators"                  = "დანიშნული მოდერატორები";
+"action.showAll"                                  = "ყველას ნახვა (%@)";

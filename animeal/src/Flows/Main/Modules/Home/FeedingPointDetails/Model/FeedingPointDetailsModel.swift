@@ -134,7 +134,7 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
         let mapped = uniqueIds.map { id in
             FeedingPointDetailsModel.Moderator(name: namesMap[id] ?? "Unknown")
         }
-        return Array(mapped.prefix(10))
+        return mapped
     }
 
     func mutateFavorite() async throws -> Bool {

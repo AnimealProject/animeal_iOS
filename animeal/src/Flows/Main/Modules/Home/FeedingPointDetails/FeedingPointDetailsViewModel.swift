@@ -38,7 +38,8 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
         )
     }
     private var allModerators: [FeedingPointDetailsModel.Moderator] = []
-    private var isModeratorsExpanded = false
+    private var isModeratorsExpanded = true
+    private var didRequestAllModerators = false
     let shimmerScheduler = ShimmerViewScheduler()
 
     // MARK: - Initialization
@@ -74,8 +75,8 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
         }
         model.onModeratorsChange = { [weak self] moderators in
             DispatchQueue.main.async {
-                self?.moderatorsInitialized = true
-                self?.updateModeratorsContent(moderators)
+                self?.setModerators(moderators)
+                self?.updateModeratorsContent()
             }
         }
         model.onFeedingPointChange = { [weak self] content, mutateFavorites in
@@ -106,33 +107,33 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
         onContentHaveBeenPrepared?(contentMapper.mapFeedingPoint(modelContent))
     }
     
-    private func updateModeratorsContent(_ moderators: [FeedingPointDetailsModel.Moderator]) {
-        guard !moderators.isEmpty else {
-            allModerators = []
-            isModeratorsExpanded = false
-            let mapped = contentMapper.mapModerators([], canShowMore: false, totalCount: 0)
+    private func updateModeratorsContent() {
+        guard !self.allModerators.isEmpty else {
+            let mapped = contentMapper.mapModerators([], canShowMore: false, isExpanded: false, totalCount: 0)
             onModeratorsHaveBeenPrepared?(mapped)
             return
         }
-        allModerators = moderators
-        let moderatorsToDisplay: [FeedingPointDetailsModel.Moderator]
-        let canShowMore: Bool
         
-        if isModeratorsExpanded {
-            let limit = ModeratorDisplayConstants.expandedLimit
-            moderatorsToDisplay = Array(moderators.prefix(limit))
-            canShowMore = false
+        let moderatorsToDisplay: [FeedingPointDetailsModel.Moderator]
+        let limit = ModeratorDisplayConstants.expandedLimit
+        let totalCount = allModerators.count
+        let hasMoreThanLimit = totalCount > limit
+        if !isModeratorsExpanded {
+            moderatorsToDisplay = []
+        } else if didRequestAllModerators && hasMoreThanLimit {
+            moderatorsToDisplay = allModerators
         } else {
-            if allModerators.count > ModeratorDisplayConstants.collapsedThreshold {
-                moderatorsToDisplay = []
-                canShowMore = true
-            } else {
-                moderatorsToDisplay = moderators
-                canShowMore = false
-            }
+            moderatorsToDisplay = Array(allModerators.prefix(limit))
         }
-        let mapped = contentMapper.mapModerators(moderatorsToDisplay, canShowMore: canShowMore, totalCount: allModerators.count)
+        
+        let canShowMore = hasMoreThanLimit && isModeratorsExpanded && !didRequestAllModerators
+        let mapped = contentMapper.mapModerators(moderatorsToDisplay, canShowMore: canShowMore, isExpanded: isModeratorsExpanded, totalCount: totalCount)
         onModeratorsHaveBeenPrepared?(mapped)
+    }
+    
+    private func setModerators(_ moderators: [FeedingPointDetailsModel.Moderator]) {
+        self.moderatorsInitialized = true
+        self.allModerators = moderators
     }
 
     private func updateFavorites() {
@@ -188,15 +189,19 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
             break
             
         case .tapShowMoreModerators:
-            isModeratorsExpanded = true
-            updateModeratorsContent(allModerators)
+            didRequestAllModerators = true
+            updateModeratorsContent()
+            
+        case .tapToggleModeratorsVisibility:
+            isModeratorsExpanded.toggle()
+            didRequestAllModerators = false
+            updateModeratorsContent()
         }
     }
 }
 
 private extension FeedingPointDetailsViewModel {
     enum ModeratorDisplayConstants {
-        static let collapsedThreshold = 5   /// show "Show more" if total > 5
-        static let expandedLimit = 10  /// max shown after expand
+        static let expandedLimit = 5
     }
 }

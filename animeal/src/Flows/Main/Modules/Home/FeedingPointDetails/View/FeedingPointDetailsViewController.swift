@@ -141,7 +141,7 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
         let containerView = UIStackView()
         containerView.axis = .horizontal
         containerView.alignment = .center
-        containerView.distribution = .equalSpacing
+        containerView.distribution = .fill
         moderatorsContainer.addArrangedSubview(containerView)
 
         let title = TextTitleView()
@@ -159,20 +159,36 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
             )
             moderatorsContainer.addArrangedSubview(view)
         }
-
+        
         if content.canShowMore {
-            let button = ButtonViewFactory().makeArrowButton()
-            button.configure(
-                ButtonView.Model(
-                    identifier: UUID().uuidString,
-                    viewType: ButtonView.self,
-                    icon: UIImage(systemName: "chevron.down"))
-            )
-            button.onTap = { [weak self] _ in
+            let showMoreButton = ButtonViewFactory().makeTextButton()
+            let model = ButtonView.Model(identifier: UUID().uuidString, viewType: ButtonView.self, title: L10n.Action.showAll(content.totalCount))
+            showMoreButton.configure(model)
+            showMoreButton.onTap = { [weak self] _ in
                 self?.viewModel.handleActionEvent(.tapShowMoreModerators)
             }
-            containerView.addArrangedSubview(button)
+            let showMoreContainer = UIView()
+            showMoreContainer.addSubview(showMoreButton.prepareForAutoLayout())
+            showMoreButton.leadingAnchor ~= showMoreContainer.leadingAnchor
+            showMoreButton.topAnchor ~= showMoreContainer.topAnchor
+            showMoreButton.bottomAnchor ~= showMoreContainer.bottomAnchor
+            showMoreButton.trailingAnchor <= showMoreContainer.trailingAnchor
+
+            moderatorsContainer.addArrangedSubview(showMoreContainer)
         }
+
+        let toggleButton = ButtonViewFactory().makeArrowButton()
+        let iconName = content.isExpanded ? "chevron.up" : "chevron.down"
+        toggleButton.configure(
+            ButtonView.Model(
+                identifier: UUID().uuidString,
+                viewType: ButtonView.self,
+                icon: UIImage(systemName: iconName))
+        )
+        toggleButton.onTap = { [weak self] _ in
+            self?.viewModel.handleActionEvent(.tapToggleModeratorsVisibility)
+        }
+        containerView.addArrangedSubview(toggleButton)
     }
     
     func applyFavoriteMutationFailed() {

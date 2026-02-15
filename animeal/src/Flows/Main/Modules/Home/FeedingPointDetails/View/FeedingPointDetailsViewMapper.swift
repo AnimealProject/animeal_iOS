@@ -16,6 +16,7 @@ protocol FeedingPointDetailsViewMappable {
     func mapModerators(
         _ input: [FeedingPointDetailsModel.Moderator],
         canShowMore: Bool,
+        isExpanded: Bool,
         totalCount: Int
     ) -> FeedingPointDetailsViewMapper.FeedingPointModerators
 }
@@ -69,6 +70,7 @@ final class FeedingPointDetailsViewMapper: FeedingPointDetailsViewMappable {
     func mapModerators(
         _ input: [FeedingPointDetailsModel.Moderator],
         canShowMore: Bool,
+        isExpanded: Bool,
         totalCount: Int
     ) -> FeedingPointModerators {
         let moderators = input.map { FeedingPointModerators.Moderator(name: $0.name) }
@@ -76,6 +78,7 @@ final class FeedingPointDetailsViewMapper: FeedingPointDetailsViewMappable {
             title: L10n.Text.Header.assignedModerators,
             moderators: moderators,
             canShowMore: canShowMore,
+            isExpanded: isExpanded,
             totalCount: totalCount
         )
     }
@@ -115,6 +118,7 @@ extension FeedingPointDetailsViewMapper {
         let title: String
         let moderators: [Moderator]
         let canShowMore: Bool
+        let isExpanded: Bool
         let totalCount: Int
         
         struct Moderator {
