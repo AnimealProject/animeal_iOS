@@ -36,6 +36,9 @@ class NavigationMapController: NavigationViewControllerDelegate {
     var didChangeLocation: ((CLLocation, Bool) -> Void)?
     var didTapAnnotations: (([Annotation]) -> Void)?
 
+    private var lastTapLocation: CGPoint?
+    private weak var tapGestureRecognizer: UITapGestureRecognizer?
+
     var view: UIView {
         return navigationMapView
     }
@@ -84,6 +87,20 @@ class NavigationMapController: NavigationViewControllerDelegate {
         }
 
         annotationManager.point.delegate = self
+        setupTapGesture()
+    }
+
+    private func setupTapGesture() {
+        let tapGesture = UITapGestureRecognizer()
+        tapGesture.addTarget(self, action: #selector(handleMapTap(_:)))
+        tapGesture.cancelsTouchesInView = false
+        navigationMapView.mapView.addGestureRecognizer(tapGesture)
+        tapGestureRecognizer = tapGesture
+    }
+
+    @objc private func handleMapTap(_ gesture: UITapGestureRecognizer) {
+        guard gesture.state == .ended else { return }
+        lastTapLocation = gesture.location(in: navigationMapView.mapView)
     }
 
     // MARK: - Public API
@@ -315,6 +332,44 @@ extension  NavigationMapController: NavigationMapViewDelegate {
 // MARK: - AnnotationInteractionDelegate conformance
 extension NavigationMapController: AnnotationInteractionDelegate {
     func annotationManager(_ manager: AnnotationManager, didDetectTappedAnnotations annotations: [Annotation]) {
-        didTapAnnotations?(annotations)
+        guard !annotations.isEmpty else { return }
+
+        let sortedAnnotations: [Annotation]
+        if let tapLocation = lastTapLocation, annotations.count > 1 {
+            let tapCoordinate = navigationMapView.mapView.mapboxMap.coordinate(for: tapLocation)
+            sortedAnnotations = annotations.sorted { annotation1, annotation2 in
+                distance(from: tapCoordinate, to: annotation1) < distance(from: tapCoordinate, to: annotation2)
+            }
+        } else {
+            sortedAnnotations = annotations
+        }
+
+        lastTapLocation = nil
+        didTapAnnotations?(sortedAnnotations)
+    }
+
+    private func distance(from coordinate: CLLocationCoordinate2D, to annotation: Annotation) -> CLLocationDistance {
+        guard let annotationCoordinate = getCoordinate(from: annotation) else {
+            return .infinity
+        }
+        return coordinate.distance(to: annotationCoordinate)
+    }
+
+    private func getCoordinate(from annotation: Annotation) -> CLLocationCoordinate2D? {
+        switch annotation.geometry {
+        case .point(let point):
+            return point.coordinates
+        default:
+            return nil
+        }
+    }
+}
+
+// MARK: - CLLocationCoordinate2D Extension
+private extension CLLocationCoordinate2D {
+    func distance(to coordinate: CLLocationCoordinate2D) -> CLLocationDistance {
+        let location1 = CLLocation(latitude: latitude, longitude: longitude)
+        let location2 = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        return location1.distance(from: location2)
     }
 }

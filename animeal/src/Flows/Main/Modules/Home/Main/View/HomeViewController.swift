@@ -365,9 +365,9 @@ private extension HomeViewController {
         view.addSubview(mapView.view)
         mapView.mapboxMap.loadStyleURI(styleURI)
 
-        mapView.didTapAnnotations = { [weak self] in
-            let points = Set($0.map(\.id))
-            self?.viewModel.handleActionEvent(.tapFeedingPoints(Array(points)))
+        mapView.didTapAnnotations = { [weak self] annotations in
+            guard let tappedAnnotation = annotations.first else { return }
+            self?.viewModel.handleActionEvent(.tapFeedingPoints([tappedAnnotation.id]))
         }
 
         mapView.cameraAnimationQueue.append {
