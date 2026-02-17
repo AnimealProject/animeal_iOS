@@ -359,6 +359,8 @@ extension NavigationMapController: AnnotationInteractionDelegate {
         switch annotation.geometry {
         case .point(let point):
             return point.coordinates
+        case .polygon(let polygon):
+            return polygon.center
         default:
             return nil
         }
