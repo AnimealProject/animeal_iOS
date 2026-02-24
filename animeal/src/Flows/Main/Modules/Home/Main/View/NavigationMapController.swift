@@ -90,6 +90,13 @@ class NavigationMapController: NavigationViewControllerDelegate {
         setupTapGesture()
     }
 
+    deinit {
+        if let tapGestureRecognizer {
+            view.removeGestureRecognizer(tapGestureRecognizer)
+
+        }
+    }
+
     private func setupTapGesture() {
         let tapGesture = UITapGestureRecognizer()
         tapGesture.addTarget(self, action: #selector(handleMapTap(_:)))
@@ -332,7 +339,10 @@ extension  NavigationMapController: NavigationMapViewDelegate {
 // MARK: - AnnotationInteractionDelegate conformance
 extension NavigationMapController: AnnotationInteractionDelegate {
     func annotationManager(_ manager: AnnotationManager, didDetectTappedAnnotations annotations: [Annotation]) {
-        guard !annotations.isEmpty else { return }
+        guard !annotations.isEmpty else {
+            lastTapLocation = nil
+            return
+        }
 
         let sortedAnnotations: [Annotation]
         if let tapLocation = lastTapLocation, annotations.count > 1 {
