@@ -117,7 +117,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
             let action = model.fetchFeedingAction(request: .cancelFeeding)
             onFeedingActionHaveBeenPrepared?(feedingActionMapper.mapFeedingAction(action))
         case .autoCancelFeeding:
-            handleRejectFeeding()
+            handleFeedingExpiration()
         case .confirmCancelFeeding:
             handleConfirmCancelFeeding()
         case .getCameraPermission:
@@ -287,11 +287,11 @@ private extension HomeViewModel {
         onLocationPermissionRequired?()
     }
 
-    func handleRejectFeeding() {
+    func handleFeedingExpiration() {
         coordinator.displayActivityIndicator { [weak self] in
             guard let self else { return }
             do {
-                let result = try await self.model.processRejectFeeding()
+                let result = try await self.model.processFeedingExpiration()
                 self.feedingStatus = result.feedingStatus
             } catch {
                 logError("[APP] \(#function) failed to reject feeding: \(error.localizedDescription)")

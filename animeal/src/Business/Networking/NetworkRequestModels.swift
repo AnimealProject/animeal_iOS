@@ -47,55 +47,40 @@ public struct CancelFeedingMutation: CustomMutation {
     }
 }
 
-public struct RejectFeedingMutation: CustomMutation {
-    public typealias ResponseType = RejectFeeding
+public struct CancelFeeding: Codable {
+    let cancelFeeding: String
+}
 
-    static let defaultRejectReason = "Feeding time has expired"
+// MARK: - Custom Expration mutation
 
+public struct ExpireFeedingMutation: CustomMutation {
+    public typealias ResponseType = ExpireFeeding
+    
+    static let defaultExpirationReason = "Feeding time has expired"
+    
     let id: String
     let reason: String
-    let feeding: Feeding
-
-    init(
-        id: String,
-        reason: String = Self.defaultRejectReason,
-        feeding: Feeding
+    
+    init(id: String,
+         reason: String = Self.defaultExpirationReason
     ) {
         self.id = id
         self.reason = reason
-        self.feeding = feeding
     }
-
+    
     public var document: String {
         """
-        mutation RejectFeeding {
-            rejectFeeding(
-                feedingId: "\(id)",
-                reason: "\(reason)",
-                feeding: {
-                    createdAt: "\(feeding.createdAt.iso8601String)",
-                    feedingPointFeedingsId: "\(feeding.id)",
-                    createdBy: "\(feeding.createdBy.orNull)",
-                    id: "\(feeding.id)",
-                    images: "\(feeding.images)",
-                    owner: "\(feeding.owner.orNull)",
-                    updatedAt: "\(feeding.updatedAt.iso8601String)",
-                    updatedBy: "\(feeding.updatedBy.orNull)",
-                    userId: "\(feeding.userId)"
-                }
-            )
+        mutation ExpireFeeding {
+           expireFeeding(feedingId: "\(id)", reason: "\(reason)")
         }
         """
     }
 }
 
-public struct CancelFeeding: Codable {
-    let cancelFeeding: String
+public struct ExpireFeeding: Codable {
+    let expireFeeding: String
 }
 
-public struct RejectFeeding: Codable {
-    let rejectFeeding: String
-}
 
 // MARK: - UpdateFeedingPoint
 
