@@ -30,6 +30,7 @@ protocol HomeModelProtocol: AnyObject {
     func processCancelFeeding() async throws -> FeedingResponse
     func processFinishFeeding(imageKeys: [String]) async throws -> FeedingResponse
     func fetchFeedingSnapshot() -> FeedingSnapshot?
+    func updateFeedingSnapshot(id: String, date: Date)
     @discardableResult
     func processRejectFeeding() async throws -> FeedingResponse
     func fetchActiveFeeding() async throws -> Feeding?

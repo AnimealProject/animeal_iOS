@@ -132,6 +132,9 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
             return false
         }
         do {
+            let creationDate = activeFeeding.createdAt.foundationDate
+            model.updateFeedingSnapshot(id: activeFeeding.feedingPointFeedingsId, date: creationDate)
+            
             let snapshotTimeDiff = model.fetchFeedingSnapshot()?.startingTimeDiff ?? NetTime.serverTimeDifference
             let timeDiff = snapshotTimeDiff - NetTime.serverTimeDifference
             let feedingPoint = try await model.fetchFeedingPoint(activeFeeding.feedingPointFeedingsId)
