@@ -17,7 +17,16 @@ final class FAQModel: FAQModelProtocol {
 
     func fetchQuestions() async throws -> [Question] {
         let questions = try await networkService.query(request: .list(animeal.Question.self))
-        return questions.map(mapper.mapQuestion)
+        let ordered = orderQuestions(questions)
+        return ordered.map(mapper.mapQuestion)
+    }
+    
+    private func orderQuestions(_ questions: [animeal.Question]) -> [animeal.Question] {
+        let ordered = questions
+            .filter { $0.orderNum != nil }
+            .sorted(by: { $0.orderNum! < $1.orderNum! })
+        let unordered = questions.filter { $0.orderNum == nil }
+        return ordered + unordered
     }
 }
 
