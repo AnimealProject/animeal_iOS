@@ -6,6 +6,7 @@ public struct Question: Model {
   public let id: String
   public var value: String?
   public var answer: String?
+  public var orderNum: Int?
   public var i18n: [QuestionI18n]?
   public var createdAt: Temporal.DateTime
   public var updatedAt: Temporal.DateTime
@@ -16,6 +17,7 @@ public struct Question: Model {
   public init(id: String = UUID().uuidString,
       value: String? = nil,
       answer: String? = nil,
+      orderNum: Int? = nil,
       i18n: [QuestionI18n]? = nil,
       createdAt: Temporal.DateTime,
       updatedAt: Temporal.DateTime,
@@ -25,6 +27,7 @@ public struct Question: Model {
       self.id = id
       self.value = value
       self.answer = answer
+      self.orderNum = orderNum
       self.i18n = i18n
       self.createdAt = createdAt
       self.updatedAt = updatedAt

@@ -27,6 +27,7 @@ public struct FeedingPoint: Model {
   public var category: Category?
   public var users: List<RelationUserFeedingPoint>?
   public var cover: String?
+  public var disabled: Bool?
   public var feedingPointCategoryId: String?
   
   public init(id: String = UUID().uuidString,
@@ -53,6 +54,7 @@ public struct FeedingPoint: Model {
       category: Category? = nil,
       users: List<RelationUserFeedingPoint> = [],
       cover: String? = nil,
+      disabled: Bool? = nil,
       feedingPointCategoryId: String? = nil) {
       self.id = id
       self.name = name
@@ -78,6 +80,7 @@ public struct FeedingPoint: Model {
       self.category = category
       self.users = users
       self.cover = cover
+      self.disabled = disabled
       self.feedingPointCategoryId = feedingPointCategoryId
   }
 }
