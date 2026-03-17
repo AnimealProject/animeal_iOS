@@ -66,6 +66,7 @@ struct FAQView<ViewModel: FAQViewModelProtocol>: View {
             .accentColor(designEngine.colors.textPrimary.color)
             .multilineTextAlignment(.center)
             .frame(maxWidth: .infinity)
+            .tint(designEngine.colors.elementSpecial.color)
     }
 }
 
