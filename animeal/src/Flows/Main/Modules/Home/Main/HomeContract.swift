@@ -32,7 +32,7 @@ protocol HomeModelProtocol: AnyObject {
     func fetchFeedingSnapshot() -> FeedingSnapshot?
     func updateFeedingSnapshot(id: String, date: Date)
     @discardableResult
-    func processRejectFeeding() async throws -> FeedingResponse
+    func processFeedingExpiration() async throws -> FeedingResponse
     func fetchActiveFeeding() async throws -> Feeding?
 }
 

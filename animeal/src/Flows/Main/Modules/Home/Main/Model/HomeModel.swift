@@ -137,25 +137,17 @@ final class HomeModel: HomeModelProtocol {
     }
 
     @discardableResult
-    func processRejectFeeding() async throws -> FeedingResponse {
+    func processFeedingExpiration() async throws -> FeedingResponse {
         do {
-            let feedingId = snapshotStore.snaphot?.pointId ?? .empty
-            guard let feeding = try await context.networkService.query(
-                request: .get(Feeding.self, byId: feedingId)
-            ) else {
-                throw L10n.Errors.somethingWrong.asBaseError()
-            }
+            let feedingPointId = snapshotStore.snaphot?.pointId ?? .empty
             let result = try await context.networkService.query(
                 request: .customMutation(
-                    RejectFeedingMutation(
-                        id: feedingId,
-                        feeding: feeding
-                    )
+                    ExpireFeedingMutation(id: feedingPointId)
                 )
             )
             snapshotStore.removeStoredSnaphot()
             return FeedingResponse(
-                feedingPoint: result.rejectFeeding,
+                feedingPoint: result.expireFeeding,
                 feedingStatus: .none
             )
         } catch {
