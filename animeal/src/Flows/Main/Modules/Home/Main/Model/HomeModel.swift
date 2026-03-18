@@ -115,6 +115,10 @@ final class HomeModel: HomeModelProtocol {
     func fetchFeedingSnapshot() -> FeedingSnapshot? {
         return snapshotStore.snaphot
     }
+    
+    func updateFeedingSnapshot(id: String, date: Date) {
+        snapshotStore.save(id, date: date)
+    }
 
     @discardableResult
     func processCancelFeeding() async throws -> FeedingResponse {
