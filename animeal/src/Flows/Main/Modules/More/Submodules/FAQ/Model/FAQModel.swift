@@ -23,9 +23,19 @@ final class FAQModel: FAQModelProtocol {
     
     private func orderQuestions(_ questions: [animeal.Question]) -> [animeal.Question] {
         let ordered = questions
-            .filter { $0.orderNum != nil }
-            .sorted(by: { $0.orderNum! < $1.orderNum! })
+            .compactMap { question -> (animeal.Question, Int)? in
+                guard let orderNumber = question.orderNum else { return nil }
+                return (question, orderNumber)
+            }
+            .sorted { $0.1 < $1.1 }
+            .map { $0.0 }
         let unordered = questions.filter { $0.orderNum == nil }
+            .compactMap { question -> (animeal.Question, String)? in
+                guard let questionValue = question.value else { return nil }
+                return (question, questionValue)
+            }
+            .sorted { $0.1.localizedStandardCompare($1.1) == .orderedAscending }
+            .map{ $0.0 }
         return ordered + unordered
     }
 }
