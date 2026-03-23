@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -797,6 +797,10 @@
 		FBE017622874666000A79DB2 /* Coordinatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinatable.swift; sourceTree = "<group>"; };
 		FBE4295C2874411200D1BD26 /* Common */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Common; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		C78071BC2F6F31BE008F2B5D /* ModerationDirectory */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ModerationDirectory; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		DB6B07BF28450A380009397B /* Frameworks */ = {
@@ -1647,6 +1651,7 @@
 		83C7A98228E429F900F3D219 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				C78071BC2F6F31BE008F2B5D /* ModerationDirectory */,
 				7F70590D2EE0E401000A001E /* PublicNetworkService */,
 				83D2BE8F299D66EA00AA1BC4 /* FeedingPoints */,
 				83D2BE8E299D66D500AA1BC4 /* Favorites */,
@@ -2425,6 +2430,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				C78071BC2F6F31BE008F2B5D /* ModerationDirectory */,
 			);
 			name = animeal;
 			packageProductDependencies = (
