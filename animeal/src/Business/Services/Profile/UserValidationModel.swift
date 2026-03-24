@@ -41,6 +41,7 @@ final class UserValidationModel: UserProfileValidationModel {
     // MARK: - Initialization
     init() {
         listenAuthChannelMessages()
+        refreshToken()
     }
 
     // MARK: - UserProfileValidationModel
@@ -70,6 +71,12 @@ final class UserValidationModel: UserProfileValidationModel {
 
     func set(userMode: UserMode?) {
         self.userMode = userMode
+    }
+    
+    func refreshToken() {
+        Task {
+            try? await Amplify.Auth.fetchAuthSession(options: .forceRefresh())
+        }
     }
 
     func reset() {
@@ -116,6 +123,9 @@ private extension UserValidationModel {
                 } else {
                     self.updateRolesFromSessionData(payload.data)
                 }
+            case HubPayload.EventName.Auth.signedIn:
+                logInfo("[App] \(#function) Auth.signedIn event occurred in AUTH channel")
+                refreshToken()
             default:
                 break
             }

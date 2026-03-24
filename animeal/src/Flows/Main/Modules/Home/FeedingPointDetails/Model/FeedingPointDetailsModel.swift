@@ -20,6 +20,7 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
 
     // MARK: - DataStore properties
     let feedingPointId: String
+    private var canModerate = false
     var feedingPointLocation: CLLocationCoordinate2D {
         guard
             let latitude = cachedFeedingPoint?.feedingPoint.location.lat,
@@ -152,6 +153,21 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
             }
         }
     }
+    
+    private func updateModerators() {
+        guard canModerate else { return }
+        moderatorsTask?.cancel()
+        
+        moderatorsTask = Task { [weak self] in
+            guard let self else { return }
+            let moderators = (try? await self.fetchAssignedModerators()) ?? []
+            
+            guard !Task.isCancelled else { return }
+            await MainActor.run {
+                self.onModeratorsChange?(moderators)
+            }
+        }
+    }
 
     private func subscribeForFeedingPointChangeEvents() {
         context.feedingPointsService.feedingPoints
@@ -172,17 +188,16 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
                         } else {
                             justFavoriteMutated = false
                         }
-                        let moderators = (try? await self.fetchAssignedModerators()) ?? []
                         let mapped = self.mapper.map(
                             feedingPointModel.feedingPoint,
                             isFavorite: feedingPointModel.isFavorite,
-                            isEnabled: canBook ?? false)
-                        
+                            isEnabled: canBook ?? false
+                        )
+                        self.cachedFeedingPoint = feedingPointModel
                         await MainActor.run {
-                            self.onModeratorsChange?(moderators)
                             self.onFeedingPointChange?(mapped, justFavoriteMutated)
                         }
-                        self.cachedFeedingPoint = feedingPointModel
+                        updateModerators()
                     }
                 }
             }
@@ -197,7 +212,7 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
             .removeDuplicates()
             .sink { [weak self] canSeeModerators in
                 guard let self else { return }
-                
+                canModerate = canSeeModerators
                 moderatorsTask?.cancel()
                 moderatorsTask = nil
                 
