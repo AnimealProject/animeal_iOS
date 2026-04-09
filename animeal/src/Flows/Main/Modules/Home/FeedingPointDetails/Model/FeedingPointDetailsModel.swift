@@ -12,6 +12,7 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
                         & DataStoreServiceHolder
                         & UserProfileServiceHolder
                         & FeedingPointsServiceHolder
+                        & ModerationDirectoryServiceHolder
     private let context: Context
     private var cachedFeedingPoint: FullFeedingPoint?
     private var cancellables = Set<AnyCancellable>()
@@ -19,6 +20,7 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
 
     // MARK: - DataStore properties
     let feedingPointId: String
+    private var canModerate = false
     var feedingPointLocation: CLLocationCoordinate2D {
         guard
             let latitude = cachedFeedingPoint?.feedingPoint.location.lat,
@@ -108,33 +110,19 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
         let right = feedingPointDetails.count < 5 ? feedingPointDetails.count : 5
         return Array(feedingPointDetails[..<right])
     }
-    
-    private func fetchAssignedModerators() async throws -> [FeedingPointDetailsModel.Moderator] {
-        guard let fullFeedingPoint = context.feedingPointsService.storedFeedingPoints.first(where: { point in
-            point.feedingPoint.id == self.feedingPointId
-        }) else {
-            return []
-        }
-        
-        let history = try await context.feedingPointsService.fetchFeedingHistory(for: fullFeedingPoint.identifier)
-        guard !history.isEmpty else { return [] }
-        
-        let sortedByDateHistory = history.sorted { $0.updatedAt > $1.updatedAt }
 
-        let ids: [String] = sortedByDateHistory
-            .compactMap { $0.assignedModerators }
-            .flatMap { $0 }
-            .compactMap { $0 }
-        
-        let uniqueIds = Array(Set(ids))
-        guard !uniqueIds.isEmpty else { return [] }
-        
-        let namesMap = try await context.profileService.fetchUserNames(for: uniqueIds)
-        
-        let mapped = uniqueIds.map { id in
-            FeedingPointDetailsModel.Moderator(name: namesMap[id] ?? "Unknown")
-        }
-        return mapped
+    private func fetchAssignedModerators() async throws -> [FeedingPointDetailsModel.Moderator] {
+        let allModerators = try await context.moderationDirectoryService.fetchModeratorsAndAdmins()
+        let feedingPoint = try await context.networkService.query(
+            request: .get(FeedingPoint.self, byId: feedingPointId)
+        )
+        guard let relationUsers = feedingPoint?.users else { return [] }
+        try await relationUsers.fetch()
+
+        let assignedUserIds = Set(relationUsers.map(\.userId))
+        return allModerators
+            .filter { assignedUserIds.contains($0.id) }
+            .map { FeedingPointDetailsModel.Moderator(name: $0.name) }
     }
 
     func mutateFavorite() async throws -> Bool {
@@ -165,6 +153,21 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
             }
         }
     }
+    
+    private func updateModerators() {
+        guard canModerate else { return }
+        moderatorsTask?.cancel()
+        
+        moderatorsTask = Task { [weak self] in
+            guard let self else { return }
+            let moderators = (try? await self.fetchAssignedModerators()) ?? []
+            
+            guard !Task.isCancelled else { return }
+            await MainActor.run {
+                self.onModeratorsChange?(moderators)
+            }
+        }
+    }
 
     private func subscribeForFeedingPointChangeEvents() {
         context.feedingPointsService.feedingPoints
@@ -179,19 +182,22 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
                         .canBookFeedingPoint(for: self.feedingPointId)
                     if let feedingPointModel = updatedFeeding,
                        feedingPointModel != self.cachedFeedingPoint {
-                        var justFavoriteMutated = false
+                        let justFavoriteMutated: Bool
                         if let cached = self.cachedFeedingPoint {
                             justFavoriteMutated = feedingPointModel.onlyFavoriteMutatedOf(cached)
+                        } else {
+                            justFavoriteMutated = false
                         }
-
+                        let mapped = self.mapper.map(
+                            feedingPointModel.feedingPoint,
+                            isFavorite: feedingPointModel.isFavorite,
+                            isEnabled: canBook ?? false
+                        )
                         self.cachedFeedingPoint = feedingPointModel
-                        self.onFeedingPointChange?(
-                                                   self.mapper.map(
-                                                   feedingPointModel.feedingPoint,
-                                                   isFavorite: feedingPointModel.isFavorite,
-                                                   isEnabled: canBook ?? false
-                                                   ), justFavoriteMutated
-                                                   )
+                        await MainActor.run {
+                            self.onFeedingPointChange?(mapped, justFavoriteMutated)
+                        }
+                        updateModerators()
                     }
                 }
             }
@@ -206,7 +212,7 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
             .removeDuplicates()
             .sink { [weak self] canSeeModerators in
                 guard let self else { return }
-                
+                canModerate = canSeeModerators
                 moderatorsTask?.cancel()
                 moderatorsTask = nil
                 
