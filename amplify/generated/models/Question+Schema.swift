@@ -8,6 +8,7 @@ extension Question {
     case id
     case value
     case answer
+    case orderNum
     case i18n
     case createdAt
     case updatedAt
@@ -38,6 +39,7 @@ extension Question {
       .id(),
       .field(question.value, is: .optional, ofType: .string),
       .field(question.answer, is: .optional, ofType: .string),
+      .field(question.orderNum, is: .optional, ofType: .int),
       .field(question.i18n, is: .optional, ofType: .embeddedCollection(of: QuestionI18n.self)),
       .field(question.createdAt, is: .required, ofType: .dateTime),
       .field(question.updatedAt, is: .required, ofType: .dateTime),

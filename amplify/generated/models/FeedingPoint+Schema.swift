@@ -29,6 +29,7 @@ extension FeedingPoint {
     case category
     case users
     case cover
+    case disabled
     case feedingPointCategoryId
   }
   
@@ -75,6 +76,7 @@ extension FeedingPoint {
       .hasOne(feedingPoint.category, is: .optional, ofType: Category.self, associatedWith: Category.keys.id, targetName: "feedingPointCategoryId"),
       .hasMany(feedingPoint.users, is: .optional, ofType: RelationUserFeedingPoint.self, associatedWith: RelationUserFeedingPoint.keys.feedingPoint),
       .field(feedingPoint.cover, is: .optional, ofType: .string),
+      .field(feedingPoint.disabled, is: .optional, ofType: .bool),
       .field(feedingPoint.feedingPointCategoryId, is: .optional, ofType: .string)
     )
     }
