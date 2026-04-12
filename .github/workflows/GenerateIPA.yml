@@ -2,6 +2,9 @@ name: Generate IPA
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - develop
 
 jobs:
  SwiftLint:
