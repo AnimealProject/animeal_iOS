@@ -140,6 +140,15 @@ extension Request {
         )
     }
 
+    static func searchByBounds(_ bounds: BoundsInput, limit: Int = 100) -> Request<[FeedingPoint]> {
+        Request<[FeedingPoint]>(
+            document: searchByBoundsDocument,
+            variables: ["bounds": bounds.variables, "limit": limit],
+            responseType: [FeedingPoint].self,
+            decodePath: "searchByBounds.items"
+        )
+    }
+
     static func onUpdateFeedingPoint() -> Request<UpdateFeedingPoint> {
         let operationName = "onUpdateFeedingPoint"
         let document = """

@@ -8,6 +8,7 @@
 // System
 import Foundation
 import Combine
+import CoreLocation
 
 // SDK
 import Services
@@ -95,6 +96,7 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
     private let networkService: NetworkServiceProtocol
     private let dataService: DataStoreServiceProtocol
     private let profileService: UserProfileServiceProtocol
+    private let locationService: LocationServiceProtocol
     private let favoritesService: FavoritesServiceProtocol
 
     // MARK: - Initialization
@@ -102,11 +104,13 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
         networkService: NetworkServiceProtocol = AppDelegate.shared.context.networkService,
         dataService: DataStoreServiceProtocol = AppDelegate.shared.context.dataStoreService,
         profileService: UserProfileServiceProtocol = AppDelegate.shared.context.profileService,
+        locationService: LocationServiceProtocol = AppDelegate.shared.context.locationService,
         favoritesService: FavoritesServiceProtocol
     ) {
         self.networkService = networkService
         self.dataService = dataService
         self.profileService = profileService
+        self.locationService = locationService
         self.favoritesService = favoritesService
 
         setup()
@@ -121,18 +125,38 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
             return result
         }
 
-        let points = try await networkService
-            .query(request: .list(animeal.FeedingPoint.self))
-            .asyncMap {
-                FullFeedingPoint(
-                    feedingPoint: $0,
-                    isFavorite: favoritePointsById[$0.id]?.isFavorite == true,
-                    imageURL: try? await dataService.getURL(key: $0.cover)
-                )
+        // Fetch categories separately: searchByBounds returns Elasticsearch _source
+        // which does not include @hasOne relations, only the foreign key.
+        let categories = (try? await networkService.query(request: .list(Category.self))) ?? []
+        let categoriesById = Dictionary(uniqueKeysWithValues: categories.map { ($0.id, $0) })
+
+        // Resolve user location; fall back to Tbilisi center if location access is unavailable.
+        // TODO: Prompt user to grant location access or let them choose a city manually.
+        let center = await resolveUserLocation()
+        let bounds = makeBounds(center: center, radiusKm: 50)
+
+        // TODO: Admin/Moderator users should bypass location filtering and call
+        // .list(animeal.FeedingPoint.self) to see all points regardless of location.
+        var rawPoints = try await networkService.query(request: .searchByBounds(bounds))
+
+        // Enrich with category from the pre-fetched cache since it is absent in Elasticsearch results.
+        rawPoints = rawPoints.map { point in
+            var enriched = point
+            if enriched.category == nil, let categoryId = enriched.feedingPointCategoryId {
+                enriched.category = categoriesById[categoryId]
             }
+            return enriched
+        }
+
+        let points = try await rawPoints.asyncMap {
+            FullFeedingPoint(
+                feedingPoint: $0,
+                isFavorite: favoritePointsById[$0.id]?.isFavorite == true,
+                imageURL: try? await dataService.getURL(key: $0.cover)
+            )
+        }
 
         innerFeedingPoints.send(points)
-
         return points
     }
 
@@ -344,5 +368,62 @@ private extension FeedingPointsService {
                 self?.updateFeedingPoint(result)
             }
             .store(in: &cancellables)
+    }
+}
+
+// MARK: - Location helpers
+
+private extension FeedingPointsService {
+    func resolveUserLocation() async -> CLLocation {
+        guard locationService.locationStatus == .authorizedAlways ||
+              locationService.locationStatus == .authorizedWhenInUse else {
+            // TODO: Prompt user for location access or let them choose a city
+            return .tbilisiCenter
+        }
+        let bridge = LocationRequestBridge()
+        return await bridge.fetchLocation(using: locationService) ?? .tbilisiCenter
+    }
+
+    func makeBounds(center: CLLocation, radiusKm: Double) -> BoundsInput {
+        let latDelta = radiusKm / 111.0
+        let lonDelta = radiusKm / (111.0 * cos(center.coordinate.latitude * .pi / 180.0))
+        return BoundsInput(
+            topLeftLat: center.coordinate.latitude + latDelta,
+            topLeftLon: center.coordinate.longitude - lonDelta,
+            bottomRightLat: center.coordinate.latitude - latDelta,
+            bottomRightLon: center.coordinate.longitude + lonDelta
+        )
+    }
+}
+
+private extension CLLocation {
+    static let tbilisiCenter = CLLocation(latitude: 41.6938, longitude: 44.8015)
+}
+
+/// Bridges the delegate-based LocationService.requestLocation into async/await.
+private final class LocationRequestBridge: LocationServiceDelegate {
+    private var continuation: CheckedContinuation<CLLocation?, Never>?
+
+    func fetchLocation(using service: LocationServiceProtocol) async -> CLLocation? {
+        await withCheckedContinuation { continuation in
+            self.continuation = continuation
+            service.requestLocation(for: self)
+        }
+    }
+
+    func handleOneTimeLocation(result: Result<CLLocation, Error>) {
+        continuation?.resume(returning: try? result.get())
+        continuation = nil
+    }
+}
+
+extension List: PropertyContainerPath, PropertyPath, Model where Element: Model {
+
+    public func getModelType() -> Model.Type {
+        Element.self
+    }
+
+    public func getMetadata() -> PropertyPathMetadata {
+        ModelPath<Element>(name: "items", isCollection: true, parent: nil).getMetadata()
     }
 }

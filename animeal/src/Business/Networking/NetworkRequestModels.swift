@@ -1,5 +1,70 @@
 import Foundation
 
+// MARK: - SearchByBounds
+
+/// Bounding box passed to the searchByBounds GraphQL query.
+/// top_left is NW corner, bottom_right is SE corner.
+struct BoundsInput {
+    let topLeftLat: Double
+    let topLeftLon: Double
+    let bottomRightLat: Double
+    let bottomRightLon: Double
+
+    var variables: [String: Any] {
+        [
+            "top_left": ["lat": topLeftLat, "lon": topLeftLon],
+            "bottom_right": ["lat": bottomRightLat, "lon": bottomRightLon]
+        ]
+    }
+}
+
+let searchByBoundsDocument = """
+query SearchByBounds($bounds: BoundsInput!, $limit: Int) {
+  searchByBounds(bounds: $bounds, limit: $limit) {
+    items {
+      id
+      name
+      description
+      city
+      street
+      address
+      images
+      point {
+        type
+        coordinates
+      }
+      location {
+        lat
+        lon
+      }
+      region
+      neighborhood
+      distance
+      status
+      i18n {
+        locale
+        name
+        description
+        city
+        street
+        address
+        region
+        neighborhood
+      }
+      statusUpdatedAt
+      createdAt
+      updatedAt
+      createdBy
+      updatedBy
+      owner
+      cover
+      disabled
+      feedingPointCategoryId
+    }
+  }
+}
+"""
+
 // MARK: - Custom StartFeeding mutation
 
 public struct StartFeedingMutation: CustomMutation {
