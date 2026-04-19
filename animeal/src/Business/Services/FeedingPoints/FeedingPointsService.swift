@@ -40,6 +40,7 @@ protocol FeedingPointsServiceHolder {
     var feedingPointsService: FeedingPointsServiceProtocol { get }
 }
 
+// sourcery: AutoMockable
 protocol FeedingPointsServiceProtocol: AnyObject {
     var storedFeedingPoints: [FullFeedingPoint] { get }
     var storedFavouriteFeedingPoints: [FullFeedingPoint] { get }
@@ -243,7 +244,17 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
             field: "feedingPointFeedingsId",
             operator: .equals(feedingPointId)
         )
-        async let fetchActiveFeedings = networkService.query(request: .list(Feeding.self, where: feedingsIdPredicate))
+        let activeStatusPredicate = QueryPredicateOperation(
+            field: "status",
+            operator: .equals(FeedingStatus.inProgress.rawValue)
+        )
+        let activeFeedingsPredicate = QueryPredicateGroup(
+            type: .and,
+            predicates: [feedingsIdPredicate, activeStatusPredicate]
+        )
+        async let fetchActiveFeedings = networkService.query(
+            request: .list(Feeding.self, where: activeFeedingsPredicate)
+        )
 
         var (activeFeedings, feedingHistory) = try await (fetchActiveFeedings, fetchFeedingHistory)
         if let currentFeeding = activeFeedings.first {
