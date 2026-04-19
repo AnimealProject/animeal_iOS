@@ -140,12 +140,30 @@ extension Request {
         )
     }
 
-    static func searchByBounds(_ bounds: BoundsInput, limit: Int = 100) -> Request<[FeedingPoint]> {
+    static func getFeedingPoints(bounds: BoundsInput) -> Request<[FeedingPoint]> {
         Request<[FeedingPoint]>(
-            document: searchByBoundsDocument,
-            variables: ["bounds": bounds.variables, "limit": limit],
+            document: getFeedingPointsDocument,
+            variables: ["locationBounds": bounds.variables],
             responseType: [FeedingPoint].self,
-            decodePath: "searchByBounds.items"
+            decodePath: "getFeedingPoints"
+        )
+    }
+
+    static func getActiveFeedings(feedingPointId: String) -> Request<[Feeding]> {
+        Request<[Feeding]>(
+            document: getActiveFeedingsDocument,
+            variables: ["feedingPointId": feedingPointId],
+            responseType: [Feeding].self,
+            decodePath: "getActiveFeedings"
+        )
+    }
+
+    static func getHistoricalFeedings(feedingPointId: String) -> Request<[FeedingHistory]> {
+        Request<[FeedingHistory]>(
+            document: getHistoricalFeedingsDocument,
+            variables: ["feedingPointId": feedingPointId],
+            responseType: [FeedingHistory].self,
+            decodePath: "getHistoricalFeedings"
         )
     }
 

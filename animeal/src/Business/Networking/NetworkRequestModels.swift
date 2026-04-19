@@ -1,8 +1,8 @@
 import Foundation
 
-// MARK: - SearchByBounds
+// MARK: - Location bounds input
 
-/// Bounding box passed to the searchByBounds GraphQL query.
+/// Bounding box used by getFeedingPoints and searchByBounds queries.
 /// top_left is NW corner, bottom_right is SE corner.
 struct BoundsInput {
     let topLeftLat: Double
@@ -18,49 +18,109 @@ struct BoundsInput {
     }
 }
 
-let searchByBoundsDocument = """
-query SearchByBounds($bounds: BoundsInput!, $limit: Int) {
-  searchByBounds(bounds: $bounds, limit: $limit) {
-    items {
-      id
+// MARK: - GetFeedingPoints query
+
+let getFeedingPointsDocument = """
+query GetFeedingPoints($locationBounds: BoundsInput, $categoryTag: String) {
+  getFeedingPoints(locationBounds: $locationBounds, categoryTag: $categoryTag) {
+    id
+    name
+    description
+    city
+    street
+    address
+    images
+    point {
+      type
+      coordinates
+    }
+    location {
+      lat
+      lon
+    }
+    region
+    neighborhood
+    distance
+    status
+    i18n {
+      locale
       name
       description
       city
       street
       address
-      images
-      point {
-        type
-        coordinates
-      }
-      location {
-        lat
-        lon
-      }
       region
       neighborhood
-      distance
-      status
-      i18n {
-        locale
-        name
-        description
-        city
-        street
-        address
-        region
-        neighborhood
-      }
-      statusUpdatedAt
+    }
+    statusUpdatedAt
+    createdAt
+    updatedAt
+    createdBy
+    updatedBy
+    owner
+    cover
+    disabled
+    feedingPointCategoryId
+    category {
+      id
+      name
+      icon
+      tag
       createdAt
       updatedAt
       createdBy
       updatedBy
       owner
-      cover
-      disabled
-      feedingPointCategoryId
     }
+  }
+}
+"""
+
+// MARK: - GetActiveFeedings query
+
+let getActiveFeedingsDocument = """
+query GetActiveFeedings($feedingPointId: String, $status: String) {
+  getActiveFeedings(feedingPointId: $feedingPointId, status: $status) {
+    id
+    userId
+    images
+    status
+    createdAt
+    updatedAt
+    createdBy
+    updatedBy
+    owner
+    feedingPointFeedingsId
+    expireAt
+    assignedModerators
+    moderatedBy
+    moderatedAt
+  }
+}
+"""
+
+// MARK: - GetHistoricalFeedings query
+
+let getHistoricalFeedingsDocument = """
+query GetHistoricalFeedings($feedingPointId: String, $status: String) {
+  getHistoricalFeedings(feedingPointId: $feedingPointId, status: $status) {
+    id
+    userId
+    images
+    createdAt
+    updatedAt
+    createdBy
+    updatedBy
+    owner
+    feedingPointId
+    feedingPointDetails {
+      address
+    }
+    status
+    reason
+    moderatedBy
+    moderatedAt
+    assignedModerators
   }
 }
 """

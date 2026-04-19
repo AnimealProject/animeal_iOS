@@ -9,6 +9,7 @@
 import Foundation
 import Combine
 import CoreLocation
+import Services
 
 // SDK
 import Services
@@ -125,11 +126,6 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
             return result
         }
 
-        // Fetch categories separately: searchByBounds returns Elasticsearch _source
-        // which does not include @hasOne relations, only the foreign key.
-        let categories = (try? await networkService.query(request: .list(Category.self))) ?? []
-        let categoriesById = Dictionary(uniqueKeysWithValues: categories.map { ($0.id, $0) })
-
         // Resolve user location; fall back to Tbilisi center if location access is unavailable.
         // TODO: Prompt user to grant location access or let them choose a city manually.
         let center = await resolveUserLocation()
@@ -137,16 +133,8 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
 
         // TODO: Admin/Moderator users should bypass location filtering and call
         // .list(animeal.FeedingPoint.self) to see all points regardless of location.
-        var rawPoints = try await networkService.query(request: .searchByBounds(bounds))
-
-        // Enrich with category from the pre-fetched cache since it is absent in Elasticsearch results.
-        rawPoints = rawPoints.map { point in
-            var enriched = point
-            if enriched.category == nil, let categoryId = enriched.feedingPointCategoryId {
-                enriched.category = categoriesById[categoryId]
-            }
-            return enriched
-        }
+        // getFeedingPoints returns category as a nested object — no separate fetch needed.
+        let rawPoints = try await networkService.query(request: .getFeedingPoints(bounds: bounds))
 
         let points = try await rawPoints.asyncMap {
             FullFeedingPoint(
@@ -254,30 +242,11 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
     }
 
     func fetchFeedingHistory(for feedingPointId: String) async throws -> [FeedingHistory] {
-        let idPredicate = QueryPredicateOperation(field: "feedingPointId", operator: .equals(feedingPointId))
-        let statusPredicate = QueryPredicateOperation(
-            field: "status",
-            operator: .notEqual(FeedingStatus.rejected.rawValue)
-        )
-        let predicate = QueryPredicateGroup(type: .and, predicates: [idPredicate, statusPredicate])
         async let fetchFeedingHistory = networkService.query(
-            request: .list(FeedingHistory.self, where: predicate)
-        )
-
-        let feedingsIdPredicate = QueryPredicateOperation(
-            field: "feedingPointFeedingsId",
-            operator: .equals(feedingPointId)
-        )
-        let activeStatusPredicate = QueryPredicateOperation(
-            field: "status",
-            operator: .equals(FeedingStatus.inProgress.rawValue)
-        )
-        let activeFeedingsPredicate = QueryPredicateGroup(
-            type: .and,
-            predicates: [feedingsIdPredicate, activeStatusPredicate]
+            request: .getHistoricalFeedings(feedingPointId: feedingPointId)
         )
         async let fetchActiveFeedings = networkService.query(
-            request: .list(Feeding.self, where: activeFeedingsPredicate)
+            request: .getActiveFeedings(feedingPointId: feedingPointId)
         )
 
         var (activeFeedings, feedingHistory) = try await (fetchActiveFeedings, fetchFeedingHistory)
@@ -410,6 +379,8 @@ private final class LocationRequestBridge: LocationServiceDelegate {
             service.requestLocation(for: self)
         }
     }
+
+    func handleLiveLocationStream(result: Result<CLLocation, Error>) {}
 
     func handleOneTimeLocation(result: Result<CLLocation, Error>) {
         continuation?.resume(returning: try? result.get())
