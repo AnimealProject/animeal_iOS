@@ -111,9 +111,10 @@ extension FAQView {
                 if showAnswer {
                     VStack {
                         HStack {
-                            Text(item.answer)
+                            Text(LocalizedStringKey(item.answer))
                                 .font(designEngine.fonts.primary.regular(14)?.font)
                                 .foregroundColor(designEngine.colors.textPrimary.color)
+                                .tint(designEngine.colors.elementSpecial.color)
                             Spacer()
                         }
                         .frame(maxWidth: .infinity)
