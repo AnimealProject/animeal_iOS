@@ -62,5 +62,5 @@ jobs:
       - name: Check if firebase logged in correctly
         if: success()
         run: |
-          firebase login --no-localhost
+          firebase login:ci
           firebase projects:list
