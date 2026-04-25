@@ -102,9 +102,6 @@ jobs:
           ${{ steps.release_notes.outputs.commits }}
           Build: ${{ github.run_number }} | Branch: ${{ github.ref_name }} | Triggered by: ${{ github.actor }}
           EOF
-      - name: Check local script
-        if: success()
-        run: bash ./check_firebase_auth.sh
       - name: Check if firebase logged in correctly
         if: success()
         run: |
