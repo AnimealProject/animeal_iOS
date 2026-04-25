@@ -24,7 +24,19 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 24
+          cache: 'npm'
+      - name: Cache Amplify CLI
+        id: cache-amplify
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-amplify-${{ env.AMPLIFY_VERSION }}
+          restore-keys: |
+            ${{ runner.os }}-amplify-
+        env:
+          AMPLIFY_VERSION: 'latest'
       - name: Install Amplify
+        if: steps.cache-amplify.outputs.cache-hit != 'true'
         run: npm install -g @aws-amplify/cli
       - name: Setup Amplify
         id: setupAmplify
@@ -89,9 +101,9 @@ jobs:
       - name: Setup Firebase Authentication
         if: success()
         run: |
-          echo $FIREBASE_CREDENTIALS_JSON >> ~/firebase-credentials.json
-          export GOOGLE_APPLICATION_CREDENTIALS="~/firebase-credentials.json"
-          cat ~/firebase-credentials.json
+          echo $FIREBASE_CREDENTIALS_JSON >> firebase-credentials.json
+          export GOOGLE_APPLICATION_CREDENTIALS="firebase-credentials.json"
+          cat firebase-credentials.json
           echo $GOOGLE_APPLICATION_CREDENTIALS
         env:
           FIREBASE_CREDENTIALS_JSON: ${{ secrets.FIREBASE_CREDENTIALS_JSON }}
