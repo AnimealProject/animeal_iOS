@@ -24,26 +24,6 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 24
-      - name: Install Amplify
-        run: npm install -g @aws-amplify/cli
-      - name: Setup Amplify
-        id: setupAmplify
-        run: bash ./update_amplify.sh -a $AWS_ACCESS_KEY_ID -s $AWS_SECRET_ACCESS_KEY -i $APP_ID -e $AMPLIFY_DEV_ENV -t $FACEBOOK_APP_ID -r $FACEBOOK_APP_SECRET
-        continue-on-error: true
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          APP_ID: ${{ secrets.APP_ID }}
-          AMPLIFY_DEV_ENV: ${{ secrets.AMPLIFY_DEV_ENV }}
-          FACEBOOK_APP_ID: ${{ secrets.FACEBOOK_APP_ID }}
-          FACEBOOK_APP_SECRET: ${{ secrets.FACEBOOK_APP_SECRET }}
-      - name: Recover From Setup Amplfy  Error
-        if: steps.setupAmplify.outcome != 'success'
-        run: bash ./recover_from_error.sh
-      
-      - name: Sync Models with Backend Schema
-        run: amplify codegen models
-      
       - name: Setup .mapbox file with MAPBOX_DOWNLOAD_TOKEN
         run: echo $MAPBOX_DOWNLOAD_TOKEN >> ~/.mapbox
         env:
@@ -56,29 +36,6 @@ jobs:
           chmod 0600 ~/.netrc
         env:
           MAPBOX_DOWNLOAD_TOKEN: ${{ secrets.MAPBOX_DOWNLOAD_TOKEN }}
-      - name: Install Swiftgen
-        run: brew install swiftgen
-      - name: Update Build Number
-        run: bash Tools/update_build_number.sh
-      - name: Generate Release Notes
-        id: release_notes
-        continue-on-error: true
-        run: |
-          if [ "${{ github.ref_name }}" == "main" ]; then
-            # For main: get commits since last tag or last 20 commits
-            LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
-            if [ -z "$LAST_TAG" ]; then
-              COMMITS=$(git log --pretty=format:"- %s" --no-merges -20 || echo "- No commits found")
-            else
-              COMMITS=$(git log ${LAST_TAG}..HEAD --pretty=format:"- %s" --no-merges || echo "- No commits found")
-            fi
-          else
-            # For develop: get commits from last PR only
-            COMMITS=$(git log HEAD^..HEAD --pretty=format:"- %s" --no-merges 2>/dev/null || echo "- No commits found")
-          fi
-          echo "commits<<EOF" >> $GITHUB_OUTPUT
-          echo "${COMMITS:-"- Build triggered manually"}" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
       - name: Set Xcode version
         uses: maxim-lobanov/setup-xcode@v1
         with: 
@@ -105,4 +62,5 @@ jobs:
       - name: Check if firebase logged in correctly
         if: success()
         run: |
+          firebase login
           firebase projects:list
