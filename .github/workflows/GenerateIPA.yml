@@ -7,16 +7,9 @@ on:
       - develop
 
 jobs:
- SwiftLint:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v5
-    - name: GitHub Action for SwiftLint
-      uses: norio-nomura/action-swiftlint@3.2.1
-
  build:
     name: Build and Test default scheme using iPhone simulator
-    runs-on: macos-15
+    runs-on: macos-26
 
     steps:
       - name: Checkout
@@ -30,7 +23,7 @@ jobs:
       - name: Install npm
         uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
       - name: Install Amplify
         run: npm install -g @aws-amplify/cli
       - name: Setup Amplify
@@ -89,28 +82,19 @@ jobs:
       - name: Set Xcode version
         uses: maxim-lobanov/setup-xcode@v1
         with: 
-          xcode-version: '16.4'
-      - name: Build and export IPA
-        uses: yukiarrr/ios-build-action@v1.12.0
-        with:
-          project-path: animeal.xcodeproj
-          scheme: "animeal"
-          export-method: "development"
-          p12-base64: ${{ secrets.APPLE_DISTRIBUTION_CERTIFICATE }}
-          mobileprovision-base64: ${{ secrets.APPLE_DISTRIBUTION_PROVISIONING_PROFILE }}
-          certificate-password: ${{ secrets.UNLOCK_CERTIFICATE }}
-          code-signing-identity: "Apple Development: Pran Kishore (CM95PV92ZY)"
-          export-options: "ExportOptions.plist"
-          team-id: "2JSLPH439W"
-          configuration: "Debug"
-      - name: Upload Build Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: output  # Name of the artifact (optional)
-          path: '**/*.ipa'  # Wildcard pattern to match output.ipa 
+          xcode-version: '26.3'
       - name: Install Firebase CLI
         if: success()
         run: npm install -g firebase-tools
+      - name: Setup Firebase Authentication
+        if: success()
+        run: |
+          echo $FIREBASE_CREDENTIALS_JSON >> ~/firebase-credentials.json
+          export GOOGLE_APPLICATION_CREDENTIALS="~/firebase-credentials.json"
+          cat ~/firebase-credentials.json
+          echo $GOOGLE_APPLICATION_CREDENTIALS
+        env:
+          FIREBASE_CREDENTIALS_JSON: ${{ secrets.FIREBASE_CREDENTIALS_JSON }}
       - name: Create Release Notes File
         if: success()
         run: |
@@ -118,11 +102,10 @@ jobs:
           ${{ steps.release_notes.outputs.commits }}
           Build: ${{ github.run_number }} | Branch: ${{ github.ref_name }} | Triggered by: ${{ github.actor }}
           EOF
-      - name: Deploy to Firebase App Distribution
+      - name: Check local script
+        if: success()
+        run: bash ./check_firebase_auth.sh
+      - name: Check if firebase logged in correctly
         if: success()
         run: |
-          firebase appdistribution:distribute output.ipa \
-            --app "${{ secrets.FIREBASE_APP_ID }}" \
-            --groups "qa-team, developers" \
-            --release-notes-file release_notes.txt \
-            --token "${{ secrets.FIREBASE_TOKEN }}"
+          firebase projects:list
