@@ -107,33 +107,22 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: output  # Name of the artifact (optional)
-          path: '**/*.ipa'  # Wildcard pattern to match output.ipa
-      
-      # TODO: Uncomment when Firebase secrets are configured in GitHub
-      # Required secrets:
-      #   - FIREBASE_APP_ID (already known: 1:397207162579:ios:326b7ff58418b548774e26)
-      #   - FIREBASE_TOKEN (get via: firebase login:ci)
-      #   - FIREBASE_TESTERS_GROUP (e.g., "qa-team" or "testers")
-      #
-      # - name: Install Firebase CLI
-      #   if: success()
-      #   run: npm install -g firebase-tools
-      #
-      # - name: Create Release Notes File
-      #   if: success()
-      #   run: |
-      #     cat > release_notes.txt << 'EOF'
-      #     ${{ steps.release_notes.outputs.commits }}
-      #
-      #     ---
-      #     Build: ${{ github.run_number }} | Branch: ${{ github.ref_name }} | Triggered by: ${{ github.actor }}
-      #     EOF
-      #
-      # - name: Deploy to Firebase App Distribution
-      #   if: success()
-      #   run: |
-      #     firebase appdistribution:distribute output.ipa \
-      #       --app "${{ secrets.FIREBASE_APP_ID }}" \
-      #       --groups "${{ secrets.FIREBASE_TESTERS_GROUP }}" \
-      #       --release-notes-file release_notes.txt \
-      #       --token "${{ secrets.FIREBASE_TOKEN }}"
+          path: '**/*.ipa'  # Wildcard pattern to match output.ipa 
+      - name: Install Firebase CLI
+        if: success()
+        run: npm install -g firebase-tools
+      - name: Create Release Notes File
+        if: success()
+        run: |
+          cat > release_notes.txt << 'EOF'
+          ${{ steps.release_notes.outputs.commits }}
+          Build: ${{ github.run_number }} | Branch: ${{ github.ref_name }} | Triggered by: ${{ github.actor }}
+          EOF
+      - name: Deploy to Firebase App Distribution
+        if: success()
+        run: |
+          firebase appdistribution:distribute output.ipa \
+            --app "${{ secrets.FIREBASE_APP_ID }}" \
+            --groups "qa-team, developers" \
+            --release-notes-file release_notes.txt \
+            --token "${{ secrets.FIREBASE_TOKEN }}"
