@@ -69,8 +69,8 @@ jobs:
       - name: Set Xcode version
         uses: maxim-lobanov/setup-xcode@v1
         with: 
-          xcode-version: '26.3'
+          xcode-version: '26.4'
       - name: Build For Test
         run: |
           set -o pipefail
-          xcodebuild test -scheme animeal -project animeal.xcodeproj -destination "platform=iOS Simulator,name=iPhone 16,OS=18.5" -parallelizeTargets -showBuildTimingSummary 2>&1 | xcbeautify --renderer github-actions
+          xcodebuild test -scheme animeal -project animeal.xcodeproj -destination "platform=iOS Simulator,name=iPhone 17,OS=26.4" -parallelizeTargets -showBuildTimingSummary 2>&1 | xcbeautify --renderer github-actions
