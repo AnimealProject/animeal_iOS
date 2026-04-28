@@ -72,3 +72,7 @@ jobs:
           xcode-version: '26.4'
       - name: list simulators
         run: xcrun simctl list devices available
+      - name: Build For Test
+        run: |
+          set -o pipefail
+          xcodebuild test -scheme animeal -project animeal.xcodeproj -parallelizeTargets -showBuildTimingSummary 2>&1 | xcbeautify --renderer github-actions
