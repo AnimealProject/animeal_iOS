@@ -2,6 +2,9 @@ name: Generate IPA
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - develop
 
 jobs:
  SwiftLint:
@@ -13,7 +16,7 @@ jobs:
 
  build:
     name: Build and Test default scheme using iPhone simulator
-    runs-on: macos-15
+    runs-on: macos-26
 
     steps:
       - name: Checkout
@@ -27,7 +30,7 @@ jobs:
       - name: Install npm
         uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
       - name: Install Amplify
         run: npm install -g @aws-amplify/cli
       - name: Setup Amplify
@@ -62,10 +65,31 @@ jobs:
           MAPBOX_DOWNLOAD_TOKEN: ${{ secrets.MAPBOX_DOWNLOAD_TOKEN }}
       - name: Install Swiftgen
         run: brew install swiftgen
+      - name: Update Build Number
+        run: bash Tools/update_build_number.sh
+      - name: Generate Release Notes
+        id: release_notes
+        continue-on-error: true
+        run: |
+          if [ "${{ github.ref_name }}" == "main" ]; then
+            # For main: get commits since last tag or last 20 commits
+            LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+            if [ -z "$LAST_TAG" ]; then
+              COMMITS=$(git log --pretty=format:"- %s" --no-merges -20 || echo "- No commits found")
+            else
+              COMMITS=$(git log ${LAST_TAG}..HEAD --pretty=format:"- %s" --no-merges || echo "- No commits found")
+            fi
+          else
+            # For develop: get commits from last PR only
+            COMMITS=$(git log HEAD^..HEAD --pretty=format:"- %s" --no-merges 2>/dev/null || echo "- No commits found")
+          fi
+          echo "commits<<EOF" >> $GITHUB_OUTPUT
+          echo "${COMMITS:-"- Build triggered manually"}" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
       - name: Set Xcode version
         uses: maxim-lobanov/setup-xcode@v1
         with: 
-          xcode-version: '16.4'
+          xcode-version: '26.3'
       - name: Build and export IPA
         uses: yukiarrr/ios-build-action@v1.12.0
         with:
@@ -84,3 +108,10 @@ jobs:
         with:
           name: output  # Name of the artifact (optional)
           path: '**/*.ipa'  # Wildcard pattern to match output.ipa
+      - name: upload artifact to Firebase App Distribution
+        uses: emertozd/Firebase-Distribution-Github-Action@v2
+        with:
+          appId: ${{secrets.FIREBASE_APP_ID}}
+          serviceCredentialsFileContent: ${{ secrets.FIREBASE_CREDENTIALS_JSON }}
+          groups: qa_team
+          file: output.ipa
