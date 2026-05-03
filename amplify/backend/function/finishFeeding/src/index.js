@@ -19,226 +19,66 @@ Amplify Params - DO NOT EDIT */
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 
-
 const AWS = require('aws-sdk');
-const dynamoDB = new AWS.DynamoDB.DocumentClient({});
-
 const {
   approveFeeding,
   getUser,
-  updateFeedingExt,
-  updateFeedingPoint,
+  updateFeedingAsPending,
+  getActiveFeeding,
 } = require('./query');
+
+const dynamoDB = new AWS.DynamoDB.DocumentClient({});
 
 exports.handler = async (event) => {
   console.log(`EVENT: ${JSON.stringify(event)}`);
-  const feedingId = event.arguments.feedingId;
-  const images = event.arguments.images;
 
-  const feedingPointConstraintsItem = await dynamoDB
-    .get({
-      Key: {
-        id: feedingId,
-      },
-      TableName: process.env.API_ANIMEAL_FEEDINGCONSTRAINTTABLE_NAME,
-    })
-    .promise();
+  const { feedingId: feedingPointId, images } = event.arguments;
+  const maxImagesCount = process.env.MAX_IMAGES_COUNT || 3;
 
-  if (!feedingPointConstraintsItem.Item) {
-    throw new Error('Feeding not found');
-  }
+  try {
+    if (!images || images.length < 1) {
+      throw new Error('Images are required');
+    }
 
-  const feedingItem = await dynamoDB
-    .get({
-      TableName: process.env.API_ANIMEAL_FEEDINGTABLE_NAME,
-      Key: {
-        id: feedingPointConstraintsItem.Item.feedingHistoryId,
-      },
-    })
-    .promise();
+    if (images.length > Number(maxImagesCount)) {
+      throw new Error(`Maximum allowed number of images is ${maxImagesCount}`);
+    }
 
-  if (!feedingItem.Item) {
-    throw new Error('Feeding not found');
-  }
+    const feeding = await getActiveFeeding(dynamoDB, feedingPointId);
 
-  delete feedingItem.Item.statusUpdatedAt;
+    if (
+      event?.identity?.username &&
+      feeding.userId !== event.identity.username
+    ) {
+      throw new Error('Just user who started the feeding can finish it');
+    }
 
-  let userData = null;
-  if (event?.identity?.username) {
-    userData = await getUser(
-      event.identity.username,
-      process.env.AUTH_ANIMEAL8F90E9B68F90E9B6_USERPOOLID,
-    );
-  }
+    await updateFeedingAsPending(dynamoDB, feeding, images);
 
-  if (images.length < 1) {
-    throw new Error('Images are required');
-  }
-
-  if (
-    process.env.IS_APPROVAL_ENABLED === 'true' &&
-    (!userData?.UserAttributes?.find((it) => it.Name === 'custom:trusted')
-      ?.Value ||
-      userData?.UserAttributes?.find((it) => it.Name === 'custom:trusted')
-        ?.Value === 'false')
-  ) {
-    try {
-      await dynamoDB
-        .transactWrite({
-          TransactItems: [
-            {
-              Update: {
-                ExpressionAttributeValues: {
-                  ':value': 'pending',
-                  ':images': images,
-                },
-                Key: {
-                  id: feedingPointConstraintsItem.Item.feedingHistoryId,
-                },
-                ExpressionAttributeNames: {
-                  '#status': 'status',
-                },
-                TableName: process.env.API_ANIMEAL_FEEDINGTABLE_NAME,
-                UpdateExpression: 'SET #status = :value, images = :images',
-                ConditionExpression: 'attribute_exists(id)',
-              },
-            },
-            {
-              Update: {
-                ExpressionAttributeValues: {
-                  ':value': 'pending',
-                  ':inProgress': 'inProgress',
-                },
-                Key: {
-                  id: feedingId,
-                },
-                ExpressionAttributeNames: {
-                  '#status': 'status',
-                },
-                TableName: process.env.API_ANIMEAL_FEEDINGPOINTTABLE_NAME,
-                UpdateExpression: 'SET #status = :value',
-                ConditionExpression: 'attribute_exists(id) AND #status = :inProgress',
-              },
-            },
-          ],
-        })
-        .promise();
-
-      await updateFeedingExt({
-        input: {
-          ...feedingItem.Item,
-          status: 'pending',
-          images,
-        },
+    const isTrustedUser = event?.identity?.username
+      ? (await getUser(event.identity.username)).UserAttributes?.find(
+          (it) => it.Name === 'custom:trusted',
+        )?.Value === 'true'
+      : false;
+    const autoApproveReason =
+      process.env.IS_APPROVAL_ENABLED !== 'true'
+        ? 'Feeding has been finished by user'
+        : isTrustedUser
+        ? 'Has been auto-approved for trusted user'
+        : null;
+    if (autoApproveReason) {
+      const approveFeedingRes = await approveFeeding({
+        feedingId: feedingPointId,
+        reason: autoApproveReason,
       });
 
-      const updateRes = await updateFeedingPoint({
-        input: {
-          id: feedingId,
-          statusUpdatedAt: new Date().toISOString(),
-        },
-      });
-
-      if (updateRes?.data?.errors?.length) {
-        throw new Error('Failed to finish Feeding.');
+      if (approveFeedingRes.data?.errors?.length) {
+        throw new Error(JSON.stringify(approveFeedingRes.data?.errors));
       }
-
-      return feedingId;
-    } catch (e) {
-      throw new Error(`Failed to finish feeding. Erorr: ${e.message}`);
     }
-  } else if (
-    process.env.IS_APPROVAL_ENABLED === 'true' &&
-    userData?.UserAttributes?.find((it) => it.Name === 'custom:trusted')
-      ?.Value &&
-    userData?.UserAttributes?.find((it) => it.Name === 'custom:trusted')
-      ?.Value === 'true'
-  ) {
-    try {
-      await dynamoDB
-        .transactWrite({
-          TransactItems: [
-            {
-              Update: {
-                ExpressionAttributeValues: {
-                  ':images': images,
-                },
-                Key: {
-                  id: feedingPointConstraintsItem.Item.feedingHistoryId,
-                },
-                TableName: process.env.API_ANIMEAL_FEEDINGTABLE_NAME,
-                UpdateExpression: 'SET images = :images',
-                ConditionExpression: 'attribute_exists(id)',
-              },
-            },
-          ],
-        })
-        .promise();
-      await updateFeedingExt({
-        input: {
-          ...feedingItem.Item,
-          images,
-        },
-      });
-    } catch (e) {
-      throw new Error(`Failed to finish feeding. Erorr: ${e.message}`);
-    }
-
-    const approveFeedingRes = await approveFeeding({
-      feedingId,
-      reason: 'Has been auto-approved for trusted user',
-    });
-
-    if (approveFeedingRes.data?.errors?.length) {
-      throw new Error(
-        `Failed to finish Feeding. Error: ${JSON.stringify(
-          approveFeedingRes.data?.errors,
-        )}`,
-      );
-    }
-  } else if (process.env.IS_APPROVAL_ENABLED !== 'true') {
-    try {
-      await dynamoDB
-        .transactWrite({
-          TransactItems: [
-            {
-              Update: {
-                ExpressionAttributeValues: {
-                  ':images': images,
-                },
-                Key: {
-                  id: feedingPointConstraintsItem.Item.feedingHistoryId,
-                },
-                TableName: process.env.API_ANIMEAL_FEEDINGTABLE_NAME,
-                UpdateExpression: 'SET images = :images',
-                ConditionExpression: 'attribute_exists(id)',
-              },
-            },
-          ],
-        })
-        .promise();
-      await updateFeedingExt({
-        input: {
-          ...feedingItem.Item,
-          images,
-        },
-      });
-    } catch (e) {
-      throw new Error(`Failed to finish feeding. Erorr: ${e.message}`);
-    }
-
-    const approveFeedingRes = await approveFeeding({
-      feedingId,
-      reason: 'Feeding has been finished by user',
-    });
-
-    if (approveFeedingRes.data?.errors?.length) {
-      throw new Error(
-        `Failed to finish Feeding. Error: ${JSON.stringify(
-          approveFeedingRes.data?.errors,
-        )}`,
-      );
-    }
+  } catch (e) {
+    throw new Error(`Failed to Finish feeding. Error: ${e.message}`);
   }
-  return feedingId;
+
+  return feedingPointId;
 };

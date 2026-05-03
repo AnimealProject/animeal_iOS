@@ -44,7 +44,21 @@ const rejectFeeding = async (params) => {
   );
 };
 
-module.exports = module.exports = {
+const checkActiveFeeding = async (dynamoDB, feedingPointId, feedingId) => {
+  const feedingPointConstraintsItem = await dynamoDB
+    .get({
+      TableName: process.env.API_ANIMEAL_FEEDINGCONSTRAINTTABLE_NAME,
+      Key: {
+        id: feedingPointId,
+      },
+    })
+    .promise();
+
+  return feedingPointConstraintsItem?.Item?.feedingHistoryId === feedingId;
+};
+
+module.exports = {
   approveFeeding,
   rejectFeeding,
+  checkActiveFeeding,
 };

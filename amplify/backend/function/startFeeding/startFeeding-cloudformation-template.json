@@ -31,6 +31,9 @@
     "authanimeal8f90e9b68f90e9b6UserPoolId": {
       "Type": "String",
       "Default": "authanimeal8f90e9b68f90e9b6UserPoolId"
+    },
+    "messagingAnimealApplicationId": {
+      "Type": "String"
     }
   },
   "Conditions": {
@@ -201,6 +204,9 @@
                   }
                 ]
               ]
+            },
+            "MESSAGING_ANIMEAL_APPLICATION_ID": {
+              "Ref": "messagingAnimealApplicationId"
             }
           }
         },
@@ -643,6 +649,34 @@
                         }
                       },
                       "/index/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "mobiletargeting:SendMessages"
+              ],
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:mobiletargeting:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":apps/",
+                      {
+                        "Ref": "messagingAnimealApplicationId"
+                      },
+                      "/messages"
                     ]
                   ]
                 }

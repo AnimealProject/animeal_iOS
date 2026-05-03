@@ -38,5 +38,11 @@
       ]
     }
   },
-  "lambdaLayers": []
+  "lambdaLayers": [],
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "messagingAnimealApplicationId",
+      "environmentVariableName": "MESSAGING_ANIMEAL_APPLICATION_ID"
+    }
+  ]
 }

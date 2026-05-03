@@ -58,7 +58,8 @@ const checkGroup = function (req, res, next) {
     req.path == '/listGroups' ||
     req.path == '/listUsers' ||
     req.path == '/getUser' ||
-    req.path == '/listGroupsForUser'
+    req.path == '/listGroupsForUser' ||
+    req.path == '/listUsersInGroup'
   ) {
     return next();
   }

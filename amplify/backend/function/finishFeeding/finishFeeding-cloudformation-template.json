@@ -34,6 +34,11 @@
     },
     "isApprovalEnabled": {
       "Type": "String"
+    },
+    "maxImagesCount": {
+      "Type": "Number",
+      "Description": "Maximum number of images",
+      "Default": 3
     }
   },
   "Conditions": {
@@ -207,6 +212,9 @@
             },
             "IS_APPROVAL_ENABLED": {
               "Ref": "isApprovalEnabled"
+            },
+            "MAX_IMAGES_COUNT": {
+              "Ref": "maxImagesCount"
             }
           }
         },

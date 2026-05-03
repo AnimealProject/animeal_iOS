@@ -1,0 +1,10 @@
+{
+  "arguments": {
+    "feedingPointId": null,
+    "moderatorId": "",
+    "status": "pending"
+  },
+  "identity":{
+    "username": null
+  }
+}

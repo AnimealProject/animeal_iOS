@@ -1,0 +1,13 @@
+{
+  "arguments": {
+    "feedingPointId": null,
+    "moderatorId": "",
+    "status": null,
+    "start": "2024-11-24T14:10:09.927Z",
+    "end": "2025-11-24T14:10:09.927Z"
+  },
+  "identity": {
+    "username": "",
+    "groups": ["Administrator"]
+  }
+}

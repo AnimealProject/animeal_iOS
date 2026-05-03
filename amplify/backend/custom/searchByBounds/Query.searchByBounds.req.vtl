@@ -27,13 +27,23 @@
             "size": #if( $context.args.limit ) $context.args.limit #else 100 #end,
             "query": {
                 "bool" : {
-                    "filter" : [{     
-                        "geo_bounding_box": {
-                            "location": {
-                                "top_left": $util.toJson($ctx.args.bounds.top_left),
-                                "bottom_right": $util.toJson($ctx.args.bounds.bottom_right)
+                    "filter" : [
+                        {
+                          "range": {
+                            "location.lat": {
+                              "gte": $ctx.args.bounds.bottom_right.lat,
+                              "lte": $ctx.args.bounds.top_left.lat
                             }
-                        }},
+                          }
+                        },
+                        {
+                          "range": {
+                            "location.lon": {
+                              "gte": $ctx.args.bounds.top_left.lon,
+                              "lte": $ctx.args.bounds.bottom_right.lon
+                            }
+                          }
+                        },
                         #if( $context.args.filter )
                           $util.transform.toElasticsearchQueryDSL($ctx.args.filter)
                         #else
@@ -41,7 +51,7 @@
                             "match_all": {}
                           }
                         #end
-                      ]                    
+                      ]
                 }
             }
         }

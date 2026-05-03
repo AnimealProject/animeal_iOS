@@ -16,33 +16,16 @@ async function request(query, variables) {
   });
 }
 
-
 const createFeedingExt = async (params) =>
   request(
-    `  mutation CreateFeedingExt($input: CreateFeedingInput!) {
+    `mutation CreateFeedingExt($input: CreateFeedingInput!) {
       createFeedingExt(input: $input) {
         id
         userId
-        images
-        status
-        createdAt
-        updatedAt
-        createdBy
-        updatedBy
-        owner
-        feedingPointDetails {
-          address
-        }
-        feedingPointFeedingsId
-        expireAt
-        assignedModerators
-        moderatedBy
-        moderatedAt
       }
     }`,
     params,
   );
-
 
 const updateFeedingPoint = async (params) =>
   request(
@@ -52,288 +35,28 @@ const updateFeedingPoint = async (params) =>
     ) {
       updateFeedingPoint(input: $input, condition: $condition) {
         id
-        name
-        description
-        city
-        street
-        address
-        images
-        point {
-          type
-          coordinates
-        }
-        location {
-          lat
-          lon
-        }
-        region
-        neighborhood
-        distance
-        status
-        i18n {
-          locale
-          name
-          description
-          city
-          street
-          address
-          region
-          neighborhood
-        }
-        statusUpdatedAt
-        createdAt
-        updatedAt
-        createdBy
-        updatedBy
-        owner
-        pets {
-          items {
-            id
-            petId
-            feedingPointId
-            pet {
-              id
-              name
-              images
-              breed
-              color
-              chipNumber
-              vaccinatedAt
-              yearOfBirth
-              createdAt
-              updatedAt
-              createdBy
-              updatedBy
-              owner
-              cover
-              petCategoryId
-            }
-            feedingPoint {
-              id
-              name
-              description
-              city
-              street
-              address
-              images
-              region
-              neighborhood
-              distance
-              status
-              statusUpdatedAt
-              createdAt
-              updatedAt
-              createdBy
-              updatedBy
-              owner
-              cover
-              feedingPointCategoryId
-            }
-            createdAt
-            updatedAt
-            owner
-          }
-          nextToken
-        }
-        category {
-          id
-          name
-          icon
-          tag
-          i18n {
-            locale
-            name
-          }
-          createdAt
-          updatedAt
-          createdBy
-          updatedBy
-          owner
-        }
-        users {
-          items {
-            id
-            userId
-            feedingPointId
-            feedingPoint {
-              id
-              name
-              description
-              city
-              street
-              address
-              images
-              region
-              neighborhood
-              distance
-              status
-              statusUpdatedAt
-              createdAt
-              updatedAt
-              createdBy
-              updatedBy
-              owner
-              cover
-              feedingPointCategoryId
-            }
-            createdAt
-            updatedAt
-            owner
-          }
-          nextToken
-        }
-        cover
-        feedingPointCategoryId
       }
-    }
-`,
+    }`,
     params,
   );
 const getFeedingPoint = async (params) =>
   request(
-    `  query GetFeedingPoint($id: ID!) {
+    `query GetFeedingPoint($id: ID!) {
       getFeedingPoint(id: $id) {
         id
         name
-        description
-        city
-        street
         address
-        images
-        point {
-          type
-          coordinates
-        }
-        location {
-          lat
-          lon
-        }
-        region
-        neighborhood
-        distance
         status
-        i18n {
-          locale
-          name
-          description
-          city
-          street
-          address
-          region
-          neighborhood
-        }
         statusUpdatedAt
-        createdAt
-        updatedAt
-        createdBy
-        updatedBy
         owner
-        pets {
-          items {
-            id
-            petId
-            feedingPointId
-            pet {
-              id
-              name
-              images
-              breed
-              color
-              chipNumber
-              vaccinatedAt
-              yearOfBirth
-              createdAt
-              updatedAt
-              createdBy
-              updatedBy
-              owner
-              cover
-              petCategoryId
-            }
-            feedingPoint {
-              id
-              name
-              description
-              city
-              street
-              address
-              images
-              region
-              neighborhood
-              distance
-              status
-              statusUpdatedAt
-              createdAt
-              updatedAt
-              createdBy
-              updatedBy
-              owner
-              cover
-              feedingPointCategoryId
-            }
-            createdAt
-            updatedAt
-            owner
-          }
-          nextToken
-        }
-        category {
-          id
-          name
-          icon
-          tag
-          i18n {
-            locale
-            name
-          }
-          createdAt
-          updatedAt
-          createdBy
-          updatedBy
-          owner
-        }
-        users {
-          items {
-            id
-            userId
-            feedingPointId
-            feedingPoint {
-              id
-              name
-              description
-              city
-              street
-              address
-              images
-              region
-              neighborhood
-              distance
-              status
-              statusUpdatedAt
-              createdAt
-              updatedAt
-              createdBy
-              updatedBy
-              owner
-              cover
-              feedingPointCategoryId
-            }
-            createdAt
-            updatedAt
-            owner
-          }
-          nextToken
-        }
-        cover
-        feedingPointCategoryId
+        disabled
       }
-    }
-`,
+    }`,
     params,
   );
 const getUsersByFeedingPointId = async (params) =>
   request(
-    `  query RelationUserFeedingPointByFeedingPointId(
+    `query RelationUserFeedingPointByFeedingPointId(
       $feedingPointId: ID!
       $userId: ModelStringKeyConditionInput
       $sortDirection: ModelSortDirection
@@ -352,71 +75,11 @@ const getUsersByFeedingPointId = async (params) =>
         items {
           id
           userId
-          feedingPointId
-          feedingPoint {
-            id
-            name
-            description
-            city
-            street
-            address
-            images
-            point {
-              type
-              coordinates
-            }
-            location {
-              lat
-              lon
-            }
-            region
-            neighborhood
-            distance
-            status
-            i18n {
-              locale
-              name
-              description
-              city
-              street
-              address
-              region
-              neighborhood
-            }
-            statusUpdatedAt
-            createdAt
-            updatedAt
-            createdBy
-            updatedBy
-            owner
-            pets {
-              nextToken
-            }
-            category {
-              id
-              name
-              icon
-              tag
-              createdAt
-              updatedAt
-              createdBy
-              updatedBy
-              owner
-            }
-            users {
-              nextToken
-            }
-            cover
-            feedingPointCategoryId
-          }
-          createdAt
-          updatedAt
           owner
         }
         nextToken
       }
-    }
-`,
+    }`,
     params,
   );
 
@@ -439,10 +102,108 @@ async function getUser(username) {
   }
 }
 
+const createActiveFeeding = async (
+  dynamoDB,
+  assignedModerators,
+  feedingItem,
+) => {
+  const usersDynamoRecords = [];
+  assignedModerators.forEach((assignedModerator) => {
+    usersDynamoRecords.push({
+      Put: {
+        TableName: process.env.API_ANIMEAL_FEEDINGUSERSTABLE_NAME,
+        Item: {
+          id: assignedModerator.Username,
+          attributes: assignedModerator.UserAttributes,
+        },
+      },
+    });
+  });
+  if (!assignedModerators.length) {
+    throw new Error("There aren't any active assigned moderators");
+  }
+
+  if (
+    feedingItem.userId !== 'System' &&
+    !usersDynamoRecords.find((it) => it.Put.Item.id === feedingItem.userId)
+  ) {
+    const user = await getUser(feedingItem.userId);
+    usersDynamoRecords.push({
+      Put: {
+        TableName: process.env.API_ANIMEAL_FEEDINGUSERSTABLE_NAME,
+        Item: {
+          id: user.Username,
+          attributes: user.UserAttributes,
+        },
+      },
+    });
+  }
+
+  const createdAt = new Date().toISOString();
+  await dynamoDB
+    .transactWrite({
+      TransactItems: [
+        ...usersDynamoRecords,
+        {
+          Put: {
+            TableName: process.env.API_ANIMEAL_FEEDINGCONSTRAINTTABLE_NAME,
+            Item: {
+              id: feedingItem.feedingPointFeedingsId,
+              feedingHistoryId: feedingItem.id,
+            },
+            ConditionExpression: 'attribute_not_exists(id)',
+          },
+        },
+        {
+          Put: {
+            TableName: process.env.API_ANIMEAL_FEEDINGTABLE_NAME,
+            Item: feedingItem,
+          },
+        },
+        {
+          Update: {
+            TableName: process.env.API_ANIMEAL_FEEDINGPOINTTABLE_NAME,
+            Key: {
+              id: feedingItem.feedingPointFeedingsId,
+            },
+            ExpressionAttributeValues: {
+              ':value': 'inProgress',
+              ':date': createdAt,
+              ':starved': 'starved',
+            },
+            ExpressionAttributeNames: {
+              '#status': 'status',
+            },
+            UpdateExpression: 'SET #status = :value, statusUpdatedAt = :date',
+            ConditionExpression: `attribute_exists(id) AND #status = :starved`,
+          },
+        },
+      ],
+    })
+    .promise();
+  const updateRes = await updateFeedingPoint({
+    input: {
+      id: feedingItem.feedingPointFeedingsId,
+      statusUpdatedAt: createdAt,
+    },
+  });
+
+  await createFeedingExt({
+    input: feedingItem,
+  });
+  if (updateRes?.data?.errors?.length) {
+    throw new Error(JSON.stringify(updateRes.data?.errors));
+  }
+};
+
+const expiresInHours = (hours) => {
+  return Math.floor((new Date().getTime() + hours * 60 * 60 * 1000) / 1000);
+};
+
 module.exports = {
-  updateFeedingPoint,
   getFeedingPoint,
   getUser,
   getUsersByFeedingPointId,
-  createFeedingExt,
+  createActiveFeeding,
+  expiresInHours,
 };

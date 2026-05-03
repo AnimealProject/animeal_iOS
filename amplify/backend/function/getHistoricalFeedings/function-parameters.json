@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "api": {
+      "animeal": [
+        "Query"
+      ]
+    },
+    "storage": {
+      "FeedingHistory:@model(appsync)": [
+        "read"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}
