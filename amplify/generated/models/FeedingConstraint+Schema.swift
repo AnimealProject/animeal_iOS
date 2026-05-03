@@ -3,20 +3,20 @@ import Amplify
 import Foundation
 
 extension FeedingConstraint {
-  // MARK: - CodingKeys
-  public enum CodingKeys: String, ModelKey {
+  // MARK: - CodingKeys 
+   public enum CodingKeys: String, ModelKey {
     case id
     case feedingHistoryId
     case createdAt
     case updatedAt
   }
-
+  
   public static let keys = CodingKeys.self
-  //  MARK: - ModelSchema
-
+  //  MARK: - ModelSchema 
+  
   public static let schema = defineSchema { model in
     let feedingConstraint = FeedingConstraint.keys
-
+    
     model.authRules = [
       rule(allow: .groups, groupClaim: "cognito:groups", groups: ["Administrator"], provider: .userPools, operations: [.create, .read, .update, .delete]),
       rule(allow: .groups, groupClaim: "cognito:groups", groups: ["Moderator"], provider: .userPools, operations: [.create, .read, .update, .delete]),
@@ -25,15 +25,15 @@ extension FeedingConstraint {
       rule(allow: .public, provider: .apiKey, operations: [.create, .update, .delete, .read]),
       rule(allow: .private, operations: [.read])
     ]
-
+    
     model.listPluralName = "FeedingConstraints"
     model.syncPluralName = "FeedingConstraints"
-
+    
     model.fields(
       .id(),
       .field(feedingConstraint.feedingHistoryId, is: .optional, ofType: .string),
       .field(feedingConstraint.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(feedingConstraint.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
-  }
+    }
 }
