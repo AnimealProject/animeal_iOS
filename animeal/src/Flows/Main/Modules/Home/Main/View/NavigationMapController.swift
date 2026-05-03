@@ -93,7 +93,6 @@ class NavigationMapController: NavigationViewControllerDelegate {
     deinit {
         if let tapGestureRecognizer {
             view.removeGestureRecognizer(tapGestureRecognizer)
-
         }
     }
 

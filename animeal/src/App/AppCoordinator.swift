@@ -121,7 +121,7 @@ private extension AppCoordinator {
             viewModel: MainCoordinatorViewModel(userProfileService: profileService)
         ) { [weak self] events in
             self?.childCoordinators.removeAll()
-            
+
             var shouldRestartFlow = true
             events.forEach { event in
                 switch event {
@@ -134,7 +134,7 @@ private extension AppCoordinator {
                     }
                 }
             }
-            
+
             if shouldRestartFlow {
                 self?.start()
             }
@@ -142,7 +142,7 @@ private extension AppCoordinator {
         childCoordinators.append(mainCoordinator)
         mainCoordinator.start()
     }
-    
+
     @MainActor
     private func startAuthFlow() {
         let authenticationCoordinator = AuthCoordinator(

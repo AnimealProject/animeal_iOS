@@ -42,7 +42,7 @@ final class MockFeedingPointsService: FeedingPointsServiceProtocol {
         logInfo("[MockFeedingPointsService] Loaded \(points.count) points from guestmock.json")
         innerFeedingPoints.send(points)
     }
-    
+
     /// Attempts to load feeding points from Bundle JSON file
     /// - Returns: Array of FullFeedingPoint if successful, nil otherwise
     private func loadFromBundle() -> [FullFeedingPoint]? {
@@ -71,17 +71,17 @@ final class MockFeedingPointsService: FeedingPointsServiceProtocol {
     private func convertToFullFeedingPoint(_ dto: MockFeedingPoint) -> FullFeedingPoint {
         let status = parseFeedingPointStatus(dto.status)
         let category = createCategory(from: dto.category)
-        
+
         let location = Location(
             lat: dto.location.lat,
             lon: dto.location.lon
         )
-        
+
         let point = Point(
             type: "Point",
             coordinates: [dto.location.lon, dto.location.lat]
         )
-        
+
         let feedingPoint = FeedingPoint(
             id: dto.id,
             name: "",
@@ -109,14 +109,14 @@ final class MockFeedingPointsService: FeedingPointsServiceProtocol {
             cover: nil,
             feedingPointCategoryId: category?.id
         )
-        
+
         return FullFeedingPoint(
             feedingPoint: feedingPoint,
             isFavorite: false,
             imageURL: nil
         )
     }
-    
+
     /// Creates Category from string
     private func createCategory(from categoryString: String) -> Category? {
         let tag: CategoryTag
@@ -129,7 +129,7 @@ final class MockFeedingPointsService: FeedingPointsServiceProtocol {
             logWarning("[MockFeedingPointsService] Unknown category '\(categoryString)', defaulting to dogs")
             tag = .dogs
         }
-        
+
         return Category(
             id: "mock-category-\(categoryString)",
             name: categoryString.capitalized,

@@ -49,7 +49,7 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
         subscribeForFeedingPointChangeEvents()
         subscribeForFeedingPointModerators()
     }
-    
+
     // MARK: - Deinitialization
     deinit {
         moderatorsTask?.cancel()
@@ -153,15 +153,15 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
             }
         }
     }
-    
+
     private func updateModerators() {
         guard canModerate else { return }
         moderatorsTask?.cancel()
-        
+
         moderatorsTask = Task { [weak self] in
             guard let self else { return }
             let moderators = (try? await self.fetchAssignedModerators()) ?? []
-            
+
             guard !Task.isCancelled else { return }
             await MainActor.run {
                 self.onModeratorsChange?(moderators)
@@ -203,7 +203,7 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
             }
             .store(in: &cancellables)
     }
-    
+
     private func subscribeForFeedingPointModerators() {
         context.profileService.userRolePublisher
             .map { roles in
@@ -215,7 +215,7 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
                 canModerate = canSeeModerators
                 moderatorsTask?.cancel()
                 moderatorsTask = nil
-                
+
                 if !canSeeModerators {
                     Task { @MainActor in
                         self.onModeratorsChange?([])
@@ -225,7 +225,7 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
                 moderatorsTask = Task { [weak self] in
                     guard let self else { return }
                     let moderators = (try? await self.fetchAssignedModerators()) ?? []
-                    
+
                     guard !Task.isCancelled else { return }
                     await MainActor.run {
                         self.onModeratorsChange?(moderators)
@@ -255,7 +255,7 @@ extension FeedingPointDetailsModel {
         let name: String
         let lastFeeded: String
     }
-    
+
     struct Moderator {
         let name: String
     }

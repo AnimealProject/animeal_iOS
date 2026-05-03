@@ -20,7 +20,7 @@ final class FAQModel: FAQModelProtocol {
         let ordered = orderQuestions(questions)
         return ordered.map(mapper.mapQuestion)
     }
-    
+
     private func orderQuestions(_ questions: [animeal.Question]) -> [animeal.Question] {
         let ordered = questions
             .compactMap { question -> (animeal.Question, Int)? in
@@ -35,7 +35,7 @@ final class FAQModel: FAQModelProtocol {
                 return (question, questionValue)
             }
             .sorted { $0.1.localizedStandardCompare($1.1) == .orderedAscending }
-            .map{ $0.0 }
+            .map { $0.0 }
         return ordered + unordered
     }
 }

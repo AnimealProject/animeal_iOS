@@ -137,7 +137,7 @@ extension AuthCoordinator: VerificationCoordinatable {
         case .finish:
             Task { [weak self] in
                 guard let self else { return }
-                
+
                 try? await self.context.profileService.fetchUserAttributes()
                 let validationModel = self.context.profileService.getCurrentUserValidationModel()
                 self.context.profileService.getCurrentUserValidationModel().set(userMode: .registered)

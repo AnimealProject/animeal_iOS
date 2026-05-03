@@ -166,7 +166,9 @@ struct UserProfileAmplifyConverter: UserProfileAmplifyConverting, AmplifyUserPro
             return UserProfileDetailedError.limitExceededException
         case .resourceConflictException:
             return UserProfileDetailedError.resourceConflictException
-        case .webAuthnChallengeNotFound, .webAuthnClientMismatch, .webAuthnNotSupported, .webAuthnNotEnabled,.webAuthnOriginNotAllowed, .webAuthnRelyingPartyMismatch, .webAuthnConfigurationMissing:
+        case .webAuthnChallengeNotFound, .webAuthnClientMismatch, .webAuthnNotSupported,
+             .webAuthnNotEnabled, .webAuthnOriginNotAllowed, .webAuthnRelyingPartyMismatch,
+             .webAuthnConfigurationMissing:
             return nil
         }
     }

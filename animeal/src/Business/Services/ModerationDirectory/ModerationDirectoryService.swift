@@ -29,7 +29,7 @@ final class ModerationDirectoryService: ModerationDirectoryServiceProtocol {
         static let moderatorGroup = "Moderator"
         static let administratorGroup = "Administrator"
     }
-    
+
     func fetchModeratorsAndAdmins() async throws -> [ModerationDirectoryUser] {
         async let moderators = fetchUsersInGroup(Constants.moderatorGroup)
         async let admins = fetchUsersInGroup(Constants.administratorGroup)
@@ -40,7 +40,7 @@ final class ModerationDirectoryService: ModerationDirectoryServiceProtocol {
             seen.insert(user.id).inserted
         }
     }
-    
+
     private func fetchUsersInGroup(_ groupName: String) async throws -> [ModerationDirectoryUser] {
         do {
             let request = RESTRequest(
@@ -55,7 +55,7 @@ final class ModerationDirectoryService: ModerationDirectoryServiceProtocol {
             throw mapError(error)
         }
     }
-    
+
     private func mapError(_ error: Error) -> BaseError {
         let nsError = error as NSError
         if nsError.domain == NSURLErrorDomain {
@@ -70,7 +70,7 @@ final class ModerationDirectoryService: ModerationDirectoryServiceProtocol {
 
 private extension Array where Element == ModerationDirectoryUserAttributeResponse {
     func value(for key: String) -> String? {
-        first(where: { $0.name == key })?.value
+        first { $0.name == key }?.value
     }
 }
 

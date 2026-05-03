@@ -9,7 +9,7 @@ import Foundation
 
 struct ListUsersInGroupResponse: Decodable {
     let users: [ModerationDirectoryUserResponse]
-    
+
     enum CodingKeys: String, CodingKey {
         case users = "Users"
     }
@@ -18,7 +18,7 @@ struct ListUsersInGroupResponse: Decodable {
 struct ModerationDirectoryUserAttributeResponse: Decodable {
     let name: String
     let value: String?
-    
+
     enum CodingKeys: String, CodingKey {
         case name = "Name"
         case value = "Value"
@@ -28,21 +28,27 @@ struct ModerationDirectoryUserAttributeResponse: Decodable {
 struct ModerationDirectoryUserResponse: Decodable {
     let username: String
     let userAttributes: [ModerationDirectoryUserAttributeResponse]
-    
+
     enum CodingKeys: String, CodingKey {
         case username = "Username"
         case userAttributes = "UserAttributes"
         case attributes = "Attributes"
     }
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         username = try container.decode(String.self, forKey: .username)
-        
-        if let attributes = try container.decodeIfPresent([ModerationDirectoryUserAttributeResponse].self, forKey: .userAttributes) {
+
+        if let attributes = try container.decodeIfPresent(
+            [ModerationDirectoryUserAttributeResponse].self,
+            forKey: .userAttributes
+        ) {
             userAttributes = attributes
         } else {
-            userAttributes = try container.decodeIfPresent([ModerationDirectoryUserAttributeResponse].self, forKey: .attributes) ?? []
+            userAttributes = try container.decodeIfPresent(
+                [ModerationDirectoryUserAttributeResponse].self,
+                forKey: .attributes
+            ) ?? []
         }
     }
 }

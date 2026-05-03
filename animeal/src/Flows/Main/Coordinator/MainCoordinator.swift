@@ -102,54 +102,55 @@ final class MainCoordinator: Coordinatable, GuestAlertCoordinatable {
         return TabBarController(
             items: [
                 TabBarControllerItem(
-                identifier: .search,
-                tabBarItemView: PlainTabBarItemView(
-                    model: TabBarItemViewModel(
-                        icon: Asset.Images.glass.image,
-                        title: L10n.TabBar.search
-                    )
+                    identifier: .search,
+                    tabBarItemView: PlainTabBarItemView(
+                        model: TabBarItemViewModel(
+                            icon: Asset.Images.glass.image,
+                            title: L10n.TabBar.search
+                        )
+                    ),
+                    viewController: searchNavigationController
                 ),
-                viewController: searchNavigationController
-            ),
-            TabBarControllerItem(
-                identifier: .favorites,
-                tabBarItemView: PlainTabBarItemView(
-                    model: TabBarItemViewModel(
-                        icon: Asset.Images.heart.image,
-                        title: L10n.TabBar.favourites
-                    )
-                ), viewController: favouritesNavigationController
-            ),
-            TabBarControllerItem(
-                identifier: .home,
-                tabBarItemView: HomeTabBarItemView(
-                    model: TabBarItemViewModel(
-                        icon: Asset.Images.home.image
-                    )
+                TabBarControllerItem(
+                    identifier: .favorites,
+                    tabBarItemView: PlainTabBarItemView(
+                        model: TabBarItemViewModel(
+                            icon: Asset.Images.heart.image,
+                            title: L10n.TabBar.favourites
+                        )
+                    ),
+                    viewController: favouritesNavigationController
                 ),
-                viewController: homeNavigtionController
-            ),
-            TabBarControllerItem(
-                identifier: .leaderBoard,
-                tabBarItemView: PlainTabBarItemView(
-                    model: TabBarItemViewModel(
-                        icon: Asset.Images.podium.image,
-                        title: L10n.TabBar.leaderBoard
-                    )
+                TabBarControllerItem(
+                    identifier: .home,
+                    tabBarItemView: HomeTabBarItemView(
+                        model: TabBarItemViewModel(
+                            icon: Asset.Images.home.image
+                        )
+                    ),
+                    viewController: homeNavigtionController
                 ),
-                viewController: leaderboardNavigationController
-            ),
-            TabBarControllerItem(
-                identifier: .more,
-                tabBarItemView: PlainTabBarItemView(
-                    model: TabBarItemViewModel(
-                        icon: Asset.Images.more.image,
-                        title: L10n.TabBar.more
-                    )
+                TabBarControllerItem(
+                    identifier: .leaderBoard,
+                    tabBarItemView: PlainTabBarItemView(
+                        model: TabBarItemViewModel(
+                            icon: Asset.Images.podium.image,
+                            title: L10n.TabBar.leaderBoard
+                        )
+                    ),
+                    viewController: leaderboardNavigationController
                 ),
-                viewController: moreNavigtionController
-            )
-        ], delegate: self)
+                TabBarControllerItem(
+                    identifier: .more,
+                    tabBarItemView: PlainTabBarItemView(
+                        model: TabBarItemViewModel(
+                            icon: Asset.Images.more.image,
+                            title: L10n.TabBar.more
+                        )
+                    ),
+                    viewController: moreNavigtionController
+                )
+            ], delegate: self)
     }()
 
     // MARK: - Dependencies

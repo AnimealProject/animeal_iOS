@@ -12,7 +12,7 @@ final class UserValidationModel: UserProfileValidationModel {
     private var listeners = [AuthChannelEventsListener]()
     private let userModeSubject = CurrentValueSubject<UserMode?, Never>(nil)
     private let userRoleSubject = CurrentValueSubject<Set<UserRole>, Never>([])
-    
+
     // MARK: - Accessible properties
     private(set) var isSignedIn = false
     private(set) var userMode: UserMode? {
@@ -28,16 +28,16 @@ final class UserValidationModel: UserProfileValidationModel {
     private(set) var phoneNumberVerified = false
     private(set) var emailVerified = false
     private(set) var areAllNecessaryFieldsFilled = false
-    
+
     // MARK: - Publishers
     var userModePublisher: AnyPublisher<UserMode?, Never> {
         userModeSubject.eraseToAnyPublisher()
     }
-    
+
     var userRolePublisher: AnyPublisher<Set<UserRole>, Never> {
         userRoleSubject.eraseToAnyPublisher()
     }
-    
+
     // MARK: - Initialization
     init() {
         listenAuthChannelMessages()
@@ -72,7 +72,7 @@ final class UserValidationModel: UserProfileValidationModel {
     func set(userMode: UserMode?) {
         self.userMode = userMode
     }
-    
+
     func refreshToken() {
         Task {
             try? await Amplify.Auth.fetchAuthSession(options: .forceRefresh())
@@ -146,7 +146,7 @@ private extension UserValidationModel {
         }
         return false
     }
-    
+
     func handleSessionExpiredEvent() {
         listeners.forEach { listener in
             listener.listenAuthChannelEvents(event: .sessionExpired)
@@ -165,15 +165,15 @@ private extension UserValidationModel {
             roles = []
             return
         }
-        
+
         let groups = (claims["cognito:groups"] as? [String]) ?? []
         let normalized = Set(groups.map { $0.lowercased() })
-        
+
         var newRoles = Set<UserRole>()
         if normalized.contains("administrator") { newRoles.insert(.admin) }
         if normalized.contains("moderator") { newRoles.insert(.moderator) }
         if normalized.contains("volunteer") { newRoles.insert(.volunteer) }
-        
+
         if roles != newRoles {
             roles = newRoles
         }

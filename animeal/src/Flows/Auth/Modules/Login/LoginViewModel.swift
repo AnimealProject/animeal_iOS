@@ -61,7 +61,7 @@ final class LoginViewModel: LoginViewModelLifeCycle, LoginViewInteraction, Login
             let modelAction = modelActions.first { $0.identifier == identifier }
             guard let modelAction else { return }
             proceedWithAuthentication(with: modelAction.type)
-            
+
         case .tapOnLegalLink(let identifier):
             onOpenWebPage?(identifier)
         }

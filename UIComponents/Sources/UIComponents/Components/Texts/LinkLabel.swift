@@ -48,14 +48,14 @@ public final class LinkLabel: UILabel {
         let accentColor = designEngine.colors.accent
 
         // Style links
-        attributed.addAttributes([
-            .foregroundColor: accentColor,
-            .underlineStyle: NSUnderlineStyle.single.rawValue
-        ], range: termsRange)
-        attributed.addAttributes([
-            .foregroundColor: accentColor,
-            .underlineStyle: NSUnderlineStyle.single.rawValue
-        ], range: privacyRange)
+        attributed.addAttributes(
+            [.foregroundColor: accentColor, .underlineStyle: NSUnderlineStyle.single.rawValue],
+            range: termsRange
+        )
+        attributed.addAttributes(
+            [.foregroundColor: accentColor, .underlineStyle: NSUnderlineStyle.single.rawValue],
+            range: privacyRange
+        )
 
         // Set text
         self.attributedText = attributed
@@ -96,11 +96,9 @@ public final class LinkLabel: UILabel {
         let glyphIndex = layoutManager.glyphIndex(for: point, in: textContainer)
         let characterIndex = layoutManager.characterIndexForGlyph(at: glyphIndex)
 
-        for link in links {
-            if NSLocationInRange(characterIndex, link.range) {
-                linkTapHandler?(link.identifier)
-                break
-            }
+        for link in links where NSLocationInRange(characterIndex, link.range) {
+            linkTapHandler?(link.identifier)
+            break
         }
     }
 }

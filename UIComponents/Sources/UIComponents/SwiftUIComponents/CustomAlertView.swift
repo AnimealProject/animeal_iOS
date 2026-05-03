@@ -57,7 +57,7 @@ public struct CustomAlertView: View {
             .padding(.horizontal, 24)
 
             VStack(spacing: 12) {
-                Button(action: { viewModel.action(.primary) }) {
+                Button(action: { viewModel.action(.primary) }, label: {
                     HStack {
                         Spacer()
                         Text(viewModel.primaryButtonTitle)
@@ -68,10 +68,10 @@ public struct CustomAlertView: View {
                     .frame(height: 50)
                     .background(designEngine.colors.accent.color)
                     .cornerRadius(25)
-                }
+                })
 
                 if let secondaryButtonTitle = viewModel.secondaryButtonTitle {
-                    Button(action: { viewModel.action(.secondary) }) {
+                    Button(action: { viewModel.action(.secondary) }, label: {
                         HStack {
                             Spacer()
                             Text(secondaryButtonTitle)
@@ -86,7 +86,7 @@ public struct CustomAlertView: View {
                             RoundedRectangle(cornerRadius: 25)
                                 .stroke(designEngine.colors.disabled.color, lineWidth: 1)
                         )
-                    }
+                    })
                 }
             }
             .padding(.top, 32)
@@ -176,16 +176,15 @@ struct CustomAlert_Previews: PreviewProvider {
                 title: "Confirm Action",
                 message: "Are you sure you want to perform this action? This cannot be undone.",
                 primaryButtonTitle: "Primary",
-                secondaryButtonTitle: "Secondary",
-                action: { action in
-                    switch action {
-                    case .primary:
-                        print("Primary")
-                    case .secondary:
-                        print("Secondary")
-                    }
+                secondaryButtonTitle: "Secondary"
+            ) { action in
+                switch action {
+                case .primary:
+                    print("Primary")
+                case .secondary:
+                    print("Secondary")
                 }
-            )
+            }
         )
         .environmentObject(designEngine)
     }

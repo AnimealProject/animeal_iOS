@@ -35,7 +35,7 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
     private let pointDetailsView = FeedingPointDetailsView()
     private var shimmerAdded = false
     private var moderatorsShimmerAdded = false
-    
+
     // MARK: - Dependencies
     private let viewModel: FeedingPointDetailsViewModelProtocol
 
@@ -82,7 +82,7 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
         viewModel.onRequestLocationAccess = { [weak self] in
             self?.requestLocation()
         }
-        
+
         viewModel.onModeratorsHaveBeenPrepared = { [weak self] moderators in
             self?.applyModeratorsContent(moderators)
         }
@@ -126,7 +126,7 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
     ) {
         pointDetailsView.setIcon(content.pointDetailsIcon)
     }
-    
+
     func applyModeratorsContent(
         _ content: FeedingPointDetailsViewMapper.FeedingPointModerators
     ) {
@@ -137,7 +137,7 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
             return
         }
         moderatorsContainer.isHidden = false
-        
+
         let containerView = UIStackView()
         containerView.axis = .horizontal
         containerView.alignment = .center
@@ -159,10 +159,14 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
             )
             moderatorsContainer.addArrangedSubview(view)
         }
-        
+
         if content.canShowMore {
             let showMoreButton = ButtonViewFactory().makeTextButton()
-            let model = ButtonView.Model(identifier: UUID().uuidString, viewType: ButtonView.self, title: L10n.Action.showAll(content.totalCount))
+            let model = ButtonView.Model(
+                identifier: UUID().uuidString,
+                viewType: ButtonView.self,
+                title: L10n.Action.showAll(content.totalCount)
+            )
             showMoreButton.configure(model)
             showMoreButton.onTap = { [weak self] _ in
                 self?.viewModel.handleActionEvent(.tapShowMoreModerators)
@@ -190,7 +194,7 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
         }
         containerView.addArrangedSubview(toggleButton)
     }
-    
+
     func applyFavoriteMutationFailed() {
         pointDetailsView.toggleHighlightState()
     }
@@ -227,14 +231,14 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
             feedingHistoryShimmerView.startAnimation(scheduler: viewModel.shimmerScheduler)
             self.shimmerAdded = true
         }
-        
+
         if !viewModel.moderatorsInitialized && !moderatorsShimmerAdded {
             let moderatorsShimmerView = ModeratorsShimmerView()
             moderatorsContainer.addArrangedSubview(moderatorsShimmerView)
             moderatorsShimmerView.startAnimation(scheduler: viewModel.shimmerScheduler)
             moderatorsShimmerAdded = true
         }
-        
+
         contentContainer.addArrangedSubview(feedingHistoryContainer)
         contentContainer.addArrangedSubview(moderatorsContainer)
         contentContainer.addArrangedSubview(UIView())
