@@ -21,7 +21,7 @@ final class DataStoreService: DataStoreServiceProtocol {
     ) async throws -> Data {
         do {
             let downloadTask = Amplify.Storage.downloadData(
-                key: key,
+                path: .fromString(key),
                 options: converter.convertDownloadDataRequestOptions(options)
             )
             let result = try await downloadTask.value
@@ -44,7 +44,7 @@ final class DataStoreService: DataStoreServiceProtocol {
                 progressListener?(progress.fractionCompleted)
             }
             let uploadTask = Amplify.Storage.uploadData(
-                key: key,
+                path: .fromString(key),
                 data: data
             )
             Task {
@@ -64,6 +64,6 @@ final class DataStoreService: DataStoreServiceProtocol {
     func getURL(key: String?) async throws -> URL? {
         guard let key, !key.isEmpty else { return nil }
 
-        return try await Amplify.Storage.getURL(key: key)
+        return try await Amplify.Storage.getURL(path: .fromString(key))
     }
 }
