@@ -128,7 +128,7 @@ private extension AnalyticsService {
     }
 
     func sendEventToCrashlytics(_ event: AnalyticsEvent) {
-        let userInfo = event.parameters.compactMapValues { $0 } as [String: Any]
+        let userInfo = event.parameters.compactMapValues { $0 } as? [String: Any]
         Crashlytics.crashlytics().record(
             error: NSError(
                 domain: "AnalyticsNonFatalEvent",
