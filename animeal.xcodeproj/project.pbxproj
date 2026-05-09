@@ -2548,6 +2548,7 @@
 				"$(TARGET_BUILD_DIR)/$(INFOPLIST_PATH)",
 			);
 			name = swiftgen;
+			alwaysOutOfDate = 1;
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -2566,6 +2567,7 @@
 			inputPaths = (
 			);
 			name = swiftlint;
+			alwaysOutOfDate = 1;
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -2584,6 +2586,7 @@
 			inputPaths = (
 			);
 			name = mapBox;
+			alwaysOutOfDate = 1;
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -2607,6 +2610,7 @@
 				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
 			);
 			name = crashlytics;
+			alwaysOutOfDate = 1;
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -2625,6 +2629,7 @@
 			inputPaths = (
 			);
 			name = "Generate Sourcery Mocks";
+			alwaysOutOfDate = 1;
 			outputFileListPaths = (
 			);
 			outputPaths = (
