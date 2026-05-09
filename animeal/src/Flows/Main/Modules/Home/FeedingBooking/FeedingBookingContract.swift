@@ -28,6 +28,7 @@ protocol FeedingBookingModelProtocol: AnyObject {
 }
 
 // MARK: - Coordinator
+@MainActor
 protocol FeedingBookingCoordinatable {
     func routeTo(_ route: FeedingBookingRoute)
 }

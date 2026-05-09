@@ -61,13 +61,13 @@ final class AppCoordinator: AppCoordinatable {
         Task { @MainActor [weak self] in
             guard let self, let session = try? await self.authenticationService.fetchAuthSession()
             else { return }
-            
+
             do {
                 try await self.profileService.fetchUserAttributes()
             } catch {
                 logDebug("Failed to fetch user attributes with error - \(error)")
             }
-            
+
             let userValidationModel = profileService.getCurrentUserValidationModel()
             let isUserValidated = self.profileService
                 .getCurrentUserValidationModel()

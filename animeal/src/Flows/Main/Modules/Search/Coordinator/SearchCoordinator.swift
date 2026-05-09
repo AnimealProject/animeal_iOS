@@ -2,15 +2,15 @@
 import UIKit
 
 // SDK
-import UIComponents
 import Style
 
+@MainActor
 final class SearchCoordinator: Coordinatable {
     // MARK: - Dependencies
     private let _navigator: Navigating
     private let switchFlowAction: ((MainFlowSwitchAction) -> Void)?
     private let completion: (() -> Void)?
-    private var bottomSheetController: BottomSheetPresentationController?
+    private var bottomSheetController: UIViewController?
 
     var navigator: Navigating { _navigator }
 
@@ -37,7 +37,6 @@ final class SearchCoordinator: Coordinatable {
 }
 
 extension SearchCoordinator: SearchCoordinatable {
-    @MainActor
     func move(to route: SearchRoute) {
         switch route {
         case .details(let identifier):
@@ -46,13 +45,20 @@ extension SearchCoordinator: SearchCoordinatable {
                 pointId: identifier,
                 isOverMap: false
             ).assemble()
-            let controller = BottomSheetPresentationController(
-                controller: viewController,
-                configuration: .fullScreen
-            )
-            controller.modalPresentationStyle = .overFullScreen
-            _navigator.present(controller, animated: false, completion: nil)
-            bottomSheetController = controller
+
+            viewController.modalPresentationStyle = .pageSheet
+
+            if let sheet = viewController.sheetPresentationController {
+                sheet.detents = [.large()]
+                sheet.prefersGrabberVisible = false
+                sheet.preferredCornerRadius = 16
+                sheet.largestUndimmedDetentIdentifier = nil
+                sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+                viewController.isModalInPresentation = false
+            }
+
+            _navigator.present(viewController, animated: true, completion: nil)
+            bottomSheetController = viewController
         }
     }
 }
@@ -68,7 +74,7 @@ extension SearchCoordinator: FeedingPointCoordinatable {
             screen.modalPresentationStyle = .overFullScreen
             bottomSheetController?.present(screen, animated: true)
         case .map(let pointIdentifier):
-            bottomSheetController?.dismissView { [weak self] in
+            bottomSheetController?.dismiss(animated: true) { [weak self] in
                 self?.switchFlowAction?(
                     .shouldSwitchToMap(pointIdentifier: pointIdentifier)
                 )
@@ -87,7 +93,7 @@ extension SearchCoordinator: FeedingBookingCoordinatable {
                     .shouldSwitchToFeeding(feedDetails: feedDetails)
                 )
             }
-            bottomSheetController?.dismissView(completion: nil)
+            bottomSheetController?.dismiss(animated: true, completion: nil)
         case .cancel:
             _navigator.topViewController?.dismiss(animated: true, completion: nil)
         }

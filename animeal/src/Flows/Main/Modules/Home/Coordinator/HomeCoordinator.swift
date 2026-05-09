@@ -56,7 +56,9 @@ extension HomeCoordinator: HomeCoordinatable {
             viewController.modalPresentationStyle = .pageSheet
 
             if let sheet = viewController.sheetPresentationController {
-                let initialDetent = UISheetPresentationController.Detent.custom(identifier: .init("initial")) { _ in 240 }
+                let initialDetent = UISheetPresentationController.Detent.custom(identifier: .init("initial")) {
+                    _ in 240
+                }
                 sheet.detents = [initialDetent, .medium(), .large()]
                 sheet.selectedDetentIdentifier = .init("initial")
                 sheet.prefersGrabberVisible = true

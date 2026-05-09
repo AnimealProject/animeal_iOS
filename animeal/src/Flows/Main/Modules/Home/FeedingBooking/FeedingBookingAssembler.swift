@@ -1,6 +1,7 @@
 import UIKit
 import Common
 
+@MainActor
 final class FeedingBookingModuleAssembler {
     private let coordinator: FeedingBookingCoordinatable
     private let feedingDetails: FeedingPointFeedDetails

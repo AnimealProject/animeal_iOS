@@ -258,7 +258,7 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
         }
         return feedingHistory
     }
-    
+
     deinit {
         feedingPointSubscription?.cancel()
     }
@@ -335,4 +335,3 @@ private extension FeedingPointsService {
             .store(in: &cancellables)
     }
 }
-

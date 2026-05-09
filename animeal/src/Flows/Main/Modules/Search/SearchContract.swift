@@ -49,6 +49,7 @@ protocol SearchModelProtocol: AnyObject {
 }
 
 // MARK: - Coordinator
+@MainActor
 protocol SearchCoordinatable: Coordinatable, AlertCoordinatable {
     func move(to route: SearchRoute)
 }

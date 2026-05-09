@@ -1,5 +1,6 @@
 import Foundation
 
+@MainActor
 final class FeedingBookingViewModel: FeedingBookingViewModelLifeCycle,
                                      FeedingBookingViewInteraction,
                                      FeedingBookingViewState {

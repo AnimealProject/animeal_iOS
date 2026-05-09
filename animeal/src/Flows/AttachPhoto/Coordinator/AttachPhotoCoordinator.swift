@@ -33,9 +33,9 @@ final class AttachPhotoCoordinator: Coordinatable, AttachPhotoCoordinatorEventHa
     func start() {
         let viewController = AttachPhotoAssembler(
             pointId: pointId, coordinator: self).assemble()
-        
+
         viewController.modalPresentationStyle = .pageSheet
-        
+
         if let sheet = viewController.sheetPresentationController {
             // Fixed height detent matching the original 345pt
             let detent = UISheetPresentationController.Detent.custom { _ in 345 }
