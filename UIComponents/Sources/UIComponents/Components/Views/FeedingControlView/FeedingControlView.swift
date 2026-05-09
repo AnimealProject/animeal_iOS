@@ -63,7 +63,6 @@ public final class FeedingControlView: UIView {
     public override var intrinsicContentSize: CGSize {
         return CGSize(width: (UIScreen.main.bounds.width - 40), height: 56)
     }
-
 }
 
 // MARK: - Setup

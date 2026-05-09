@@ -47,7 +47,6 @@ public final class FeedingPointDetailsView: UIView {
     public func reset() {
         imageView.isHighlighted = false
     }
-
 }
 
 // MARK: - Setup

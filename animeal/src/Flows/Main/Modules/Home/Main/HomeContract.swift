@@ -82,6 +82,7 @@ enum HomeViewActionEvent {
 }
 
 // MARK: - Coordinator
+@MainActor
 protocol HomeCoordinatable: AlertCoordinatable, ActivityDisplayable, GuestAlertCoordinatable {
     func routeTo(_ route: HomeRoute)
     @MainActor

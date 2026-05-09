@@ -79,7 +79,6 @@ final class ShimmerGradientAnimatedView: UIView {
     func stopAnimation() {
         gradientLayer.removeAllAnimations()
     }
-
 }
 
 private extension ShimmerGradientAnimatedView {

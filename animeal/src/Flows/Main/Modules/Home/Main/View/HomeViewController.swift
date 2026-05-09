@@ -53,7 +53,7 @@ class HomeViewController: UIViewController {
             object: nil,
             queue: .main
         ) { [weak self] _ in
-            self?.viewModel.refreshCurrentFeeding()
+            Task { await self?.viewModel.refreshCurrentFeeding() }
         }
     }
 
@@ -123,7 +123,6 @@ extension HomeViewController: HomeViewModelOutput {
             duration: 0
         )
     }
-
 }
 
 // MARK: - Private API
