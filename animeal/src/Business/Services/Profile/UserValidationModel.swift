@@ -114,7 +114,7 @@ private extension UserValidationModel {
                 logInfo("[App] \(#function) Auth.sessionExpired event occurred in AUTH channel")
                 self.isSignedIn = false
                 self.roles = []
-                self.handleSessionExpiredEvent()
+                Task { @MainActor [weak self] in self?.handleSessionExpiredEvent() }
             case HubPayload.EventName.Auth.fetchSessionAPI:
                 logInfo("[App] \(#function) Auth.fetchSessionAPI event occurred in AUTH channel")
                 self.isSignedIn = self.checkIfUserSignedIn(payload.data)
@@ -147,6 +147,7 @@ private extension UserValidationModel {
         return false
     }
 
+    @MainActor
     func handleSessionExpiredEvent() {
         listeners.forEach { listener in
             listener.listenAuthChannelEvents(event: .sessionExpired)
