@@ -243,7 +243,8 @@ extension MainCoordinator: TabBarControllerDelegate {
 
     private func startLoginFlow() {
         let authCoordinator = AuthCoordinator(
-            presentingWindow: presentingWindow
+            presentingWindow: presentingWindow,
+            context: AppDelegate.shared.context
         ) { [weak self] in
             self?.childCoordinators.removeAll()
             self?.start()

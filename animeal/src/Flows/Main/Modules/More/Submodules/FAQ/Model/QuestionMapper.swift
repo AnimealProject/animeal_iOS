@@ -25,6 +25,6 @@ private extension Question {
     }
 
     private var localized: QuestionI18n? {
-        i18n?.first { $0.locale == Locale.current.languageCode }
+        i18n?.first { $0.locale == Locale.current.language.languageCode?.identifier }
     }
 }

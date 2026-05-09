@@ -8,6 +8,7 @@
 import Foundation
 
 // MARK: - Coordinator
+@MainActor
 protocol LeaderboardCoordinatable {
     func routeTo(_ route: LeaderboardRoute)
 }

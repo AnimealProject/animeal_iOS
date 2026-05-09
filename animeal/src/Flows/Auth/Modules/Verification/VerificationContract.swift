@@ -52,6 +52,7 @@ protocol VerificationAssembler {
 }
 
 // MARK: - Coordinator
+@MainActor
 protocol VerificationCoordinatable: Coordinatable, AlertCoordinatable, ActivityDisplayable {
     func moveFromVerification(to route: VerificationRoute)
 }

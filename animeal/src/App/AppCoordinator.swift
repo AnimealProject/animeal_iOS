@@ -153,7 +153,8 @@ private extension AppCoordinator {
     @MainActor
     private func startAuthFlow() {
         let authenticationCoordinator = AuthCoordinator(
-            presentingWindow: authWindow
+            presentingWindow: authWindow,
+            context: AppDelegate.shared.context
         ) { [weak self] in
             self?.childCoordinators.removeAll()
             self?.start()

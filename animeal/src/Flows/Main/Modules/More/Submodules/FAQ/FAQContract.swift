@@ -15,6 +15,7 @@ protocol FAQViewModelLifeCycle: AnyObject {
     func load()
 }
 
+@MainActor
 protocol FAQViewInteraction: AnyObject {
     func handleActionEvent(_ event: FAQViewActionEvent)
 }

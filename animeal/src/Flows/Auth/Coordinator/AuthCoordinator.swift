@@ -23,7 +23,7 @@ final class AuthCoordinator: Coordinatable, AlertCoordinatable, ActivityDisplaya
     // MARK: - Initialization
     init(
         presentingWindow: UIWindow,
-        context: Context = AppDelegate.shared.context,
+        context: Context,
         completion: (() -> Void)?
     ) {
         self.presentingWindow = presentingWindow
