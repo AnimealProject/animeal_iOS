@@ -2,7 +2,6 @@
 import UIKit
 
 // SDK
-import UIComponents
 import Common
 
 @MainActor
@@ -19,12 +18,17 @@ enum PhoneCodesAssembler {
         )
         let view = PhoneCodesViewController(viewModel: viewModel)
 
-        let presentationController = BottomSheetPresentationController(
-            controller: view,
-            configuration: .fullScreen
-        )
-        presentationController.modalPresentationStyle = .overFullScreen
+        view.modalPresentationStyle = .pageSheet
 
-        return presentationController
+        if let sheet = view.sheetPresentationController {
+            sheet.detents = [.large()]
+            sheet.prefersGrabberVisible = false
+            sheet.preferredCornerRadius = 16
+            sheet.largestUndimmedDetentIdentifier = nil
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+            view.isModalInPresentation = false
+        }
+
+        return view
     }
 }
