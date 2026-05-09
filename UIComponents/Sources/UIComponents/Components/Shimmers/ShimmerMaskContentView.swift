@@ -15,12 +15,9 @@ public final class ShimmerMaskContentView: UIView {
 
     private func setup() {
         apply(style: .deviceShimmerMaskContentStyle)
-    }
-
-    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        apply(style: .deviceShimmerMaskContentStyle)
+        registerForTraitChanges([UITraitUserInterfaceStyle.self]) { [weak self] (_: ShimmerMaskContentView, _) in
+            self?.apply(style: .deviceShimmerMaskContentStyle)
+        }
     }
 }
 

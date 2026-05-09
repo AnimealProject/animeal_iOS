@@ -21,11 +21,6 @@ final class FavouriteItemShimmerCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        shimmerView.apply(style: .shimmer)
-    }
 }
 
 extension FavouriteItemShimmerCell: FavouriteCell {
@@ -72,6 +67,10 @@ private extension FavouriteItemShimmerCell {
         containerView.bottomAnchor ~= containerView.bottomAnchor - 10.0
 
         shimmerView.apply(style: .lightShimmerStyle)
+
+        registerForTraitChanges([UITraitUserInterfaceStyle.self]) { [weak self] (_: FavouriteItemShimmerCell, _) in
+            self?.shimmerView.apply(style: .shimmer)
+        }
 
         setupMask()
     }

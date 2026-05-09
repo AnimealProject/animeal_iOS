@@ -45,17 +45,15 @@ public class RoundedCornersTabBarView: UIView {
         stackView.topAnchor ~= topAnchor + 8
 
         backgroundColor = designEngine.colors.backgroundPrimary
+
+        registerForTraitChanges([UITraitUserInterfaceStyle.self]) { [weak self] (_: RoundedCornersTabBarView, _) in
+            self?.updateSelection()
+        }
     }
 
     @available(*, unavailable)
     required public init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        updateSelection()
     }
 }
 

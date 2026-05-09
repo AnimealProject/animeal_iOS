@@ -80,11 +80,6 @@ final class ShimmerGradientAnimatedView: UIView {
         gradientLayer.removeAllAnimations()
     }
 
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        updateColors()
-    }
 }
 
 private extension ShimmerGradientAnimatedView {
@@ -95,6 +90,9 @@ private extension ShimmerGradientAnimatedView {
         gradientLayer.endPoint = animationDirection.endPoint
         gradientLayer.locations = .initialLocations
         layer.addSublayer(gradientLayer)
+        registerForTraitChanges([UITraitUserInterfaceStyle.self]) { [weak self] (_: ShimmerGradientAnimatedView, _) in
+            self?.updateColors()
+        }
     }
 
     func updateColors() {

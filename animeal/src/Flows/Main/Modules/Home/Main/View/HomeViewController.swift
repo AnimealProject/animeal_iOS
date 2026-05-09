@@ -124,10 +124,6 @@ extension HomeViewController: HomeViewModelOutput {
         )
     }
 
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        guard let mapView = mapView else { return }
-        mapView.mapboxMap.loadStyleURI(styleURI)
-    }
 }
 
 // MARK: - Private API
@@ -158,6 +154,11 @@ private extension HomeViewController {
         userLocationButton.isUserInteractionEnabled = false
         userLocationButton.onTap = { [weak self] _ in
             self?.mapView.easeToUserLocation()
+        }
+
+        registerForTraitChanges([UITraitUserInterfaceStyle.self]) { [weak self] (_: HomeViewController, _) in
+            guard let mapView = self?.mapView else { return }
+            mapView.mapboxMap.loadStyleURI(self?.styleURI ?? .streets)
         }
     }
 

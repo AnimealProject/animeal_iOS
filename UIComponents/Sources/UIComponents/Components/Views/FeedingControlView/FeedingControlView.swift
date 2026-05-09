@@ -64,10 +64,6 @@ public final class FeedingControlView: UIView {
         return CGSize(width: (UIScreen.main.bounds.width - 40), height: 56)
     }
 
-    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        cancelButton?.apply(style: .buttonStyle)
-    }
 }
 
 // MARK: - Setup
@@ -110,6 +106,10 @@ private extension FeedingControlView {
         button.centerYAnchor ~= centerYAnchor
         button.widthAnchor ~= 44
         button.heightAnchor ~= 44
+
+        registerForTraitChanges([UITraitUserInterfaceStyle.self]) { [weak self] (_: FeedingControlView, _) in
+            self?.cancelButton?.apply(style: .buttonStyle)
+        }
     }
 
     func setupTimerProvider() {
