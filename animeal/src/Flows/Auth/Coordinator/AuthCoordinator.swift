@@ -82,7 +82,11 @@ extension AuthCoordinator: LoginCoordinatable {
         case .done:
             Task { [weak self] in
                 guard let self else { return }
-                try? await self.context.profileService.fetchUserAttributes()
+                do {
+                    try await self.context.profileService.fetchUserAttributes()
+                } catch {
+                    logWarning("[Auth] fetchUserAttributes failed after login: \(error)")
+                }
                 let validationModel = self.context.profileService.getCurrentUserValidationModel()
                 context.profileService.getCurrentUserValidationModel().set(userMode: .registered)
                 self.moveLoggedInUser(isProfileValid: validationModel.validated)
@@ -114,7 +118,11 @@ extension AuthCoordinator: CustomAuthCoordinatable {
         case .done:
             Task { [weak self] in
                 guard let self else { return }
-                try? await self.context.profileService.fetchUserAttributes()
+                do {
+                    try await self.context.profileService.fetchUserAttributes()
+                } catch {
+                    logWarning("[Auth] fetchUserAttributes failed after custom auth: \(error)")
+                }
                 let validationModel = self.context.profileService.getCurrentUserValidationModel()
                 self.moveLoggedInUser(isProfileValid: validationModel.validated) {
                     ProfileAfterCustomAuthAssembler.assembly(coordinator: $0)
@@ -136,7 +144,11 @@ extension AuthCoordinator: VerificationCoordinatable {
             Task { [weak self] in
                 guard let self else { return }
 
-                try? await self.context.profileService.fetchUserAttributes()
+                do {
+                    try await self.context.profileService.fetchUserAttributes()
+                } catch {
+                    logWarning("[Auth] fetchUserAttributes failed after verification: \(error)")
+                }
                 let validationModel = self.context.profileService.getCurrentUserValidationModel()
                 self.context.profileService.getCurrentUserValidationModel().set(userMode: .registered)
                 self.moveLoggedInUser(isProfileValid: validationModel.validated) {

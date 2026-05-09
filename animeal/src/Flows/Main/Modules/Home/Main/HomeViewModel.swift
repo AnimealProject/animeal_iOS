@@ -176,7 +176,9 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
                 self.onFeedingActionHaveBeenPrepared?(self.feedingActionMapper.mapFeedingAction(action))
             }
             if !isCameraGranted {
-                logWarning("[Camera] Permission not granted, status: \(self.cameraService.cameraAuthorizationStatus.rawValue)")
+                logWarning(
+                    "[Camera] Permission not granted, status: \(self.cameraService.cameraAuthorizationStatus.rawValue)"
+                )
             }
 
             let pointItemView = self.feedingPointViewMapper.mapFeedingPoint(feedingPoint)
@@ -194,8 +196,6 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
             guard let self else { return }
             do {
                 let result = try await self.model.processFinishFeeding(imageKeys: imageKeys)
-                let feedingPoint = try await self.model.fetchFeedingPoint(result.feedingPoint)
-
                 let points = try await self.model.fetchFeedingPoints()
                 let viewItems = self.feedingPointViewMapper.mapFeedingPoints(points)
                 self.onFeedingPointsHaveBeenPrepared?(viewItems)

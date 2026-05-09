@@ -47,6 +47,7 @@ protocol CustomAuthModelProtocol: AnyObject {
 }
 
 // MARK: - Coordinator
+@MainActor
 protocol CustomAuthCoordinatable: Coordinatable, AlertCoordinatable, ActivityDisplayable {
     func moveFromCustomAuth(to route: CustomAuthRoute)
 }

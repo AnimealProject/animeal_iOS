@@ -294,7 +294,7 @@ private extension ProfileViewModel {
     }
 
     func validateItems() async {
-        await model.validateItems()
+        _ = await model.validateItems()
         updateViewItems(animated: false, resetPreviousItems: false) { [weak self] in
             try await self?.model.fetchCachedItems() ?? []
         }
