@@ -16,7 +16,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, AppCoordinatorHolder {
         options connectionOptions: UIScene.ConnectionOptions
     ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        let appCoordinator = AppCoordinator(scene: windowScene)
+        let appCoordinator = AppCoordinator(
+            scene: windowScene,
+            context: AppDelegate.shared.context
+        )
         coordinator = appCoordinator
         appCoordinator.start()
     }

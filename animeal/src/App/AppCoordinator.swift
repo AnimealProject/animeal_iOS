@@ -12,6 +12,7 @@ protocol AppCoordinatorHolder {
 
 protocol AppCoordinatable: Coordinatable { }
 
+@MainActor
 final class AppCoordinator: AppCoordinatable {
     typealias Context = AuthenticationServiceHolder & UserProfileServiceHolder
 
@@ -35,7 +36,7 @@ final class AppCoordinator: AppCoordinatable {
     // MARK: - Initialization
     init(
         scene: UIWindowScene,
-        context: Context = AppDelegate.shared.context,
+        context: Context,
         authChannelEventsPublisher: AuthChannelEventsPublisher? = nil
     ) {
         self.scene = scene
@@ -167,7 +168,6 @@ private extension AppCoordinator {
 }
 
 extension AppCoordinator: AuthChannelEventsListener {
-    @MainActor
     func listenAuthChannelEvents(event: AuthChannelEvents) {
         switch event {
         case .sessionExpired:
