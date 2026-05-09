@@ -9,7 +9,7 @@ final class HomeCoordinator: Coordinatable, HomeCoordinatorEventHandlerProtocol,
     // MARK: - Dependencies
     private let _navigator: Navigating
     private let completion: (() -> Void)?
-    private var bottomSheetController: BottomSheetPresentationController?
+    private var bottomSheetController: UIViewController?
 
     let activityPresenter = ActivityIndicatorPresenter()
 
@@ -52,10 +52,22 @@ extension HomeCoordinator: HomeCoordinatable {
                 pointId: pointId,
                 isOverMap: true
             ).assemble()
-            let controller = BottomSheetPresentationController(controller: viewController)
-            controller.modalPresentationStyle = .overFullScreen
-            _navigator.present(controller, animated: false, completion: nil)
-            bottomSheetController = controller
+
+            viewController.modalPresentationStyle = .pageSheet
+
+            if let sheet = viewController.sheetPresentationController {
+                let initialDetent = UISheetPresentationController.Detent.custom(identifier: .init("initial")) { _ in 240 }
+                sheet.detents = [initialDetent, .medium(), .large()]
+                sheet.selectedDetentIdentifier = .init("initial")
+                sheet.prefersGrabberVisible = true
+                sheet.preferredCornerRadius = 16
+                sheet.largestUndimmedDetentIdentifier = nil
+                sheet.prefersScrollingExpandsWhenScrolledToEdge = true
+                viewController.isModalInPresentation = false
+            }
+
+            _navigator.present(viewController, animated: true, completion: nil)
+            bottomSheetController = viewController
         case .attachPhoto(let pointId):
             let attachPhotoCoordinator = AttachPhotoCoordinator(
                 pointId: pointId,
@@ -97,7 +109,7 @@ extension HomeCoordinator: FeedingBookingCoordinatable {
         case .agree(let feedingPoint):
             feedingDidStartedEvent?(feedingPoint)
             _navigator.topViewController?.dismiss(animated: true, completion: nil)
-            bottomSheetController?.dismissView(completion: nil)
+            bottomSheetController?.dismiss(animated: true, completion: nil)
         }
     }
 }
