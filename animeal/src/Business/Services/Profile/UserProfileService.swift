@@ -94,7 +94,7 @@ final class UserProfileService: UserProfileServiceProtocol {
         forAttributeKey attributeKey: UserProfileAttributeKey
     ) async throws -> UserProfileCodeDeliveryDetails {
         do {
-            let result = try await Amplify.Auth.resendConfirmationCode(
+            let result = try await Amplify.Auth.sendVerificationCode(
                 forUserAttributeKey: converter.convertUserProfileAttributeKey(attributeKey)
             )
             return converter.convertCodeDeliveryDetails(result)
