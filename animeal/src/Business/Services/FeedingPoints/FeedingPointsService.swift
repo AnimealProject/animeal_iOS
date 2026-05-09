@@ -336,13 +336,3 @@ private extension FeedingPointsService {
     }
 }
 
-extension List: PropertyContainerPath, PropertyPath, Model where Element: Model {
-
-    public func getModelType() -> Model.Type {
-        Element.self
-    }
-
-    public func getMetadata() -> PropertyPathMetadata {
-        ModelPath<Element>(name: "items", isCollection: true, parent: nil).getMetadata()
-    }
-}
