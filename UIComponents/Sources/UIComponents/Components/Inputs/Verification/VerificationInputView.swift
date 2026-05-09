@@ -170,6 +170,7 @@ public extension VerificationInputView {
 
 public final class VerificationInputView: UIView {
     // MARK: - Private properties
+    private var editMenuInteraction: UIEditMenuInteraction?
     private let containerView: UIStackView = {
         let item = UIStackView().prepareForAutoLayout()
         item.axis = .horizontal
@@ -284,30 +285,34 @@ public final class VerificationInputView: UIView {
         )
         longPressGestureRecognizer.minimumPressDuration = 0.3
         addGestureRecognizer(longPressGestureRecognizer)
+
+        let interaction = UIEditMenuInteraction(delegate: self)
+        addInteraction(interaction)
+        editMenuInteraction = interaction
     }
 
     // MARK: - Handlers
     @objc private func longPressWasFired(_ sender: UILongPressGestureRecognizer) {
-        guard sender.state == .began,
-            let senderView = sender.view,
-            let superView = sender.view?.superview
-        else { return }
-
+        guard sender.state == .began, let senderView = sender.view else { return }
         senderView.becomeFirstResponder()
-
-        let saveMenuItem = UIMenuItem(
-            title: "Copy",
-            action: #selector(copyActionWasFired)
-        )
-        let deleteMenuItem = UIMenuItem(
-            title: "Paste",
-            action: #selector(pasteActionWasFired)
-        )
-        UIMenuController.shared.menuItems = [saveMenuItem, deleteMenuItem]
-        UIMenuController.shared.showMenu(from: superView, rect: senderView.frame)
+        let point = sender.location(in: senderView)
+        let config = UIEditMenuConfiguration(identifier: nil, sourcePoint: point)
+        editMenuInteraction?.presentEditMenu(with: config)
     }
 
-    @objc private func copyActionWasFired() { }
+    private func copyActionWasFired() { }
 
-    @objc private func pasteActionWasFired() { }
+    private func pasteActionWasFired() { }
+}
+
+extension VerificationInputView: UIEditMenuInteractionDelegate {
+    public func editMenuInteraction(
+        _ interaction: UIEditMenuInteraction,
+        menuFor configuration: UIEditMenuConfiguration,
+        suggestedActions: [UIMenuElement]
+    ) -> UIMenu? {
+        let copy = UIAction(title: "Copy") { [weak self] _ in self?.copyActionWasFired() }
+        let paste = UIAction(title: "Paste") { [weak self] _ in self?.pasteActionWasFired() }
+        return UIMenu(children: [copy, paste])
+    }
 }
