@@ -20,7 +20,13 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     }
     private enum Constants {
         static let feedingCountdownTimer: TimeInterval = 3600
+        static let minimumZoomLevel: Double = 12.0
+        static let bufferFactor: Double = 1.5
     }
+
+    private var currentBounds: BoundsInput?
+    private var loadedRegion: BoundsInput?
+    private var isFetchingFeedingPoints = false
 
     // MARK: - State
     var onFeedingPointsHaveBeenPrepared: (([FeedingPointViewItem]) -> Void)?
@@ -85,10 +91,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     func load() {
         Task { [weak self] in
             guard let self else { return }
-            let hasUnfinishedFeeding = await fetchUnfinishedFeeding()
-            if !hasUnfinishedFeeding {
-                self.fetchFeedingPoints(isInitialLoad: true)
-            }
+            _ = await fetchUnfinishedFeeding()
             self.fetchFilterItems()
             self.startFeedingPoinsEventsListener()
         }
@@ -99,6 +102,26 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     }
 
     // MARK: - Interaction
+    func handleMapCameraIdle(bounds: BoundsInput, zoom: Double) {
+        guard zoom >= Constants.minimumZoomLevel else { return }
+        currentBounds = bounds
+        guard !(loadedRegion?.contains(bounds) ?? false), !isFetchingFeedingPoints else { return }
+        let fetchBounds = bounds.expanded(by: Constants.bufferFactor)
+        isFetchingFeedingPoints = true
+        Task { [weak self] in
+            guard let self else { return }
+            defer { self.isFetchingFeedingPoints = false }
+            do {
+                let points = try await self.model.fetchFeedingPoints(bounds: fetchBounds)
+                self.loadedRegion = fetchBounds
+                let viewItems = self.feedingPointViewMapper.mapFeedingPoints(points)
+                self.onFeedingPointsHaveBeenPrepared?(viewItems)
+            } catch {
+                logError("[HomeViewModel] Failed to fetch feeding points: \(error.localizedDescription)")
+            }
+        }
+    }
+
     func handleActionEvent(_ event: HomeViewActionEvent) {
         switch event {
         case .tapFeedingPoints(let pointIds):
@@ -112,7 +135,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
                 return
             }
             model.proceedFilter(itemIdentifier)
-            fetchFeedingPoints()
+            fetchFeedingPointsWithCurrentBounds()
         case .tapCancelFeeding:
             let action = model.fetchFeedingAction(request: .cancelFeeding)
             onFeedingActionHaveBeenPrepared?(feedingActionMapper.mapFeedingAction(action))
@@ -196,9 +219,12 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
             guard let self else { return }
             do {
                 let result = try await self.model.processFinishFeeding(imageKeys: imageKeys)
-                let points = try await self.model.fetchFeedingPoints()
-                let viewItems = self.feedingPointViewMapper.mapFeedingPoints(points)
-                self.onFeedingPointsHaveBeenPrepared?(viewItems)
+
+                if let bounds = self.currentBounds {
+                    let points = try await self.model.fetchFeedingPoints(bounds: bounds)
+                    let viewItems = self.feedingPointViewMapper.mapFeedingPoints(points)
+                    self.onFeedingPointsHaveBeenPrepared?(viewItems)
+                }
                 self.feedingStatus = result.feedingStatus
                 self.onFeedingHaveBeenCompleted?()
 
@@ -229,17 +255,17 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
 }
 
 private extension HomeViewModel {
-    func fetchFeedingPoints(isInitialLoad: Bool = false) {
-        let task = { [weak self] in
+    func fetchFeedingPointsWithCurrentBounds() {
+        guard let bounds = currentBounds else { return }
+        fetchFeedingPoints(bounds: bounds)
+    }
+
+    func fetchFeedingPoints(bounds: BoundsInput) {
+        coordinator.displayActivityIndicator { [weak self] in
             guard let self else { return }
-            let points = try await self.model.fetchFeedingPoints()
+            let points = try await self.model.fetchFeedingPoints(bounds: bounds)
             let viewItems = self.feedingPointViewMapper.mapFeedingPoints(points)
             self.onFeedingPointsHaveBeenPrepared?(viewItems)
-        }
-        if isInitialLoad {
-            Task { try await task() }
-        } else {
-            coordinator.displayActivityIndicator(waitUntil: task)
         }
     }
 
@@ -278,9 +304,11 @@ private extension HomeViewModel {
             } catch {
                 logError("[APP] \(#function) failed to cancel feeding: \(error.localizedDescription)")
             }
-            let points = try await self.model.fetchFeedingPoints()
-            let viewItems = self.feedingPointViewMapper.mapFeedingPoints(points)
-            self.onFeedingPointsHaveBeenPrepared?(viewItems)
+            if let bounds = self.currentBounds {
+                let points = try await self.model.fetchFeedingPoints(bounds: bounds)
+                let viewItems = self.feedingPointViewMapper.mapFeedingPoints(points)
+                self.onFeedingPointsHaveBeenPrepared?(viewItems)
+            }
         }
     }
 
@@ -301,11 +329,13 @@ private extension HomeViewModel {
             } catch {
                 logError("[APP] \(#function) failed to reject feeding: \(error.localizedDescription)")
             }
-            let points = try await self.model.fetchFeedingPoints()
-            let viewItems = self.feedingPointViewMapper.mapFeedingPoints(points)
+            if let bounds = self.currentBounds {
+                let points = try await self.model.fetchFeedingPoints(bounds: bounds)
+                let viewItems = self.feedingPointViewMapper.mapFeedingPoints(points)
+                self.onFeedingPointsHaveBeenPrepared?(viewItems)
+            }
             let action = self.model.fetchFeedingAction(request: .autoCancelFeeding)
             self.onFeedingActionHaveBeenPrepared?(self.feedingActionMapper.mapFeedingAction(action))
-            self.onFeedingPointsHaveBeenPrepared?(viewItems)
         }
     }
 

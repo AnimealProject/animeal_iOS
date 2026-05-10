@@ -4,7 +4,7 @@ import Foundation
 
 /// Bounding box used by getFeedingPoints and searchByBounds queries.
 /// top_left is NW corner, bottom_right is SE corner.
-struct BoundsInput {
+struct BoundsInput: Equatable {
     let topLeftLat: Double
     let topLeftLon: Double
     let bottomRightLat: Double
@@ -15,6 +15,24 @@ struct BoundsInput {
             "top_left": ["lat": topLeftLat, "lon": topLeftLon],
             "bottom_right": ["lat": bottomRightLat, "lon": bottomRightLon]
         ]
+    }
+
+    func contains(_ other: BoundsInput) -> Bool {
+        other.topLeftLat <= topLeftLat &&
+        other.topLeftLon >= topLeftLon &&
+        other.bottomRightLat >= bottomRightLat &&
+        other.bottomRightLon <= bottomRightLon
+    }
+
+    func expanded(by factor: Double) -> BoundsInput {
+        let latBuffer = (topLeftLat - bottomRightLat) * (factor - 1) / 2
+        let lonBuffer = (bottomRightLon - topLeftLon) * (factor - 1) / 2
+        return BoundsInput(
+            topLeftLat: topLeftLat + latBuffer,
+            topLeftLon: topLeftLon - lonBuffer,
+            bottomRightLat: bottomRightLat - latBuffer,
+            bottomRightLon: bottomRightLon + lonBuffer
+        )
     }
 }
 

@@ -8,8 +8,6 @@
 // System
 import Foundation
 import Combine
-import CoreLocation
-import Services
 
 // SDK
 import Services
@@ -50,7 +48,7 @@ protocol FeedingPointsServiceProtocol: AnyObject {
     var changedFeedingPoint: AnyPublisher<FullFeedingPoint, Never> { get }
 
     @discardableResult
-    func fetchAll() async throws -> [FullFeedingPoint]
+    func fetchAll(bounds: BoundsInput) async throws -> [FullFeedingPoint]
     @discardableResult
     func fetch(byIdentifier identifier: String) async throws -> FullFeedingPoint
     func fetchFeedingHistory(for feedingPointId: String) async throws -> [FeedingHistory]
@@ -97,7 +95,6 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
     private let networkService: NetworkServiceProtocol
     private let dataService: DataStoreServiceProtocol
     private let profileService: UserProfileServiceProtocol
-    private let locationService: LocationServiceProtocol
     private let favoritesService: FavoritesServiceProtocol
 
     // MARK: - Initialization
@@ -105,20 +102,18 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
         networkService: NetworkServiceProtocol = AppDelegate.shared.context.networkService,
         dataService: DataStoreServiceProtocol = AppDelegate.shared.context.dataStoreService,
         profileService: UserProfileServiceProtocol = AppDelegate.shared.context.profileService,
-        locationService: LocationServiceProtocol = AppDelegate.shared.context.locationService,
         favoritesService: FavoritesServiceProtocol
     ) {
         self.networkService = networkService
         self.dataService = dataService
         self.profileService = profileService
-        self.locationService = locationService
         self.favoritesService = favoritesService
 
         setup()
     }
 
     @discardableResult
-    func fetchAll() async throws -> [FullFeedingPoint] {
+    func fetchAll(bounds: BoundsInput) async throws -> [FullFeedingPoint] {
         let favoritePoints = try await favoritesService.fetchAll()
         let favoritePointsById = favoritePoints.reduce([String: FavouriteFeedingPoint]()) { partialResult, favourite in
             var result = partialResult
@@ -126,13 +121,6 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
             return result
         }
 
-        // Resolve user location; fall back to Tbilisi center if location access is unavailable.
-        // TODO: Prompt user to grant location access or let them choose a city manually.
-        let center = await resolveUserLocation()
-        let bounds = makeBounds(center: center, radiusKm: 50)
-
-        // TODO: Admin/Moderator users should bypass location filtering and call
-        // .list(animeal.FeedingPoint.self) to see all points regardless of location.
         // getFeedingPoints returns category as a nested object — no separate fetch needed.
         let rawPoints = try await networkService.query(request: .getFeedingPoints(bounds: bounds))
 
@@ -202,8 +190,7 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
 
     @discardableResult
     func fetchAllFavorites() async throws -> [FullFeedingPoint] {
-        let result = try await fetchAll()
-        return result.filter { $0.isFavorite }
+        storedFeedingPoints.filter { $0.isFavorite }
     }
 
     @discardableResult
@@ -340,53 +327,6 @@ private extension FeedingPointsService {
     }
 }
 
-// MARK: - Location helpers
-
-private extension FeedingPointsService {
-    func resolveUserLocation() async -> CLLocation {
-        guard locationService.locationStatus == .authorizedAlways ||
-              locationService.locationStatus == .authorizedWhenInUse else {
-            // TODO: Prompt user for location access or let them choose a city
-            return .tbilisiCenter
-        }
-        let bridge = LocationRequestBridge()
-        return await bridge.fetchLocation(using: locationService) ?? .tbilisiCenter
-    }
-
-    func makeBounds(center: CLLocation, radiusKm: Double) -> BoundsInput {
-        let latDelta = radiusKm / 111.0
-        let lonDelta = radiusKm / (111.0 * cos(center.coordinate.latitude * .pi / 180.0))
-        return BoundsInput(
-            topLeftLat: center.coordinate.latitude + latDelta,
-            topLeftLon: center.coordinate.longitude - lonDelta,
-            bottomRightLat: center.coordinate.latitude - latDelta,
-            bottomRightLon: center.coordinate.longitude + lonDelta
-        )
-    }
-}
-
-private extension CLLocation {
-    static let tbilisiCenter = CLLocation(latitude: 41.6938, longitude: 44.8015)
-}
-
-/// Bridges the delegate-based LocationService.requestLocation into async/await.
-private final class LocationRequestBridge: LocationServiceDelegate {
-    private var continuation: CheckedContinuation<CLLocation?, Never>?
-
-    func fetchLocation(using service: LocationServiceProtocol) async -> CLLocation? {
-        await withCheckedContinuation { continuation in
-            self.continuation = continuation
-            service.requestLocation(for: self)
-        }
-    }
-
-    func handleLiveLocationStream(result: Result<CLLocation, Error>) {}
-
-    func handleOneTimeLocation(result: Result<CLLocation, Error>) {
-        continuation?.resume(returning: try? result.get())
-        continuation = nil
-    }
-}
 
 extension List: PropertyContainerPath, PropertyPath, Model where Element: Model {
 

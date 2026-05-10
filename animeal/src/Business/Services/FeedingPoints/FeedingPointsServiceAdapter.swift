@@ -31,7 +31,6 @@ final class FeedingPointsServiceAdapter: FeedingPointsServiceProtocol {
             networkService: networkService,
             dataService: dataService,
             profileService: profileService,
-            locationService: locationService,
             favoritesService: favoritesService
         )
 
@@ -105,8 +104,8 @@ final class FeedingPointsServiceAdapter: FeedingPointsServiceProtocol {
     }
 
     // MARK: - Async methods delegate to current service
-    func fetchAll() async throws -> [FullFeedingPoint] {
-        try await currentServiceSubject.value.fetchAll()
+    func fetchAll(bounds: BoundsInput) async throws -> [FullFeedingPoint] {
+        try await currentServiceSubject.value.fetchAll(bounds: bounds)
     }
 
     func fetch(byIdentifier identifier: String) async throws -> FullFeedingPoint {

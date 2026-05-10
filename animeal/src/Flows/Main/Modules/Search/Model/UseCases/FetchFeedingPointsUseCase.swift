@@ -19,14 +19,7 @@ final class FetchFeedingPointsUseCase: FetchFeedingPointsUseCaseLogic {
     }
 
     func callAsFunction(force: Bool, oldSections: [SearchModelSection]) async throws -> [SearchModelSection] {
-        let result: [FullFeedingPoint] = try await { [weak self] in
-            guard let self else { return [] }
-            if force {
-                return try await self.feedingPointsService.fetchAll()
-            } else {
-                return self.feedingPointsService.storedFeedingPoints
-            }
-        }()
+        let result: [FullFeedingPoint] = feedingPointsService.storedFeedingPoints
         let sections = mapSections(result: result, oldSections: oldSections)
         let items = await mapItems(result: result)
         let filledSections = sections.map { section in

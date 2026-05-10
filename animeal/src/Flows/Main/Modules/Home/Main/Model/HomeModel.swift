@@ -31,9 +31,9 @@ final class HomeModel: HomeModelProtocol {
     }
 
     // MARK: - Requests
-    func fetchFeedingPoints() async throws -> [FeedingPoint] {
+    func fetchFeedingPoints(bounds: BoundsInput) async throws -> [FeedingPoint] {
         do {
-            let points = try await context.feedingPointsService.fetchAll()
+            let points = try await context.feedingPointsService.fetchAll(bounds: bounds)
             let feedingPoints = points.map { point in
                 mapper.mapFeedingPoint(point.feedingPoint, isFavorite: point.isFavorite)
             }

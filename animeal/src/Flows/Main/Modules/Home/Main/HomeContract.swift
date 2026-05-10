@@ -16,7 +16,7 @@ protocol HomeModelProtocol: AnyObject {
     var onFeedingPointChange: (([HomeModel.FeedingPoint]) -> Void)? { get set }
     var selectedFilter: HomeModel.FilterItemIdentifier { get }
     var savedFeedingPoints: [HomeModel.FeedingPoint] { get }
-    func fetchFeedingPoints() async throws -> [HomeModel.FeedingPoint]
+    func fetchFeedingPoints(bounds: BoundsInput) async throws -> [HomeModel.FeedingPoint]
     func fetchFilterItems(_ completion: (([HomeModel.FilterItem]) -> Void)?)
     func fetchFeedingAction(request: HomeModel.FeedingActionRequest) -> HomeModel.FeedingAction
     func fetchFeedingPoint(_ pointId: String) async throws -> HomeModel.FeedingPoint
@@ -53,6 +53,7 @@ protocol HomeViewModelLifeCycle: AnyObject {
 @MainActor
 protocol HomeViewInteraction: AnyObject {
     func handleActionEvent(_ event: HomeViewActionEvent)
+    func handleMapCameraIdle(bounds: BoundsInput, zoom: Double)
     func startFeeding(feedingPointId id: String)
     func finishFeeding(imageKeys: [String])
 }
