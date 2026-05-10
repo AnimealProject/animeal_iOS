@@ -138,18 +138,22 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
     }
 
     func fetchMediaContent(key: String, completion: ((Data?) -> Void)?) {
+        logInfo("[Media] Downloading cover with key: \(key)")
         context.dataStoreService.downloadData(
             key: key,
             options: .init(accessLevel: .guest)
         ) { result in
             switch result {
             case .success(let data):
+                logInfo("[Media] Cover downloaded successfully, size: \(data.count) bytes")
                 DispatchQueue.main.async {
                     completion?(data)
                 }
             case .failure(let error):
-                // TODO: Handele error
-                print(error.localizedDescription)
+                logWarning("[Media] Cover download failed for key '\(key)': \(error.localizedDescription)")
+                DispatchQueue.main.async {
+                    completion?(nil)
+                }
             }
         }
     }
