@@ -73,6 +73,13 @@ final class DataStoreService: DataStoreServiceProtocol {
     func getURL(key: String?) async throws -> URL? {
         guard let key, !key.isEmpty else { return nil }
 
-        return try await Amplify.Storage.getURL(path: .fromString(storagePath(for: key, accessLevel: DataStoreAccessLevel.guest)))
+        return try await Amplify.Storage.getURL(
+            path: .fromString(
+                storagePath(
+                    for: key,
+                    accessLevel: DataStoreAccessLevel.guest
+                )
+            )
+        )
     }
 }
