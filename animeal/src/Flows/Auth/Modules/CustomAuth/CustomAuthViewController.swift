@@ -18,14 +18,15 @@ final class CustomAuthViewController: BaseViewController, CustomAuthViewable {
         let termsString = L10n.Action.termsAndConditions
         let privacyString = L10n.Action.privacyPolicy
         let legalTermsString = L10n.Action.acknowledgeTCandPP
-        
+
         let termsRange = (legalTermsString as NSString).range(of: termsString)
         let privacyRange = (legalTermsString as NSString).range(of: privacyString)
-        
+
         linkLabel.configure(text: legalTermsString, termsRange: termsRange, privacyRange: privacyRange)
-        
+
         return linkLabel
-    }().prepareForAutoLayout()
+    }()
+        .prepareForAutoLayout()
 
 
     // MARK: - Dependencies
@@ -111,7 +112,7 @@ private extension CustomAuthViewController {
 
         contentView.addArrangedSubview(headerView)
         contentView.addArrangedSubview(inputsContentView)
-        
+
         legalTermsLabel.setContentHuggingPriority(.required, for: .vertical)
         legalTermsLabel.linkTapHandler = { [weak self] identifier in
             self?.viewModel.handleActionEvent(.legalLinkTapped(identifier))
@@ -227,7 +228,7 @@ private extension CustomAuthViewController {
             }
         }
     }
-    
+
     func openWebPage(with urlString: String) {
             guard let url = URL(string: urlString) else {
                 print("Invalid URL: \(urlString)") // Log anything unexpected

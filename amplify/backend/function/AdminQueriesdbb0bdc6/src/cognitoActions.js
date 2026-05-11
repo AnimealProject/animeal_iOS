@@ -237,6 +237,7 @@ async function getUser(username) {
     const result = await cognitoIdentityServiceProvider
       .adminGetUser(params)
       .promise();
+    removeUnusedAttributes(result);
     return result;
   } catch (err) {
     console.log(err);
@@ -257,7 +258,7 @@ async function listUsers(Limit, PaginationToken) {
     const result = await cognitoIdentityServiceProvider
       .listUsers(params)
       .promise();
-
+    result.Users.forEach(removeUnusedAttributes);
     // Rename to NextToken for consistency with other Cognito APIs
     result.NextToken = result.PaginationToken;
     delete result.PaginationToken;
@@ -341,6 +342,7 @@ async function listUsersInGroup(groupname, Limit, NextToken) {
     const result = await cognitoIdentityServiceProvider
       .listUsersInGroup(params)
       .promise();
+    result.Users.forEach(removeUnusedAttributes);
     return result;
   } catch (err) {
     console.log(err);
@@ -368,6 +370,14 @@ async function signUserOut(username) {
   } catch (err) {
     console.log(err);
     throw err;
+  }
+}
+
+function removeUnusedAttributes(user) {
+  if (user.UserAttributes) {
+    user.UserAttributes = user.UserAttributes.filter(a => a.Name !== 'custom:messaging_token');
+  } else if (user.Attributes) {
+    user.Attributes = user.Attributes.filter(a => a.Name !== 'custom:messaging_token');
   }
 }
 

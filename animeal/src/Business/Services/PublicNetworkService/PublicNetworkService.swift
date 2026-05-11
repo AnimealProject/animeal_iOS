@@ -12,7 +12,7 @@ final class PublicNetworkService: NetworkServiceProtocol {
         let result = try await Amplify.API.query(
             request: request.convertToGraphQLRequest(authMode: .apiKey)
         )
-        
+
         switch result {
         case .success(let response):
             return response

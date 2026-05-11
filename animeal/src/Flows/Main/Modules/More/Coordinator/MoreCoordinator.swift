@@ -160,9 +160,7 @@ extension MoreCoordinator: ProfileCoordinatable {
             guard let viewController = make() else { return }
             _navigator.present(viewController, animated: false, completion: nil)
         case .dismiss:
-            if let bottomSheetVC = _navigator.topViewController as? BottomSheetPresentationController {
-                bottomSheetVC.dismissView(completion: nil)
-            }
+            _navigator.topViewController?.dismiss(animated: true, completion: nil)
         }
     }
 }

@@ -11,7 +11,7 @@ public extension TextLegalLinksRow {
     struct Model {
         public let leftButtonModel: ButtonView.Model
         public let rightButtonModel: ButtonView.Model
- 
+
         public init(leftButtonModel: ButtonView.Model, rightButtonModel: ButtonView.Model) {
             self.leftButtonModel = leftButtonModel
             self.rightButtonModel = rightButtonModel
@@ -49,26 +49,26 @@ public final class TextLegalLinksRow: UIView {
             self?.onTap?(identifier)
         }
     }
-    
+
     // MARK: - Private Properties
     public var onTap: ((String) -> Void)?
-    
+
     private func setupViews() {
         // Add buttons to the view
         addSubview(leftButton)
         addSubview(rightButton)
     }
-        
+
     private func setupConstraints() {
         leftButton.translatesAutoresizingMaskIntoConstraints = false
         rightButton.translatesAutoresizingMaskIntoConstraints = false
-        
+
         NSLayoutConstraint.activate([
             // Position the left button
             leftButton.leadingAnchor.constraint(equalTo: leadingAnchor),
             leftButton.topAnchor.constraint(equalTo: topAnchor),
             leftButton.bottomAnchor.constraint(equalTo: bottomAnchor),
-            
+
             // Position the right button
             rightButton.trailingAnchor.constraint(equalTo: trailingAnchor),
             rightButton.topAnchor.constraint(equalTo: topAnchor),

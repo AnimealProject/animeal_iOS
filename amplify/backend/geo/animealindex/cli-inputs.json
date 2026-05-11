@@ -1,7 +1,3 @@
 {
-  "groupPermissions": [
-    "Administrator",
-    "Moderator",
-    "Volunteer"
-  ]
+  "groupPermissions": []
 }

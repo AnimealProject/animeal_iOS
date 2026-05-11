@@ -9,35 +9,25 @@ Amplify Params - DO NOT EDIT */
 /**
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
+
 const AWS = require('aws-sdk');
+const { deleteFeedingPointFavourites } = require('./query');
 
 const parse = AWS.DynamoDB.Converter.unmarshall;
-
-const { listFavourites, deleteFavourite } = require('./query');
+const trackableEvents = ['REMOVE'];
 
 exports.handler = async (event) => {
   try {
     console.log(`EVENT: ${JSON.stringify(event)}`);
-    for (const record of event.Records) {
-      const oldImage = parse(record.dynamodb.OldImage);
-      const trackableEvents = ['REMOVE'];
-      console.log(oldImage.id);
 
-      if (trackableEvents.includes(record.eventName)) {
-        switch (oldImage.__typename) {
-          case 'FeedingPoint': {
-            const favourites = await listFavourites({
-              feedingPointId: oldImage.id,
-            });
-            for (const favourite of favourites) {
-              await deleteFavourite({
-                input: {
-                  id: favourite.id,
-                },
-              });
-            }
-          }
-        }
+    for (const record of event.Records) {
+      if (!trackableEvents.includes(record.eventName)) {
+        continue;
+      }
+
+      const oldImage = parse(record.dynamodb.OldImage);
+      if (oldImage.__typename === 'FeedingPoint') {
+        await deleteFeedingPointFavourites(oldImage.id);
       }
     }
   } catch (e) {
@@ -46,4 +36,3 @@ exports.handler = async (event) => {
 
   return Promise.resolve('Successfully processed DynamoDB record');
 };
-

@@ -26,11 +26,11 @@ final class UserProfileService: UserProfileServiceProtocol {
     var userModePublisher: AnyPublisher<UserMode?, Never> {
         userValidationModel.userModePublisher
     }
-    
+
     var userRolePublisher: AnyPublisher<Set<UserRole>, Never> {
         userValidationModel.userRolePublisher
     }
-    
+
     // MARK: - Main methods
     func getCurrentUser() async -> UserCurrentProfile? {
         guard let user = try? await Amplify.Auth.getCurrentUser() else {
@@ -94,7 +94,7 @@ final class UserProfileService: UserProfileServiceProtocol {
         forAttributeKey attributeKey: UserProfileAttributeKey
     ) async throws -> UserProfileCodeDeliveryDetails {
         do {
-            let result = try await Amplify.Auth.resendConfirmationCode(
+            let result = try await Amplify.Auth.sendVerificationCode(
                 forUserAttributeKey: converter.convertUserProfileAttributeKey(attributeKey)
             )
             return converter.convertCodeDeliveryDetails(result)

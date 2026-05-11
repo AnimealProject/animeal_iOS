@@ -134,7 +134,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
         do {
             let creationDate = activeFeeding.createdAt.foundationDate
             model.updateFeedingSnapshot(id: activeFeeding.feedingPointFeedingsId, date: creationDate)
-            
+
             let snapshotTimeDiff = model.fetchFeedingSnapshot()?.startingTimeDiff ?? NetTime.serverTimeDifference
             let timeDiff = snapshotTimeDiff - NetTime.serverTimeDifference
             let feedingPoint = try await model.fetchFeedingPoint(activeFeeding.feedingPointFeedingsId)
@@ -171,9 +171,14 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
             let result = try await self.model.processStartFeeding(feedingPointId: id)
             let feedingPoint = try await self.model.fetchFeedingPoint(result.feedingPoint)
 
-            self.cameraService.grantCameraPermission {
+            let isCameraGranted = self.cameraService.grantCameraPermission {
                 let action = self.model.fetchFeedingAction(request: .cameraAccess)
                 self.onFeedingActionHaveBeenPrepared?(self.feedingActionMapper.mapFeedingAction(action))
+            }
+            if !isCameraGranted {
+                logWarning(
+                    "[Camera] Permission not granted, status: \(self.cameraService.cameraAuthorizationStatus.rawValue)"
+                )
             }
 
             let pointItemView = self.feedingPointViewMapper.mapFeedingPoint(feedingPoint)
@@ -191,9 +196,6 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
             guard let self else { return }
             do {
                 let result = try await self.model.processFinishFeeding(imageKeys: imageKeys)
-                let feedingPoint = try await self.model.fetchFeedingPoint(result.feedingPoint)
-                let pointItemView = self.feedingPointViewMapper.mapFeedingPoint(feedingPoint)
-
                 let points = try await self.model.fetchFeedingPoints()
                 let viewItems = self.feedingPointViewMapper.mapFeedingPoints(points)
                 self.onFeedingPointsHaveBeenPrepared?(viewItems)

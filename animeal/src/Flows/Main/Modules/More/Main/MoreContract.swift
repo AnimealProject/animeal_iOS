@@ -14,6 +14,7 @@ protocol MoreViewModelLifeCycle: AnyObject {
     func load()
 }
 
+@MainActor
 protocol MoreViewInteraction: AnyObject {
     func handleActionEvent(_ event: MoreViewActionEvent)
 }
@@ -30,6 +31,7 @@ protocol MoreModelProtocol: AnyObject {
 }
 
 // MARK: - Coordinator
+@MainActor
 protocol MoreCoordinatable: Coordinatable {
     func routeTo(_ route: MoreRoute)
 }

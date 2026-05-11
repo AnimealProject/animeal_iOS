@@ -25,8 +25,6 @@ amplify/mock-data
 amplify/mock-api-resources
 amplify/backend/amplify-meta.json
 amplify/backend/.temp
-amplify/backend/
-amplify/generated/
 build/
 dist/
 node_modules/

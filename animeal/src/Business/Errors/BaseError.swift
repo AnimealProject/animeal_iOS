@@ -1,6 +1,6 @@
 import Foundation
 
-class BaseError: NSError, LocalizedError {
+class BaseError: NSError, LocalizedError, @unchecked Sendable {
     private enum Constants {
         static let domain = "AnimealErrorDomain"
     }

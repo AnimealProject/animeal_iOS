@@ -20,152 +20,119 @@ Amplify Params - DO NOT EDIT */
  */
 
 const AWS = require('aws-sdk');
-var uuid = require('uuid');
-const dynamoDB = new AWS.DynamoDB.DocumentClient({});
+const uuid = require('uuid');
 const {
-  updateFeedingPoint,
   getFeedingPoint,
   getUser,
   getUsersByFeedingPointId,
-  createFeedingExt,
+  createActiveFeeding,
+  expiresInHours,
 } = require('./query');
 const PromiseBL = require('bluebird');
 
-exports.handler = async (event, context, callback) => {
-  console.log(`EVENT: ${JSON.stringify(event)}`);
-  const feedingPointId = event.arguments.feedingPointId;
-  const expireAt = new Date();
-  expireAt.setTime(expireAt.getTime() + 1 * 60 * 60 * 1000);
+const dynamoDB = new AWS.DynamoDB.DocumentClient({});
+
+async function sendPush(tokens) {
+  const addresses = Object.fromEntries(
+    tokens.filter((t) => !!t).map((token) => [token, { ChannelType: 'GCM' }]),
+  );
+  if (!Object.keys(addresses).length) return;
+
+  const params = {
+    ApplicationId: process.env.MESSAGING_ANIMEAL_APPLICATION_ID,
+    MessageRequest: {
+      Addresses: addresses,
+      MessageConfiguration: {
+        GCMMessage: {
+          RawContent: JSON.stringify({
+            notification: {
+              title: 'Animeal',
+              body: 'Feeding is started',
+            },
+            data: { action: 'startFeeding' },
+          }),
+        },
+      },
+    },
+  };
 
   try {
-    const feedingPoint = await getFeedingPoint({ id: feedingPointId });
+    const client = new AWS.Pinpoint({ region: process.env.REGION });
+    const response = await client.sendMessages(params).promise();
+    console.log('Push:', JSON.stringify(response, null, 2));
+  } catch (err) {
+    console.error('Push:', err);
+  }
+}
+
+exports.handler = async (event, context, callback) => {
+  console.log(`EVENT: ${JSON.stringify(event)}`);
+
+  if (!event?.identity?.username) {
+    throw new Error('User is not authenticated');
+  }
+
+  const { feedingPointId } = event.arguments;
+
+  try {
+    const feedingPointRes = await getFeedingPoint({ id: feedingPointId });
+    if (feedingPointRes?.data?.errors?.length) {
+      throw new Error(JSON.stringify(feedingPoint.data?.errors));
+    }
+
+    const feedingPoint = feedingPointRes.data.data.getFeedingPoint;
+    if (feedingPoint.disabled) {
+      throw new Error('The feeding point is inactive');
+    }
+
+    if (feedingPoint.status !== 'starved') {
+      throw new Error('The feeding point has sufficient supply');
+    }
+
     const users = await getUsersByFeedingPointId({
       feedingPointId,
     });
-    if (feedingPoint?.data?.errors?.length || users?.data?.errors?.length) {
-      throw new Error('Failed to get Feeding point data.');
+    if (users?.data?.errors?.length) {
+      throw new Error(JSON.stringify(users.data?.errors));
     }
-    const assignedModeratorsIds = [];
-    const usersDynamoRecords = [];
 
     const assignedModerators = await PromiseBL.map(
       users.data.data.relationUserFeedingPointByFeedingPointId.items,
-      (user) => {
-        assignedModeratorsIds.push(user.userId);
-        return getUser(user.userId).catch(() => null);
-      },
+      (user) => getUser(user.userId).catch(() => null),
       {
         concurrency: 5,
       },
     ).filter((it) => it);
-    assignedModerators.forEach((assignedModerator) => {
-      usersDynamoRecords.push({
-        Put: {
-          Item: {
-            id: assignedModerator.Username,
-            attributes: assignedModerator.UserAttributes,
-          },
-          TableName: process.env.API_ANIMEAL_FEEDINGUSERSTABLE_NAME,
-        },
-      });
-    });
 
-    if (!assignedModerators.length) {
-      throw new Error("There aren't any active assigned moderators");
-    }
-
-    if (
-      event?.identity?.username &&
-      !usersDynamoRecords.find(
-        (it) => it.Put.Item.id == event?.identity?.username,
-      )
-    ) {
-      const user = await getUser(event?.identity?.username);
-      usersDynamoRecords.push({
-        Put: {
-          Item: {
-            id: user.Username,
-            attributes: user.UserAttributes,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-          },
-          TableName: process.env.API_ANIMEAL_FEEDINGUSERSTABLE_NAME,
-        },
-      });
-    }
-
+    const createdAt = new Date().toISOString();
     const feedingItem = {
       id: uuid.v4(),
       images: [],
       status: 'inProgress',
       feedingPointFeedingsId: feedingPointId,
-      userId: event?.identity?.username || 'admin',
-      expireAt: Math.floor(expireAt.getTime() / 1000),
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      userId: event.identity.username,
+      expireAt: expiresInHours(1),
+      createdAt,
+      updatedAt: createdAt,
       feedingPointDetails: {
-        address: feedingPoint.data.data.getFeedingPoint.address,
+        address: feedingPoint.address,
       },
-      assignedModerators: assignedModeratorsIds,
+      assignedModerators: assignedModerators.map((it) => it.Username),
     };
 
-    await dynamoDB
-      .transactWrite({
-        TransactItems: [
-          ...usersDynamoRecords,
-          {
-            Put: {
-              Item: {
-                id: feedingPointId,
-                feedingHistoryId: feedingItem.id,
-              },
-              TableName: process.env.API_ANIMEAL_FEEDINGCONSTRAINTTABLE_NAME,
-              ConditionExpression: 'attribute_not_exists(id)',
-            },
-          },
-          {
-            Put: {
-              Item: feedingItem,
-              TableName: process.env.API_ANIMEAL_FEEDINGTABLE_NAME,
-            },
-          },
-          {
-            Update: {
-              ExpressionAttributeValues: {
-                ':value': 'inProgress',
-                ':date': new Date().toISOString(),
-                ':starved': 'starved',
-              },
-              Key: {
-                id: feedingPointId,
-              },
-              ExpressionAttributeNames: {
-                '#status': 'status',
-              },
-              TableName: process.env.API_ANIMEAL_FEEDINGPOINTTABLE_NAME,
-              UpdateExpression: 'SET #status = :value, statusUpdatedAt = :date',
-              ConditionExpression: `attribute_exists(id) AND #status = :starved`,
-            },
-          },
-        ],
-      })
-      .promise();
-    const updateRes = await updateFeedingPoint({
-      input: {
-        id: feedingPointId,
-        statusUpdatedAt: new Date().toISOString(),
-      },
-    });
+    await createActiveFeeding(dynamoDB, assignedModerators, feedingItem);
 
-    await createFeedingExt({
-      input: feedingItem,
-    });
+    // test sending push notifications to moderators
+    const tokens = assignedModerators.map(
+      (m) =>
+        m.UserAttributes.find((atr) => atr.Name === 'custom:messaging_token')
+          ?.Value,
+    );
 
-    if (updateRes?.data?.errors?.length) {
-      throw new Error('Failed to update Feeding point status date.');
-    }
+    await sendPush(tokens);
+
     return feedingPointId;
   } catch (e) {
-    throw new Error(`Failed to start feeding. Erorr: ${e.message}`);
+    throw new Error(`Failed to Start feeding. Error: ${e.message}`);
   }
 };

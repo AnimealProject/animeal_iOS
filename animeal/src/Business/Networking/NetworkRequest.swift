@@ -9,7 +9,7 @@ extension Request {
             operationType: .query
         )
         documentBuilder.add(decorator: DirectiveNameDecorator(type: .get))
-        documentBuilder.add(decorator: ModelIdDecorator(id: id))
+        documentBuilder.add(decorator: ModelIdDecorator(identifierFields: [(name: "id", value: id)]))
         let document = documentBuilder.build()
 
         return Request<M?>(
@@ -67,7 +67,7 @@ extension Request {
         case .create:
             documentBuilder.add(decorator: ModelDecorator(model: model, mutationType: .create))
         case .delete:
-            documentBuilder.add(decorator: ModelIdDecorator(model: model))
+            documentBuilder.add(decorator: ModelIdDecorator(model: model, schema: model.schema))
             if let predicate = predicate {
                 documentBuilder.add(decorator: FilterDecorator(filter: predicate.graphQLFilter(for: modelSchema)))
             }

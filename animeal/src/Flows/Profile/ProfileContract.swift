@@ -55,6 +55,7 @@ protocol ProfileModelProtocol {
 }
 
 // MARK: - Coordinator
+@MainActor
 protocol ProfileCoordinatable: Coordinatable, AlertCoordinatable, ActivityDisplayable {
     func move(to route: ProfileRoute)
 }

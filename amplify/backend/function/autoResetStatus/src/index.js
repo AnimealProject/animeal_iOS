@@ -13,70 +13,43 @@ Amplify Params - DO NOT EDIT */
  */
 
 const AWS = require('aws-sdk');
-const dynamoDB = new AWS.DynamoDB.DocumentClient({});
-const { searchFeedingPoints, updateFeedingPoint } = require('./query');
+const { resetFeedingPointStatus } = require('./query');
 
+const dynamoDB = new AWS.DynamoDB.DocumentClient({});
+
+// reset feeding points has been fed 12 hours ago
 exports.handler = async (event) => {
   console.log(`EVENT: ${JSON.stringify(event)}`);
 
-  // expire records last been fed 12 hours ago
-  const filterDate = new Date(new Date().getTime() - 12 * 60 * 60 * 1000);
-  const filteredFeedingPoints = await searchFeedingPoints({
-    filter: {
-      status: {
-        eq: 'fed',
-      },
-      statusUpdatedAt: {
-        lte: filterDate.toISOString(),
-      },
-    },
-  });
-  if (filteredFeedingPoints?.data?.errors) {
-    throw new Error('Failed to retrieve Feeding points');
-  }
-  for (const record of filteredFeedingPoints.data.data.searchFeedingPoints
-    .items) {
-    try {
-      await dynamoDB
-        .transactWrite({
-          TransactItems: [
-            {
-              Update: {
-                ExpressionAttributeValues: {
-                  ':value': 'starved',
-                  ':date': new Date().toISOString(),
-                  ':currentStatus': 'fed',
-                },
-                Key: {
-                  id: record.id,
-                },
-                ExpressionAttributeNames: {
-                  '#status': 'status',
-                },
-                TableName: process.env.API_ANIMEAL_FEEDINGPOINTTABLE_NAME,
-                UpdateExpression:
-                  'SET #status = :value, statusUpdatedAt = :date',
-                ConditionExpression:
-                  'attribute_exists(id) AND #status = :currentStatus',
-              },
-            },
-          ],
-        })
-        .promise();
-      const updateRes = await updateFeedingPoint({
-        input: {
-          id: record.id,
-          statusUpdatedAt: new Date().toISOString(),
-        },
-      });
+  const hours = (val) => val * 60 * 60 * 1000;
 
-      if (updateRes?.data?.errors?.length) {
-        throw new Error('Failed to auto reset Fedding points statuses.');
-      }
-    } catch (e) {
-      throw new Error(
-        `Failed to auto reset Fedding points statuses. Erorr: ${e.message}`,
-      );
+  try {
+    const filter = [
+      '#status = :status',
+      'statusUpdatedAt < :past12hours'
+    ];
+    const attributeNames = {
+      '#status': 'status'
+    };
+    const values = {
+      ':status': 'fed',
+      ':past12hours': new Date(new Date().getTime() - hours(12)).toISOString()
+    };
+
+    const scanParams = {
+      TableName: process.env.API_ANIMEAL_FEEDINGPOINTTABLE_NAME,
+      FilterExpression: filter.join(' AND '),
+      ExpressionAttributeValues: values,
+      ExpressionAttributeNames: attributeNames
+    };
+
+    const feedinPointsRes = await dynamoDB.scan(scanParams).promise();
+    for (const record of feedinPointsRes.Items) {
+      await resetFeedingPointStatus(dynamoDB, record.id, 'starved');
     }
+  } catch (e) {
+    throw new Error(
+      `Failed to Auto reset feeding points statuses. Error: ${e.message}`,
+    );
   }
 };

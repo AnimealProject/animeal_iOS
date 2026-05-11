@@ -21,7 +21,7 @@ final class DataStoreService: DataStoreServiceProtocol {
     ) async throws -> Data {
         do {
             let downloadTask = Amplify.Storage.downloadData(
-                key: key,
+                path: .fromString(storagePath(for: key, accessLevel: options?.accessLevel)),
                 options: converter.convertDownloadDataRequestOptions(options)
             )
             let result = try await downloadTask.value
@@ -44,7 +44,7 @@ final class DataStoreService: DataStoreServiceProtocol {
                 progressListener?(progress.fractionCompleted)
             }
             let uploadTask = Amplify.Storage.uploadData(
-                key: key,
+                path: .fromString(storagePath(for: key, accessLevel: DataStoreAccessLevel.guest)),
                 data: data
             )
             Task {
@@ -61,9 +61,25 @@ final class DataStoreService: DataStoreServiceProtocol {
         }
     }
 
+    // Amplify Gen 2 path API requires explicit prefix that Gen 1 added automatically.
+    private func storagePath(for key: String, accessLevel: DataStoreAccessLevel?) -> String {
+        switch accessLevel {
+        case .protected: return "protected/\(key)"
+        case .private: return "private/\(key)"
+        default: return "public/\(key)"
+        }
+    }
+
     func getURL(key: String?) async throws -> URL? {
         guard let key, !key.isEmpty else { return nil }
 
-        return try await Amplify.Storage.getURL(key: key)
+        return try await Amplify.Storage.getURL(
+            path: .fromString(
+                storagePath(
+                    for: key,
+                    accessLevel: DataStoreAccessLevel.guest
+                )
+            )
+        )
     }
 }

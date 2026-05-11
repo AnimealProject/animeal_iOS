@@ -9,11 +9,13 @@ typealias FeedingBookingViewModelProtocol = FeedingBookingViewModelLifeCycle
     & FeedingBookingViewInteraction
     & FeedingBookingViewState
 
+@MainActor
 protocol FeedingBookingViewModelLifeCycle: AnyObject {
     func setup()
     func load()
 }
 
+@MainActor
 protocol FeedingBookingViewInteraction: AnyObject {
     func handleActionEvent(_ event: FeedingBookingEvent)
 }
@@ -28,6 +30,7 @@ protocol FeedingBookingModelProtocol: AnyObject {
 }
 
 // MARK: - Coordinator
+@MainActor
 protocol FeedingBookingCoordinatable {
     func routeTo(_ route: FeedingBookingRoute)
 }

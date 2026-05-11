@@ -1,6 +1,7 @@
 import UIKit
 import Common
 
+@MainActor
 final class MoreModuleAssembler {
     private let coordinator: MoreCoordinatable
     private let userProfileService = AppDelegate.shared.context.profileService

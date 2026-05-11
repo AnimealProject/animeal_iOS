@@ -47,12 +47,6 @@ final class SearchPointShimmerCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        containerView.apply(style: .container)
-    }
-
     // MARK: - Setup
     private func setup() {
         containerView.apply(style: .container)
@@ -82,6 +76,10 @@ final class SearchPointShimmerCell: UICollectionViewCell {
         innerView.bottomAnchor ~= containerView.bottomAnchor - 10.0
 
         innerView.apply(style: .lightShimmerStyle)
+
+        registerForTraitChanges([UITraitUserInterfaceStyle.self]) { [weak self] (_: SearchPointShimmerCell, _) in
+            self?.containerView.apply(style: .container)
+        }
 
         setupMask()
     }

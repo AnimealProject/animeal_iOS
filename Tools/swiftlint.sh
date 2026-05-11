@@ -11,8 +11,10 @@ if [ -z "${CI_ENV}" ]; then
   
   # The CI environment variable is not set, so run SwiftLint
   if which swiftlint >/dev/null; then
-    swiftlint lint --config "${PROJECT_DIR}/.swiftlint.yml"
+    swiftlint lint --strict --config "${PROJECT_DIR}/.swiftlint.yml"
+    SWIFTLINT_EXIT=$?
     echo "Swiftlint finished. Check logs/warnings for details."
+    exit $SWIFTLINT_EXIT
   else
     echo "warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint"
   fi

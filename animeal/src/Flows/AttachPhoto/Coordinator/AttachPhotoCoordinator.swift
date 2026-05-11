@@ -33,12 +33,21 @@ final class AttachPhotoCoordinator: Coordinatable, AttachPhotoCoordinatorEventHa
     func start() {
         let viewController = AttachPhotoAssembler(
             pointId: pointId, coordinator: self).assemble()
-        let controller = BottomSheetPresentationController(
-            controller: viewController,
-            configuration: .attachPhotoScreen)
-        controller.modalPresentationStyle = .overFullScreen
 
-        navigator.present(controller, animated: false, completion: nil)
+        viewController.modalPresentationStyle = .pageSheet
+
+        if let sheet = viewController.sheetPresentationController {
+            // Fixed height detent matching the original 345pt
+            let detent = UISheetPresentationController.Detent.custom { _ in 345 }
+            sheet.detents = [detent]
+            sheet.prefersGrabberVisible = false
+            sheet.preferredCornerRadius = 16
+            sheet.largestUndimmedDetentIdentifier = nil
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+            viewController.isModalInPresentation = false
+        }
+
+        navigator.present(viewController, animated: true, completion: nil)
     }
 
     func stop() {

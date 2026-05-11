@@ -55,19 +55,20 @@ public struct CancelFeeding: Codable {
 
 public struct ExpireFeedingMutation: CustomMutation {
     public typealias ResponseType = ExpireFeeding
-    
+
     static let defaultExpirationReason = "Feeding time has expired"
-    
+
     let id: String
     let reason: String
-    
-    init(id: String,
-         reason: String = Self.defaultExpirationReason
+
+    init(
+        id: String,
+        reason: String = Self.defaultExpirationReason
     ) {
         self.id = id
         self.reason = reason
     }
-    
+
     public var document: String {
         """
         mutation ExpireFeeding {

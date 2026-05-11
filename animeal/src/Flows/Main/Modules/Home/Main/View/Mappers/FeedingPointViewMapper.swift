@@ -29,12 +29,11 @@ final class FeedingPointViewMapper: FeedingPointViewMappable {
 
     func mapFeedingPoints(_ inputs: [HomeModel.FeedingPoint]) -> [FeedingPointViewItem] {
         let coordinateGroups = Dictionary(
-            grouping: inputs,
-            by: { coordinateKey($0.location.latitude, $0.location.longitude) }
-        )
-        
+            grouping: inputs
+        ) { coordinateKey($0.location.latitude, $0.location.longitude) }
+
         return coordinateGroups
-            .sorted(by: { $0.key < $1.key })
+            .sorted { $0.key < $1.key }
             .flatMap { _, group -> [FeedingPointViewItem] in
                 if group.count == 1 {
                     return group.compactMap { mapFeedingPoint($0) }

@@ -23,7 +23,7 @@ final class AuthCoordinator: Coordinatable, AlertCoordinatable, ActivityDisplaya
     // MARK: - Initialization
     init(
         presentingWindow: UIWindow,
-        context: Context = AppDelegate.shared.context,
+        context: Context,
         completion: (() -> Void)?
     ) {
         self.presentingWindow = presentingWindow
@@ -82,7 +82,11 @@ extension AuthCoordinator: LoginCoordinatable {
         case .done:
             Task { [weak self] in
                 guard let self else { return }
-                try? await self.context.profileService.fetchUserAttributes()
+                do {
+                    try await self.context.profileService.fetchUserAttributes()
+                } catch {
+                    logWarning("[Auth] fetchUserAttributes failed after login: \(error)")
+                }
                 let validationModel = self.context.profileService.getCurrentUserValidationModel()
                 context.profileService.getCurrentUserValidationModel().set(userMode: .registered)
                 self.moveLoggedInUser(isProfileValid: validationModel.validated)
@@ -114,7 +118,11 @@ extension AuthCoordinator: CustomAuthCoordinatable {
         case .done:
             Task { [weak self] in
                 guard let self else { return }
-                try? await self.context.profileService.fetchUserAttributes()
+                do {
+                    try await self.context.profileService.fetchUserAttributes()
+                } catch {
+                    logWarning("[Auth] fetchUserAttributes failed after custom auth: \(error)")
+                }
                 let validationModel = self.context.profileService.getCurrentUserValidationModel()
                 self.moveLoggedInUser(isProfileValid: validationModel.validated) {
                     ProfileAfterCustomAuthAssembler.assembly(coordinator: $0)
@@ -124,9 +132,7 @@ extension AuthCoordinator: CustomAuthCoordinatable {
             guard let viewController = make() else { return }
             _navigator.present(viewController, animated: false, completion: nil)
         case .dismiss:
-            if let bottomSheetVC = _navigator.topViewController as? BottomSheetPresentationController {
-                bottomSheetVC.dismissView(completion: nil)
-            }
+            _navigator.topViewController?.dismiss(animated: true, completion: nil)
         }
     }
 }
@@ -137,8 +143,12 @@ extension AuthCoordinator: VerificationCoordinatable {
         case .finish:
             Task { [weak self] in
                 guard let self else { return }
-                
-                try? await self.context.profileService.fetchUserAttributes()
+
+                do {
+                    try await self.context.profileService.fetchUserAttributes()
+                } catch {
+                    logWarning("[Auth] fetchUserAttributes failed after verification: \(error)")
+                }
                 let validationModel = self.context.profileService.getCurrentUserValidationModel()
                 self.context.profileService.getCurrentUserValidationModel().set(userMode: .registered)
                 self.moveLoggedInUser(isProfileValid: validationModel.validated) {
@@ -172,9 +182,7 @@ extension AuthCoordinator: ProfileCoordinatable {
             guard let viewController = make() else { return }
             _navigator.present(viewController, animated: false, completion: nil)
         case .dismiss:
-            if let bottomSheetVC = _navigator.topViewController as? BottomSheetPresentationController {
-                bottomSheetVC.dismissView(completion: nil)
-            }
+            _navigator.topViewController?.dismiss(animated: true, completion: nil)
         }
     }
 }

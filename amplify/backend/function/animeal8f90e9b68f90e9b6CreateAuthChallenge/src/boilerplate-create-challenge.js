@@ -7,7 +7,12 @@ const TEST_ACCOUNTS = {
   '+995444555666': '454545',
   '+995324555328': '757575',
   '+995987987987': '272727',
-  '+995111222333': '999999'
+  '+995111222333': '999999',
+  '+995111111111': '430783',
+  '+995222222222': '430783',
+  '+995333333333': '430783',
+  '+995444444444': '430783',
+  '+995555555555': '430783',
 }
 
 async function sendChallengeCode(phoneNumber, passCode) {
@@ -36,11 +41,12 @@ async function createAuthChallenge(event) {
     ) {
       passCode = TEST_ACCOUNTS[event.request.userAttributes.phone_number];
     }
-
-    await sendChallengeCode(
-      event.request.userAttributes.phone_number,
-      passCode,
-    );
+    else {
+      await sendChallengeCode(
+        event.request.userAttributes.phone_number,
+        passCode,
+      );
+    }
   } else {
     const previousChallenge = event.request.session.slice(-1)[0];
     passCode = previousChallenge.challengeMetadata.match(/CODE-(\d*)/)[1];

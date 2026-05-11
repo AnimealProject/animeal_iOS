@@ -10,7 +10,7 @@ final class FavouritesCoordinator: Coordinatable {
     private let completion: ((HomeFlowBackwardEvent?) -> Void)?
     private let switchFlowAction: ((MainFlowSwitchAction) -> Void)?
     private var backwardEvent: HomeFlowBackwardEvent?
-    private var bottomSheetController: BottomSheetPresentationController?
+    private var bottomSheetController: UIViewController?
 
     // MARK: - Initialization
     init(
@@ -59,13 +59,20 @@ extension FavouritesCoordinator: FavouritesCoordinatable {
                 pointId: pointId,
                 isOverMap: false
             ).assemble()
-            let controller = BottomSheetPresentationController(
-                controller: viewController,
-                configuration: .fullScreen
-            )
-            controller.modalPresentationStyle = .overFullScreen
-            navigator.present(controller, animated: false, completion: nil)
-            bottomSheetController = controller
+
+            viewController.modalPresentationStyle = .pageSheet
+
+            if let sheet = viewController.sheetPresentationController {
+                sheet.detents = [.large()]
+                sheet.prefersGrabberVisible = false
+                sheet.preferredCornerRadius = 16
+                sheet.largestUndimmedDetentIdentifier = nil
+                sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+                viewController.isModalInPresentation = false
+            }
+
+            navigator.present(viewController, animated: true, completion: nil)
+            bottomSheetController = viewController
         }
     }
 }
@@ -83,7 +90,7 @@ extension FavouritesCoordinator: FeedingPointCoordinatable {
             screen.modalPresentationStyle = .overFullScreen
             bottomSheetController?.present(screen, animated: true)
         case .map(let pointIdentifier):
-            bottomSheetController?.dismissView { [weak self] in
+            bottomSheetController?.dismiss(animated: true) { [weak self] in
                 self?.switchFlowAction?(
                     .shouldSwitchToMap(pointIdentifier: pointIdentifier)
                 )
@@ -101,7 +108,7 @@ extension FavouritesCoordinator: FeedingBookingCoordinatable {
                     .shouldSwitchToFeeding(feedDetails: feedDetails)
                 )
             }
-            bottomSheetController?.dismissView(completion: nil)
+            bottomSheetController?.dismiss(animated: true, completion: nil)
         case .cancel:
             navigator.topViewController?.dismiss(animated: true, completion: nil)
         }

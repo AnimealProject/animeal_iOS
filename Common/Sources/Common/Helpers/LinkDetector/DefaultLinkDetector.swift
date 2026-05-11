@@ -9,18 +9,18 @@ import Foundation
 
 public final class DefaultLinkDetector: LinkDetector {
     private let detector: NSDataDetector?
-    
+
     public init() {
         self.detector = try? NSDataDetector(
             types: NSTextCheckingResult.CheckingType.link.rawValue
         )
     }
-    
+
     public func detectLinks(in text: String) -> [DetectedLink] {
         guard let detector else { return [] }
         let range = NSRange(text.startIndex..., in: text)
         let matches = detector.matches(in: text, range: range)
-        
+
         return matches.compactMap { match -> DetectedLink? in
             guard
                 let url = match.url,

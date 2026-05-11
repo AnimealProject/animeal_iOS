@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "api": {
+      "animeal": [
+        "Query"
+      ]
+    },
+    "storage": {
+      "Category:@model(appsync)": [
+        "read"
+      ],
+      "FeedingPoint:@model(appsync)": [
+        "read"
+      ],
+      "RelationPetFeedingPoint:@model(appsync)": [
+        "read"
+      ],
+      "RelationUserFeedingPoint:@model(appsync)": [
+        "read"
+      ],
+      "Favourite:@model(appsync)": [
+        "read"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

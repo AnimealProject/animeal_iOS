@@ -1,0 +1,20 @@
+{
+  "arguments": {
+    "moderatorId": "",
+    "categoryTag": "",
+    "locationBounds": {
+      "bottom_right": {
+        "lon": 0,
+        "lat": 0
+      },
+      "top_left": {
+        "lon": 0,
+        "lat": 0
+      }
+    }
+  },
+  "identity": {
+    "username": "",
+    "groups": ["Administrator"]
+  }
+}

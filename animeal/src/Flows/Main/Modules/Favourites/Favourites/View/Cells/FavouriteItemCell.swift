@@ -19,14 +19,6 @@ public final class FavouriteItemCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        apply(style: .cell)
-        containerView.apply(style: .container)
-        favouriteImageView.apply(style: .favouriteImage)
-    }
 }
 
 extension FavouriteItemCell: FavouriteCell {
@@ -77,6 +69,12 @@ private extension FavouriteItemCell {
         favouriteImageView.contentMode = .center
         favouriteImageView.apply(style: .favouriteImage)
         favouriteImageView.isUserInteractionEnabled = true
+
+        registerForTraitChanges([UITraitUserInterfaceStyle.self]) { [weak self] (_: FavouriteItemCell, _) in
+            self?.apply(style: .cell)
+            self?.containerView.apply(style: .container)
+            self?.favouriteImageView.apply(style: .favouriteImage)
+        }
     }
 }
 

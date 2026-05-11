@@ -8,7 +8,7 @@ final class VerificationViewModel: VerificationViewModelLifeCycle, VerificationV
          formatter.unitsStyle = .positional
          formatter.zeroFormattingBehavior = []
          return formatter
-     }()
+    }()
 
     // MARK: - Dependencies
     private let model: VerificationModelProtocol

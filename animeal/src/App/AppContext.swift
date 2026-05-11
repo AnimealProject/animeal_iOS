@@ -44,7 +44,7 @@ struct AppContext: AppContextProtocol {
             networkService: networkService,
             profileService: profileService
         )
-        
+
         let feedingPointsService = FeedingPointsServiceAdapter(
             networkService: networkService,
             dataService: dataStoreService,

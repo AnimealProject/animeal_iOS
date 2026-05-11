@@ -31,6 +31,7 @@ public struct TabBarControllerItem {
     }
 }
 
+@MainActor
 public protocol TabBarControllerDelegate: AnyObject {
     func tabBarController(_ controller: TabBarController, shouldSelectTab identifier: TabIdentifier) -> Bool
 }

@@ -75,7 +75,20 @@ const deleteFavourite = async (params) =>
     params,
   );
 
+const deleteFeedingPointFavourites = async (feedingPointId) => {
+  const favourites = await listFavourites({
+    feedingPointId,
+  });
+
+  for (const favourite of favourites) {
+    await deleteFavourite({
+      input: {
+        id: favourite.id,
+      },
+    });
+  }
+}
+
 module.exports = {
-  listFavourites,
-  deleteFavourite,
+  deleteFeedingPointFavourites,
 };

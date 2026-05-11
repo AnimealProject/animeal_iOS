@@ -106,14 +106,14 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
         loadMediaContent(modelContent.content.header.cover)
         onContentHaveBeenPrepared?(contentMapper.mapFeedingPoint(modelContent))
     }
-    
+
     private func updateModeratorsContent() {
         guard !self.allModerators.isEmpty else {
             let mapped = contentMapper.mapModerators([], canShowMore: false, isExpanded: false, totalCount: 0)
             onModeratorsHaveBeenPrepared?(mapped)
             return
         }
-        
+
         let moderatorsToDisplay: [FeedingPointDetailsModel.Moderator]
         let limit = ModeratorDisplayConstants.expandedLimit
         let totalCount = allModerators.count
@@ -125,12 +125,17 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
         } else {
             moderatorsToDisplay = Array(allModerators.prefix(limit))
         }
-        
+
         let canShowMore = hasMoreThanLimit && isModeratorsExpanded && !didRequestAllModerators
-        let mapped = contentMapper.mapModerators(moderatorsToDisplay, canShowMore: canShowMore, isExpanded: isModeratorsExpanded, totalCount: totalCount)
+        let mapped = contentMapper.mapModerators(
+            moderatorsToDisplay,
+            canShowMore: canShowMore,
+            isExpanded: isModeratorsExpanded,
+            totalCount: totalCount
+        )
         onModeratorsHaveBeenPrepared?(mapped)
     }
-    
+
     private func setModerators(_ moderators: [FeedingPointDetailsModel.Moderator]) {
         self.moderatorsInitialized = true
         self.allModerators = moderators
@@ -187,11 +192,11 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
 
         case .tapCancelLocationRequest:
             break
-            
+
         case .tapShowMoreModerators:
             didRequestAllModerators = true
             updateModeratorsContent()
-            
+
         case .tapToggleModeratorsVisibility:
             isModeratorsExpanded.toggle()
             didRequestAllModerators = false

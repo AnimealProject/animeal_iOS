@@ -144,7 +144,7 @@ public enum AuthorizationMode: String {
 }
 
 // MARK: - CLAuthorizationStatus
-extension CLAuthorizationStatus: CustomStringConvertible {
+extension CLAuthorizationStatus {
     internal var isAuthorized: Bool {
         switch self {
         case .authorizedAlways, .authorizedWhenInUse:
@@ -154,7 +154,7 @@ extension CLAuthorizationStatus: CustomStringConvertible {
         }
     }
 
-    public var description: String {
+    public var authorizationDescription: String {
         switch self {
         case .notDetermined:
             return "notDetermined"

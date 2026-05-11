@@ -59,6 +59,7 @@ protocol FeedingPointDetailsDataStoreProtocol: AnyObject {
 }
 
 // MARK: - Coordinator
+@MainActor
 protocol FeedingPointCoordinatable {
     func routeTo(_ route: FeedingPointRoute)
 }

@@ -66,7 +66,7 @@ final class FeedingPointDetailsViewMapper: FeedingPointDetailsViewMappable {
             feeders: feeders
         )
     }
-    
+
     func mapModerators(
         _ input: [FeedingPointDetailsModel.Moderator],
         canShowMore: Bool,
@@ -82,7 +82,7 @@ final class FeedingPointDetailsViewMapper: FeedingPointDetailsViewMappable {
             totalCount: totalCount
         )
     }
-    
+
     private func convert(_ status: FeedingPointDetailsModel.Status) -> StatusView.Model {
         switch status {
         case .attention(let message):
@@ -113,19 +113,19 @@ extension FeedingPointDetailsViewMapper {
             let lastFeeded: String
         }
     }
-    
+
     struct FeedingPointModerators {
         let title: String
         let moderators: [Moderator]
         let canShowMore: Bool
         let isExpanded: Bool
         let totalCount: Int
-        
+
         struct Moderator {
             let name: String
         }
     }
-    
+
     struct FeedingPointMediaContent {
         var pointDetailsIcon: UIImage
     }

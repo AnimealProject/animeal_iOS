@@ -87,12 +87,10 @@ final class SearchPointCell: UICollectionViewCell {
             self.didTapOnContent?()
         }
         innerView.addGestureRecognizer(gestureRecognizer)
-    }
 
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        containerView.apply(style: .container)
+        registerForTraitChanges([UITraitUserInterfaceStyle.self]) { [weak self] (_: SearchPointCell, _) in
+            self?.containerView.apply(style: .container)
+        }
     }
 }
 

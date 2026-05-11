@@ -49,7 +49,7 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
         subscribeForFeedingPointChangeEvents()
         subscribeForFeedingPointModerators()
     }
-    
+
     // MARK: - Deinitialization
     deinit {
         moderatorsTask?.cancel()
@@ -138,30 +138,34 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
     }
 
     func fetchMediaContent(key: String, completion: ((Data?) -> Void)?) {
+        logInfo("[Media] Downloading cover with key: \(key)")
         context.dataStoreService.downloadData(
             key: key,
             options: .init(accessLevel: .guest)
         ) { result in
             switch result {
             case .success(let data):
+                logInfo("[Media] Cover downloaded successfully, size: \(data.count) bytes")
                 DispatchQueue.main.async {
                     completion?(data)
                 }
             case .failure(let error):
-                // TODO: Handele error
-                print(error.localizedDescription)
+                logWarning("[Media] Cover download failed for key '\(key)': \(error.localizedDescription)")
+                DispatchQueue.main.async {
+                    completion?(nil)
+                }
             }
         }
     }
-    
+
     private func updateModerators() {
         guard canModerate else { return }
         moderatorsTask?.cancel()
-        
+
         moderatorsTask = Task { [weak self] in
             guard let self else { return }
             let moderators = (try? await self.fetchAssignedModerators()) ?? []
-            
+
             guard !Task.isCancelled else { return }
             await MainActor.run {
                 self.onModeratorsChange?(moderators)
@@ -203,7 +207,7 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
             }
             .store(in: &cancellables)
     }
-    
+
     private func subscribeForFeedingPointModerators() {
         context.profileService.userRolePublisher
             .map { roles in
@@ -215,7 +219,7 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
                 canModerate = canSeeModerators
                 moderatorsTask?.cancel()
                 moderatorsTask = nil
-                
+
                 if !canSeeModerators {
                     Task { @MainActor in
                         self.onModeratorsChange?([])
@@ -225,7 +229,7 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
                 moderatorsTask = Task { [weak self] in
                     guard let self else { return }
                     let moderators = (try? await self.fetchAssignedModerators()) ?? []
-                    
+
                     guard !Task.isCancelled else { return }
                     await MainActor.run {
                         self.onModeratorsChange?(moderators)
@@ -255,7 +259,7 @@ extension FeedingPointDetailsModel {
         let name: String
         let lastFeeded: String
     }
-    
+
     struct Moderator {
         let name: String
     }

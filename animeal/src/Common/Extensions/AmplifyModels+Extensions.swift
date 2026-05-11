@@ -24,7 +24,7 @@ extension Location: Hashable {
 
 extension FeedingPointStatus: Hashable { }
 
-extension Temporal.DateTime: Hashable {
+extension Temporal.DateTime: @retroactive Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(foundationDate)
     }

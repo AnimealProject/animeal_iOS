@@ -8,10 +8,10 @@ import Amplify
 
 /// Adapter that switches between authenticated and public network services based on user auth state
 final class AdaptiveNetworkService: NetworkServiceProtocol {
-    
+
     private let authenticatedService: NetworkServiceProtocol
     private let publicService: NetworkServiceProtocol
-    
+
     init(
         authenticatedService: NetworkServiceProtocol = NetworkService(),
         publicService: NetworkServiceProtocol = PublicNetworkService()
@@ -19,10 +19,10 @@ final class AdaptiveNetworkService: NetworkServiceProtocol {
         self.authenticatedService = authenticatedService
         self.publicService = publicService
     }
-    
+
     func query<Response: Decodable>(request: Request<Response>) async throws -> Response {
         let authSession = try await Amplify.Auth.fetchAuthSession()
-        
+
         if authSession.isSignedIn {
             // User is authenticated - use authenticated service (Cognito User Pools)
             return try await authenticatedService.query(request: request)
@@ -31,10 +31,10 @@ final class AdaptiveNetworkService: NetworkServiceProtocol {
             return try await publicService.query(request: request)
         }
     }
-    
+
     func mutate<Response: Decodable>(request: Request<Response>) async throws -> Response {
         let authSession = try await Amplify.Auth.fetchAuthSession()
-        
+
         if authSession.isSignedIn {
             // User is authenticated - use authenticated service
             return try await authenticatedService.mutate(request: request)

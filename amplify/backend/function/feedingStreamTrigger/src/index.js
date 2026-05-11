@@ -15,138 +15,59 @@ Amplify Params - DO NOT EDIT */
  */
 
 const AWS = require('aws-sdk');
-const { rejectFeeding, approveFeeding } = require('./query');
-const dynamoDB = new AWS.DynamoDB.DocumentClient({});
+const { rejectFeeding, checkActiveFeeding } = require('./query');
 
+const dynamoDB = new AWS.DynamoDB.DocumentClient({});
 const parse = AWS.DynamoDB.Converter.unmarshall;
+const trackableEvents = ['REMOVE'];
 
 exports.handler = async (event) => {
   console.log(`EVENT: ${JSON.stringify(event)}`);
+
+  // Time to Live (TTL) is used
   for (const record of event.Records) {
+    if (!trackableEvents.includes(record.eventName)) {
+      continue;
+    }
+
     const oldImage = parse(record.dynamodb.OldImage);
-    const newImage = parse(record.dynamodb.NewImage);
-    const trackableEvents = ['REMOVE'];
-    const trackableEventsToProlongExpirationDate = ['MODIFY'];
-
-    if (oldImage.feedingPointFeedingsId && trackableEvents.includes(record.eventName)) {
-      const feedingPointConstraintsItem = await dynamoDB
-        .get({
-          Key: {
-            id: oldImage.feedingPointFeedingsId,
-          },
-          TableName: process.env.API_ANIMEAL_FEEDINGCONSTRAINTTABLE_NAME,
-        })
-        .promise();
-
-      if (
-        (feedingPointConstraintsItem?.Item &&
-          feedingPointConstraintsItem?.Item?.feedingHistoryId !==
-            oldImage.id) ||
-        !feedingPointConstraintsItem?.Item
-      ) {
-        console.log('Feeding has been already processed, skipping...');
-        return;
-      }
+    const isActive = await checkActiveFeeding(dynamoDB, oldImage.feedingPointFeedingsId, oldImage.id);
+    if (!isActive) {
+      console.log(
+        `Feeding for feeding point (ID:${oldImage.feedingPointFeedingsId}) has been already processed, skipping...`,
+      );
+      continue;
     }
 
-    if (
-      trackableEvents.includes(record.eventName) &&
-      oldImage.status === 'pending' &&
-      process.env.IS_AUTO_APPROVAL_ENABLED === 'true' &&
-      new Date(oldImage.expireAt * 1000).getTime() < new Date().getTime()
-    ) {
-      const approveFeedingRes = await approveFeeding({
-        feedingId: oldImage.feedingPointFeedingsId,
-        reason: 'Has been auto approved',
-        feeding: {
-          id: oldImage.id,
-          userId: oldImage.userId,
-          images: oldImage.images,
-          createdAt: oldImage.createdAt,
-          updatedAt: oldImage.updatedAt,
-          createdBy: oldImage.createdBy,
-          updatedBy: oldImage.updatedBy,
-          feedingPointDetails: oldImage.feedingPointDetails,
-          assignedModerators: oldImage.assignedModerators,
-          owner: oldImage.owner,
-          feedingPointFeedingsId: oldImage.feedingPointFeedingsId,
-        },
-      });
-
-      if (approveFeedingRes.data?.errors?.length) {
-        throw new Error('Failed to auto approve Feeding');
-      }
-      console.log('Successfully auto approved pending record');
-    } else if (
-      trackableEvents.includes(record.eventName) &&
-      new Date(oldImage.expireAt * 1000).getTime() < new Date().getTime()
-    ) {
-      const rejectFeedingRes = await rejectFeeding({
-        feedingId: oldImage.feedingPointFeedingsId,
-        reason:
-          oldImage.status == 'pending'
-            ? 'Approval time has expired'
-            : 'Feeding time has expired',
-        feeding: {
-          id: oldImage.id,
-          userId: oldImage.userId,
-          images: oldImage.images,
-          createdAt: oldImage.createdAt,
-          updatedAt: oldImage.updatedAt,
-          createdBy: oldImage.createdBy,
-          updatedBy: oldImage.updatedBy,
-          feedingPointDetails: oldImage.feedingPointDetails,
-          assignedModerators: oldImage.assignedModerators,
-          owner: oldImage.owner,
-          feedingPointFeedingsId: oldImage.feedingPointFeedingsId,
-        },
-      });
-
-      if (rejectFeedingRes.data?.errors?.length) {
-        throw new Error('Failed to reject Feeding');
-      }
-
-      console.log('Successfully auto rejected pending record');
+    const rejectFeedingRes = await rejectFeeding({
+      feedingId: oldImage.feedingPointFeedingsId,
+      reason:
+        new Date(oldImage.expireAt * 1000).getTime() > new Date().getTime()
+          ? 'Manual removing'
+          : oldImage.status == 'pending'
+          ? 'Approval time has expired'
+          : 'Feeding time has expired',
+      feeding: {
+        id: oldImage.id,
+        userId: oldImage.userId,
+        images: oldImage.images,
+        createdAt: oldImage.createdAt,
+        updatedAt: oldImage.updatedAt,
+        createdBy: oldImage.createdBy,
+        updatedBy: oldImage.updatedBy,
+        feedingPointDetails: oldImage.feedingPointDetails,
+        assignedModerators: oldImage.assignedModerators,
+        owner: oldImage.owner,
+        feedingPointFeedingsId: oldImage.feedingPointFeedingsId,
+      },
+    });
+    if (rejectFeedingRes.data?.errors?.length) {
+      const error = JSON.stringify(rejectFeedingRes.data.errors);
+      throw new Error(`Failed to Auto Reject feeding. Error:${error}`);
     }
 
-    if (
-      trackableEventsToProlongExpirationDate.includes(record.eventName) &&
-      newImage.status === 'pending' &&
-      oldImage.status === 'inProgress'
-    ) {
-      try {
-        const expireAt = new Date();
-        expireAt.setTime(expireAt.getTime() + 11 * 60 * 60 * 1000);
-        await dynamoDB
-          .transactWrite({
-            TransactItems: [
-              {
-                Update: {
-                  ExpressionAttributeValues: {
-                    ':expireAt': Math.floor(expireAt.getTime() / 1000),
-                    ':date': new Date().toISOString(),
-                  },
-                  Key: {
-                    id: oldImage.id,
-                  },
-                  TableName: process.env.API_ANIMEAL_FEEDINGTABLE_NAME,
-                  UpdateExpression:
-                    'SET expireAt = :expireAt, statusUpdatedAt = :date',
-                },
-              },
-            ],
-          })
-          .promise();
-        console.log(
-          `Successfully increased expiration time for ${
-            oldImage.id
-          }. New expiration time is ${Math.floor(expireAt.getTime() / 1000)}`,
-        );
-      } catch (e) {
-        throw new Error(
-          `Failed to increase expiration date. Error: ${e.message}`,
-        );
-      }
-    }
+    console.log(
+      `Successfully Auto Reject record for feeding point (ID:${oldImage.feedingPointFeedingsId})`,
+    );
   }
 };

@@ -10,37 +10,37 @@ import UIComponents
 import Style
 
 final class ModeratorsShimmerView: UIStackView {
-    
+
     private enum Constants {
         static let shimmerCount = 3
     }
-    
+
     public init() {
         super.init(frame: .zero)
         setup()
     }
-    
+
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     private func setup() {
         axis = .vertical
         spacing = FeedingPointDetailsViewController.Constants.stackSpacing
-        
+
         let titleShimmerView = ShimmerView(animationDirection: .leftRight)
         titleShimmerView.widthAnchor ~= 120
         titleShimmerView.heightAnchor ~= 24
         titleShimmerView.cornerRadius(12)
         addArrangedSubview(titleShimmerView)
-        
+
         for _ in 0..<Constants.shimmerCount {
             addArrangedSubview(FeederShimmerView())
         }
-        
+
         shimmerSubviews.forEach { $0.apply(style: .shimmer) }
     }
-    
+
     func startAnimation(scheduler: ShimmerViewScheduler) {
         shimmerSubviews.forEach { $0.startAnimation(withScheduler: scheduler) }
         scheduler.start()

@@ -34,7 +34,7 @@ final class LoginViewController: UIViewController, LoginViewable {
         item.layer.shadowRadius = 4.0
         return item
     }()
-    
+
     private let legalLinksRow = TextLegalLinksRow()
 
     // MARK: - Dependencies
@@ -79,26 +79,26 @@ final class LoginViewController: UIViewController, LoginViewable {
 
     func applyActions(_ actions: [LoginViewAction]) {
         var actionsStack: [UIView] = actions.map { $0.buttonView }
-        
+
         let termsModel = ButtonView.Model(
             identifier: Constants.URLs.termsAndConditions,
             viewType: ButtonView.self,
             title: L10n.Action.termsAndConditions
         )
-        
+
         let privacyModel = ButtonView.Model(
             identifier: Constants.URLs.privacyPolicy,
             viewType: ButtonView.self,
             title: L10n.Action.privacyPolicy
         )
-        
+
         // Create and append a TextLegalLinksRow to the list of views
         legalLinksRow.configure(with: TextLegalLinksRow.Model(
             leftButtonModel: termsModel,
             rightButtonModel: privacyModel
         ))
         actionsStack.append(legalLinksRow)
-        
+
         buttonsView.configure(actionsStack)
     }
 
@@ -158,7 +158,7 @@ final class LoginViewController: UIViewController, LoginViewable {
             print("Invalid URL: \(urlString)") // Log anything unexpected
             return
         }
-        
+
         // Create an SFSafariViewController instance
         let safariVC = SFSafariViewController(url: url)
         safariVC.preferredControlTintColor = .systemBlue

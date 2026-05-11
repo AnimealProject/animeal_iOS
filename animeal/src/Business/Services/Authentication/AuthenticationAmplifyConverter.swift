@@ -178,7 +178,7 @@ struct AuthenticationAmplifyConverter: AuthenticationAmplifyConverting, AmplifyA
 
     func convertAmplifySignUpState(_ state: AuthSignUpResult) -> AuthenticationSignUpState? {
         switch state.nextStep {
-        case .done, .completeAutoSignIn(_):
+        case .done, .completeAutoSignIn:
             return AuthenticationSignUpState(
                 AuthenticationSignUpStep.done
             )

@@ -1,6 +1,6 @@
 import Foundation
 
-open class AsyncOperation: Operation {
+open class AsyncOperation: Operation, @unchecked Sendable {
     // MARK: - State
     @objc private enum State: Int {
         case ready

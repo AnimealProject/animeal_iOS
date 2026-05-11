@@ -70,6 +70,7 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
 
     // MARK: - Cancellables
     private var cancellables = Set<AnyCancellable>()
+    private var feedingPointSubscription: AmplifyAsyncThrowingSequence<GraphQLSubscriptionEvent<UpdateFeedingPoint>>?
 
     // MARK: - Publishers
     var feedingPoints: AnyPublisher<[FullFeedingPoint], Never> {
@@ -257,6 +258,10 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
         }
         return feedingHistory
     }
+
+    deinit {
+        feedingPointSubscription?.cancel()
+    }
 }
 
 private extension FeedingPointsService {
@@ -314,7 +319,7 @@ private extension FeedingPointsService {
     }
 
     private func setup() {
-        networkService.subscribe(request: .onUpdateFeedingPoint()) { [weak self] result in
+        feedingPointSubscription = networkService.subscribe(request: .onUpdateFeedingPoint()) { [weak self] result in
             switch result {
             case .success(let updateFeedingPointAction):
                 self?.updateFeedingPoint(byIdentifier: updateFeedingPointAction.id)
@@ -328,16 +333,5 @@ private extension FeedingPointsService {
                 self?.updateFeedingPoint(result)
             }
             .store(in: &cancellables)
-    }
-}
-
-extension List: PropertyContainerPath, PropertyPath, Model where Element: Model {
-
-    public func getModelType() -> Model.Type {
-        Element.self
-    }
-
-    public func getMetadata() -> PropertyPathMetadata {
-        ModelPath<Element>(name: "items", isCollection: true, parent: nil).getMetadata()
     }
 }

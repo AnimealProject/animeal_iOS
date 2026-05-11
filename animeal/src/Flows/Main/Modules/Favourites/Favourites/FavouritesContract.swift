@@ -42,6 +42,7 @@ enum FavouritesViewActionEvent {
 }
 
 // MARK: - Coordinator
+@MainActor
 protocol FavouritesCoordinatable {
     func routeTo(_ route: FavouritesRoute)
 }

@@ -47,12 +47,6 @@ public final class FeedingPointDetailsView: UIView {
     public func reset() {
         imageView.isHighlighted = false
     }
-
-    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        imageView.layer.shadowColor = designEngine.colors.textSecondary.cgColor
-    }
 }
 
 // MARK: - Setup
@@ -84,6 +78,10 @@ private extension FeedingPointDetailsView {
             self.imageView.isHighlighted.toggle()
         }
         imageView.addGestureRecognizer(gestureRecognizer)
+
+        registerForTraitChanges([UITraitUserInterfaceStyle.self]) { [weak self] (_: FeedingPointDetailsView, _) in
+            self?.imageView.layer.shadowColor = self?.designEngine.colors.textSecondary.cgColor
+        }
     }
 }
 

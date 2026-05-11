@@ -46,7 +46,7 @@ extension FetchProfileActionsUseCase: ExecuteProfileActionsUseCaseLogic {
 
     func callAsFunction(executeAndUpdate actions: [ProfileModelAction]) async throws -> [ProfileModelAction] {
         self.actions = try await actions.asyncMap {
-            try await $0.execute()
+            _ = try await $0.execute()
             return await $0.update(.onClick)
         }
         return self.actions

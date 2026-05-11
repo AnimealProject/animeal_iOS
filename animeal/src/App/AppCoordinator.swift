@@ -12,6 +12,7 @@ protocol AppCoordinatorHolder {
 
 protocol AppCoordinatable: Coordinatable { }
 
+@MainActor
 final class AppCoordinator: AppCoordinatable {
     typealias Context = AuthenticationServiceHolder & UserProfileServiceHolder
 
@@ -35,7 +36,7 @@ final class AppCoordinator: AppCoordinatable {
     // MARK: - Initialization
     init(
         scene: UIWindowScene,
-        context: Context = AppDelegate.shared.context,
+        context: Context,
         authChannelEventsPublisher: AuthChannelEventsPublisher? = nil
     ) {
         self.scene = scene
@@ -60,7 +61,13 @@ final class AppCoordinator: AppCoordinatable {
         Task { @MainActor [weak self] in
             guard let self, let session = try? await self.authenticationService.fetchAuthSession()
             else { return }
-            try? await self.profileService.fetchUserAttributes()
+
+            do {
+                try await self.profileService.fetchUserAttributes()
+            } catch {
+                logDebug("Failed to fetch user attributes with error - \(error)")
+            }
+
             let userValidationModel = profileService.getCurrentUserValidationModel()
             let isUserValidated = self.profileService
                 .getCurrentUserValidationModel()
@@ -121,7 +128,7 @@ private extension AppCoordinator {
             viewModel: MainCoordinatorViewModel(userProfileService: profileService)
         ) { [weak self] events in
             self?.childCoordinators.removeAll()
-            
+
             var shouldRestartFlow = true
             events.forEach { event in
                 switch event {
@@ -134,7 +141,7 @@ private extension AppCoordinator {
                     }
                 }
             }
-            
+
             if shouldRestartFlow {
                 self?.start()
             }
@@ -142,11 +149,12 @@ private extension AppCoordinator {
         childCoordinators.append(mainCoordinator)
         mainCoordinator.start()
     }
-    
+
     @MainActor
     private func startAuthFlow() {
         let authenticationCoordinator = AuthCoordinator(
-            presentingWindow: authWindow
+            presentingWindow: authWindow,
+            context: AppDelegate.shared.context
         ) { [weak self] in
             self?.childCoordinators.removeAll()
             self?.start()
@@ -161,7 +169,6 @@ private extension AppCoordinator {
 }
 
 extension AppCoordinator: AuthChannelEventsListener {
-    @MainActor
     func listenAuthChannelEvents(event: AuthChannelEvents) {
         switch event {
         case .sessionExpired:

@@ -94,6 +94,7 @@ input CreateFeedingPointInput {
   updatedBy: String
   owner: String
   cover: String
+  disabled: Boolean
   feedingPointCategoryId: ID
 }
 
@@ -119,6 +120,7 @@ input UpdateFeedingPointInput {
   updatedBy: String
   owner: String
   cover: String
+  disabled: Boolean
   feedingPointCategoryId: ID
 }
 
@@ -350,6 +352,7 @@ type FeedingPoint
   users: [RelationUserFeedingPoint!]
     @hasMany(indexName: "byFeedingPointId", fields: ["id"])
   cover: String
+  disabled: Boolean
 }
 
 type Feeding
@@ -763,6 +766,7 @@ type Question
   id: ID!
   value: String
   answer: String
+  orderNum: Int
   i18n: [QuestionI18n!]
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
@@ -932,6 +936,21 @@ type Query {
     from: Int
     filter: SearchableFilterInput
   ): FeedingPointConnection @aws_api_key @aws_cognito_user_pools
+
+  getActiveFeedings(moderatorId: String, feedingPointId: String, status: String): [Feeding!]!
+    @function(name: "getActiveFeedings-${env}")
+    @aws_api_key
+    @aws_cognito_user_pools
+
+  getHistoricalFeedings(start: AWSDateTime, end: AWSDateTime, moderatorId: String, feedingPointId: String, status: String): [FeedingHistory!]!
+    @function(name: "getHistoricalFeedings-${env}")
+    @aws_api_key
+    @aws_cognito_user_pools
+
+  getFeedingPoints(locationBounds: BoundsInput, moderatorId: String, categoryTag: String): [FeedingPoint!]!
+    @function(name: "getFeedingPoints-${env}")
+    @aws_api_key
+    @aws_cognito_user_pools
 }
 
 type Mutation {
