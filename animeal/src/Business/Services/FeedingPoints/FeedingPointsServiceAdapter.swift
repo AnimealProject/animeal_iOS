@@ -22,7 +22,6 @@ final class FeedingPointsServiceAdapter: FeedingPointsServiceProtocol {
         networkService: NetworkServiceProtocol,
         dataService: DataStoreServiceProtocol,
         profileService: UserProfileServiceProtocol,
-        locationService: LocationServiceProtocol,
         favoritesService: FavoritesServiceProtocol
     ) {
         self.profileService = profileService

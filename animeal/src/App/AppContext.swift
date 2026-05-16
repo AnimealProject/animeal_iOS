@@ -49,7 +49,6 @@ struct AppContext: AppContextProtocol {
             networkService: networkService,
             dataService: dataStoreService,
             profileService: profileService,
-            locationService: locationService,
             favoritesService: favoritesService
         )
 

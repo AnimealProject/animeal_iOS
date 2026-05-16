@@ -124,7 +124,7 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
         // getFeedingPoints returns category as a nested object — no separate fetch needed.
         let rawPoints = try await networkService.query(request: .getFeedingPoints(bounds: bounds))
 
-        let points = try await rawPoints.asyncMap {
+        let points = await rawPoints.asyncMap {
             FullFeedingPoint(
                 feedingPoint: $0,
                 isFavorite: favoritePointsById[$0.id]?.isFavorite == true,
@@ -328,7 +328,7 @@ private extension FeedingPointsService {
 }
 
 
-extension List: PropertyContainerPath, PropertyPath, Model where Element: Model {
+extension List: @retroactive PropertyContainerPath, @retroactive PropertyPath, @retroactive Model where Element: Model {
 
     public func getModelType() -> Model.Type {
         Element.self
