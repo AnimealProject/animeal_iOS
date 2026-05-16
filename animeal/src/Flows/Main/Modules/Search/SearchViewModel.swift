@@ -49,7 +49,7 @@ final class SearchViewModel: SearchViewModelProtocol {
             }
         }
         updateViewItems { [weak self] in
-            try await self?.updateViewContentItems(force: showLoading) ?? []
+            try await self?.updateViewContentItems() ?? []
         } completion: { [weak self] in
             self?.shimmerScheduler.stop()
         }
@@ -70,7 +70,7 @@ final class SearchViewModel: SearchViewModelProtocol {
         case .sectionDidTap(let identifier):
             model.toogleFeedingPoint(forIdentifier: identifier)
             updateViewItems { [weak self] in
-                try await self?.updateViewContentItems(force: false) ?? []
+                try await self?.updateViewContentItems() ?? []
             }
         case .itemDidTap(let identifier):
             coordinator.move(to: .details(identifier: identifier))
@@ -150,8 +150,8 @@ private extension SearchViewModel {
         }
     }
 
-    private func updateViewContentItems(force: Bool) async throws -> [SearchViewSectionWrapper] {
-        let modelSections = try await model.fetchFeedingPoints(force: force)
+    private func updateViewContentItems() async throws -> [SearchViewSectionWrapper] {
+        let modelSections = try await model.fetchFeedingPoints()
         let viewSections = sectionMapper.mapSections(modelSections)
         return viewSections
     }

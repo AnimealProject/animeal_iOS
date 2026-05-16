@@ -38,7 +38,7 @@ protocol SearchViewState: AnyObject {
 // sourcery: AutoMockable
 protocol SearchModelProtocol: AnyObject {
     func fetchFilteringText() -> String?
-    func fetchFeedingPoints(force: Bool) async throws -> [SearchModelSection]
+    func fetchFeedingPoints() async throws -> [SearchModelSection]
     func fetchFeedingPointsFilters() async -> [SearchModelFilter]
 
     func filterFeedingPoints(withSearchString searchString: String?) async -> [SearchModelSection]

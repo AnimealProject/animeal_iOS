@@ -6,7 +6,7 @@ import Services
 import Common
 
 protocol FetchFeedingPointsUseCaseLogic {
-    func callAsFunction(force: Bool, oldSections: [SearchModelSection]) async throws -> [SearchModelSection]
+    func callAsFunction(oldSections: [SearchModelSection]) async throws -> [SearchModelSection]
 }
 
 final class FetchFeedingPointsUseCase: FetchFeedingPointsUseCaseLogic {
@@ -18,7 +18,7 @@ final class FetchFeedingPointsUseCase: FetchFeedingPointsUseCaseLogic {
         self.feedingPointsService = feedingPointsService
     }
 
-    func callAsFunction(force: Bool, oldSections: [SearchModelSection]) async throws -> [SearchModelSection] {
+    func callAsFunction(oldSections: [SearchModelSection]) async throws -> [SearchModelSection] {
         let result: [FullFeedingPoint] = feedingPointsService.storedFeedingPoints
         let sections = mapSections(result: result, oldSections: oldSections)
         let items = await mapItems(result: result)
