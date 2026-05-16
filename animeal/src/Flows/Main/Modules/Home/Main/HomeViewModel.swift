@@ -221,9 +221,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
                 let result = try await self.model.processFinishFeeding(imageKeys: imageKeys)
 
                 if let bounds = self.currentBounds {
-                    let points = try await self.model.fetchFeedingPoints(bounds: bounds)
-                    let viewItems = self.feedingPointViewMapper.mapFeedingPoints(points)
-                    self.onFeedingPointsHaveBeenPrepared?(viewItems)
+                    try await self.applyFeedingPointsRefresh(bounds: bounds)
                 }
                 self.feedingStatus = result.feedingStatus
                 self.onFeedingHaveBeenCompleted?()
@@ -263,10 +261,16 @@ private extension HomeViewModel {
     func fetchFeedingPoints(bounds: BoundsInput) {
         coordinator.displayActivityIndicator { [weak self] in
             guard let self else { return }
-            let points = try await self.model.fetchFeedingPoints(bounds: bounds)
-            let viewItems = self.feedingPointViewMapper.mapFeedingPoints(points)
-            self.onFeedingPointsHaveBeenPrepared?(viewItems)
+            try await self.applyFeedingPointsRefresh(bounds: bounds)
         }
+    }
+
+    func applyFeedingPointsRefresh(bounds: BoundsInput) async throws {
+        let fetchBounds = bounds.expanded(by: Constants.bufferFactor)
+        let points = try await model.fetchFeedingPoints(bounds: fetchBounds)
+        loadedRegion = fetchBounds
+        let viewItems = feedingPointViewMapper.mapFeedingPoints(points)
+        onFeedingPointsHaveBeenPrepared?(viewItems)
     }
 
     func startFeedingPoinsEventsListener() {
@@ -305,9 +309,7 @@ private extension HomeViewModel {
                 logError("[APP] \(#function) failed to cancel feeding: \(error.localizedDescription)")
             }
             if let bounds = self.currentBounds {
-                let points = try await self.model.fetchFeedingPoints(bounds: bounds)
-                let viewItems = self.feedingPointViewMapper.mapFeedingPoints(points)
-                self.onFeedingPointsHaveBeenPrepared?(viewItems)
+                try await self.applyFeedingPointsRefresh(bounds: bounds)
             }
         }
     }
@@ -330,9 +332,7 @@ private extension HomeViewModel {
                 logError("[APP] \(#function) failed to reject feeding: \(error.localizedDescription)")
             }
             if let bounds = self.currentBounds {
-                let points = try await self.model.fetchFeedingPoints(bounds: bounds)
-                let viewItems = self.feedingPointViewMapper.mapFeedingPoints(points)
-                self.onFeedingPointsHaveBeenPrepared?(viewItems)
+                try await self.applyFeedingPointsRefresh(bounds: bounds)
             }
             let action = self.model.fetchFeedingAction(request: .autoCancelFeeding)
             self.onFeedingActionHaveBeenPrepared?(self.feedingActionMapper.mapFeedingAction(action))
