@@ -30,6 +30,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     private var currentBounds: BoundsInput?
     private var loadedRegion: BoundsInput?
     private var isFetchingFeedingPoints = false
+    private var pendingFetchTask: Task<Void, Never>?
 
     // MARK: - State
     var onFeedingPointsHaveBeenPrepared: (([FeedingPointViewItem]) -> Void)?
@@ -112,16 +113,19 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
         let fetchBounds = bounds.clamped(minimumRadius: Constants.minimumFetchRadius)
             .expanded(by: Constants.bufferFactor)
         isFetchingFeedingPoints = true
-        Task { [weak self] in
+        pendingFetchTask = Task { [weak self] in
             guard let self else { return }
             defer { self.isFetchingFeedingPoints = false }
             do {
                 let points = try await self.model.fetchFeedingPoints(bounds: fetchBounds)
+                guard !Task.isCancelled else { return }
                 self.loadedRegion = fetchBounds
                 let viewItems = self.feedingPointViewMapper.mapFeedingPoints(points)
                 self.onFeedingPointsHaveBeenPrepared?(viewItems)
             } catch {
-                logError("[HomeViewModel] Failed to fetch feeding points: \(error.localizedDescription)")
+                if !Task.isCancelled {
+                    logError("[HomeViewModel] Failed to fetch feeding points: \(error.localizedDescription)")
+                }
             }
         }
     }
@@ -270,6 +274,9 @@ private extension HomeViewModel {
     }
 
     func applyFeedingPointsRefresh(bounds: BoundsInput) async throws {
+        pendingFetchTask?.cancel()
+        pendingFetchTask = nil
+        isFetchingFeedingPoints = false
         let fetchBounds = bounds.clamped(minimumRadius: Constants.minimumFetchRadius)
             .expanded(by: Constants.bufferFactor)
         let points = try await model.fetchFeedingPoints(bounds: fetchBounds)
