@@ -142,6 +142,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
                 return
             }
             model.proceedFilter(itemIdentifier)
+            loadedRegion = nil
             fetchFeedingPointsWithCurrentBounds()
         case .tapCancelFeeding:
             let action = model.fetchFeedingAction(request: .cancelFeeding)
