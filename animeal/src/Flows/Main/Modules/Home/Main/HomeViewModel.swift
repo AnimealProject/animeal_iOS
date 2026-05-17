@@ -110,8 +110,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
         guard zoom >= Constants.minimumZoomLevel else { return }
         currentBounds = bounds
         guard !(loadedRegion?.contains(bounds) ?? false), !isFetchingFeedingPoints else { return }
-        let fetchBounds = bounds.clamped(minimumRadius: Constants.minimumFetchRadius)
-            .expanded(by: Constants.bufferFactor)
+        let fetchBounds = makeFetchBounds(from: bounds)
         isFetchingFeedingPoints = true
         pendingFetchTask = Task { [weak self] in
             guard let self else { return }
@@ -277,8 +276,7 @@ private extension HomeViewModel {
         pendingFetchTask?.cancel()
         pendingFetchTask = nil
         isFetchingFeedingPoints = false
-        let fetchBounds = bounds.clamped(minimumRadius: Constants.minimumFetchRadius)
-            .expanded(by: Constants.bufferFactor)
+        let fetchBounds = makeFetchBounds(from: bounds)
         let points = try await model.fetchFeedingPoints(bounds: fetchBounds)
         loadedRegion = fetchBounds
         let viewItems = feedingPointViewMapper.mapFeedingPoints(points)
@@ -408,5 +406,10 @@ private extension HomeViewModel {
                 .init(feedingPointCoordinate: viewItem.coordinates)
             )
         }
+    }
+
+    private func makeFetchBounds(from bounds: BoundsInput) -> BoundsInput {
+        bounds.clamped(minimumRadius: Constants.minimumFetchRadius)
+            .expanded(by: Constants.bufferFactor)
     }
 }
