@@ -22,12 +22,17 @@ final class NetworkService: NetworkServiceProtocol {
     }
 
     func query<Response: Decodable>(request: Request<Response>) async throws -> Response {
+        let gqlRequest = request.convertToGraphQLRequest()
+        let operation = gqlRequest.decodePath ?? String(describing: Response.self)
+        logDebug("[Network] → \(operation) variables: \(stringify(gqlRequest.variables))")
         do {
-            let result = try await Amplify.API.query(request: request.convertToGraphQLRequest())
+            let result = try await Amplify.API.query(request: gqlRequest)
             switch result {
             case .success(let response):
+                logDebug("[Network] ← \(operation) response: \(stringify(response))")
                 return response
             case .failure(let error):
+                logError("[Network] ← \(operation) error: \(error)")
                 throw mapAmplifyError(error)
             }
         } catch {
@@ -36,6 +41,19 @@ final class NetworkService: NetworkServiceProtocol {
     }
 
     // MARK: - Private Methods
+
+    private func stringify(_ value: Any?, limit: Int = 1000) -> String {
+        guard let value else { return "nil" }
+        let raw: String
+        if let encodable = value as? Encodable,
+           let data = try? JSONEncoder().encode(encodable),
+           let json = String(data: data, encoding: .utf8) {
+            raw = json
+        } else {
+            raw = String(describing: value)
+        }
+        return raw.count > limit ? raw.prefix(limit) + "…" : raw
+    }
 
     private func mapAmplifyError(_ error: Error) -> BaseError {
         let nsError = error as NSError

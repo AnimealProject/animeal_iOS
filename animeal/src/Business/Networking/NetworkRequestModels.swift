@@ -24,6 +24,19 @@ struct BoundsInput: Equatable {
         other.bottomRightLon <= bottomRightLon
     }
 
+    func clamped(minimumRadius: Double) -> BoundsInput {
+        let latCenter = (topLeftLat + bottomRightLat) / 2
+        let lonCenter = (topLeftLon + bottomRightLon) / 2
+        let latHalf = max((topLeftLat - bottomRightLat) / 2, minimumRadius)
+        let lonHalf = max((bottomRightLon - topLeftLon) / 2, minimumRadius)
+        return BoundsInput(
+            topLeftLat: latCenter + latHalf,
+            topLeftLon: lonCenter - lonHalf,
+            bottomRightLat: latCenter - latHalf,
+            bottomRightLon: lonCenter + lonHalf
+        )
+    }
+
     func expanded(by factor: Double) -> BoundsInput {
         let latBuffer = (topLeftLat - bottomRightLat) * (factor - 1) / 2
         let lonBuffer = (bottomRightLon - topLeftLon) * (factor - 1) / 2

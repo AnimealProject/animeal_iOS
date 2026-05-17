@@ -40,7 +40,6 @@ protocol FeedingPointsServiceHolder {
     var feedingPointsService: FeedingPointsServiceProtocol { get }
 }
 
-// sourcery: AutoMockable
 protocol FeedingPointsServiceProtocol: AnyObject {
     var storedFeedingPoints: [FullFeedingPoint] { get }
     var storedFavouriteFeedingPoints: [FullFeedingPoint] { get }
@@ -65,8 +64,14 @@ protocol FeedingPointsServiceProtocol: AnyObject {
 }
 
 final class FeedingPointsService: FeedingPointsServiceProtocol {
+    // MARK: - Constants
+    private enum Constants {
+        static let favouritesLimit = 15
+    }
+
     // MARK: - Subjects
     private let innerFeedingPoints = CurrentValueSubject<[FullFeedingPoint], Never>([])
+    private let innerFavoritePoints = CurrentValueSubject<[FullFeedingPoint], Never>([])
     private let innerChangedFeedingPoint = PassthroughSubject<FullFeedingPoint, Never>()
 
     // MARK: - Cancellables
@@ -75,7 +80,9 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
 
     // MARK: - Publishers
     var feedingPoints: AnyPublisher<[FullFeedingPoint], Never> {
-        innerFeedingPoints.eraseToAnyPublisher()
+        innerFeedingPoints.combineLatest(innerFavoritePoints)
+            .map { Self.merge(viewport: $0, favorites: $1) }
+            .eraseToAnyPublisher()
     }
 
     var changedFeedingPoint: AnyPublisher<FullFeedingPoint, Never> {
@@ -84,11 +91,23 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
 
     // MARK: - Accesible properties
     var storedFeedingPoints: [FullFeedingPoint] {
-        innerFeedingPoints.value
+        Self.merge(viewport: innerFeedingPoints.value, favorites: innerFavoritePoints.value)
+    }
+
+    private static func merge(viewport: [FullFeedingPoint], favorites: [FullFeedingPoint]) -> [FullFeedingPoint] {
+        let favoriteIds = Set(favorites.map(\.identifier))
+        let viewportIds = Set(viewport.map(\.identifier))
+        var result = viewport.map { point -> FullFeedingPoint in
+            var updated = point
+            updated.isFavorite = favoriteIds.contains(point.identifier)
+            return updated
+        }
+        result += favorites.filter { !viewportIds.contains($0.identifier) }
+        return result
     }
 
     var storedFavouriteFeedingPoints: [FullFeedingPoint] {
-        innerFeedingPoints.value.filter { $0.isFavorite }
+        innerFavoritePoints.value
     }
 
     // MARK: - Dependencies
@@ -114,12 +133,7 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
 
     @discardableResult
     func fetchAll(bounds: BoundsInput) async throws -> [FullFeedingPoint] {
-        let favoritePoints = try await favoritesService.fetchAll()
-        let favoritePointsById = favoritePoints.reduce([String: FavouriteFeedingPoint]()) { partialResult, favourite in
-            var result = partialResult
-            result[favourite.identifier] = favourite
-            return result
-        }
+        let favoriteIds = Set(innerFavoritePoints.value.map(\.identifier))
 
         // getFeedingPoints returns category as a nested object — no separate fetch needed.
         let rawPoints = try await networkService.query(request: .getFeedingPoints(bounds: bounds))
@@ -127,11 +141,10 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
         let points = await rawPoints.asyncMap {
             FullFeedingPoint(
                 feedingPoint: $0,
-                isFavorite: favoritePointsById[$0.id]?.isFavorite == true,
+                isFavorite: favoriteIds.contains($0.id),
                 imageURL: try? await dataService.getURL(key: $0.cover)
             )
         }
-
         innerFeedingPoints.send(points)
         return points
     }
@@ -190,7 +203,47 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
 
     @discardableResult
     func fetchAllFavorites() async throws -> [FullFeedingPoint] {
-        storedFeedingPoints.filter { $0.isFavorite }
+        // TODO: EPMEDU-1635 — replace with a single `getFavoriteFeedingPoints` Lambda query
+        // that joins favorites + feeding points on the backend (batchGetItem), removing the
+        // need for N parallel requests and the favouritesLimit cap for regular users.
+        let allFavorites = try await favoritesService.fetchAll()
+
+        let roles = profileService.getCurrentUserValidationModel().roles
+        let isPrivileged = roles.contains(.admin) || roles.contains(.moderator)
+        let limitedIDs = isPrivileged
+            ? allFavorites.map(\.feedingPointId)
+            : Array(allFavorites.prefix(Constants.favouritesLimit).map(\.feedingPointId))
+
+        let networkService = self.networkService
+        let dataService = self.dataService
+
+        let points = await withTaskGroup(of: FullFeedingPoint?.self) { group in
+            for id in limitedIDs {
+                group.addTask {
+                    do {
+                        guard let point = try await networkService.query(
+                            request: .get(FeedingPoint.self, byId: id)
+                        ) else { return nil }
+                        return FullFeedingPoint(
+                            feedingPoint: point,
+                            isFavorite: true,
+                            imageURL: try? await dataService.getURL(key: point.cover)
+                        )
+                    } catch {
+                        logError("[FeedingPointsService] Failed to fetch favourite \(id): \(error)")
+                        return nil
+                    }
+                }
+            }
+            var results: [FullFeedingPoint] = []
+            for await point in group {
+                if let point { results.append(point) }
+            }
+            return results
+        }
+
+        innerFavoritePoints.send(points)
+        return points
     }
 
     @discardableResult
@@ -324,17 +377,5 @@ private extension FeedingPointsService {
                 self?.updateFeedingPoint(result)
             }
             .store(in: &cancellables)
-    }
-}
-
-
-extension List: @retroactive PropertyContainerPath, @retroactive PropertyPath, @retroactive Model where Element: Model {
-
-    public func getModelType() -> Model.Type {
-        Element.self
-    }
-
-    public func getMetadata() -> PropertyPathMetadata {
-        ModelPath<Element>(name: "items", isCollection: true, parent: nil).getMetadata()
     }
 }

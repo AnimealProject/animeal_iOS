@@ -22,6 +22,9 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
         static let feedingCountdownTimer: TimeInterval = 3600
         static let minimumZoomLevel: Double = 12.0
         static let bufferFactor: Double = 1.5
+        // Minimum fetch radius in degrees (~1.5km). Prevents hair-thin viewports
+        // (e.g. immediately after snapping to user location) from producing empty results.
+        static let minimumFetchRadius: Double = 0.015
     }
 
     private var currentBounds: BoundsInput?
@@ -106,7 +109,8 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
         guard zoom >= Constants.minimumZoomLevel else { return }
         currentBounds = bounds
         guard !(loadedRegion?.contains(bounds) ?? false), !isFetchingFeedingPoints else { return }
-        let fetchBounds = bounds.expanded(by: Constants.bufferFactor)
+        let fetchBounds = bounds.clamped(minimumRadius: Constants.minimumFetchRadius)
+            .expanded(by: Constants.bufferFactor)
         isFetchingFeedingPoints = true
         Task { [weak self] in
             guard let self else { return }
@@ -266,7 +270,8 @@ private extension HomeViewModel {
     }
 
     func applyFeedingPointsRefresh(bounds: BoundsInput) async throws {
-        let fetchBounds = bounds.expanded(by: Constants.bufferFactor)
+        let fetchBounds = bounds.clamped(minimumRadius: Constants.minimumFetchRadius)
+            .expanded(by: Constants.bufferFactor)
         let points = try await model.fetchFeedingPoints(bounds: fetchBounds)
         loadedRegion = fetchBounds
         let viewItems = feedingPointViewMapper.mapFeedingPoints(points)

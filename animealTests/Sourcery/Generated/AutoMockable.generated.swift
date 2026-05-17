@@ -528,6 +528,7 @@ class FeedingPointDetailsDataStoreProtocolMock: FeedingPointDetailsDataStoreProt
 }
 class FeedingPointDetailsModelProtocolMock: FeedingPointDetailsModelProtocol {
     var onFeedingPointChange: ((FeedingPointDetailsModel.PointContent, Bool) -> Void)?
+    var onModeratorsChange: (([FeedingPointDetailsModel.Moderator]) -> Void)?
 
     // MARK: - fetchFeedingPoint
 
@@ -671,6 +672,28 @@ class FeedingPointDetailsViewMappableMock: FeedingPointDetailsViewMappable {
         }
     }
 
+    // MARK: - mapModerators
+
+    var mapModeratorsCanShowMoreIsExpandedTotalCountCallsCount = 0
+    var mapModeratorsCanShowMoreIsExpandedTotalCountCalled: Bool {
+        return mapModeratorsCanShowMoreIsExpandedTotalCountCallsCount > 0
+    }
+    var mapModeratorsCanShowMoreIsExpandedTotalCountReceivedArguments: (input: [FeedingPointDetailsModel.Moderator], canShowMore: Bool, isExpanded: Bool, totalCount: Int)?
+    var mapModeratorsCanShowMoreIsExpandedTotalCountReceivedInvocations: [(input: [FeedingPointDetailsModel.Moderator], canShowMore: Bool, isExpanded: Bool, totalCount: Int)] = []
+    var mapModeratorsCanShowMoreIsExpandedTotalCountReturnValue: FeedingPointDetailsViewMapper.FeedingPointModerators!
+    var mapModeratorsCanShowMoreIsExpandedTotalCountClosure: (([FeedingPointDetailsModel.Moderator], Bool, Bool, Int) -> FeedingPointDetailsViewMapper.FeedingPointModerators)?
+
+    func mapModerators(_ input: [FeedingPointDetailsModel.Moderator], canShowMore: Bool, isExpanded: Bool, totalCount: Int) -> FeedingPointDetailsViewMapper.FeedingPointModerators {
+        mapModeratorsCanShowMoreIsExpandedTotalCountCallsCount += 1
+        mapModeratorsCanShowMoreIsExpandedTotalCountReceivedArguments = (input: input, canShowMore: canShowMore, isExpanded: isExpanded, totalCount: totalCount)
+        mapModeratorsCanShowMoreIsExpandedTotalCountReceivedInvocations.append((input: input, canShowMore: canShowMore, isExpanded: isExpanded, totalCount: totalCount))
+        if let mapModeratorsCanShowMoreIsExpandedTotalCountClosure = mapModeratorsCanShowMoreIsExpandedTotalCountClosure {
+            return mapModeratorsCanShowMoreIsExpandedTotalCountClosure(input, canShowMore, isExpanded, totalCount)
+        } else {
+            return mapModeratorsCanShowMoreIsExpandedTotalCountReturnValue
+        }
+    }
+
 }
 class FeedingPointMappableMock: FeedingPointMappable {
 
@@ -698,6 +721,28 @@ class FeedingPointMappableMock: FeedingPointMappable {
 
 }
 class FeedingPointViewMappableMock: FeedingPointViewMappable {
+
+    // MARK: - mapFeedingPoints
+
+    var mapFeedingPointsCallsCount = 0
+    var mapFeedingPointsCalled: Bool {
+        return mapFeedingPointsCallsCount > 0
+    }
+    var mapFeedingPointsReceivedInputs: [HomeModel.FeedingPoint]?
+    var mapFeedingPointsReceivedInvocations: [[HomeModel.FeedingPoint]] = []
+    var mapFeedingPointsReturnValue: [FeedingPointViewItem]!
+    var mapFeedingPointsClosure: (([HomeModel.FeedingPoint]) -> [FeedingPointViewItem])?
+
+    func mapFeedingPoints(_ inputs: [HomeModel.FeedingPoint]) -> [FeedingPointViewItem] {
+        mapFeedingPointsCallsCount += 1
+        mapFeedingPointsReceivedInputs = inputs
+        mapFeedingPointsReceivedInvocations.append(inputs)
+        if let mapFeedingPointsClosure = mapFeedingPointsClosure {
+            return mapFeedingPointsClosure(inputs)
+        } else {
+            return mapFeedingPointsReturnValue
+        }
+    }
 
     // MARK: - mapFeedingPoint
 
@@ -758,23 +803,27 @@ class HomeModelProtocolMock: HomeModelProtocol {
 
     // MARK: - fetchFeedingPoints
 
-    var fetchFeedingPointsThrowableError: Error?
-    var fetchFeedingPointsCallsCount = 0
-    var fetchFeedingPointsCalled: Bool {
-        return fetchFeedingPointsCallsCount > 0
+    var fetchFeedingPointsBoundsThrowableError: Error?
+    var fetchFeedingPointsBoundsCallsCount = 0
+    var fetchFeedingPointsBoundsCalled: Bool {
+        return fetchFeedingPointsBoundsCallsCount > 0
     }
-    var fetchFeedingPointsReturnValue: [HomeModel.FeedingPoint]!
-    var fetchFeedingPointsClosure: (() async throws -> [HomeModel.FeedingPoint])?
+    var fetchFeedingPointsBoundsReceivedBounds: BoundsInput?
+    var fetchFeedingPointsBoundsReceivedInvocations: [BoundsInput] = []
+    var fetchFeedingPointsBoundsReturnValue: [HomeModel.FeedingPoint]!
+    var fetchFeedingPointsBoundsClosure: ((BoundsInput) async throws -> [HomeModel.FeedingPoint])?
 
-    func fetchFeedingPoints() async throws -> [HomeModel.FeedingPoint] {
-        if let error = fetchFeedingPointsThrowableError {
+    func fetchFeedingPoints(bounds: BoundsInput) async throws -> [HomeModel.FeedingPoint] {
+        if let error = fetchFeedingPointsBoundsThrowableError {
             throw error
         }
-        fetchFeedingPointsCallsCount += 1
-        if let fetchFeedingPointsClosure = fetchFeedingPointsClosure {
-            return try await fetchFeedingPointsClosure()
+        fetchFeedingPointsBoundsCallsCount += 1
+        fetchFeedingPointsBoundsReceivedBounds = bounds
+        fetchFeedingPointsBoundsReceivedInvocations.append(bounds)
+        if let fetchFeedingPointsBoundsClosure = fetchFeedingPointsBoundsClosure {
+            return try await fetchFeedingPointsBoundsClosure(bounds)
         } else {
-            return fetchFeedingPointsReturnValue
+            return fetchFeedingPointsBoundsReturnValue
         }
     }
 
@@ -975,26 +1024,43 @@ class HomeModelProtocolMock: HomeModelProtocol {
         }
     }
 
-    // MARK: - processRejectFeeding
+    // MARK: - updateFeedingSnapshot
 
-    var processRejectFeedingThrowableError: Error?
-    var processRejectFeedingCallsCount = 0
-    var processRejectFeedingCalled: Bool {
-        return processRejectFeedingCallsCount > 0
+    var updateFeedingSnapshotIdDateCallsCount = 0
+    var updateFeedingSnapshotIdDateCalled: Bool {
+        return updateFeedingSnapshotIdDateCallsCount > 0
     }
-    var processRejectFeedingReturnValue: FeedingResponse!
-    var processRejectFeedingClosure: (() async throws -> FeedingResponse)?
+    var updateFeedingSnapshotIdDateReceivedArguments: (id: String, date: Date)?
+    var updateFeedingSnapshotIdDateReceivedInvocations: [(id: String, date: Date)] = []
+    var updateFeedingSnapshotIdDateClosure: ((String, Date) -> Void)?
+
+    func updateFeedingSnapshot(id: String, date: Date) {
+        updateFeedingSnapshotIdDateCallsCount += 1
+        updateFeedingSnapshotIdDateReceivedArguments = (id: id, date: date)
+        updateFeedingSnapshotIdDateReceivedInvocations.append((id: id, date: date))
+        updateFeedingSnapshotIdDateClosure?(id, date)
+    }
+
+    // MARK: - processFeedingExpiration
+
+    var processFeedingExpirationThrowableError: Error?
+    var processFeedingExpirationCallsCount = 0
+    var processFeedingExpirationCalled: Bool {
+        return processFeedingExpirationCallsCount > 0
+    }
+    var processFeedingExpirationReturnValue: FeedingResponse!
+    var processFeedingExpirationClosure: (() async throws -> FeedingResponse)?
 
     @discardableResult
-    func processRejectFeeding() async throws -> FeedingResponse {
-        if let error = processRejectFeedingThrowableError {
+    func processFeedingExpiration() async throws -> FeedingResponse {
+        if let error = processFeedingExpirationThrowableError {
             throw error
         }
-        processRejectFeedingCallsCount += 1
-        if let processRejectFeedingClosure = processRejectFeedingClosure {
-            return try await processRejectFeedingClosure()
+        processFeedingExpirationCallsCount += 1
+        if let processFeedingExpirationClosure = processFeedingExpirationClosure {
+            return try await processFeedingExpirationClosure()
         } else {
-            return processRejectFeedingReturnValue
+            return processFeedingExpirationReturnValue
         }
     }
 
@@ -1064,6 +1130,23 @@ class LocationServiceProtocolMock: LocationServiceProtocol {
         set(value) { underlyingLocationStatus = value }
     }
     var underlyingLocationStatus: CLAuthorizationStatus!
+
+    // MARK: - requestLocationAuthorization
+
+    var requestLocationAuthorizationModeCallsCount = 0
+    var requestLocationAuthorizationModeCalled: Bool {
+        return requestLocationAuthorizationModeCallsCount > 0
+    }
+    var requestLocationAuthorizationModeReceivedMode: AuthorizationMode?
+    var requestLocationAuthorizationModeReceivedInvocations: [AuthorizationMode] = []
+    var requestLocationAuthorizationModeClosure: ((AuthorizationMode) -> Void)?
+
+    func requestLocationAuthorization(mode: AuthorizationMode) {
+        requestLocationAuthorizationModeCallsCount += 1
+        requestLocationAuthorizationModeReceivedMode = mode
+        requestLocationAuthorizationModeReceivedInvocations.append(mode)
+        requestLocationAuthorizationModeClosure?(mode)
+    }
 
     // MARK: - requestLocation
 
@@ -1441,27 +1524,23 @@ class SearchModelProtocolMock: SearchModelProtocol {
 
     // MARK: - fetchFeedingPoints
 
-    var fetchFeedingPointsForceThrowableError: Error?
-    var fetchFeedingPointsForceCallsCount = 0
-    var fetchFeedingPointsForceCalled: Bool {
-        return fetchFeedingPointsForceCallsCount > 0
+    var fetchFeedingPointsThrowableError: Error?
+    var fetchFeedingPointsCallsCount = 0
+    var fetchFeedingPointsCalled: Bool {
+        return fetchFeedingPointsCallsCount > 0
     }
-    var fetchFeedingPointsForceReceivedForce: Bool?
-    var fetchFeedingPointsForceReceivedInvocations: [Bool] = []
-    var fetchFeedingPointsForceReturnValue: [SearchModelSection]!
-    var fetchFeedingPointsForceClosure: ((Bool) async throws -> [SearchModelSection])?
+    var fetchFeedingPointsReturnValue: [SearchModelSection]!
+    var fetchFeedingPointsClosure: (() async throws -> [SearchModelSection])?
 
-    func fetchFeedingPoints(force: Bool) async throws -> [SearchModelSection] {
-        if let error = fetchFeedingPointsForceThrowableError {
+    func fetchFeedingPoints() async throws -> [SearchModelSection] {
+        if let error = fetchFeedingPointsThrowableError {
             throw error
         }
-        fetchFeedingPointsForceCallsCount += 1
-        fetchFeedingPointsForceReceivedForce = force
-        fetchFeedingPointsForceReceivedInvocations.append(force)
-        if let fetchFeedingPointsForceClosure = fetchFeedingPointsForceClosure {
-            return try await fetchFeedingPointsForceClosure(force)
+        fetchFeedingPointsCallsCount += 1
+        if let fetchFeedingPointsClosure = fetchFeedingPointsClosure {
+            return try await fetchFeedingPointsClosure()
         } else {
-            return fetchFeedingPointsForceReturnValue
+            return fetchFeedingPointsReturnValue
         }
     }
 
