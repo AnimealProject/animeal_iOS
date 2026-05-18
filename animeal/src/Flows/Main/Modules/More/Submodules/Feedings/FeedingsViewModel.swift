@@ -6,11 +6,11 @@
 //
 
 final class FeedingsViewModel {
-    
+
     // MARK: - Dependencies
     private let coordinator: MorePartitionCoordinatable
-    
+
     init(coordinator: MorePartitionCoordinatable) {
         self.coordinator = coordinator
-    }    
+    }
 }

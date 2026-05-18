@@ -9,7 +9,7 @@ final class MoreModel: MoreModelProtocol {
     func fetchActions() -> [MoreActionModel] {
         var actions = [
             MoreActionModel(type: .profilePage, title: L10n.More.profilePage),
-            MoreActionModel(type: .feedings, title: "Feedings"), //TODO: add localization
+            MoreActionModel(type: .feedings, title: "Feedings"), // TODO: add localization
             MoreActionModel(type: .faq, title: L10n.More.faq),
             MoreActionModel(type: .donate, title: L10n.More.donate),
             MoreActionModel(type: .about, title: L10n.More.aboutShort),
