@@ -63,6 +63,8 @@ extension MoreCoordinator: MoreCoordinatable {
         switch route {
         case .profilePage:
             viewController = ProfileChangeableAssembler.assembly(coordinator: self)
+        case .feedings:
+            viewController = FeedingsAssembler.assemble(coordinator: self)
         case .faq:
             viewController = FAQModuleAssembler.assemble(coordinator: self)
         case .donate:

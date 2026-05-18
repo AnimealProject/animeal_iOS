@@ -58,7 +58,7 @@ final class MoreViewModel: MoreViewModelLifeCycle, MoreViewInteraction, MoreView
         }
 
         switch route {
-        case .profilePage, .account:
+        case .profilePage, .feedings, .account:
             return false
         case .donate, .faq, .about, .alert:
             return true
