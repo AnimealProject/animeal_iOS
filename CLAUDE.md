@@ -155,3 +155,16 @@ Strings managed via SwiftGen. Edit `animeal/res/en.lproj/Localizable.strings`, t
 ### CI
 - `unit-test.yml` — runs SwiftLint + builds + tests on PRs to `develop`
 - `GenerateIPA.yml` — builds IPA on merge to `develop`, deploys via Firebase App Distribution
+
+## Architecture & Conventions
+
+Before creating new UI components, screens, or services — search the existing codebase
+for patterns to follow:
+
+- UI components: `animeal/src/Common/Views/`
+- Design tokens (colors, fonts, spacing): check `DesignSystem` module
+- Navigation: `AnimealCoordinator` pattern — do not use direct NavigationLink
+- Dependency injection: constructor injection via `@DIAssembly`
+
+When in doubt, find an existing similar component and follow the same pattern.
+Architecture decisions will be documented in `docs/` as the project evolves.
