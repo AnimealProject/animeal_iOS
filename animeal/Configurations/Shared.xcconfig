@@ -1,0 +1,6 @@
+// ─── Project Identity ────────────────────────────────────────────────────────
+// Update DEVELOPMENT_TEAM and PRODUCT_BUNDLE_IDENTIFIER when switching accounts
+
+DEVELOPMENT_TEAM = 5HRLMFUWVY
+PRODUCT_BUNDLE_IDENTIFIER = com.serhiiterokhyn.animeal.demo
+INFOPLIST_KEY_CFBundleDisplayName = AnimealDemo
