@@ -108,10 +108,12 @@ jobs:
         with:
           name: output  # Name of the artifact (optional)
           path: '**/*.ipa'  # Wildcard pattern to match output.ipa
-      - name: upload artifact to Firebase App Distribution
-        uses: emertozd/Firebase-Distribution-Github-Action@v2
-        with:
-          appId: ${{secrets.FIREBASE_APP_ID}}
-          serviceCredentialsFileContent: ${{ secrets.FIREBASE_CREDENTIALS_JSON }}
-          groups: qa_team
-          file: output.ipa
+      - name: Upload to TestFlight
+        run: |
+          IPA=$(find . -name "*.ipa" | head -1)
+          xcrun altool --upload-app -f "$IPA" -t ios \
+            -u "$APP_STORE_CONNECT_USERNAME" \
+            -p "$APP_STORE_CONNECT_PASSWORD"
+        env:
+          APP_STORE_CONNECT_USERNAME: ${{ secrets.APP_STORE_CONNECT_USERNAME }}
+          APP_STORE_CONNECT_PASSWORD: ${{ secrets.APP_STORE_CONNECT_PASSWORD }}
