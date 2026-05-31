@@ -31,6 +31,11 @@ final class HomeModel: HomeModelProtocol {
     }
 
     // MARK: - Requests
+    func resetFeedingPoints() {
+        cachedFeedingPoints = []
+        context.feedingPointsService.resetViewportPoints()
+    }
+
     func fetchFeedingPoints(bounds: BoundsInput) async throws -> [FeedingPoint] {
         do {
             try await context.feedingPointsService.fetchAll(bounds: bounds)

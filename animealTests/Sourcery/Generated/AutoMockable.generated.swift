@@ -801,6 +801,19 @@ class HomeModelProtocolMock: HomeModelProtocol {
     var underlyingSelectedFilter: HomeModel.FilterItemIdentifier!
     var savedFeedingPoints: [HomeModel.FeedingPoint] = []
 
+    // MARK: - resetFeedingPoints
+
+    var resetFeedingPointsCallsCount = 0
+    var resetFeedingPointsCalled: Bool {
+        return resetFeedingPointsCallsCount > 0
+    }
+    var resetFeedingPointsClosure: (() -> Void)?
+
+    func resetFeedingPoints() {
+        resetFeedingPointsCallsCount += 1
+        resetFeedingPointsClosure?()
+    }
+
     // MARK: - fetchFeedingPoints
 
     var fetchFeedingPointsBoundsThrowableError: Error?

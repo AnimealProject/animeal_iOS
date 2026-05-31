@@ -122,6 +122,10 @@ final class FeedingPointsServiceAdapter: FeedingPointsServiceProtocol {
     }
 
     // MARK: - Async methods delegate to current service
+    func resetViewportPoints() {
+        currentServiceSubject.value.resetViewportPoints()
+    }
+
     func fetchAll(bounds: BoundsInput) async throws -> [FullFeedingPoint] {
         try await currentServiceSubject.value.fetchAll(bounds: bounds)
     }

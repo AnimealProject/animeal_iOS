@@ -46,6 +46,8 @@ protocol FeedingPointsServiceProtocol: AnyObject {
     var feedingPoints: AnyPublisher<[FullFeedingPoint], Never> { get }
     var changedFeedingPoint: AnyPublisher<FullFeedingPoint, Never> { get }
 
+    func resetViewportPoints()
+
     @discardableResult
     func fetchAll(bounds: BoundsInput) async throws -> [FullFeedingPoint]
     @discardableResult
@@ -145,8 +147,14 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
                 imageURL: try? await dataService.getURL(key: $0.cover)
             )
         }
-        innerFeedingPoints.send(points)
+        let newIds = Set(points.map(\.identifier))
+        let kept = innerFeedingPoints.value.filter { !newIds.contains($0.identifier) }
+        innerFeedingPoints.send(points + kept)
         return points
+    }
+
+    func resetViewportPoints() {
+        innerFeedingPoints.send([])
     }
 
     @discardableResult

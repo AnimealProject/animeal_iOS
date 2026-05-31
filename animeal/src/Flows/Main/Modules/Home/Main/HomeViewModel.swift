@@ -274,6 +274,8 @@ private extension HomeViewModel {
         pendingFetchTask?.cancel()
         pendingFetchTask = nil
         isFetchingFeedingPoints = false
+        model.resetFeedingPoints()
+        loadedRegion = nil
         let fetchBounds = makeFetchBounds(from: bounds)
         let points = try await model.fetchFeedingPoints(bounds: fetchBounds)
         loadedRegion = fetchBounds
