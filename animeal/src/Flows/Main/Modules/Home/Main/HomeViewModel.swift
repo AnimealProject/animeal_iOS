@@ -95,7 +95,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     func load() {
         Task { [weak self] in
             guard let self else { return }
-            _ = await fetchUnfinishedFeeding()
+            await fetchUnfinishedFeeding()
             self.fetchFilterItems()
             self.startFeedingPoinsEventsListener()
         }
@@ -158,9 +158,9 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
         }
     }
 
-    func fetchUnfinishedFeeding() async -> Bool {
+    func fetchUnfinishedFeeding() async {
         guard let activeFeeding = try? await model.fetchActiveFeeding() else {
-            return false
+            return
         }
         do {
             let creationDate = activeFeeding.createdAt.foundationDate
@@ -170,9 +170,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
             let timeDiff = snapshotTimeDiff - NetTime.serverTimeDifference
             let feedingPoint = try await model.fetchFeedingPoint(activeFeeding.feedingPointFeedingsId)
             let pointItemView = feedingPointViewMapper.mapFeedingPoint(feedingPoint)
-            // Update view with feedingPoint details
             onFeedingPointsHaveBeenPrepared?([pointItemView])
-            // Request build route
             let timePassSinceFeedingStarted = Date.now - activeFeeding.createdAt.foundationDate + timeDiff
             onRouteRequestHaveBeenPrepared?(
                 .init(
@@ -183,15 +181,14 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
                 )
             )
             feedingStatus = .progress
-            return true
         } catch {
-            return false
+            logError("[HomeViewModel] Failed to restore unfinished feeding: \(error.localizedDescription)")
         }
     }
 
     func refreshCurrentFeeding() {
         coordinator.displayActivityIndicator { [weak self] in
-            _ = await self?.fetchUnfinishedFeeding()
+            await self?.fetchUnfinishedFeeding()
         }
     }
 

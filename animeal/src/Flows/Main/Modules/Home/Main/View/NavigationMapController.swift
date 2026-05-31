@@ -4,6 +4,10 @@ import MapboxDirections
 import MapboxMaps
 
 class NavigationMapController: NavigationViewControllerDelegate {
+    private enum Constants {
+        static let cameraDebounceInterval: TimeInterval = 0.5
+    }
+
     // MARK: - Private properties
     private let navigationMapView: NavigationMapView
     private var navigationRouteOptions: NavigationRouteOptions?
@@ -92,7 +96,9 @@ class NavigationMapController: NavigationViewControllerDelegate {
         cameraChangedCancelable = navigationMapView.mapView.mapboxMap.onEvery(event: .cameraChanged) { [weak self] _ in
             guard let self else { return }
             self.cameraDebounceTimer?.invalidate()
-            self.cameraDebounceTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { [weak self] _ in
+            self.cameraDebounceTimer = Timer.scheduledTimer(
+                withTimeInterval: Constants.cameraDebounceInterval, repeats: false
+            ) { [weak self] _ in
                 guard let self else { return }
                 let zoom = self.navigationMapView.mapView.mapboxMap.cameraState.zoom
                 let bounds = self.navigationMapView.mapView.mapboxMap.coordinateBounds(
