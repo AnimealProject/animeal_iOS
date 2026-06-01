@@ -73,4 +73,4 @@ jobs:
       - name: Build For Test
         run: |
           set -o pipefail
-          xcodebuild test -scheme animeal -project animeal.xcodeproj -destination "platform=iOS Simulator,name=iPhone 16,OS=18.5" -parallelizeTargets -showBuildTimingSummary 2>&1 | xcbeautify --renderer github-actions
+          xcodebuild test -scheme animeal -project animeal.xcodeproj -destination "platform=iOS Simulator,name=iPhone 16,OS=18.5" -parallelizeTargets -showBuildTimingSummary 2>&1 | xcbeautify
