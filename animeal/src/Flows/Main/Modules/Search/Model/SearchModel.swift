@@ -38,8 +38,8 @@ final class SearchModel: SearchModelProtocol {
     // MARK: - Requests
     func fetchFilteringText() -> String? { searchString }
 
-    func fetchFeedingPoints(force: Bool) async throws -> [SearchModelSection] {
-        let fetchedSections = try await fetchFeedingPoints(force: force, oldSections: sections)
+    func fetchFeedingPoints() async throws -> [SearchModelSection] {
+        let fetchedSections = try await fetchFeedingPoints(oldSections: sections)
         let filteredSections = filterFeedingPoints(fetchedSections)
         let foundSections = searchFeedingPoints(
             filteredSections,

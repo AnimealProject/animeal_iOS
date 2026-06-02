@@ -370,6 +370,12 @@ private extension HomeViewController {
             self?.viewModel.handleActionEvent(.tapFeedingPoints([tappedAnnotation.id]))
         }
 
+        mapView.onCameraIdle = { [weak self] coordinateBounds, zoom in
+            guard let self else { return }
+            let bounds = BoundsInput(coordinateBounds)
+            self.viewModel.handleMapCameraIdle(bounds: bounds, zoom: zoom)
+        }
+
         mapView.cameraAnimationQueue.append {
             self.updateCameraSettings()
         }
@@ -432,5 +438,17 @@ private extension CircleButtonView {
 private extension FeedingPointViewItem {
     var isHungerLevelHigh: Bool {
         annotationModel.hungerLevel == .high
+    }
+}
+
+private extension BoundsInput {
+    /// Converts Mapbox CoordinateBounds (SW/NE corners) to BoundsInput (NW/SE corners).
+    init(_ bounds: CoordinateBounds) {
+        self.init(
+            topLeftLat: bounds.northeast.latitude,
+            topLeftLon: bounds.southwest.longitude,
+            bottomRightLat: bounds.southwest.latitude,
+            bottomRightLon: bounds.northeast.longitude
+        )
     }
 }

@@ -1,5 +1,161 @@
 import Foundation
 
+// MARK: - Location bounds input
+
+/// Bounding box used by getFeedingPoints and searchByBounds queries.
+/// top_left is NW corner, bottom_right is SE corner.
+struct BoundsInput: Equatable {
+    let topLeftLat: Double
+    let topLeftLon: Double
+    let bottomRightLat: Double
+    let bottomRightLon: Double
+
+    var variables: [String: Any] {
+        [
+            "top_left": ["lat": topLeftLat, "lon": topLeftLon],
+            "bottom_right": ["lat": bottomRightLat, "lon": bottomRightLon]
+        ]
+    }
+
+    func contains(_ other: BoundsInput) -> Bool {
+        other.topLeftLat <= topLeftLat &&
+        other.topLeftLon >= topLeftLon &&
+        other.bottomRightLat >= bottomRightLat &&
+        other.bottomRightLon <= bottomRightLon
+    }
+
+    func clamped(minimumRadius: Double) -> BoundsInput {
+        let latCenter = (topLeftLat + bottomRightLat) / 2
+        let lonCenter = (topLeftLon + bottomRightLon) / 2
+        let latHalf = max((topLeftLat - bottomRightLat) / 2, minimumRadius)
+        let lonHalf = max((bottomRightLon - topLeftLon) / 2, minimumRadius)
+        return BoundsInput(
+            topLeftLat: latCenter + latHalf,
+            topLeftLon: lonCenter - lonHalf,
+            bottomRightLat: latCenter - latHalf,
+            bottomRightLon: lonCenter + lonHalf
+        )
+    }
+
+    func expanded(by factor: Double) -> BoundsInput {
+        let latBuffer = (topLeftLat - bottomRightLat) * (factor - 1) / 2
+        let lonBuffer = (bottomRightLon - topLeftLon) * (factor - 1) / 2
+        return BoundsInput(
+            topLeftLat: topLeftLat + latBuffer,
+            topLeftLon: topLeftLon - lonBuffer,
+            bottomRightLat: bottomRightLat - latBuffer,
+            bottomRightLon: bottomRightLon + lonBuffer
+        )
+    }
+}
+
+// MARK: - GetFeedingPoints query
+
+let getFeedingPointsDocument = """
+query GetFeedingPoints($locationBounds: BoundsInput, $categoryTag: String) {
+  getFeedingPoints(locationBounds: $locationBounds, categoryTag: $categoryTag) {
+    id
+    name
+    description
+    city
+    street
+    address
+    images
+    point {
+      type
+      coordinates
+    }
+    location {
+      lat
+      lon
+    }
+    region
+    neighborhood
+    distance
+    status
+    i18n {
+      locale
+      name
+      description
+      city
+      street
+      address
+      region
+      neighborhood
+    }
+    statusUpdatedAt
+    createdAt
+    updatedAt
+    createdBy
+    updatedBy
+    owner
+    cover
+    disabled
+    feedingPointCategoryId
+    category {
+      id
+      name
+      icon
+      tag
+      createdAt
+      updatedAt
+      createdBy
+      updatedBy
+      owner
+    }
+  }
+}
+"""
+
+// MARK: - GetActiveFeedings query
+
+let getActiveFeedingsDocument = """
+query GetActiveFeedings($feedingPointId: String, $status: String) {
+  getActiveFeedings(feedingPointId: $feedingPointId, status: $status) {
+    id
+    userId
+    images
+    status
+    createdAt
+    updatedAt
+    createdBy
+    updatedBy
+    owner
+    feedingPointFeedingsId
+    expireAt
+    assignedModerators
+    moderatedBy
+    moderatedAt
+  }
+}
+"""
+
+// MARK: - GetHistoricalFeedings query
+
+let getHistoricalFeedingsDocument = """
+query GetHistoricalFeedings($feedingPointId: String, $status: String) {
+  getHistoricalFeedings(feedingPointId: $feedingPointId, status: $status) {
+    id
+    userId
+    images
+    createdAt
+    updatedAt
+    createdBy
+    updatedBy
+    owner
+    feedingPointId
+    feedingPointDetails {
+      address
+    }
+    status
+    reason
+    moderatedBy
+    moderatedAt
+    assignedModerators
+  }
+}
+"""
+
 // MARK: - Custom StartFeeding mutation
 
 public struct StartFeedingMutation: CustomMutation {

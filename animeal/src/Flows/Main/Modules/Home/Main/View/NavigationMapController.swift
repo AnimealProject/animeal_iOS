@@ -4,6 +4,10 @@ import MapboxDirections
 import MapboxMaps
 
 class NavigationMapController: NavigationViewControllerDelegate {
+    private enum Constants {
+        static let cameraDebounceInterval: TimeInterval = 0.5
+    }
+
     // MARK: - Private properties
     private let navigationMapView: NavigationMapView
     private var navigationRouteOptions: NavigationRouteOptions?
@@ -35,9 +39,12 @@ class NavigationMapController: NavigationViewControllerDelegate {
     // MARK: - Accessible properties
     var didChangeLocation: ((CLLocation, Bool) -> Void)?
     var didTapAnnotations: (([Annotation]) -> Void)?
+    var onCameraIdle: ((CoordinateBounds, Double) -> Void)?
 
     private var lastTapLocation: CGPoint?
     private weak var tapGestureRecognizer: UITapGestureRecognizer?
+    private var cameraChangedCancelable: (any Cancelable)?
+    private var cameraDebounceTimer: Timer?
 
     var view: UIView {
         return navigationMapView
@@ -86,11 +93,27 @@ class NavigationMapController: NavigationViewControllerDelegate {
             self?.cameraAnimationQueue.removeAll()
         }
 
+        cameraChangedCancelable = navigationMapView.mapView.mapboxMap.onEvery(event: .cameraChanged) { [weak self] _ in
+            guard let self else { return }
+            self.cameraDebounceTimer?.invalidate()
+            self.cameraDebounceTimer = Timer.scheduledTimer(
+                withTimeInterval: Constants.cameraDebounceInterval, repeats: false
+            ) { [weak self] _ in
+                guard let self else { return }
+                let zoom = self.navigationMapView.mapView.mapboxMap.cameraState.zoom
+                let bounds = self.navigationMapView.mapView.mapboxMap.coordinateBounds(
+                    for: self.navigationMapView.mapView.bounds
+                )
+                self.onCameraIdle?(bounds, zoom)
+            }
+        }
+
         annotationManager.point.delegate = self
         setupTapGesture()
     }
 
     deinit {
+        cameraDebounceTimer?.invalidate()
         if let tapGestureRecognizer {
             view.removeGestureRecognizer(tapGestureRecognizer)
         }

@@ -50,6 +50,10 @@ final class FeedingPointsServiceAdapter: FeedingPointsServiceProtocol {
         setupUserModeObserver()
 
         logInfo("[FeedingPointsServiceAdapter] Initialized with \(isGuestMode ? "mock" : "real") service")
+
+        if !isGuestMode {
+            warmUpFavorites()
+        }
     }
 
     private func setupUserModeObserver() {
@@ -63,9 +67,24 @@ final class FeedingPointsServiceAdapter: FeedingPointsServiceProtocol {
                 if self.currentServiceSubject.value !== newService {
                     logInfo("[FeedingPointsServiceAdapter] Switching to \(isGuestMode ? "mock" : "real") service")
                     self.currentServiceSubject.send(newService)
+                    if !isGuestMode {
+                        self.warmUpFavorites()
+                    }
                 }
             }
             .store(in: &cancellables)
+    }
+
+    private func warmUpFavorites() {
+        Task { [weak self] in
+            guard let self else { return }
+            do {
+                _ = try await self.fetchAllFavorites()
+                logInfo("[FeedingPointsServiceAdapter] Favourites pre-loaded successfully")
+            } catch {
+                logError("[FeedingPointsServiceAdapter] Failed to pre-load favourites: \(error)")
+            }
+        }
     }
 
     // MARK: - Publishers
@@ -103,8 +122,12 @@ final class FeedingPointsServiceAdapter: FeedingPointsServiceProtocol {
     }
 
     // MARK: - Async methods delegate to current service
-    func fetchAll() async throws -> [FullFeedingPoint] {
-        try await currentServiceSubject.value.fetchAll()
+    func resetViewportPoints() {
+        currentServiceSubject.value.resetViewportPoints()
+    }
+
+    func fetchAll(bounds: BoundsInput) async throws -> [FullFeedingPoint] {
+        try await currentServiceSubject.value.fetchAll(bounds: bounds)
     }
 
     func fetch(byIdentifier identifier: String) async throws -> FullFeedingPoint {

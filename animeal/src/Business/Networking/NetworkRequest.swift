@@ -140,6 +140,33 @@ extension Request {
         )
     }
 
+    static func getFeedingPoints(bounds: BoundsInput) -> Request<[FeedingPoint]> {
+        Request<[FeedingPoint]>(
+            document: getFeedingPointsDocument,
+            variables: ["locationBounds": bounds.variables],
+            responseType: [FeedingPoint].self,
+            decodePath: "getFeedingPoints"
+        )
+    }
+
+    static func getActiveFeedings(feedingPointId: String) -> Request<[Feeding]> {
+        Request<[Feeding]>(
+            document: getActiveFeedingsDocument,
+            variables: ["feedingPointId": feedingPointId],
+            responseType: [Feeding].self,
+            decodePath: "getActiveFeedings"
+        )
+    }
+
+    static func getHistoricalFeedings(feedingPointId: String) -> Request<[FeedingHistory]> {
+        Request<[FeedingHistory]>(
+            document: getHistoricalFeedingsDocument,
+            variables: ["feedingPointId": feedingPointId],
+            responseType: [FeedingHistory].self,
+            decodePath: "getHistoricalFeedings"
+        )
+    }
+
     static func onUpdateFeedingPoint() -> Request<UpdateFeedingPoint> {
         let operationName = "onUpdateFeedingPoint"
         let document = """
