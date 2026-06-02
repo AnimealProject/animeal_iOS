@@ -405,6 +405,8 @@
 		1A66FE8EF8CD69BA7FC2D891 /* Medication+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "Medication+Schema.swift"; path = "amplify/generated/models/Medication+Schema.swift"; sourceTree = "<group>"; };
 		1A7300574E18A86484C884F8 /* Point.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Point.swift; path = amplify/generated/models/Point.swift; sourceTree = "<group>"; };
 		1EA61C9B5FAD8F3476DAD592 /* Question.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Question.swift; path = amplify/generated/models/Question.swift; sourceTree = "<group>"; };
+		20939F4A34A643E3BF8FFD44 /* Dev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Dev.xcconfig; sourceTree = "<group>"; };
+		2B2D0E8FFA2648BCBFB376D1 /* Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Test.xcconfig; sourceTree = "<group>"; };
 		2B430631AEB7F77155F5652D /* PetI18n.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = PetI18n.swift; path = amplify/generated/models/PetI18n.swift; sourceTree = "<group>"; };
 		353541A22B004F10D26B741A /* QuestionI18n+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "QuestionI18n+Schema.swift"; path = "amplify/generated/models/QuestionI18n+Schema.swift"; sourceTree = "<group>"; };
 		354FF144F7B1B50191F60634 /* Settings.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Settings.swift; path = amplify/generated/models/Settings.swift; sourceTree = "<group>"; };
@@ -471,6 +473,7 @@
 		8076E8AA298FBC320048B97C /* FeedingFinishedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingFinishedView.swift; sourceTree = "<group>"; };
 		807874D129D579510005D669 /* FeederShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeederShimmerView.swift; sourceTree = "<group>"; };
 		807874D329D57E790005D669 /* FeedingHistoryShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedingHistoryShimmerView.swift; sourceTree = "<group>"; };
+		82220ED3F517460590DEE105 /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
 		8312A5C0290AFE8F005C85CB /* PhoneCodesViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCodesViewCell.swift; sourceTree = "<group>"; };
 		8312A5C2290B0CA8005C85CB /* CustomAuthModelRequiredAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAuthModelRequiredAction.swift; sourceTree = "<group>"; };
 		8312A5C4290DB689005C85CB /* PhoneModelRequiredAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneModelRequiredAction.swift; sourceTree = "<group>"; };
@@ -618,6 +621,7 @@
 		8CD69A6F89E3BC60EA232408 /* Language+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "Language+Schema.swift"; path = "amplify/generated/models/Language+Schema.swift"; sourceTree = "<group>"; };
 		8F4A7CF4F0C1D848CC47A162 /* Location.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Location.swift; path = amplify/generated/models/Location.swift; sourceTree = "<group>"; };
 		95550513A0326A8E443C7BCB /* FeedingPointConnection+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "FeedingPointConnection+Schema.swift"; path = "amplify/generated/models/FeedingPointConnection+Schema.swift"; sourceTree = "<group>"; };
+		9B17BEDCB9DD49F5AE4E2AEB /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		9BA0DBB22BE6A7E600663EF6 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		A599E2C6DF76CD81C5AD66D9 /* FeedingPointConnection.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = FeedingPointConnection.swift; path = amplify/generated/models/FeedingPointConnection.swift; sourceTree = "<group>"; };
 		A73CF697E0ED36B966DB6DD9 /* Medication.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Medication.swift; path = amplify/generated/models/Medication.swift; sourceTree = "<group>"; };
@@ -1792,6 +1796,17 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		9A754692BF214FF08F75D15A /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				82220ED3F517460590DEE105 /* Shared.xcconfig */,
+				20939F4A34A643E3BF8FFD44 /* Dev.xcconfig */,
+				2B2D0E8FFA2648BCBFB376D1 /* Test.xcconfig */,
+				9B17BEDCB9DD49F5AE4E2AEB /* Release.xcconfig */,
+			);
+			path = Configurations;
+			sourceTree = "<group>";
+		};
 		B9F63FC8CE664687C07A882C /* AmplifyConfig */ = {
 			isa = PBXGroup;
 			children = (
@@ -2063,6 +2078,7 @@
 		DB6B07C428450A380009397B /* animeal */ = {
 			isa = PBXGroup;
 			children = (
+				9A754692BF214FF08F75D15A /* Configurations */,
 				DB6B07C528450A380009397B /* AppDelegate.swift */,
 				DB6B07C728450A380009397B /* SceneDelegate.swift */,
 				DB4CA51C28450FEE00050EA5 /* src */,
@@ -2539,6 +2555,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		DB058D61284642D60064A21F /* swiftgen */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2548,7 +2565,6 @@
 				"$(TARGET_BUILD_DIR)/$(INFOPLIST_PATH)",
 			);
 			name = swiftgen;
-			alwaysOutOfDate = 1;
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -2559,6 +2575,7 @@
 		};
 		DB4CA51E2845114E00050EA5 /* swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2567,7 +2584,6 @@
 			inputPaths = (
 			);
 			name = swiftlint;
-			alwaysOutOfDate = 1;
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -2578,6 +2594,7 @@
 		};
 		DB5359AD286C59D000D2FF7F /* mapBox */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2586,7 +2603,6 @@
 			inputPaths = (
 			);
 			name = mapBox;
-			alwaysOutOfDate = 1;
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -2597,6 +2613,7 @@
 		};
 		DBB32295287322A100A78E3E /* crashlytics */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2610,7 +2627,6 @@
 				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
 			);
 			name = crashlytics;
-			alwaysOutOfDate = 1;
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -2621,6 +2637,7 @@
 		};
 		FBA263B7285348D300DBED37 /* Generate Sourcery Mocks */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2629,7 +2646,6 @@
 			inputPaths = (
 			);
 			name = "Generate Sourcery Mocks";
-			alwaysOutOfDate = 1;
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -3042,6 +3058,157 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		6BB6F9B84F054D1189A9B2A9 /* Test */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2B2D0E8FFA2648BCBFB376D1 /* Test.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = animealUI/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AnimealDemo;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animeal.ui;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Test;
+		};
+		953A76D10826431D9A375F38 /* Test */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animealTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/animeal.app/animeal";
+			};
+			name = Test;
+		};
+		9C6EBC8505C34C7A954B3E63 /* Test */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Apple Distribution";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Test;
+		};
+		D2BC859D87574EA18F2548CD /* Test */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2B2D0E8FFA2648BCBFB376D1 /* Test.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 20251112;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = animeal/res/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app will use camera.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Your precise location is used to calculate turn-by-turn directions, show your location on the map, and help improve the map.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your precise location is used to calculate turn-by-turn directions, show your location on the map, and help improve the map.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow access to save photo in your photo library";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Test;
+		};
 		DB6B07EA28450A3A0009397B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3164,18 +3331,17 @@
 		};
 		DB6B07ED28450A3A0009397B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 20939F4A34A643E3BF8FFD44 /* Dev.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "Apple Development: Pran Kishore (CM95PV92ZY)";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 20251112;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 2JSLPH439W;
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 2JSLPH439W;
+				DEVELOPMENT_TEAM = 5HRLMFUWVY;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = animeal/res/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Animeal;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app will use camera.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Your precise location is used to calculate turn-by-turn directions, show your location on the map, and help improve the map.";
@@ -3193,10 +3359,8 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animealMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "Animeal Development";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Animeal Development";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -3205,18 +3369,16 @@
 		};
 		DB6B07EE28450A3A0009397B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9B17BEDCB9DD49F5AE4E2AEB /* Release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "Apple Distribution: Animals Project, NCLE (2JSLPH439W)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution: Animals Project, NCLE (2JSLPH439W)";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 20251112;
-				DEVELOPMENT_TEAM = 2JSLPH439W;
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 2JSLPH439W;
+				DEVELOPMENT_TEAM = 5HRLMFUWVY;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = animeal/res/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Animeal;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app will use camera.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Your precise location is used to calculate turn-by-turn directions, show your location on the map, and help improve the map.";
@@ -3234,10 +3396,8 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animealMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "Animeal App Store Distribution";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Animeal App Store Distribution";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -3278,9 +3438,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5HRLMFUWVY;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3289,7 +3450,7 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animealTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.serhiiterokhyn.animealTest.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -3301,14 +3462,15 @@
 		};
 		FB4313682848E97E0084C21A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 20939F4A34A643E3BF8FFD44 /* Dev.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2JSLPH439W;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = animealUI/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AnimealDemo;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
@@ -3332,14 +3494,17 @@
 		};
 		FB4313692848E97E0084C21A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9B17BEDCB9DD49F5AE4E2AEB /* Release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5HRLMFUWVY;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = animealUI/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AnimealDemo;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
@@ -3352,7 +3517,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animeal.ui;
+				PRODUCT_BUNDLE_IDENTIFIER = com.serhiiterokhyn.animeal.ui.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -3368,6 +3533,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DB6B07EA28450A3A0009397B /* Debug */,
+				9C6EBC8505C34C7A954B3E63 /* Test */,
 				DB6B07EB28450A3A0009397B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -3377,6 +3543,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DB6B07ED28450A3A0009397B /* Debug */,
+				D2BC859D87574EA18F2548CD /* Test */,
 				DB6B07EE28450A3A0009397B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -3386,6 +3553,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DB6B07F028450A3A0009397B /* Debug */,
+				953A76D10826431D9A375F38 /* Test */,
 				DB6B07F128450A3A0009397B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -3395,6 +3563,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FB4313682848E97E0084C21A /* Debug */,
+				6BB6F9B84F054D1189A9B2A9 /* Test */,
 				FB4313692848E97E0084C21A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;

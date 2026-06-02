@@ -5,20 +5,18 @@
 	<key>manageAppVersionAndBuildNumber</key>
 	<false/>
 	<key>method</key>
-	<string>development</string>
+	<string>app-store</string>
 	<key>provisioningProfiles</key>
 	<dict>
-		<key>com.epmedu.animealMobile</key>
-		<string>6a29cdb6-1657-417d-bffa-76436003be0e</string>
+		<key>com.serhiiterokhyn.animeal.demo</key>
+		<string>Animeal Demo App Store Distribution</string>
 	</dict>
-	<key>signingCertificate</key>
-	<string>Apple Development: Pran Kishore (CM95PV92ZY)</string>
 	<key>signingStyle</key>
 	<string>manual</string>
 	<key>stripSwiftSymbols</key>
 	<true/>
 	<key>teamID</key>
-	<string>2JSLPH439W</string>
+	<string>5HRLMFUWVY</string>
 	<key>uploadSymbols</key>
 	<true/>
 	<key>compileBitcode</key>

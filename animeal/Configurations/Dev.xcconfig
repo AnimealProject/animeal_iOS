@@ -1,0 +1,4 @@
+#include "Shared.xcconfig"
+
+// ─── Dev overrides ───────────────────────────────────────────────────────────
+CODE_SIGN_IDENTITY = Apple Development

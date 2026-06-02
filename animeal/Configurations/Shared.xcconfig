@@ -1,0 +1,3 @@
+DEVELOPMENT_TEAM = 5HRLMFUWVY
+PRODUCT_BUNDLE_IDENTIFIER = com.serhiiterokhyn.animeal.demo
+INFOPLIST_KEY_CFBundleDisplayName = AnimealDemo

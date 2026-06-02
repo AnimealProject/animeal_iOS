@@ -95,23 +95,25 @@ jobs:
         with:
           project-path: animeal.xcodeproj
           scheme: "animeal"
-          export-method: "development"
+          export-method: "app-store"
           p12-base64: ${{ secrets.APPLE_DISTRIBUTION_CERTIFICATE }}
           mobileprovision-base64: ${{ secrets.APPLE_DISTRIBUTION_PROVISIONING_PROFILE }}
-          certificate-password: ${{ secrets.UNLOCK_CERTIFICATE }}
-          code-signing-identity: "Apple Development: Pran Kishore (CM95PV92ZY)"
+          certificate-password: ${{ secrets.APPLE_DISTRIBUTION_CERTIFICATE_PASSWORD }}
+          code-signing-identity: "Apple Distribution: Sergey Teryokhyn (5HRLMFUWVY)"
           export-options: "ExportOptions.plist"
-          team-id: "2JSLPH439W"
-          configuration: "Debug"
+          team-id: "5HRLMFUWVY"
+          configuration: "Release"
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:
           name: output  # Name of the artifact (optional)
           path: '**/*.ipa'  # Wildcard pattern to match output.ipa
-      - name: upload artifact to Firebase App Distribution
-        uses: emertozd/Firebase-Distribution-Github-Action@v2
-        with:
-          appId: ${{secrets.FIREBASE_APP_ID}}
-          serviceCredentialsFileContent: ${{ secrets.FIREBASE_CREDENTIALS_JSON }}
-          groups: qa_team
-          file: output.ipa
+      - name: Upload to TestFlight
+        run: |
+          IPA=$(find . -name "*.ipa" | head -1)
+          xcrun altool --upload-app -f "$IPA" -t ios \
+            -u "$APP_STORE_CONNECT_USERNAME" \
+            -p "$APP_STORE_CONNECT_PASSWORD"
+        env:
+          APP_STORE_CONNECT_USERNAME: ${{ secrets.APP_STORE_CONNECT_USERNAME }}
+          APP_STORE_CONNECT_PASSWORD: ${{ secrets.APP_STORE_CONNECT_PASSWORD }}
