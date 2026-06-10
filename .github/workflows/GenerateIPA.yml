@@ -2,6 +2,15 @@ name: Generate IPA
 
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Amplify environment'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - test
   push:
     branches:
       - develop
@@ -35,13 +44,14 @@ jobs:
         run: npm install -g @aws-amplify/cli
       - name: Setup Amplify
         id: setupAmplify
-        run: bash ./update_amplify.sh -a $AWS_ACCESS_KEY_ID -s $AWS_SECRET_ACCESS_KEY -i $APP_ID -e $AMPLIFY_DEV_ENV -t $FACEBOOK_APP_ID -r $FACEBOOK_APP_SECRET
+        run: |
+          ENV=${{ github.event.inputs.environment || secrets.AMPLIFY_DEV_ENV }}
+          bash ./update_amplify.sh -a $AWS_ACCESS_KEY_ID -s $AWS_SECRET_ACCESS_KEY -i $APP_ID -e $ENV -t $FACEBOOK_APP_ID -r $FACEBOOK_APP_SECRET
         continue-on-error: true
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           APP_ID: ${{ secrets.APP_ID }}
-          AMPLIFY_DEV_ENV: ${{ secrets.AMPLIFY_DEV_ENV }}
           FACEBOOK_APP_ID: ${{ secrets.FACEBOOK_APP_ID }}
           FACEBOOK_APP_SECRET: ${{ secrets.FACEBOOK_APP_SECRET }}
       - name: Recover From Setup Amplfy  Error
