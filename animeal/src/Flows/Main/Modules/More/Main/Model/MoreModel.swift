@@ -17,7 +17,7 @@ final class MoreModel: MoreModelProtocol {
             MoreActionModel(type: .account, title: L10n.More.account)
         ]
         #if DEBUG
-        actions.append(MoreActionModel(type: .qaMenu, title: "QA Menu"))
+        actions.append(MoreActionModel(type: .qaMenu, title: L10n.More.qaMenu))
         #endif
         return actions
     }

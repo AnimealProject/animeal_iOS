@@ -26,14 +26,14 @@ struct QAMenuView: View {
     // MARK: - Private view elements
 
     private var headerText: some View {
-        Text("QA Menu")
+        Text(L10n.QaMenu.title)
             .font(designEngine.fonts.primary.bold(28)?.font)
             .foregroundColor(designEngine.colors.textPrimary.color)
     }
 
     private var loadAllFeedingPointsToggle: some View {
         Toggle(
-            "Load all feeding points",
+            L10n.QaMenu.loadAllFeedingPoints,
             isOn: Binding(
                 get: { model.isLoadAllFeedingPointsEnabled },
                 set: { interactionHandler?.handleActionEvent(.toggleLoadAllFeedingPoints($0)) }

@@ -15,7 +15,7 @@
 "profile.surname"                                 = "გვარი";
 "profile.phoneNumber"                             = "Ტელეფონის ნომერი";
 "profile.email"                                   = "ელ.ფოსტა";
-"profile.consent"                                 = "";
+"profile.consent"                                 = "თქვენ ადასტურებთ, რომ ხართ მინიმუმ 15 წლის";
 "profile.birthDate"                               = "Დაბადების თარიღი";
 "profile.edit"                                    = "რედაქტირება";
 "profile.save"                                    = "Გადარჩენა";
@@ -27,7 +27,7 @@
 "profile.discardEdits.dialogHeader"               = "ნამდვილად გსურთ ცვლილებების გაუქმება?";
 "profile.errors.empty"                            = "ველი ცარიელია";
 "profile.errors.ageLimit"                         = "ასაკობრივი ზღვარი არის %@ წელი";
-"profile.errors.incorrectEmailAddress"            = "";
+"profile.errors.incorrectEmailAddress"            = "გთხოვთ, შეიყვანოთ სწორი ელფოსტის მისამართი";
 "profile.errors.incorrectFormat"                  = "ფორმატი არასწორია";
 "profile.errors.incorrectCharactersLength"        = "სიგრძე უნდა იყოს 2-დან 35-მდე";
 "profile.errors.incorrectCharacters"              = "უნდა შეიცავდეს მხოლოდ ასოებს";
@@ -106,10 +106,13 @@
 "leaderBoard.empty"                               = "ლიდერბორდი აჩვენებს მოხალისეთა რეიტინგს";
 "verification.resendCode.titleTime"               = "კოდის ხელახლა გაგზავნა";
 "loginScreen.continueAsGuest"                     = "შესვლა სტუმრად";
-"loginScreen.registerOrLogin"                     = "";
-"action.register"                                 = "";
-"action.termsAndConditions"                       = "";
-"action.privacyPolicy"                            = "";
-"action.acknowledgeTCandPP"                       = "";
+"loginScreen.registerOrLogin"                     = "თქვენ მხოლოდ ერთი ნაბიჯით ხართ დაშორებული ჩვენი გმირების საზოგადოებაში გაწევრიანებისგან! რეგისტრაციით ან შესვლით შეგეძლებათ აქტიურად შეიტანოთ წვლილი ამ საოცარი\n\nცხოველების კვებასა და დაცვაში.\n\nერთად, ჩვენ შევძლებთ უზრუნველვყოთ მათი არსებობა უსაფრთხო და ჯანსაღ გარემოში.";
+"action.register"                                 = "რეგისტრაცია/შესვლა";
+"action.termsAndConditions"                       = "წესები და პირობები";
+"action.privacyPolicy"                            = "კონფიდენციალურობის პოლიტიკა";
+"action.acknowledgeTCandPP"                       = "გაგრძელებით, თქვენ ეთანხმებით Animeal-ის წესებსა და პირობებს და კონფიდენციალურობის პოლიტიკას";
 "text.header.assignedModerators"                  = "დანიშნული მოდერატორები";
 "action.showAll"                                  = "ყველას ნახვა (%@)";
+"more.qaMenu"                                     = "QA მენიუ";
+"qaMenu.title"                                    = "QA მენიუ";
+"qaMenu.loadAllFeedingPoints"                     = "ყველა კვების წერტილის ჩატვირთვა";

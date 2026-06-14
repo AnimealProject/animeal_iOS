@@ -180,8 +180,8 @@ internal enum L10n {
     /// · Advocating with the government;
     /// · Charitable and humanitarian projects in collaboration with the private sector, donor organizations, and local communities;
     internal static let aboutContent = L10n.tr("Localizable", "more.aboutContent", fallback: "Who are we?\nAnimal Project was founded in 2020 by animal lovers with different professions and experiences. For decades, our team members  have been independently helping strays and raising awareness through personal channels.\n\nWhat is our goal?\nWe exist so that dogs and cats no longer have to live in the streets of Georgia. Our goal is to create a habitable, comfortable environment for companion animals and raise awareness within our communities.\n\nHow are we working on this goal?\nOur team heavily relies on international best practices and experience. Our areas of work include:\n· Raising social awareness;\n· Advocating with the government;\n· Charitable and humanitarian projects in collaboration with the private sector, donor organizations, and local communities;")
-    /// About Us
-    internal static let aboutShort = L10n.tr("Localizable", "more.aboutShort", fallback: "About Us")
+    /// About
+    internal static let aboutShort = L10n.tr("Localizable", "more.aboutShort", fallback: "About")
     /// Account
     internal static let account = L10n.tr("Localizable", "more.account", fallback: "Account")
     /// Donate
@@ -190,6 +190,8 @@ internal enum L10n {
     internal static let faq = L10n.tr("Localizable", "more.faq", fallback: "FAQ")
     /// Profile Page
     internal static let profilePage = L10n.tr("Localizable", "more.profilePage", fallback: "Profile Page")
+    /// QA Menu
+    internal static let qaMenu = L10n.tr("Localizable", "more.qaMenu", fallback: "QA Menu")
   }
   internal enum Phone {
     /// Please, enter your phone
@@ -256,6 +258,12 @@ internal enum L10n {
       /// Format is incorrect
       internal static let incorrectFormat = L10n.tr("Localizable", "profile.errors.incorrectFormat", fallback: "Format is incorrect")
     }
+  }
+  internal enum QaMenu {
+    /// Load all feeding points
+    internal static let loadAllFeedingPoints = L10n.tr("Localizable", "qaMenu.loadAllFeedingPoints", fallback: "Load all feeding points")
+    /// QA Menu
+    internal static let title = L10n.tr("Localizable", "qaMenu.title", fallback: "QA Menu")
   }
   internal enum Question {
     /// Are you sure you want to delete your account?
