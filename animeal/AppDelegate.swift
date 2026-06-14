@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateProtocol {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
+        LocalizationService.activate()
         configureAmplify()
         configureAppearance()
 
