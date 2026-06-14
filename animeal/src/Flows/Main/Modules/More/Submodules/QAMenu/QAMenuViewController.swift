@@ -11,12 +11,13 @@ final class QAMenuViewController: UIHostingController<AnyView>, QAMenuViewable {
     init(viewModel: any QAMenuViewModelProtocol) {
         self.viewModel = viewModel
 
-        let model = (viewModel.observableModel as? QAMenuModel) ?? QAMenuModel()
-        let designEngine: StyleEngine = StyleDefaultEngine()
-        let qaMenuView = QAMenuView(model: model, interactionHandler: viewModel)
-            .environmentObject(designEngine)
+        super.init(rootView: AnyView(EmptyView()))
 
-        super.init(rootView: AnyView(qaMenuView))
+        let model = (viewModel.observableModel as? QAMenuModel) ?? QAMenuModel()
+        rootView = AnyView(
+            QAMenuView(model: model, interactionHandler: viewModel)
+                .environmentObject(designEngine)
+        )
     }
 
     @MainActor

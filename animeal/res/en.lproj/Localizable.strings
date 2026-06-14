@@ -15,7 +15,7 @@
 "profile.surname"                                 = "Surname";
 "profile.phoneNumber"                             = "Phone Number";
 "profile.email"                                   = "E-mail";
-"profile.consent"                                 = "You acknowledge that you are atleast 15 years old";
+"profile.consent"                                 = "You acknowledge that you are at least 15 years old";
 "profile.birthDate"                               = "Birthdate";
 "profile.edit"                                    = "Edit";
 "profile.save"                                    = "Save";
