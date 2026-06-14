@@ -46,6 +46,7 @@ enum MoreRoute {
     case termsAndConditions
     case privacyPolicy
     case account
+    case qaMenu
 
     init?(rawValue: String) {
         switch rawValue {
@@ -63,6 +64,8 @@ enum MoreRoute {
             self = .privacyPolicy
         case MoreActionType.account.rawValue:
             self = .account
+        case MoreActionType.qaMenu.rawValue:
+            self = .qaMenu
         default:
             return nil
         }

@@ -13,4 +13,5 @@ enum MoreActionType: String {
     case termsAndConditions
     case privacyPolicy
     case account
+    case qaMenu
 }

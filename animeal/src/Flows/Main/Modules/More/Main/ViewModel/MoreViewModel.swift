@@ -66,6 +66,8 @@ final class MoreViewModel: MoreViewModelLifeCycle, MoreViewInteraction, MoreView
             return true
         case .privacyPolicy:
             return true
+        case .qaMenu:
+            return true
         }
     }
 }

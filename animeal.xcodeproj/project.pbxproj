@@ -26,6 +26,8 @@
 		1EE4E0FF2FF2EEB607AEC220 /* MedicationI18n+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = E423FC6DE22260CD3829A2BE /* MedicationI18n+Schema.swift */; };
 		1F6824D22EE9243547B83894 /* Pet+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526788734ABC76D2329D30A7 /* Pet+Schema.swift */; };
 		1F770667D42E31D263AE67AB /* RelationPetFeedingPoint+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12E8D4947DDBC6278B003F58 /* RelationPetFeedingPoint+Schema.swift */; };
+		203EF55CB01E2B54BFBFA1B1 /* QAMenuAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5AC1C0BE7D820E81C86511 /* QAMenuAssembler.swift */; };
+		24F57B0CAF06FF35BBDD0500 /* QAMenuContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19613EA0BF980AE27CB3672 /* QAMenuContract.swift */; };
 		3289D6266DB243B53A64A5FF /* FeedingConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AD96AD1D4619B4CD187EFB /* FeedingConstraint.swift */; };
 		47EF15E3C330DD9F407C5F35 /* MedicationI18n.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AFDE474C170447B1CA322E /* MedicationI18n.swift */; };
 		4AA077256022E92280815D22 /* QuestionI18n.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632E91C0D04C0BDB50D44C42 /* QuestionI18n.swift */; };
@@ -35,7 +37,10 @@
 		5CBFCE2A2A9A17EB00D6F4DA /* CustomAuthViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCDB28A03B640085C6D1 /* CustomAuthViewHeader.swift */; };
 		5CBFCE2B2A9A181E00D6F4DA /* CustomAuthModelItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372CCCE28A02F300085C6D1 /* CustomAuthModelItem.swift */; };
 		5CBFCE2C2A9A187B00D6F4DA /* MoreCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB127E8E28B9E9BA00012B53 /* MoreCoordinator.swift */; };
+		5ED4A89CD448ABFE4F1B6491 /* QAMenuModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E79EAEE9F0028D2FD4552F /* QAMenuModel.swift */; };
+		619A314E6D156A34E3E329D8 /* FeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC70F3C3F117C03DB094CB5 /* FeatureFlags.swift */; };
 		655B7A9CC4DC0177ED3A03DE /* FeedingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FD88DC75911C04106149D6 /* FeedingStatus.swift */; };
+		67046B80BCE44484DB7B028A /* QAMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6D484AA45CA247CE5E38CE /* QAMenuViewController.swift */; };
 		6826AB850FFAF4CC13D042F3 /* PetI18n.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B430631AEB7F77155F5652D /* PetI18n.swift */; };
 		684CD5A61F9EB2D1B6901335 /* AWSLanguage+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF1CE94A20FA3FBCCCD2841 /* AWSLanguage+Schema.swift */; };
 		68DD0E2AAE89D53E9131FE48 /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 5A014CFAC080E8E6D9884035 /* amplifyconfiguration.json */; };
@@ -352,10 +357,13 @@
 		DBF56B5928CF40E300AB0BDF /* FeedingPointDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF56B5428CF40E300AB0BDF /* FeedingPointDetailsViewController.swift */; };
 		DBF56B5A28CF40E300AB0BDF /* FeedingPointDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF56B5528CF40E300AB0BDF /* FeedingPointDetailsViewModel.swift */; };
 		DBF56B5C28CF4A5700AB0BDF /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF56B5B28CF4A5700AB0BDF /* HomeCoordinator.swift */; };
+		DC0CD719E01FABD849A5A4C7 /* QAMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B99A2AAEE7D745ABE37F1F /* QAMenuView.swift */; };
 		DCE1CAAC12C918FB62B0BA8B /* LanguagesSetting+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6536D50A446F5742969183 /* LanguagesSetting+Schema.swift */; };
+		E026868097B2646644FA5859 /* UserDefaultFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4DEFD3FF7A5886AC4C0471 /* UserDefaultFlag.swift */; };
 		E394F4B5DEDADFBB2D01356D /* FeedingHistory+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69D5DD22AC8F6220ADD5221 /* FeedingHistory+Schema.swift */; };
 		EB49BAEA015C8CB7F6AFC97A /* CategoryTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE732E81739360CA2DC5F8B /* CategoryTag.swift */; };
 		F0C51AC9C71D7585539B42A1 /* Question+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 873EA02C2D71969CB72DCC41 /* Question+Schema.swift */; };
+		F868206E27E0C9481F7637C2 /* QAMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA8469A487CB50658DD30BA /* QAMenuViewModel.swift */; };
 		FB00144B2859FC1800943360 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB00144A2859FC1800943360 /* ProfileViewController.swift */; };
 		FB00144D2859FC7700943360 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB00144C2859FC7700943360 /* ProfileViewModel.swift */; };
 		FB00144F2859FCDD00943360 /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB00144E2859FCDD00943360 /* ProfileModel.swift */; };
@@ -397,6 +405,7 @@
 		045178F52992538800061683 /* DonateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonateView.swift; sourceTree = "<group>"; };
 		05DB33CA65A651FBB1ADAF46 /* FeedingConstraint+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "FeedingConstraint+Schema.swift"; path = "amplify/generated/models/FeedingConstraint+Schema.swift"; sourceTree = "<group>"; };
 		0CE3D1C1303F2703ACF8DF4E /* UserAttribute+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "UserAttribute+Schema.swift"; path = "amplify/generated/models/UserAttribute+Schema.swift"; sourceTree = "<group>"; };
+		0DA8469A487CB50658DD30BA /* QAMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QAMenuViewModel.swift; sourceTree = "<group>"; };
 		0EF6C479DB146110689D215F /* CategoryI18n+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "CategoryI18n+Schema.swift"; path = "amplify/generated/models/CategoryI18n+Schema.swift"; sourceTree = "<group>"; };
 		12662058C69A26CF52E46B66 /* AmplifyModels.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = AmplifyModels.swift; path = amplify/generated/models/AmplifyModels.swift; sourceTree = "<group>"; };
 		12E8D4947DDBC6278B003F58 /* RelationPetFeedingPoint+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "RelationPetFeedingPoint+Schema.swift"; path = "amplify/generated/models/RelationPetFeedingPoint+Schema.swift"; sourceTree = "<group>"; };
@@ -404,6 +413,7 @@
 		191D8CFF0903D9FAFD029EDD /* Point+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "Point+Schema.swift"; path = "amplify/generated/models/Point+Schema.swift"; sourceTree = "<group>"; };
 		1A66FE8EF8CD69BA7FC2D891 /* Medication+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "Medication+Schema.swift"; path = "amplify/generated/models/Medication+Schema.swift"; sourceTree = "<group>"; };
 		1A7300574E18A86484C884F8 /* Point.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Point.swift; path = amplify/generated/models/Point.swift; sourceTree = "<group>"; };
+		1B6D484AA45CA247CE5E38CE /* QAMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QAMenuViewController.swift; sourceTree = "<group>"; };
 		1EA61C9B5FAD8F3476DAD592 /* Question.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Question.swift; path = amplify/generated/models/Question.swift; sourceTree = "<group>"; };
 		20939F4A34A643E3BF8FFD44 /* Dev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Dev.xcconfig; sourceTree = "<group>"; };
 		2B2D0E8FFA2648BCBFB376D1 /* Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Test.xcconfig; sourceTree = "<group>"; };
@@ -411,6 +421,7 @@
 		353541A22B004F10D26B741A /* QuestionI18n+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "QuestionI18n+Schema.swift"; path = "amplify/generated/models/QuestionI18n+Schema.swift"; sourceTree = "<group>"; };
 		354FF144F7B1B50191F60634 /* Settings.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Settings.swift; path = amplify/generated/models/Settings.swift; sourceTree = "<group>"; };
 		3D8F2323D475DB12AA76C105 /* FeedingPointDetails.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = FeedingPointDetails.swift; path = amplify/generated/models/FeedingPointDetails.swift; sourceTree = "<group>"; };
+		40E79EAEE9F0028D2FD4552F /* QAMenuModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QAMenuModel.swift; sourceTree = "<group>"; };
 		47CE4BA48AE07A2C248C7246 /* RelationUserPet+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "RelationUserPet+Schema.swift"; path = "amplify/generated/models/RelationUserPet+Schema.swift"; sourceTree = "<group>"; };
 		4D6536D50A446F5742969183 /* LanguagesSetting+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "LanguagesSetting+Schema.swift"; path = "amplify/generated/models/LanguagesSetting+Schema.swift"; sourceTree = "<group>"; };
 		4D88428C28EF7C85C738BFBF /* Favourite+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "Favourite+Schema.swift"; path = "amplify/generated/models/Favourite+Schema.swift"; sourceTree = "<group>"; };
@@ -422,10 +433,12 @@
 		564A4FA9EA024444EA582791 /* FeedingUsers.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = FeedingUsers.swift; path = amplify/generated/models/FeedingUsers.swift; sourceTree = "<group>"; };
 		5A014CFAC080E8E6D9884035 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 		5CF1CE94A20FA3FBCCCD2841 /* AWSLanguage+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "AWSLanguage+Schema.swift"; path = "amplify/generated/models/AWSLanguage+Schema.swift"; sourceTree = "<group>"; };
+		5D5AC1C0BE7D820E81C86511 /* QAMenuAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QAMenuAssembler.swift; sourceTree = "<group>"; };
 		632E91C0D04C0BDB50D44C42 /* QuestionI18n.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = QuestionI18n.swift; path = amplify/generated/models/QuestionI18n.swift; sourceTree = "<group>"; };
 		67749AF51E578877476E4732 /* FeedingPointDetails+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "FeedingPointDetails+Schema.swift"; path = "amplify/generated/models/FeedingPointDetails+Schema.swift"; sourceTree = "<group>"; };
 		6918D9E98B7A31C94E11F61A /* Feeding.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Feeding.swift; path = amplify/generated/models/Feeding.swift; sourceTree = "<group>"; };
 		6A0B545C01B304B77CD48DF3 /* CategoryI18n.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = CategoryI18n.swift; path = amplify/generated/models/CategoryI18n.swift; sourceTree = "<group>"; };
+		6FC70F3C3F117C03DB094CB5 /* FeatureFlags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlags.swift; sourceTree = "<group>"; };
 		6FE750BC24EF1983DF08B736 /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = awsconfiguration.json; sourceTree = "<group>"; };
 		761104F96C616340746249C7 /* FeedingPointStatus.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = FeedingPointStatus.swift; path = amplify/generated/models/FeedingPointStatus.swift; sourceTree = "<group>"; };
 		78525B1D2958A24C006CE9BA /* FavouriteViewContentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteViewContentState.swift; sourceTree = "<group>"; };
@@ -629,6 +642,7 @@
 		A99BD777ACB782FC6228A40A /* Location+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "Location+Schema.swift"; path = "amplify/generated/models/Location+Schema.swift"; sourceTree = "<group>"; };
 		AB8E22FD5E13C0C519D96120 /* RelationPetFeedingPoint.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = RelationPetFeedingPoint.swift; path = amplify/generated/models/RelationPetFeedingPoint.swift; sourceTree = "<group>"; };
 		ABBF9FDBB1C957E6EDE156DC /* BankAccount+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "BankAccount+Schema.swift"; path = "amplify/generated/models/BankAccount+Schema.swift"; sourceTree = "<group>"; };
+		AD4DEFD3FF7A5886AC4C0471 /* UserDefaultFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultFlag.swift; sourceTree = "<group>"; };
 		AE4A511F0B4C7AA001F9ECC6 /* Feeding+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "Feeding+Schema.swift"; path = "amplify/generated/models/Feeding+Schema.swift"; sourceTree = "<group>"; };
 		B09771E8C4A7DB1F772B5CAE /* UserAttribute.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = UserAttribute.swift; path = amplify/generated/models/UserAttribute.swift; sourceTree = "<group>"; };
 		B3FD88DC75911C04106149D6 /* FeedingStatus.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = FeedingStatus.swift; path = amplify/generated/models/FeedingStatus.swift; sourceTree = "<group>"; };
@@ -730,7 +744,9 @@
 		E700F57F429C6E6593684341 /* Favourite.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Favourite.swift; path = amplify/generated/models/Favourite.swift; sourceTree = "<group>"; };
 		E7755CAA75F8797C1A590B38 /* Category+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "Category+Schema.swift"; path = "amplify/generated/models/Category+Schema.swift"; sourceTree = "<group>"; };
 		EEE732E81739360CA2DC5F8B /* CategoryTag.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = CategoryTag.swift; path = amplify/generated/models/CategoryTag.swift; sourceTree = "<group>"; };
+		F19613EA0BF980AE27CB3672 /* QAMenuContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QAMenuContract.swift; sourceTree = "<group>"; };
 		F51C75C31E8D0F3CD7FEA2BB /* RelationUserFeedingPoint+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "RelationUserFeedingPoint+Schema.swift"; path = "amplify/generated/models/RelationUserFeedingPoint+Schema.swift"; sourceTree = "<group>"; };
+		F5B99A2AAEE7D745ABE37F1F /* QAMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QAMenuView.swift; sourceTree = "<group>"; };
 		F69D5DD22AC8F6220ADD5221 /* FeedingHistory+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "FeedingHistory+Schema.swift"; path = "amplify/generated/models/FeedingHistory+Schema.swift"; sourceTree = "<group>"; };
 		FA41AA402B50E55E7CFDB6E9 /* AWSLanguage.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = AWSLanguage.swift; path = amplify/generated/models/AWSLanguage.swift; sourceTree = "<group>"; };
 		FA4AB87F5303920447B46AFE /* Caretaker+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "Caretaker+Schema.swift"; path = "amplify/generated/models/Caretaker+Schema.swift"; sourceTree = "<group>"; };
@@ -1002,6 +1018,7 @@
 				803DACA42981930200027575 /* About */,
 				045178E9299150D000061683 /* Donate */,
 				D20DBC8C299D40CD003E0668 /* FAQ */,
+				FF04A28525729D6146FDABA8 /* QAMenu */,
 			);
 			path = Submodules;
 			sourceTree = "<group>";
@@ -1618,6 +1635,7 @@
 				DB1F5904292637980047D4C5 /* DataStore */,
 				83C7A98128E429ED00F3D219 /* Profile */,
 				837F1FB128868C19001FABC5 /* Authentication */,
+				D9ABF347418A30FD7DFE0707 /* FeatureFlags */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1913,6 +1931,15 @@
 				D2656DC329A3D39E00B93C47 /* QuestionMapper.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		D9ABF347418A30FD7DFE0707 /* FeatureFlags */ = {
+			isa = PBXGroup;
+			children = (
+				6FC70F3C3F117C03DB094CB5 /* FeatureFlags.swift */,
+				AD4DEFD3FF7A5886AC4C0471 /* UserDefaultFlag.swift */,
+			);
+			path = FeatureFlags;
 			sourceTree = "<group>";
 		};
 		DB0D66BB2846676100930564 /* Common */ = {
@@ -2384,6 +2411,27 @@
 			path = Sourcery;
 			sourceTree = "<group>";
 		};
+		FD93340C2394838439D63501 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F5B99A2AAEE7D745ABE37F1F /* QAMenuView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		FF04A28525729D6146FDABA8 /* QAMenu */ = {
+			isa = PBXGroup;
+			children = (
+				FD93340C2394838439D63501 /* View */,
+				5D5AC1C0BE7D820E81C86511 /* QAMenuAssembler.swift */,
+				F19613EA0BF980AE27CB3672 /* QAMenuContract.swift */,
+				1B6D484AA45CA247CE5E38CE /* QAMenuViewController.swift */,
+				40E79EAEE9F0028D2FD4552F /* QAMenuModel.swift */,
+				0DA8469A487CB50658DD30BA /* QAMenuViewModel.swift */,
+			);
+			path = QAMenu;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2708,6 +2756,12 @@
 				835E14A028FDE79B0044EC2F /* SearchViewSection.swift in Sources */,
 				DB53DFD3291E803F004C86D1 /* AuthChannelEventHandling.swift in Sources */,
 				80138C12298196980010154A /* AboutAssembler.swift in Sources */,
+				203EF55CB01E2B54BFBFA1B1 /* QAMenuAssembler.swift in Sources */,
+				24F57B0CAF06FF35BBDD0500 /* QAMenuContract.swift in Sources */,
+				67046B80BCE44484DB7B028A /* QAMenuViewController.swift in Sources */,
+				5ED4A89CD448ABFE4F1B6491 /* QAMenuModel.swift in Sources */,
+				F868206E27E0C9481F7637C2 /* QAMenuViewModel.swift in Sources */,
+				DC0CD719E01FABD849A5A4C7 /* QAMenuView.swift in Sources */,
 				83541356290AED0700884430 /* PhoneCodesViewController.swift in Sources */,
 				D093069E2965934900BABB17 /* AttachPhotoViewController.swift in Sources */,
 				DBDB50182887FBBA003C6FF0 /* HomeContract.swift in Sources */,
@@ -2929,6 +2983,8 @@
 				8076E8A7298FBC070048B97C /* FeedingFinishedModel.swift in Sources */,
 				D09306AD2965939F00BABB17 /* AttachPhotoViewItem.swift in Sources */,
 				83D2BE8D299CF86400AA1BC4 /* FeedingPointsService.swift in Sources */,
+				619A314E6D156A34E3E329D8 /* FeatureFlags.swift in Sources */,
+				E026868097B2646644FA5859 /* UserDefaultFlag.swift in Sources */,
 				684CD5A61F9EB2D1B6901335 /* AWSLanguage+Schema.swift in Sources */,
 				0DB104BECA6F117154F8AB18 /* AWSLanguage.swift in Sources */,
 				DA7754CFE85DA01540F13750 /* AmplifyModels.swift in Sources */,
@@ -3181,8 +3237,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 20251112;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = animeal/res/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
@@ -3203,6 +3261,7 @@
 				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
