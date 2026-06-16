@@ -1465,6 +1465,14 @@ class ProfileViewItemMappableMock: ProfileViewItemMappable {
     }
 
 }
+class QAMenuModelProtocolMock: QAMenuModelProtocol {
+    var isLoadAllFeedingPointsEnabled: Bool {
+        get { return underlyingIsLoadAllFeedingPointsEnabled }
+        set(value) { underlyingIsLoadAllFeedingPointsEnabled = value }
+    }
+    var underlyingIsLoadAllFeedingPointsEnabled: Bool!
+
+}
 class QuestionMappableMock: QuestionMappable {
 
     // MARK: - mapQuestion

@@ -7,7 +7,7 @@ final class MoreModel: MoreModelProtocol {
 
     // MARK: - Requests
     func fetchActions() -> [MoreActionModel] {
-        return [
+        var actions = [
             MoreActionModel(type: .profilePage, title: L10n.More.profilePage),
             MoreActionModel(type: .faq, title: L10n.More.faq),
             MoreActionModel(type: .donate, title: L10n.More.donate),
@@ -16,5 +16,9 @@ final class MoreModel: MoreModelProtocol {
             MoreActionModel(type: .privacyPolicy, title: L10n.Action.privacyPolicy),
             MoreActionModel(type: .account, title: L10n.More.account)
         ]
+        #if DEBUG
+        actions.append(MoreActionModel(type: .qaMenu, title: L10n.More.qaMenu))
+        #endif
+        return actions
     }
 }

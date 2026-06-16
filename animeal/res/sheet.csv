@@ -16,7 +16,7 @@
 "profile.surname","","Surname","გვარი","","","","","","","","","","","","","","","","","","","","","","",""
 "profile.phoneNumber","","Phone Number","Ტელეფონის ნომერი","","","","","","","","","","","","","","","","","","","","","","",""
 "profile.email","","E-mail","ელ.ფოსტა","","","","","","","","","","","","","","","","","","","","","","",""
-"profile.consent","","You acknowledge that you are atleast 15 years old","","","","","","","","","","","","","","","","","","","","","","","",""
+"profile.consent","","You acknowledge that you are at least 15 years old","თქვენ ადასტურებთ, რომ ხართ მინიმუმ 15 წლის","","","","","","","","","","","","","","","","","","","","","","",""
 "profile.birthDate","","Birthdate","Დაბადების თარიღი","","","","","","","","","","","","","","","","","","","","","","",""
 "profile.edit","","Edit","რედაქტირება","","","","","","","","","","","","","","","","","","","","","","",""
 "profile.save","","Save","Გადარჩენა","","","","","","","","","","","","","","","","","","","","","","",""
@@ -28,7 +28,7 @@
 "profile.discardEdits.dialogHeader","","Do you really want to discard the changes?","ნამდვილად გსურთ ცვლილებების გაუქმება?","","","","","","","","","","","","","","","","","","","","","","",""
 "profile.errors.empty","","Field is empty","ველი ცარიელია","","","","","","","","","","","","","","","","","","","","","","",""
 "profile.errors.ageLimit","","The age limit is %@ years","ასაკობრივი ზღვარი არის %@ წელი","","","","","","","","","","","","","","","","","","","","","","",""
-"profile.errors.incorrectEmailAddress","","Please enter a valid email address","","","","","","","","","","","","","","","","","","","","","","","",""
+"profile.errors.incorrectEmailAddress","","Please enter a valid email address","გთხოვთ, შეიყვანოთ სწორი ელფოსტის მისამართი","","","","","","","","","","","","","","","","","","","","","","",""
 "profile.errors.incorrectFormat","","Format is incorrect","ფორმატი არასწორია","","","","","","","","","","","","","","","","","","","","","","",""
 "profile.errors.incorrectCharactersLength","","Length must be between 2 and 35","სიგრძე უნდა იყოს 2-დან 35-მდე","","","","","","","","","","","","","","","","","","","","","","",""
 "profile.errors.incorrectCharacters","","Must contain only letters","უნდა შეიცავდეს მხოლოდ ასოებს","","","","","","","","","","","","","","","","","","","","","","",""
@@ -113,10 +113,15 @@ Please contact us at %@","ვერ იპოვეთ თქვენი შე
 "loginScreen.continueAsGuest","","Continue as a Guest","შესვლა სტუმრად","","","","","","","","","","","","","","","","","","","","","","",""
 "loginScreen.registerOrLogin","","You're just one step away from joining our community of heroes! By registering or logging in, you can actively contribute to feeding and protecting these amazing animals.
 
-Together, we can ensure they thrive in a safe and healthy environment.","","","","","","","","","","","","","","","","","","","","","","","",""
-"action.register","","Register/Log-in","","","","","","","","","","","","","","","","","","","","","","","",""
-"action.termsAndConditions","","Terms & Conditions","","","","","","","","","","","","","","","","","","","","","","","",""
-"action.privacyPolicy","","Privacy Policy","","","","","","","","","","","","","","","","","","","","","","","",""
-"action.acknowledgeTCandPP","","By continuing, you agree to Animeal's Terms & Conditions and Privacy Policy","","","","","","","","","","","","","","","","","","","","","","","",""
+Together, we can ensure they thrive in a safe and healthy environment.","თქვენ მხოლოდ ერთი ნაბიჯით ხართ დაშორებული ჩვენი გმირების საზოგადოებაში გაწევრიანებისგან! რეგისტრაციით ან შესვლით შეგეძლებათ აქტიურად შეიტანოთ წვლილი ამ საოცარი
+
+ცხოველების კვებასა და დაცვაში.\n\nერთად, ჩვენ შევძლებთ უზრუნველვყოთ მათი არსებობა უსაფრთხო და ჯანსაღ გარემოში.","","","","","","","","","","","","","","","","","","","","","","",""
+"action.register","","Register/Log-in","რეგისტრაცია/შესვლა","","","","","","","","","","","","","","","","","","","","","","",""
+"action.termsAndConditions","","Terms & Conditions","წესები და პირობები","","","","","","","","","","","","","","","","","","","","","","",""
+"action.privacyPolicy","","Privacy Policy","კონფიდენციალურობის პოლიტიკა","","","","","","","","","","","","","","","","","","","","","","",""
+"action.acknowledgeTCandPP","","By continuing, you agree to Animeal's Terms & Conditions and Privacy Policy","გაგრძელებით, თქვენ ეთანხმებით Animeal-ის წესებსა და პირობებს და კონფიდენციალურობის პოლიტიკას","","","","","","","","","","","","","","","","","","","","","","",""
 "text.header.assignedModerators","","Assigned Moderators","დანიშნული მოდერატორები","","","","","","","","","","","","","","","","","","","","","","",""
 "action.showAll","","Show All (%@)","ყველას ნახვა (%@)","","","","","","","","","","","","","","","","","","","","","","",""
+"more.qaMenu","","QA Menu","QA მენიუ","","","","","","","","","","","","","","","","","","","","","","",""
+"qaMenu.title","","QA Menu","QA მენიუ","","","","","","","","","","","","","","","","","","","","","","",""
+"qaMenu.loadAllFeedingPoints","","Load all feeding points","ყველა კვების წერტილის ჩატვირთვა","","","","","","","","","","","","","","","","","","","","","","",""

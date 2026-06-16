@@ -409,7 +409,10 @@ private extension HomeViewModel {
     }
 
     private func makeFetchBounds(from bounds: BoundsInput) -> BoundsInput {
-        bounds.clamped(minimumRadius: Constants.minimumFetchRadius)
+        guard !FeatureFlags.isLoadAllFeedingPointsEnabled else {
+            return .allGeorgia
+        }
+        return bounds.clamped(minimumRadius: Constants.minimumFetchRadius)
             .expanded(by: Constants.bufferFactor)
     }
 }

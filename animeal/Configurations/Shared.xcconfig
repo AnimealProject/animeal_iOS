@@ -1,3 +1,7 @@
 DEVELOPMENT_TEAM = 5HRLMFUWVY
 PRODUCT_BUNDLE_IDENTIFIER = com.serhiiterokhyn.animeal.demo
 INFOPLIST_KEY_CFBundleDisplayName = AnimealDemo
+
+// ─── Feature flags ───────────────────────────────────────────────────────────
+// Default value of FeatureFlags.isLoadAllFeedingPointsEnabled for this build configuration.
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) LOAD_ALL_FEEDING_POINTS

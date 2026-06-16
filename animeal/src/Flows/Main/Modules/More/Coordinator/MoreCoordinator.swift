@@ -87,6 +87,8 @@ extension MoreCoordinator: MoreCoordinatable {
             openSafariView(Constants.URLs.privacyPolicy)
         case .account:
             viewController = MorePartitionModuleAssembler(coordinator: self).assemble(.account)
+        case .qaMenu:
+            viewController = QAMenuModuleAssembler.assemble(coordinator: self)
         }
 
         if let viewController {
