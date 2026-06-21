@@ -18,7 +18,7 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
     var onMediaContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointMediaContent) -> Void)?
     var onModeratorsHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointModerators) -> Void)?
     var onFavoriteMutationFailed: (() -> Void)?
-    var onFavoriteMutation: (() -> Void)?
+    var onFavoriteMutation: ((Bool) -> Void)?
     var onRequestLocationAccess: (() -> Void)?
     var historyInitialized = false
     var moderatorsInitialized = false
@@ -82,7 +82,7 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
         model.onFeedingPointChange = { [weak self] content, mutateFavorites in
             DispatchQueue.main.async {
                 if mutateFavorites {
-                    self?.updateFavorites()
+                    self?.updateFavorites(isFavorite: content.isFavorite)
                 } else {
                     self?.updateContent(content)
                 }
@@ -141,8 +141,8 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
         self.allModerators = moderators
     }
 
-    private func updateFavorites() {
-        onFavoriteMutation?()
+    private func updateFavorites(isFavorite: Bool) {
+        onFavoriteMutation?(isFavorite)
     }
 
     private func updateFeedingHistoryContent(_ modelContent: [FeedingPointDetailsModel.Feeder]) {

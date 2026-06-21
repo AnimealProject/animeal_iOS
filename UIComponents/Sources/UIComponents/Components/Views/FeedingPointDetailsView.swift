@@ -40,6 +40,10 @@ public final class FeedingPointDetailsView: UIView {
         imageView.isHighlighted.toggle()
     }
 
+    public func setHighlightState(_ highlighted: Bool) {
+        imageView.isHighlighted = highlighted
+    }
+
     public func setIcon(_ icon: UIImage) {
         infoView.setIcon(icon)
     }
