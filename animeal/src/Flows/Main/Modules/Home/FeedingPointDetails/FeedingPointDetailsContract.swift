@@ -49,7 +49,7 @@ protocol FeedingPointDetailsModelProtocol: AnyObject {
     func fetchFeedingPoint(_ completion: ((FeedingPointDetailsModel.PointContent) -> Void)?)
     func fetchFeedingHistory(_ completion: (([FeedingPointDetailsModel.Feeder]) -> Void)?)
     func fetchMediaContent(key: String, completion: ((Data?) -> Void)?)
-    func mutateFavorite() async throws -> Bool
+    func setFavorite(_ isFavorite: Bool) async throws
 }
 
 // sourcery: AutoMockable

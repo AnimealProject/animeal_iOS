@@ -15,7 +15,7 @@ final class FavouritesViewModel: FavouritesViewModelLifeCycle, FavouritesViewInt
     private let mapper: FavouriteViewItemMappable
 
     // MARK: - Cancellables
-    var cancellables = Set<AnyCancellable>()
+    private var cancellables = Set<AnyCancellable>()
 
     // MARK: - State
     var onErrorIsNeededToDisplay: ((String) -> Void)?
@@ -31,6 +31,14 @@ final class FavouritesViewModel: FavouritesViewModelLifeCycle, FavouritesViewInt
         self.coordinator = coordinator
         self.mapper = mapper
         self.model = model
+        bind()
+    }
+
+    // MARK: - Binding
+    private func bind() {
+        model.favouritesDidChange
+            .sink { [weak self] in self?.load(showLoading: false) }
+            .store(in: &cancellables)
     }
 
     // MARK: - Life cycle

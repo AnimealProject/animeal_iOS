@@ -581,26 +581,25 @@ class FeedingPointDetailsModelProtocolMock: FeedingPointDetailsModelProtocol {
         fetchMediaContentKeyCompletionClosure?(key, completion)
     }
 
-    // MARK: - mutateFavorite
+    // MARK: - setFavorite
 
-    var mutateFavoriteThrowableError: Error?
-    var mutateFavoriteCallsCount = 0
-    var mutateFavoriteCalled: Bool {
-        return mutateFavoriteCallsCount > 0
+    var setFavoriteThrowableError: Error?
+    var setFavoriteCallsCount = 0
+    var setFavoriteCalled: Bool {
+        return setFavoriteCallsCount > 0
     }
-    var mutateFavoriteReturnValue: Bool!
-    var mutateFavoriteClosure: (() async throws -> Bool)?
+    var setFavoriteReceivedIsFavorite: Bool?
+    var setFavoriteReceivedInvocations: [Bool] = []
+    var setFavoriteClosure: ((Bool) async throws -> Void)?
 
-    func mutateFavorite() async throws -> Bool {
-        if let error = mutateFavoriteThrowableError {
+    func setFavorite(_ isFavorite: Bool) async throws {
+        if let error = setFavoriteThrowableError {
             throw error
         }
-        mutateFavoriteCallsCount += 1
-        if let mutateFavoriteClosure = mutateFavoriteClosure {
-            return try await mutateFavoriteClosure()
-        } else {
-            return mutateFavoriteReturnValue
-        }
+        setFavoriteCallsCount += 1
+        setFavoriteReceivedIsFavorite = isFavorite
+        setFavoriteReceivedInvocations.append(isFavorite)
+        try await setFavoriteClosure?(isFavorite)
     }
 
 }

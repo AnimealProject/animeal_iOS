@@ -1,5 +1,6 @@
 import Foundation
 import CoreLocation
+import Common
 import UIComponents
 import Services
 
@@ -26,6 +27,7 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
     // TODO: Move this strange logic to model
     let isOverMap: Bool
     private var shouldShowOnMap = true
+    private let favoriteState: AsyncValue<Bool>
     var showOnMapAction: ButtonView.Model? {
         if isOverMap { return .none }
 
@@ -55,6 +57,9 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
         self.contentMapper = contentMapper
         self.coordinator = coordinator
         self.locationService = locationService
+        self.favoriteState = AsyncValue<Bool>(false)
+        favoriteState.onConfirmed = { [weak self] isFavorite in self?.onFavoriteMutation?(isFavorite) }
+        favoriteState.onReverted = { [weak self] in self?.onFavoriteMutationFailed?() }
         setup()
     }
 
@@ -81,11 +86,8 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
         }
         model.onFeedingPointChange = { [weak self] content, mutateFavorites in
             DispatchQueue.main.async {
-                if mutateFavorites {
-                    self?.updateFavorites(isFavorite: content.isFavorite)
-                } else {
-                    self?.updateContent(content)
-                }
+                guard !mutateFavorites else { return }
+                self?.updateContent(content)
             }
         }
     }
@@ -102,6 +104,7 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
     }
 
     private func updateContent(_ modelContent: FeedingPointDetailsModel.PointContent) {
+        favoriteState.update(confirmed: modelContent.content.isFavorite)
         shouldShowOnMap = modelContent.action.isEnabled
         loadMediaContent(modelContent.content.header.cover)
         onContentHaveBeenPrepared?(contentMapper.mapFeedingPoint(modelContent))
@@ -141,10 +144,6 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
         self.allModerators = moderators
     }
 
-    private func updateFavorites(isFavorite: Bool) {
-        onFavoriteMutation?(isFavorite)
-    }
-
     private func updateFeedingHistoryContent(_ modelContent: [FeedingPointDetailsModel.Feeder]) {
         let mappedContent = contentMapper.mapFeedingHistory(modelContent)
         onFeedingHistoryHaveBeenPrepared?(mappedContent)
@@ -173,16 +172,9 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
             }
 
         case .tapFavorite:
-            Task { @MainActor [weak self] in
-                guard let self else { return }
-                do {
-                    let success = try await model.mutateFavorite()
-                    if !success {
-                        self.onFavoriteMutationFailed?()
-                    }
-                } catch {
-                    self.onFavoriteMutationFailed?()
-                }
+            favoriteState.mutate(to: !favoriteState.intended) { [weak self] desired in
+                try await self?.model.setFavorite(desired)
+                return desired
             }
 
         case .tapShowOnMap:

@@ -1,4 +1,5 @@
 import Foundation
+import Combine
 
 // MARK: - View
 @MainActor
@@ -9,6 +10,7 @@ protocol FavouritesViewModelOutput: AnyObject {
 
 // MARK: - Model
 protocol FavouritesModelProtocol: AnyObject {
+    var favouritesDidChange: AnyPublisher<Void, Never> { get }
     func fetchFavourites(force: Bool) async throws -> [FavouritesModel.FavouriteContent]
     func fetchMediaContent(key: String, completion: ((Data?) -> Void)?)
 }
