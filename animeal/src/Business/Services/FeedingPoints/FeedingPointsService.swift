@@ -339,6 +339,8 @@ private extension FeedingPointsService {
     }
 
     func updateFeedingPoint(_ favoriteFeedingPoint: FavouriteFeedingPoint) {
+        updateFavoritePoints(favoriteFeedingPoint)
+
         guard let index = innerFeedingPoints.value.firstIndex(
             where: { $0.identifier == favoriteFeedingPoint.identifier }
         )
@@ -349,6 +351,27 @@ private extension FeedingPointsService {
         var feedingPoint = innerFeedingPoints.value[index]
         feedingPoint.isFavorite = favoriteFeedingPoint.isFavorite
         replaceFeedingPoint(feedingPoint, at: index)
+    }
+
+    func updateFavoritePoints(_ favoriteFeedingPoint: FavouriteFeedingPoint) {
+        var favorites = innerFavoritePoints.value
+        let index = favorites.firstIndex { $0.identifier == favoriteFeedingPoint.identifier }
+
+        if favoriteFeedingPoint.isFavorite {
+            if let index {
+                favorites[index].isFavorite = true
+            } else if let point = innerFeedingPoints.value.first(
+                where: { $0.identifier == favoriteFeedingPoint.identifier }
+            ) {
+                var favoritePoint = point
+                favoritePoint.isFavorite = true
+                favorites.append(favoritePoint)
+            }
+        } else if let index {
+            favorites.remove(at: index)
+        }
+
+        innerFavoritePoints.send(favorites)
     }
 
     func replaceFeedingPoint(_ feedingPoint: FullFeedingPoint, at index: Int) {

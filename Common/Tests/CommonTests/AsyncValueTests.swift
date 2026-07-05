@@ -1,4 +1,5 @@
 import Testing
+import Foundation.NSURLError
 @testable import Common
 
 @MainActor
@@ -12,7 +13,10 @@ struct AsyncValueTests {
         var received: [Bool] = []
         let sut = AsyncValue(false)
 
-        sut.mutate(to: true) { v in received.append(v); return v }
+        sut.mutate(to: true) { value in
+            received.append(value)
+            return value
+        }
 
         try await Task.sleep(for: .milliseconds(20))
         #expect(received == [true])
@@ -34,7 +38,7 @@ struct AsyncValueTests {
         sut.mutate(to: true, via: slow)
         try await Task.sleep(for: .milliseconds(10))
         sut.mutate(to: false, via: slow)
-        sut.mutate(to: true,  via: slow)
+        sut.mutate(to: true, via: slow)
         sut.mutate(to: false, via: slow)
 
         try await Task.sleep(for: .milliseconds(300))
@@ -52,10 +56,10 @@ struct AsyncValueTests {
             return $0
         }
 
-        sut.mutate(to: true,  via: slow)
+        sut.mutate(to: true, via: slow)
         try await Task.sleep(for: .milliseconds(10))
         sut.mutate(to: false, via: slow)
-        sut.mutate(to: true,  via: slow)  // pending = true = what first request confirms
+        sut.mutate(to: true, via: slow)  // pending = true = what first request confirms
 
         try await Task.sleep(for: .milliseconds(300))
         #expect(count == 1)
@@ -84,7 +88,7 @@ struct AsyncValueTests {
             return $0
         }
 
-        sut.mutate(to: true,  via: slow)
+        sut.mutate(to: true, via: slow)
         try await Task.sleep(for: .milliseconds(10))
         sut.mutate(to: false, via: slow)
         #expect(sut.intended == false)
@@ -171,7 +175,7 @@ struct AsyncValueTests {
             return $0
         }
 
-        sut.mutate(to: true,  via: slow)
+        sut.mutate(to: true, via: slow)
         try await Task.sleep(for: .milliseconds(10))
         sut.mutate(to: false, via: slow)
 
