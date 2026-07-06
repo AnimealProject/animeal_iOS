@@ -6,6 +6,8 @@ import Combine
 protocol FavouritesViewModelOutput: AnyObject {
     func populateFavourites(_ viewState: FavouriteViewContentState)
     func applyFavouriteMediaContent(_ content: FavouriteMediaContent)
+    func setLoading(_ isLoading: Bool)
+    func showReloadState()
 }
 
 // MARK: - Model

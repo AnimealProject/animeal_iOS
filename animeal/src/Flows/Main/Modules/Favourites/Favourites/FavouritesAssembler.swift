@@ -22,6 +22,12 @@ final class FavouritesModuleAssembler {
         viewModel.onMediaContentHaveBeenPrepared = { [weak view] content in
             view?.applyFavouriteMediaContent(content)
         }
+        viewModel.onLoadingStateChanged = { [weak view] isLoading in
+            view?.setLoading(isLoading)
+        }
+        viewModel.onErrorIsNeededToDisplay = { [weak view] _ in
+            view?.showReloadState()
+        }
 
         return view
     }

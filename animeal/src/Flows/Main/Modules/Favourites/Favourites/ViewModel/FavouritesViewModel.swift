@@ -21,6 +21,7 @@ final class FavouritesViewModel: FavouritesViewModelLifeCycle, FavouritesViewInt
     var onErrorIsNeededToDisplay: ((String) -> Void)?
     var onContentHaveBeenPrepared: ((FavouriteViewContentState) -> Void)?
     var onMediaContentHaveBeenPrepared: ((FavouriteMediaContent) -> Void)?
+    var onLoadingStateChanged: ((Bool) -> Void)?
 
     // MARK: - Initialization
     init(
@@ -44,15 +45,17 @@ final class FavouritesViewModel: FavouritesViewModelLifeCycle, FavouritesViewInt
     // MARK: - Life cycle
     func load(showLoading: Bool) {
         if showLoading {
+            onLoadingStateChanged?(true)
             shimmerScheduler.start()
             updateViewItems { [weak self] in
                 self?.updateViewLoadingItems() ?? []
             }
         }
-        updateViewItems { [weak self] in
+        updateViewItems(isBlocking: showLoading) { [weak self] in
             guard let self else { return [] }
+            let items = try await self.updateViewContentItems(force: showLoading)
             self.shimmerScheduler.stop()
-            return try await self.updateViewContentItems(force: showLoading)
+            return items
         }
     }
 
@@ -83,9 +86,18 @@ final class FavouritesViewModel: FavouritesViewModelLifeCycle, FavouritesViewInt
     }
 
     private func updateViewItems(
+        isBlocking: Bool = false,
         _ operation: @escaping () async throws -> [FavouriteItem]
     ) {
         Task { [weak self] in
+            defer {
+                if isBlocking {
+                    DispatchQueue.main.async { [weak self] in
+                        self?.onLoadingStateChanged?(false)
+                    }
+                }
+            }
+
             do {
                 let viewItems = try await operation()
 
