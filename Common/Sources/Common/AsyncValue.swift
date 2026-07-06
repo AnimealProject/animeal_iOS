@@ -59,24 +59,28 @@ public final class AsyncValue<T: Equatable> {
 
     // MARK: - Private
 
-    private func perform(_ target: T, executor: @escaping (T) async throws -> T) async {
-        do {
-            let result = try await executor(target)
-            confirmed = result
-            currentTarget = nil
-            onConfirmed?(result)
-        } catch {
-            currentTarget = nil
-            onReverted?()
-        }
+    private func perform(_ initialTarget: T, executor: @escaping (T) async throws -> T) async {
+        var target = initialTarget
+        while true {
+            do {
+                let result = try await executor(target)
+                confirmed = result
+                currentTarget = nil
+                onConfirmed?(result)
+            } catch {
+                currentTarget = nil
+                onReverted?()
+            }
 
-        if let pending = pendingValue, pending != confirmed {
+            guard let pending = pendingValue, pending != confirmed else {
+                pendingValue = nil
+                currentTarget = nil
+                break
+            }
+
             pendingValue = nil
             currentTarget = pending
-            await perform(pending, executor: executor)
-        } else {
-            pendingValue = nil
-            currentTarget = nil
+            target = pending
         }
     }
 }
