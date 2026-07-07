@@ -178,21 +178,22 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
 
     @discardableResult
     func fetch(byIdentifier identifier: String) async throws -> FullFeedingPoint {
-        guard let index = readState({ $0.innerFeedingPoints.firstIndex { $0.identifier == identifier } })
+        guard let oldPoint = readState({ $0.innerFeedingPoints.first { $0.identifier == identifier } })
         else {
             throw "[FeedingPointsService] There is no feeding point for the provided identifier".asBaseError()
         }
 
-        let oldPoint = readState { $0.innerFeedingPoints[index] }
         guard let point = try await networkService.query(request: .get(FeedingPoint.self, byId: identifier))
             .map({ FullFeedingPoint(feedingPoint: $0, isFavorite: oldPoint.isFavorite) })
         else {
             throw "[FeedingPointsService] There is no feeding point for the provided identifier".asBaseError()
         }
 
-        replaceFeedingPoint(point, at: index)
+        guard let updated = replaceFeedingPoint(point) else {
+            throw "[FeedingPointsService] Feeding point was removed while it was being updated".asBaseError()
+        }
 
-        return point
+        return updated
     }
 
     func canBookFeedingPoint(for identifier: String) async throws -> Bool {
@@ -346,12 +347,9 @@ private extension FeedingPointsService {
     }
 
     func updateFeedingPoint(_ feedingPoint: FullFeedingPoint) {
-        guard let index = readState({ $0.innerFeedingPoints.firstIndex { $0.identifier == feedingPoint.identifier } })
-        else {
-            return logError("[FeedingPointsService] Feeding point cannot be updated due to absence.")
+        if replaceFeedingPoint(feedingPoint) == nil {
+            logError("[FeedingPointsService] Feeding point cannot be updated due to absence.")
         }
-
-        replaceFeedingPoint(feedingPoint, at: index)
     }
 
     func updateFeedingPoint(_ favoriteFeedingPoint: FavouriteFeedingPoint) {
@@ -390,8 +388,14 @@ private extension FeedingPointsService {
         }
     }
 
-    func replaceFeedingPoint(_ feedingPoint: FullFeedingPoint, at index: Int) {
-        let updatedPoint: FullFeedingPoint = mutateState { state in
+    @discardableResult
+    func replaceFeedingPoint(_ feedingPoint: FullFeedingPoint) -> FullFeedingPoint? {
+        let updatedPoint: FullFeedingPoint? = mutateState { state in
+            guard let index = state.innerFeedingPoints.firstIndex(where: {
+                $0.identifier == feedingPoint.identifier
+            }) else {
+                return nil
+            }
             var feedingPoint = feedingPoint
             feedingPoint.imageURL = state.innerFeedingPoints[index].imageURL
             state.innerFeedingPoints.remove(at: index)
@@ -399,7 +403,11 @@ private extension FeedingPointsService {
             return feedingPoint
         }
 
-        innerChangedFeedingPoint.send(updatedPoint)
+        if let updatedPoint {
+            innerChangedFeedingPoint.send(updatedPoint)
+        }
+
+        return updatedPoint
     }
 
     // Plain mutual exclusion — always exclusive, no reader/writer distinction. Given how

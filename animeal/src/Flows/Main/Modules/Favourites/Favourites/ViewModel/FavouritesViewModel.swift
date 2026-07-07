@@ -53,9 +53,8 @@ final class FavouritesViewModel: FavouritesViewModelLifeCycle, FavouritesViewInt
         }
         updateViewItems(isBlocking: showLoading) { [weak self] in
             guard let self else { return [] }
-            let items = try await self.updateViewContentItems(force: showLoading)
-            self.shimmerScheduler.stop()
-            return items
+            defer { self.shimmerScheduler.stop() }
+            return try await self.updateViewContentItems(force: showLoading)
         }
     }
 
