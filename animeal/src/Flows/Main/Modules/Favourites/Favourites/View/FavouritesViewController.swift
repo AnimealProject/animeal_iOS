@@ -10,6 +10,31 @@ final class FavouritesViewController: UIViewController {
     private let tableView = UITableView(frame: .zero, style: .grouped)
     private lazy var emptyView = EmptyView()
 
+    private enum ReloadButtonConstants {
+        static let size: CGFloat = 44.0
+    }
+
+    private lazy var reloadButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(Asset.Images.refreshIcon.image.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.tintColor = designEngine.colors.accent
+        button.contentHorizontalAlignment = .fill
+        button.contentVerticalAlignment = .fill
+        button.imageView?.contentMode = .scaleAspectFit
+        button.addTarget(self, action: #selector(reloadButtonTapped), for: .touchUpInside)
+        return button
+    }()
+
+    private lazy var reloadView: UIView = {
+        let container = UIView()
+        container.addSubview(reloadButton.prepareForAutoLayout())
+        reloadButton.centerXAnchor ~= container.centerXAnchor
+        reloadButton.centerYAnchor ~= container.centerYAnchor
+        reloadButton.widthAnchor ~= ReloadButtonConstants.size
+        reloadButton.heightAnchor ~= ReloadButtonConstants.size
+        return container
+    }()
+
     private var _favouriteItems = [FavouriteItem]()
     var favouriteItems: [FavouriteItem] {
         get {
@@ -42,6 +67,10 @@ final class FavouritesViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        viewModel.load()
+    }
+
+    @objc private func reloadButtonTapped() {
         viewModel.load()
     }
 
@@ -109,6 +138,15 @@ extension FavouritesViewController: FavouritesViewModelOutput {
         ) as? FavouriteItemCell
         else { return }
         cell.setIcon(content.favouriteIcon)
+    }
+
+    func setLoading(_ isLoading: Bool) {
+        tableView.isUserInteractionEnabled = !isLoading
+    }
+
+    func showReloadState() {
+        tableView.backgroundView = reloadView
+        favouriteItems = []
     }
 }
 

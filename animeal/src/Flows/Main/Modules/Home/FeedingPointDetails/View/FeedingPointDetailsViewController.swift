@@ -75,8 +75,8 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
             self?.applyFavoriteMutationFailed()
         }
 
-        viewModel.onFavoriteMutation = { [weak self] in
-            self?.applyFavoriteMutation()
+        viewModel.onFavoriteMutation = { [weak self] isFavorite in
+            self?.applyFavoriteMutation(isFavorite: isFavorite)
         }
 
         viewModel.onRequestLocationAccess = { [weak self] in
@@ -199,10 +199,8 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
         pointDetailsView.toggleHighlightState()
     }
 
-    func applyFavoriteMutation() {
-        pointDetailsView.didTapOnFavorite = { [weak self] in
-            self?.viewModel.handleActionEvent(.tapFavorite)
-        }
+    func applyFavoriteMutation(isFavorite: Bool) {
+        pointDetailsView.setHighlightState(isFavorite)
     }
 
     func applyFeedingPointContent(

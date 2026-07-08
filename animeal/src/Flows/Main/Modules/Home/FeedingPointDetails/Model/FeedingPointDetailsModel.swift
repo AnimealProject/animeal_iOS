@@ -125,16 +125,12 @@ final class FeedingPointDetailsModel: FeedingPointDetailsModelProtocol, FeedingP
             .map { FeedingPointDetailsModel.Moderator(name: $0.name) }
     }
 
-    func mutateFavorite() async throws -> Bool {
-        guard let feedingPoint = cachedFeedingPoint else {
-            return false
-        }
-        if feedingPoint.isFavorite {
-            try await context.feedingPointsService.deleteFromFavorites(byIdentifier: feedingPointId)
-        } else {
+    func setFavorite(_ isFavorite: Bool) async throws {
+        if isFavorite {
             try await context.feedingPointsService.addToFavorites(byIdentifier: feedingPointId)
+        } else {
+            try await context.feedingPointsService.deleteFromFavorites(byIdentifier: feedingPointId)
         }
-        return true
     }
 
     func fetchMediaContent(key: String, completion: ((Data?) -> Void)?) {

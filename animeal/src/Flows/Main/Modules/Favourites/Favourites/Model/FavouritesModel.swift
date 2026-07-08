@@ -1,4 +1,5 @@
 import Foundation
+import Combine
 import Services
 import Amplify
 import AWSDataStorePlugin
@@ -11,6 +12,14 @@ final class FavouritesModel: FavouritesModelProtocol {
     // MARK: - Private properties
     private let context: Context
     private let mapper: FavouriteModelMappable
+
+    // MARK: - FavouritesModelProtocol
+    var favouritesDidChange: AnyPublisher<Void, Never> {
+        context.feedingPointsService.changedFeedingPoint
+            .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
+            .map { _ in () }
+            .eraseToAnyPublisher()
+    }
 
     // MARK: - Initialization
     init(

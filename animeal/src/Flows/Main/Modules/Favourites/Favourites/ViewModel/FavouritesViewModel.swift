@@ -15,12 +15,13 @@ final class FavouritesViewModel: FavouritesViewModelLifeCycle, FavouritesViewInt
     private let mapper: FavouriteViewItemMappable
 
     // MARK: - Cancellables
-    var cancellables = Set<AnyCancellable>()
+    private var cancellables = Set<AnyCancellable>()
 
     // MARK: - State
     var onErrorIsNeededToDisplay: ((String) -> Void)?
     var onContentHaveBeenPrepared: ((FavouriteViewContentState) -> Void)?
     var onMediaContentHaveBeenPrepared: ((FavouriteMediaContent) -> Void)?
+    var onLoadingStateChanged: ((Bool) -> Void)?
 
     // MARK: - Initialization
     init(
@@ -31,19 +32,28 @@ final class FavouritesViewModel: FavouritesViewModelLifeCycle, FavouritesViewInt
         self.coordinator = coordinator
         self.mapper = mapper
         self.model = model
+        bind()
+    }
+
+    // MARK: - Binding
+    private func bind() {
+        model.favouritesDidChange
+            .sink { [weak self] in self?.load(showLoading: false) }
+            .store(in: &cancellables)
     }
 
     // MARK: - Life cycle
     func load(showLoading: Bool) {
         if showLoading {
+            onLoadingStateChanged?(true)
             shimmerScheduler.start()
             updateViewItems { [weak self] in
                 self?.updateViewLoadingItems() ?? []
             }
         }
-        updateViewItems { [weak self] in
+        updateViewItems(isBlocking: showLoading) { [weak self] in
             guard let self else { return [] }
-            self.shimmerScheduler.stop()
+            defer { self.shimmerScheduler.stop() }
             return try await self.updateViewContentItems(force: showLoading)
         }
     }
@@ -75,9 +85,18 @@ final class FavouritesViewModel: FavouritesViewModelLifeCycle, FavouritesViewInt
     }
 
     private func updateViewItems(
+        isBlocking: Bool = false,
         _ operation: @escaping () async throws -> [FavouriteItem]
     ) {
         Task { [weak self] in
+            defer {
+                if isBlocking {
+                    DispatchQueue.main.async { [weak self] in
+                        self?.onLoadingStateChanged?(false)
+                    }
+                }
+            }
+
             do {
                 let viewItems = try await operation()
 

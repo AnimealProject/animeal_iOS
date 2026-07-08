@@ -32,7 +32,7 @@ protocol FeedingPointDetailsViewState: AnyObject {
     var onMediaContentHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointMediaContent) -> Void)? { get set }
     var onModeratorsHaveBeenPrepared: ((FeedingPointDetailsViewMapper.FeedingPointModerators) -> Void)? { get set }
     var onFavoriteMutationFailed: (() -> Void)? { get set }
-    var onFavoriteMutation: (() -> Void)? { get set }
+    var onFavoriteMutation: ((Bool) -> Void)? { get set }
     var showOnMapAction: ButtonView.Model? { get }
     var shimmerScheduler: ShimmerViewScheduler { get }
     var historyInitialized: Bool { get }
@@ -49,7 +49,7 @@ protocol FeedingPointDetailsModelProtocol: AnyObject {
     func fetchFeedingPoint(_ completion: ((FeedingPointDetailsModel.PointContent) -> Void)?)
     func fetchFeedingHistory(_ completion: (([FeedingPointDetailsModel.Feeder]) -> Void)?)
     func fetchMediaContent(key: String, completion: ((Data?) -> Void)?)
-    func mutateFavorite() async throws -> Bool
+    func setFavorite(_ isFavorite: Bool) async throws
 }
 
 // sourcery: AutoMockable

@@ -71,7 +71,20 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
         static let favouritesLimit = 15
     }
 
+    private struct InnerState {
+        var innerFeedingPoints = [FullFeedingPoint]()
+        var innerFavoritePoints = [FullFeedingPoint]()
+    }
+
+    // MARK: - State
+    // Source of truth. All access goes through readState/mutateState — never touch
+    // innerState or the lock directly anywhere else in this file.
+    private let lock = NSLock()
+    private var innerState = InnerState()
+
     // MARK: - Subjects
+    // Broadcast-only mirrors of innerState — written to exclusively from mutateState,
+    // never via a direct .send() elsewhere.
     private let innerFeedingPoints = CurrentValueSubject<[FullFeedingPoint], Never>([])
     private let innerFavoritePoints = CurrentValueSubject<[FullFeedingPoint], Never>([])
     private let innerChangedFeedingPoint = PassthroughSubject<FullFeedingPoint, Never>()
@@ -93,7 +106,11 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
 
     // MARK: - Accesible properties
     var storedFeedingPoints: [FullFeedingPoint] {
-        Self.merge(viewport: innerFeedingPoints.value, favorites: innerFavoritePoints.value)
+        readState { Self.merge(viewport: $0.innerFeedingPoints, favorites: $0.innerFavoritePoints) }
+    }
+
+    var storedFavouriteFeedingPoints: [FullFeedingPoint] {
+        readState { $0.innerFavoritePoints }
     }
 
     private static func merge(viewport: [FullFeedingPoint], favorites: [FullFeedingPoint]) -> [FullFeedingPoint] {
@@ -106,10 +123,6 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
         }
         result += favorites.filter { !viewportIds.contains($0.identifier) }
         return result
-    }
-
-    var storedFavouriteFeedingPoints: [FullFeedingPoint] {
-        innerFavoritePoints.value
     }
 
     // MARK: - Dependencies
@@ -135,7 +148,7 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
 
     @discardableResult
     func fetchAll(bounds: BoundsInput) async throws -> [FullFeedingPoint] {
-        let favoriteIds = Set(innerFavoritePoints.value.map(\.identifier))
+        let favoriteIds = readState { Set($0.innerFavoritePoints.map(\.identifier)) }
 
         // getFeedingPoints returns category as a nested object — no separate fetch needed.
         let rawPoints = try await networkService.query(request: .getFeedingPoints(bounds: bounds))
@@ -148,40 +161,43 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
             )
         }
         let newIds = Set(points.map(\.identifier))
-        let kept = innerFeedingPoints.value.filter { !newIds.contains($0.identifier) }
-        innerFeedingPoints.send(points + kept)
+
+        mutateState { state in
+            let kept = state.innerFeedingPoints.filter { !newIds.contains($0.identifier) }
+            state.innerFeedingPoints = points + kept
+        }
+
         return points
     }
 
     func resetViewportPoints() {
-        innerFeedingPoints.send([])
+        mutateState { state in
+            state.innerFeedingPoints = []
+        }
     }
 
     @discardableResult
     func fetch(byIdentifier identifier: String) async throws -> FullFeedingPoint {
-        guard let index = innerFeedingPoints.value.firstIndex(
-            where: { $0.identifier == identifier }
-        )
+        guard let oldPoint = readState({ $0.innerFeedingPoints.first { $0.identifier == identifier } })
         else {
             throw "[FeedingPointsService] There is no feeding point for the provided identifier".asBaseError()
         }
 
-        let oldPoint = innerFeedingPoints.value[index]
         guard let point = try await networkService.query(request: .get(FeedingPoint.self, byId: identifier))
             .map({ FullFeedingPoint(feedingPoint: $0, isFavorite: oldPoint.isFavorite) })
         else {
             throw "[FeedingPointsService] There is no feeding point for the provided identifier".asBaseError()
         }
 
-        replaceFeedingPoint(point, at: index)
+        guard let updated = replaceFeedingPoint(point) else {
+            throw "[FeedingPointsService] Feeding point was removed while it was being updated".asBaseError()
+        }
 
-        return point
+        return updated
     }
 
     func canBookFeedingPoint(for identifier: String) async throws -> Bool {
-        guard let point = innerFeedingPoints.value.first(
-            where: { $0.identifier == identifier }
-        )
+        guard let point = readState({ $0.innerFeedingPoints.first { $0.identifier == identifier } })
         else {
             throw ("[FeedingPointsService] Cannot fetch status because there is no feeding point for the" +
                    " provided identifier").asBaseError()
@@ -250,15 +266,20 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
             return results
         }
 
-        innerFavoritePoints.send(points)
+        // TODO: ANIMEAL-012 follow-up — this still blindly replaces innerFavoritePoints with a
+        // snapshot computed at the start of this (long, N-request) fetch. A point-patch that
+        // lands on innerState while this fetch is in flight will be overwritten here. Merge by
+        // id instead of blind replace — tracked separately, not blocking this fix.
+        mutateState { state in
+            state.innerFavoritePoints = points
+        }
+
         return points
     }
 
     @discardableResult
     func addToFavorites(byIdentifier identifier: String) async throws -> FavouriteFeedingPoint {
-        guard let point = innerFeedingPoints.value.first(
-            where: { $0.identifier == identifier }
-        )
+        guard let point = readState({ $0.innerFeedingPoints.first { $0.identifier == identifier } })
         else {
             throw ("[FeedingPointsService] Cannot add to favorites because there is no feeding point" +
                   " for the provided identifier").asBaseError()
@@ -274,9 +295,7 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
 
     @discardableResult
     func toggleFavorite(byIdentifier identifier: String) async throws -> FavouriteFeedingPoint {
-        guard let point = innerFeedingPoints.value.first(
-            where: { $0.identifier == identifier }
-        )
+        guard let point = readState({ $0.innerFeedingPoints.first { $0.identifier == identifier } })
         else {
             throw ("[FeedingPointsService] Cannot toggle because there is no feeding point for" +
                    " the provided identifier").asBaseError()
@@ -328,46 +347,96 @@ private extension FeedingPointsService {
     }
 
     func updateFeedingPoint(_ feedingPoint: FullFeedingPoint) {
-        guard let index = innerFeedingPoints.value.firstIndex(
-            where: { $0.identifier == feedingPoint.identifier }
-        )
-        else {
-            return logError("[FeedingPointsService] Feeding point cannot be updated due to absence.")
+        if replaceFeedingPoint(feedingPoint) == nil {
+            logError("[FeedingPointsService] Feeding point cannot be updated due to absence.")
         }
-
-        replaceFeedingPoint(feedingPoint, at: index)
     }
 
     func updateFeedingPoint(_ favoriteFeedingPoint: FavouriteFeedingPoint) {
-        guard let index = innerFeedingPoints.value.firstIndex(
-            where: { $0.identifier == favoriteFeedingPoint.identifier }
-        )
-        else {
-            return logError("[FeedingPointsService] Feeding point cannot be updated due to absence.")
+        // Both arrays are patched inside a single mutateState call — one lock, one atomic
+        // operation — so nothing can observe favorites and viewport disagreeing mid-update.
+        let changedPoint: FullFeedingPoint? = mutateState { state in
+            let favIndex = state.innerFavoritePoints.firstIndex {
+                $0.identifier == favoriteFeedingPoint.identifier
+            }
+
+            if favoriteFeedingPoint.isFavorite {
+                if let favIndex {
+                    state.innerFavoritePoints[favIndex].isFavorite = true
+                } else if let point = state.innerFeedingPoints.first(where: {
+                    $0.identifier == favoriteFeedingPoint.identifier
+                }) {
+                    var favoritePoint = point
+                    favoritePoint.isFavorite = true
+                    state.innerFavoritePoints.append(favoritePoint)
+                }
+            } else if let favIndex {
+                state.innerFavoritePoints.remove(at: favIndex)
+            }
+
+            guard let viewportIndex = state.innerFeedingPoints.firstIndex(where: {
+                $0.identifier == favoriteFeedingPoint.identifier
+            }) else {
+                return nil
+            }
+            state.innerFeedingPoints[viewportIndex].isFavorite = favoriteFeedingPoint.isFavorite
+            return state.innerFeedingPoints[viewportIndex]
         }
 
-        var feedingPoint = innerFeedingPoints.value[index]
-        feedingPoint.isFavorite = favoriteFeedingPoint.isFavorite
-        replaceFeedingPoint(feedingPoint, at: index)
+        if let changedPoint {
+            innerChangedFeedingPoint.send(changedPoint)
+        }
     }
 
-    func replaceFeedingPoint(_ feedingPoint: FullFeedingPoint, at index: Int) {
-        updateFeedingPoints { fedingPoints in
-            var fedingPoints = fedingPoints
+    @discardableResult
+    func replaceFeedingPoint(_ feedingPoint: FullFeedingPoint) -> FullFeedingPoint? {
+        let updatedPoint: FullFeedingPoint? = mutateState { state in
+            guard let index = state.innerFeedingPoints.firstIndex(where: {
+                $0.identifier == feedingPoint.identifier
+            }) else {
+                return nil
+            }
             var feedingPoint = feedingPoint
-            feedingPoint.imageURL = fedingPoints[index].imageURL
-            fedingPoints.remove(at: index)
-            fedingPoints.insert(feedingPoint, at: index)
-            return fedingPoints
+            feedingPoint.imageURL = state.innerFeedingPoints[index].imageURL
+            state.innerFeedingPoints.remove(at: index)
+            state.innerFeedingPoints.insert(feedingPoint, at: index)
+            return feedingPoint
         }
 
-        innerChangedFeedingPoint.send(feedingPoint)
+        if let updatedPoint {
+            innerChangedFeedingPoint.send(updatedPoint)
+        }
+
+        return updatedPoint
     }
 
-    func updateFeedingPoints(_ modify: ([FullFeedingPoint]) -> [FullFeedingPoint]) {
-        let feedingPoints = innerFeedingPoints.value
-        let modifiedFeedingPoints = modify(feedingPoints)
-        innerFeedingPoints.send(modifiedFeedingPoints)
+    // Plain mutual exclusion — always exclusive, no reader/writer distinction. Given how
+    // rarely this is called (a handful of times per session, not a hot path), the extra
+    // throughput of a reader-writer lock isn't worth the added complexity here.
+    //
+    // Reentrancy note: nothing in this file calls readState/mutateState from inside another
+    // readState/mutateState closure — doing so would deadlock (NSLock isn't reentrant). No
+    // automatic guard is implemented; keep this invariant in mind when adding new code here.
+    private func readState<T>(_ body: (InnerState) -> T) -> T {
+        lock.lock()
+        defer { lock.unlock() }
+        return body(innerState)
+    }
+
+    @discardableResult
+    private func mutateState<T>(_ body: (inout InnerState) -> T) -> T {
+        lock.lock()
+        let result = body(&innerState)
+        let snapshot = innerState
+        lock.unlock()
+
+        // .send() always happens after unlock — never while the lock is held, to avoid a
+        // reentrant-call deadlock if a subscriber synchronously calls back into this service
+        // from its receiveValue.
+        innerFeedingPoints.send(snapshot.innerFeedingPoints)
+        innerFavoritePoints.send(snapshot.innerFavoritePoints)
+
+        return result
     }
 
     private func setup() {

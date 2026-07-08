@@ -1,14 +1,18 @@
 import Foundation
+import Combine
 
 // MARK: - View
 @MainActor
 protocol FavouritesViewModelOutput: AnyObject {
     func populateFavourites(_ viewState: FavouriteViewContentState)
     func applyFavouriteMediaContent(_ content: FavouriteMediaContent)
+    func setLoading(_ isLoading: Bool)
+    func showReloadState()
 }
 
 // MARK: - Model
 protocol FavouritesModelProtocol: AnyObject {
+    var favouritesDidChange: AnyPublisher<Void, Never> { get }
     func fetchFavourites(force: Bool) async throws -> [FavouritesModel.FavouriteContent]
     func fetchMediaContent(key: String, completion: ((Data?) -> Void)?)
 }
