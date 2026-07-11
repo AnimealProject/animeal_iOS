@@ -12,7 +12,7 @@ enum FeedingsAssembler {
     static func assemble(coordinator: MorePartitionCoordinatable) -> UIViewController {
 
         let viewModel = FeedingsViewModel(coordinator: coordinator)
-        let view = UIHostingController(rootView: FeedingsView())
+        let view = UIHostingController(rootView: FeedingsView(viewModel: viewModel))
 
         return view
     }

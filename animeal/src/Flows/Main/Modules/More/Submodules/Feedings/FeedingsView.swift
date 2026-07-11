@@ -9,8 +9,15 @@ import SwiftUI
 import UIComponents
 
 struct FeedingsView: View {
-    private let tabs = ["Pending", "Approved", "Rejected", "Outdated"]
-    @State private var selectedTab = "Pending"
+    let viewModel: FeedingsViewModel
+
+    private let tabs = [
+        L10n.Feedings.pending,
+        L10n.Feedings.approved,
+        L10n.Feedings.rejected,
+        L10n.Feedings.outdated
+    ]
+    @State private var selectedTab = L10n.Feedings.pending
 
     var body: some View {
         VStack(alignment: .leading, spacing: 24) {
@@ -25,6 +32,6 @@ struct FeedingsView: View {
             Spacer()
         }
         .padding()
-        .navigationTitle("Feedings")
+        .navigationTitle(L10n.Feedings.title)
     }
 }

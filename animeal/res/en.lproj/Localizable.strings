@@ -116,3 +116,9 @@
 "more.qaMenu"                                     = "QA Menu";
 "qaMenu.title"                                    = "QA Menu";
 "qaMenu.loadAllFeedingPoints"                     = "Load all feeding points";
+"more.feedings"                                   = "Feedings";
+"feedings.title"                                  = "Feedings";
+"feedings.pending"                                = "Pending";
+"feedings.approved"                               = "Approved";
+"feedings.rejected"                               = "Rejected";
+"feedings.outdated"                               = "Outdated";

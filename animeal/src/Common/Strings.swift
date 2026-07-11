@@ -141,6 +141,18 @@ internal enum L10n {
       internal static let starved = L10n.tr("Localizable", "feeding.status.starved", fallback: "There is no food")
     }
   }
+  internal enum Feedings {
+    /// Approved
+    internal static let approved = L10n.tr("Localizable", "feedings.approved", fallback: "Approved")
+    /// Outdated
+    internal static let outdated = L10n.tr("Localizable", "feedings.outdated", fallback: "Outdated")
+    /// Pending
+    internal static let pending = L10n.tr("Localizable", "feedings.pending", fallback: "Pending")
+    /// Rejected
+    internal static let rejected = L10n.tr("Localizable", "feedings.rejected", fallback: "Rejected")
+    /// Feedings
+    internal static let title = L10n.tr("Localizable", "feedings.title", fallback: "Feedings")
+  }
   internal enum LeaderBoard {
     /// Leaderboard will show the rating of volunteers
     internal static let empty = L10n.tr("Localizable", "leaderBoard.empty", fallback: "Leaderboard will show the rating of volunteers")
@@ -180,14 +192,16 @@ internal enum L10n {
     /// · Advocating with the government;
     /// · Charitable and humanitarian projects in collaboration with the private sector, donor organizations, and local communities;
     internal static let aboutContent = L10n.tr("Localizable", "more.aboutContent", fallback: "Who are we?\nAnimal Project was founded in 2020 by animal lovers with different professions and experiences. For decades, our team members  have been independently helping strays and raising awareness through personal channels.\n\nWhat is our goal?\nWe exist so that dogs and cats no longer have to live in the streets of Georgia. Our goal is to create a habitable, comfortable environment for companion animals and raise awareness within our communities.\n\nHow are we working on this goal?\nOur team heavily relies on international best practices and experience. Our areas of work include:\n· Raising social awareness;\n· Advocating with the government;\n· Charitable and humanitarian projects in collaboration with the private sector, donor organizations, and local communities;")
-    /// About Us
-    internal static let aboutShort = L10n.tr("Localizable", "more.aboutShort", fallback: "About Us")
+    /// About
+    internal static let aboutShort = L10n.tr("Localizable", "more.aboutShort", fallback: "About")
     /// Account
     internal static let account = L10n.tr("Localizable", "more.account", fallback: "Account")
     /// Donate
     internal static let donate = L10n.tr("Localizable", "more.donate", fallback: "Donate")
     /// FAQ
     internal static let faq = L10n.tr("Localizable", "more.faq", fallback: "FAQ")
+    /// Feedings
+    internal static let feedings = L10n.tr("Localizable", "more.feedings", fallback: "Feedings")
     /// Profile Page
     internal static let profilePage = L10n.tr("Localizable", "more.profilePage", fallback: "Profile Page")
     /// QA Menu

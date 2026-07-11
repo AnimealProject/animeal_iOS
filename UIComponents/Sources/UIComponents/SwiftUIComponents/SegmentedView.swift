@@ -32,7 +32,7 @@ public struct SegmentedView: View {
             }
         }
         .padding(Constants.containerPadding)
-        .background(Color.white)
+        .background(designEngine.colors.backgroundSecondary.color)
         .clipShape(
             RoundedRectangle(cornerRadius: Constants.cornerRadius + Constants.containerPadding)
         )
@@ -49,7 +49,9 @@ public struct SegmentedView: View {
         } label: {
             Text(item)
                 .font(tabFont)
-                .foregroundColor(isSelected ? .white : .black)
+                .foregroundColor(
+                    isSelected ? designEngine.colors.alwaysLight.color : designEngine.colors.textPrimary.color
+                )
                 .lineLimit(1)
                 .minimumScaleFactor(0.8)
                 .frame(maxWidth: .infinity, minHeight: 32)
