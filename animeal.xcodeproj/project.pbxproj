@@ -39,7 +39,6 @@
 		5CBFCE2C2A9A187B00D6F4DA /* MoreCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB127E8E28B9E9BA00012B53 /* MoreCoordinator.swift */; };
 		5ED4A89CD448ABFE4F1B6491 /* QAMenuModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E79EAEE9F0028D2FD4552F /* QAMenuModel.swift */; };
 		619A314E6D156A34E3E329D8 /* FeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC70F3C3F117C03DB094CB5 /* FeatureFlags.swift */; };
-		6E36471F711C76DE307B3FE2 /* LocalizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29228C359F16A753C7486244 /* LocalizationService.swift */; };
 		655B7A9CC4DC0177ED3A03DE /* FeedingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FD88DC75911C04106149D6 /* FeedingStatus.swift */; };
 		67046B80BCE44484DB7B028A /* QAMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6D484AA45CA247CE5E38CE /* QAMenuViewController.swift */; };
 		6826AB850FFAF4CC13D042F3 /* PetI18n.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B430631AEB7F77155F5652D /* PetI18n.swift */; };
@@ -48,6 +47,7 @@
 		68EBA811759F197EE338048C /* RelationUserPet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15604A445EC1B413F5D540DD /* RelationUserPet.swift */; };
 		6BB058E8BBC9A383D2FE14FF /* BankAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED770817DEA43169C4086F7 /* BankAccount.swift */; };
 		6BD12897B29874348258848B /* BankAccount+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBF9FDBB1C957E6EDE156DC /* BankAccount+Schema.swift */; };
+		6E36471F711C76DE307B3FE2 /* LocalizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29228C359F16A753C7486244 /* LocalizationService.swift */; };
 		70BCFD97A37256084C0CD67A /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 6FE750BC24EF1983DF08B736 /* awsconfiguration.json */; };
 		715F8D7B404E4EECCD15081A /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4A7CF4F0C1D848CC47A162 /* Location.swift */; };
 		74DE171718857E1BDAA82A57 /* RelationUserFeedingPoint+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51C75C31E8D0F3CD7FEA2BB /* RelationUserFeedingPoint+Schema.swift */; };
@@ -417,6 +417,7 @@
 		1B6D484AA45CA247CE5E38CE /* QAMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QAMenuViewController.swift; sourceTree = "<group>"; };
 		1EA61C9B5FAD8F3476DAD592 /* Question.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Question.swift; path = amplify/generated/models/Question.swift; sourceTree = "<group>"; };
 		20939F4A34A643E3BF8FFD44 /* Dev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Dev.xcconfig; sourceTree = "<group>"; };
+		29228C359F16A753C7486244 /* LocalizationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationService.swift; sourceTree = "<group>"; };
 		2B2D0E8FFA2648BCBFB376D1 /* Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Test.xcconfig; sourceTree = "<group>"; };
 		2B430631AEB7F77155F5652D /* PetI18n.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = PetI18n.swift; path = amplify/generated/models/PetI18n.swift; sourceTree = "<group>"; };
 		353541A22B004F10D26B741A /* QuestionI18n+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "QuestionI18n+Schema.swift"; path = "amplify/generated/models/QuestionI18n+Schema.swift"; sourceTree = "<group>"; };
@@ -440,7 +441,6 @@
 		6918D9E98B7A31C94E11F61A /* Feeding.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Feeding.swift; path = amplify/generated/models/Feeding.swift; sourceTree = "<group>"; };
 		6A0B545C01B304B77CD48DF3 /* CategoryI18n.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = CategoryI18n.swift; path = amplify/generated/models/CategoryI18n.swift; sourceTree = "<group>"; };
 		6FC70F3C3F117C03DB094CB5 /* FeatureFlags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlags.swift; sourceTree = "<group>"; };
-		29228C359F16A753C7486244 /* LocalizationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationService.swift; sourceTree = "<group>"; };
 		6FE750BC24EF1983DF08B736 /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = awsconfiguration.json; sourceTree = "<group>"; };
 		761104F96C616340746249C7 /* FeedingPointStatus.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = FeedingPointStatus.swift; path = amplify/generated/models/FeedingPointStatus.swift; sourceTree = "<group>"; };
 		78525B1D2958A24C006CE9BA /* FavouriteViewContentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteViewContentState.swift; sourceTree = "<group>"; };
@@ -777,6 +777,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		37B7975B68F74C5F0E7BCD29 /* Feedings */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Feedings; sourceTree = "<group>"; };
 		7228EED92FACD06400E91D7F /* Feedings */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Feedings; sourceTree = "<group>"; };
 		C78071BC2F6F31BE008F2B5D /* ModerationDirectory */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ModerationDirectory; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -1632,6 +1633,7 @@
 		83C7A98228E429F900F3D219 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				37B7975B68F74C5F0E7BCD29 /* Feedings */,
 				C78071BC2F6F31BE008F2B5D /* ModerationDirectory */,
 				7F70590D2EE0E401000A001E /* PublicNetworkService */,
 				83D2BE8F299D66EA00AA1BC4 /* FeedingPoints */,
@@ -1830,6 +1832,14 @@
 			path = Configurations;
 			sourceTree = "<group>";
 		};
+		9F50AD973E48412A9BF1E9EB /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				29228C359F16A753C7486244 /* LocalizationService.swift */,
+			);
+			path = Localization;
+			sourceTree = "<group>";
+		};
 		B9F63FC8CE664687C07A882C /* AmplifyConfig */ = {
 			isa = PBXGroup;
 			children = (
@@ -1945,14 +1955,6 @@
 				AD4DEFD3FF7A5886AC4C0471 /* UserDefaultFlag.swift */,
 			);
 			path = FeatureFlags;
-			sourceTree = "<group>";
-		};
-		9F50AD973E48412A9BF1E9EB /* Localization */ = {
-			isa = PBXGroup;
-			children = (
-				29228C359F16A753C7486244 /* LocalizationService.swift */,
-			);
-			path = Localization;
 			sourceTree = "<group>";
 		};
 		DB0D66BB2846676100930564 /* Common */ = {
@@ -2465,6 +2467,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				37B7975B68F74C5F0E7BCD29 /* Feedings */,
 				7228EED92FACD06400E91D7F /* Feedings */,
 				C78071BC2F6F31BE008F2B5D /* ModerationDirectory */,
 			);
@@ -3255,7 +3258,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 20251112;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5HRLMFUWVY;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = animeal/res/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";

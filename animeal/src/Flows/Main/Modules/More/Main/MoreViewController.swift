@@ -36,7 +36,8 @@ final class MoreViewController: UIViewController, MoreViewable {
             view.configure(
                 TitleDisclosureView.Model(
                     identifier: viewItem.identifier,
-                    title: viewItem.title
+                    title: viewItem.title,
+                    hasIndicator: viewItem.hasIndicator
                 )
             )
             view.onTapHandler = { [weak self] identifier in

@@ -130,6 +130,9 @@ query GetActiveFeedings($feedingPointId: String, $status: String) {
     createdBy
     updatedBy
     owner
+    feedingPointDetails {
+      address
+    }
     feedingPointFeedingsId
     expireAt
     assignedModerators

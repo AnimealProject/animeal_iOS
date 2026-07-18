@@ -1,9 +1,20 @@
 import Foundation
+import Services
 
 final class MoreModel: MoreModelProtocol {
 
+    // MARK: - Dependencies
+    private let networkService: NetworkServiceProtocol
+    private let seenTracker: FeedingsSeenTrackerProtocol
+
     // MARK: - Initialization
-    init() { }
+    init(
+        networkService: NetworkServiceProtocol = AppDelegate.shared.context.networkService,
+        seenTracker: FeedingsSeenTrackerProtocol = FeedingsSeenTracker()
+    ) {
+        self.networkService = networkService
+        self.seenTracker = seenTracker
+    }
 
     // MARK: - Requests
     func fetchActions() -> [MoreActionModel] {
@@ -21,5 +32,14 @@ final class MoreModel: MoreModelProtocol {
         actions.append(MoreActionModel(type: .qaMenu, title: L10n.More.qaMenu))
         #endif
         return actions
+    }
+
+    func hasUnseenPendingFeedings() async -> Bool {
+        guard let pendingFeedings = try? await networkService.query(
+            request: .getActiveFeedings(status: FeedingStatus.pending.rawValue)
+        ) else {
+            return false
+        }
+        return seenTracker.hasUnseen(among: pendingFeedings.map(\.id))
     }
 }

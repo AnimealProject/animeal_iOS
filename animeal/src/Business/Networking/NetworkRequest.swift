@@ -167,6 +167,24 @@ extension Request {
         )
     }
 
+    static func getActiveFeedings(status: String) -> Request<[Feeding]> {
+        Request<[Feeding]>(
+            document: getActiveFeedingsDocument,
+            variables: ["status": status],
+            responseType: [Feeding].self,
+            decodePath: "getActiveFeedings"
+        )
+    }
+
+    static func getHistoricalFeedings(status: String) -> Request<[FeedingHistory]> {
+        Request<[FeedingHistory]>(
+            document: getHistoricalFeedingsDocument,
+            variables: ["status": status],
+            responseType: [FeedingHistory].self,
+            decodePath: "getHistoricalFeedings"
+        )
+    }
+
     static func onUpdateFeedingPoint() -> Request<UpdateFeedingPoint> {
         let operationName = "onUpdateFeedingPoint"
         let document = """

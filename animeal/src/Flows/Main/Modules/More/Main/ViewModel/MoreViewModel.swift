@@ -27,12 +27,17 @@ final class MoreViewModel: MoreViewModelLifeCycle, MoreViewInteraction, MoreView
 
     // MARK: - Life cycle
     func load() {
-        let actions = model.fetchActions()
-        onActionsHaveBeenPrepared?(
-            actions.map {
-                mapper.mapActionModel($0)
-            }
-        )
+        let actions = model.fetchActions().filter { action in
+            action.type != .feedings || canModerate
+        }
+        render(actions, hasUnseenFeedings: false)
+
+        guard canModerate else { return }
+
+        Task { @MainActor in
+            guard await self.model.hasUnseenPendingFeedings() else { return }
+            self.render(actions, hasUnseenFeedings: true)
+        }
     }
 
     // MARK: - Interaction
@@ -54,7 +59,7 @@ final class MoreViewModel: MoreViewModelLifeCycle, MoreViewInteraction, MoreView
 
     func canRouteTo(route: MoreRoute) -> Bool {
         guard userProfileService.getCurrentUserValidationModel().userMode == .guest else {
-            return true
+            return route != .feedings || canModerate
         }
 
         switch route {
@@ -69,5 +74,20 @@ final class MoreViewModel: MoreViewModelLifeCycle, MoreViewInteraction, MoreView
         case .qaMenu:
             return true
         }
+    }
+
+    // MARK: - Private
+
+    private var canModerate: Bool {
+        let roles = userProfileService.getCurrentUserValidationModel().roles
+        return roles.contains(.admin) || roles.contains(.moderator)
+    }
+
+    private func render(_ actions: [MoreActionModel], hasUnseenFeedings: Bool) {
+        onActionsHaveBeenPrepared?(
+            actions.map {
+                mapper.mapActionModel($0, hasIndicator: $0.type == .feedings && hasUnseenFeedings)
+            }
+        )
     }
 }

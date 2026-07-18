@@ -28,6 +28,7 @@ protocol MoreViewState: AnyObject {
 // sourcery: AutoMockable
 protocol MoreModelProtocol: AnyObject {
     func fetchActions() -> [MoreActionModel]
+    func hasUnseenPendingFeedings() async -> Bool
 }
 
 // MARK: - Coordinator
