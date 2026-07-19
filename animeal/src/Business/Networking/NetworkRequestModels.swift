@@ -282,6 +282,46 @@ public struct FinishFeeding: Codable {
     let finishFeeding: String
 }
 
+// MARK: - Feeding Management
+
+public struct RejectFeedingMutation: CustomMutation {
+    public typealias ResponseType = RejectFeeding
+
+    let feedingId: String
+    let reason: String
+
+    public var document: String {
+        """
+        mutation RejectFeeding {
+            rejectFeeding(feedingId: "\(feedingId)", reason: "\(reason)")
+        }
+        """
+    }
+}
+
+public struct RejectFeeding: Codable {
+    let rejectFeeding: String
+}
+
+public struct ApproveFeedingMutation: CustomMutation {
+    public typealias ResponseType = ApproveFeeding
+
+    let feedingId: String
+    let reason: String
+
+    public var document: String {
+        """
+        mutation ApproveFeeding {
+            approveFeeding(feedingId: "\(feedingId)", reason: "\(reason)")
+        }
+        """
+    }
+}
+
+public struct ApproveFeeding: Codable {
+    let approveFeeding: String
+}
+
 private extension String {
     static var null: String {
         return "null"
