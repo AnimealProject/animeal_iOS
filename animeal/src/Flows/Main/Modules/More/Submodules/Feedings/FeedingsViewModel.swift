@@ -30,12 +30,13 @@ struct FeedingListItem: Identifiable {
     }
 }
 
-final class FeedingsViewModel: ObservableObject {
+@Observable
+final class FeedingsViewModel {
 
     // MARK: - Published state
-    @Published private(set) var items: [FeedingListItem] = []
-    @Published private(set) var isLoading = false
-    @Published private(set) var errorMessage: String?
+    private(set) var items: [FeedingListItem] = []
+    private(set) var isLoading = false
+    private(set) var errorMessage: String?
 
     // MARK: - Dependencies
     private let coordinator: MorePartitionCoordinatable

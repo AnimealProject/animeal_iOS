@@ -10,7 +10,7 @@ import UIComponents
 import Style
 
 struct FeedingsView: View {
-    @ObservedObject var viewModel: FeedingsViewModel
+    var viewModel: FeedingsViewModel
 
     private let designEngine: StyleEngine = StyleDefaultEngine()
 
