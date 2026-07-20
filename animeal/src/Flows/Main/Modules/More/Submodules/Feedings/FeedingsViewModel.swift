@@ -9,6 +9,12 @@ import Foundation
 import Amplify
 import Services
 
+enum FeedingReview {
+    case notReviewedYet
+    case autoApproved
+    case reviewedBy(FeedingListItem.User)
+}
+
 struct FeedingListItem: Identifiable {
     typealias UserNamesMap = [String: String]
 
@@ -17,9 +23,13 @@ struct FeedingListItem: Identifiable {
         let userName: String?
     }
 
+    private enum Constants {
+        static let systemModeratorId = "System"
+    }
+
     let id: String
     let user: User
-    let moderator: User?
+    let review: FeedingReview
     let address: String
     let status: FeedingStatus
     let date: Date
@@ -27,7 +37,7 @@ struct FeedingListItem: Identifiable {
     init(_ feeding: Feeding, userName: String?, moderatorName: String?) {
         id = feeding.id
         user = User(userId: feeding.userId, userName: userName)
-        moderator = feeding.moderatedBy.map { User(userId: $0, userName: moderatorName) }
+        review = Self.makeReview(moderatedBy: feeding.moderatedBy, moderatorName: moderatorName)
         address = feeding.feedingPointDetails?.address ?? ""
         status = feeding.status
         date = feeding.createdAt.foundationDate
@@ -36,10 +46,16 @@ struct FeedingListItem: Identifiable {
     init(_ history: FeedingHistory, userName: String?, moderatorName: String?) {
         id = history.id
         user = User(userId: history.userId, userName: userName)
-        moderator = history.moderatedBy.map { User(userId: $0, userName: moderatorName) }
+        review = Self.makeReview(moderatedBy: history.moderatedBy, moderatorName: moderatorName)
         address = history.feedingPointDetails?.address ?? ""
         status = history.status ?? .outdated
         date = history.updatedAt.foundationDate
+    }
+
+    private static func makeReview(moderatedBy: String?, moderatorName: String?) -> FeedingReview {
+        guard let moderatedBy else { return .notReviewedYet }
+        guard moderatedBy != Constants.systemModeratorId else { return .autoApproved }
+        return .reviewedBy(User(userId: moderatedBy, userName: moderatorName))
     }
 }
 
