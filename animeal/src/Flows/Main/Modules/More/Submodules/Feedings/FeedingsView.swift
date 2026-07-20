@@ -35,21 +35,26 @@ struct FeedingsView: View {
         }
         .padding()
         .navigationTitle(L10n.Feedings.title)
-        .task(id: selectedTabTitle) {
-            guard let status = tabs.first(where: { $0.title == selectedTabTitle })?.status else { return }
-            await viewModel.load(status: status)
+        .task {
+            await viewModel.loadAll()
         }
     }
 
     @ViewBuilder private var content: some View {
-        if viewModel.isLoading {
+        let currentFeedingStatus = tabs.first { $0.title == selectedTabTitle }?.status ?? .pending
+        let status = viewModel.tabStates[currentFeedingStatus]
+        switch status {
+        case .none:
+            Text(L10n.Errors.somethingWrong.asBaseError().description)
+                .foregroundColor(designEngine.colors.error.color)
+        case .failed:
+            Text(L10n.Errors.somethingWrong.asBaseError().description)
+                .foregroundColor(designEngine.colors.error.color)
+        case .isLoading:
             ProgressView()
                 .frame(maxWidth: .infinity)
-        } else if let errorMessage = viewModel.errorMessage {
-            Text(errorMessage)
-                .foregroundColor(designEngine.colors.error.color)
-        } else {
-            List(viewModel.items) { item in
+        case .loaded(let items):
+            List(items) { item in
                 VStack(alignment: .leading, spacing: 4) {
                     Text(item.address)
                         .font(.body)
