@@ -42,9 +42,9 @@ struct DonateView<ViewModel: DonateViewModelProtocol>: View {
     private var headerText: some View {
         VStack(alignment: .leading) {
             Text(L10n.Donate.title)
-                .font(designEngine.fonts.primary.bold(28)?.font)
+                .font(designEngine.fonts.primary.bold(28).font)
             Text(L10n.Donate.Header.text)
-                .font(designEngine.fonts.primary.regular(16)?.font)
+                .font(designEngine.fonts.primary.regular(16).font)
                 .padding(.top, Constants.headerBodyTopPadding)
         }
         .fixedSize(horizontal: false, vertical: true)
@@ -74,7 +74,7 @@ struct DonateView<ViewModel: DonateViewModelProtocol>: View {
 
     private var footerText: some View {
         Text(L10n.Donate.Footer.text)
-            .font(designEngine.fonts.primary.regular(16)?.font)
+            .font(designEngine.fonts.primary.regular(16).font)
             .foregroundColor(designEngine.colors.textPrimary.color)
             .multilineTextAlignment(.center)
             .frame(maxWidth: .infinity)
@@ -90,7 +90,7 @@ extension DonateView {
         var body: some View {
             VStack(alignment: .leading, spacing: 0) {
                 Text(item.name)
-                    .font(designEngine.fonts.primary.bold(14)?.font)
+                    .font(designEngine.fonts.primary.bold(14).font)
                     .foregroundColor(designEngine.colors.textPrimary.color)
                     .fixedSize(horizontal: false, vertical: true)
                     .frame(height: 14 * 1.5)
@@ -103,7 +103,7 @@ extension DonateView {
                         .padding(.trailing, 16)
 
                     Text(item.details)
-                        .font(designEngine.fonts.primary.light(16)?.font)
+                        .font(designEngine.fonts.primary.light(16).font)
                         .foregroundColor(designEngine.colors.textPrimary.color)
                         .lineLimit(1)
 

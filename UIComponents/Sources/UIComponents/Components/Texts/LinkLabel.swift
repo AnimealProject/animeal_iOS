@@ -43,7 +43,7 @@ public final class LinkLabel: UILabel {
     public func configure(text: String, termsRange: NSRange, privacyRange: NSRange) {
         let attributed = NSMutableAttributedString(string: text, attributes: [
             .foregroundColor: designEngine.colors.textPrimary,
-            .font: designEngine.fonts.primary.light(14) ?? UIFont.systemFont(ofSize: 14)
+            .font: designEngine.fonts.primary.light(14)
         ])
         let accentColor = designEngine.colors.accent
 

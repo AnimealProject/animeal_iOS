@@ -61,7 +61,7 @@ public struct SegmentedView: View {
     }
 
     private var tabFont: Font {
-        designEngine.fonts.primary.medium(14)?.font ?? .system(size: 14, weight: .medium)
+        designEngine.fonts.primary.medium(14).font
     }
 
     private func tabBackground(isSelected: Bool) -> some View {

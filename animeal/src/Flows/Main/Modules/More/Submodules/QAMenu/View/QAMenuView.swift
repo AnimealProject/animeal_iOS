@@ -27,7 +27,7 @@ struct QAMenuView: View {
 
     private var headerText: some View {
         Text(L10n.QaMenu.title)
-            .font(designEngine.fonts.primary.bold(28)?.font)
+            .font(designEngine.fonts.primary.bold(28).font)
             .foregroundColor(designEngine.colors.textPrimary.color)
     }
 
@@ -39,7 +39,7 @@ struct QAMenuView: View {
                 set: { interactionHandler?.handleActionEvent(.toggleLoadAllFeedingPoints($0)) }
             )
         )
-        .font(designEngine.fonts.primary.regular(14)?.font)
+        .font(designEngine.fonts.primary.regular(14).font)
         .foregroundColor(designEngine.colors.textPrimary.color)
     }
 }

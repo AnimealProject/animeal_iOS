@@ -35,10 +35,10 @@ struct FeedingFinishedView: View {
             Asset.Images.feedingThankYou.swiftUIImage
             Text(L10n.Text.thankYou)
                 .foregroundColor(Asset.Colors.darkTurquoise.swiftUIColor)
-                .font(designEngine.fonts.primary.bold(32)?.font)
+                .font(designEngine.fonts.primary.bold(32).font)
             Text(L10n.Text.animalsAreFed)
                 .foregroundColor(designEngine.colors.textPrimary.color)
-                .font(designEngine.fonts.primary.regular(16)?.font)
+                .font(designEngine.fonts.primary.regular(16).font)
             Spacer()
         }
     }

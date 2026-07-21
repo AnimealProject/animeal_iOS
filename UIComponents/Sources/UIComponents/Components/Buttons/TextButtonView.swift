@@ -12,7 +12,7 @@ open class TextButtonView: ButtonView {
 
         let title = NSAttributedString(string: model.title, attributes: [
             .foregroundColor: contentView.designEngine.colors.accent,
-            .font: contentView.designEngine.fonts.secondary.light(16) ?? .systemFont(ofSize: 16, weight: .light),
+            .font: contentView.designEngine.fonts.secondary.light(16),
             .underlineStyle: NSUnderlineStyle.single.rawValue
         ])
         contentView.setAttributedTitle(title, for: .normal)
