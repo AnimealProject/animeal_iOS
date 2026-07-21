@@ -7,13 +7,16 @@
 
 import SwiftUI
 import Common
+import Style
 
 enum FeedingsAssembler {
     static func assemble(coordinator: MorePartitionCoordinatable) -> UIViewController {
-
         let viewModel = FeedingsViewModel(coordinator: coordinator)
-        let view = UIHostingController(rootView: FeedingsView(viewModel: viewModel))
+        let feedingView = FeedingsView(viewModel: viewModel)
+            .environmentObject(StyleDefaultEngine())
+        let hostingViewController = UIHostingController(rootView: feedingView)
 
-        return view
+
+        return hostingViewController
     }
 }
