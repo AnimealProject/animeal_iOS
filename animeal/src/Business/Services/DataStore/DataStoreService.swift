@@ -52,8 +52,8 @@ final class DataStoreService: DataStoreServiceProtocol {
                     progressMappedListener?(progress)
                 }
             }
-            let result = try await uploadTask.value
-            return result
+            _ = try await uploadTask.value
+            return key
         } catch let error as StorageError {
             throw converter.convertAmplifyError(error)
         } catch {
@@ -63,11 +63,19 @@ final class DataStoreService: DataStoreServiceProtocol {
 
     // Amplify Gen 2 path API requires explicit prefix that Gen 1 added automatically.
     private func storagePath(for key: String, accessLevel: DataStoreAccessLevel?) -> String {
+        let key = strippingKnownAccessLevelPrefix(from: key)
         switch accessLevel {
         case .protected: return "protected/\(key)"
         case .private: return "private/\(key)"
         default: return "public/\(key)"
         }
+    }
+
+    private func strippingKnownAccessLevelPrefix(from key: String) -> String {
+        for prefix in ["public/", "protected/", "private/"] where key.hasPrefix(prefix) {
+            return String(key.dropFirst(prefix.count))
+        }
+        return key
     }
 
     func getURL(key: String?) async throws -> URL? {
