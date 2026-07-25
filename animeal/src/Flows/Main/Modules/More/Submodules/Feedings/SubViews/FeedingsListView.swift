@@ -8,7 +8,7 @@ struct FeedingsListView: View {
     var body: some View {
         List(items) { item in
             FeedingCardView(item: item)
-                .listRowInsets(EdgeInsets())
+                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 0))
                 .listRowSeparator(.hidden)
                 .listRowBackground(Color.clear)
         }
