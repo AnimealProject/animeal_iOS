@@ -54,16 +54,7 @@ struct FeedingsView: View {
             ProgressView()
                 .frame(maxWidth: .infinity)
         case .loaded(let items):
-            List(items) { item in
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(item.address)
-                        .font(.body)
-                    Text(item.date, style: .relative)
-                        .font(.caption)
-                        .foregroundColor(designEngine.colors.textSecondary.color)
-                }
-            }
-            .listStyle(.plain)
+            FeedingsListView(items: items)
         }
     }
 }

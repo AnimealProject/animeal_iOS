@@ -32,24 +32,27 @@ struct FeedingListItem: Identifiable {
     let review: FeedingReview
     let address: String
     let status: FeedingStatus
+    let imageURL: URL?
     let date: Date
 
-    init(_ feeding: Feeding, userName: String?, moderatorName: String?) {
-        id = feeding.id
-        user = User(userId: feeding.userId, userName: userName)
-        review = Self.makeReview(moderatedBy: feeding.moderatedBy, moderatorName: moderatorName)
-        address = feeding.feedingPointDetails?.address ?? ""
-        status = feeding.status
-        date = feeding.createdAt.foundationDate
+    init(_ feeding: Feeding, userName: String?, moderatorName: String?, imageURL: URL?) {
+        self.id = feeding.id
+        self.user = User(userId: feeding.userId, userName: userName)
+        self.review = Self.makeReview(moderatedBy: feeding.moderatedBy, moderatorName: moderatorName)
+        self.address = feeding.feedingPointDetails?.address ?? ""
+        self.status = feeding.status
+        self.imageURL = imageURL
+        self.date = feeding.createdAt.foundationDate
     }
 
-    init(_ history: FeedingHistory, userName: String?, moderatorName: String?) {
-        id = history.id
-        user = User(userId: history.userId, userName: userName)
-        review = Self.makeReview(moderatedBy: history.moderatedBy, moderatorName: moderatorName)
-        address = history.feedingPointDetails?.address ?? ""
-        status = history.status ?? .outdated
-        date = history.updatedAt.foundationDate
+    init(_ history: FeedingHistory, userName: String?, moderatorName: String?, imageURL: URL?) {
+        self.id = history.id
+        self.user = User(userId: history.userId, userName: userName)
+        self.review = Self.makeReview(moderatedBy: history.moderatedBy, moderatorName: moderatorName)
+        self.address = history.feedingPointDetails?.address ?? ""
+        self.status = history.status ?? .outdated
+        self.imageURL = imageURL
+        self.date = history.updatedAt.foundationDate
     }
 
     private static func makeReview(moderatedBy: String?, moderatorName: String?) -> FeedingReview {
@@ -75,17 +78,20 @@ final class FeedingsViewModel {
     private let coordinator: MorePartitionCoordinatable
     private let networkService: NetworkServiceProtocol
     private let userProfileService: UserProfileServiceProtocol
+    private let dataStoreService: DataStoreServiceProtocol
     private let seenTracker: FeedingsSeenTrackerProtocol
 
     init(
         coordinator: MorePartitionCoordinatable,
         networkService: NetworkServiceProtocol = AppDelegate.shared.context.networkService,
         userProfileService: UserProfileServiceProtocol = AppDelegate.shared.context.profileService,
+        dataStoreService: DataStoreServiceProtocol = AppDelegate.shared.context.dataStoreService,
         seenTracker: FeedingsSeenTrackerProtocol = FeedingsSeenTracker()
     ) {
         self.coordinator = coordinator
         self.networkService = networkService
         self.userProfileService = userProfileService
+        self.dataStoreService = dataStoreService
         self.seenTracker = seenTracker
 
         tabStates = Dictionary(
@@ -120,34 +126,72 @@ final class FeedingsViewModel {
 
     private func fetchItems(for status: FeedingStatus) async throws -> [FeedingListItem] {
         if status == .pending {
-            let feedings = try await networkService.query(request: .getActiveFeedings(status: status.rawValue))
-            seenTracker.markSeen(feedings.map(\.id))
-
-            let userIds = Set(feedings.map(\.userId))
-            let moderatorIds = Set(feedings.compactMap(\.moderatedBy))
-            let users = try await userProfileService.fetchUserNames(for: Array(userIds.union(moderatorIds)))
-
-            return feedings.map {
-                FeedingListItem(
-                    $0,
-                    userName: users[$0.userId],
-                    moderatorName: $0.moderatedBy.flatMap { users[$0] }
-                )
-            }
+            return try await fetchPendingItems(for: status)
         } else {
-            let history = try await networkService.query(request: .getHistoricalFeedings(status: status.rawValue))
+            return try await fetchHistoryItems(for: status)
+        }
+    }
 
-            let userIds = Set(history.map(\.userId))
-            let moderatorIds = Set(history.compactMap(\.moderatedBy))
-            let users = try await userProfileService.fetchUserNames(for: Array(userIds.union(moderatorIds)))
+    private func fetchPendingItems(for status: FeedingStatus) async throws -> [FeedingListItem] {
+        let feedings = try await networkService.query(request: .getActiveFeedings(status: status.rawValue))
+        seenTracker.markSeen(feedings.map(\.id))
 
-            return history.map {
-                FeedingListItem(
-                    $0,
-                    userName: users[$0.userId],
-                    moderatorName: $0.moderatedBy.flatMap { users[$0] }
-                )
+        let userIds = Set(feedings.map(\.userId))
+        let moderatorIds = Set(feedings.compactMap(\.moderatedBy))
+        let users = try await userProfileService.fetchUserNames(for: Array(userIds.union(moderatorIds)))
+
+        let imageMap: [String: URL] = await withTaskGroup { group in
+            for feeding in feedings {
+                group.addTask { [weak self] in
+                    let url = try? await self?.dataStoreService.getURL(key: feeding.images.first)
+                    return (feeding.id, url)
+                }
             }
+
+            var result: [String: URL] = [:]
+            for await (id, url) in group { result[id] = url }
+            return result
+        }
+
+        return feedings.map {
+            FeedingListItem(
+                $0,
+                userName: users[$0.userId],
+                moderatorName: $0.moderatedBy.flatMap { users[$0] },
+                imageURL: imageMap[$0.id]
+            )
+        }
+    }
+
+    private func fetchHistoryItems(for status: FeedingStatus) async throws -> [FeedingListItem] {
+        let history = try await networkService.query(request: .getHistoricalFeedings(status: status.rawValue))
+
+        let userIds = Set(history.map(\.userId))
+        let moderatorIds = Set(history.compactMap(\.moderatedBy))
+        let users = try await userProfileService.fetchUserNames(for: Array(userIds.union(moderatorIds)))
+
+        let imageMap: [String: URL] = await withTaskGroup { group in
+            for feeding in history {
+                group.addTask { [weak self] in
+                    let url = try? await self?.dataStoreService.getURL(key: feeding.images.first)
+                    return (feeding.id, url)
+                }
+            }
+
+            var result: [String: URL] = [:]
+            for await (id, url) in group {
+                result[id] = url
+            }
+            return result
+        }
+
+        return history.map {
+            FeedingListItem(
+                $0,
+                userName: users[$0.userId],
+                moderatorName: $0.moderatedBy.flatMap { users[$0] },
+                imageURL: imageMap[$0.id]
+            )
         }
     }
 }

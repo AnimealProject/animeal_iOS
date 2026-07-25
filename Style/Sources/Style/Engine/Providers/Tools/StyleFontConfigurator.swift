@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreText
+import UIKit
 
 /// Provides an ability to register fonts used by the UI components.
 ///
@@ -38,6 +39,8 @@ public final class StyleFontConfigurator {
         fontName: String,
         fontExtension: String = "ttf"
     ) {
+        guard !isFontRegistered(fontName: fontName) else { return }
+
         guard
             let fontURL = bundle.url(forResource: fontName, withExtension: fontExtension),
             let fontDataProvider = CGDataProvider(url: fontURL as CFURL),
@@ -49,5 +52,9 @@ public final class StyleFontConfigurator {
         }
         var error: Unmanaged<CFError>?
         CTFontManagerRegisterGraphicsFont(font, &error)
+    }
+
+    private func isFontRegistered(fontName: String) -> Bool {
+        UIFont(name: fontName, size: 1) != nil
     }
 }

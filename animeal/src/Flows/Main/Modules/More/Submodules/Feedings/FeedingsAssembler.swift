@@ -12,8 +12,9 @@ import Style
 enum FeedingsAssembler {
     static func assemble(coordinator: MorePartitionCoordinatable) -> UIViewController {
         let viewModel = FeedingsViewModel(coordinator: coordinator)
+        let designEngine: StyleEngine = StyleDefaultEngine()
         let feedingView = FeedingsView(viewModel: viewModel)
-            .environmentObject(StyleDefaultEngine())
+            .environmentObject(designEngine)
         let hostingViewController = UIHostingController(rootView: feedingView)
 
 
