@@ -100,6 +100,11 @@ final class FeedingsViewModel {
         )
     }
 
+    @MainActor
+    func goBack() {
+        coordinator.routeTo(.back)
+    }
+
     // MARK: - Loading
 
     @MainActor

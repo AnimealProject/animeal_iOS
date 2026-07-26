@@ -17,7 +17,6 @@ enum FeedingsAssembler {
             .environmentObject(designEngine)
         let hostingViewController = UIHostingController(rootView: feedingView)
 
-
         return hostingViewController
     }
 }

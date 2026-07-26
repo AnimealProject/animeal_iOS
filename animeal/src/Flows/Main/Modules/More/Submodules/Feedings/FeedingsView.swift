@@ -24,6 +24,7 @@ struct FeedingsView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 24) {
+            backButton
             titleText
 
             SegmentedView(
@@ -36,8 +37,18 @@ struct FeedingsView: View {
             Spacer()
         }
         .padding()
+        .toolbar(.hidden, for: .navigationBar)
         .task {
             await viewModel.loadAll()
+        }
+    }
+
+    private var backButton: some View {
+        Button {
+            viewModel.goBack()
+        } label: {
+            Image(asset: Asset.Images.arrowBackOffset)
+                .foregroundColor(designEngine.colors.textPrimary.color)
         }
     }
 
