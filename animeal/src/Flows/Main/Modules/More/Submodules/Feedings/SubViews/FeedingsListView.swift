@@ -3,16 +3,34 @@ import Amplify
 import Style
 
 struct FeedingsListView: View {
+    // TEMP (see [[15.2-feedings-swipe]] in Tolaria): swipe is spec'd as Pending-only,
+    // but is enabled for every status right now to make it easy to try on real data
+    // regardless of tab. Flip to `false` (or delete this flag and the `||` below)
+    // once we're done trying it out.
+    private static let isSwipeEnabledForAllStatuses = true
+
     let items: [FeedingListItem]
+
+    @State private var openedItemID: String?
 
     var body: some View {
         List(items) { item in
-            FeedingCardView(item: item)
+            row(for: item)
                 .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 0))
                 .listRowSeparator(.hidden)
                 .listRowBackground(Color.clear)
         }
         .listStyle(.plain)
+    }
+
+    private func row(for item: FeedingListItem) -> some View {
+        SwipeableFeedingCardView(
+            item: item,
+            isSwipeEnabled: item.status == .pending || Self.isSwipeEnabledForAllStatuses,
+            openedItemID: $openedItemID,
+            onApprove: { },
+            onReject: { }
+        )
     }
 }
 
