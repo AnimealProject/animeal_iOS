@@ -10,6 +10,8 @@ struct FeedingsListView: View {
     private static let isSwipeEnabledForAllStatuses = true
 
     let items: [FeedingListItem]
+    let onApprove: (FeedingListItem) -> Void
+    let onReject: (FeedingListItem) -> Void
 
     @State private var openedItemID: String?
 
@@ -28,8 +30,8 @@ struct FeedingsListView: View {
             item: item,
             isSwipeEnabled: item.status == .pending || Self.isSwipeEnabledForAllStatuses,
             openedItemID: $openedItemID,
-            onApprove: { },
-            onReject: { }
+            onApprove: { onApprove(item) },
+            onReject: { onReject(item) }
         )
     }
 }
@@ -68,7 +70,9 @@ struct FeedingsListView: View {
             mockItem(status: .approved, createdAtOffset: -3600, address: "Agmashenebeli Ave. 3", moderatedBy: "System"),
             mockItem(status: .rejected, createdAtOffset: -3600, address: "Freedom Square 1"),
             mockItem(status: .outdated, createdAtOffset: -3600, address: "Marjanishvili St. 9")
-        ]
+        ],
+        onApprove: { _ in },
+        onReject: { _ in }
     )
     .environmentObject(StyleDefaultEngine() as StyleEngine)
 }

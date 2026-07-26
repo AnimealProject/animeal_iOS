@@ -72,7 +72,11 @@ struct FeedingsView: View {
             ProgressView()
                 .frame(maxWidth: .infinity)
         case .loaded(let items):
-            FeedingsListView(items: items)
+            FeedingsListView(
+                items: items,
+                onApprove: { _ in /* TODO: wire in FeedingsView (see plan) */ },
+                onReject: { _ in /* TODO: wire in FeedingsView (see plan) */ }
+            )
         }
     }
 }

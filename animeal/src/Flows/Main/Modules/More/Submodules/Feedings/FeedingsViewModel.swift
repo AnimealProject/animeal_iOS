@@ -70,9 +70,14 @@ enum FeedingTabState {
 
 @Observable
 final class FeedingsViewModel {
+    private enum Constants {
+        static let approveReason = "The request includes all necessary details."
+    }
 
     // MARK: - Published state
     private(set) var tabStates: [FeedingStatus: FeedingTabState] = [:]
+    private(set) var isProcessingAction = false
+    var actionErrorMessage: String?
 
     // MARK: - Dependencies
     private let coordinator: MorePartitionCoordinatable
@@ -105,6 +110,43 @@ final class FeedingsViewModel {
         coordinator.routeTo(.back)
     }
 
+    // MARK: - Moderation actions
+
+    @MainActor
+    func approve(_ item: FeedingListItem) async {
+        await performAction {
+            _ = try await networkService.query(
+                request: .customMutation(
+                    ApproveFeedingMutation(feedingId: item.id, reason: Constants.approveReason)
+                )
+            )
+        }
+    }
+
+    @MainActor
+    func reject(_ item: FeedingListItem, reason: String) async {
+        await performAction {
+            _ = try await networkService.query(
+                request: .customMutation(
+                    RejectFeedingMutation(feedingId: item.id, reason: reason)
+                )
+            )
+        }
+    }
+
+    @MainActor
+    private func performAction(_ action: () async throws -> Void) async {
+        isProcessingAction = true
+        defer { isProcessingAction = false }
+
+        do {
+            try await action()
+            await load(status: .pending)
+        } catch {
+            actionErrorMessage = L10n.Errors.somethingWrong.asBaseError().description
+        }
+    }
+
     // MARK: - Loading
 
     @MainActor
@@ -130,11 +172,13 @@ final class FeedingsViewModel {
     }
 
     private func fetchItems(for status: FeedingStatus) async throws -> [FeedingListItem] {
+        let items: [FeedingListItem]
         if status == .pending {
-            return try await fetchPendingItems(for: status)
+            items = try await fetchPendingItems(for: status)
         } else {
-            return try await fetchHistoryItems(for: status)
+            items = try await fetchHistoryItems(for: status)
         }
+        return items.sorted { $0.date < $1.date }
     }
 
     private func fetchPendingItems(for status: FeedingStatus) async throws -> [FeedingListItem] {
