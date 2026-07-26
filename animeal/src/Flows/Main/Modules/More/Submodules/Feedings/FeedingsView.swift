@@ -24,6 +24,8 @@ struct FeedingsView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 24) {
+            titleText
+
             SegmentedView(
                 items: tabs.map(\.title),
                 selection: $selectedTabTitle
@@ -34,10 +36,15 @@ struct FeedingsView: View {
             Spacer()
         }
         .padding()
-        .navigationTitle(L10n.Feedings.title)
         .task {
             await viewModel.loadAll()
         }
+    }
+
+    private var titleText: some View {
+        Text(L10n.Feedings.title)
+            .font(designEngine.fonts.primary.bold(28).font)
+            .foregroundColor(designEngine.colors.textPrimary.color)
     }
 
     @ViewBuilder private var content: some View {
