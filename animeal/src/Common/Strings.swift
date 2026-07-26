@@ -116,6 +116,10 @@ internal enum L10n {
     internal static let header = L10n.tr("Localizable", "favourites.header", fallback: "Favorites")
   }
   internal enum Feeding {
+    /// Approve
+    internal static let approve = L10n.tr("Localizable", "feeding.approve", fallback: "Approve")
+    /// Reject
+    internal static let reject = L10n.tr("Localizable", "feeding.reject", fallback: "Reject")
     internal enum Alert {
       /// Do you really want to cancel feeding?
       internal static let cancelFeeding = L10n.tr("Localizable", "feeding.alert.cancelFeeding", fallback: "Do you really want to cancel feeding?")
@@ -347,12 +351,12 @@ internal enum L10n {
     internal enum Error {
       /// Code digits count doesn’t fit
       internal static let codeDigitsCountDoesNotFit = L10n.tr("Localizable", "verification.error.codeDigitsCountDoesNotFit", fallback: "Code digits count doesn’t fit")
-      /// Code request time limit exceeded
-      internal static let codeRequestTimeLimitExceeded = L10n.tr("Localizable", "verification.error.codeRequestTimeLimitExceeded", fallback: "Code request time limit exceeded")
+      /// Please wait before requesting a new code
+      internal static let codeRequestTimeLimitExceeded = L10n.tr("Localizable", "verification.error.codeRequestTimeLimitExceeded", fallback: "Please wait before requesting a new code")
       /// Attempts to enter the verification code have ended. Try requesting the code again.
       internal static let codeTriesCountLimitExceeded = L10n.tr("Localizable", "verification.error.codeTriesCountLimitExceeded", fallback: "Attempts to enter the verification code have ended. Try requesting the code again.")
-      /// Code unsupported next step
-      internal static let codeUnsupportedNextStep = L10n.tr("Localizable", "verification.error.codeUnsupportedNextStep", fallback: "Code unsupported next step")
+      /// We couldn't verify your code. Please try again later
+      internal static let codeUnsupportedNextStep = L10n.tr("Localizable", "verification.error.codeUnsupportedNextStep", fallback: "We couldn't verify your code. Please try again later")
     }
     internal enum ResendCode {
       /// Resend code 

@@ -25,8 +25,8 @@ struct SwipeableFeedingCardView: View {
         if isSwipeEnabled {
             ZStack(alignment: .trailing) {
                 HStack(spacing: Constants.gap) {
-                    FeedingQuickActionButton(status: .approved, width: Constants.buttonSize, action: approve)
-                    FeedingQuickActionButton(status: .rejected, width: Constants.buttonSize, action: reject)
+                    FeedingQuickActionButton(status: .approve, width: Constants.buttonSize, action: approve)
+                    FeedingQuickActionButton(status: .reject, width: Constants.buttonSize, action: reject)
                 }
                 .padding(.leading, Constants.gap)
                 .frame(height: cardHeight)

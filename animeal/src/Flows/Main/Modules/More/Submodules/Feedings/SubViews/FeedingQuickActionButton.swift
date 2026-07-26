@@ -3,8 +3,13 @@ import Style
 
 struct FeedingQuickActionButton: View {
     enum Status {
-        case approved
-        case rejected
+        case approve
+        case reject
+    }
+
+    private enum Constants {
+        static let approveText = L10n.Feeding.approve
+        static let rejectText = L10n.Feeding.reject
     }
 
     @EnvironmentObject private var style: StyleEngine
@@ -15,36 +20,36 @@ struct FeedingQuickActionButton: View {
 
     private var image: ImageAsset {
         switch status {
-        case .approved:
+        case .approve:
             Asset.Images.approve
-        case .rejected:
+        case .reject:
             Asset.Images.reject
         }
     }
 
     private var text: String {
         switch status {
-        case .approved:
-            "Approve"
-        case .rejected:
-            "Reject"
+        case .approve:
+            Constants.approveText
+        case .reject:
+            Constants.rejectText
         }
     }
 
     private var textColor: Color {
         switch status {
-        case .approved:
+        case .approve:
             style.colors.alwaysLight.color
-        case .rejected:
+        case .reject:
             style.colors.accent.color
         }
     }
 
     private var componentColor: Color {
         switch status {
-        case .approved:
+        case .approve:
             style.colors.accent.color
-        case .rejected:
+        case .reject:
             style.colors.alwaysLight.color
         }
     }
@@ -85,8 +90,8 @@ struct FeedingQuickActionButton: View {
 
 #Preview {
     HStack(spacing: 12) {
-        FeedingQuickActionButton(status: .approved, width: 77) { }
-        FeedingQuickActionButton(status: .rejected, width: 77) { }
+        FeedingQuickActionButton(status: .approve, width: 77) { }
+        FeedingQuickActionButton(status: .reject, width: 77) { }
     }
     .frame(height: 113)
     .padding()

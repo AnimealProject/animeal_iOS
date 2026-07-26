@@ -72,8 +72,8 @@
 "verification.subtitle.empty"                     = "კოდი გაიგზავნა დანიშნულების ადგილზე";
 "verification.resendCode.title"                   = "კოდის თავიდან გაგზავნა";
 "verification.error.codeDigitsCountDoesNotFit"    = "კოდის ციფრების რაოდენობა არ ემთხვევა";
-"verification.error.codeRequestTimeLimitExceeded" = "კოდის მოთხოვნის დროის ლიმიტი გადაჭარბებულია";
-"verification.error.codeUnsupportedNextStep"      = "შემდეგი ნაბიჯი მიუწვდომელია";
+"verification.error.codeRequestTimeLimitExceeded" = "გთხოვთ მოიცადოთ სანამ შემდეგ კოდს მოითხოვთ";
+"verification.error.codeUnsupportedNextStep"      = "კოდის დადასტურება ვერ მოხერხდა. გთხოვთ სცადოთ მოგვიანებით.";
 "verification.error.codeTriesCountLimitExceeded"  = "დამადასტურებელი კოდის შეყვანის მცდელობები ამოიწურა. სცადეთ კოდის თავიდან მოთხოვნა";
 "verification.alert.resend"                       = "Ხელახლა გაგზავნა";
 "verification.alert.cancel"                       = "გაუქმება";
@@ -116,9 +116,11 @@
 "more.qaMenu"                                     = "QA მენიუ";
 "qaMenu.title"                                    = "QA მენიუ";
 "qaMenu.loadAllFeedingPoints"                     = "ყველა კვების წერტილის ჩატვირთვა";
-"more.feedings"                                   = "კვებები";
-"feedings.title"                                  = "კვებები";
+"more.feedings"                                   = "კვება";
+"feedings.title"                                  = "კვება";
 "feedings.pending"                                = "მოლოდინში";
 "feedings.approved"                               = "დამტკიცებული";
 "feedings.rejected"                               = "უარყოფილი";
-"feedings.outdated"                               = "მოძველებული";
+"feedings.outdated"                               = "დაძველებული";
+"feeding.approve"                                 = "დამტკიცება";
+"feeding.reject"                                  = "უარყოფა";
