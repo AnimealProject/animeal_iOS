@@ -12,7 +12,7 @@ import Style
 struct FeedingsView: View {
     var viewModel: FeedingsViewModel
 
-    private let designEngine: StyleEngine = StyleDefaultEngine()
+    @EnvironmentObject private var style: StyleEngine
 
     private let tabs: [(title: String, status: FeedingStatus)] = [
         (L10n.Feedings.pending, .pending),
@@ -21,26 +21,63 @@ struct FeedingsView: View {
         (L10n.Feedings.outdated, .outdated)
     ]
     @State private var selectedTabTitle = L10n.Feedings.pending
+    @State private var itemPendingRejection: FeedingListItem?
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 24) {
-            backButton
-            titleText
+        ZStack {
+            VStack(alignment: .leading, spacing: 24) {
+                backButton
+                titleText
 
-            SegmentedView(
-                items: tabs.map(\.title),
-                selection: $selectedTabTitle
+                SegmentedView(
+                    items: tabs.map(\.title),
+                    selection: $selectedTabTitle
+                )
+
+                content
+
+                Spacer()
+            }
+            .padding()
+            .toolbar(.hidden, for: .navigationBar)
+            .task {
+                await viewModel.loadAll()
+            }
+
+            if let item = itemPendingRejection {
+                rejectionPopup(for: item)
+            }
+        }
+        .animation(.easeInOut(duration: 0.2), value: itemPendingRejection != nil)
+    }
+
+    private func rejectionPopup(for item: FeedingListItem) -> some View {
+        ZStack {
+            Color.black.opacity(0.4)
+                .ignoresSafeArea()
+                .onTapGesture {
+                    itemPendingRejection = nil
+                }
+
+            FeedingRejectionReasonAlert(
+                onCancel: {
+                    itemPendingRejection = nil
+                },
+                onReject: { reason in
+                    Task {
+                        await viewModel.reject(item, reason: reason)
+                        itemPendingRejection = nil
+                    }
+                }
             )
-
-            content
-
-            Spacer()
+            .padding(24)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Asset.Colors.backgroundPrimary.swiftUIColor)
+            )
+            .padding(.horizontal, 24)
         }
-        .padding()
-        .toolbar(.hidden, for: .navigationBar)
-        .task {
-            await viewModel.loadAll()
-        }
+        .transition(.opacity.combined(with: .scale(scale: 0.95)))
     }
 
     private var backButton: some View {
@@ -48,14 +85,14 @@ struct FeedingsView: View {
             viewModel.goBack()
         } label: {
             Image(asset: Asset.Images.arrowBackOffset)
-                .foregroundColor(designEngine.colors.textPrimary.color)
+                .foregroundColor(style.colors.textPrimary.color)
         }
     }
 
     private var titleText: some View {
         Text(L10n.Feedings.title)
-            .font(designEngine.fonts.primary.bold(28).font)
-            .foregroundColor(designEngine.colors.textPrimary.color)
+            .font(style.fonts.primary.bold(28).font)
+            .foregroundColor(style.colors.textPrimary.color)
     }
 
     @ViewBuilder private var content: some View {
@@ -64,18 +101,26 @@ struct FeedingsView: View {
         switch status {
         case .none:
             Text(L10n.Errors.somethingWrong.asBaseError().description)
-                .foregroundColor(designEngine.colors.error.color)
+                .foregroundColor(style.colors.error.color)
         case .failed:
             Text(L10n.Errors.somethingWrong.asBaseError().description)
-                .foregroundColor(designEngine.colors.error.color)
+                .foregroundColor(style.colors.error.color)
         case .isLoading:
             ProgressView()
                 .frame(maxWidth: .infinity)
         case .loaded(let items):
             FeedingsListView(
                 items: items,
-                onApprove: { _ in /* TODO: wire in FeedingsView (see plan) */ },
-                onReject: { _ in /* TODO: wire in FeedingsView (see plan) */ }
+                onApprove: { item in
+                    Task {
+                        await viewModel.approve(item)
+                    }
+                },
+                onReject: { item in
+                    Task {
+                        itemPendingRejection = item
+                    }
+                }
             )
         }
     }

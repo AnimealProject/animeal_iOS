@@ -136,6 +136,26 @@ internal enum L10n {
       /// You can't start feeding while another one is in progress
       internal static let otherFeedingRunning = L10n.tr("Localizable", "feeding.error.otherFeedingRunning", fallback: "You can't start feeding while another one is in progress")
     }
+    internal enum Reason {
+      /// Bad photo quality
+      internal static let badPhotoQuality = L10n.tr("Localizable", "feeding.reason.badPhotoQuality", fallback: "Bad photo quality")
+      /// Cancel
+      internal static let cancel = L10n.tr("Localizable", "feeding.reason.cancel", fallback: "Cancel")
+      /// Feeding point not visible
+      internal static let feedingPointNotVisible = L10n.tr("Localizable", "feeding.reason.feedingPointNotVisible", fallback: "Feeding point not visible")
+      /// Inappropriate content
+      internal static let inappropriateContent = L10n.tr("Localizable", "feeding.reason.InappropriateContent", fallback: "Inappropriate content")
+      /// No food
+      internal static let noFood = L10n.tr("Localizable", "feeding.reason.noFood", fallback: "No food")
+      /// Other
+      internal static let other = L10n.tr("Localizable", "feeding.reason.other", fallback: "Other")
+      /// Please choose reason to reject:
+      internal static let title = L10n.tr("Localizable", "feeding.reason.title", fallback: "Please choose reason to reject:")
+      internal enum Other {
+        /// Mandatory in case of Other error. Please type something.
+        internal static let explanation = L10n.tr("Localizable", "feeding.reason.other.explanation", fallback: "Mandatory in case of Other error. Please type something.")
+      }
+    }
     internal enum Status {
       /// Newly fed
       internal static let fed = L10n.tr("Localizable", "feeding.status.fed", fallback: "Newly fed")

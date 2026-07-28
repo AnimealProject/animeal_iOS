@@ -124,3 +124,11 @@
 "feedings.outdated"                               = "Outdated";
 "feeding.approve"                                 = "Approve";
 "feeding.reject"                                  = "Reject";
+"feeding.reason.noFood"                           = "No food";
+"feeding.reason.badPhotoQuality"                  = "Bad photo quality";
+"feeding.reason.feedingPointNotVisible"           = "Feeding point not visible";
+"feeding.reason.InappropriateContent"             = "Inappropriate content";
+"feeding.reason.other"                            = "Other";
+"feeding.reason.title"                            = "Please choose reason to reject:";
+"feeding.reason.other.explanation"                = "Mandatory in case of Other error. Please type something.";
+"feeding.reason.cancel"                           = "Cancel";
