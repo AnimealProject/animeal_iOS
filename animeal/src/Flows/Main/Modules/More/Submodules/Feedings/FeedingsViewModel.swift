@@ -155,6 +155,7 @@ final class FeedingsViewModel {
 
     @MainActor
     private func performAction(destination: FeedingStatus, _ action: () async throws -> Void) async {
+        guard !isProcessingAction else { return }
         isProcessingAction = true
         defer { isProcessingAction = false }
 
