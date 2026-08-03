@@ -32,26 +32,44 @@ struct FeedingListItem: Identifiable {
     let review: FeedingReview
     let address: String
     let status: FeedingStatus
-    let imageURL: URL?
+    let feedingPointImageURL: URL?
+    let imageURLs: [URL]
+    let rejectionReason: String?
     let date: Date
 
-    init(_ feeding: Feeding, userName: String?, moderatorName: String?, imageURL: URL?) {
+    init(
+        _ feeding: Feeding,
+        userName: String?,
+        moderatorName: String?,
+        feedingPointImageURL: URL?,
+        imageURLs: [URL]
+    ) {
         self.id = feeding.id
         self.user = User(userId: feeding.userId, userName: userName)
         self.review = Self.makeReview(moderatedBy: feeding.moderatedBy, moderatorName: moderatorName)
         self.address = feeding.feedingPointDetails?.address ?? ""
         self.status = feeding.status
-        self.imageURL = imageURL
+        self.feedingPointImageURL = feedingPointImageURL
+        self.imageURLs = imageURLs
+        self.rejectionReason = nil
         self.date = feeding.createdAt.foundationDate
     }
 
-    init(_ history: FeedingHistory, userName: String?, moderatorName: String?, imageURL: URL?) {
+    init(
+        _ history: FeedingHistory,
+        userName: String?,
+        moderatorName: String?,
+        feedingPointImageURL: URL?,
+        imageURLs: [URL]
+    ) {
         self.id = history.id
         self.user = User(userId: history.userId, userName: userName)
         self.review = Self.makeReview(moderatedBy: history.moderatedBy, moderatorName: moderatorName)
         self.address = history.feedingPointDetails?.address ?? ""
         self.status = history.status ?? .outdated
-        self.imageURL = imageURL
+        self.feedingPointImageURL = feedingPointImageURL
+        self.imageURLs = imageURLs
+        self.rejectionReason = history.reason
         self.date = history.updatedAt.foundationDate
     }
 
@@ -77,6 +95,7 @@ final class FeedingsViewModel {
     // MARK: - Published state
     private(set) var tabStates: [FeedingStatus: FeedingTabState] = [:]
     private(set) var isProcessingAction = false
+    private(set) var hasReviewedFeedingsThisSession = false
     var actionErrorMessage: String?
 
     // MARK: - Dependencies
@@ -114,7 +133,7 @@ final class FeedingsViewModel {
 
     @MainActor
     func approve(_ item: FeedingListItem) async {
-        await performAction {
+        await performAction(destination: .approved) {
             _ = try await networkService.query(
                 request: .customMutation(
                     ApproveFeedingMutation(feedingId: item.id, reason: Constants.approveReason)
@@ -125,7 +144,7 @@ final class FeedingsViewModel {
 
     @MainActor
     func reject(_ item: FeedingListItem, reason: String) async {
-        await performAction {
+        await performAction(destination: .rejected) {
             _ = try await networkService.query(
                 request: .customMutation(
                     RejectFeedingMutation(feedingId: item.id, reason: reason)
@@ -135,13 +154,16 @@ final class FeedingsViewModel {
     }
 
     @MainActor
-    private func performAction(_ action: () async throws -> Void) async {
+    private func performAction(destination: FeedingStatus, _ action: () async throws -> Void) async {
         isProcessingAction = true
         defer { isProcessingAction = false }
 
         do {
             try await action()
-            await load(status: .pending)
+            hasReviewedFeedingsThisSession = true
+            async let pending: Void = load(status: .pending)
+            async let destinationTab: Void = load(status: destination)
+            _ = await (pending, destinationTab)
         } catch {
             actionErrorMessage = L10n.Errors.somethingWrong.asBaseError().description
         }
@@ -189,25 +211,18 @@ final class FeedingsViewModel {
         let moderatorIds = Set(feedings.compactMap(\.moderatedBy))
         let users = try await userProfileService.fetchUserNames(for: Array(userIds.union(moderatorIds)))
 
-        let imageMap: [String: URL] = await withTaskGroup { group in
-            for feeding in feedings {
-                group.addTask { [weak self] in
-                    let url = try? await self?.dataStoreService.getURL(key: feeding.images.first)
-                    return (feeding.id, url)
-                }
-            }
-
-            var result: [String: URL] = [:]
-            for await (id, url) in group { result[id] = url }
-            return result
-        }
+        let imageMap = await dataStoreService.getURLs(for: feedings.map { ($0.id, $0.images) })
+        let feedingPointImageMap = await resolveFeedingPointImageURLs(
+            for: Set(feedings.map(\.feedingPointFeedingsId))
+        )
 
         return feedings.map {
             FeedingListItem(
                 $0,
                 userName: users[$0.userId],
                 moderatorName: $0.moderatedBy.flatMap { users[$0] },
-                imageURL: imageMap[$0.id]
+                feedingPointImageURL: feedingPointImageMap[$0.feedingPointFeedingsId],
+                imageURLs: imageMap[$0.id] ?? []
             )
         }
     }
@@ -219,28 +234,40 @@ final class FeedingsViewModel {
         let moderatorIds = Set(history.compactMap(\.moderatedBy))
         let users = try await userProfileService.fetchUserNames(for: Array(userIds.union(moderatorIds)))
 
-        let imageMap: [String: URL] = await withTaskGroup { group in
-            for feeding in history {
-                group.addTask { [weak self] in
-                    let url = try? await self?.dataStoreService.getURL(key: feeding.images.first)
-                    return (feeding.id, url)
-                }
-            }
-
-            var result: [String: URL] = [:]
-            for await (id, url) in group {
-                result[id] = url
-            }
-            return result
-        }
+        let imageMap = await dataStoreService.getURLs(for: history.map { ($0.id, $0.images) })
+        let feedingPointImageMap = await resolveFeedingPointImageURLs(
+            for: Set(history.map(\.feedingPointId))
+        )
 
         return history.map {
             FeedingListItem(
                 $0,
                 userName: users[$0.userId],
                 moderatorName: $0.moderatedBy.flatMap { users[$0] },
-                imageURL: imageMap[$0.id]
+                feedingPointImageURL: feedingPointImageMap[$0.feedingPointId],
+                imageURLs: imageMap[$0.id] ?? []
             )
+        }
+    }
+
+    private func resolveFeedingPointImageURLs(for feedingPointIds: Set<String>) async -> [String: URL] {
+        await withTaskGroup { group in
+            for feedingPointId in feedingPointIds {
+                group.addTask { [weak self] in
+                    guard let self else { return (feedingPointId, nil as URL?) }
+                    guard let point = try? await self.networkService.query(
+                        request: .get(FeedingPoint.self, byId: feedingPointId)
+                    ), let cover = point.cover else {
+                        return (feedingPointId, nil)
+                    }
+                    let url = try? await self.dataStoreService.getURL(key: cover)
+                    return (feedingPointId, url)
+                }
+            }
+
+            var result: [String: URL] = [:]
+            for await (id, url) in group { result[id] = url }
+            return result
         }
     }
 }

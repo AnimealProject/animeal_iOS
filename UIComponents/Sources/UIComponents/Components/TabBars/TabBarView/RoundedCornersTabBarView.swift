@@ -68,8 +68,9 @@ extension RoundedCornersTabBarView: TabBarView {
         itemViews = items.enumerated().map { index, tabBarItemView in
             stackView.addArrangedSubview(tabBarItemView)
             let gestureRecognizer = TapGestureRecognizer { [weak self] _ in
+                // setSelectedIndex already invokes onSelectedItemUpdate — calling it again here
+                // double-fired TabBarController.changeSelectedViewController() per tap.
                 self?.setSelectedIndex(index)
-                self?.onSelectedItemUpdate?()
             }
             tabBarItemView.addGestureRecognizer(gestureRecognizer)
 

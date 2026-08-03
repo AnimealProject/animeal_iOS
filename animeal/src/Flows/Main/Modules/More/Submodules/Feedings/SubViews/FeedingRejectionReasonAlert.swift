@@ -28,37 +28,52 @@ struct FeedingRejectionReasonAlert: View {
             createCheckbox(checkboxText: L10n.Feeding.Reason.feedingPointNotVisible, reason: .feedingPointNotVisible)
             createCheckbox(checkboxText: L10n.Feeding.Reason.inappropriateContent, reason: .inappropriateContent)
             createCheckbox(checkboxText: L10n.Feeding.Reason.other, reason: .other)
-            VStack(alignment: .leading, spacing: 4) {
-                TextEditor(
-                    text: Binding(
-                        get: { otherReason ?? "" },
-                        set: { otherReason = $0 }
-                    )
-                )
-                .frame(height: 100)
-                .overlay {
-                    RoundedRectangle(cornerRadius: 12)
-                        .strokeBorder(
-                            Asset.Colors.carminePink.swiftUIColor,
-                            lineWidth: 1
+            if reason == .other {
+                VStack(alignment: .leading, spacing: 4) {
+                    TextEditor(
+                        text: Binding(
+                            get: { otherReason ?? "" },
+                            set: { otherReason = $0 }
                         )
+                    )
+                    .frame(height: 100)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 12)
+                            .strokeBorder(
+                                Asset.Colors.carminePink.swiftUIColor,
+                                lineWidth: 1
+                            )
+                    }
+                    Text(L10n.Feeding.Reason.Other.explanation)
+                        .font(style.fonts.secondary.regular(10).font)
+                        .foregroundColor(Asset.Colors.carminePink.swiftUIColor)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .multilineTextAlignment(.center)
                 }
-                Text(L10n.Feeding.Reason.Other.explanation)
-                    .font(style.fonts.secondary.regular(10).font)
-                    .foregroundColor(Asset.Colors.carminePink.swiftUIColor)
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .multilineTextAlignment(.center)
             }
             HStack(alignment: .center, spacing: 12) {
                 FeedingCapsuleButtonFactory.outlined(title: L10n.Feeding.Reason.cancel, style: style) {
                     onCancel()
                 }
 
-                FeedingCapsuleButtonFactory.filled(title: L10n.Feeding.reject, style: style) {
+                FeedingCapsuleButtonFactory.filled(
+                    title: L10n.Feeding.reject,
+                    style: style,
+                    isEnabled: isRejectEnabled
+                ) {
                     onReject(resolvedReasonText)
                 }
             }
         }
+        .animation(.easeInOut(duration: 0.2), value: reason == .other)
+    }
+
+    private var isRejectEnabled: Bool {
+        reason != .other || !trimmedOtherReason.isEmpty
+    }
+
+    private var trimmedOtherReason: String {
+        (otherReason ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     private var resolvedReasonText: String {
@@ -67,7 +82,7 @@ struct FeedingRejectionReasonAlert: View {
         case .badPhotoQuality: L10n.Feeding.Reason.badPhotoQuality
         case .feedingPointNotVisible: L10n.Feeding.Reason.feedingPointNotVisible
         case .inappropriateContent: L10n.Feeding.Reason.inappropriateContent
-        case .other: otherReason ?? ""
+        case .other: trimmedOtherReason
         }
     }
 

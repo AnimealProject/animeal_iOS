@@ -12,6 +12,9 @@ private enum Constants {
     static let containerPadding: CGFloat = 3
     static let cornerRadius: CGFloat = 10
     static let shadowColor = Color.black.opacity(0.12)
+    static let shadowRadius: CGFloat = 6
+    static let shadowOffsetX: CGFloat = 2
+    static let shadowOffsetY: CGFloat = 4
 }
 
 public struct SegmentedView: View {
@@ -32,11 +35,16 @@ public struct SegmentedView: View {
             }
         }
         .padding(Constants.containerPadding)
-        .background(designEngine.colors.backgroundSecondary.color)
+        .background(designEngine.colors.backgroundPrimary.color)
         .clipShape(
             RoundedRectangle(cornerRadius: Constants.cornerRadius + Constants.containerPadding)
         )
-        .shadow(color: Constants.shadowColor, radius: 24, x: 0, y: 12)
+        .shadow(
+            color: Constants.shadowColor,
+            radius: Constants.shadowRadius,
+            x: Constants.shadowOffsetX,
+            y: Constants.shadowOffsetY
+        )
     }
 
     private func tabButton(for item: String) -> some View {

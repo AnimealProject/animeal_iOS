@@ -17,6 +17,7 @@ struct SwipeableFeedingCardView: View {
     @Binding var openedItemID: String?
     let onApprove: () -> Void
     let onReject: () -> Void
+    let onTap: () -> Void
 
     @GestureState private var dragTranslation: CGFloat = 0
     @State private var cardHeight: CGFloat?
@@ -45,10 +46,11 @@ struct SwipeableFeedingCardView: View {
                     )
                     .offset(x: currentOffset)
                     .gesture(dragGesture)
-                    .onTapGesture { close() }
+                    .onTapGesture { handleTap() }
             }
         } else {
             FeedingCardView(item: item)
+                .onTapGesture { onTap() }
         }
     }
 }
@@ -136,6 +138,17 @@ private extension SwipeableFeedingCardView {
     func reject() {
         onReject()
         close()
+    }
+
+    // A tap while any swipe is open just closes it; otherwise the tap opens the detail.
+    func handleTap() {
+        if openedItemID != nil {
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                openedItemID = nil
+            }
+        } else {
+            onTap()
+        }
     }
 
     func close() {

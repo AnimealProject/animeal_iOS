@@ -73,6 +73,7 @@ public enum Asset {
     public static let placeCoverPlaceholder = ImageAsset(name: "place_cover_placeholder")
     public static let checkboxRadioSelected = ImageAsset(name: "CheckboxRadioSelected")
     public static let checkboxRadioUnselected = ImageAsset(name: "CheckboxRadioUnselected")
+    public static let emptyStateBone = ImageAsset(name: "EmptyStateBone")
     public static let approve = ImageAsset(name: "approve")
     public static let reject = ImageAsset(name: "reject")
     public static let aboutPhoto = ImageAsset(name: "about_photo")

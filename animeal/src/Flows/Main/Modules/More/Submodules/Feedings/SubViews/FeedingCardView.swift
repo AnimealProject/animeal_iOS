@@ -10,15 +10,11 @@ struct FeedingCardView: View {
 
     var body: some View {
         HStack {
-            KFImage(item.imageURL)
+            KFImage(item.feedingPointImageURL)
                 .loadDiskFileSynchronously()
                 .cacheOriginalImage()
                 .fade(duration: 0.3)
-                .placeholder {
-                    Image(asset: Asset.Images.placeCoverPlaceholder)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                }
+                .placeholder { FeedingImagePlaceholder() }
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 81, height: 81)
@@ -58,8 +54,9 @@ struct FeedingCardView: View {
         )
     }
 
-    /// Produces relative strings like: "34 minutes ago", "2 hours ago"
-    private static let relativeDateFormatter: RelativeDateTimeFormatter = {
+    /// Produces relative strings like: "34 minutes ago", "2 hours ago".
+    /// Shared with FeedingDetailSheet's header.
+    static let relativeDateFormatter: RelativeDateTimeFormatter = {
         let formatter = RelativeDateTimeFormatter()
         formatter.dateTimeStyle = .named
         formatter.unitsStyle = .full
@@ -88,7 +85,8 @@ struct FeedingCardView: View {
             feeding,
             userName: "Serhii Terokhyn",
             moderatorName: "Serano De Berzerak",
-            imageURL: URL(string: "https://picsum.photos/200")
+            feedingPointImageURL: URL(string: "https://picsum.photos/201"),
+            imageURLs: [URL(string: "https://picsum.photos/200")].compactMap { $0 }
         )
     }
 

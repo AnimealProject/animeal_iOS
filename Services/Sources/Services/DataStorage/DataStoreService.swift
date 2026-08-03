@@ -47,4 +47,25 @@ extension DataStoreServiceProtocol {
             }
         }
     }
+
+    /// Resolves every key in each batch to a URL, in parallel across batches and in order within each batch.
+    public func getURLs<ID: Hashable>(for batches: [(id: ID, keys: [String])]) async -> [ID: [URL]] {
+        await withTaskGroup(of: (ID, [URL]).self) { group in
+            for batch in batches {
+                group.addTask {
+                    var urls: [URL] = []
+                    for key in batch.keys {
+                        if let url = try? await self.getURL(key: key) {
+                            urls.append(url)
+                        }
+                    }
+                    return (batch.id, urls)
+                }
+            }
+
+            var result: [ID: [URL]] = [:]
+            for await (id, urls) in group { result[id] = urls }
+            return result
+        }
+    }
 }

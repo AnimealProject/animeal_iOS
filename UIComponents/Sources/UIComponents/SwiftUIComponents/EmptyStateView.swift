@@ -1,0 +1,62 @@
+import SwiftUI
+import Style
+
+public struct EmptyStateView: View {
+    let image: ImageAsset
+    let title: String
+    let subtitle: String
+    let titleColor: Color
+    let subtitleColor: Color
+
+    public init(
+        image: ImageAsset,
+        title: String,
+        subtitle: String,
+        titleColor: Color,
+        subtitleColor: Color
+    ) {
+        self.image = image
+        self.title = title
+        self.subtitle = subtitle
+        self.titleColor = titleColor
+        self.subtitleColor = subtitleColor
+    }
+
+    public var body: some View {
+        VStack(spacing: 16) {
+            Image(asset: image)
+
+            Text(title)
+                .font(.system(size: 28, weight: .bold))
+                .foregroundColor(titleColor)
+
+            Text(subtitle)
+                .font(.system(size: 16))
+                .foregroundColor(subtitleColor)
+                .multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity)
+    }
+}
+
+#Preview("Well done") {
+    EmptyStateView(
+        image: Asset.Images.emptyStateBone,
+        title: "Well done!",
+        subtitle: "Thank you!\nAll feedings have been reviewed.",
+        titleColor: .cyan,
+        subtitleColor: .primary
+    )
+    .padding()
+}
+
+#Preview("Ooops") {
+    EmptyStateView(
+        image: Asset.Images.emptyStateBone,
+        title: "Ooops!",
+        subtitle: "There is no items in the list yet.",
+        titleColor: .cyan,
+        subtitleColor: .primary
+    )
+    .padding()
+}

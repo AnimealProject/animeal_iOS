@@ -140,8 +140,9 @@ private extension TabBarController {
         let newViewController = itemsByIdentifier[identifier]?.viewController
         if selectedViewController == newViewController,
             let navigation = selectedViewController as? UINavigationController {
-            // As in standard UITabBarController.
-            navigation.popViewController(animated: true)
+            // As in standard UITabBarController: re-tapping the already-selected tab pops all
+            // the way back to that tab's root, not just one level.
+            navigation.popToRootViewController(animated: true)
             return
         }
 

@@ -118,8 +118,20 @@ internal enum L10n {
   internal enum Feeding {
     /// Approve
     internal static let approve = L10n.tr("Localizable", "feeding.approve", fallback: "Approve")
+    /// Feeded by: %@
+    internal static func feededBy(_ p1: Any) -> String {
+      return L10n.tr("Localizable", "feeding.feededBy", String(describing: p1), fallback: "Feeded by: %@")
+    }
     /// Reject
     internal static let reject = L10n.tr("Localizable", "feeding.reject", fallback: "Reject")
+    /// Rejection reason: %@
+    internal static func rejectionReason(_ p1: Any) -> String {
+      return L10n.tr("Localizable", "feeding.rejectionReason", String(describing: p1), fallback: "Rejection reason: %@")
+    }
+    /// Reviewed by: %@
+    internal static func reviewedBy(_ p1: Any) -> String {
+      return L10n.tr("Localizable", "feeding.reviewedBy", String(describing: p1), fallback: "Reviewed by: %@")
+    }
     internal enum Alert {
       /// Do you really want to cancel feeding?
       internal static let cancelFeeding = L10n.tr("Localizable", "feeding.alert.cancelFeeding", fallback: "Do you really want to cancel feeding?")
@@ -176,6 +188,17 @@ internal enum L10n {
     internal static let rejected = L10n.tr("Localizable", "feedings.rejected", fallback: "Rejected")
     /// Feedings
     internal static let title = L10n.tr("Localizable", "feedings.title", fallback: "Feedings")
+    internal enum Empty {
+      /// There is no items in the list yet.
+      internal static let oopsSubtitle = L10n.tr("Localizable", "feedings.empty.oopsSubtitle", fallback: "There is no items in the list yet.")
+      /// Ooops!
+      internal static let oopsTitle = L10n.tr("Localizable", "feedings.empty.oopsTitle", fallback: "Ooops!")
+      /// Thank you!
+      /// All feedings have been reviewed.
+      internal static let wellDoneSubtitle = L10n.tr("Localizable", "feedings.empty.wellDoneSubtitle", fallback: "Thank you!\nAll feedings have been reviewed.")
+      /// Well done!
+      internal static let wellDoneTitle = L10n.tr("Localizable", "feedings.empty.wellDoneTitle", fallback: "Well done!")
+    }
   }
   internal enum LeaderBoard {
     /// Leaderboard will show the rating of volunteers
@@ -338,6 +361,8 @@ internal enum L10n {
   internal enum Text {
     /// Animals are fed
     internal static let animalsAreFed = L10n.tr("Localizable", "text.animalsAreFed", fallback: "Animals are fed")
+    /// Your feeding will be reviewed by our moderators
+    internal static let feedingWillBeReviewed = L10n.tr("Localizable", "text.feedingWillBeReviewed", fallback: "Your feeding will be reviewed by our moderators")
     /// left
     internal static let `left` = L10n.tr("Localizable", "text.left", fallback: "left")
     /// You will have 1 hour to provide food at the Feeding Point. Thank you in advance!

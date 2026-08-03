@@ -2,16 +2,15 @@ import SwiftUI
 import Amplify
 import Style
 
-struct FeedingsListView: View {
-    // TEMP (see [[15.2-feedings-swipe]] in Tolaria): swipe is spec'd as Pending-only,
-    // but is enabled for every status right now to make it easy to try on real data
-    // regardless of tab. Flip to `false` (or delete this flag and the `||` below)
-    // once we're done trying it out.
-    private static let isSwipeEnabledForAllStatuses = true
-
-    let items: [FeedingListItem]
+struct FeedingItemActions {
     let onApprove: (FeedingListItem) -> Void
     let onReject: (FeedingListItem) -> Void
+    let onTap: (FeedingListItem) -> Void
+}
+
+struct FeedingsListView: View {
+    let items: [FeedingListItem]
+    let actions: FeedingItemActions
 
     @State private var openedItemID: String?
 
@@ -28,10 +27,11 @@ struct FeedingsListView: View {
     private func row(for item: FeedingListItem) -> some View {
         SwipeableFeedingCardView(
             item: item,
-            isSwipeEnabled: item.status == .pending || Self.isSwipeEnabledForAllStatuses,
+            isSwipeEnabled: item.status == .pending,
             openedItemID: $openedItemID,
-            onApprove: { onApprove(item) },
-            onReject: { onReject(item) }
+            onApprove: { actions.onApprove(item) },
+            onReject: { actions.onReject(item) },
+            onTap: { actions.onTap(item) }
         )
     }
 }
@@ -57,7 +57,8 @@ struct FeedingsListView: View {
             feeding,
             userName: "Serhii Terokhyn",
             moderatorName: "Serano De Berzerak",
-            imageURL: URL(string: "https://picsum.photos/200")
+            feedingPointImageURL: URL(string: "https://picsum.photos/201"),
+            imageURLs: [URL(string: "https://picsum.photos/200")].compactMap { $0 }
         )
     }
 
@@ -71,8 +72,7 @@ struct FeedingsListView: View {
             mockItem(status: .rejected, createdAtOffset: -3600, address: "Freedom Square 1"),
             mockItem(status: .outdated, createdAtOffset: -3600, address: "Marjanishvili St. 9")
         ],
-        onApprove: { _ in },
-        onReject: { _ in }
+        actions: FeedingItemActions(onApprove: { _ in }, onReject: { _ in }, onTap: { _ in })
     )
     .environmentObject(StyleDefaultEngine() as StyleEngine)
 }

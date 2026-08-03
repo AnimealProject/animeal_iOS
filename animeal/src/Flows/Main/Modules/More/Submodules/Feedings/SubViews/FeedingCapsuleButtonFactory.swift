@@ -3,7 +3,12 @@ import Style
 import UIComponents
 
 enum FeedingCapsuleButtonFactory {
-    static func filled(title: String, style: StyleEngine, action: @escaping () -> Void) -> CapsuleButton {
+    static func filled(
+        title: String,
+        style: StyleEngine,
+        isEnabled: Bool = true,
+        action: @escaping () -> Void
+    ) -> CapsuleButton {
         CapsuleButton(
             title: title,
             font: style.fonts.primary.bold(16).font,
@@ -11,11 +16,17 @@ enum FeedingCapsuleButtonFactory {
             backgroundColor: style.colors.accent.color,
             borderColor: style.colors.accent.color,
             height: 60,
+            isEnabled: isEnabled,
             action: action
         )
     }
 
-    static func outlined(title: String, style: StyleEngine, action: @escaping () -> Void) -> CapsuleButton {
+    static func outlined(
+        title: String,
+        style: StyleEngine,
+        isEnabled: Bool = true,
+        action: @escaping () -> Void
+    ) -> CapsuleButton {
         CapsuleButton(
             title: title,
             font: style.fonts.primary.bold(16).font,
@@ -23,6 +34,7 @@ enum FeedingCapsuleButtonFactory {
             backgroundColor: style.colors.alwaysLight.color,
             borderColor: style.colors.accent.color,
             height: 60,
+            isEnabled: isEnabled,
             action: action
         )
     }

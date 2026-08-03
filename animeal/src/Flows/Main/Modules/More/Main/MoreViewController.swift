@@ -31,6 +31,7 @@ final class MoreViewController: UIViewController, MoreViewable {
     }
 
     func applyActions(_ viewItems: [MoreItemView]) {
+        contentView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         viewItems.forEach { viewItem in
             let view = TitleDisclosureView()
             view.configure(

@@ -36,9 +36,10 @@ struct FeedingFinishedView: View {
             Text(L10n.Text.thankYou)
                 .foregroundColor(Asset.Colors.darkTurquoise.swiftUIColor)
                 .font(designEngine.fonts.primary.bold(32).font)
-            Text(L10n.Text.animalsAreFed)
+            Text(model.isTrusted ? L10n.Text.animalsAreFed : L10n.Text.feedingWillBeReviewed)
                 .foregroundColor(designEngine.colors.textPrimary.color)
                 .font(designEngine.fonts.primary.regular(16).font)
+                .multilineTextAlignment(.center)
             Spacer()
         }
     }
@@ -52,10 +53,14 @@ struct FeedingFinishedView: View {
 
 struct FeedingFinishedView_Previews: PreviewProvider {
     static let designEngine: StyleEngine = StyleDefaultEngine()
-    static let model = FeedingFinishedModel.previewModel
 
     static var previews: some View {
-        FeedingFinishedView(model: model)
+        FeedingFinishedView(model: FeedingFinishedModel(isTrusted: true))
             .environmentObject(designEngine)
+            .previewDisplayName("Trusted")
+
+        FeedingFinishedView(model: FeedingFinishedModel(isTrusted: false))
+            .environmentObject(designEngine)
+            .previewDisplayName("Non-trusted")
     }
 }

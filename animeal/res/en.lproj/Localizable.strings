@@ -132,3 +132,11 @@
 "feeding.reason.title"                            = "Please choose reason to reject:";
 "feeding.reason.other.explanation"                = "Mandatory in case of Other error. Please type something.";
 "feeding.reason.cancel"                           = "Cancel";
+"feedings.empty.wellDoneTitle"                    = "Well done!";
+"feedings.empty.wellDoneSubtitle"                 = "Thank you!\nAll feedings have been reviewed.";
+"feedings.empty.oopsTitle"                        = "Ooops!";
+"feedings.empty.oopsSubtitle"                     = "There is no items in the list yet.";
+"feeding.feededBy"                                = "Feeded by: %@";
+"feeding.reviewedBy"                              = "Reviewed by: %@";
+"feeding.rejectionReason"                         = "Rejection reason: %@";
+"text.feedingWillBeReviewed"                      = "Your feeding will be reviewed by our moderators";

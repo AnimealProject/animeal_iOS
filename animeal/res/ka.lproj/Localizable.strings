@@ -132,3 +132,11 @@
 "feeding.reason.title"                            = "სავალდებულოა „სხვა\" შემთხვევაში. გთხოვთ, შეიყვანოთ ტექსტი.";
 "feeding.reason.other.explanation"                = "გთხოვთ, აირჩიოთ უარყოფის მიზეზი:";
 "feeding.reason.cancel"                           = "გაუქმება";
+"feedings.empty.wellDoneTitle"                    = "ყოჩაღ!";
+"feedings.empty.wellDoneSubtitle"                 = "მადლობა!\nყველა კვება განხილულია.";
+"feedings.empty.oopsTitle"                        = "უპს!";
+"feedings.empty.oopsSubtitle"                     = "სიაში ჯერ არაფერია.";
+"feeding.feededBy"                                = "მკვებავი: %@";
+"feeding.reviewedBy"                              = "განიხილა: %@";
+"feeding.rejectionReason"                         = "უარყოფის მიზეზი: %@";
+"text.feedingWillBeReviewed"                      = "თქვენს კვებას განიხილავენ ჩვენი მოდერატორები";

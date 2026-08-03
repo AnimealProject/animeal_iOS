@@ -8,6 +8,7 @@ public struct CapsuleButton: View {
     let borderColor: Color
     let borderWidth: CGFloat
     let height: CGFloat
+    let isEnabled: Bool
     let action: () -> Void
 
     public init(
@@ -18,6 +19,7 @@ public struct CapsuleButton: View {
         borderColor: Color,
         borderWidth: CGFloat = 1,
         height: CGFloat = 50,
+        isEnabled: Bool = true,
         action: @escaping () -> Void
     ) {
         self.title = title
@@ -27,6 +29,7 @@ public struct CapsuleButton: View {
         self.borderColor = borderColor
         self.borderWidth = borderWidth
         self.height = height
+        self.isEnabled = isEnabled
         self.action = action
     }
 
@@ -46,6 +49,8 @@ public struct CapsuleButton: View {
                         .strokeBorder(borderColor, lineWidth: borderWidth)
                 )
         }
+        .disabled(!isEnabled)
+        .opacity(isEnabled ? 1 : 0.4)
     }
 }
 
