@@ -18,7 +18,7 @@ private enum Constants {
 }
 
 public struct SegmentedView: View {
-    private let designEngine: StyleEngine = StyleDefaultEngine()
+    @EnvironmentObject private var designEngine: StyleEngine
     private let items: [String]
     @Binding private var selection: String
     @Namespace private var selectionAnimation
