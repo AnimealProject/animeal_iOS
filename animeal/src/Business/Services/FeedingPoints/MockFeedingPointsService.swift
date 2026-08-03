@@ -17,6 +17,10 @@ final class MockFeedingPointsService: FeedingPointsServiceProtocol {
         innerChangedFeedingPoint.eraseToAnyPublisher()
     }
 
+    var changedFavoriteFeedingPoint: AnyPublisher<Void, Never> {
+        innerChangedFeedingPoint.map { _ in () }.eraseToAnyPublisher()
+    }
+
     var storedFeedingPoints: [FullFeedingPoint] {
         innerFeedingPoints.value
     }

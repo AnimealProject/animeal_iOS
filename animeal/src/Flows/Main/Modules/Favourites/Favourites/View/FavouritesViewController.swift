@@ -173,6 +173,11 @@ extension FavouritesViewController: UITableViewDataSource {
         else { return UITableViewCell() }
 
         cell.configure(item)
+        if let favouriteCell = cell as? FavouriteItemCell {
+            favouriteCell.onTap = { [weak self] in
+                self?.viewModel.handleActionEvent(.tapFavorite(item.feedingPointId))
+            }
+        }
         return cell
     }
 }

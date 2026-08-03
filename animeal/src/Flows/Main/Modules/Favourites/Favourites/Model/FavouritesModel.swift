@@ -15,9 +15,8 @@ final class FavouritesModel: FavouritesModelProtocol {
 
     // MARK: - FavouritesModelProtocol
     var favouritesDidChange: AnyPublisher<Void, Never> {
-        context.feedingPointsService.changedFeedingPoint
+        context.feedingPointsService.changedFavoriteFeedingPoint
             .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
-            .map { _ in () }
             .eraseToAnyPublisher()
     }
 
@@ -41,6 +40,10 @@ final class FavouritesModel: FavouritesModelProtocol {
         let result = try await context.feedingPointsService.fetchAllFavorites()
         let content = result.map(self.mapper.mapFavourite)
         return content
+    }
+
+    func toggleFavorite(byIdentifier identifier: String) async throws {
+        try await context.feedingPointsService.toggleFavorite(byIdentifier: identifier)
     }
 
     func fetchMediaContent(key: String, completion: ((Data?) -> Void)?) {

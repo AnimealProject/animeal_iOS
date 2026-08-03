@@ -45,6 +45,7 @@ protocol FeedingPointsServiceProtocol: AnyObject {
     var storedFavouriteFeedingPoints: [FullFeedingPoint] { get }
     var feedingPoints: AnyPublisher<[FullFeedingPoint], Never> { get }
     var changedFeedingPoint: AnyPublisher<FullFeedingPoint, Never> { get }
+    var changedFavoriteFeedingPoint: AnyPublisher<Void, Never> { get }
 
     func resetViewportPoints()
 
@@ -102,6 +103,10 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
 
     var changedFeedingPoint: AnyPublisher<FullFeedingPoint, Never> {
         innerChangedFeedingPoint.eraseToAnyPublisher()
+    }
+
+    var changedFavoriteFeedingPoint: AnyPublisher<Void, Never> {
+        favoritesService.changedFavoriteFeedingPoint.map { _ in () }.eraseToAnyPublisher()
     }
 
     // MARK: - Accesible properties
