@@ -112,7 +112,7 @@ extension FeedingPoint {
     }
 
     private var localized: FeedingPointI18n? {
-        i18n?.first { $0.locale == Locale.current.language.languageCode?.identifier }
+        i18n?.first { $0.locale == LocalizationService.currentLanguage.rawValue }
     }
 }
 
@@ -124,6 +124,7 @@ private extension DateFormatter {
         let formatter = RelativeDateTimeFormatter()
         formatter.dateTimeStyle = .named
         formatter.unitsStyle = .full
+        formatter.locale = LocalizationService.currentLocale
         return formatter
     }()
 

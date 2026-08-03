@@ -60,6 +60,7 @@ struct FeedingCardView: View {
         let formatter = RelativeDateTimeFormatter()
         formatter.dateTimeStyle = .named
         formatter.unitsStyle = .full
+        formatter.locale = LocalizationService.currentLocale
         return formatter
     }()
 }
