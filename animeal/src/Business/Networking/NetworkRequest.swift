@@ -136,6 +136,7 @@ extension Request {
     static func customMutation<M: CustomMutation>(_ request: M) -> Request<M.ResponseType> {
         return Request<M.ResponseType>(
             document: request.document,
+            variables: request.variables,
             responseType: M.ResponseType.self
         )
     }
@@ -264,4 +265,9 @@ extension SubscriptionType {
 public protocol CustomMutation {
     associatedtype ResponseType: Decodable
     var document: String { get }
+    var variables: [String: Any] { get }
+}
+
+public extension CustomMutation {
+    var variables: [String: Any] { [:] }
 }

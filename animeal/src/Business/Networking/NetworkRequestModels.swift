@@ -292,10 +292,14 @@ public struct RejectFeedingMutation: CustomMutation {
 
     public var document: String {
         """
-        mutation RejectFeeding {
-            rejectFeeding(feedingId: "\(feedingId)", reason: "\(reason)")
+        mutation RejectFeeding($feedingId: String!, $reason: String!) {
+            rejectFeeding(feedingId: $feedingId, reason: $reason)
         }
         """
+    }
+
+    public var variables: [String: Any] {
+        ["feedingId": feedingId, "reason": reason]
     }
 }
 
@@ -311,10 +315,14 @@ public struct ApproveFeedingMutation: CustomMutation {
 
     public var document: String {
         """
-        mutation ApproveFeeding {
-            approveFeeding(feedingId: "\(feedingId)", reason: "\(reason)")
+        mutation ApproveFeeding($feedingId: String!, $reason: String!) {
+            approveFeeding(feedingId: $feedingId, reason: $reason)
         }
         """
+    }
+
+    public var variables: [String: Any] {
+        ["feedingId": feedingId, "reason": reason]
     }
 }
 
