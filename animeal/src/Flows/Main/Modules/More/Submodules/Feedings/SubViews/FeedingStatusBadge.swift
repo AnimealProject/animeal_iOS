@@ -65,7 +65,7 @@ struct FeedingStatusBadge: View {
     }
 
     @EnvironmentObject var style: StyleEngine
-    @State var status: Status
+    let status: Status
 
     var body: some View {
         HStack {
