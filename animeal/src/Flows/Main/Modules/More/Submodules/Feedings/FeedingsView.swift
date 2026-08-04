@@ -9,32 +9,48 @@ import SwiftUI
 import UIComponents
 import Style
 
-struct FeedingsView: View {
-    static let previewTabs: [(title: String, status: FeedingStatus)] = [
-        (L10n.Feedings.pending, .pending),
-        (L10n.Feedings.approved, .approved),
-        (L10n.Feedings.rejected, .rejected),
-        (L10n.Feedings.outdated, .outdated)
-    ]
+enum FeedingsTab: CaseIterable {
+    case pending
+    case approved
+    case rejected
+    case outdated
 
+    var status: FeedingStatus {
+        switch self {
+        case .pending: return .pending
+        case .approved: return .approved
+        case .rejected: return .rejected
+        case .outdated: return .outdated
+        }
+    }
+
+    var title: String {
+        switch self {
+        case .pending: return L10n.Feedings.pending
+        case .approved: return L10n.Feedings.approved
+        case .rejected: return L10n.Feedings.rejected
+        case .outdated: return L10n.Feedings.outdated
+        }
+    }
+}
+
+struct FeedingsView: View {
     var viewModel: FeedingsViewModel
 
     @EnvironmentObject private var style: StyleEngine
 
-    private let tabs = FeedingsView.previewTabs
-    @State private var selectedTabTitle = L10n.Feedings.pending
+    @State private var selectedTab: FeedingsTab = .pending
     @State private var itemPendingRejection: FeedingListItem?
     @State private var selectedItem: FeedingListItem?
 
     private var currentFeedingStatus: FeedingStatus {
-        tabs.first { $0.title == selectedTabTitle }?.status ?? .pending
+        selectedTab.status
     }
 
     var body: some View {
         ZStack {
             FeedingsScreenContent(
-                tabs: tabs,
-                selectedTabTitle: $selectedTabTitle,
+                selectedTab: $selectedTab,
                 tabState: viewModel.tabStates[currentFeedingStatus],
                 hasReviewedFeedingsThisSession: viewModel.hasReviewedFeedingsThisSession,
                 currentFeedingStatus: currentFeedingStatus,

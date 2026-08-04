@@ -17,15 +17,17 @@ private enum Constants {
     static let shadowOffsetY: CGFloat = 4
 }
 
-public struct SegmentedView: View {
+public struct SegmentedView<Item: Hashable>: View {
     @EnvironmentObject private var designEngine: StyleEngine
-    private let items: [String]
-    @Binding private var selection: String
+    private let items: [Item]
+    @Binding private var selection: Item
+    private let title: (Item) -> String
     @Namespace private var selectionAnimation
 
-    public init(items: [String], selection: Binding<String>) {
+    public init(items: [Item], selection: Binding<Item>, title: @escaping (Item) -> String) {
         self.items = items
         _selection = selection
+        self.title = title
     }
 
     public var body: some View {
@@ -47,7 +49,7 @@ public struct SegmentedView: View {
         )
     }
 
-    private func tabButton(for item: String) -> some View {
+    private func tabButton(for item: Item) -> some View {
         let isSelected = selection == item
 
         return Button {
@@ -55,7 +57,7 @@ public struct SegmentedView: View {
                 selection = item
             }
         } label: {
-            Text(item)
+            Text(title(item))
                 .font(tabFont)
                 .foregroundColor(
                     isSelected ? designEngine.colors.alwaysLight.color : designEngine.colors.textPrimary.color

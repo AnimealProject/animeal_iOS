@@ -3,8 +3,7 @@ import UIComponents
 import Style
 
 struct FeedingsScreenContent: View {
-    let tabs: [(title: String, status: FeedingStatus)]
-    @Binding var selectedTabTitle: String
+    @Binding var selectedTab: FeedingsTab
     let tabState: FeedingTabState?
     let hasReviewedFeedingsThisSession: Bool
     let currentFeedingStatus: FeedingStatus
@@ -19,8 +18,9 @@ struct FeedingsScreenContent: View {
             titleText
 
             SegmentedView(
-                items: tabs.map(\.title),
-                selection: $selectedTabTitle
+                items: FeedingsTab.allCases,
+                selection: $selectedTab,
+                title: \.title
             )
 
             content
@@ -75,8 +75,7 @@ struct FeedingsScreenContent: View {
 
 #Preview("Well done") {
     FeedingsScreenContent(
-        tabs: FeedingsView.previewTabs,
-        selectedTabTitle: .constant(L10n.Feedings.pending),
+        selectedTab: .constant(.pending),
         tabState: .loaded([]),
         hasReviewedFeedingsThisSession: true,
         currentFeedingStatus: .pending,
@@ -88,8 +87,7 @@ struct FeedingsScreenContent: View {
 
 #Preview("Ooops - empty Pending") {
     FeedingsScreenContent(
-        tabs: FeedingsView.previewTabs,
-        selectedTabTitle: .constant(L10n.Feedings.pending),
+        selectedTab: .constant(.pending),
         tabState: .loaded([]),
         hasReviewedFeedingsThisSession: false,
         currentFeedingStatus: .pending,
@@ -101,8 +99,7 @@ struct FeedingsScreenContent: View {
 
 #Preview("Ooops - empty Approved") {
     FeedingsScreenContent(
-        tabs: FeedingsView.previewTabs,
-        selectedTabTitle: .constant(L10n.Feedings.approved),
+        selectedTab: .constant(.approved),
         tabState: .loaded([]),
         hasReviewedFeedingsThisSession: true,
         currentFeedingStatus: .approved,
@@ -114,8 +111,7 @@ struct FeedingsScreenContent: View {
 
 #Preview("Loading") {
     FeedingsScreenContent(
-        tabs: FeedingsView.previewTabs,
-        selectedTabTitle: .constant(L10n.Feedings.pending),
+        selectedTab: .constant(.pending),
         tabState: .isLoading,
         hasReviewedFeedingsThisSession: false,
         currentFeedingStatus: .pending,
