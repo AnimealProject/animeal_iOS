@@ -18,11 +18,16 @@ final class FeedingsSeenTracker: FeedingsSeenTrackerProtocol {
     }
 
     func hasUnseen(among feedingIds: [String]) -> Bool {
-        let seenIds = Set(defaults.stringArray(forKey: Constants.seenPendingFeedingIdsKey) ?? [])
+        let seenIds = storedSeenIds()
         return feedingIds.contains { !seenIds.contains($0) }
     }
 
     func markSeen(_ feedingIds: [String]) {
-        defaults.set(feedingIds, forKey: Constants.seenPendingFeedingIdsKey)
+        let merged = storedSeenIds().union(feedingIds)
+        defaults.set(Array(merged), forKey: Constants.seenPendingFeedingIdsKey)
+    }
+
+    private func storedSeenIds() -> Set<String> {
+        Set(defaults.stringArray(forKey: Constants.seenPendingFeedingIdsKey) ?? [])
     }
 }

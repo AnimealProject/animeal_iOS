@@ -2,6 +2,12 @@ import SwiftUI
 import Style
 
 struct FeedingStatusBadge: View {
+    private enum PendingAge {
+        static let fresh: Int = 2 * 60 * 60
+        static let warning: Int = 6 * 60 * 60
+        static let overdue: Int = 12 * 60 * 60
+    }
+
     enum Status {
         case autoApproved
         case approved
@@ -17,11 +23,11 @@ struct FeedingStatusBadge: View {
                 return Asset.Colors.FeedingStatus.green.swiftUIColor
             case .pending(let age):
                 switch age {
-                case 0..<(2 * 60 * 60):
+                case ..<PendingAge.fresh:
                     return Asset.Colors.FeedingStatus.grey.swiftUIColor
-                case (2 * 60 * 60)..<(6 * 60 * 60):
+                case ..<PendingAge.warning:
                     return Asset.Colors.FeedingStatus.yellow.swiftUIColor
-                case (6 * 60 * 60)...(12 * 60 * 60):
+                case ..<PendingAge.overdue:
                     return Asset.Colors.FeedingStatus.red.swiftUIColor
                 default:
                     return Asset.Colors.FeedingStatus.maroon.swiftUIColor
@@ -57,7 +63,7 @@ struct FeedingStatusBadge: View {
             case .rejected:
                 self = .rejected
             case .pending, .inProgress:
-                self = .pending(Int(Date().timeIntervalSince(date)))
+                self = .pending(max(0, Int(NetTime.now.timeIntervalSince(date))))
             case .outdated:
                 self = .outdated
             }

@@ -1,10 +1,3 @@
-//
-//  FeedingsAssembler.swift
-//  animeal
-//
-//  Created by Luka Alimbarashvili on 07.05.26.
-//
-
 import SwiftUI
 import Common
 import Style

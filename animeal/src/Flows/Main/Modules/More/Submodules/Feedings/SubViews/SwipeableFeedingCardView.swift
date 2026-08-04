@@ -88,7 +88,6 @@ private extension SwipeableFeedingCardView {
         openedItemID == item.id
     }
 
-    // Recomputed on every frame of the live drag.
     var currentOffset: CGFloat {
         let committedOffset: CGFloat = isOpen ? -Constants.revealWidth : 0
         let rawOffset = max(-Constants.revealWidth, min(0, committedOffset + dragTranslation))
@@ -96,15 +95,12 @@ private extension SwipeableFeedingCardView {
         return -easedProgress(progress) * Constants.revealWidth
     }
 
-    // How visually "revealed" the action buttons are, 0...1, tracking currentOffset live.
     var revealProgress: CGFloat {
         -currentOffset / Constants.revealWidth
     }
 
-    // Remaps a 0...1 drag progress to a differently-shaped 0...1 progress: below
-    // `easeThreshold` the card lags behind the finger, past it the card accelerates to
-    // catch up (landing exactly on 1.0 at progress 1.0) — reads as a magnetic snap once
-    // you've dragged far enough.
+    // Below `easeThreshold` the card lags the finger, past it it accelerates to land on 1.0
+    // exactly at progress 1.0 — reads as a magnetic snap once dragged far enough.
     func easedProgress(_ progress: CGFloat) -> CGFloat {
         guard progress > Constants.easeThreshold else {
             return progress * Constants.preThresholdSlope
@@ -140,7 +136,6 @@ private extension SwipeableFeedingCardView {
         close()
     }
 
-    // A tap while any swipe is open just closes it; otherwise the tap opens the detail.
     func handleTap() {
         if openedItemID != nil {
             withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {

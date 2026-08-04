@@ -129,8 +129,8 @@
 "feeding.reason.feedingPointNotVisible"           = "კვების წერტილი არ ჩანს";
 "feeding.reason.InappropriateContent"             = "შეუსაბამო კონტენტი";
 "feeding.reason.other"                            = "სხვა";
-"feeding.reason.title"                            = "სავალდებულოა „სხვა\" შემთხვევაში. გთხოვთ, შეიყვანოთ ტექსტი.";
-"feeding.reason.other.explanation"                = "გთხოვთ, აირჩიოთ უარყოფის მიზეზი:";
+"feeding.reason.title"                            = "გთხოვთ, აირჩიოთ უარყოფის მიზეზი:";
+"feeding.reason.other.explanation"                = "სავალდებულოა „სხვა\" შემთხვევაში. გთხოვთ, შეიყვანოთ ტექსტი.";
 "feeding.reason.cancel"                           = "გაუქმება";
 "feedings.empty.wellDoneTitle"                    = "ყოჩაღ!";
 "feedings.empty.wellDoneSubtitle"                 = "მადლობა!\nყველა კვება განხილულია.";

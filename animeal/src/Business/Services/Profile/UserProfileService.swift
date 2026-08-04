@@ -11,7 +11,6 @@ final class UserProfileService: UserProfileServiceProtocol {
     private let converter: UserProfileAmplifyConverting & AmplifyUserProfileConverting
     private let userValidationModel: UserValidationModel
     private var cachedUserNames: [String: String]?
-    private var userNamesNextToken: String?
 
     // MARK: - Initialization
     init(
@@ -141,11 +140,16 @@ final class UserProfileService: UserProfileServiceProtocol {
         if let cachedUserNames = cachedUserNames, userIds.allSatisfy({ cachedUserNames.keys.contains($0) }) {
             return cachedUserNames
         }
+        let userNames = try await loadAllUserNames()
+        cachedUserNames = userNames
+        return userNames
+    }
+
+    private func loadAllUserNames() async throws -> [String: String] {
         let path = "/listUsers"
         do {
-            cachedUserNames = [:]
             var userNames: [String: String] = [:]
-            var nextToken: String? = userNamesNextToken ?? ""
+            var nextToken: String? = ""
             while nextToken != nil {
                 var query: [String: String] = ["limit": "60"]
                 if let nextToken = nextToken, !nextToken.isEmpty {
@@ -159,10 +163,7 @@ final class UserProfileService: UserProfileServiceProtocol {
                 }
 
                 userNames.merge(userNamesBatch) { _, new in new }
-                cachedUserNames = userNames
-
                 nextToken = list.nextToken
-                userNamesNextToken = nextToken
             }
             return userNames
         } catch {

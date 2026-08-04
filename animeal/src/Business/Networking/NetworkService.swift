@@ -24,12 +24,16 @@ final class NetworkService: NetworkServiceProtocol {
     func query<Response: Decodable>(request: Request<Response>) async throws -> Response {
         let gqlRequest = request.convertToGraphQLRequest()
         let operation = gqlRequest.decodePath ?? String(describing: Response.self)
+        #if DEBUG
         logDebug("[Network] → \(operation) variables: \(stringify(gqlRequest.variables))")
+        #endif
         do {
             let result = try await Amplify.API.query(request: gqlRequest)
             switch result {
             case .success(let response):
+                #if DEBUG
                 logDebug("[Network] ← \(operation) response: \(stringify(response))")
+                #endif
                 return response
             case .failure(let error):
                 logError("[Network] ← \(operation) error: \(error)")

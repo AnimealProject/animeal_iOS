@@ -21,17 +21,20 @@ public struct CheckboxRadioButton: View {
     }
 
     public var body: some View {
-        HStack {
-            Button(
-                action: {
-                    isSelected.toggle()
-                },
-                label: {
+        Button(
+            action: {
+                isSelected.toggle()
+            },
+            label: {
+                HStack {
                     Image(asset: isSelected ? checkboxSelectedAsset : checkboxUnselectedAsset)
+                    Text(checkboxText)
+                    Spacer()
                 }
-            )
-            Text(checkboxText)
-        }
+                .contentShape(Rectangle())
+            }
+        )
+        .buttonStyle(.plain)
     }
 }
 

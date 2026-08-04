@@ -22,6 +22,11 @@ struct FeedingsListView: View {
                 .listRowBackground(Color.clear)
         }
         .listStyle(.plain)
+        .onChange(of: items.map(\.id)) { _, ids in
+            if let openedItemID, !ids.contains(openedItemID) {
+                self.openedItemID = nil
+            }
+        }
     }
 
     private func row(for item: FeedingListItem) -> some View {

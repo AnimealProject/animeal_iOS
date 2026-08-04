@@ -8,6 +8,7 @@ struct FeedingsScreenContent: View {
     let hasReviewedFeedingsThisSession: Bool
     let currentFeedingStatus: FeedingStatus
     let onBack: () -> Void
+    let onRetry: () -> Void
     let actions: FeedingItemActions
 
     @EnvironmentObject private var style: StyleEngine
@@ -45,9 +46,10 @@ struct FeedingsScreenContent: View {
 
     @ViewBuilder private var content: some View {
         switch tabState {
-        case .none, .failed:
-            Text(L10n.Errors.somethingWrong.asBaseError().description)
-                .foregroundColor(style.colors.error.color)
+        case .none:
+            errorState(message: L10n.Errors.somethingWrong.asBaseError().description)
+        case .failed(let message):
+            errorState(message: message)
         case .isLoading:
             ProgressView()
                 .frame(maxWidth: .infinity)
@@ -58,6 +60,21 @@ struct FeedingsScreenContent: View {
                 FeedingsListView(items: items, actions: actions)
             }
         }
+    }
+
+    private func errorState(message: String) -> some View {
+        VStack(spacing: 16) {
+            Text(message)
+                .foregroundColor(style.colors.error.color)
+                .multilineTextAlignment(.center)
+            Button(action: onRetry) {
+                Image(systemName: "arrow.clockwise")
+                    .font(.system(size: 22))
+                    .foregroundColor(style.colors.accent.color)
+                    .frame(width: 44, height: 44)
+            }
+        }
+        .frame(maxWidth: .infinity)
     }
 
     @ViewBuilder private var emptyState: some View {
@@ -80,6 +97,7 @@ struct FeedingsScreenContent: View {
         hasReviewedFeedingsThisSession: true,
         currentFeedingStatus: .pending,
         onBack: { },
+        onRetry: { },
         actions: FeedingItemActions(onApprove: { _ in }, onReject: { _ in }, onTap: { _ in })
     )
     .environmentObject(StyleDefaultEngine() as StyleEngine)
@@ -92,6 +110,7 @@ struct FeedingsScreenContent: View {
         hasReviewedFeedingsThisSession: false,
         currentFeedingStatus: .pending,
         onBack: { },
+        onRetry: { },
         actions: FeedingItemActions(onApprove: { _ in }, onReject: { _ in }, onTap: { _ in })
     )
     .environmentObject(StyleDefaultEngine() as StyleEngine)
@@ -104,6 +123,7 @@ struct FeedingsScreenContent: View {
         hasReviewedFeedingsThisSession: true,
         currentFeedingStatus: .approved,
         onBack: { },
+        onRetry: { },
         actions: FeedingItemActions(onApprove: { _ in }, onReject: { _ in }, onTap: { _ in })
     )
     .environmentObject(StyleDefaultEngine() as StyleEngine)
@@ -116,6 +136,7 @@ struct FeedingsScreenContent: View {
         hasReviewedFeedingsThisSession: false,
         currentFeedingStatus: .pending,
         onBack: { },
+        onRetry: { },
         actions: FeedingItemActions(onApprove: { _ in }, onReject: { _ in }, onTap: { _ in })
     )
     .environmentObject(StyleDefaultEngine() as StyleEngine)

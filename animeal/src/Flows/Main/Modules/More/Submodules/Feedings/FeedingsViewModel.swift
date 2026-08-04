@@ -1,10 +1,3 @@
-//
-//  FeedingsViewModel.swift
-//  animeal
-//
-//  Created by Luka Alimbarashvili on 07.05.26.
-//
-
 import Foundation
 import Amplify
 import Services
@@ -105,6 +98,8 @@ final class FeedingsViewModel {
     private let dataStoreService: DataStoreServiceProtocol
     private let seenTracker: FeedingsSeenTrackerProtocol
 
+    @ObservationIgnored private var feedingPointCoverCache: [String: URL?] = [:]
+
     init(
         coordinator: MorePartitionCoordinatable,
         networkService: NetworkServiceProtocol = AppDelegate.shared.context.networkService,
@@ -162,6 +157,7 @@ final class FeedingsViewModel {
         do {
             try await action()
             hasReviewedFeedingsThisSession = true
+            await warmUserNamesCache()
             async let pending: Void = load(status: .pending)
             async let destinationTab: Void = load(status: destination)
             _ = await (pending, destinationTab)
@@ -174,12 +170,18 @@ final class FeedingsViewModel {
 
     @MainActor
     func loadAll() async {
+        await warmUserNamesCache()
+
         async let pendingItem = load(status: .pending)
         async let approvedItem = load(status: .approved)
         async let rejectedItems = load(status: .rejected)
         async let outdatedItems = load(status: .outdated)
 
         _ = await (pendingItem, approvedItem, rejectedItems, outdatedItems)
+    }
+
+    private func warmUserNamesCache() async {
+        _ = try? await userProfileService.fetchUserNames(for: [])
     }
 
     @MainActor
@@ -197,15 +199,17 @@ final class FeedingsViewModel {
     private func fetchItems(for status: FeedingStatus) async throws -> [FeedingListItem] {
         let items: [FeedingListItem]
         if status == .pending {
-            items = try await fetchPendingItems(for: status)
+            items = try await fetchPendingItems()
         } else {
             items = try await fetchHistoryItems(for: status)
         }
         return items.sorted { $0.date < $1.date }
     }
 
-    private func fetchPendingItems(for status: FeedingStatus) async throws -> [FeedingListItem] {
-        let feedings = try await networkService.query(request: .getActiveFeedings(status: status.rawValue))
+    private func fetchPendingItems() async throws -> [FeedingListItem] {
+        let feedings = try await networkService.query(
+            request: .getActiveFeedings(status: FeedingStatus.pending.rawValue)
+        )
         seenTracker.markSeen(feedings.map(\.id))
 
         let userIds = Set(feedings.map(\.userId))
@@ -251,23 +255,53 @@ final class FeedingsViewModel {
         }
     }
 
+    private enum ImageResolution {
+        static let maxConcurrentCoverFetches = 5
+    }
+
+    @MainActor
     private func resolveFeedingPointImageURLs(for feedingPointIds: Set<String>) async -> [String: URL] {
-        await withTaskGroup { group in
-            for feedingPointId in feedingPointIds {
-                group.addTask { [weak self] in
-                    guard let self else { return (feedingPointId, nil as URL?) }
-                    guard let point = try? await self.networkService.query(
-                        request: .get(FeedingPoint.self, byId: feedingPointId)
+        let missing = feedingPointIds.filter { feedingPointCoverCache[$0] == nil }
+        if !missing.isEmpty {
+            let resolved = await fetchCoverURLs(for: missing)
+            for (id, url) in resolved { feedingPointCoverCache[id] = url }
+        }
+
+        return feedingPointIds.reduce(into: [:]) { result, id in
+            if let cached = feedingPointCoverCache[id], let url = cached {
+                result[id] = url
+            }
+        }
+    }
+
+    private func fetchCoverURLs(for feedingPointIds: Set<String>) async -> [String: URL?] {
+        let networkService = networkService
+        let dataStoreService = dataStoreService
+
+        return await withTaskGroup(of: (String, URL?).self) { group in
+            var pending = feedingPointIds.makeIterator()
+
+            func addTask(for id: String) {
+                group.addTask {
+                    guard let point = try? await networkService.query(
+                        request: .get(FeedingPoint.self, byId: id)
                     ), let cover = point.cover else {
-                        return (feedingPointId, nil)
+                        return (id, nil)
                     }
-                    let url = try? await self.dataStoreService.getURL(key: cover)
-                    return (feedingPointId, url)
+                    return (id, try? await dataStoreService.getURL(key: cover))
                 }
             }
 
-            var result: [String: URL] = [:]
-            for await (id, url) in group { result[id] = url }
+            for _ in 0..<ImageResolution.maxConcurrentCoverFetches {
+                guard let id = pending.next() else { break }
+                addTask(for: id)
+            }
+
+            var result: [String: URL?] = [:]
+            while let (id, url) = await group.next() {
+                result[id] = url
+                if let next = pending.next() { addTask(for: next) }
+            }
             return result
         }
     }

@@ -2,6 +2,8 @@ import SwiftUI
 import Style
 
 public struct EmptyStateView: View {
+    @EnvironmentObject private var designEngine: StyleEngine
+
     let image: ImageAsset
     let title: String
     let subtitle: String
@@ -27,11 +29,11 @@ public struct EmptyStateView: View {
             Image(asset: image)
 
             Text(title)
-                .font(.system(size: 28, weight: .bold))
+                .font(designEngine.fonts.primary.bold(28).font)
                 .foregroundColor(titleColor)
 
             Text(subtitle)
-                .font(.system(size: 16))
+                .font(designEngine.fonts.primary.regular(16).font)
                 .foregroundColor(subtitleColor)
                 .multilineTextAlignment(.center)
         }
@@ -48,6 +50,7 @@ public struct EmptyStateView: View {
         subtitleColor: .primary
     )
     .padding()
+    .environmentObject(StyleDefaultEngine() as StyleEngine)
 }
 
 #Preview("Ooops") {
@@ -59,4 +62,5 @@ public struct EmptyStateView: View {
         subtitleColor: .primary
     )
     .padding()
+    .environmentObject(StyleDefaultEngine() as StyleEngine)
 }

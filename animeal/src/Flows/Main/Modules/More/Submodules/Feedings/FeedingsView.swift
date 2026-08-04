@@ -1,10 +1,3 @@
-//
-//  FeedingsView.swift
-//  animeal
-//
-//  Created by Luka Alimbarashvili on 07.05.26.
-//
-
 import SwiftUI
 import UIComponents
 import Style
@@ -55,6 +48,11 @@ struct FeedingsView: View {
                 hasReviewedFeedingsThisSession: viewModel.hasReviewedFeedingsThisSession,
                 currentFeedingStatus: currentFeedingStatus,
                 onBack: { viewModel.goBack() },
+                onRetry: {
+                    Task {
+                        await viewModel.load(status: currentFeedingStatus)
+                    }
+                },
                 actions: FeedingItemActions(
                     onApprove: { item in
                         Task {
@@ -109,11 +107,14 @@ struct FeedingsView: View {
             isPresented: Binding(
                 get: { viewModel.actionErrorMessage != nil },
                 set: { if !$0 { viewModel.actionErrorMessage = nil } }
-            )
-        ) {
+            ),
+            presenting: viewModel.actionErrorMessage
+        ) { _ in
             Button(L10n.Action.ok, role: .cancel) {
                 viewModel.actionErrorMessage = nil
             }
+        } message: { message in
+            Text(message)
         }
     }
 
