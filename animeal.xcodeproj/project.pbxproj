@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 71;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -189,6 +189,10 @@
 		FB4313512848E3850084C21A /* Style */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Style; sourceTree = "<group>"; };
 		FB4313562848E97C0084C21A /* animealUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = animealUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBE4295C2874411200D1BD26 /* Common */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Common; sourceTree = "<group>"; };
+		20939F4A34A643E3BF8FFD44 /* Dev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Dev.xcconfig; path = animeal/Configurations/Dev.xcconfig; sourceTree = "<group>"; };
+		2B2D0E8FFA2648BCBFB376D1 /* Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Test.xcconfig; path = animeal/Configurations/Test.xcconfig; sourceTree = "<group>"; };
+		82220ED3F517460590DEE105 /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Shared.xcconfig; path = animeal/Configurations/Shared.xcconfig; sourceTree = "<group>"; };
+		9B17BEDCB9DD49F5AE4E2AEB /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = animeal/Configurations/Release.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -798,8 +802,7 @@
 /* Begin XCBuildConfiguration section */
 		6BB6F9B84F054D1189A9B2A9 /* Test */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = C1EE9512300CEFAB002BFF95 /* Configurations */;
-			baseConfigurationReferenceRelativePath = Test.xcconfig;
+			baseConfigurationReference = 2B2D0E8FFA2648BCBFB376D1 /* Test.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -915,8 +918,7 @@
 		};
 		D2BC859D87574EA18F2548CD /* Test */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = C1EE9512300CEFAB002BFF95 /* Configurations */;
-			baseConfigurationReferenceRelativePath = Test.xcconfig;
+			baseConfigurationReference = 2B2D0E8FFA2648BCBFB376D1 /* Test.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1073,8 +1075,7 @@
 		};
 		DB6B07ED28450A3A0009397B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = C1EE9512300CEFAB002BFF95 /* Configurations */;
-			baseConfigurationReferenceRelativePath = Dev.xcconfig;
+			baseConfigurationReference = 20939F4A34A643E3BF8FFD44 /* Dev.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1112,8 +1113,7 @@
 		};
 		DB6B07EE28450A3A0009397B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = C1EE9512300CEFAB002BFF95 /* Configurations */;
-			baseConfigurationReferenceRelativePath = Release.xcconfig;
+			baseConfigurationReference = 9B17BEDCB9DD49F5AE4E2AEB /* Release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1204,8 +1204,7 @@
 		};
 		FB4313682848E97E0084C21A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = C1EE9512300CEFAB002BFF95 /* Configurations */;
-			baseConfigurationReferenceRelativePath = Dev.xcconfig;
+			baseConfigurationReference = 20939F4A34A643E3BF8FFD44 /* Dev.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1237,8 +1236,7 @@
 		};
 		FB4313692848E97E0084C21A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = C1EE9512300CEFAB002BFF95 /* Configurations */;
-			baseConfigurationReferenceRelativePath = Release.xcconfig;
+			baseConfigurationReference = 9B17BEDCB9DD49F5AE4E2AEB /* Release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
