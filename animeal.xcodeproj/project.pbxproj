@@ -660,7 +660,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+			shellScript = "if [ \"$FIREBASE_DISABLED\" = \"YES\" ]; then\n  echo \"Firebase disabled (see Shared.xcconfig) — skipping Crashlytics dSYM upload\"\nelse\n  \"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\nfi\n";
 		};
 		FBA263B7285348D300DBED37 /* Generate Sourcery Mocks */ = {
 			isa = PBXShellScriptBuildPhase;
