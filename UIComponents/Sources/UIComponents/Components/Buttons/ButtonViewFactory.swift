@@ -164,7 +164,7 @@ private extension Style where Component == UIButton {
             button.tintColor = designEngine.colors.textPrimary
             button.imageView?.contentMode = .scaleAspectFit
 
-            let font = designEngine.fonts.primary.bold(16) ?? .systemFont(ofSize: 16, weight: .bold)
+            let font = designEngine.fonts.primary.bold(16)
             button.setPreferredSymbolConfiguration(.init(font: font), forImageIn: .normal)
         }
     }

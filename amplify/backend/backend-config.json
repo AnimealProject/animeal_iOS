@@ -411,6 +411,22 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "generateFeedingPointCode": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ],
+          "category": "api",
+          "resourceName": "animeal"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "getActiveFeedings": {
       "build": true,
       "dependsOn": [

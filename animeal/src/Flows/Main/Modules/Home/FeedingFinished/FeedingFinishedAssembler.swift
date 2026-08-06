@@ -9,8 +9,8 @@ final class FeedingFinishedModuleAssembler {
         self.coordinator = coordinator
     }
 
-    func assemble() -> UIViewController {
-        let model = FeedingFinishedModel()
+    func assemble(isTrusted: Bool) -> UIViewController {
+        let model = FeedingFinishedModel(isTrusted: isTrusted)
         let viewModel = FeedingFinishedViewModel(
             model: model,
             coordinator: coordinator

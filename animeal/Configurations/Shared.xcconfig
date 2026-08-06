@@ -4,4 +4,6 @@ INFOPLIST_KEY_CFBundleDisplayName = AnimealDemo
 
 // ─── Feature flags ───────────────────────────────────────────────────────────
 // Default value of FeatureFlags.isLoadAllFeedingPointsEnabled for this build configuration.
-SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) LOAD_ALL_FEEDING_POINTS
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) LOAD_ALL_FEEDING_POINTS FIREBASE_DISABLED
+
+FIREBASE_DISABLED = YES

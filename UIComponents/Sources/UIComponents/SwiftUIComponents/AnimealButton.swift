@@ -26,7 +26,7 @@ public struct AnimealButton: View {
                 Spacer()
                 Text(title)
                     .foregroundColor(.white)
-                    .font(designEngine.fonts.primary.bold(16)?.font)
+                    .font(designEngine.fonts.primary.bold(16).font)
                 Spacer()
             }
             .frame(height: 60)

@@ -136,6 +136,7 @@ extension Request {
     static func customMutation<M: CustomMutation>(_ request: M) -> Request<M.ResponseType> {
         return Request<M.ResponseType>(
             document: request.document,
+            variables: request.variables,
             responseType: M.ResponseType.self
         )
     }
@@ -162,6 +163,24 @@ extension Request {
         Request<[FeedingHistory]>(
             document: getHistoricalFeedingsDocument,
             variables: ["feedingPointId": feedingPointId],
+            responseType: [FeedingHistory].self,
+            decodePath: "getHistoricalFeedings"
+        )
+    }
+
+    static func getActiveFeedings(status: String) -> Request<[Feeding]> {
+        Request<[Feeding]>(
+            document: getActiveFeedingsDocument,
+            variables: ["status": status],
+            responseType: [Feeding].self,
+            decodePath: "getActiveFeedings"
+        )
+    }
+
+    static func getHistoricalFeedings(status: String) -> Request<[FeedingHistory]> {
+        Request<[FeedingHistory]>(
+            document: getHistoricalFeedingsDocument,
+            variables: ["status": status],
             responseType: [FeedingHistory].self,
             decodePath: "getHistoricalFeedings"
         )
@@ -246,4 +265,9 @@ extension SubscriptionType {
 public protocol CustomMutation {
     associatedtype ResponseType: Decodable
     var document: String { get }
+    var variables: [String: Any] { get }
+}
+
+public extension CustomMutation {
+    var variables: [String: Any] { [:] }
 }

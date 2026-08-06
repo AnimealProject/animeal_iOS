@@ -38,9 +38,9 @@ struct FAQView<ViewModel: FAQViewModelProtocol>: View {
     private var headerText: some View {
         VStack(alignment: .leading) {
             Text(L10n.Faq.title)
-                .font(designEngine.fonts.primary.bold(28)?.font)
+                .font(designEngine.fonts.primary.bold(28).font)
             Text(L10n.Faq.Header.text)
-                .font(designEngine.fonts.primary.regular(16)?.font)
+                .font(designEngine.fonts.primary.regular(16).font)
                 .padding(.top, Constants.headerBodyTopPadding)
         }
         .fixedSize(horizontal: false, vertical: true)
@@ -61,7 +61,7 @@ struct FAQView<ViewModel: FAQViewModelProtocol>: View {
     private var footerText: some View {
         Text(viewModel.footerText)
             .textSelection(.enabled)
-            .font(designEngine.fonts.primary.regular(16)?.font)
+            .font(designEngine.fonts.primary.regular(16).font)
             .foregroundColor(designEngine.colors.textPrimary.color)
             .accentColor(designEngine.colors.textPrimary.color)
             .multilineTextAlignment(.center)
@@ -94,7 +94,7 @@ extension FAQView {
                     label: {
                         HStack {
                             Text(item.question)
-                                .font(designEngine.fonts.primary.regular(16)?.font)
+                                .font(designEngine.fonts.primary.regular(16).font)
                                 .frame(maxHeight: .infinity)
                             Spacer()
                             Image(asset: item.collapsed ? Asset.Images.arrowDown : Asset.Images.arrowUp)
@@ -112,7 +112,7 @@ extension FAQView {
                     VStack {
                         HStack {
                             Text(LocalizedStringKey(item.answer))
-                                .font(designEngine.fonts.primary.regular(14)?.font)
+                                .font(designEngine.fonts.primary.regular(14).font)
                                 .foregroundColor(designEngine.colors.textPrimary.color)
                                 .tint(designEngine.colors.elementSpecial.color)
                             Spacer()

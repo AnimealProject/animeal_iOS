@@ -15,6 +15,8 @@ final class FeedingPointsServiceAdapter: FeedingPointsServiceProtocol {
     private let _feedingPointsPublisher: AnyPublisher<[FullFeedingPoint], Never>
     /// Cached publisher for individual feeding point changes.
     private let _changedFeedingPointPublisher: AnyPublisher<FullFeedingPoint, Never>
+    /// Cached publisher for favorite add/delete changes.
+    private let _changedFavoriteFeedingPointPublisher: AnyPublisher<Void, Never>
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -44,6 +46,11 @@ final class FeedingPointsServiceAdapter: FeedingPointsServiceProtocol {
 
         self._changedFeedingPointPublisher = currentServiceSubject
             .map { $0.changedFeedingPoint }
+            .switchToLatest()
+            .eraseToAnyPublisher()
+
+        self._changedFavoriteFeedingPointPublisher = currentServiceSubject
+            .map { $0.changedFavoriteFeedingPoint }
             .switchToLatest()
             .eraseToAnyPublisher()
 
@@ -109,6 +116,10 @@ final class FeedingPointsServiceAdapter: FeedingPointsServiceProtocol {
     /// - Returns: A stable publisher instance that remains constant throughout the adapter's lifetime
     var changedFeedingPoint: AnyPublisher<FullFeedingPoint, Never> {
         _changedFeedingPointPublisher
+    }
+
+    var changedFavoriteFeedingPoint: AnyPublisher<Void, Never> {
+        _changedFavoriteFeedingPointPublisher
     }
 
     // MARK: - Synchronous properties delegate to current service

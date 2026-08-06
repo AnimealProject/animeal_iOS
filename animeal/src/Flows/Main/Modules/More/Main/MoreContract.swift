@@ -28,6 +28,7 @@ protocol MoreViewState: AnyObject {
 // sourcery: AutoMockable
 protocol MoreModelProtocol: AnyObject {
     func fetchActions() -> [MoreActionModel]
+    func hasUnseenPendingFeedings() async -> Bool
 }
 
 // MARK: - Coordinator
@@ -39,6 +40,7 @@ protocol MoreCoordinatable: Coordinatable {
 // MARK: - Enums
 enum MoreRoute {
     case profilePage
+    case feedings
     case faq
     case donate
     case about
@@ -52,6 +54,8 @@ enum MoreRoute {
         switch rawValue {
         case MoreActionType.profilePage.rawValue:
             self = .profilePage
+        case MoreActionType.feedings.rawValue:
+            self = .feedings
         case MoreActionType.faq.rawValue:
             self = .faq
         case MoreActionType.donate.rawValue:

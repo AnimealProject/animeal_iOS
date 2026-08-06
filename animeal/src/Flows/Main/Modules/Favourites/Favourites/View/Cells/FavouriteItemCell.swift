@@ -70,6 +70,13 @@ private extension FavouriteItemCell {
         favouriteImageView.apply(style: .favouriteImage)
         favouriteImageView.isUserInteractionEnabled = true
 
+        let gestureRecognizer = TapGestureRecognizer { [weak self] _ in
+            guard let self else { return }
+            self.favouriteImageView.isHighlighted.toggle()
+            self.onTap?()
+        }
+        favouriteImageView.addGestureRecognizer(gestureRecognizer)
+
         registerForTraitChanges([UITraitUserInterfaceStyle.self]) { [weak self] (_: FavouriteItemCell, _) in
             self?.apply(style: .cell)
             self?.containerView.apply(style: .container)

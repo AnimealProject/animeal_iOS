@@ -75,6 +75,7 @@ public extension DevLoggerService {
         tag: Any?,
         asynchronous: Bool
     ) {
+        #if !FIREBASE_DISABLED
         switch level {
         case .debug:
             logCLSMessage("\(message())", additionalLoggers: [DebugAdditionalLogger.crashlytics])
@@ -89,6 +90,7 @@ public extension DevLoggerService {
         default:
             break
         }
+        #endif
         _DDLogMessage(
             Self.formatMessage(level: level, "\(message())"),
             level: level,
@@ -109,7 +111,7 @@ public extension DevLoggerService {
         function: StaticString,
         line: UInt
     ) -> Never {
-        #if !DEBUG
+        #if !DEBUG && !FIREBASE_DISABLED
             let error = DevLoggerImplementation.makeNSError(
                 prefix: "FATAL",
                 file: file,
@@ -121,6 +123,7 @@ public extension DevLoggerService {
             return Swift.fatalError(message(), file: file, line: line)
     }
 
+    #if !FIREBASE_DISABLED
     static private func logCLSMessage(_ message: @autoclosure () -> String, additionalLoggers: [DebugAdditionalLogger]) {
         for logger in additionalLoggers {
             switch logger {
@@ -129,7 +132,9 @@ public extension DevLoggerService {
             }
         }
     }
+    #endif
 
+    #if !FIREBASE_DISABLED
     static private func makeNSError(prefix: String, file: StaticString, function: StaticString, message: String) -> NSError {
         let fileString = "\(file)"
         let lastElement = fileString.components(separatedBy: "/").last ?? fileString
@@ -143,6 +148,7 @@ public extension DevLoggerService {
         let userInfo = ["message": message]
         return NSError(domain: errorDomain, code: errorDomain.hashValue, userInfo: userInfo)
     }
+    #endif
 }
 
 // MARK: - ApplicationService

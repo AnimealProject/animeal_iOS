@@ -1,10 +1,20 @@
 import UIKit
 import Style
 
+private enum Constants {
+    static let indicatorSize: CGFloat = 8
+}
+
 public final class TitleDisclosureView: UIView {
     // MARK: Private properties
     private let title = UILabel()
     private let imageView = UIImageView()
+    private let indicatorView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = Constants.indicatorSize / 2
+        view.isHidden = true
+        return view
+    }()
     private var model: Model?
 
     // MARK: Public properties
@@ -25,6 +35,8 @@ public final class TitleDisclosureView: UIView {
         title.text = model.title
         imageView.image = Asset.Images.arrowRight.image.withRenderingMode(.alwaysTemplate)
         imageView.tintColor = designEngine.colors.textPrimary
+        indicatorView.backgroundColor = designEngine.colors.error
+        indicatorView.isHidden = !model.hasIndicator
         self.model = model
     }
 
@@ -40,6 +52,12 @@ public final class TitleDisclosureView: UIView {
         addSubview(imageView.prepareForAutoLayout())
         imageView.trailingAnchor ~= trailingAnchor
         imageView.centerYAnchor ~= centerYAnchor
+
+        addSubview(indicatorView.prepareForAutoLayout())
+        indicatorView.widthAnchor ~= Constants.indicatorSize
+        indicatorView.heightAnchor ~= Constants.indicatorSize
+        indicatorView.trailingAnchor ~= imageView.leadingAnchor - 8
+        indicatorView.centerYAnchor ~= centerYAnchor
 
         let gestureRecognizer = LongPressGestureRecognizer { [weak self] gesture in
             guard let self = self else { return }
@@ -62,13 +80,16 @@ public extension TitleDisclosureView {
     struct Model {
         public let identifier: String
         public let title: String
+        public let hasIndicator: Bool
 
         public init(
             identifier: String,
-            title: String
+            title: String,
+            hasIndicator: Bool = false
         ) {
             self.identifier = identifier
             self.title = title
+            self.hasIndicator = hasIndicator
         }
     }
 }

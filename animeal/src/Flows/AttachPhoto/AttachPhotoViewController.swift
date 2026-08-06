@@ -134,7 +134,13 @@ private extension AttachPhotoViewController {
             if let granted = self?.viewModel.grantCameraPermission(),
                 granted {
                 let viewController = UIImagePickerController()
+                #if targetEnvironment(simulator)
+                // Simulator has no camera hardware — fall back to the photo library so the flow
+                // stays testable without a physical device.
+                viewController.sourceType = .photoLibrary
+                #else
                 viewController.sourceType = .camera
+                #endif
                 viewController.allowsEditing = true
                 viewController.delegate = self
                 self?.present(viewController, animated: true)

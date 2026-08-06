@@ -56,7 +56,7 @@ struct AboutView: View {
 
     private var headerText: some View {
         Text(L10n.More.aboutShort)
-            .font(designEngine.fonts.primary.bold(28)?.font)
+            .font(designEngine.fonts.primary.bold(28).font)
             .foregroundColor(designEngine.colors.textPrimary.color)
     }
 
@@ -69,14 +69,14 @@ struct AboutView: View {
 
     private var contentText: some View {
         Text(model.contentText)
-            .font(designEngine.fonts.primary.regular(14)?.font)
+            .font(designEngine.fonts.primary.regular(14).font)
             .foregroundColor(designEngine.colors.textPrimary.color)
             .lineSpacing(5)
     }
 
     private var appVersionText: some View {
         Text(model.appVersion)
-            .font(designEngine.fonts.primary.regular(14)?.font)
+            .font(designEngine.fonts.primary.regular(14).font)
             .foregroundColor(designEngine.colors.textSecondary.color)
     }
 

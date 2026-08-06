@@ -15,6 +15,7 @@ protocol FavouritesModelProtocol: AnyObject {
     var favouritesDidChange: AnyPublisher<Void, Never> { get }
     func fetchFavourites(force: Bool) async throws -> [FavouritesModel.FavouriteContent]
     func fetchMediaContent(key: String, completion: ((Data?) -> Void)?)
+    func toggleFavorite(byIdentifier identifier: String) async throws
 }
 
 // MARK: - ViewModel
@@ -43,6 +44,7 @@ protocol FavouritesViewState: AnyObject { }
 
 enum FavouritesViewActionEvent {
     case tapFeedingPoint(String)
+    case tapFavorite(String)
 }
 
 // MARK: - Coordinator

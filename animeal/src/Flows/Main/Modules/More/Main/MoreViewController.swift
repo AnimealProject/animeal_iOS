@@ -31,12 +31,14 @@ final class MoreViewController: UIViewController, MoreViewable {
     }
 
     func applyActions(_ viewItems: [MoreItemView]) {
+        contentView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         viewItems.forEach { viewItem in
             let view = TitleDisclosureView()
             view.configure(
                 TitleDisclosureView.Model(
                     identifier: viewItem.identifier,
-                    title: viewItem.title
+                    title: viewItem.title,
+                    hasIndicator: viewItem.hasIndicator
                 )
             )
             view.onTapHandler = { [weak self] identifier in

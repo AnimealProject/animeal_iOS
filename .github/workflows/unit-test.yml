@@ -70,7 +70,42 @@ jobs:
         uses: maxim-lobanov/setup-xcode@v1
         with: 
           xcode-version: '16.4'
+      - name: Detect simulator destination
+        id: destination
+        run: |
+          DEST=$(xcodebuild -showdestinations -scheme animeal -project animeal.xcodeproj 2>/dev/null | python3 -c "
+          import sys, re
+          best = None
+          for line in sys.stdin:
+              if 'platform:iOS Simulator' not in line or 'name:iPhone' not in line:
+                  continue
+              fields = dict(re.findall(r'(\w+):([^,}]+)', line))
+              name = fields.get('name', '').strip()
+              os_version = fields.get('OS', '').strip()
+              if not name or not os_version:
+                  continue
+              try:
+                  version_tuple = tuple(int(x) for x in os_version.split('.'))
+              except ValueError:
+                  continue
+              if best is None or version_tuple > best[0]:
+                  best = (version_tuple, name, os_version)
+          print(f'platform=iOS Simulator,name={best[1]},OS={best[2]}' if best else 'NONE')
+          ")
+          if [ "$DEST" = "NONE" ]; then
+            echo "No iPhone simulator destination supported by the active Xcode was found." >&2
+            exit 1
+          fi
+          echo "Using destination: $DEST"
+          echo "dest=$DEST" >> "$GITHUB_OUTPUT"
       - name: Build For Test
         run: |
           set -o pipefail
-          xcodebuild test -scheme animeal -project animeal.xcodeproj -destination "platform=iOS Simulator,name=iPhone 16,OS=18.5" -parallelizeTargets -showBuildTimingSummary 2>&1 | xcbeautify
+          xcodebuild test -scheme animeal -project animeal.xcodeproj -destination "${{ steps.destination.outputs.dest }}" -showBuildTimingSummary -resultBundlePath TestResults.xcresult 2>&1 | xcbeautify
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: TestResults.xcresult
+          retention-days: 5

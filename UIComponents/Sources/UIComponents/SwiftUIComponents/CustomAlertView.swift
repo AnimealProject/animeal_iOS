@@ -39,7 +39,7 @@ public struct CustomAlertView: View {
             VStack(spacing: 16) {
                 if let title = viewModel.title {
                     Text(title)
-                        .font(designEngine.fonts.primary.bold(18)?.font ?? .system(size: 18, weight: .bold))
+                        .font(designEngine.fonts.primary.bold(18).font)
                         .foregroundColor(designEngine.colors.textPrimary.color)
                         .multilineTextAlignment(.center)
                         .lineLimit(nil)
@@ -47,7 +47,7 @@ public struct CustomAlertView: View {
 
                 if let message = viewModel.message {
                     Text(message)
-                        .font(designEngine.fonts.primary.medium(14)?.font ?? .system(size: 14, weight: .medium))
+                        .font(designEngine.fonts.primary.medium(14).font)
                         .foregroundColor(designEngine.colors.textSecondary.color)
                         .multilineTextAlignment(.center)
                         .lineLimit(nil)
@@ -61,7 +61,7 @@ public struct CustomAlertView: View {
                     HStack {
                         Spacer()
                         Text(viewModel.primaryButtonTitle)
-                            .font(designEngine.fonts.primary.bold(16)?.font ?? .system(size: 16))
+                            .font(designEngine.fonts.primary.bold(16).font)
                             .foregroundColor(designEngine.colors.alwaysLight.color)
                         Spacer()
                     }
@@ -75,7 +75,7 @@ public struct CustomAlertView: View {
                         HStack {
                             Spacer()
                             Text(secondaryButtonTitle)
-                                .font(designEngine.fonts.primary.medium(16)?.font ?? .system(size: 16))
+                                .font(designEngine.fonts.primary.medium(16).font)
                                 .foregroundColor(designEngine.colors.textSecondary.color)
                             Spacer()
                         }

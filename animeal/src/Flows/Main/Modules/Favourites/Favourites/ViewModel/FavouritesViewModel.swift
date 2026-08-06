@@ -123,6 +123,17 @@ final class FavouritesViewModel: FavouritesViewModelLifeCycle, FavouritesViewInt
         switch event {
         case .tapFeedingPoint(let pointId):
             self.coordinator.routeTo(.details(pointId))
+
+        case .tapFavorite(let pointId):
+            Task { [weak self] in
+                do {
+                    try await self?.model.toggleFavorite(byIdentifier: pointId)
+                } catch {
+                    DispatchQueue.main.async { [weak self] in
+                        self?.onErrorIsNeededToDisplay?(error.localizedDescription)
+                    }
+                }
+            }
         }
     }
 }

@@ -766,6 +766,48 @@ class FeedingPointViewMappableMock: FeedingPointViewMappable {
     }
 
 }
+class FeedingsSeenTrackerProtocolMock: FeedingsSeenTrackerProtocol {
+
+    // MARK: - hasUnseen
+
+    var hasUnseenAmongCallsCount = 0
+    var hasUnseenAmongCalled: Bool {
+        return hasUnseenAmongCallsCount > 0
+    }
+    var hasUnseenAmongReceivedFeedingIds: [String]?
+    var hasUnseenAmongReceivedInvocations: [[String]] = []
+    var hasUnseenAmongReturnValue: Bool!
+    var hasUnseenAmongClosure: (([String]) -> Bool)?
+
+    func hasUnseen(among feedingIds: [String]) -> Bool {
+        hasUnseenAmongCallsCount += 1
+        hasUnseenAmongReceivedFeedingIds = feedingIds
+        hasUnseenAmongReceivedInvocations.append(feedingIds)
+        if let hasUnseenAmongClosure = hasUnseenAmongClosure {
+            return hasUnseenAmongClosure(feedingIds)
+        } else {
+            return hasUnseenAmongReturnValue
+        }
+    }
+
+    // MARK: - markSeen
+
+    var markSeenCallsCount = 0
+    var markSeenCalled: Bool {
+        return markSeenCallsCount > 0
+    }
+    var markSeenReceivedFeedingIds: [String]?
+    var markSeenReceivedInvocations: [[String]] = []
+    var markSeenClosure: (([String]) -> Void)?
+
+    func markSeen(_ feedingIds: [String]) {
+        markSeenCallsCount += 1
+        markSeenReceivedFeedingIds = feedingIds
+        markSeenReceivedInvocations.append(feedingIds)
+        markSeenClosure?(feedingIds)
+    }
+
+}
 class FilterViewMappableMock: FilterViewMappable {
 
     // MARK: - mapFilterModel
@@ -1375,23 +1417,23 @@ class MoreItemViewMappableMock: MoreItemViewMappable {
 
     // MARK: - mapActionModel
 
-    var mapActionModelCallsCount = 0
-    var mapActionModelCalled: Bool {
-        return mapActionModelCallsCount > 0
+    var mapActionModelHasIndicatorCallsCount = 0
+    var mapActionModelHasIndicatorCalled: Bool {
+        return mapActionModelHasIndicatorCallsCount > 0
     }
-    var mapActionModelReceivedInput: MoreActionModel?
-    var mapActionModelReceivedInvocations: [MoreActionModel] = []
-    var mapActionModelReturnValue: MoreItemView!
-    var mapActionModelClosure: ((MoreActionModel) -> MoreItemView)?
+    var mapActionModelHasIndicatorReceivedArguments: (input: MoreActionModel, hasIndicator: Bool)?
+    var mapActionModelHasIndicatorReceivedInvocations: [(input: MoreActionModel, hasIndicator: Bool)] = []
+    var mapActionModelHasIndicatorReturnValue: MoreItemView!
+    var mapActionModelHasIndicatorClosure: ((MoreActionModel, Bool) -> MoreItemView)?
 
-    func mapActionModel(_ input: MoreActionModel) -> MoreItemView {
-        mapActionModelCallsCount += 1
-        mapActionModelReceivedInput = input
-        mapActionModelReceivedInvocations.append(input)
-        if let mapActionModelClosure = mapActionModelClosure {
-            return mapActionModelClosure(input)
+    func mapActionModel(_ input: MoreActionModel, hasIndicator: Bool) -> MoreItemView {
+        mapActionModelHasIndicatorCallsCount += 1
+        mapActionModelHasIndicatorReceivedArguments = (input: input, hasIndicator: hasIndicator)
+        mapActionModelHasIndicatorReceivedInvocations.append((input: input, hasIndicator: hasIndicator))
+        if let mapActionModelHasIndicatorClosure = mapActionModelHasIndicatorClosure {
+            return mapActionModelHasIndicatorClosure(input, hasIndicator)
         } else {
-            return mapActionModelReturnValue
+            return mapActionModelHasIndicatorReturnValue
         }
     }
 
@@ -1413,6 +1455,24 @@ class MoreModelProtocolMock: MoreModelProtocol {
             return fetchActionsClosure()
         } else {
             return fetchActionsReturnValue
+        }
+    }
+
+    // MARK: - hasUnseenPendingFeedings
+
+    var hasUnseenPendingFeedingsCallsCount = 0
+    var hasUnseenPendingFeedingsCalled: Bool {
+        return hasUnseenPendingFeedingsCallsCount > 0
+    }
+    var hasUnseenPendingFeedingsReturnValue: Bool!
+    var hasUnseenPendingFeedingsClosure: (() async -> Bool)?
+
+    func hasUnseenPendingFeedings() async -> Bool {
+        hasUnseenPendingFeedingsCallsCount += 1
+        if let hasUnseenPendingFeedingsClosure = hasUnseenPendingFeedingsClosure {
+            return await hasUnseenPendingFeedingsClosure()
+        } else {
+            return hasUnseenPendingFeedingsReturnValue
         }
     }
 

@@ -77,11 +77,11 @@ extension HomeCoordinator: HomeCoordinatable {
                 completion: nil)
             attachPhotoCoordinator.start()
         case .feedingComplete:
-            let viewController = FeedingFinishedModuleAssembler(coordinator: self).assemble()
+            let viewController = FeedingFinishedModuleAssembler(coordinator: self).assemble(isTrusted: false)
             viewController.modalPresentationStyle = .overFullScreen
             navigator.present(viewController, animated: true, completion: nil)
         case .feedingTrustedComplete:
-            let viewController = FeedingFinishedModuleAssembler(coordinator: self).assemble()
+            let viewController = FeedingFinishedModuleAssembler(coordinator: self).assemble(isTrusted: true)
             viewController.modalPresentationStyle = .overFullScreen
             navigator.present(viewController, animated: true, completion: nil)
         }

@@ -146,6 +146,12 @@ Custom GraphQL queries are written as raw document strings in `NetworkRequestMod
 ### Localization
 Strings managed via SwiftGen. Edit `animeal/res/en.lproj/Localizable.strings`, then run `swiftgen` to regenerate `animeal/src/Common/Strings.swift` (which is auto-generated — do not edit directly).
 
+The source of truth for all translated copy (English + Georgian) is an external spreadsheet maintained by the team, not this repo — its link is intentionally not recorded here to avoid exposing it in the codebase. Ask the user for it if you need to check or add a translation.
+
+**Rule:** never hardcode a new user-facing string directly in Swift, and never speculatively add a new key to `Localizable.strings` on your own. If a change needs new UI copy that has no existing `L10n.*` key:
+1. Flag it to the user and propose the exact key + English text to add to the translations spreadsheet.
+2. Only after it's confirmed added there, add the matching key to `Localizable.strings` and regenerate with `swiftgen`.
+
 ### Testing
 - **Currently there are no unit tests** — test coverage will be added soon
 - Framework: **Apple Testing** (`import Testing`) — do NOT use Quick or Nimble
@@ -172,3 +178,6 @@ for patterns to follow:
 
 When in doubt, find an existing similar component and follow the same pattern.
 Architecture decisions will be documented in `docs/` as the project evolves.
+
+### Android Sibling Repository
+This app has an Android twin sharing the same backend: https://github.com/AnimealProject/animeal_android. When comparing implementations, resolving ambiguity about intended behavior, or in doubt about a UI/architecture decision, check the Android repo for how it solved the same problem.

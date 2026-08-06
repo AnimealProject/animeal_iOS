@@ -116,6 +116,22 @@ internal enum L10n {
     internal static let header = L10n.tr("Localizable", "favourites.header", fallback: "Favorites")
   }
   internal enum Feeding {
+    /// Approve
+    internal static let approve = L10n.tr("Localizable", "feeding.approve", fallback: "Approve")
+    /// Feeded by: %@
+    internal static func feededBy(_ p1: Any) -> String {
+      return L10n.tr("Localizable", "feeding.feededBy", String(describing: p1), fallback: "Feeded by: %@")
+    }
+    /// Reject
+    internal static let reject = L10n.tr("Localizable", "feeding.reject", fallback: "Reject")
+    /// Rejection reason: %@
+    internal static func rejectionReason(_ p1: Any) -> String {
+      return L10n.tr("Localizable", "feeding.rejectionReason", String(describing: p1), fallback: "Rejection reason: %@")
+    }
+    /// Reviewed by: %@
+    internal static func reviewedBy(_ p1: Any) -> String {
+      return L10n.tr("Localizable", "feeding.reviewedBy", String(describing: p1), fallback: "Reviewed by: %@")
+    }
     internal enum Alert {
       /// Do you really want to cancel feeding?
       internal static let cancelFeeding = L10n.tr("Localizable", "feeding.alert.cancelFeeding", fallback: "Do you really want to cancel feeding?")
@@ -132,6 +148,26 @@ internal enum L10n {
       /// You can't start feeding while another one is in progress
       internal static let otherFeedingRunning = L10n.tr("Localizable", "feeding.error.otherFeedingRunning", fallback: "You can't start feeding while another one is in progress")
     }
+    internal enum Reason {
+      /// Bad photo quality
+      internal static let badPhotoQuality = L10n.tr("Localizable", "feeding.reason.badPhotoQuality", fallback: "Bad photo quality")
+      /// Cancel
+      internal static let cancel = L10n.tr("Localizable", "feeding.reason.cancel", fallback: "Cancel")
+      /// Feeding point not visible
+      internal static let feedingPointNotVisible = L10n.tr("Localizable", "feeding.reason.feedingPointNotVisible", fallback: "Feeding point not visible")
+      /// Inappropriate content
+      internal static let inappropriateContent = L10n.tr("Localizable", "feeding.reason.InappropriateContent", fallback: "Inappropriate content")
+      /// No food
+      internal static let noFood = L10n.tr("Localizable", "feeding.reason.noFood", fallback: "No food")
+      /// Other
+      internal static let other = L10n.tr("Localizable", "feeding.reason.other", fallback: "Other")
+      /// Please choose reason to reject:
+      internal static let title = L10n.tr("Localizable", "feeding.reason.title", fallback: "Please choose reason to reject:")
+      internal enum Other {
+        /// Mandatory in case of Other error. Please type something.
+        internal static let explanation = L10n.tr("Localizable", "feeding.reason.other.explanation", fallback: "Mandatory in case of Other error. Please type something.")
+      }
+    }
     internal enum Status {
       /// Newly fed
       internal static let fed = L10n.tr("Localizable", "feeding.status.fed", fallback: "Newly fed")
@@ -139,6 +175,29 @@ internal enum L10n {
       internal static let inprogress = L10n.tr("Localizable", "feeding.status.inprogress", fallback: "Feeding in progress")
       /// There is no food
       internal static let starved = L10n.tr("Localizable", "feeding.status.starved", fallback: "There is no food")
+    }
+  }
+  internal enum Feedings {
+    /// Approved
+    internal static let approved = L10n.tr("Localizable", "feedings.approved", fallback: "Approved")
+    /// Outdated
+    internal static let outdated = L10n.tr("Localizable", "feedings.outdated", fallback: "Outdated")
+    /// Pending
+    internal static let pending = L10n.tr("Localizable", "feedings.pending", fallback: "Pending")
+    /// Rejected
+    internal static let rejected = L10n.tr("Localizable", "feedings.rejected", fallback: "Rejected")
+    /// Feedings
+    internal static let title = L10n.tr("Localizable", "feedings.title", fallback: "Feedings")
+    internal enum Empty {
+      /// There is no items in the list yet.
+      internal static let oopsSubtitle = L10n.tr("Localizable", "feedings.empty.oopsSubtitle", fallback: "There is no items in the list yet.")
+      /// Ooops!
+      internal static let oopsTitle = L10n.tr("Localizable", "feedings.empty.oopsTitle", fallback: "Ooops!")
+      /// Thank you!
+      /// All feedings have been reviewed.
+      internal static let wellDoneSubtitle = L10n.tr("Localizable", "feedings.empty.wellDoneSubtitle", fallback: "Thank you!\nAll feedings have been reviewed.")
+      /// Well done!
+      internal static let wellDoneTitle = L10n.tr("Localizable", "feedings.empty.wellDoneTitle", fallback: "Well done!")
     }
   }
   internal enum LeaderBoard {
@@ -188,6 +247,8 @@ internal enum L10n {
     internal static let donate = L10n.tr("Localizable", "more.donate", fallback: "Donate")
     /// FAQ
     internal static let faq = L10n.tr("Localizable", "more.faq", fallback: "FAQ")
+    /// Feedings
+    internal static let feedings = L10n.tr("Localizable", "more.feedings", fallback: "Feedings")
     /// Profile Page
     internal static let profilePage = L10n.tr("Localizable", "more.profilePage", fallback: "Profile Page")
     /// QA Menu
@@ -300,6 +361,8 @@ internal enum L10n {
   internal enum Text {
     /// Animals are fed
     internal static let animalsAreFed = L10n.tr("Localizable", "text.animalsAreFed", fallback: "Animals are fed")
+    /// Your feeding will be reviewed by our moderators
+    internal static let feedingWillBeReviewed = L10n.tr("Localizable", "text.feedingWillBeReviewed", fallback: "Your feeding will be reviewed by our moderators")
     /// left
     internal static let `left` = L10n.tr("Localizable", "text.left", fallback: "left")
     /// You will have 1 hour to provide food at the Feeding Point. Thank you in advance!
@@ -333,12 +396,12 @@ internal enum L10n {
     internal enum Error {
       /// Code digits count doesn’t fit
       internal static let codeDigitsCountDoesNotFit = L10n.tr("Localizable", "verification.error.codeDigitsCountDoesNotFit", fallback: "Code digits count doesn’t fit")
-      /// Code request time limit exceeded
-      internal static let codeRequestTimeLimitExceeded = L10n.tr("Localizable", "verification.error.codeRequestTimeLimitExceeded", fallback: "Code request time limit exceeded")
+      /// Please wait before requesting a new code
+      internal static let codeRequestTimeLimitExceeded = L10n.tr("Localizable", "verification.error.codeRequestTimeLimitExceeded", fallback: "Please wait before requesting a new code")
       /// Attempts to enter the verification code have ended. Try requesting the code again.
       internal static let codeTriesCountLimitExceeded = L10n.tr("Localizable", "verification.error.codeTriesCountLimitExceeded", fallback: "Attempts to enter the verification code have ended. Try requesting the code again.")
-      /// Code unsupported next step
-      internal static let codeUnsupportedNextStep = L10n.tr("Localizable", "verification.error.codeUnsupportedNextStep", fallback: "Code unsupported next step")
+      /// We couldn't verify your code. Please try again later
+      internal static let codeUnsupportedNextStep = L10n.tr("Localizable", "verification.error.codeUnsupportedNextStep", fallback: "We couldn't verify your code. Please try again later")
     }
     internal enum ResendCode {
       /// Resend code 

@@ -71,7 +71,7 @@ extension AnalyticsService: AnalyticsServiceProtocol {
                 }
             }
         }
-        #if DEBUG
+        #if DEBUG || FIREBASE_DISABLED
             logger.debug("[Analytics] \(event.debugDescription) \(event)")
         #else
             operationConcurrentQueue.async { self.logEventInternal(event) }
@@ -79,7 +79,9 @@ extension AnalyticsService: AnalyticsServiceProtocol {
     }
 
     public func setEventTrackingEnabled(_ enabled: Bool) {
+        #if !FIREBASE_DISABLED
         Analytics.setAnalyticsCollectionEnabled(enabled)
+        #endif
     }
 }
 
@@ -89,13 +91,16 @@ extension AnalyticsService: ApplicationDelegateService {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [AnyHashable: Any]?
     ) -> Bool {
+        #if !FIREBASE_DISABLED
         initializeFirebase()
         initializeCrashlytics()
+        #endif
         return true
     }
 }
 
 // MARK: - Private API
+#if !FIREBASE_DISABLED
 private extension AnalyticsService {
     func initializeFirebase() {
        FirebaseApp.configure()
@@ -138,3 +143,4 @@ private extension AnalyticsService {
         )
     }
 }
+#endif

@@ -130,6 +130,9 @@ query GetActiveFeedings($feedingPointId: String, $status: String) {
     createdBy
     updatedBy
     owner
+    feedingPointDetails {
+      address
+    }
     feedingPointFeedingsId
     expireAt
     assignedModerators
@@ -277,6 +280,54 @@ public struct FinishFeedingMutation: CustomMutation {
 
 public struct FinishFeeding: Codable {
     let finishFeeding: String
+}
+
+// MARK: - Feeding Management
+
+public struct RejectFeedingMutation: CustomMutation {
+    public typealias ResponseType = RejectFeeding
+
+    let feedingId: String
+    let reason: String
+
+    public var document: String {
+        """
+        mutation RejectFeeding($feedingId: String!, $reason: String!) {
+            rejectFeeding(feedingId: $feedingId, reason: $reason)
+        }
+        """
+    }
+
+    public var variables: [String: Any] {
+        ["feedingId": feedingId, "reason": reason]
+    }
+}
+
+public struct RejectFeeding: Codable {
+    let rejectFeeding: String
+}
+
+public struct ApproveFeedingMutation: CustomMutation {
+    public typealias ResponseType = ApproveFeeding
+
+    let feedingId: String
+    let reason: String
+
+    public var document: String {
+        """
+        mutation ApproveFeeding($feedingId: String!, $reason: String!) {
+            approveFeeding(feedingId: $feedingId, reason: $reason)
+        }
+        """
+    }
+
+    public var variables: [String: Any] {
+        ["feedingId": feedingId, "reason": reason]
+    }
+}
+
+public struct ApproveFeeding: Codable {
+    let approveFeeding: String
 }
 
 private extension String {

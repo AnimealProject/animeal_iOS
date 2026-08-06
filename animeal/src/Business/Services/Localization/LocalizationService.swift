@@ -12,8 +12,15 @@ enum LocalizationService {
         LocalizedBundle.language = currentLanguage
     }
 
-    private static var currentLanguage: Language {
+    /// The language the app's `L10n.*` strings actually resolve to — use this (not `Locale.current`)
+    /// when configuring any other formatter (dates, numbers) that should match the app's displayed text,
+    /// since the device's system locale can differ from the `en`/`ka` pair this app supports.
+    static var currentLanguage: Language {
         Locale.preferredLanguages.first?.hasPrefix(Language.georgian.rawValue) == true ? .georgian : .english
+    }
+
+    static var currentLocale: Locale {
+        Locale(identifier: currentLanguage.rawValue)
     }
 }
 

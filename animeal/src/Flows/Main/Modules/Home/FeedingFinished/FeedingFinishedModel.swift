@@ -1,15 +1,12 @@
 import Foundation
 
 final class FeedingFinishedModel: FeedingFinishedModelProtocol, ObservableObject {
-    // MARK: - Private properties
+    /// Trusted users' feedings are auto-approved; non-trusted ones go to moderation,
+    /// which changes the subtitle copy on the "Thank You" screen (EPMEDU-1225).
+    let isTrusted: Bool
 
     // MARK: - Initialization
-    init() { }
-}
-
-// MARK: - Preview
-extension FeedingFinishedModel {
-    static var previewModel: FeedingFinishedModel {
-        return FeedingFinishedModel()
+    init(isTrusted: Bool) {
+        self.isTrusted = isTrusted
     }
 }

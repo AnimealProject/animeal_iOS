@@ -203,14 +203,23 @@ final class HomeModel: HomeModelProtocol {
         }
     }
 
+    /// Only a `.inProgress` feeding (booked, countdown running, not submitted yet) is resumable —
+    /// a `.pending` one has already been submitted and is awaiting moderator review, so it must not
+    /// be treated as "unfinished" here (that would incorrectly let the user attach photos again).
     func fetchActiveFeeding() async throws -> Feeding? {
         guard let userId = await context.profileService.getCurrentUser()?.username else {
             return nil
         }
-        let userIdPredicate = QueryPredicateOperation(field: "userId", operator: .equals(userId))
-        return try await context.networkService.query(
-            request: .list(Feeding.self, where: userIdPredicate)
-        ).first
+        let userPredicate = QueryPredicateOperation(field: "userId", operator: .equals(userId))
+        let statusPredicate = QueryPredicateOperation(
+            field: "status",
+            operator: .equals(FeedingStatus.inProgress.rawValue)
+        )
+        let predicate = QueryPredicateGroup(type: .and, predicates: [userPredicate, statusPredicate])
+        let feedings = try await context.networkService.query(
+            request: .list(Feeding.self, where: predicate)
+        )
+        return feedings.max { $0.createdAt.foundationDate < $1.createdAt.foundationDate }
     }
 
     /// Retrives selected filter type from the user defaults
