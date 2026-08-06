@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "api": {
+      "animeal": [
+        "Query"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

@@ -115,6 +115,12 @@ export type AmplifyDependentResourcesAttributes = {
       "Name": "string",
       "Region": "string"
     },
+    "generateFeedingPointCode": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "Name": "string",
+      "Region": "string"
+    },
     "getActiveFeedings": {
       "Arn": "string",
       "LambdaExecutionRole": "string",

@@ -74,6 +74,7 @@ input UpdateFeedingHistoryInput {
 
 input CreateFeedingPointInput {
   id: ID
+  code: String
   name: String!
   description: String!
   city: String!
@@ -100,6 +101,7 @@ input CreateFeedingPointInput {
 
 input UpdateFeedingPointInput {
   id: ID!
+  code: String
   name: String
   description: String
   city: String
@@ -208,7 +210,6 @@ type PetI18n @aws_api_key @aws_cognito_user_pools {
 }
 
 type Pet
-  @searchable
   @model
   @auth(
     rules: [
@@ -257,7 +258,6 @@ type CategoryI18n @aws_api_key @aws_cognito_user_pools {
 }
 
 type Category
-  @searchable
   @model
   @auth(
     rules: [
@@ -306,7 +306,6 @@ type FeedingPointI18n @aws_api_key @aws_cognito_user_pools {
 }
 
 type FeedingPoint
-  @searchable
   @model
   @auth(
     rules: [
@@ -327,6 +326,7 @@ type FeedingPoint
     ]
   ) {
   id: ID!
+  code: String @index(name: "byCode", queryField: "feedingPointByCode")
   name: String!
   description: String!
   city: String!
@@ -356,7 +356,6 @@ type FeedingPoint
 }
 
 type Feeding
-  @searchable
   @model
   @auth(
     rules: [
@@ -418,8 +417,7 @@ type FeedingConstraint
   feedingHistoryId: String
 }
 
-type FeedingUsers 
-  @searchable
+type FeedingUsers
   @model
   @auth(
     rules: [
@@ -448,7 +446,6 @@ type FeedingUsers
 
 
 type FeedingHistory
-  @searchable
   @model
   @auth(
     rules: [
@@ -592,7 +589,6 @@ type MedicationI18n @aws_api_key @aws_cognito_user_pools {
 }
 
 type Medication
-  @searchable
   @model
   @auth(
     rules: [
@@ -705,7 +701,6 @@ type LanguagesSetting
 }
 
 type Favourite
-  @searchable
   @model
   @auth(
     rules: [
@@ -743,7 +738,6 @@ type QuestionI18n @aws_api_key @aws_cognito_user_pools {
 }
 
 type Question
-  @searchable
   @model
   @auth(
     rules: [
@@ -776,7 +770,6 @@ type Question
 }
 
 type BankAccount
-  @searchable
   @model
   @auth(
     rules: [
@@ -918,6 +911,10 @@ type FeedingPointConnection @aws_api_key @aws_cognito_user_pools {
   nextToken: String
 }
 
+type FeedingPointCode @aws_api_key @aws_cognito_user_pools {
+  code: String!
+}
+
 type Query {
   translate(text: String!, to: String!, from: String): String!
     @function(name: "translate-${env}")
@@ -949,6 +946,11 @@ type Query {
 
   getFeedingPoints(locationBounds: BoundsInput, moderatorId: String, categoryTag: String): [FeedingPoint!]!
     @function(name: "getFeedingPoints-${env}")
+    @aws_api_key
+    @aws_cognito_user_pools
+
+  generateFeedingPointCode(location: LocationInput, categoryId: String): FeedingPointCode!
+    @function(name: "generateFeedingPointCode-${env}")
     @aws_api_key
     @aws_cognito_user_pools
 }

@@ -44,6 +44,7 @@ const getFeedingPoint = async (params) =>
     `query GetFeedingPoint($id: ID!) {
       getFeedingPoint(id: $id) {
         id
+        code
         name
         address
         status

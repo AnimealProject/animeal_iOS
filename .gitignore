@@ -17,6 +17,10 @@ Breakpoints.xcbkptlist
 # Sourcery generated file
 animealTests/Sourcery/Generated/
 
+
+# FlowDeck CLI
+.flowdeck/
+
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
 amplify/.config/local-*
@@ -38,6 +42,3 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
-
-# FlowDeck CLI
-.flowdeck/
