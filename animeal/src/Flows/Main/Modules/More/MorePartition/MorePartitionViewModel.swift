@@ -57,3 +57,17 @@ final class MorePartitionViewModel: MorePartitionViewModelLifeCycle,
         }
     }
 }
+
+extension MorePartitionViewModel {
+    enum AccessibilityID {
+        static let screen = "account_screen"
+        static let deleteButton = "delete_button"
+        static let logoutButton = "logout_button"
+        static let alertConfirm = "alert_confirm"
+        static let alertCancel = "alert_cancel"
+
+        static func copyButton(_ id: String) -> String {
+            "copy_button_\(id)"
+        }
+    }
+}

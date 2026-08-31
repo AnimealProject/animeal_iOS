@@ -7,7 +7,8 @@ import Services
 @_spi(Experimental)
 import MapboxMaps
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, ScreenAccessible {
+    static var screenIdentifier: String { HomeViewModel.AccessibilityID.screen }
     // MARK: - Private properties
     private var mapView: NavigationMapController!
     private let segmentedControl = FilledSegmentedControl()
@@ -44,6 +45,7 @@ class HomeViewController: UIViewController {
     // MARK: - Life cycle
     override public func viewDidLoad() {
         super.viewDidLoad()
+        applyScreenIdentifier()
         setup()
         bind()
         viewModel.load()
@@ -142,9 +144,14 @@ private extension HomeViewController {
         controlsContainer.distribution = .fillProportionally
 
         controlsContainer.addArrangedSubview(segmentedControl)
+        segmentedControl.accessibilityIdentifier = HomeViewModel.AccessibilityID.categoryControl
         segmentedControl.widthAnchor ~= 226
         controlsContainer.addArrangedSubview(feedControl)
         feedControl.widthAnchor ~= 374
+        feedControl.applyAccessibilityIdentifiers(
+            timer: HomeViewModel.AccessibilityID.feedingTimer,
+            cancel: HomeViewModel.AccessibilityID.cancelFeedingButton
+        )
         toggleRouteAndTimer(isVisible: false)
 
         view.addSubview(userLocationButton.prepareForAutoLayout())
@@ -234,7 +241,15 @@ private extension HomeViewController {
                 AlertAction(
                     title: feedingAction.title,
                     style: feedingAction.style.alertActionStyle,
-                    handler: actionHandler
+                    handler: actionHandler,
+                    accessibilityIdentifier: {
+                        switch feedingAction.style {
+                        case .inverted:
+                            return HomeViewModel.AccessibilityID.alertCancel
+                        case .accent:
+                            return HomeViewModel.AccessibilityID.alertConfirm
+                        }
+                    }()
                 )
             )
         }
@@ -428,7 +443,8 @@ private extension CircleButtonView {
         let model = CircleButtonView.Model(
             identifier: UUID().uuidString,
             viewType: CircleButtonView.self,
-            icon: Asset.Images.findLocation.image
+            icon: Asset.Images.findLocation.image,
+            accessibilityIdentifier: HomeViewModel.AccessibilityID.myLocationButton
         )
         myLocationButton.configure(model)
         return myLocationButton

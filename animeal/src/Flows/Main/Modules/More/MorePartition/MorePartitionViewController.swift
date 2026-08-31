@@ -1,7 +1,8 @@
 import UIKit
 import UIComponents
 
-final class MorePartitionViewController: UIViewController {
+final class MorePartitionViewController: UIViewController, ScreenAccessible {
+    static var screenIdentifier: String { MorePartitionViewModel.AccessibilityID.screen }
     // MARK: - Properties
     private let viewModel: MorePartitionViewModelProtocol
     private let headerContainerView: UIStackView = {
@@ -36,6 +37,7 @@ final class MorePartitionViewController: UIViewController {
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        applyScreenIdentifier()
         setup()
         setupNavigationBar()
         viewModel.load()
@@ -99,7 +101,8 @@ private extension MorePartitionViewController {
                 actionView.configure(
                     DestructiveActionView.Model(
                         title: action.title,
-                        image: UIImage(systemName: "trash")
+                        image: UIImage(systemName: "trash"),
+                        accessibilityIdentifier: MorePartitionViewModel.AccessibilityID.deleteButton
                     )
                 )
                 actionView.actionHandler = { [weak self] in
@@ -144,7 +147,10 @@ private extension MorePartitionViewController {
                 identifier: UUID().uuidString,
                 viewType: ButtonView.self,
                 icon: nil,
-                title: footer.action.title
+                title: footer.action.title,
+                accessibilityIdentifier: footer.action.actionId == .copyIBAN
+                    ? MorePartitionViewModel.AccessibilityID.copyButton("iban")
+                    : MorePartitionViewModel.AccessibilityID.logoutButton
             )
         )
         button.onTap = { [weak self] _ in
@@ -178,7 +184,7 @@ private extension MorePartitionViewController {
                 style = .inverted
             }
             alertViewController.addAction(
-                AlertAction(title: action.title, style: style) { [weak self] in
+                AlertAction(title: action.title, style: style, handler: { [weak self] in
                     guard let self = self else { return }
                     switch action.actionId {
                     case .delete:
@@ -189,7 +195,14 @@ private extension MorePartitionViewController {
                         break
                     }
                     alertViewController.dismiss(animated: true)
-                }
+                }, accessibilityIdentifier: {
+                    switch action.actionId {
+                    case .cancel:
+                        return MorePartitionViewModel.AccessibilityID.alertCancel
+                    case .delete, .logout:
+                        return MorePartitionViewModel.AccessibilityID.alertConfirm
+                    }
+                }())
             )
         }
         return alertViewController

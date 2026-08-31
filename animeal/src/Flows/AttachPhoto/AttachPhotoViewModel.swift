@@ -168,3 +168,17 @@ private extension AttachPhotoViewModel {
         }
     }
 }
+
+extension AttachPhotoViewModel {
+    enum AccessibilityID {
+        static let screen = "attach_photo_screen"
+        static let attachButton = "attach_button"
+        static let finishButton = "finish_button"
+        static let alertConfirm = "alert_confirm"
+        static let alertCancel = "alert_cancel"
+
+        static func removePhoto(_ index: Int) -> String {
+            "remove_photo_\(index)"
+        }
+    }
+}

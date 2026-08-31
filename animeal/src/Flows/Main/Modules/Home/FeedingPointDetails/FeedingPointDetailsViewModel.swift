@@ -36,7 +36,8 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
         return ButtonView.Model(
             identifier: UUID().uuidString,
             viewType: TextButtonView.self,
-            title: L10n.Action.showOnMap
+            title: L10n.Action.showOnMap,
+            accessibilityIdentifier: FeedingPointDetailsViewModel.AccessibilityID.showOnMapButton
         )
     }
     private var allModerators: [FeedingPointDetailsModel.Moderator] = []
@@ -200,5 +201,20 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
 private extension FeedingPointDetailsViewModel {
     enum ModeratorDisplayConstants {
         static let expandedLimit = 5
+    }
+}
+
+extension FeedingPointDetailsViewModel {
+    enum AccessibilityID {
+        static let screen = "feeding_point_screen"
+        static let favoriteButton = "favorite_button"
+        static let iWillFeedButton = "i_will_feed_button"
+        static let showOnMapButton = "show_on_map_button"
+        static let showMoreModeratorsButton = "show_more_moderators_button"
+        static let toggleModeratorsButton = "toggle_moderators_button"
+        static let nameLabel = "name_label"
+        static let descriptionLabel = "description_label"
+        static let alertConfirm = "alert_confirm"
+        static let alertCancel = "alert_cancel"
     }
 }

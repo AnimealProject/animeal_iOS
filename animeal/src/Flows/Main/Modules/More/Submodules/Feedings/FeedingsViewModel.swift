@@ -306,3 +306,9 @@ final class FeedingsViewModel {
         }
     }
 }
+
+extension FeedingsViewModel {
+    enum AccessibilityID {
+        static let screen = "feedings_screen"
+    }
+}

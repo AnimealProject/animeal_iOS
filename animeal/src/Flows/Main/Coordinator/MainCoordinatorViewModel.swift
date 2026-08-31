@@ -25,3 +25,13 @@ final class MainCoordinatorViewModel: MainCoordinatorViewModelProtocol {
         }
     }
 }
+
+extension MainCoordinatorViewModel {
+    enum AccessibilityID {
+        static let searchTab = "search_tab"
+        static let favouritesTab = "favourites_tab"
+        static let homeTab = "home_tab"
+        static let leaderboardTab = "leaderboard_tab"
+        static let moreTab = "more_tab"
+    }
+}

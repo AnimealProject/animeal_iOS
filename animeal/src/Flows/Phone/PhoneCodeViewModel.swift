@@ -87,3 +87,14 @@ private extension PhoneCodesViewModel {
         onSnapshotHasBeenPrepared?(snapshot)
     }
 }
+
+extension PhoneCodesViewModel {
+    enum AccessibilityID {
+        static let screen = "phone_codes_screen"
+        static let countryList = "country_list"
+
+        static func country(_ code: String) -> String {
+            "country_\(code)"
+        }
+    }
+}

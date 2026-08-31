@@ -11,7 +11,8 @@ extension ProfileViewAction {
         let model = ButtonView.Model(
             identifier: identifier,
             viewType: ButtonView.self,
-            title: title
+            title: title,
+            accessibilityIdentifier: accessibilityIdentifier
         )
 
         if isEnabled {

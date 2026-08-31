@@ -177,11 +177,14 @@ extension AppCoordinator: AuthChannelEventsListener {
     }
 }
 
-private final class LoaderViewController: BaseViewController, ActivityDisplayable {
+private final class LoaderViewController: BaseViewController, ActivityDisplayable, ScreenAccessible {
+    static var screenIdentifier: String { "loader_screen" }
+
     let activityPresenter = ActivityIndicatorPresenter()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        applyScreenIdentifier()
         view.backgroundColor = designEngine.colors.backgroundPrimary
         displayActivityIndicator()
     }

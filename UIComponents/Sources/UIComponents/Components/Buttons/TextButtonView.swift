@@ -16,6 +16,7 @@ open class TextButtonView: ButtonView {
             .underlineStyle: NSUnderlineStyle.single.rawValue
         ])
         contentView.setAttributedTitle(title, for: .normal)
+        contentView.accessibilityIdentifier = model.accessibilityIdentifier
         assert(model.icon == nil, "\(Self.self) doesn't support icon")
     }
 

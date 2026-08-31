@@ -100,6 +100,10 @@ extension SearchPointCell: SearchCellContainable {
     func configure(_ item: SearchViewItem) {
         guard let item = item as? SearchPointViewItem else { return }
         innerView.configure(item.model)
+        innerView.applyFavoriteAccessibilityIdentifier(
+            SearchViewModel.AccessibilityID.favoriteButton(item.identifier)
+        )
+        accessibilityIdentifier = SearchViewModel.AccessibilityID.cell(item.identifier)
     }
 }
 

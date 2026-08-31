@@ -7,6 +7,7 @@
 
 import UIKit
 import Style
+import Common
 
 extension Style<UINavigationBar> {
     public static var `default`: Self {
@@ -38,12 +39,14 @@ extension Style<UINavigationBar> {
 
 extension UIBarButtonItem {
     public static func back(target: Any?, action: Selector?) -> UIBarButtonItem {
-        UIBarButtonItem(
-                        image: UINavigationBar.appearance().backIndicatorImage,
-                        style: .plain,
-                        target: target,
-                        action: action
-                      )
+        let item = UIBarButtonItem(
+            image: UINavigationBar.appearance().backIndicatorImage,
+            style: .plain,
+            target: target,
+            action: action
+        )
+        item.accessibilityIdentifier = CommonAccessibilityID.backButton
+        return item
     }
 }
 

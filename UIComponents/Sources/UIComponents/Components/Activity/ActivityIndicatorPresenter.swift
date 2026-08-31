@@ -1,4 +1,5 @@
 import UIKit
+import Common
 
 public extension ActivityIndicatorPresenter {
     struct Model {
@@ -106,6 +107,7 @@ public final class ActivityIndicatorPresenter {
             color: activityData.color,
             padding: activityData.padding
         ).prepareForAutoLayout()
+        activityIndicatorView.accessibilityIdentifier = CommonAccessibilityID.loaderIndicator
         activityIndicatorView.startAnimating()
 
         do {

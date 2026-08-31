@@ -39,7 +39,8 @@ final class FeedingPointDetailsViewMapper: FeedingPointDetailsViewMappable {
                 model: ButtonView.Model(
                     identifier: input.action.identifier,
                     viewType: ButtonView.self,
-                    title: input.action.title
+                    title: input.action.title,
+                    accessibilityIdentifier: FeedingPointDetailsViewModel.AccessibilityID.iWillFeedButton
                 ),
                 isEnabled: input.action.isEnabled
             ),

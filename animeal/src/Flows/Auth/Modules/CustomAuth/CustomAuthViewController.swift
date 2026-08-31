@@ -5,7 +5,8 @@ import SafariServices
 // SDK
 import UIComponents
 
-final class CustomAuthViewController: BaseViewController, CustomAuthViewable {
+final class CustomAuthViewController: BaseViewController, CustomAuthViewable, ScreenAccessible {
+    static var screenIdentifier: String { CustomAuthViewModel.AccessibilityID.screen }
     // MARK: - Private properties
     private let headerView = TextBigTitleSubtitleView().prepareForAutoLayout()
     private let scrollView = UIScrollView().prepareForAutoLayout()
@@ -23,6 +24,7 @@ final class CustomAuthViewController: BaseViewController, CustomAuthViewable {
         let privacyRange = (legalTermsString as NSString).range(of: privacyString)
 
         linkLabel.configure(text: legalTermsString, termsRange: termsRange, privacyRange: privacyRange)
+        linkLabel.accessibilityIdentifier = CustomAuthViewModel.AccessibilityID.termsAndConditions
 
         return linkLabel
     }()
@@ -45,6 +47,7 @@ final class CustomAuthViewController: BaseViewController, CustomAuthViewable {
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        applyScreenIdentifier()
         setup()
         bind()
     }
@@ -157,6 +160,10 @@ private extension CustomAuthViewController {
             case .phone:
                 let inputView = PhoneInputView()
                 inputView.configure(item.phoneModel)
+                inputView.applyAccessibilityIdentifiers(
+                    field: CustomAuthViewModel.AccessibilityID.phoneField,
+                    countryCode: CustomAuthViewModel.AccessibilityID.countryCode
+                )
                 #if DEBUG
                 inputView.codeWasTapped = { [weak self] _ in
                     self?.view.endEditing(true)
@@ -202,6 +209,7 @@ private extension CustomAuthViewController {
             case .password:
                 let inputView = DefaultInputView()
                 inputView.configure(item.model)
+                inputView.applyFieldAccessibilityIdentifier(CustomAuthViewModel.AccessibilityID.passwordField)
                 inputsContentView.addArrangedSubview(inputView)
             }
         }

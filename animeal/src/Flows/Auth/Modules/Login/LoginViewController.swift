@@ -14,7 +14,8 @@ import UIComponents
 import Services
 import Common
 
-final class LoginViewController: UIViewController, LoginViewable {
+final class LoginViewController: UIViewController, LoginViewable, ScreenAccessible {
+    static var screenIdentifier: String { LoginViewModel.AccessibilityID.screen }
     // MARK: - UI properties
     private let onboardingView: OnboardingView = {
         let item = OnboardingView()
@@ -53,6 +54,7 @@ final class LoginViewController: UIViewController, LoginViewable {
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        applyScreenIdentifier()
         setup()
         bind()
         viewModel.load()
@@ -83,13 +85,15 @@ final class LoginViewController: UIViewController, LoginViewable {
         let termsModel = ButtonView.Model(
             identifier: Constants.URLs.termsAndConditions,
             viewType: ButtonView.self,
-            title: L10n.Action.termsAndConditions
+            title: L10n.Action.termsAndConditions,
+            accessibilityIdentifier: LoginViewModel.AccessibilityID.termsAndConditionsButton
         )
 
         let privacyModel = ButtonView.Model(
             identifier: Constants.URLs.privacyPolicy,
             viewType: ButtonView.self,
-            title: L10n.Action.privacyPolicy
+            title: L10n.Action.privacyPolicy,
+            accessibilityIdentifier: LoginViewModel.AccessibilityID.privacyPolicyButton
         )
 
         // Create and append a TextLegalLinksRow to the list of views

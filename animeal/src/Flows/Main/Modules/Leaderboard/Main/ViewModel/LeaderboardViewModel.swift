@@ -30,3 +30,10 @@ final class LeaderboardViewModel: LeaderboardViewModelProtocol {
 
     func handleActionEvent(_ event: LeaderboardViewActionEvent) { }
 }
+
+extension LeaderboardViewModel {
+    enum AccessibilityID {
+        static let screen = "leaderboard_screen"
+        static let list = "list"
+    }
+}

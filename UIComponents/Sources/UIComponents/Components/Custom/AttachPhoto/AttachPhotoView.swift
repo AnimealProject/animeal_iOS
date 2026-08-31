@@ -133,6 +133,11 @@ public final class AttachPhotoView: UIView {
         }
     }
 
+    public func applyAccessibilityIdentifiers(attach: String, finish: String) {
+        attachButton.accessibilityIdentifier = attach
+        finishButton.contentView.accessibilityIdentifier = finish
+    }
+
     public func configureFinishButtonStyle(_ state: Bool) {
         finishButton.apply(style: state ? .active : .inActive)
     }

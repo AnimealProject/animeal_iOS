@@ -19,6 +19,7 @@ open class CircleButtonView: ButtonView {
             model.icon?.withTintColor(designEngine.colors.accent),
             for: UIControl.State.highlighted
         )
+        contentView.accessibilityIdentifier = model.accessibilityIdentifier
     }
 
     // MARK: - Setup

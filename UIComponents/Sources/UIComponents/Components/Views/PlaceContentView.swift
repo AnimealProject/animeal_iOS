@@ -45,6 +45,10 @@ public final class PlaceInfoView: UIView {
     public func setIcon(_ icon: UIImage) {
         imageView.image = icon
     }
+
+    public func applyTitleAccessibilityIdentifier(_ identifier: String) {
+        titleview.accessibilityIdentifier = identifier
+    }
 }
 
 // MARK: - Setup

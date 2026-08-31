@@ -358,3 +358,19 @@ private extension ProfileViewModel {
         modelActions.compactMap { $0 as? ProfileModelEditAction }.first
     }
 }
+
+extension ProfileViewModel {
+    enum AccessibilityID {
+        static let screen = "profile_screen"
+        static let nameField = "name_field"
+        static let surnameField = "surname_field"
+        static let emailField = "email_field"
+        static let phoneField = "phone_field"
+        static let countryCode = "country_code"
+        static let ageConsent = "age_consent"
+        static let doneButton = "done_button"
+        static let saveButton = "save_button"
+        static let editButton = "edit_button"
+        static let cancelButton = "cancel_button"
+    }
+}

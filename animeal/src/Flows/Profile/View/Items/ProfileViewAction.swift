@@ -5,6 +5,7 @@ struct ProfileViewAction {
     let title: String
     let isEnabled: Bool
     let style: ProfileActionStyle
+    let accessibilityIdentifier: String
 }
 
 extension ProfileViewAction {
@@ -14,5 +15,6 @@ extension ProfileViewAction {
         self.title = appearance.title
         self.isEnabled = appearance.isEnabled
         self.style = appearance.style
+        self.accessibilityIdentifier = appearance.accessibilityIdentifier
     }
 }

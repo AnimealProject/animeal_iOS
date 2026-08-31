@@ -8,7 +8,8 @@
 import UIKit
 import UIComponents
 
-final class LeaderboardViewController: UIViewController {
+final class LeaderboardViewController: UIViewController, ScreenAccessible {
+    static var screenIdentifier: String { LeaderboardViewModel.AccessibilityID.screen }
     // MARK: - Private properties
     private let viewModel: LeaderboardViewModelProtocol
     private let headerView = TableHeaderTextTitleView()
@@ -28,6 +29,7 @@ final class LeaderboardViewController: UIViewController {
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        applyScreenIdentifier()
         setup()
         viewModel.load(showLoading: true)
     }
@@ -40,6 +42,7 @@ final class LeaderboardViewController: UIViewController {
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .clear
         tableView.backgroundView = nil
+        tableView.accessibilityIdentifier = LeaderboardViewModel.AccessibilityID.list
 
         let safeArea = view.safeAreaLayoutGuide
 

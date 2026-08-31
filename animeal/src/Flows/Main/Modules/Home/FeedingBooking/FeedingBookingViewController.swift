@@ -2,7 +2,8 @@ import UIKit
 import UIComponents
 import Style
 
-final class FeedingBookingViewController: UIViewController, FeedingBookingViewable {
+final class FeedingBookingViewController: UIViewController, FeedingBookingViewable, ScreenAccessible {
+    static var screenIdentifier: String { FeedingBookingViewModel.AccessibilityID.screen }
     // MARK: - UI properties
     private let viewModel: FeedingBookingViewModelProtocol
     private let buttonContainer: UIStackView = {
@@ -27,6 +28,7 @@ final class FeedingBookingViewController: UIViewController, FeedingBookingViewab
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        applyScreenIdentifier()
         setup()
         viewModel.load()
     }
@@ -71,7 +73,8 @@ final class FeedingBookingViewController: UIViewController, FeedingBookingViewab
             ButtonView.Model(
                 identifier: UUID().uuidString,
                 viewType: ButtonView.self,
-                title: L10n.Action.cancel
+                title: L10n.Action.cancel,
+                accessibilityIdentifier: FeedingBookingViewModel.AccessibilityID.cancelButton
             )
         )
         cancelButton.onTap = { [weak self] _ in
@@ -84,7 +87,8 @@ final class FeedingBookingViewController: UIViewController, FeedingBookingViewab
             ButtonView.Model(
                 identifier: UUID().uuidString,
                 viewType: ButtonView.self,
-                title: L10n.Action.agree
+                title: L10n.Action.agree,
+                accessibilityIdentifier: FeedingBookingViewModel.AccessibilityID.agreeButton
             )
         )
         agreeButton.onTap = { [weak self] _ in

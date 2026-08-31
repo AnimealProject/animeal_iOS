@@ -5,7 +5,8 @@ import UIKit
 import UIComponents
 import Services
 
-final class VerificationViewController: BaseViewController, VerificationViewModelOutput {
+final class VerificationViewController: BaseViewController, VerificationViewModelOutput, ScreenAccessible {
+    static var screenIdentifier: String { VerificationViewModel.AccessibilityID.screen }
     // MARK: - UI properties
     private let headerView = TextBigTitleSubtitleView().prepareForAutoLayout()
     private let codeInputView = VerificationInputView().prepareForAutoLayout()
@@ -27,6 +28,7 @@ final class VerificationViewController: BaseViewController, VerificationViewMode
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        applyScreenIdentifier()
         setup()
         bind()
         viewModel.load()
@@ -83,6 +85,7 @@ final class VerificationViewController: BaseViewController, VerificationViewMode
 
     func applyResendCode(_ viewResendCode: VereficationViewResendCode) {
         resendView.configure(viewResendCode.model)
+        resendView.applyTitleAccessibilityIdentifier(VerificationViewModel.AccessibilityID.resendButton)
     }
 
     // MARK: - Setup
@@ -98,6 +101,9 @@ final class VerificationViewController: BaseViewController, VerificationViewMode
         codeInputView.leadingAnchor ~= headerView.leadingAnchor
         codeInputView.topAnchor ~= headerView.bottomAnchor + 32.0
         codeInputView.trailingAnchor ~= headerView.trailingAnchor
+
+        codeInputView.digitAccessibilityIdentifierPrefix = VerificationViewModel.AccessibilityID.digitPrefix
+        codeInputView.accessibilityIdentifier = VerificationViewModel.AccessibilityID.codeField
 
         view.addSubview(resendView)
         resendView.leadingAnchor >= headerView.leadingAnchor

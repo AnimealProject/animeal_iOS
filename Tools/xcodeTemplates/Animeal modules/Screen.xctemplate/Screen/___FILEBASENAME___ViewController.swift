@@ -1,7 +1,9 @@
 import UIKit
 import UIComponents
 
-final class ___VARIABLE_productName:identifier___ViewController: UIViewController, ___VARIABLE_productName:identifier___Viewable {
+final class ___VARIABLE_productName:identifier___ViewController: UIViewController, ___VARIABLE_productName:identifier___Viewable, ScreenAccessible {
+    static var screenIdentifier: String { ___VARIABLE_productName:identifier___ViewModel.AccessibilityID.screen }
+
     // MARK: - UI properties
     private let viewModel: ___VARIABLE_productName:identifier___ViewModelProtocol
 
@@ -18,6 +20,7 @@ final class ___VARIABLE_productName:identifier___ViewController: UIViewControlle
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        applyScreenIdentifier()
         setup()
         viewModel.load()
     }

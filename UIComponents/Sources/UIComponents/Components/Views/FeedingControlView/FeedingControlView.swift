@@ -54,6 +54,11 @@ public final class FeedingControlView: UIView {
         timerProvider.start()
     }
 
+    public func applyAccessibilityIdentifiers(timer: String, cancel: String) {
+        accessibilityIdentifier = timer
+        cancelButton?.accessibilityIdentifier = cancel
+    }
+
     public func setTimerProvider(_ provider: FeedingTimerProviderProtocol) {
         timerProvider.stop()
         timerProvider = provider

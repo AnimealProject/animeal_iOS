@@ -2,7 +2,8 @@ import UIKit
 import UIComponents
 import SwiftUI
 
-final class FeedingFinishedViewController: UIViewController, FeedingFinishedViewable {
+final class FeedingFinishedViewController: UIViewController, FeedingFinishedViewable, ScreenAccessible {
+    static var screenIdentifier: String { FeedingFinishedViewModel.AccessibilityID.screen }
     // MARK: - UI properties
     private let viewModel: FeedingFinishedViewModelProtocol
 
@@ -19,6 +20,7 @@ final class FeedingFinishedViewController: UIViewController, FeedingFinishedView
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        applyScreenIdentifier()
         setup()
         viewModel.load()
     }

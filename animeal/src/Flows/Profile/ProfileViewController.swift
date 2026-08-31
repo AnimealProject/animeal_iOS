@@ -4,8 +4,10 @@ import UIKit
 // SDK
 import UIComponents
 import Style
+import Common
 
-final class ProfileViewController: BaseViewController, ProfileViewable {
+final class ProfileViewController: BaseViewController, ProfileViewable, ScreenAccessible {
+    static var screenIdentifier: String { ProfileViewModel.AccessibilityID.screen }
     // MARK: - Private properties
     private let headerView = TextBigTitleSubtitleView().prepareForAutoLayout()
     private let scrollView = UIScrollView().prepareForAutoLayout()
@@ -29,6 +31,7 @@ final class ProfileViewController: BaseViewController, ProfileViewable {
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        applyScreenIdentifier()
         setup()
         bind()
     }
@@ -69,6 +72,7 @@ final class ProfileViewController: BaseViewController, ProfileViewable {
             navigationItem.hidesBackButton = true
             let image = UIImage(named: Asset.Images.arrowBackOffset.name)
             let backButton = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backTapped))
+            backButton.accessibilityIdentifier = CommonAccessibilityID.backButton
             navigationItem.leftBarButtonItem = backButton
         }
     }
@@ -87,6 +91,7 @@ final class ProfileViewController: BaseViewController, ProfileViewable {
             target: self,
             action: #selector(cancelTapped)
         )
+        cancelButton.accessibilityIdentifier = ProfileViewModel.AccessibilityID.cancelButton
         navigationItem.rightBarButtonItem = shouldShow ? cancelButton : nil
     }
 }
@@ -166,6 +171,10 @@ private extension ProfileViewController {
                 guard let model = (item as? ProfileTextFieldViewItem)?.phoneModel else { return }
                 let inputView = PhoneInputView()
                 inputView.configure(model)
+                inputView.applyAccessibilityIdentifiers(
+                    field: ProfileViewModel.AccessibilityID.phoneField,
+                    countryCode: ProfileViewModel.AccessibilityID.countryCode
+                )
                 #if DEBUG
                 inputView.codeWasTapped = { [weak self] _ in
                     self?.viewModel.handleActionEvent(
@@ -221,6 +230,7 @@ private extension ProfileViewController {
                 guard let model = (item as? ProfileTextFieldViewItem)?.model else { return }
                 let inputView = DefaultInputView()
                 inputView.configure(model)
+                inputView.applyFieldAccessibilityIdentifier(item.type.accessibilityIdentifier)
                 inputsContentView.addArrangedSubview(inputView)
                 inputView.shouldChangeCharacters = { [weak self] textInput, range, string in
                     let text = textInput.text
@@ -279,6 +289,23 @@ private extension ProfileViewController {
 
                     inputView.configure(item.model)
             }
+        }
+    }
+}
+
+private extension ProfileItemType {
+    var accessibilityIdentifier: String {
+        switch self {
+        case .name:
+            return ProfileViewModel.AccessibilityID.nameField
+        case .surname:
+            return ProfileViewModel.AccessibilityID.surnameField
+        case .email:
+            return ProfileViewModel.AccessibilityID.emailField
+        case .phone:
+            return ProfileViewModel.AccessibilityID.phoneField
+        case .birthday:
+            return ProfileViewModel.AccessibilityID.ageConsent
         }
     }
 }

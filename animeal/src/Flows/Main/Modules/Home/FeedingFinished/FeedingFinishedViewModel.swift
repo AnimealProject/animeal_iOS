@@ -36,3 +36,10 @@ final class FeedingFinishedViewModel: FeedingFinishedViewModelLifeCycle,
     func load() {
     }
 }
+
+extension FeedingFinishedViewModel {
+    enum AccessibilityID {
+        static let screen = "feeding_finished_screen"
+        static let backToHomeButton = "back_to_home_button"
+    }
+}
