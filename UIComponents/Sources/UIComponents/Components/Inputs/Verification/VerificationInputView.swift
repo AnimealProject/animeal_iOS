@@ -182,6 +182,8 @@ public final class VerificationInputView: UIView {
 
     private var inputViews: [_VerificationElementInputView]
 
+    public var digitAccessibilityIdentifierPrefix: String?
+    
     // MARK: - Accessible properties
     public override var canBecomeFirstResponder: Bool {
         return true
@@ -232,6 +234,9 @@ public final class VerificationInputView: UIView {
             ).prepareForAutoLayout()
             item.keyboardType = .numberPad
             item.text = digit.element.text
+            if let prefix = digitAccessibilityIdentifierPrefix {
+                item.accessibilityIdentifier = "\(prefix).\(digit.offset)"
+            }
             containerView.addArrangedSubview(item)
             inputViews.append(item)
         }

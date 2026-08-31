@@ -32,6 +32,7 @@ public final class AgeConsentView: UIStackView {
 
     public func configure(_ viewModel: AgeConsentViewModel) {
         self.viewModel = viewModel
+        accessibilityIdentifier = viewModel.accessibilityIdentifier
     }
 }
 
@@ -80,12 +81,18 @@ public extension AgeConsentView {
     class AgeConsentViewModel: ObservableObject, AgeConsentViewModelProtocol {
         public var title: String
         @Published public var state: CheckBoxState
+        public var accessibilityIdentifier: String?
 
         var cancellables = Set<AnyCancellable>()
 
-        public init(state: CheckBoxState, title: String) {
+        public init(
+            state: CheckBoxState,
+            title: String,
+            accessibilityIdentifier: String? = nil
+        ) {
             self.state = state
             self.title = title
+            self.accessibilityIdentifier = accessibilityIdentifier
         }
 
         func toggleState() {

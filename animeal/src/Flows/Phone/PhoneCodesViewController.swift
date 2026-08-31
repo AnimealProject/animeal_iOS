@@ -128,6 +128,7 @@ private extension PhoneCodesViewController {
         collectionView.backgroundColor = designEngine.colors.backgroundPrimary
 
         collectionView.delegate = self
+        collectionView.accessibilityIdentifier = AccessibilityID.Auth.Phone.countryList
         collectionView.register(
             PhoneCodesViewCommonCell.self,
             forCellWithReuseIdentifier: PhoneCodesViewCommonCell.reuseIdentifier
@@ -168,6 +169,7 @@ private extension PhoneCodesViewController {
                     isSelected: parameters.isSelected
                 )
             )
+            cell.accessibilityIdentifier = AccessibilityID.Auth.Phone.country(parameters.identifier)
             return cell
         }
     }

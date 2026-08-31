@@ -36,7 +36,8 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
         return ButtonView.Model(
             identifier: UUID().uuidString,
             viewType: TextButtonView.self,
-            title: L10n.Action.showOnMap
+            title: L10n.Action.showOnMap,
+            accessibilityIdentifier: AccessibilityID.FeedingPoint.showOnMapButton
         )
     }
     private var allModerators: [FeedingPointDetailsModel.Moderator] = []

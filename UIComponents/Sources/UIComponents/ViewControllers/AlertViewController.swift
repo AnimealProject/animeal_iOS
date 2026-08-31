@@ -47,7 +47,8 @@ public final class AlertViewController: UIViewController {
             ButtonView.Model(
                 identifier: UUID().uuidString,
                 viewType: ButtonView.self,
-                title: action.title ?? .empty
+                title: action.title ?? .empty,
+                accessibilityIdentifier: action.accessibilityIdentifier
             )
         )
         button.onTap = { _ in
@@ -114,6 +115,7 @@ public struct AlertAction {
     public let title: String?
     public let style: Style
     public let handler: (() -> Void)?
+    public let accessibilityIdentifier: String?
 
     public enum Style {
         case accent
@@ -123,10 +125,12 @@ public struct AlertAction {
     public init(
         title: String? = nil,
         style: Style,
-        handler: (() -> Void)? = nil
+        handler: (() -> Void)? = nil,
+        accessibilityIdentifier: String? = nil
     ) {
         self.title = title
         self.style = style
         self.handler = handler
+        self.accessibilityIdentifier = accessibilityIdentifier
     }
 }

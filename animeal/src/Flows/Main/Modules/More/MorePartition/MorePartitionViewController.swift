@@ -75,6 +75,7 @@ private extension MorePartitionViewController {
 
     func setupNavigationBar() {
         navigationItem.backBarButtonItem = .back(target: self, action: #selector(barButtonItemTapped))
+        navigationItem.backBarButtonItem?.accessibilityIdentifier = AccessibilityID.More.backButton
     }
 
     @objc func barButtonItemTapped() {
@@ -99,7 +100,8 @@ private extension MorePartitionViewController {
                 actionView.configure(
                     DestructiveActionView.Model(
                         title: action.title,
-                        image: UIImage(systemName: "trash")
+                        image: UIImage(systemName: "trash"),
+                        accessibilityIdentifier: AccessibilityID.More.Account.deleteButton
                     )
                 )
                 actionView.actionHandler = { [weak self] in
@@ -144,7 +146,10 @@ private extension MorePartitionViewController {
                 identifier: UUID().uuidString,
                 viewType: ButtonView.self,
                 icon: nil,
-                title: footer.action.title
+                title: footer.action.title,
+                accessibilityIdentifier: footer.action.actionId == .copyIBAN
+                    ? AccessibilityID.More.Donate.copyButton("iban")
+                    : AccessibilityID.More.Account.logoutButton
             )
         )
         button.onTap = { [weak self] _ in
@@ -178,7 +183,7 @@ private extension MorePartitionViewController {
                 style = .inverted
             }
             alertViewController.addAction(
-                AlertAction(title: action.title, style: style) { [weak self] in
+                AlertAction(title: action.title, style: style, handler: { [weak self] in
                     guard let self = self else { return }
                     switch action.actionId {
                     case .delete:
@@ -189,7 +194,14 @@ private extension MorePartitionViewController {
                         break
                     }
                     alertViewController.dismiss(animated: true)
-                }
+                }, accessibilityIdentifier: {
+                    switch action.actionId {
+                    case .cancel:
+                        return AccessibilityID.More.Account.alertCancel
+                    case .delete, .logout:
+                        return AccessibilityID.More.Account.alertConfirm
+                    }
+                }())
             )
         }
         return alertViewController

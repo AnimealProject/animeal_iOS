@@ -48,6 +48,14 @@ public final class FeedingPointDetailsView: UIView {
         infoView.setIcon(icon)
     }
 
+    public func applyFavoriteAccessibilityIdentifier(_ identifier: String) {
+        imageView.accessibilityIdentifier = identifier
+    }
+
+    public func applyNameAccessibilityIdentifier(_ identifier: String) {
+        infoView.applyTitleAccessibilityIdentifier(identifier)
+    }
+
     public func reset() {
         imageView.isHighlighted = false
     }

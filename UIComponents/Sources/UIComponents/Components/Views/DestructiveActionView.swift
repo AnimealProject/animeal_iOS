@@ -22,6 +22,7 @@ public final class DestructiveActionView: UIView {
     public func configure(_ model: Model) {
         titleLabel.text = model.title
         imageView.image = model.image
+        accessibilityIdentifier = model.accessibilityIdentifier
     }
 
     // MARK: - Setup
@@ -56,10 +57,16 @@ extension DestructiveActionView {
     public struct Model {
         public let title: String
         public let image: UIImage?
+        public let accessibilityIdentifier: String?
 
-        public init(title: String, image: UIImage? = nil) {
+        public init(
+            title: String,
+            image: UIImage? = nil,
+            accessibilityIdentifier: String? = nil
+        ) {
             self.title = title
             self.image = image
+            self.accessibilityIdentifier = accessibilityIdentifier
         }
     }
 }

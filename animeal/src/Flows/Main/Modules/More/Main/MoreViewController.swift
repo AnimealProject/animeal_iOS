@@ -38,7 +38,8 @@ final class MoreViewController: UIViewController, MoreViewable {
                 TitleDisclosureView.Model(
                     identifier: viewItem.identifier,
                     title: viewItem.title,
-                    hasIndicator: viewItem.hasIndicator
+                    hasIndicator: viewItem.hasIndicator,
+                    accessibilityIdentifier: AccessibilityID.More.item(viewItem.identifier)
                 )
             )
             view.onTapHandler = { [weak self] identifier in
@@ -69,5 +70,6 @@ final class MoreViewController: UIViewController, MoreViewable {
         contentView.topAnchor ~= headerLabel.bottomAnchor + 8
         contentView.leadingAnchor ~= view.leadingAnchor + 26.0
         contentView.trailingAnchor ~= view.trailingAnchor - 26.0
+        contentView.accessibilityIdentifier = AccessibilityID.More.menu
     }
 }

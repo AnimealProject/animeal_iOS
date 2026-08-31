@@ -83,13 +83,15 @@ final class LoginViewController: UIViewController, LoginViewable {
         let termsModel = ButtonView.Model(
             identifier: Constants.URLs.termsAndConditions,
             viewType: ButtonView.self,
-            title: L10n.Action.termsAndConditions
+            title: L10n.Action.termsAndConditions,
+            accessibilityIdentifier: AccessibilityID.Auth.Login.termsAndConditions
         )
 
         let privacyModel = ButtonView.Model(
             identifier: Constants.URLs.privacyPolicy,
             viewType: ButtonView.self,
-            title: L10n.Action.privacyPolicy
+            title: L10n.Action.privacyPolicy,
+            accessibilityIdentifier: AccessibilityID.Auth.Login.privacyPolicy
         )
 
         // Create and append a TextLegalLinksRow to the list of views

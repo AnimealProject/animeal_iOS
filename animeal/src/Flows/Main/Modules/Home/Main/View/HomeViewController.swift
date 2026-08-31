@@ -142,9 +142,14 @@ private extension HomeViewController {
         controlsContainer.distribution = .fillProportionally
 
         controlsContainer.addArrangedSubview(segmentedControl)
+        segmentedControl.accessibilityIdentifier = AccessibilityID.Home.categoryControl
         segmentedControl.widthAnchor ~= 226
         controlsContainer.addArrangedSubview(feedControl)
         feedControl.widthAnchor ~= 374
+        feedControl.applyAccessibilityIdentifiers(
+            timer: AccessibilityID.Home.feedingTimer,
+            cancel: AccessibilityID.Home.cancelFeedingButton
+        )
         toggleRouteAndTimer(isVisible: false)
 
         view.addSubview(userLocationButton.prepareForAutoLayout())
@@ -234,7 +239,15 @@ private extension HomeViewController {
                 AlertAction(
                     title: feedingAction.title,
                     style: feedingAction.style.alertActionStyle,
-                    handler: actionHandler
+                    handler: actionHandler,
+                    accessibilityIdentifier: {
+                        switch feedingAction.style {
+                        case .inverted:
+                            return AccessibilityID.Home.alertCancel
+                        case .accent:
+                            return AccessibilityID.Home.alertConfirm
+                        }
+                    }()
                 )
             )
         }
@@ -428,7 +441,8 @@ private extension CircleButtonView {
         let model = CircleButtonView.Model(
             identifier: UUID().uuidString,
             viewType: CircleButtonView.self,
-            icon: Asset.Images.findLocation.image
+            icon: Asset.Images.findLocation.image,
+            accessibilityIdentifier: AccessibilityID.Home.myLocationButton
         )
         myLocationButton.configure(model)
         return myLocationButton

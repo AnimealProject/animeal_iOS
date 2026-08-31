@@ -38,6 +38,7 @@ public final class TitleDisclosureView: UIView {
         indicatorView.backgroundColor = designEngine.colors.error
         indicatorView.isHidden = !model.hasIndicator
         self.model = model
+        accessibilityIdentifier = model.accessibilityIdentifier ?? model.identifier
     }
 
     private func setup() {
@@ -81,15 +82,18 @@ public extension TitleDisclosureView {
         public let identifier: String
         public let title: String
         public let hasIndicator: Bool
+        public let accessibilityIdentifier: String?
 
         public init(
             identifier: String,
             title: String,
-            hasIndicator: Bool = false
+            hasIndicator: Bool = false,
+            accessibilityIdentifier: String? = nil
         ) {
             self.identifier = identifier
             self.title = title
             self.hasIndicator = hasIndicator
+            self.accessibilityIdentifier = accessibilityIdentifier
         }
     }
 }

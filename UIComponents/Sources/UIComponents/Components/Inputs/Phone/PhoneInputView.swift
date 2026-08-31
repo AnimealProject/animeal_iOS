@@ -18,6 +18,11 @@ public final class PhoneInputView: TextInputFilledDecorator<PhoneTextContentView
     public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    public func applyAccessibilityIdentifiers(field: String, countryCode: String) {
+        applyFieldAccessibilityIdentifier(field)
+        contentView.leftView?.accessibilityIdentifier = countryCode
+    }
 }
 
 public extension PhoneTextContentView {

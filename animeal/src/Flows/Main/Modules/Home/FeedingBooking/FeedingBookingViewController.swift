@@ -71,7 +71,8 @@ final class FeedingBookingViewController: UIViewController, FeedingBookingViewab
             ButtonView.Model(
                 identifier: UUID().uuidString,
                 viewType: ButtonView.self,
-                title: L10n.Action.cancel
+                title: L10n.Action.cancel,
+                accessibilityIdentifier: AccessibilityID.FeedingBooking.cancelButton
             )
         )
         cancelButton.onTap = { [weak self] _ in
@@ -84,7 +85,8 @@ final class FeedingBookingViewController: UIViewController, FeedingBookingViewab
             ButtonView.Model(
                 identifier: UUID().uuidString,
                 viewType: ButtonView.self,
-                title: L10n.Action.agree
+                title: L10n.Action.agree,
+                accessibilityIdentifier: AccessibilityID.FeedingBooking.agreeButton
             )
         )
         agreeButton.onTap = { [weak self] _ in

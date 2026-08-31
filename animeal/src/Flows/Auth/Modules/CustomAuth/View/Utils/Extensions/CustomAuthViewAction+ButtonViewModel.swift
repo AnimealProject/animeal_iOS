@@ -11,7 +11,8 @@ extension CustomAuthViewAction {
         let model = ButtonView.Model(
             identifier: identifier,
             viewType: ButtonView.self,
-            title: title
+            title: title,
+            accessibilityIdentifier: AccessibilityID.Auth.Phone.nextButton
         )
 
         if isEnabled {

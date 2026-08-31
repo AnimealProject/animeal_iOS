@@ -40,6 +40,7 @@ final class LeaderboardViewController: UIViewController {
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .clear
         tableView.backgroundView = nil
+        tableView.accessibilityIdentifier = AccessibilityID.Leaderboard.list
 
         let safeArea = view.safeAreaLayoutGuide
 

@@ -23,6 +23,7 @@ struct ProfileModelActionAppearance {
     let title: String
     let isEnabled: Bool
     let style: ProfileActionStyle
+    let accessibilityIdentifier: String
 }
 
 protocol ProfileModelAction {
@@ -234,7 +235,8 @@ extension ProfileModelActionAppearance {
             identifier: UUID().uuidString,
             title: L10n.Profile.edit,
             isEnabled: true,
-            style: .primary
+            style: .primary,
+            accessibilityIdentifier: AccessibilityID.Profile.editButton
         )
     }
 
@@ -243,7 +245,8 @@ extension ProfileModelActionAppearance {
             identifier: UUID().uuidString,
             title: L10n.Profile.save,
             isEnabled: isEnabled,
-            style: .primary
+            style: .primary,
+            accessibilityIdentifier: AccessibilityID.Profile.saveButton
         )
     }
 
@@ -252,7 +255,8 @@ extension ProfileModelActionAppearance {
             identifier: UUID().uuidString,
             title: L10n.Profile.done,
             isEnabled: isEnabled,
-            style: .primary
+            style: .primary,
+            accessibilityIdentifier: AccessibilityID.Profile.doneButton
         )
     }
 
@@ -261,7 +265,8 @@ extension ProfileModelActionAppearance {
             identifier: UUID().uuidString,
             title: L10n.Profile.cancel,
             isEnabled: true,
-            style: .secondary
+            style: .secondary,
+            accessibilityIdentifier: AccessibilityID.Profile.cancelButton
         )
     }
 }

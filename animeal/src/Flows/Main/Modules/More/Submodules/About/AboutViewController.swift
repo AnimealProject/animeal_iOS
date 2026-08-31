@@ -47,6 +47,7 @@ final class AboutViewController: UIViewController, AboutViewable {
 
     private func setupNavigationBar() {
         navigationItem.backBarButtonItem = .back(target: self, action: #selector(barButtonItemTapped))
+        navigationItem.backBarButtonItem?.accessibilityIdentifier = AccessibilityID.More.backButton
     }
 
     @objc private func barButtonItemTapped() {

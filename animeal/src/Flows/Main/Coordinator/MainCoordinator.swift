@@ -106,7 +106,8 @@ final class MainCoordinator: Coordinatable, GuestAlertCoordinatable {
                     tabBarItemView: PlainTabBarItemView(
                         model: TabBarItemViewModel(
                             icon: Asset.Images.glass.image,
-                            title: L10n.TabBar.search
+                            title: L10n.TabBar.search,
+                            accessibilityIdentifier: AccessibilityID.TabBar.search
                         )
                     ),
                     viewController: searchNavigationController
@@ -116,7 +117,8 @@ final class MainCoordinator: Coordinatable, GuestAlertCoordinatable {
                     tabBarItemView: PlainTabBarItemView(
                         model: TabBarItemViewModel(
                             icon: Asset.Images.heart.image,
-                            title: L10n.TabBar.favourites
+                            title: L10n.TabBar.favourites,
+                            accessibilityIdentifier: AccessibilityID.TabBar.favourites
                         )
                     ),
                     viewController: favouritesNavigationController
@@ -125,7 +127,8 @@ final class MainCoordinator: Coordinatable, GuestAlertCoordinatable {
                     identifier: .home,
                     tabBarItemView: HomeTabBarItemView(
                         model: TabBarItemViewModel(
-                            icon: Asset.Images.home.image
+                            icon: Asset.Images.home.image,
+                            accessibilityIdentifier: AccessibilityID.TabBar.home
                         )
                     ),
                     viewController: homeNavigtionController
@@ -135,7 +138,8 @@ final class MainCoordinator: Coordinatable, GuestAlertCoordinatable {
                     tabBarItemView: PlainTabBarItemView(
                         model: TabBarItemViewModel(
                             icon: Asset.Images.podium.image,
-                            title: L10n.TabBar.leaderBoard
+                            title: L10n.TabBar.leaderBoard,
+                            accessibilityIdentifier: AccessibilityID.TabBar.leaderboard
                         )
                     ),
                     viewController: leaderboardNavigationController
@@ -145,7 +149,8 @@ final class MainCoordinator: Coordinatable, GuestAlertCoordinatable {
                     tabBarItemView: PlainTabBarItemView(
                         model: TabBarItemViewModel(
                             icon: Asset.Images.more.image,
-                            title: L10n.TabBar.more
+                            title: L10n.TabBar.more,
+                            accessibilityIdentifier: AccessibilityID.TabBar.more
                         )
                     ),
                     viewController: moreNavigtionController

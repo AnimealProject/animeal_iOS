@@ -69,6 +69,7 @@ final class ProfileViewController: BaseViewController, ProfileViewable {
             navigationItem.hidesBackButton = true
             let image = UIImage(named: Asset.Images.arrowBackOffset.name)
             let backButton = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backTapped))
+            backButton.accessibilityIdentifier = AccessibilityID.Profile.backButton
             navigationItem.leftBarButtonItem = backButton
         }
     }
@@ -87,6 +88,7 @@ final class ProfileViewController: BaseViewController, ProfileViewable {
             target: self,
             action: #selector(cancelTapped)
         )
+        cancelButton.accessibilityIdentifier = AccessibilityID.Profile.cancelButton
         navigationItem.rightBarButtonItem = shouldShow ? cancelButton : nil
     }
 }
@@ -166,6 +168,10 @@ private extension ProfileViewController {
                 guard let model = (item as? ProfileTextFieldViewItem)?.phoneModel else { return }
                 let inputView = PhoneInputView()
                 inputView.configure(model)
+                inputView.applyAccessibilityIdentifiers(
+                    field: AccessibilityID.Profile.phoneField,
+                    countryCode: AccessibilityID.Profile.countryCode
+                )
                 #if DEBUG
                 inputView.codeWasTapped = { [weak self] _ in
                     self?.viewModel.handleActionEvent(
@@ -221,6 +227,7 @@ private extension ProfileViewController {
                 guard let model = (item as? ProfileTextFieldViewItem)?.model else { return }
                 let inputView = DefaultInputView()
                 inputView.configure(model)
+                inputView.applyFieldAccessibilityIdentifier(item.type.accessibilityIdentifier)
                 inputsContentView.addArrangedSubview(inputView)
                 inputView.shouldChangeCharacters = { [weak self] textInput, range, string in
                     let text = textInput.text
@@ -279,6 +286,23 @@ private extension ProfileViewController {
 
                     inputView.configure(item.model)
             }
+        }
+    }
+}
+
+private extension ProfileItemType {
+    var accessibilityIdentifier: String {
+        switch self {
+        case .name:
+            return AccessibilityID.Profile.nameField
+        case .surname:
+            return AccessibilityID.Profile.surnameField
+        case .email:
+            return AccessibilityID.Profile.emailField
+        case .phone:
+            return AccessibilityID.Profile.phoneField
+        case .birthday:
+            return AccessibilityID.Profile.ageConsent
         }
     }
 }

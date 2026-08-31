@@ -107,6 +107,7 @@ extension FAQView {
                 )
                 .buttonStyle(PlainButtonStyle())
                 .fixedSize(horizontal: false, vertical: true)
+                .accessibilityIdentifier(AccessibilityID.More.FAQ.item(item.id))
 
                 if showAnswer {
                     VStack {
