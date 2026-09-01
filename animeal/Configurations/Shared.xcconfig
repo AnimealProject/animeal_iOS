@@ -4,6 +4,8 @@ INFOPLIST_KEY_CFBundleDisplayName = AnimealDemo
 
 // ─── Feature flags ───────────────────────────────────────────────────────────
 // Default value of FeatureFlags.isLoadAllFeedingPointsEnabled for this build configuration.
-SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) LOAD_ALL_FEEDING_POINTS FIREBASE_DISABLED
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) LOAD_ALL_FEEDING_POINTS
 
-FIREBASE_DISABLED = YES
+// Script-only toggle: gates the Crashlytics dSYM-upload build phase.
+// Swift-code gating (#if FIREBASE_DISABLED) lives in Services/Package.swift swiftSettings.
+FIREBASE_DISABLED = NO
