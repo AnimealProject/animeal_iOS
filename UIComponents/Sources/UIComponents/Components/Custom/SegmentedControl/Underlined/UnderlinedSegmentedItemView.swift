@@ -9,10 +9,12 @@ public extension UnderlinedSegmentedItemView {
     struct Model {
         public let identifier: String
         public let title: String
+        public let accessibilityIdentifier: String?
 
-        public init(identifier: String, title: String) {
+        public init(identifier: String, title: String, accessibilityIdentifier: String? = nil) {
             self.identifier = identifier
             self.title = title
+            self.accessibilityIdentifier = accessibilityIdentifier
         }
     }
 }
@@ -38,6 +40,7 @@ public final class UnderlinedSegmentedItemView: UIView {
     public func configure(_ model: Model) {
         titleView.text = model.title
         identifier = model.identifier
+        accessibilityIdentifier = model.accessibilityIdentifier ?? model.identifier
     }
 
     // MARK: - Setup

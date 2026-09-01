@@ -14,10 +14,16 @@ public struct AnimealButton: View {
 
     public let action: () -> Void
     public let title: String
+    public let accessibilityIdentifier: String?
 
-    public init(action: @escaping () -> Void, title: String) {
+    public init(
+        action: @escaping () -> Void,
+        title: String,
+        accessibilityIdentifier: String? = nil
+    ) {
         self.action = action
         self.title = title
+        self.accessibilityIdentifier = accessibilityIdentifier
     }
 
     public var body: some View {
@@ -33,6 +39,7 @@ public struct AnimealButton: View {
         }
         .background(Asset.Colors.darkTurquoise.swiftUIColor)
         .cornerRadius(30)
+        .accessibilityIdentifier(accessibilityIdentifier ?? title)
     }
 }
 

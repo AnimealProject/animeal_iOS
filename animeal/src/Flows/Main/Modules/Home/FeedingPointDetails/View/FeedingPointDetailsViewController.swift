@@ -91,6 +91,7 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
     // MARK: - Setup
     private func setup() {
         view.backgroundColor = designEngine.colors.backgroundPrimary
+        view.accessibilityIdentifier = AccessibilityID.FeedingPoint.sheet
 
         let pullBarView = UIView()
         pullBarView.backgroundColor = designEngine.colors.disabled
@@ -165,7 +166,8 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
             let model = ButtonView.Model(
                 identifier: UUID().uuidString,
                 viewType: ButtonView.self,
-                title: L10n.Action.showAll(content.totalCount)
+                title: L10n.Action.showAll(content.totalCount),
+                accessibilityIdentifier: AccessibilityID.FeedingPoint.showMoreModeratorsButton
             )
             showMoreButton.configure(model)
             showMoreButton.onTap = { [weak self] _ in
@@ -187,7 +189,9 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
             ButtonView.Model(
                 identifier: UUID().uuidString,
                 viewType: ButtonView.self,
-                icon: UIImage(systemName: iconName))
+                icon: UIImage(systemName: iconName),
+                accessibilityIdentifier: AccessibilityID.FeedingPoint.toggleModeratorsButton
+            )
         )
         toggleButton.onTap = { [weak self] _ in
             self?.viewModel.handleActionEvent(.tapToggleModeratorsVisibility)
@@ -214,6 +218,8 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
                 isHighlighted: content.isFavorite
             )
         )
+        pointDetailsView.applyFavoriteAccessibilityIdentifier(AccessibilityID.FeedingPoint.favoriteButton)
+        pointDetailsView.applyNameAccessibilityIdentifier(AccessibilityID.FeedingPoint.nameLabel)
         pointDetailsView.didTapOnFavorite = { [weak self] in
             self?.viewModel.handleActionEvent(.tapFavorite)
         }
@@ -222,6 +228,7 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
         let paragraphView = TextParagraphView()
         contentContainer.addArrangedSubview(paragraphView)
         paragraphView.configure(content.placeDescription)
+        paragraphView.accessibilityIdentifier = AccessibilityID.FeedingPoint.descriptionLabel
 
         if !self.viewModel.historyInitialized && !self.shimmerAdded {
             let feedingHistoryShimmerView = FeedingHistoryShimmerView()
@@ -314,7 +321,15 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
                 AlertAction(
                     title: feedingAction.title,
                     style: feedingAction.style.alertActionStyle,
-                    handler: actionHandler
+                    handler: actionHandler,
+                    accessibilityIdentifier: {
+                        switch feedingAction.style {
+                        case .inverted:
+                            return AccessibilityID.FeedingPoint.alertCancel
+                        case .accent:
+                            return AccessibilityID.FeedingPoint.alertConfirm
+                        }
+                    }()
                 )
             )
         }

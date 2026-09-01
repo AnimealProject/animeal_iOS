@@ -115,6 +115,7 @@ extension DonateView {
                             .padding(.trailing, 18)
                             .padding(.vertical, 14)
                     }
+                    .accessibilityIdentifier(AccessibilityID.More.Donate.copyButton(item.id))
                 }
                 .background(
                     designEngine.colors.backgroundSecondary.color

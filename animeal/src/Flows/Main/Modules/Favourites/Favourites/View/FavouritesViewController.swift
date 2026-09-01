@@ -22,6 +22,7 @@ final class FavouritesViewController: UIViewController {
         button.contentVerticalAlignment = .fill
         button.imageView?.contentMode = .scaleAspectFit
         button.addTarget(self, action: #selector(reloadButtonTapped), for: .touchUpInside)
+        button.accessibilityIdentifier = AccessibilityID.Favourites.reloadButton
         return button
     }()
 
@@ -95,6 +96,7 @@ final class FavouritesViewController: UIViewController {
         tableView.backgroundView = nil
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.accessibilityIdentifier = AccessibilityID.Favourites.list
 
         let safeArea = view.safeAreaLayoutGuide
 
@@ -174,6 +176,10 @@ extension FavouritesViewController: UITableViewDataSource {
 
         cell.configure(item)
         if let favouriteCell = cell as? FavouriteItemCell {
+            favouriteCell.applyAccessibilityIdentifiers(
+                cell: AccessibilityID.Favourites.cell(item.feedingPointId),
+                favorite: AccessibilityID.Favourites.favoriteButton(item.feedingPointId)
+            )
             favouriteCell.onTap = { [weak self] in
                 self?.viewModel.handleActionEvent(.tapFavorite(item.feedingPointId))
             }

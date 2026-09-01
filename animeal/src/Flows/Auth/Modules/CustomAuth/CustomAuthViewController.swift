@@ -23,6 +23,7 @@ final class CustomAuthViewController: BaseViewController, CustomAuthViewable {
         let privacyRange = (legalTermsString as NSString).range(of: privacyString)
 
         linkLabel.configure(text: legalTermsString, termsRange: termsRange, privacyRange: privacyRange)
+        linkLabel.accessibilityIdentifier = AccessibilityID.Auth.Phone.termsAndConditions
 
         return linkLabel
     }()
@@ -157,6 +158,10 @@ private extension CustomAuthViewController {
             case .phone:
                 let inputView = PhoneInputView()
                 inputView.configure(item.phoneModel)
+                inputView.applyAccessibilityIdentifiers(
+                    field: AccessibilityID.Auth.Phone.phoneField,
+                    countryCode: AccessibilityID.Auth.Phone.countryCode
+                )
                 #if DEBUG
                 inputView.codeWasTapped = { [weak self] _ in
                     self?.view.endEditing(true)
@@ -202,6 +207,7 @@ private extension CustomAuthViewController {
             case .password:
                 let inputView = DefaultInputView()
                 inputView.configure(item.model)
+                inputView.applyFieldAccessibilityIdentifier(AccessibilityID.Auth.Phone.passwordField)
                 inputsContentView.addArrangedSubview(inputView)
             }
         }

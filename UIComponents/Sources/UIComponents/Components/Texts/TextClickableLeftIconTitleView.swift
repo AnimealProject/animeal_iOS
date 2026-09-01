@@ -86,6 +86,10 @@ public final class TextClickableLeftIconTitleView: UIView {
         }
     }
 
+    public func applyTitleAccessibilityIdentifier(_ identifier: String) {
+        titleView.accessibilityIdentifier = identifier
+    }
+
     // MARK: - Setup
     private func setup() {
         addSubview(containerView)

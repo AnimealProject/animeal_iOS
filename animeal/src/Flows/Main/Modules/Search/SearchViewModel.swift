@@ -98,7 +98,11 @@ private extension SearchViewModel {
                     modelFilters.first { $0.isSelected }?.identifier ??
                         modelFilters.first?.identifier,
                 items: modelFilters.map {
-                    SearchViewFilter(identifier: $0.identifier, title: $0.title)
+                    SearchViewFilter(
+                        identifier: $0.identifier,
+                        title: $0.title,
+                        accessibilityIdentifier: AccessibilityID.Search.filter($0.identifier)
+                    )
                 }
             )
             self.onFiltersWerePrepared?(viewFilters)

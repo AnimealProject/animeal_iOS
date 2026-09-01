@@ -83,6 +83,7 @@ final class VerificationViewController: BaseViewController, VerificationViewMode
 
     func applyResendCode(_ viewResendCode: VereficationViewResendCode) {
         resendView.configure(viewResendCode.model)
+        resendView.applyTitleAccessibilityIdentifier(AccessibilityID.Auth.OTP.resendButton)
     }
 
     // MARK: - Setup
@@ -98,6 +99,9 @@ final class VerificationViewController: BaseViewController, VerificationViewMode
         codeInputView.leadingAnchor ~= headerView.leadingAnchor
         codeInputView.topAnchor ~= headerView.bottomAnchor + 32.0
         codeInputView.trailingAnchor ~= headerView.trailingAnchor
+
+        codeInputView.digitAccessibilityIdentifierPrefix = AccessibilityID.Auth.OTP.digitPrefix
+        codeInputView.accessibilityIdentifier = AccessibilityID.Auth.OTP.codeField
 
         view.addSubview(resendView)
         resendView.leadingAnchor >= headerView.leadingAnchor

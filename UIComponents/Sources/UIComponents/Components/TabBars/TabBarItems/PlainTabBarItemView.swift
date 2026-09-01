@@ -67,5 +67,6 @@ private extension PlainTabBarItemView {
         titleLabel.text = model.title
         titleLabel.font = designEngine.fonts.primary.semibold(10)
         titleLabel.textColor = designEngine.colors.accent
+        accessibilityIdentifier = model.accessibilityIdentifier
     }
 }

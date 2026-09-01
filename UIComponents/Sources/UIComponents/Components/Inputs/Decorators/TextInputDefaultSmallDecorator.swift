@@ -84,6 +84,10 @@ open class TextInputDefaultSmallDecorator<ContentView: TextFieldContainerView>: 
         configureStyle(model.state)
     }
 
+    public func applyFieldAccessibilityIdentifier(_ identifier: String) {
+        textView.accessibilityIdentifier = identifier
+    }
+
     open func configureStyle(_ textFieldState: TextInputView.State) {
         contentView.backgroundColor = designEngine.colors.backgroundSecondary
         switch textFieldState {

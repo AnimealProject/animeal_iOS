@@ -96,6 +96,7 @@ struct AboutView: View {
         )
         .disabled(link.disabled)
         .opacity(link.disabled ? 0.33 : 1)
+        .accessibilityIdentifier(AccessibilityID.More.About.link(link.rawValue))
     }
 
     private var linkButtonsView: some View {

@@ -66,6 +66,10 @@ final class AttachPhotoViewController: UIViewController, AttachPhotoViewable {
             buttonTitle: viewContent.buttonTitle,
             isActive: viewContent.isActive)
         )
+        attachingPhotoView.applyAccessibilityIdentifiers(
+            attach: AccessibilityID.AttachPhoto.attachButton,
+            finish: AccessibilityID.AttachPhoto.finishButton
+        )
     }
 
     func applySnapshot(_ snapshot: DataSourceSnapshot) {
@@ -186,6 +190,7 @@ private extension AttachPhotoViewController {
             let progressModel = viewModel.progressModel(for: placeimage)
             let cellModel = AttachPhotoViewCell.Model(image: placeimage, progressModel: progressModel)
             cell.configure(cellModel)
+            cell.accessibilityIdentifier = AccessibilityID.AttachPhoto.removePhoto(indexPath.item)
             cell.onTapCloseAction = { [weak self] in
                 self?.viewModel.handleActionEvent(.removeImage(image: cellModel.image))
             }
@@ -265,7 +270,15 @@ private extension AttachPhotoViewController {
                 AlertAction(
                     title: attachPhotoAction.title,
                     style: attachPhotoAction.style.alertActionStyle,
-                    handler: actionHandler
+                    handler: actionHandler,
+                    accessibilityIdentifier: {
+                        switch attachPhotoAction.style {
+                        case .inverted:
+                            return AccessibilityID.AttachPhoto.alertCancel
+                        case .accent:
+                            return AccessibilityID.AttachPhoto.alertConfirm
+                        }
+                    }()
                 )
             )
         }

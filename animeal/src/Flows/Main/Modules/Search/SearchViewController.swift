@@ -86,6 +86,7 @@ final class SearchViewController: UIViewController, SearchViewable {
 
     func applySearchInput(_ viewSearchInput: SearchViewInput) {
         searchInputView.configure(viewSearchInput)
+        searchInputView.applyFieldAccessibilityIdentifier(AccessibilityID.Search.input)
     }
 }
 
@@ -163,6 +164,7 @@ private extension SearchViewController {
         selectorView.onSegmentWasChanged = { [weak self] identifier in
             self?.viewModel.handleActionEvent(.filterDidTap(identifier))
         }
+        selectorView.accessibilityIdentifier = AccessibilityID.Search.filterControl
     }
 
     private func setupSearchView() {
@@ -212,6 +214,7 @@ private extension SearchViewController {
 
         collectionView.delegate = self
         collectionView.backgroundColor = designEngine.colors.backgroundPrimary
+        collectionView.accessibilityIdentifier = AccessibilityID.Search.list
 
         collectionView.keyboardDismissMode = .onDrag
     }
@@ -251,6 +254,7 @@ private extension SearchViewController {
                 ) as? SearchSupplementaryContainable
             else { return UICollectionReusableView() }
             headerView.configure(headerItem)
+            headerView.accessibilityIdentifier = AccessibilityID.Search.sectionHeader(sectionIdentifier.identifier)
             headerView.onTap = { [weak self] in
                 self?.viewModel.handleActionEvent(
                     .sectionDidTap(sectionIdentifier.identifier)
