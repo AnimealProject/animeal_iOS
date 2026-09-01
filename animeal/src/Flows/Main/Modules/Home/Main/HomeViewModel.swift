@@ -93,7 +93,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     }
 
     func load() {
-        Task { [weak self] in
+        Task { @MainActor [weak self] in
             guard let self else { return }
             await fetchUnfinishedFeeding()
             self.fetchFilterItems()
@@ -112,7 +112,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
         guard !(loadedRegion?.contains(bounds) ?? false), !isFetchingFeedingPoints else { return }
         let fetchBounds = makeFetchBounds(from: bounds)
         isFetchingFeedingPoints = true
-        pendingFetchTask = Task { [weak self] in
+        pendingFetchTask = Task { @MainActor [weak self] in
             guard let self else { return }
             defer { self.isFetchingFeedingPoints = false }
             do {
