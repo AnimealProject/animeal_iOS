@@ -59,10 +59,10 @@ protocol UpdateProfileUseCaseLogic {
 
 /// API call to update the user profile
 final class UpdateProfileUseCase: UpdateProfileUseCaseLogic {
-    private let state: ProfileModelStateProtocol
+    private let state: ProfileModelStateMutableProtocol
     private let profileService: UserProfileServiceProtocol
 
-    init(state: ProfileModelStateProtocol, profileService: UserProfileServiceProtocol) {
+    init(state: ProfileModelStateMutableProtocol, profileService: UserProfileServiceProtocol) {
         self.state = state
         self.profileService = profileService
     }
@@ -105,7 +105,15 @@ final class UpdateProfileUseCase: UpdateProfileUseCaseLogic {
                 resendMethod
             )
         } else {
+            await updateItems()
             return .done
         }
+    }
+
+    private func updateItems() async {
+        let readonlyItems = await state.items.toReadonly()
+        await state.updateIdentityItems(readonlyItems)
+        await state.updateItems(readonlyItems)
+        await state.updateChangedItemsTypes([])
     }
 }

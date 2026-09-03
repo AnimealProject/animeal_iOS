@@ -3,6 +3,7 @@ import UIKit
 public protocol TextFieldContainerViewModel {
     var text: String? { get }
     var placeholder: String? { get }
+    var isEditable: Bool { get }
 }
 
 open class TextFieldContainerView: UIView {
