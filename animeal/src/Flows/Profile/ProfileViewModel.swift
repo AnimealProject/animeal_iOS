@@ -282,13 +282,13 @@ private extension ProfileViewModel {
             }
             return
         }
-        updateViewItems(animated: false, resetPreviousItems: false) { [weak self] in
-            await self?.updateViewActions()
-            return try await self?.model.fetchCachedItems() ?? []
-        }
         coordinator.displayActivityIndicator { [weak self] in
             guard let self else { return }
             let nextStep = try await self.model.proceedAction(identifier)
+            self.updateViewItems(animated: false, resetPreviousItems: false) { [weak self] in
+                await self?.updateViewActions()
+                return try await self?.model.fetchCachedItems() ?? []
+            }
             self.processNextStep(nextStep, actionIdentifier: identifier)
         }
     }
