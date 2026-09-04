@@ -1,0 +1,46 @@
+name: Setup build environment
+description: >
+  Writes the Amplify backend configuration for the requested environment
+  (from a base64-encoded secret), records the environment name for the app,
+  and configures Mapbox SDK access.
+
+inputs:
+  environment:
+    description: Backend environment name (dev or test), informational
+    required: true
+  backend-config-b64:
+    description: Base64-encoded amplifyconfiguration.json for the environment
+    required: true
+  mapbox-token:
+    description: Mapbox download token
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Write backend configuration
+      shell: bash
+      env:
+        BACKEND_CONFIG_B64: ${{ inputs.backend-config-b64 }}
+        BACKEND_ENV: ${{ inputs.environment }}
+      run: |
+        echo "$BACKEND_CONFIG_B64" | base64 --decode > amplifyconfiguration.json
+        python3 -c "import json; json.load(open('amplifyconfiguration.json'))" \
+          || { echo "::error::amplifyconfiguration.json is not valid JSON — check the secret"; exit 1; }
+        printf '%s\n' "$BACKEND_ENV" > backend_env.txt
+        echo "Backend environment: $BACKEND_ENV"
+    - name: Setup Mapbox credentials
+      shell: bash
+      env:
+        MAPBOX_DOWNLOAD_TOKEN: ${{ inputs.mapbox-token }}
+      run: |
+        echo "$MAPBOX_DOWNLOAD_TOKEN" >> ~/.mapbox
+        {
+          echo 'machine api.mapbox.com'
+          echo 'login mapbox'
+          echo "password $MAPBOX_DOWNLOAD_TOKEN"
+        } >> ~/.netrc
+        chmod 0600 ~/.netrc
+    - name: Install SwiftGen
+      shell: bash
+      run: brew install swiftgen

@@ -35,10 +35,19 @@ https://colors.artyclick.com/color-name-finder/
 
 ## Steps for onboarding
 1. This app uses Mabbox SDK. Please follow the steps from here. https://docs.mapbox.com/ios/maps/guides/install/
-2. This project uses AWS Amplify. Please use the `update_amplify.sh` script to run and generate the source code files. Further read here: https://docs.amplify.aws/cli/start/install/
-Note: 
-1. for API keys and other secret please connect with one of our group members.
-2. for first time on boarding guys in case the `update_amplify.sh` script failes. Please run the `recover_from_error.sh`
+2. Configure the backend. The app talks to one of two Amplify environments: `dev` (day-to-day development and QA) and `test` (used by real beta testers — never create test data there). Per-environment configs live in `amplify_configs/<env>/amplifyconfiguration.json`; the folder is gitignored because the repository is public.
+   - With AWS access (ask a maintainer for IAM credentials — never paste them into docs or chats):
+     ```bash
+     ./update_amplify.sh -a <AWS_ACCESS_KEY_ID> -s <AWS_SECRET_ACCESS_KEY> -i <AMPLIFY_APP_ID> -t <FACEBOOK_APP_ID> -r <FACEBOOK_APP_SECRET> -e dev
+     ./update_amplify.sh -a <AWS_ACCESS_KEY_ID> -s <AWS_SECRET_ACCESS_KEY> -i <AMPLIFY_APP_ID> -t <FACEBOOK_APP_ID> -r <FACEBOOK_APP_SECRET> -e test
+     ```
+     Each run pulls the config for that environment into `amplify_configs/<env>/` and selects it. If the script fails on first onboarding, run `./recover_from_error.sh` and retry.
+   - Without AWS access: get `amplifyconfiguration.json` for `dev` and `test` from a teammate and put them into `amplify_configs/dev/` and `amplify_configs/test/`.
+3. Pick the environment for Debug/QA builds (Release always uses `test`):
+   ```bash
+   ./Tools/select_env.sh dev     # or test
+   ```
+   The QA build can also switch between them at runtime (More → QA Menu → Environment).
 
 ## Generate the string file
 
