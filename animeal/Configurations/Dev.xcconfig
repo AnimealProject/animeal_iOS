@@ -2,3 +2,5 @@
 
 // ─── Dev overrides ───────────────────────────────────────────────────────────
 CODE_SIGN_IDENTITY = Apple Development
+// Debug carries the QA menu, so it looks like the QA build (badge + name).
+INFOPLIST_KEY_CFBundleDisplayName = Animeal QA
