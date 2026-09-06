@@ -20,7 +20,7 @@ triggers:
 
 # animeal-release — cut, tag, build and close out a release
 
-The flow (full process, command reference and scenarios: `docs/release-process.md` — read it first when unsure):
+The flow (`docs/release-process.md` has the human-readable process; `./Tools/release.sh --help` lists every command and option):
 
 ```
 develop ──cut──▶ release/X.Y.Z ──tag──▶ vX.Y.Z ──build──▶ beta (TestFlight)

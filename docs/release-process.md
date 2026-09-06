@@ -1,68 +1,47 @@
 # Animeal iOS — Build Flavors & Distribution
 
+Source of truth: this file. The Confluence copy notes the commit it was taken from.
 
-We ship two build flavors from the same codebase. They differ in backend,
-tooling and how testers receive them.
+## Two builds
 
 | | **QA build** | **Beta build** |
 |---|---|---|
-| Purpose | day-to-day internal testing | release candidates for real beta testers |
-| Backend | **dev** by default, switchable to test | **test** (fixed — this is our de-facto production) |
-| How it's built | automatically on every merge to `develop` (GitHub Actions → Generate IPA) | from a release tag: `./Tools/release.sh build X.Y.Z` (Generate IPA with `environment=test`, `qa_menu=off`) |
-| How to tell it apart | red diagonal "QA" ribbon on the icon, app name "Animeal QA" | regular icon and name |
-| QA menu (More tab) | ✅ — shows active backend + host, **dev/test environment switcher**, feature toggles | ❌ not present |
-| Distribution | TestFlight, internal group (appears automatically after upload) | TestFlight: verified internally first, then the external beta group is added to the build in App Store Connect |
+| Who | developers, QA | real beta testers in Georgia |
+| Backend | `dev` (switchable to `test`) | `test` — our de-facto production |
+| Built | automatically on every merge to `develop` | from a release tag via `./Tools/release.sh build` |
+| Looks | red "QA" ribbon on the icon, name "Animeal QA" | regular icon and name |
+| QA menu (More tab) | yes: backend switcher, feature toggles | no |
+| TestFlight | internal group, automatically | internal group first, then the beta group is added in App Store Connect |
 
-**Important: the `test` backend is used by real beta testers in Georgia.**
-Never create test data there. All experimental testing belongs on `dev` —
-which is exactly what the QA build points to by default.
-
-Generate IPA takes two inputs when run manually: `environment` (dev / test) and
-`qa_menu` (on / off). Any combination can be built from any ref straight from
-GitHub. A Release build (`qa_menu` off) from a tag must match `MARKETING_VERSION`
-(`v1.0.3` ↔ `1.0.3`) or the run fails; from a branch it builds but is annotated
-with a warning — such a build must not be handed to beta testers.
+**Never create test data on `test`.** Experiments belong on `dev`, which is where the QA build points by default.
 
 ## Which build do I get?
 
-| Action | `environment` | `qa_menu` | Configuration | App | Backend | Note |
-|---|---|---|---|---|---|---|
-| merge a PR into `develop` (push) | dev | on | QA | Animeal QA | dev | the default |
-| Run workflow, defaults | dev | on | QA | Animeal QA | dev | same as a merge, any ref |
-| Run workflow | test | on | QA | Animeal QA | test | QA checks something against the real data — read-only! |
-| `./Tools/release.sh build X.Y.Z` (tag) | test | off | Release | Animeal | test | **the beta build**; tag must match the version |
-| Run workflow from a branch | test | off | Release | Animeal | test | builds with a warning — internal check only, never to beta testers |
-| Run workflow | dev | off | Release | Animeal | dev | clean Release build without touching test |
+| Action | Backend | QA menu | Configuration |
+|---|---|---|---|
+| Merge a PR into `develop` | dev | yes | QA |
+| Actions → Generate IPA → Run workflow (any ref) | your choice: `environment` dev/test | your choice: `qa_menu` on/off | QA if the menu is on, Release if off |
+| `./Tools/release.sh build X.Y.Z` (tag `vX.Y.Z`) | test | no | Release |
 
-A merge into `develop` always produces a build **with** the QA menu. Beta
-testers only ever get the tagged `test` + `qa_menu` off build from the release
-flow below; everything else lands in the internal TestFlight group.
+Only the last row goes to beta testers. A Release build from a tag must match `MARKETING_VERSION` (`v1.0.3` ↔ `1.0.3`) or CI fails; from a branch it builds with a warning and is for internal checks only.
 
-`QA_MENU` is a Swift compilation condition (`SWIFT_ACTIVE_COMPILATION_CONDITIONS`)
-set in `animeal/Configurations/QA.xcconfig` for the QA configuration and in the
-project's Debug configuration; Release never defines it, so everything under
-`#if QA_MENU` is compiled out of Release builds.
+The QA menu exists only when the `QA_MENU` compilation condition is set: QA configuration (`QA.xcconfig`) and Debug. Release never sets it.
 
 ## Switching backend in the QA build
-More → QA Menu → Environment (dev / test). Switching signs you out, clears
-local data and closes the app; the next launch runs against the selected
-environment. The current backend (name + AppSync host) is always shown in
-the QA menu.
+
+More → QA Menu → Environment (dev / test). Switching signs you out, clears local data and closes the app; the next launch runs against the selected backend. The menu always shows the active backend and its AppSync host.
 
 ## Versioning
 
-| Number | Example | Who changes it | When |
-|---|---|---|---|
-| Marketing version (`MARKETING_VERSION`) | `1.0.3` | `Tools/release.sh cut` / `hotfix` | once per release — **not** per commit |
-| Build number (`CURRENT_PROJECT_VERSION`) | `20260906.131` | CI (`Tools/update_build_number.sh`) | every build, automatically |
-| Git tag | `v1.0.3` | `Tools/release.sh tag` | once, when the RC is approved for a beta build |
+| | Example | Changes when |
+|---|---|---|
+| Marketing version | `1.0.3` | once per release, by `release.sh cut` / `hotfix` — never per commit |
+| Build number | `20260906.131` | every CI build, automatically |
+| Tag | `v1.0.3` | once, when the RC is approved for a beta build |
 
-- Three numbers only (`X.Y.Z`): Apple rejects a fourth component in `CFBundleShortVersionString`.
-- While work lands in `develop`, the version stays the same; only the build number grows. TestFlight shows both, e.g. `1.0.3 (20260906.131)`.
-- Default bumps: a regular release is **+minor** (`1.0.3 → 1.1.0`), a hotfix is **+patch** (`1.1.0 → 1.1.1`). Major bumps are an explicit decision.
-- A pushed tag is never moved or deleted. If a tagged build is bad, cut the next patch version.
+Three numbers only (Apple rejects a fourth). While work lands in `develop`, the version stays put and only the build number grows. A release is +minor (`1.0.3 → 1.1.0`), a hotfix is +patch. A pushed tag is never moved or deleted — if a build is bad, ship the next patch version.
 
-## Release flow (RC → beta)
+## Release flow
 
 ```
 develop ──cut──▶ release/X.Y.Z ──tag──▶ vX.Y.Z ──build──▶ beta (TestFlight)
@@ -70,124 +49,41 @@ develop ──cut──▶ release/X.Y.Z ──tag──▶ vX.Y.Z ──build�
          pick (fixes)┘   └──finish──▶ PR back into develop
 ```
 
-Every step is a `./Tools/release.sh` command (or the `/animeal-release` skill in
-Claude Code, which wraps it with questions and confirmations). The script checks its
-preconditions and refuses to continue otherwise; it never pushes without `--push`.
+Every step is a `./Tools/release.sh` command (`--help` lists them all); in Claude Code, `/animeal-release` walks you through it. The script checks its preconditions and never pushes without `--push`.
 
-1. **Cut.** Pick the `develop` commit for the release candidate and create `release/X.Y.Z` from it. The marketing version is bumped on that branch in the same step; push the branch.
-2. **Stabilise.** Fixes are merged to `develop` as usual and cherry-picked into the release branch; `develop` keeps moving. PRs into `release/*` run the same lint + unit-test pipeline as PRs into `develop`.
-3. **Tag.** Tag the release branch head as `vX.Y.Z` and push the tag. Optionally create a GitHub pre-release with auto-generated notes.
-4. **Build beta.** Trigger Generate IPA on the tag with `environment=test`, `qa_menu=off`.
-5. **Verify.** QA verifies the beta build from the internal TestFlight group — this is the RC check against the `test` backend.
-6. **Ship.** Once approved, the beta group is added to that build in App Store Connect.
-7. **Merge back.** Open a PR `release/X.Y.Z → develop` so the version bump and cherry-picked fixes land in `develop`. Without this step `develop` keeps the old `MARKETING_VERSION`.
-
-## Command reference (`Tools/release.sh`)
-
-| Command | What it does | Options | Refuses when |
-|---|---|---|---|
-| `status` | version, current branch, release/hotfix branches on origin, latest tags, recent Generate IPA runs | — | — |
-| `cut X.Y.Z` | create `release/X.Y.Z` from `origin/develop`, bump version, commit | `--from <ref>` start from a specific commit/branch instead of `origin/develop`; `--push` push the branch right away | tree not clean; `X.Y.Z` ≤ current version; branch or tag `vX.Y.Z` already exists |
-| `hotfix X.Y.Z --from vA.B.C` | create `hotfix/X.Y.Z` from a shipped tag, bump version, commit | `--push` | same as `cut`; `--from` is not an existing `v*` tag |
-| `pick <sha\|PR#> [...]` | cherry-pick commits (or the merge commits of PRs, resolved via `gh`) into the current release/hotfix branch, `-x` trailer added | `--push` push the branch after picking | not on `release/*`/`hotfix/*`; tree not clean; PR not merged yet; cherry-pick conflict (stops, keeps the conflict for you to resolve) |
-| `tag` | annotated tag `vX.Y.Z` on the head of the current release/hotfix branch, message `Release X.Y.Z` | `--push` push the tag; `--notes` also create a GitHub **pre-release** with generated notes (needs `--push`) | not on `release/*`/`hotfix/*`; `MARKETING_VERSION` ≠ branch version; tag exists locally or on origin; branch head not pushed |
-| `build [X.Y.Z]` | trigger Generate IPA (`environment=test`, `qa_menu=off`) on ref `vX.Y.Z` (defaults to the current branch's version) | `--watch` follow the run until it finishes and exit with its status | tag `vX.Y.Z` not on origin |
-| `finish` | open PR `release/X.Y.Z → develop` (or reuse the open one) | — | branch not on origin |
-
-All commands need `git`; `pick` with PR numbers, `tag --notes`, `build` and `finish` need an authenticated `gh`.
-
-## Scenarios
-
-**A. Regular release (happy path)** — `develop` is at 1.0.2, everything for the release is merged.
 ```bash
-./Tools/release.sh status
-./Tools/release.sh cut 1.1.0 --push          # release/1.1.0, version 1.0.2 -> 1.1.0
-./Tools/release.sh tag --push --notes        # v1.1.0 + GitHub pre-release
-./Tools/release.sh build --watch             # beta from v1.1.0 -> TestFlight internal
-# QA verifies -> beta group added in ASC
-./Tools/release.sh finish                    # PR release/1.1.0 -> develop
+./Tools/release.sh cut 1.1.0 --push          # branch release/1.1.0 from develop, version bumped
+./Tools/release.sh tag --push --notes        # v1.1.0 + GitHub pre-release with generated notes
+./Tools/release.sh build --watch             # beta build → TestFlight internal group
+# QA verifies on the test backend → beta group added in App Store Connect
+./Tools/release.sh finish                    # PR release/1.1.0 → develop (version bump + fixes)
 ```
 
-**B. Release from an older commit** — a PR merged to `develop` yesterday must not go into this release; the RC is the merge of PR #320.
-```bash
-gh pr view 320 --json mergeCommit -q .mergeCommit.oid   # -> abc1234
-./Tools/release.sh cut 1.1.0 --from abc1234 --push
-```
-Everything after that is identical to scenario A.
-
-**C. Bug found in the RC before the tag** — the fix goes to `develop` first (PR #325), then into the release branch.
+**A fix is needed before the tag.** Merge it to `develop` as usual, then bring it over and continue:
 ```bash
 git checkout release/1.1.0
-./Tools/release.sh pick 325 --push           # cherry-picks the merge commit of #325
-./Tools/release.sh tag --push --notes        # tag the fixed head
-./Tools/release.sh build --watch
+./Tools/release.sh pick 325 --push           # PR number or commit sha
 ```
-Several fixes at once: `pick 325 326 327`. Plain SHAs work too: `pick 9f3e2a1`.
 
-**D. Bug found after the tag (beta already on TestFlight)** — `v1.1.0` stays where it is; the fix ships as a patch from a hotfix branch (the branch name must equal the version, so `release/1.1.0` is not re-bumped).
+**A fix is needed after the tag.** The tag stays; ship a patch from the tag:
 ```bash
 ./Tools/release.sh hotfix 1.1.1 --from v1.1.0 --push
 ./Tools/release.sh pick 331 --push
-./Tools/release.sh tag --push --notes        # v1.1.1
-./Tools/release.sh build --watch
-./Tools/release.sh finish                    # hotfix/1.1.1 -> develop
-```
-
-**E. Hotfix for the shipped version while the next release is already in progress** — `release/1.2.0` exists, testers run `v1.1.0`.
-```bash
-./Tools/release.sh hotfix 1.1.1 --from v1.1.0 --push
-./Tools/release.sh pick 340 --push           # the fix, already merged to develop
 ./Tools/release.sh tag --push --notes && ./Tools/release.sh build --watch
-./Tools/release.sh finish                    # develop gets the fix; release/1.2.0 picks it separately if needed:
-git checkout release/1.2.0 && ./Tools/release.sh pick 340 --push
+./Tools/release.sh finish
 ```
 
-**F. Cherry-pick conflict**
-```
-❌ Cherry-pick of 9f3e2a1 failed — resolve conflicts, 'git cherry-pick --continue', then re-run for the remaining refs
-```
-Resolve the files, `git add`, `git cherry-pick --continue`, then run `pick` again for the refs that were not applied yet, and push.
+Don't skip `finish`: without it `develop` keeps the old version. `./Tools/release.sh status` shows where things stand at any moment.
 
-**G. Release build refused or flagged by CI**
-```
-::error::tag 'v1.1.0' does not match MARKETING_VERSION 1.0.2
-::warning::Release build from branch 'release/1.1.0' (version 1.1.0) — not a release tag; do not hand this build to beta testers
-```
-Error: the tag points at a commit without the version bump — never move the tag; cut the next patch version with the bump in place. Warning: a manual Release build from a branch is fine for an internal check, but the build for beta testers comes from the tag via `release.sh build`.
+## For developers: local backend
 
-**H. Wrong tag pushed** — do not delete it. Fix whatever was wrong on the branch, then `hotfix X.Y.(Z+1) --from vX.Y.Z` or bump on the branch and tag the next patch version.
-
-**I. Where are we?**
-```bash
-./Tools/release.sh status
-```
-Shows whether the current version is already tagged and the last five Generate IPA runs with their result and trigger (push/workflow_dispatch).
-
-## For developers: local backend selection
-
-Per-environment configs live in `amplify_configs/{dev,test}/amplifyconfiguration.json`
-(gitignored — the repo is public). Get them either with `update_amplify.sh -e dev`
-/ `-e test` (needs AWS access; the script stores the pulled config in the right
-folder) or from a teammate. Then pick the environment for Debug/QA builds:
+Per-environment configs live in `amplify_configs/{dev,test}/amplifyconfiguration.json` (gitignored — the repo is public). Get them with `update_amplify.sh -e dev` / `-e test` (needs AWS access) or from a teammate, then:
 
 ```bash
-./Tools/select_env.sh dev     # or test — writes amplify_configs/backend_env.txt
+./Tools/select_env.sh dev     # or test — Debug/QA builds use it, Release builds use what CI selects
 ```
 
-Release builds always use `test`, whatever the file says. CI fills the same
-folder from repository secrets (`AMPLIFY_CONFIG_DEV_B64` / `AMPLIFY_CONFIG_TEST_B64`).
+## CI and GitHub settings
 
-## CI quality gate
-SwiftLint runs in `--strict` mode; any violation fails the pipeline before
-the build starts (on PRs into `develop`, `release/*`, `hotfix/*`, and on
-distribution builds). PRs into release and hotfix branches also run the unit tests.
-
-## One-time GitHub settings (maintainer)
-- Settings → Tags → Protected tags: pattern `v*` — tags cannot be deleted or re-pointed.
-- Settings → Branches → rule for `release/**` and `hotfix/**`: changes via PR only, required check "Unit Test".
-
-## Where this document lives
-
-This file is the source of truth for the process and changes in the same PR as
-`Tools/release.sh`. The Confluence page "Animeal iOS — Build Flavors & Distribution"
-is a published copy; when updating it, note the commit this file was copied from.
+- SwiftLint runs in `--strict` mode and fails the pipeline on any violation; PRs into `develop`, `release/*` and `hotfix/*` also run the unit tests.
+- Once, in repository settings: protect tags `v*` (no delete / re-point) and require PRs + the Unit Test check on `release/**` and `hotfix/**`.
