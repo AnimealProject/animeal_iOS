@@ -1530,6 +1530,13 @@ class QAMenuModelProtocolMock: QAMenuModelProtocol {
         set(value) { underlyingIsLoadAllFeedingPointsEnabled = value }
     }
     var underlyingIsLoadAllFeedingPointsEnabled: Bool!
+    var backendSummary: String {
+        get { return underlyingBackendSummary }
+        set(value) { underlyingBackendSummary = value }
+    }
+    var underlyingBackendSummary: String!
+    var backendEnvironment: BackendEnvironment?
+    var backendEnvironments: [BackendEnvironment] = []
 
 }
 class QuestionMappableMock: QuestionMappable {

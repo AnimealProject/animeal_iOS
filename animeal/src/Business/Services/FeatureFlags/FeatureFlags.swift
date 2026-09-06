@@ -24,14 +24,14 @@ enum FeatureFlags {
 
     static var isLoadAllFeedingPointsEnabled: Bool {
         get {
-            #if DEBUG
+            #if QA_MENU
             return loadAllFeedingPointsOverride ?? loadAllFeedingPointsDefault
             #else
             return loadAllFeedingPointsDefault
             #endif
         }
         set {
-            #if DEBUG
+            #if QA_MENU
             loadAllFeedingPointsOverride = newValue
             #endif
         }

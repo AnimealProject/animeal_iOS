@@ -28,7 +28,7 @@ final class MoreModel: MoreModelProtocol {
             MoreActionModel(type: .privacyPolicy, title: L10n.Action.privacyPolicy),
             MoreActionModel(type: .account, title: L10n.More.account)
         ]
-        #if DEBUG
+        #if QA_MENU
         actions.append(MoreActionModel(type: .qaMenu, title: L10n.More.qaMenu))
         #endif
         return actions

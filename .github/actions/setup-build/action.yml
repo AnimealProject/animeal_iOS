@@ -1,15 +1,20 @@
 name: Setup build environment
 description: >
-  Writes the Amplify backend configuration for the requested environment
-  (from a base64-encoded secret), records the environment name for the app,
-  and configures Mapbox SDK access.
+  Writes the Amplify backend configurations (from base64-encoded secrets),
+  selects the environment for the build (amplify_configs/backend_env.txt;
+  Release builds always use test regardless), and configures Mapbox SDK
+  access. Non-Release builds bundle both environment configs so the QA menu
+  can switch between them.
 
 inputs:
   environment:
-    description: Backend environment name (dev or test), informational
+    description: Default backend environment for this build (dev or test)
     required: true
-  backend-config-b64:
-    description: Base64-encoded amplifyconfiguration.json for the environment
+  dev-config-b64:
+    description: Base64-encoded amplifyconfiguration.json for the dev environment
+    required: true
+  test-config-b64:
+    description: Base64-encoded amplifyconfiguration.json for the test environment
     required: true
   mapbox-token:
     description: Mapbox download token
@@ -18,17 +23,22 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Write backend configuration
+    - name: Write backend configurations
       shell: bash
       env:
-        BACKEND_CONFIG_B64: ${{ inputs.backend-config-b64 }}
+        DEV_CONFIG_B64: ${{ inputs.dev-config-b64 }}
+        TEST_CONFIG_B64: ${{ inputs.test-config-b64 }}
         BACKEND_ENV: ${{ inputs.environment }}
       run: |
-        echo "$BACKEND_CONFIG_B64" | base64 --decode > amplifyconfiguration.json
-        python3 -c "import json; json.load(open('amplifyconfiguration.json'))" \
-          || { echo "::error::amplifyconfiguration.json is not valid JSON — check the secret"; exit 1; }
-        printf '%s\n' "$BACKEND_ENV" > backend_env.txt
-        echo "Backend environment: $BACKEND_ENV"
+        mkdir -p amplify_configs/dev amplify_configs/test
+        echo "$DEV_CONFIG_B64" | base64 --decode > amplify_configs/dev/amplifyconfiguration.json
+        echo "$TEST_CONFIG_B64" | base64 --decode > amplify_configs/test/amplifyconfiguration.json
+        for f in amplify_configs/dev/amplifyconfiguration.json amplify_configs/test/amplifyconfiguration.json; do
+          python3 -c "import json,sys; json.load(open(sys.argv[1]))" "$f" \
+            || { echo "::error::$f is not valid JSON — check the secret"; exit 1; }
+        done
+        printf '%s\n' "$BACKEND_ENV" > amplify_configs/backend_env.txt
+        echo "Default backend environment: $BACKEND_ENV"
     - name: Setup Mapbox credentials
       shell: bash
       env:

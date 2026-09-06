@@ -29,10 +29,13 @@ jobs:
     - uses: actions/checkout@v5
     - name: GitHub Action for SwiftLint
       uses: norio-nomura/action-swiftlint@3.2.1
+      with:
+        args: --strict
 
  build:
     name: Build ${{ inputs.flavor || 'qa' }} flavor and upload to TestFlight
     runs-on: macos-26
+    needs: SwiftLint
 
     steps:
       - name: Checkout
@@ -64,7 +67,8 @@ jobs:
         uses: ./.github/actions/setup-build
         with:
           environment: ${{ steps.flavor.outputs.backend_env }}
-          backend-config-b64: ${{ steps.flavor.outputs.backend_env == 'dev' && secrets.AMPLIFY_CONFIG_DEV_B64 || secrets.AMPLIFY_CONFIG_TEST_B64 }}
+          dev-config-b64: ${{ secrets.AMPLIFY_CONFIG_DEV_B64 }}
+          test-config-b64: ${{ secrets.AMPLIFY_CONFIG_TEST_B64 }}
           mapbox-token: ${{ secrets.MAPBOX_DOWNLOAD_TOKEN }}
       - name: Update Build Number
         run: bash Tools/update_build_number.sh

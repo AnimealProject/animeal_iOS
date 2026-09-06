@@ -1,4 +1,5 @@
 import Foundation
+import Amplify
 
 final class QAMenuViewModel: QAMenuViewModelLifeCycle, QAMenuViewInteraction, QAMenuViewState {
 
@@ -21,6 +22,11 @@ final class QAMenuViewModel: QAMenuViewModelLifeCycle, QAMenuViewInteraction, QA
 
     func load() {
         model.isLoadAllFeedingPointsEnabled = FeatureFlags.isLoadAllFeedingPointsEnabled
+        model.backendSummary = QAMenuStrings.backendSummary(
+            environment: BackendEnvironment.activeName,
+            host: BackendEnvironment.apiHost ?? QAMenuStrings.unknownHost
+        )
+        model.backendEnvironment = BackendEnvironment.active
     }
 
     var observableModel: QAMenuModelProtocol {
@@ -36,6 +42,23 @@ final class QAMenuViewModel: QAMenuViewModelLifeCycle, QAMenuViewInteraction, QA
         case let .toggleLoadAllFeedingPoints(isOn):
             FeatureFlags.isLoadAllFeedingPointsEnabled = isOn
             model.isLoadAllFeedingPointsEnabled = isOn
+
+        case let .selectBackendEnvironment(environment):
+            switchBackendEnvironment(to: environment)
         }
+    }
+
+    // MARK: - Private
+    private func switchBackendEnvironment(to environment: BackendEnvironment) {
+        #if QA_MENU
+        guard environment != BackendEnvironment.active else { return }
+        model.backendEnvironment = environment
+        Task {
+            BackendEnvironment.runtimeOverride = environment
+            try? await Amplify.DataStore.clear()
+            _ = await Amplify.Auth.signOut()
+            await MainActor.run { exit(0) }
+        }
+        #endif
     }
 }
