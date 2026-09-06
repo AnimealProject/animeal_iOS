@@ -96,7 +96,7 @@ git push -u origin release/X.Y.Z      # after cut / pick  (or: release.sh cut ..
 ```bash
 ./Tools/release.sh build X.Y.Z --watch
 ```
-Triggers `Generate IPA` with `flavor=beta` on `vX.Y.Z` (the workflow itself rejects a beta run whose ref is not a tag matching `MARKETING_VERSION`). With `--watch` it blocks until the run finishes and reports success/failure; without it, print the run URL. Remind the user of the two remaining manual steps that live in App Store Connect and cannot be automated here:
+Triggers `Generate IPA` on `vX.Y.Z` with `environment=test` and `qa_menu=off` (Release configuration; the workflow rejects a tag that does not match `MARKETING_VERSION`). Any other combination can be run by hand from GitHub Actions — see "Which build do I get?" in `docs/release-process.md` — but the build for beta testers is only this one. With `--watch` it blocks until the run finishes and reports success/failure; without it, print the run URL. Remind the user of the two remaining manual steps that live in App Store Connect and cannot be automated here:
 
 1. QA verifies the build from the **internal** TestFlight group (this is the RC check on the `test` backend).
 2. Once approved, the **external beta** group is added to that build in App Store Connect.

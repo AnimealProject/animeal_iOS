@@ -8,7 +8,7 @@ tooling and how testers receive them.
 |---|---|---|
 | Purpose | day-to-day internal testing | release candidates for real beta testers |
 | Backend | **dev** by default, switchable to test | **test** (fixed — this is our de-facto production) |
-| How it's built | automatically on every merge to `develop` (GitHub Actions → Generate IPA) | manually, only from a release tag: `./Tools/release.sh build X.Y.Z` (or Actions → Generate IPA → Run workflow → flavor `beta`, ref = tag) |
+| How it's built | automatically on every merge to `develop` (GitHub Actions → Generate IPA) | from a release tag: `./Tools/release.sh build X.Y.Z` (Generate IPA with `environment=test`, `qa_menu=off`) |
 | How to tell it apart | red diagonal "QA" ribbon on the icon, app name "Animeal QA" | regular icon and name |
 | QA menu (More tab) | ✅ — shows active backend + host, **dev/test environment switcher**, feature toggles | ❌ not present |
 | Distribution | TestFlight, internal group (appears automatically after upload) | TestFlight: verified internally first, then the external beta group is added to the build in App Store Connect |
@@ -17,28 +17,31 @@ tooling and how testers receive them.
 Never create test data there. All experimental testing belongs on `dev` —
 which is exactly what the QA build points to by default.
 
-CI refuses to build the `beta` flavor from anything but a tag `vX.Y.Z` whose
-version equals `MARKETING_VERSION` in the project. A beta build therefore can
-never come from a random branch or from a mismatched version.
+Generate IPA takes two inputs when run manually: `environment` (dev / test) and
+`qa_menu` (on / off). Any combination can be built from any ref straight from
+GitHub. A Release build (`qa_menu` off) from a tag must match `MARKETING_VERSION`
+(`v1.0.3` ↔ `1.0.3`) or the run fails; from a branch it builds but is annotated
+with a warning — such a build must not be handed to beta testers.
 
 ## Which build do I get?
 
-| Action | Workflow trigger | Flavor | Configuration | QA menu | Backend |
-|---|---|---|---|---|---|
-| merge a PR into `develop` | push | `qa` (default) | QA | ✅ | dev |
-| Actions → Run workflow, flavor `qa`, any ref | workflow_dispatch | `qa` | QA | ✅ | dev (or `test` via the environment input) |
-| `./Tools/release.sh build X.Y.Z` (tag `vX.Y.Z`) | workflow_dispatch | `beta` | Release | ❌ | test |
-| Actions → Run workflow, flavor `beta`, ref is a branch | workflow_dispatch | — | — | fails: beta needs a tag | — |
+| Action | `environment` | `qa_menu` | Configuration | App | Backend | Note |
+|---|---|---|---|---|---|---|
+| merge a PR into `develop` (push) | dev | on | QA | Animeal QA | dev | the default |
+| Run workflow, defaults | dev | on | QA | Animeal QA | dev | same as a merge, any ref |
+| Run workflow | test | on | QA | Animeal QA | test | QA checks something against the real data — read-only! |
+| `./Tools/release.sh build X.Y.Z` (tag) | test | off | Release | Animeal | test | **the beta build**; tag must match the version |
+| Run workflow from a branch | test | off | Release | Animeal | test | builds with a warning — internal check only, never to beta testers |
+| Run workflow | dev | off | Release | Animeal | dev | clean Release build without touching test |
 
-So a merge into `develop` always produces a build **with** the QA menu. A build
-without it is the beta flavor, and the only way to get one is the release flow
-below (cut → tag → build). This is deliberate: builds that reach real testers
-must come from a tagged, version-matched commit on the `test` backend.
+A merge into `develop` always produces a build **with** the QA menu. Beta
+testers only ever get the tagged `test` + `qa_menu` off build from the release
+flow below; everything else lands in the internal TestFlight group.
 
 `QA_MENU` is a Swift compilation condition (`SWIFT_ACTIVE_COMPILATION_CONDITIONS`)
 set in `animeal/Configurations/QA.xcconfig` for the QA configuration and in the
 project's Debug configuration; Release never defines it, so everything under
-`#if QA_MENU` is compiled out of beta builds.
+`#if QA_MENU` is compiled out of Release builds.
 
 ## Switching backend in the QA build
 More → QA Menu → Environment (dev / test). Switching signs you out, clears
@@ -74,7 +77,7 @@ preconditions and refuses to continue otherwise; it never pushes without `--push
 1. **Cut.** Pick the `develop` commit for the release candidate and create `release/X.Y.Z` from it. The marketing version is bumped on that branch in the same step; push the branch.
 2. **Stabilise.** Fixes are merged to `develop` as usual and cherry-picked into the release branch; `develop` keeps moving. PRs into `release/*` run the same lint + unit-test pipeline as PRs into `develop`.
 3. **Tag.** Tag the release branch head as `vX.Y.Z` and push the tag. Optionally create a GitHub pre-release with auto-generated notes.
-4. **Build beta.** Trigger Generate IPA with flavor `beta` on the tag.
+4. **Build beta.** Trigger Generate IPA on the tag with `environment=test`, `qa_menu=off`.
 5. **Verify.** QA verifies the beta build from the internal TestFlight group — this is the RC check against the `test` backend.
 6. **Ship.** Once approved, the beta group is added to that build in App Store Connect.
 7. **Merge back.** Open a PR `release/X.Y.Z → develop` so the version bump and cherry-picked fixes land in `develop`. Without this step `develop` keeps the old `MARKETING_VERSION`.
@@ -88,7 +91,7 @@ preconditions and refuses to continue otherwise; it never pushes without `--push
 | `hotfix X.Y.Z --from vA.B.C` | create `hotfix/X.Y.Z` from a shipped tag, bump version, commit | `--push` | same as `cut`; `--from` is not an existing `v*` tag |
 | `pick <sha\|PR#> [...]` | cherry-pick commits (or the merge commits of PRs, resolved via `gh`) into the current release/hotfix branch, `-x` trailer added | `--push` push the branch after picking | not on `release/*`/`hotfix/*`; tree not clean; PR not merged yet; cherry-pick conflict (stops, keeps the conflict for you to resolve) |
 | `tag` | annotated tag `vX.Y.Z` on the head of the current release/hotfix branch, message `Release X.Y.Z` | `--push` push the tag; `--notes` also create a GitHub **pre-release** with generated notes (needs `--push`) | not on `release/*`/`hotfix/*`; `MARKETING_VERSION` ≠ branch version; tag exists locally or on origin; branch head not pushed |
-| `build [X.Y.Z]` | trigger Generate IPA, flavor `beta`, ref `vX.Y.Z` (defaults to the current branch's version) | `--watch` follow the run until it finishes and exit with its status | tag `vX.Y.Z` not on origin |
+| `build [X.Y.Z]` | trigger Generate IPA (`environment=test`, `qa_menu=off`) on ref `vX.Y.Z` (defaults to the current branch's version) | `--watch` follow the run until it finishes and exit with its status | tag `vX.Y.Z` not on origin |
 | `finish` | open PR `release/X.Y.Z → develop` (or reuse the open one) | — | branch not on origin |
 
 All commands need `git`; `pick` with PR numbers, `tag --notes`, `build` and `finish` need an authenticated `gh`.
@@ -145,12 +148,12 @@ git checkout release/1.2.0 && ./Tools/release.sh pick 340 --push
 ```
 Resolve the files, `git add`, `git cherry-pick --continue`, then run `pick` again for the refs that were not applied yet, and push.
 
-**G. Beta build refused by CI**
+**G. Release build refused or flagged by CI**
 ```
-::error::beta flavor must be built from a tag (vX.Y.Z), got branch 'release/1.1.0'
 ::error::tag 'v1.1.0' does not match MARKETING_VERSION 1.0.2
+::warning::Release build from branch 'release/1.1.0' (version 1.1.0) — not a release tag; do not hand this build to beta testers
 ```
-First message: run the workflow on the tag, not on the branch (`release.sh build` always does). Second: the tag points at a commit without the version bump — never move the tag; cut the next patch version with the bump in place.
+Error: the tag points at a commit without the version bump — never move the tag; cut the next patch version with the bump in place. Warning: a manual Release build from a branch is fine for an internal check, but the build for beta testers comes from the tag via `release.sh build`.
 
 **H. Wrong tag pushed** — do not delete it. Fix whatever was wrong on the branch, then `hotfix X.Y.(Z+1) --from vX.Y.Z` or bump on the branch and tag the next patch version.
 

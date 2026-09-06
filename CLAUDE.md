@@ -164,7 +164,7 @@ The source of truth for all translated copy (English + Georgian) is an external 
 
 ### CI
 - `unit-test.yml` — runs SwiftLint (`--strict`) + builds + tests on PRs to `develop`, `release/**`, `hotfix/**`
-- `GenerateIPA.yml` — QA flavor on every merge to `develop`; beta flavor manually, only from a tag `vX.Y.Z` matching `MARKETING_VERSION`; uploads to TestFlight
+- `GenerateIPA.yml` — QA build (dev backend, QA menu) on every merge to `develop`; manual runs choose `environment` (dev/test) and `qa_menu` (on/off); the beta build is `test` + menu off from a tag `vX.Y.Z` matching `MARKETING_VERSION`; uploads to TestFlight
 
 ## Release & versioning — offer the skill proactively
 

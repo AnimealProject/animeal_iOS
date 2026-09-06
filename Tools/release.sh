@@ -13,7 +13,7 @@
 #
 # USAGE:
 #   ./Tools/release.sh status
-#       Current version, release/hotfix branches, tags, recent beta builds.
+#       Current version, release/hotfix branches, tags, recent CI builds.
 #
 #   ./Tools/release.sh cut X.Y.Z [--from <ref>] [--push]
 #       Create release/X.Y.Z from origin/develop (or <ref>), bump
@@ -33,7 +33,7 @@
 #       auto-generated notes (requires --push).
 #
 #   ./Tools/release.sh build [X.Y.Z] [--watch]
-#       Trigger "Generate IPA" (flavor beta) on tag vX.Y.Z. Defaults to the
+#       Trigger "Generate IPA" (Release, test backend) on tag vX.Y.Z. Defaults to the
 #       version of the current release/hotfix branch. --watch follows the run.
 #
 #   ./Tools/release.sh finish
@@ -314,8 +314,8 @@ cmd_build() {
     git -C "$ROOT" fetch origin --tags --quiet
     tag_exists_remote "$tag" || die "Tag $tag is not on origin — run 'release.sh tag --push' first"
 
-    info "Triggering $WORKFLOW (flavor=beta) on $tag…"
-    gh workflow run "$WORKFLOW" --ref "$tag" -f flavor=beta -f environment=default
+    info "Triggering $WORKFLOW (Release, test backend) on $tag…"
+    gh workflow run "$WORKFLOW" --ref "$tag" -f environment=test -f qa_menu=false
     sleep 5
     local run_id
     run_id=$(gh run list --workflow "$WORKFLOW" --branch "$tag" --limit 1 --json databaseId -q '.[0].databaseId' || true)

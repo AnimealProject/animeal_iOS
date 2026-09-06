@@ -3,21 +3,17 @@ name: Generate IPA
 on:
   workflow_dispatch:
     inputs:
-      flavor:
-        description: 'Build flavor: qa (internal, QA menu, dev backend) or beta (release candidate, test backend)'
-        type: choice
-        options:
-          - qa
-          - beta
-        default: qa
       environment:
-        description: 'Backend override for qa flavor only (beta always uses test)'
+        description: 'Backend: dev (safe for experiments) or test (real beta testers — no test data!)'
         type: choice
         options:
-          - default
           - dev
           - test
-        default: default
+        default: dev
+      qa_menu:
+        description: 'Include the QA menu (QA configuration, "Animeal QA"). Off = Release configuration, the beta build'
+        type: boolean
+        default: true
   push:
     branches:
       - develop
@@ -33,40 +29,36 @@ jobs:
         args: --strict
 
  build:
-    name: Build ${{ inputs.flavor || 'qa' }} flavor and upload to TestFlight
+    name: Build ${{ inputs.qa_menu == false && 'Release' || 'QA' }} on ${{ inputs.environment || 'dev' }} and upload to TestFlight
     runs-on: macos-26
     needs: SwiftLint
 
     steps:
       - name: Checkout
         uses: actions/checkout@v5
-      - name: Resolve flavor and backend environment
+      - name: Resolve configuration and backend environment
         id: flavor
         run: |
-          FLAVOR="${{ inputs.flavor || 'qa' }}"
-          if [ "$FLAVOR" = "beta" ]; then
-            # Beta builds go to real testers — never point them at dev,
-            # and only build them from a release tag that matches the project version.
-            if [ "${{ github.ref_type }}" != "tag" ]; then
-              echo "::error::beta flavor must be built from a tag (vX.Y.Z), got ${{ github.ref_type }} '${{ github.ref_name }}'"
-              exit 1
-            fi
-            MARKETING_VERSION=$(grep -oE 'MARKETING_VERSION = [0-9]+\.[0-9]+\.[0-9]+;' animeal.xcodeproj/project.pbxproj | sort -u | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
-            if [ "${{ github.ref_name }}" != "v$MARKETING_VERSION" ]; then
-              echo "::error::tag '${{ github.ref_name }}' does not match MARKETING_VERSION $MARKETING_VERSION"
-              exit 1
-            fi
-            BACKEND_ENV="test"
+          BACKEND_ENV="${{ inputs.environment || 'dev' }}"
+          if [ "${{ inputs.qa_menu }}" = "false" ]; then
             CONFIGURATION="Release"
+            # Release builds are what beta testers get. The release flow builds
+            # them from a tag vX.Y.Z; a manual run from a branch is allowed but flagged.
+            MARKETING_VERSION=$(grep -oE 'MARKETING_VERSION = [0-9]+\.[0-9]+\.[0-9]+;' animeal.xcodeproj/project.pbxproj | sort -u | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+            if [ "${{ github.ref_type }}" = "tag" ]; then
+              if [ "${{ github.ref_name }}" != "v$MARKETING_VERSION" ]; then
+                echo "::error::tag '${{ github.ref_name }}' does not match MARKETING_VERSION $MARKETING_VERSION"
+                exit 1
+              fi
+            else
+              echo "::warning::Release build from ${{ github.ref_type }} '${{ github.ref_name }}' (version $MARKETING_VERSION) — not a release tag; do not hand this build to beta testers"
+            fi
           else
-            BACKEND_ENV="${{ inputs.environment || 'default' }}"
-            [ "$BACKEND_ENV" = "default" ] && BACKEND_ENV="dev"
             CONFIGURATION="QA"
           fi
-          echo "flavor=$FLAVOR" >> "$GITHUB_OUTPUT"
           echo "backend_env=$BACKEND_ENV" >> "$GITHUB_OUTPUT"
           echo "configuration=$CONFIGURATION" >> "$GITHUB_OUTPUT"
-          echo "Building flavor=$FLAVOR configuration=$CONFIGURATION backend=$BACKEND_ENV"
+          echo "Building configuration=$CONFIGURATION backend=$BACKEND_ENV"
       - name: Install and run 'bundle install'
         uses: ruby/setup-ruby@v1
         with:
@@ -102,7 +94,7 @@ jobs:
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: animeal-${{ steps.flavor.outputs.flavor }}-${{ steps.flavor.outputs.backend_env }}
+          name: animeal-${{ steps.flavor.outputs.configuration }}-${{ steps.flavor.outputs.backend_env }}
           path: '**/*.ipa'
       - name: Upload to TestFlight
         run: |
