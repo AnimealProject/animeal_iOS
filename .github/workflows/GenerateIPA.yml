@@ -45,7 +45,17 @@ jobs:
         run: |
           FLAVOR="${{ inputs.flavor || 'qa' }}"
           if [ "$FLAVOR" = "beta" ]; then
-            # Beta builds go to real testers — never point them at dev.
+            # Beta builds go to real testers — never point them at dev,
+            # and only build them from a release tag that matches the project version.
+            if [ "${{ github.ref_type }}" != "tag" ]; then
+              echo "::error::beta flavor must be built from a tag (vX.Y.Z), got ${{ github.ref_type }} '${{ github.ref_name }}'"
+              exit 1
+            fi
+            MARKETING_VERSION=$(grep -oE 'MARKETING_VERSION = [0-9]+\.[0-9]+\.[0-9]+;' animeal.xcodeproj/project.pbxproj | sort -u | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+            if [ "${{ github.ref_name }}" != "v$MARKETING_VERSION" ]; then
+              echo "::error::tag '${{ github.ref_name }}' does not match MARKETING_VERSION $MARKETING_VERSION"
+              exit 1
+            fi
             BACKEND_ENV="test"
             CONFIGURATION="Release"
           else

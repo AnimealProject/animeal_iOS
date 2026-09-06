@@ -2,8 +2,10 @@ name: Unit Test
 
 on:
   pull_request:
-    branches: 
+    branches:
       - develop
+      - 'release/**'
+      - 'hotfix/**'
 
 jobs:
  SwiftLint:
