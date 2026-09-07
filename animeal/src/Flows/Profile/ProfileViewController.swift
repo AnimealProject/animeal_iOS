@@ -166,7 +166,7 @@ private extension ProfileViewController {
                 guard let model = (item as? ProfileTextFieldViewItem)?.phoneModel else { return }
                 let inputView = PhoneInputView()
                 inputView.configure(model)
-                #if DEBUG
+                #if DEBUG || QA_MENU
                 inputView.codeWasTapped = { [weak self] _ in
                     self?.viewModel.handleActionEvent(
                         ProfileViewActionEvent.itemWasTapped(item.identifier)
