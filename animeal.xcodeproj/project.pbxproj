@@ -29,11 +29,9 @@
 		655B7A9CC4DC0177ED3A03DE /* FeedingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FD88DC75911C04106149D6 /* FeedingStatus.swift */; };
 		6826AB850FFAF4CC13D042F3 /* PetI18n.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B430631AEB7F77155F5652D /* PetI18n.swift */; };
 		684CD5A61F9EB2D1B6901335 /* AWSLanguage+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF1CE94A20FA3FBCCCD2841 /* AWSLanguage+Schema.swift */; };
-		68DD0E2AAE89D53E9131FE48 /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 5A014CFAC080E8E6D9884035 /* amplifyconfiguration.json */; };
 		68EBA811759F197EE338048C /* RelationUserPet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15604A445EC1B413F5D540DD /* RelationUserPet.swift */; };
 		6BB058E8BBC9A383D2FE14FF /* BankAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED770817DEA43169C4086F7 /* BankAccount.swift */; };
 		6BD12897B29874348258848B /* BankAccount+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBF9FDBB1C957E6EDE156DC /* BankAccount+Schema.swift */; };
-		70BCFD97A37256084C0CD67A /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 6FE750BC24EF1983DF08B736 /* awsconfiguration.json */; };
 		715F8D7B404E4EECCD15081A /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4A7CF4F0C1D848CC47A162 /* Location.swift */; };
 		74DE171718857E1BDAA82A57 /* RelationUserFeedingPoint+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51C75C31E8D0F3CD7FEA2BB /* RelationUserFeedingPoint+Schema.swift */; };
 		7FD70F5A2ECA2FC400E3C00C /* guestmock.json in Resources */ = {isa = PBXBuildFile; fileRef = 7FD70F592ECA2FC400E3C00C /* guestmock.json */; };
@@ -131,13 +129,11 @@
 		536B40393A9F76F900523AE3 /* Settings+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "Settings+Schema.swift"; path = "amplify/generated/models/Settings+Schema.swift"; sourceTree = "<group>"; };
 		53F2F2B14E76EE035EDE1673 /* FeedingPoint.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = FeedingPoint.swift; path = amplify/generated/models/FeedingPoint.swift; sourceTree = "<group>"; };
 		564A4FA9EA024444EA582791 /* FeedingUsers.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = FeedingUsers.swift; path = amplify/generated/models/FeedingUsers.swift; sourceTree = "<group>"; };
-		5A014CFAC080E8E6D9884035 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 		5CF1CE94A20FA3FBCCCD2841 /* AWSLanguage+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "AWSLanguage+Schema.swift"; path = "amplify/generated/models/AWSLanguage+Schema.swift"; sourceTree = "<group>"; };
 		632E91C0D04C0BDB50D44C42 /* QuestionI18n.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = QuestionI18n.swift; path = amplify/generated/models/QuestionI18n.swift; sourceTree = "<group>"; };
 		67749AF51E578877476E4732 /* FeedingPointDetails+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "FeedingPointDetails+Schema.swift"; path = "amplify/generated/models/FeedingPointDetails+Schema.swift"; sourceTree = "<group>"; };
 		6918D9E98B7A31C94E11F61A /* Feeding.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Feeding.swift; path = amplify/generated/models/Feeding.swift; sourceTree = "<group>"; };
 		6A0B545C01B304B77CD48DF3 /* CategoryI18n.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = CategoryI18n.swift; path = amplify/generated/models/CategoryI18n.swift; sourceTree = "<group>"; };
-		6FE750BC24EF1983DF08B736 /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = awsconfiguration.json; sourceTree = "<group>"; };
 		761104F96C616340746249C7 /* FeedingPointStatus.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = FeedingPointStatus.swift; path = amplify/generated/models/FeedingPointStatus.swift; sourceTree = "<group>"; };
 		7FD70F592ECA2FC400E3C00C /* guestmock.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = guestmock.json; sourceTree = "<group>"; };
 		832B4C337074B295E887E7E6 /* Caretaker.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Caretaker.swift; path = amplify/generated/models/Caretaker.swift; sourceTree = "<group>"; };
@@ -190,7 +186,7 @@
 		FB4313562848E97C0084C21A /* animealUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = animealUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBE4295C2874411200D1BD26 /* Common */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Common; sourceTree = "<group>"; };
 		20939F4A34A643E3BF8FFD44 /* Dev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Dev.xcconfig; sourceTree = "<group>"; };
-		2B2D0E8FFA2648BCBFB376D1 /* Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Test.xcconfig; sourceTree = "<group>"; };
+		2B2D0E8FFA2648BCBFB376D1 /* QA.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = QA.xcconfig; sourceTree = "<group>"; };
 		82220ED3F517460590DEE105 /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
 		9B17BEDCB9DD49F5AE4E2AEB /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -263,8 +259,6 @@
 		B9F63FC8CE664687C07A882C /* AmplifyConfig */ = {
 			isa = PBXGroup;
 			children = (
-				6FE750BC24EF1983DF08B736 /* awsconfiguration.json */,
-				5A014CFAC080E8E6D9884035 /* amplifyconfiguration.json */,
 			);
 			name = AmplifyConfig;
 			sourceTree = "<group>";
@@ -314,7 +308,7 @@
 			children = (
 				82220ED3F517460590DEE105 /* Shared.xcconfig */,
 				20939F4A34A643E3BF8FFD44 /* Dev.xcconfig */,
-				2B2D0E8FFA2648BCBFB376D1 /* Test.xcconfig */,
+				2B2D0E8FFA2648BCBFB376D1 /* QA.xcconfig */,
 				9B17BEDCB9DD49F5AE4E2AEB /* Release.xcconfig */,
 			);
 			path = Configurations;
@@ -432,6 +426,7 @@
 				DB4CA51E2845114E00050EA5 /* swiftlint */,
 				DB5359AD286C59D000D2FF7F /* mapBox */,
 				DBB32295287322A100A78E3E /* crashlytics */,
+				BE01BE01BE01BE01BE010001 /* backendEnv */,
 			);
 			buildRules = (
 			);
@@ -568,8 +563,6 @@
 				DB0D671528466D6200930564 /* Localizable.strings in Resources */,
 				DB6B07D228450A390009397B /* LaunchScreen.storyboard in Resources */,
 				DB0D4A8228856D2C001750BC /* Assets.xcassets in Resources */,
-				70BCFD97A37256084C0CD67A /* awsconfiguration.json in Resources */,
-				68DD0E2AAE89D53E9131FE48 /* amplifyconfiguration.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -609,6 +602,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "${PROJECT_DIR}/Tools/swiftgen/bin/swiftgen\n";
+		};
+		BE01BE01BE01BE01BE010001 /* backendEnv */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = backendEnv;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "OUT_DIR=\"${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"\nCONFIG_DIR=\"${SRCROOT}/amplify_configs\"\n# The backend is selected in amplify_configs/backend_env.txt (Tools/select_env.sh\n# locally, the setup-build action on CI). Release bundles only that environment;\n# Debug/QA bundle both so the QA menu can switch at runtime.\nENV_NAME=$(tr -d '[:space:]' < \"${CONFIG_DIR}/backend_env.txt\" 2>/dev/null || true)\nENV_NAME=\"${ENV_NAME:-dev}\"\nif [ \"${CONFIGURATION}\" = \"Release\" ]; then\n  ENVS=\"${ENV_NAME}\"\nelse\n  ENVS=\"dev test\"\nfi\nSELECTED=\"${CONFIG_DIR}/${ENV_NAME}/amplifyconfiguration.json\"\nif [ ! -f \"${SELECTED}\" ]; then\n  echo \"error: ${SELECTED} is missing. See README (Configure backend) — populate amplify_configs/${ENV_NAME}/ first.\" >&2\n  exit 1\nfi\nprintf '%s\\n' \"${ENV_NAME}\" > \"${OUT_DIR}/backend_env.txt\"\nfor E in ${ENVS}; do\n  SRC=\"${CONFIG_DIR}/${E}/amplifyconfiguration.json\"\n  [ -f \"${SRC}\" ] && cp \"${SRC}\" \"${OUT_DIR}/amplifyconfiguration-${E}.json\"\ndone\n";
 		};
 		DB4CA51E2845114E00050EA5 /* swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -810,9 +822,9 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		6BB6F9B84F054D1189A9B2A9 /* Test */ = {
+		6BB6F9B84F054D1189A9B2A9 /* QA */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2B2D0E8FFA2648BCBFB376D1 /* Test.xcconfig */;
+			baseConfigurationReference = 2B2D0E8FFA2648BCBFB376D1 /* QA.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -833,16 +845,16 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animeal.ui;
+				PRODUCT_BUNDLE_IDENTIFIER = com.serhiiterokhyn.animeal.ui.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
-			name = Test;
+			name = QA;
 		};
-		953A76D10826431D9A375F38 /* Test */ = {
+		953A76D10826431D9A375F38 /* QA */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -858,7 +870,7 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animealTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.serhiiterokhyn.animealTest.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -867,9 +879,9 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/animeal.app/animeal";
 			};
-			name = Test;
+			name = QA;
 		};
-		9C6EBC8505C34C7A954B3E63 /* Test */ = {
+		9C6EBC8505C34C7A954B3E63 /* QA */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -924,13 +936,13 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};
-			name = Test;
+			name = QA;
 		};
-		D2BC859D87574EA18F2548CD /* Test */ = {
+		D2BC859D87574EA18F2548CD /* QA */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2B2D0E8FFA2648BCBFB376D1 /* Test.xcconfig */;
+			baseConfigurationReference = 2B2D0E8FFA2648BCBFB376D1 /* QA.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-QA";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -961,7 +973,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
-			name = Test;
+			name = QA;
 		};
 		DB6B07EA28450A3A0009397B /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1021,7 +1033,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG QA_MENU";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -1087,7 +1099,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 20939F4A34A643E3BF8FFD44 /* Dev.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-QA";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -1174,7 +1186,7 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animealTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.serhiiterokhyn.animealTest.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -1235,7 +1247,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.epmedu.animeal.ui;
+				PRODUCT_BUNDLE_IDENTIFIER = com.serhiiterokhyn.animeal.ui.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1285,7 +1297,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DB6B07EA28450A3A0009397B /* Debug */,
-				9C6EBC8505C34C7A954B3E63 /* Test */,
+				9C6EBC8505C34C7A954B3E63 /* QA */,
 				DB6B07EB28450A3A0009397B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1295,7 +1307,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DB6B07ED28450A3A0009397B /* Debug */,
-				D2BC859D87574EA18F2548CD /* Test */,
+				D2BC859D87574EA18F2548CD /* QA */,
 				DB6B07EE28450A3A0009397B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1305,7 +1317,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DB6B07F028450A3A0009397B /* Debug */,
-				953A76D10826431D9A375F38 /* Test */,
+				953A76D10826431D9A375F38 /* QA */,
 				DB6B07F128450A3A0009397B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1315,7 +1327,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FB4313682848E97E0084C21A /* Debug */,
-				6BB6F9B84F054D1189A9B2A9 /* Test */,
+				6BB6F9B84F054D1189A9B2A9 /* QA */,
 				FB4313692848E97E0084C21A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;

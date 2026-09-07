@@ -163,8 +163,29 @@ The source of truth for all translated copy (English + Georgian) is an external 
 - UI tests: `animealUI/`
 
 ### CI
-- `unit-test.yml` — runs SwiftLint + builds + tests on PRs to `develop`
-- `GenerateIPA.yml` — builds IPA on merge to `develop`, deploys via Firebase App Distribution
+- `unit-test.yml` — runs SwiftLint (`--strict`) + builds + tests on PRs to `develop`, `release/**`, `hotfix/**`
+- `GenerateIPA.yml` — QA build (dev backend, QA menu) on every merge to `develop`; manual runs choose `environment` (dev/test) and `qa_menu` (on/off); the beta build is `test` + menu off from a tag `vX.Y.Z` matching `MARKETING_VERSION`; uploads to TestFlight
+
+## Release & versioning — offer the skill proactively
+
+One project skill, `animeal-release`, owns everything about versions, release branches, tags,
+hotfixes and beta builds (`./Tools/release.sh`: status / cut / pick / tag / build / hotfix / finish).
+The process is documented in `docs/release-process.md`. The user will usually state a goal, not a
+command — whenever the conversation touches any of this, **offer `/animeal-release` yourself**:
+
+| User says something like | Offer |
+|---|---|
+| "release", "RC", "cut a branch", "send to beta testers", "TestFlight beta", "ship it" | `/animeal-release` |
+| "tag", "vX.Y.Z", "hotfix", "fix for testers", "patch the beta" | `/animeal-release` |
+| "bump", "new version", "what version are we on" | `/animeal-release` (the bump is part of cut / hotfix) |
+| "merge back", "release is done", "develop still says 1.0.2" | `/animeal-release finish` |
+
+Behaviour once the skill is on:
+1. `./Tools/release.sh status` first; show the state (version, branches, tags, last builds).
+2. One AskUserQuestion with only the open decisions: target version (recommended default first), fixes to cherry-pick, GitHub release notes yes/no, go to the beta build now or stop after the cut.
+3. Present the exact command sequence as a plan; execute only after an explicit "yes". Every push, tag, CI trigger and PR is confirmed separately.
+
+`MARKETING_VERSION` changes only inside `cut` / `hotfix`. Never run raw `git tag`, `git branch release/...` or edit the version in `project.pbxproj` by hand.
 
 ## Architecture & Conventions
 

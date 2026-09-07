@@ -2,6 +2,18 @@ name: Generate IPA
 
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Backend: dev (safe for experiments) or test (real beta testers — no test data!)'
+        type: choice
+        options:
+          - dev
+          - test
+        default: dev
+      qa_menu:
+        description: 'Include the QA menu (QA configuration, "Animeal QA"). Off = Release configuration, the beta build'
+        type: boolean
+        default: true
   push:
     branches:
       - develop
@@ -13,82 +25,58 @@ jobs:
     - uses: actions/checkout@v5
     - name: GitHub Action for SwiftLint
       uses: norio-nomura/action-swiftlint@3.2.1
+      with:
+        args: --strict
 
  build:
-    name: Build and Test default scheme using iPhone simulator
+    name: Build ${{ inputs.qa_menu == false && 'Release' || 'QA' }} on ${{ inputs.environment || 'dev' }} and upload to TestFlight
     runs-on: macos-26
+    needs: SwiftLint
 
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+      - name: Resolve configuration and backend environment
+        id: flavor
+        run: |
+          BACKEND_ENV="${{ inputs.environment || 'dev' }}"
+          if [ "${{ inputs.qa_menu }}" = "false" ]; then
+            CONFIGURATION="Release"
+            # Release builds are what beta testers get. The release flow builds
+            # them from a tag vX.Y.Z; a manual run from a branch is allowed but flagged.
+            MARKETING_VERSION=$(grep -oE 'MARKETING_VERSION = [0-9]+\.[0-9]+\.[0-9]+;' animeal.xcodeproj/project.pbxproj | sort -u | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+            if [ "${{ github.ref_type }}" = "tag" ]; then
+              if [ "${{ github.ref_name }}" != "v$MARKETING_VERSION" ]; then
+                echo "::error::tag '${{ github.ref_name }}' does not match MARKETING_VERSION $MARKETING_VERSION"
+                exit 1
+              fi
+            else
+              echo "::warning::Release build from ${{ github.ref_type }} '${{ github.ref_name }}' (version $MARKETING_VERSION) — not a release tag; do not hand this build to beta testers"
+            fi
+          else
+            CONFIGURATION="QA"
+          fi
+          echo "backend_env=$BACKEND_ENV" >> "$GITHUB_OUTPUT"
+          echo "configuration=$CONFIGURATION" >> "$GITHUB_OUTPUT"
+          echo "Building configuration=$CONFIGURATION backend=$BACKEND_ENV"
       - name: Install and run 'bundle install'
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.6
           # runs 'bundle install' and caches installed gems automatically
           bundler-cache: true
-      - name: Install npm
-        uses: actions/setup-node@v6
+      - name: Setup backend and build tools
+        uses: ./.github/actions/setup-build
         with:
-          node-version: 24
-      - name: Install Amplify
-        run: npm install -g @aws-amplify/cli
-      - name: Setup Amplify
-        id: setupAmplify
-        run: bash ./update_amplify.sh -a $AWS_ACCESS_KEY_ID -s $AWS_SECRET_ACCESS_KEY -i $APP_ID -e $AMPLIFY_DEV_ENV -t $FACEBOOK_APP_ID -r $FACEBOOK_APP_SECRET
-        continue-on-error: true
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          APP_ID: ${{ secrets.APP_ID }}
-          AMPLIFY_DEV_ENV: ${{ secrets.AMPLIFY_DEV_ENV }}
-          FACEBOOK_APP_ID: ${{ secrets.FACEBOOK_APP_ID }}
-          FACEBOOK_APP_SECRET: ${{ secrets.FACEBOOK_APP_SECRET }}
-      - name: Recover From Setup Amplfy  Error
-        if: steps.setupAmplify.outcome != 'success'
-        run: bash ./recover_from_error.sh
-      
-      - name: Sync Models with Backend Schema
-        run: amplify codegen models
-      
-      - name: Setup .mapbox file with MAPBOX_DOWNLOAD_TOKEN
-        run: echo $MAPBOX_DOWNLOAD_TOKEN >> ~/.mapbox
-        env:
-          MAPBOX_DOWNLOAD_TOKEN: ${{ secrets.MAPBOX_DOWNLOAD_TOKEN }}
-      - name: Setup .netrc with MAPBOX_DOWNLOAD_TOKEN
-        run: |
-          echo 'machine api.mapbox.com' >> ~/.netrc
-          echo 'login mapbox' >> ~/.netrc
-          echo "password $MAPBOX_DOWNLOAD_TOKEN" >> ~/.netrc
-          chmod 0600 ~/.netrc
-        env:
-          MAPBOX_DOWNLOAD_TOKEN: ${{ secrets.MAPBOX_DOWNLOAD_TOKEN }}
-      - name: Install Swiftgen
-        run: brew install swiftgen
+          environment: ${{ steps.flavor.outputs.backend_env }}
+          dev-config-b64: ${{ secrets.AMPLIFY_CONFIG_DEV_B64 }}
+          test-config-b64: ${{ secrets.AMPLIFY_CONFIG_TEST_B64 }}
+          mapbox-token: ${{ secrets.MAPBOX_DOWNLOAD_TOKEN }}
       - name: Update Build Number
         run: bash Tools/update_build_number.sh
-      - name: Generate Release Notes
-        id: release_notes
-        continue-on-error: true
-        run: |
-          if [ "${{ github.ref_name }}" == "main" ]; then
-            # For main: get commits since last tag or last 20 commits
-            LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
-            if [ -z "$LAST_TAG" ]; then
-              COMMITS=$(git log --pretty=format:"- %s" --no-merges -20 || echo "- No commits found")
-            else
-              COMMITS=$(git log ${LAST_TAG}..HEAD --pretty=format:"- %s" --no-merges || echo "- No commits found")
-            fi
-          else
-            # For develop: get commits from last PR only
-            COMMITS=$(git log HEAD^..HEAD --pretty=format:"- %s" --no-merges 2>/dev/null || echo "- No commits found")
-          fi
-          echo "commits<<EOF" >> $GITHUB_OUTPUT
-          echo "${COMMITS:-"- Build triggered manually"}" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
       - name: Set Xcode version
         uses: maxim-lobanov/setup-xcode@v1
-        with: 
+        with:
           xcode-version: '26.3'
       - name: Build and export IPA
         uses: yukiarrr/ios-build-action@v1.12.0
@@ -102,12 +90,12 @@ jobs:
           code-signing-identity: "Apple Distribution: Sergey Teryokhyn (5HRLMFUWVY)"
           export-options: "ExportOptions.plist"
           team-id: "5HRLMFUWVY"
-          configuration: "Release"
+          configuration: ${{ steps.flavor.outputs.configuration }}
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: output  # Name of the artifact (optional)
-          path: '**/*.ipa'  # Wildcard pattern to match output.ipa
+          name: animeal-${{ steps.flavor.outputs.configuration }}-${{ steps.flavor.outputs.backend_env }}
+          path: '**/*.ipa'
       - name: Upload to TestFlight
         run: |
           IPA=$(find . -name "*.ipa" | head -1)

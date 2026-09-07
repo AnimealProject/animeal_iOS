@@ -2,8 +2,10 @@ name: Unit Test
 
 on:
   pull_request:
-    branches: 
+    branches:
       - develop
+      - 'release/**'
+      - 'hotfix/**'
 
 jobs:
  SwiftLint:
@@ -12,10 +14,13 @@ jobs:
     - uses: actions/checkout@v5
     - name: GitHub Action for SwiftLint
       uses: norio-nomura/action-swiftlint@3.2.1
+      with:
+        args: --strict
 
  build:
     name: Build and Test
-    runs-on: macos-15
+    runs-on: macos-26
+    needs: SwiftLint
 
     steps:
       - name: Checkout
@@ -26,50 +31,17 @@ jobs:
           ruby-version: 2.6
           # runs 'bundle install' and caches installed gems automatically
           bundler-cache: true
-      - name: Install npm
-        uses: actions/setup-node@v6
+      - name: Setup backend and build tools
+        uses: ./.github/actions/setup-build
         with:
-          node-version: 24
-      - name: Install Amplify
-        run: npm install -g @aws-amplify/cli
-      - name: Setup Amplify
-        id: setupAmplify
-        run: bash ./update_amplify.sh -a $AWS_ACCESS_KEY_ID -s $AWS_SECRET_ACCESS_KEY -i $APP_ID -e $AMPLIFY_DEV_ENV -t $FACEBOOK_APP_ID -r $FACEBOOK_APP_SECRET
-        continue-on-error: true
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          APP_ID: ${{ secrets.APP_ID }}
-          AMPLIFY_DEV_ENV: ${{ secrets.AMPLIFY_DEV_ENV }}
-          FACEBOOK_APP_ID: ${{ secrets.FACEBOOK_APP_ID }}
-          FACEBOOK_APP_SECRET: ${{ secrets.FACEBOOK_APP_SECRET }}
-      - name: Recover From Setup Amplfy  Error
-        if: steps.setupAmplify.outcome != 'success'
-        run: bash ./recover_from_error.sh
-      
-      - name: Sync Models with Backend Schema
-        run: amplify codegen models
-      
-      - name: Setup .mapbox file with MAPBOX_DOWNLOAD_TOKEN
-        run: echo $MAPBOX_DOWNLOAD_TOKEN >> ~/.mapbox
-        env:
-          MAPBOX_DOWNLOAD_TOKEN: ${{ secrets.MAPBOX_DOWNLOAD_TOKEN }}
-      - name: Setup .netrc with MAPBOX_DOWNLOAD_TOKEN
-        run: |
-          echo 'machine api.mapbox.com' >> ~/.netrc
-          echo 'login mapbox' >> ~/.netrc
-          echo "password $MAPBOX_DOWNLOAD_TOKEN" >> ~/.netrc
-          chmod 0600 ~/.netrc
-        env:
-          MAPBOX_DOWNLOAD_TOKEN: ${{ secrets.MAPBOX_DOWNLOAD_TOKEN }}
-      - name: Install Swiftgen
-        run: brew install swiftgen
-      - name: Check Amplify Version
-        run: amplify --version
+          environment: dev
+          dev-config-b64: ${{ secrets.AMPLIFY_CONFIG_DEV_B64 }}
+          test-config-b64: ${{ secrets.AMPLIFY_CONFIG_TEST_B64 }}
+          mapbox-token: ${{ secrets.MAPBOX_DOWNLOAD_TOKEN }}
       - name: Set Xcode version
         uses: maxim-lobanov/setup-xcode@v1
-        with: 
-          xcode-version: '16.4'
+        with:
+          xcode-version: '26.3'
       - name: Detect simulator destination
         id: destination
         run: |

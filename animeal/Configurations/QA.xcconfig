@@ -1,0 +1,9 @@
+#include "Shared.xcconfig"
+
+// ─── QA overrides ────────────────────────────────────────────────────────────
+// Internal QA builds: distribution-signed like Release, but with the QA menu
+// enabled and a distinct name/icon so testers can tell it apart from beta.
+CODE_SIGN_IDENTITY = Apple Distribution
+PROVISIONING_PROFILE_SPECIFIER = Animeal Demo App Store Distribution
+INFOPLIST_KEY_CFBundleDisplayName = Animeal QA
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) LOAD_ALL_FEEDING_POINTS QA_MENU
