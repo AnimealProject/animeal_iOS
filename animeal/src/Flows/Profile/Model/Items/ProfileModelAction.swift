@@ -214,16 +214,6 @@ final class ProfileModelSaveAction: ProfileModelAction {
     }
 
     func execute() async throws -> ProfileModelIntermediateStep? {
-        let items = await state.items
-        let editableItems = items.toEditable { item in
-            switch item.type {
-            case .name, .surname, .email:
-                return false
-            case .phone, .birthday:
-                return true
-            }
-        }
-        await state.updateItems(editableItems)
         return .proceed
     }
 }

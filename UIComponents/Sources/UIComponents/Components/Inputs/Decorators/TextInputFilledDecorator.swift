@@ -87,6 +87,8 @@ open class TextInputFilledDecorator<ContentView: TextFieldContainerView>: UIView
     // MARK: - Identifiable
     public private(set) var identifier: String = UUID().uuidString
 
+    private var isEditable: Bool = true
+
     // MARK: - Initialization
     public init(contentView: ContentView) {
         self.contentView = contentView.prepareForAutoLayout()
@@ -110,21 +112,27 @@ open class TextInputFilledDecorator<ContentView: TextFieldContainerView>: UIView
             descriptionView.text = error
             descriptionView.isHidden = false
         }
+        isEditable = model.content.isEditable
         contentView.configure(model.content)
         configureStyle(model.state)
     }
 
     open func configureStyle(_ textFieldState: TextInputView.State) {
-        contentView.backgroundColor = designEngine.colors.backgroundSecondary
+        textView.font = designEngine.fonts.primary.medium(16.0)
+        textView.textColor = designEngine.colors.textPrimary
+        contentView.backgroundColor = isEditable
+            ? designEngine.colors.backgroundPrimary
+            : designEngine.colors.backgroundSecondary
+
         switch textFieldState {
         case .normal:
-            textView.font = designEngine.fonts.primary.medium(16.0)
-            textView.textColor = designEngine.colors.textPrimary
-            contentView.border(width: 0.0)
+            if isEditable {
+                contentView.border(color: designEngine.colors.disabled, width: 1.0)
+            } else {
+                contentView.border(width: 0.0)
+            }
             descriptionView.textColor = designEngine.colors.textSecondary
         case .error:
-            textView.font = designEngine.fonts.primary.medium(16.0)
-            textView.textColor = designEngine.colors.textPrimary
             contentView.border(color: designEngine.colors.error, width: 1.0)
             descriptionView.textColor = designEngine.colors.error
         }
