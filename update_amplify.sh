@@ -57,11 +57,11 @@ AWSCLOUDFORMATIONCONFIG="{\
 AMPLIFY="{\
 \"projectName\":\"animeal\",\
 \"envName\":\"$AMPLIFY_ENV\",\
-\"defaultEditor\":\"Xcode\"\
-\"appId\":\"$APP_ID\",\
+\"defaultEditor\":\"Xcode\",\
+\"appId\":\"$APP_ID\"\
 }"
 FRONTEND="{\
-\"frontend\":\"ios\",\
+\"frontend\":\"ios\"\
 }"
 PROVIDERS="{\
 \"awscloudformation\":$AWSCLOUDFORMATIONCONFIG\
@@ -74,17 +74,18 @@ CATEGORIES="{\
 \"auth\":$AUTHCONFIG\
 }"
 
-# For debug purposes
-  echo $AMPLIFY
-  echo $FRONTEND
-  echo $PROVIDERS
-  echo $AWSCLOUDFORMATIONCONFIG
-  echo $CATEGORIES
-
-
 amplify pull \
 --amplify $AMPLIFY \
 --frontend $FRONTEND \
 --providers $PROVIDERS \
 --categories $CATEGORIES \
 --yes
+
+# Store the pulled configs per environment (amplify_configs/ is gitignored)
+# and select that environment for local builds. The root copies written by
+# the CLI are not used by the app.
+CONFIG_DIR="amplify_configs/$AMPLIFY_ENV"
+mkdir -p "$CONFIG_DIR"
+mv -f amplifyconfiguration.json "$CONFIG_DIR/amplifyconfiguration.json"
+[ -f awsconfiguration.json ] && mv -f awsconfiguration.json "$CONFIG_DIR/awsconfiguration.json"
+./Tools/select_env.sh "$AMPLIFY_ENV"

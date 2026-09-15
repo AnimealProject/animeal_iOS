@@ -7,7 +7,7 @@
 # in animeal.xcodeproj/project.pbxproj.
 #
 # Only the main app target is touched: its three build configurations
-# (Test/Debug/Release) hold the version in full X.Y.Z form. Test/UI-test/demo
+# (Debug/Release/QA) hold the version in full X.Y.Z form. Test/UI-test/demo
 # targets use the two-part form "1.0" and are never modified.
 #
 # CURRENT_PROJECT_VERSION (build number) is out of scope — it is managed by

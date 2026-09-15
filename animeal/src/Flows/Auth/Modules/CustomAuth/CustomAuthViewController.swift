@@ -157,7 +157,7 @@ private extension CustomAuthViewController {
             case .phone:
                 let inputView = PhoneInputView()
                 inputView.configure(item.phoneModel)
-                #if DEBUG
+                #if DEBUG || QA_MENU
                 inputView.codeWasTapped = { [weak self] _ in
                     self?.view.endEditing(true)
                     self?.viewModel.handleActionEvent(

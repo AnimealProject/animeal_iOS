@@ -28,10 +28,14 @@ protocol QAMenuViewState: AnyObject {
 // sourcery: AutoMockable
 protocol QAMenuModelProtocol: AnyObject {
     var isLoadAllFeedingPointsEnabled: Bool { get set }
+    var backendSummary: String { get set }
+    var backendEnvironment: BackendEnvironment? { get set }
+    var backendEnvironments: [BackendEnvironment] { get }
 }
 
 // MARK: - Actions
 enum QAMenuViewActionEvent {
     case back
     case toggleLoadAllFeedingPoints(Bool)
+    case selectBackendEnvironment(BackendEnvironment)
 }

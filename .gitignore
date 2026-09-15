@@ -42,3 +42,8 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
+
+# Per-environment Amplify configs (client-side, but the repo is public — keep them out of git).
+# backend_env.txt only records the selected environment and is committed.
+amplify_configs/*
+!amplify_configs/backend_env.txt

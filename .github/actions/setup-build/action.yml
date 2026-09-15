@@ -1,0 +1,56 @@
+name: Setup build environment
+description: >
+  Writes the Amplify backend configurations (from base64-encoded secrets),
+  selects the environment for the build (amplify_configs/backend_env.txt;
+  Release builds always use test regardless), and configures Mapbox SDK
+  access. Non-Release builds bundle both environment configs so the QA menu
+  can switch between them.
+
+inputs:
+  environment:
+    description: Default backend environment for this build (dev or test)
+    required: true
+  dev-config-b64:
+    description: Base64-encoded amplifyconfiguration.json for the dev environment
+    required: true
+  test-config-b64:
+    description: Base64-encoded amplifyconfiguration.json for the test environment
+    required: true
+  mapbox-token:
+    description: Mapbox download token
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Write backend configurations
+      shell: bash
+      env:
+        DEV_CONFIG_B64: ${{ inputs.dev-config-b64 }}
+        TEST_CONFIG_B64: ${{ inputs.test-config-b64 }}
+        BACKEND_ENV: ${{ inputs.environment }}
+      run: |
+        mkdir -p amplify_configs/dev amplify_configs/test
+        echo "$DEV_CONFIG_B64" | base64 --decode > amplify_configs/dev/amplifyconfiguration.json
+        echo "$TEST_CONFIG_B64" | base64 --decode > amplify_configs/test/amplifyconfiguration.json
+        for f in amplify_configs/dev/amplifyconfiguration.json amplify_configs/test/amplifyconfiguration.json; do
+          python3 -c "import json,sys; json.load(open(sys.argv[1]))" "$f" \
+            || { echo "::error::$f is not valid JSON — check the secret"; exit 1; }
+        done
+        printf '%s\n' "$BACKEND_ENV" > amplify_configs/backend_env.txt
+        echo "Default backend environment: $BACKEND_ENV"
+    - name: Setup Mapbox credentials
+      shell: bash
+      env:
+        MAPBOX_DOWNLOAD_TOKEN: ${{ inputs.mapbox-token }}
+      run: |
+        echo "$MAPBOX_DOWNLOAD_TOKEN" >> ~/.mapbox
+        {
+          echo 'machine api.mapbox.com'
+          echo 'login mapbox'
+          echo "password $MAPBOX_DOWNLOAD_TOKEN"
+        } >> ~/.netrc
+        chmod 0600 ~/.netrc
+    - name: Install SwiftGen
+      shell: bash
+      run: brew install swiftgen

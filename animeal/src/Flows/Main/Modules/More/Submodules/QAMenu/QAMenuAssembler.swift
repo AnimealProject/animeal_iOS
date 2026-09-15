@@ -4,7 +4,7 @@ import Common
 @MainActor
 enum QAMenuModuleAssembler {
     static func assemble(coordinator: MorePartitionCoordinatable) -> UIViewController {
-        let model = QAMenuModel()
+        let model = QAMenuModel(backendEnvironments: BackendEnvironment.allCases)
         let viewModel = QAMenuViewModel(
             model: model,
             coordinator: coordinator
