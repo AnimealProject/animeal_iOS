@@ -175,7 +175,7 @@ private extension ProfileViewController {
                     field: ProfileViewModel.AccessibilityID.phoneField,
                     countryCode: ProfileViewModel.AccessibilityID.countryCode
                 )
-                #if DEBUG
+                #if DEBUG || QA_MENU
                 inputView.codeWasTapped = { [weak self] _ in
                     self?.viewModel.handleActionEvent(
                         ProfileViewActionEvent.itemWasTapped(item.identifier)

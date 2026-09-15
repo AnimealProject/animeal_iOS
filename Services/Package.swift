@@ -28,9 +28,6 @@ let package = Package(
                 .product(name: "CocoaLumberjackSwift", package: "CocoaLumberjack"),
                 .product(name: "FirebaseCrashlytics", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseAnalytics", package: "firebase-ios-sdk")
-            ],
-            swiftSettings: [
-                .define("FIREBASE_DISABLED")
             ]),
         .testTarget(
             name: "ServicesTests",

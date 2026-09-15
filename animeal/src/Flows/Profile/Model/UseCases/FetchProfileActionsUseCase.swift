@@ -59,10 +59,10 @@ protocol UpdateProfileUseCaseLogic {
 
 /// API call to update the user profile
 final class UpdateProfileUseCase: UpdateProfileUseCaseLogic {
-    private let state: ProfileModelStateProtocol
+    private let state: ProfileModelStateMutableProtocol
     private let profileService: UserProfileServiceProtocol
 
-    init(state: ProfileModelStateProtocol, profileService: UserProfileServiceProtocol) {
+    init(state: ProfileModelStateMutableProtocol, profileService: UserProfileServiceProtocol) {
         self.state = state
         self.profileService = profileService
     }
@@ -85,6 +85,7 @@ final class UpdateProfileUseCase: UpdateProfileUseCaseLogic {
             )
         }
         let result = try await profileService.update(userAttributes: changedAttributes)
+        await state.updateItems(await state.items.toReadonly())
         var resendMethod = ResendMethod.resendCode
         if let phoneUpdateResult = result[.phoneNumber],
            !phoneUpdateResult.isUpdated,

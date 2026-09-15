@@ -94,7 +94,10 @@ private extension AppDelegate {
             let dataStorePlugin = AWSDataStorePlugin(modelRegistration: AmplifyModels())
             try Amplify.add(plugin: dataStorePlugin)
             try Amplify.add(plugin: AWSAPIPlugin(sessionFactory: AppDelegate.makeDefault()))
-            try Amplify.configure()
+            guard let configurationURL = BackendEnvironment.activeConfigurationURL else {
+                throw BackendEnvironment.ConfigurationError.missingConfiguration(BackendEnvironment.activeName)
+            }
+            try Amplify.configure(AmplifyConfiguration(configurationFile: configurationURL))
             try Amplify.API.add(interceptor: UrlQueryPlusFixInterceptor(), for: "AdminQueries")
             Amplify.Logging.logLevel = .error
             logInfo("[APP] Amplify configured")

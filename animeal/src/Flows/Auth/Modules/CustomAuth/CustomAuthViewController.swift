@@ -164,7 +164,7 @@ private extension CustomAuthViewController {
                     field: CustomAuthViewModel.AccessibilityID.phoneField,
                     countryCode: CustomAuthViewModel.AccessibilityID.countryCode
                 )
-                #if DEBUG
+                #if DEBUG || QA_MENU
                 inputView.codeWasTapped = { [weak self] _ in
                     self?.view.endEditing(true)
                     self?.viewModel.handleActionEvent(
