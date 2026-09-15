@@ -137,3 +137,19 @@ final class FavouritesViewModel: FavouritesViewModelLifeCycle, FavouritesViewInt
         }
     }
 }
+
+extension FavouritesViewModel {
+    enum AccessibilityID {
+        static let screen = "favourites_screen"
+        static let list = "list"
+        static let reloadButton = "reload_button"
+
+        static func cell(_ id: String) -> String {
+            "cell_\(id)"
+        }
+
+        static func favoriteButton(_ id: String) -> String {
+            "favorite_button_\(id)"
+        }
+    }
+}

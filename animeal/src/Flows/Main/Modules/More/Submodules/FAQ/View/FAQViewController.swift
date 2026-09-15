@@ -2,7 +2,8 @@ import UIKit
 import UIComponents
 import SwiftUI
 
-final class FAQViewController<ViewModel: FAQViewModelProtocol>: UIViewController, FAQViewable {
+final class FAQViewController<ViewModel: FAQViewModelProtocol>: UIViewController, FAQViewable, ScreenAccessible {
+    static var screenIdentifier: String { FAQViewModel.AccessibilityID.screen }
     // MARK: - UI properties
     private let viewModel: ViewModel
 
@@ -19,6 +20,7 @@ final class FAQViewController<ViewModel: FAQViewModelProtocol>: UIViewController
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        applyScreenIdentifier()
         setup()
         viewModel.load()
     }

@@ -4,7 +4,8 @@ import UIKit
 // SDK
 import UIComponents
 
-final class PhoneCodesViewController: UIViewController, PhoneCodesViewable {
+final class PhoneCodesViewController: UIViewController, PhoneCodesViewable, ScreenAccessible {
+    static var screenIdentifier: String { PhoneCodesViewModel.AccessibilityID.screen }
     // MARK: - Constants
     private enum Constants {
         static let itemHeight: CGFloat = 58.0
@@ -45,6 +46,7 @@ final class PhoneCodesViewController: UIViewController, PhoneCodesViewable {
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        applyScreenIdentifier()
         setup()
         bind()
     }
@@ -128,6 +130,7 @@ private extension PhoneCodesViewController {
         collectionView.backgroundColor = designEngine.colors.backgroundPrimary
 
         collectionView.delegate = self
+        collectionView.accessibilityIdentifier = PhoneCodesViewModel.AccessibilityID.countryList
         collectionView.register(
             PhoneCodesViewCommonCell.self,
             forCellWithReuseIdentifier: PhoneCodesViewCommonCell.reuseIdentifier
@@ -168,6 +171,7 @@ private extension PhoneCodesViewController {
                     isSelected: parameters.isSelected
                 )
             )
+            cell.accessibilityIdentifier = PhoneCodesViewModel.AccessibilityID.country(parameters.identifier)
             return cell
         }
     }

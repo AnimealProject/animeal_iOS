@@ -187,3 +187,14 @@ private extension CustomAuthViewModel {
         onActionsHaveBeenPrepared?(viewActions)
     }
 }
+
+extension CustomAuthViewModel {
+    enum AccessibilityID {
+        static let screen = "custom_auth_screen"
+        static let phoneField = "phone_field"
+        static let countryCode = "country_code"
+        static let passwordField = "password_field"
+        static let nextButton = "next_button"
+        static let termsAndConditions = "terms_and_conditions"
+    }
+}

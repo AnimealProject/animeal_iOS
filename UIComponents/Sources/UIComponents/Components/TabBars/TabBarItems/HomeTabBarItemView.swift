@@ -20,6 +20,7 @@ public class HomeTabBarItemView: UIView {
         self.model = model
         super.init(frame: .zero)
         setup()
+        accessibilityIdentifier = model.accessibilityIdentifier
     }
 
     @available(*, unavailable)

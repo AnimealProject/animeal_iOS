@@ -21,7 +21,8 @@ extension LoginViewAction {
                 identifier: identifier,
                 viewType: ButtonView.self,
                 icon: ImageAsset.Image(named: associatedIcon),
-                title: title
+                title: title,
+                accessibilityIdentifier: LoginViewModel.AccessibilityID.signInWithPhoneButton
             )
             let buttonView = buttonsFactory.makeSignInWithMobileButton()
             buttonView.configure(model)
@@ -31,7 +32,8 @@ extension LoginViewAction {
                 identifier: identifier,
                 viewType: ButtonView.self,
                 icon: ImageAsset.Image(named: associatedIcon),
-                title: title
+                title: title,
+                accessibilityIdentifier: LoginViewModel.AccessibilityID.signInWithAppleButton
             )
             let buttonView = buttonsFactory.makeSignInWithAppleButton()
             buttonView.configure(model)
@@ -41,7 +43,8 @@ extension LoginViewAction {
                 identifier: identifier,
                 viewType: ButtonView.self,
                 icon: ImageAsset.Image(named: associatedIcon),
-                title: title
+                title: title,
+                accessibilityIdentifier: LoginViewModel.AccessibilityID.continueAsGuestButton
             )
             let buttonView = buttonsFactory.makeSignInWithGuestButton()
             buttonView.configure(model)

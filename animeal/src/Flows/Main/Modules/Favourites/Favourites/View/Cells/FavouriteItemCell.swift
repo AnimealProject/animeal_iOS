@@ -39,6 +39,11 @@ extension FavouriteItemCell: FavouriteCell {
     public func setIcon(_ icon: UIImage) {
         infoView.setIcon(icon)
     }
+
+    public func applyAccessibilityIdentifiers(cell: String, favorite: String) {
+        accessibilityIdentifier = cell
+        favouriteImageView.accessibilityIdentifier = favorite
+    }
 }
 
 // MARK: - Setup

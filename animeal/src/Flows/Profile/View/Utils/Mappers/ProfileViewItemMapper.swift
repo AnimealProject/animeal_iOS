@@ -61,7 +61,11 @@ struct ProfileViewItemMapper: ProfileViewItemMappable {
                 state: input.state,
                 isEditable: input.isEditable,
                 title: input.type.title,
-                ageConsentModel: AgeConsentView.AgeConsentViewModel(state: state, title: L10n.Profile.consent)
+                ageConsentModel: AgeConsentView.AgeConsentViewModel(
+                    state: state,
+                    title: L10n.Profile.consent,
+                    accessibilityIdentifier: ProfileViewModel.AccessibilityID.ageConsent
+                )
             )
             return viewItem
         default:

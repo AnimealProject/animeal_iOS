@@ -1,5 +1,6 @@
 import UIKit
 import Style
+import Common
 
 public enum Toast {
     public struct Configuration {
@@ -19,6 +20,7 @@ public enum Toast {
         let designEngine = UIView().designEngine
 
         let toastContainer = UIView()
+        toastContainer.accessibilityIdentifier = CommonAccessibilityID.toastPopup
         toastContainer.backgroundColor = designEngine.colors.backgroundPrimary
         toastContainer.alpha = 0.0
         toastContainer.layer.cornerRadius = 24

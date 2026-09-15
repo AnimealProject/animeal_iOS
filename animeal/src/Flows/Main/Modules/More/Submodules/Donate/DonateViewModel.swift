@@ -70,3 +70,13 @@ final class DonateViewModel: DonateViewModelLifeCycle, DonateViewInteraction, Do
         }
     }
 }
+
+extension DonateViewModel {
+    enum AccessibilityID {
+        static let screen = "donate_screen"
+
+        static func copyButton(_ id: String) -> String {
+            "copy_button_\(id)"
+        }
+    }
+}

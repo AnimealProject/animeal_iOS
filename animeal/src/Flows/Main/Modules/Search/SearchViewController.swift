@@ -4,7 +4,8 @@ import UIKit
 // SDK
 import UIComponents
 
-final class SearchViewController: UIViewController, SearchViewable {
+final class SearchViewController: UIViewController, SearchViewable, ScreenAccessible {
+    static var screenIdentifier: String { SearchViewModel.AccessibilityID.screen }
     // MARK: - UI properties
     private let selectorView = UnderlinedSegmentedControl().prepareForAutoLayout()
     private let searchInputView = SearchInputView().prepareForAutoLayout()
@@ -53,6 +54,7 @@ final class SearchViewController: UIViewController, SearchViewable {
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        applyScreenIdentifier()
         view.addGestureRecognizer(UITapGestureRecognizer(
                                                          target: view,
                                                          action: #selector(UIView.endEditing(_:))
@@ -86,6 +88,7 @@ final class SearchViewController: UIViewController, SearchViewable {
 
     func applySearchInput(_ viewSearchInput: SearchViewInput) {
         searchInputView.configure(viewSearchInput)
+        searchInputView.applyFieldAccessibilityIdentifier(SearchViewModel.AccessibilityID.input)
     }
 }
 
@@ -163,6 +166,7 @@ private extension SearchViewController {
         selectorView.onSegmentWasChanged = { [weak self] identifier in
             self?.viewModel.handleActionEvent(.filterDidTap(identifier))
         }
+        selectorView.accessibilityIdentifier = SearchViewModel.AccessibilityID.filterControl
     }
 
     private func setupSearchView() {
@@ -212,6 +216,7 @@ private extension SearchViewController {
 
         collectionView.delegate = self
         collectionView.backgroundColor = designEngine.colors.backgroundPrimary
+        collectionView.accessibilityIdentifier = SearchViewModel.AccessibilityID.list
 
         collectionView.keyboardDismissMode = .onDrag
     }
@@ -251,6 +256,9 @@ private extension SearchViewController {
                 ) as? SearchSupplementaryContainable
             else { return UICollectionReusableView() }
             headerView.configure(headerItem)
+            headerView.accessibilityIdentifier = SearchViewModel.AccessibilityID.sectionHeader(
+                sectionIdentifier.identifier
+            )
             headerView.onTap = { [weak self] in
                 self?.viewModel.handleActionEvent(
                     .sectionDidTap(sectionIdentifier.identifier)

@@ -75,3 +75,13 @@ private extension FAQViewItem {
         )
     }
 }
+
+extension FAQViewModel {
+    enum AccessibilityID {
+        static let screen = "faq_screen"
+
+        static func item(_ id: String) -> String {
+            "item_\(id)"
+        }
+    }
+}

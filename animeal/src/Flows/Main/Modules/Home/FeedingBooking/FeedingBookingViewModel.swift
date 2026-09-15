@@ -37,3 +37,11 @@ final class FeedingBookingViewModel: FeedingBookingViewModelLifeCycle,
         }
     }
 }
+
+extension FeedingBookingViewModel {
+    enum AccessibilityID {
+        static let screen = "feeding_booking_screen"
+        static let cancelButton = "cancel_button"
+        static let agreeButton = "agree_button"
+    }
+}

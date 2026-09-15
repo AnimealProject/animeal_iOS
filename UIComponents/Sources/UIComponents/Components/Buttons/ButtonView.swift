@@ -14,17 +14,20 @@ public extension ButtonView {
         public let viewType: ButtonView.Type
         public let icon: UIImage?
         public let title: String
+        public let accessibilityIdentifier: String?
 
         public init(
             identifier: String,
             viewType: ButtonView.Type,
             icon: UIImage? = nil,
-            title: String = String.empty
+            title: String = String.empty,
+            accessibilityIdentifier: String? = nil
         ) {
             self.identifier = identifier
             self.viewType = viewType
             self.icon = icon
             self.title = title
+            self.accessibilityIdentifier = accessibilityIdentifier
         }
     }
 }
@@ -61,6 +64,7 @@ open class ButtonView: UIView {
         identifier = model.identifier
         contentView.setTitle(model.title, for: UIControl.State.normal)
         contentView.setImage(model.icon, for: UIControl.State.normal)
+        contentView.accessibilityIdentifier = model.accessibilityIdentifier
     }
 
     // MARK: - Setup

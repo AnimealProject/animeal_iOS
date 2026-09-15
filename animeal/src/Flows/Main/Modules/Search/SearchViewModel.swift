@@ -98,7 +98,11 @@ private extension SearchViewModel {
                     modelFilters.first { $0.isSelected }?.identifier ??
                         modelFilters.first?.identifier,
                 items: modelFilters.map {
-                    SearchViewFilter(identifier: $0.identifier, title: $0.title)
+                    SearchViewFilter(
+                        identifier: $0.identifier,
+                        title: $0.title,
+                        accessibilityIdentifier: SearchViewModel.AccessibilityID.filter($0.identifier)
+                    )
                 }
             )
             self.onFiltersWerePrepared?(viewFilters)
@@ -186,5 +190,39 @@ private extension SearchViewModel {
             )
         }
         return viewSections.map(SearchViewSectionWrapper.init)
+    }
+}
+
+extension SearchViewModel {
+    enum AccessibilityID {
+        static let screen = "search_screen"
+        static let filterControl = "filter_control"
+        static let input = "input"
+        static let list = "list"
+        static let filterDogs = "filter_dogs"
+        static let filterCats = "filter_cats"
+
+        static func filter(_ id: String) -> String {
+            switch id {
+            case "0":
+                return filterDogs
+            case "1":
+                return filterCats
+            default:
+                return "filter_\(id)"
+            }
+        }
+
+        static func cell(_ id: String) -> String {
+            "cell_\(id)"
+        }
+
+        static func favoriteButton(_ id: String) -> String {
+            "favorite_button_\(id)"
+        }
+
+        static func sectionHeader(_ id: String) -> String {
+            "section_header_\(id)"
+        }
     }
 }

@@ -14,13 +14,20 @@ enum FeedingsAssembler {
     }
 }
 
-private final class FeedingsHostingController: UIHostingController<AnyView> {
+private final class FeedingsHostingController: UIHostingController<AnyView>, ScreenAccessible {
+    static var screenIdentifier: String { FeedingsViewModel.AccessibilityID.screen }
+
     init(rootView: some View) {
         super.init(rootView: AnyView(rootView))
     }
 
     required dynamic init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        applyScreenIdentifier()
     }
 
     override func viewWillAppear(_ animated: Bool) {

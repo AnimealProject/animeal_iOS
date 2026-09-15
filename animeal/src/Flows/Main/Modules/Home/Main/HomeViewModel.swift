@@ -416,3 +416,15 @@ private extension HomeViewModel {
             .expanded(by: Constants.bufferFactor)
     }
 }
+
+extension HomeViewModel {
+    enum AccessibilityID {
+        static let screen = "home_screen"
+        static let categoryControl = "category_control"
+        static let myLocationButton = "my_location_button"
+        static let feedingTimer = "feeding_timer"
+        static let cancelFeedingButton = "cancel_feeding_button"
+        static let alertConfirm = "alert_confirm"
+        static let alertCancel = "alert_cancel"
+    }
+}

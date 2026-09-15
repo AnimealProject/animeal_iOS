@@ -5,7 +5,8 @@ import UIKit
 import UIComponents
 import Style
 
-final class AttachPhotoViewController: UIViewController, AttachPhotoViewable {
+final class AttachPhotoViewController: UIViewController, AttachPhotoViewable, ScreenAccessible {
+    static var screenIdentifier: String { AttachPhotoViewModel.AccessibilityID.screen }
     // MARK: - Constants
     private enum Constants {
         static let itemWidth: CGFloat = 84.0
@@ -52,6 +53,7 @@ final class AttachPhotoViewController: UIViewController, AttachPhotoViewable {
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        applyScreenIdentifier()
         setup()
         bind()
     }
@@ -65,6 +67,10 @@ final class AttachPhotoViewController: UIViewController, AttachPhotoViewable {
             hintTitle: viewContent.hintTitle,
             buttonTitle: viewContent.buttonTitle,
             isActive: viewContent.isActive)
+        )
+        attachingPhotoView.applyAccessibilityIdentifiers(
+            attach: AttachPhotoViewModel.AccessibilityID.attachButton,
+            finish: AttachPhotoViewModel.AccessibilityID.finishButton
         )
     }
 
@@ -186,6 +192,7 @@ private extension AttachPhotoViewController {
             let progressModel = viewModel.progressModel(for: placeimage)
             let cellModel = AttachPhotoViewCell.Model(image: placeimage, progressModel: progressModel)
             cell.configure(cellModel)
+            cell.accessibilityIdentifier = AttachPhotoViewModel.AccessibilityID.removePhoto(indexPath.item)
             cell.onTapCloseAction = { [weak self] in
                 self?.viewModel.handleActionEvent(.removeImage(image: cellModel.image))
             }
@@ -265,7 +272,15 @@ private extension AttachPhotoViewController {
                 AlertAction(
                     title: attachPhotoAction.title,
                     style: attachPhotoAction.style.alertActionStyle,
-                    handler: actionHandler
+                    handler: actionHandler,
+                    accessibilityIdentifier: {
+                        switch attachPhotoAction.style {
+                        case .inverted:
+                            return AttachPhotoViewModel.AccessibilityID.alertCancel
+                        case .accent:
+                            return AttachPhotoViewModel.AccessibilityID.alertConfirm
+                        }
+                    }()
                 )
             )
         }

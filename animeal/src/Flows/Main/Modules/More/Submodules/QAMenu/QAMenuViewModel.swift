@@ -62,3 +62,9 @@ final class QAMenuViewModel: QAMenuViewModelLifeCycle, QAMenuViewInteraction, QA
         #endif
     }
 }
+
+extension QAMenuViewModel {
+    enum AccessibilityID {
+        static let screen = "qa_menu_screen"
+    }
+}

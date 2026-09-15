@@ -2,7 +2,8 @@ import UIKit
 import UIComponents
 import Style
 
-final class FavouritesViewController: UIViewController {
+final class FavouritesViewController: UIViewController, ScreenAccessible {
+    static var screenIdentifier: String { FavouritesViewModel.AccessibilityID.screen }
 
     // MARK: - Private properties
     private let viewModel: FavouritesCombinedViewModel
@@ -22,6 +23,7 @@ final class FavouritesViewController: UIViewController {
         button.contentVerticalAlignment = .fill
         button.imageView?.contentMode = .scaleAspectFit
         button.addTarget(self, action: #selector(reloadButtonTapped), for: .touchUpInside)
+        button.accessibilityIdentifier = FavouritesViewModel.AccessibilityID.reloadButton
         return button
     }()
 
@@ -62,6 +64,7 @@ final class FavouritesViewController: UIViewController {
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        applyScreenIdentifier()
         setup()
     }
 
@@ -95,6 +98,7 @@ final class FavouritesViewController: UIViewController {
         tableView.backgroundView = nil
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.accessibilityIdentifier = FavouritesViewModel.AccessibilityID.list
 
         let safeArea = view.safeAreaLayoutGuide
 
@@ -174,6 +178,10 @@ extension FavouritesViewController: UITableViewDataSource {
 
         cell.configure(item)
         if let favouriteCell = cell as? FavouriteItemCell {
+            favouriteCell.applyAccessibilityIdentifiers(
+                cell: FavouritesViewModel.AccessibilityID.cell(item.feedingPointId),
+                favorite: FavouritesViewModel.AccessibilityID.favoriteButton(item.feedingPointId)
+            )
             favouriteCell.onTap = { [weak self] in
                 self?.viewModel.handleActionEvent(.tapFavorite(item.feedingPointId))
             }

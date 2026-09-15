@@ -2,7 +2,9 @@ import UIKit
 import UIComponents
 import SwiftUI
 
-final class DonateViewController<ViewModel: DonateViewModelProtocol>: UIViewController, DonateViewable {
+final class DonateViewController<ViewModel: DonateViewModelProtocol>:
+    UIViewController, DonateViewable, ScreenAccessible {
+    static var screenIdentifier: String { DonateViewModel.AccessibilityID.screen }
     // MARK: - UI properties
     private let viewModel: ViewModel
 
@@ -19,6 +21,7 @@ final class DonateViewController<ViewModel: DonateViewModelProtocol>: UIViewCont
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        applyScreenIdentifier()
         setup()
         viewModel.load()
         viewModel.set(delegate: self)

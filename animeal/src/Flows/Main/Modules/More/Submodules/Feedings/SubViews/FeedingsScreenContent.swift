@@ -1,6 +1,7 @@
 import SwiftUI
 import UIComponents
 import Style
+import Common
 
 struct FeedingsScreenContent: View {
     @Binding var selectedTab: FeedingsTab
@@ -36,6 +37,7 @@ struct FeedingsScreenContent: View {
             Image(asset: Asset.Images.arrowBackOffset)
                 .foregroundColor(style.colors.textPrimary.color)
         }
+        .accessibilityIdentifier(CommonAccessibilityID.backButton)
     }
 
     private var titleText: some View {

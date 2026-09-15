@@ -175,3 +175,12 @@ private extension ViewAlertAction {
         )
     }
 }
+
+extension VerificationViewModel {
+    enum AccessibilityID {
+        static let screen = "verification_screen"
+        static let codeField = "code_field"
+        static let digitPrefix = "digit"
+        static let resendButton = "resend_button"
+    }
+}

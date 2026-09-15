@@ -58,3 +58,13 @@ final class AboutViewModel: AboutViewModelLifeCycle, AboutViewInteraction, About
         }
     }
 }
+
+extension AboutViewModel {
+    enum AccessibilityID {
+        static let screen = "about_screen"
+
+        static func link(_ id: String) -> String {
+            "link_\(id)"
+        }
+    }
+}

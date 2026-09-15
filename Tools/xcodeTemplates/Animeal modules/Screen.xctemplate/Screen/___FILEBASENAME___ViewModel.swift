@@ -20,3 +20,9 @@ final class ___VARIABLE_productName:identifier___ViewModel: ___VARIABLE_productN
     func load() {
     }
 }
+
+extension ___VARIABLE_productName:identifier___ViewModel {
+    enum AccessibilityID {
+        static let screen = "screen"
+    }
+}

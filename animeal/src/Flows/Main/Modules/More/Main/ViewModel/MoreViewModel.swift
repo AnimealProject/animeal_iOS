@@ -91,3 +91,14 @@ final class MoreViewModel: MoreViewModelLifeCycle, MoreViewInteraction, MoreView
         )
     }
 }
+
+extension MoreViewModel {
+    enum AccessibilityID {
+        static let screen = "more_screen"
+        static let list = "list"
+
+        static func item(_ id: String) -> String {
+            "item_\(id)"
+        }
+    }
+}

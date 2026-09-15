@@ -3,7 +3,8 @@ import UIComponents
 import SwiftUI
 import Style
 
-final class QAMenuViewController: UIHostingController<AnyView>, QAMenuViewable {
+final class QAMenuViewController: UIHostingController<AnyView>, QAMenuViewable, ScreenAccessible {
+    static var screenIdentifier: String { QAMenuViewModel.AccessibilityID.screen }
     // MARK: - UI properties
     private let viewModel: any QAMenuViewModelProtocol
 
@@ -28,6 +29,7 @@ final class QAMenuViewController: UIHostingController<AnyView>, QAMenuViewable {
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        applyScreenIdentifier()
         setupNavigationBar()
         view.backgroundColor = designEngine.colors.backgroundPrimary
         viewModel.load()

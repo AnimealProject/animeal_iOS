@@ -88,3 +88,14 @@ final class LoginViewModel: LoginViewModelLifeCycle, LoginViewInteraction, Login
         }
     }
 }
+
+extension LoginViewModel {
+    enum AccessibilityID {
+        static let screen = "login_screen"
+        static let signInWithPhoneButton = "sign_in_with_phone_button"
+        static let signInWithAppleButton = "sign_in_with_apple_button"
+        static let continueAsGuestButton = "continue_as_guest_button"
+        static let termsAndConditionsButton = "terms_and_conditions_button"
+        static let privacyPolicyButton = "privacy_policy_button"
+    }
+}

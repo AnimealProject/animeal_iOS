@@ -117,6 +117,10 @@ open class TextInputFilledDecorator<ContentView: TextFieldContainerView>: UIView
         configureStyle(model.state)
     }
 
+    public func applyFieldAccessibilityIdentifier(_ identifier: String) {
+        textView.accessibilityIdentifier = identifier
+    }
+
     open func configureStyle(_ textFieldState: TextInputView.State) {
         textView.font = designEngine.fonts.primary.medium(16.0)
         textView.textColor = designEngine.colors.textPrimary
