@@ -2,7 +2,8 @@ import UIKit
 import UIComponents
 import SwiftUI
 
-final class DonateViewController<ViewModel: DonateViewModelProtocol>: UIViewController, DonateViewable, ScreenAccessible {
+final class DonateViewController<ViewModel: DonateViewModelProtocol>:
+    UIViewController, DonateViewable, ScreenAccessible {
     static var screenIdentifier: String { DonateViewModel.AccessibilityID.screen }
     // MARK: - UI properties
     private let viewModel: ViewModel

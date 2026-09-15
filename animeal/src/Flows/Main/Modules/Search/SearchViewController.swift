@@ -256,7 +256,9 @@ private extension SearchViewController {
                 ) as? SearchSupplementaryContainable
             else { return UICollectionReusableView() }
             headerView.configure(headerItem)
-            headerView.accessibilityIdentifier = SearchViewModel.AccessibilityID.sectionHeader(sectionIdentifier.identifier)
+            headerView.accessibilityIdentifier = SearchViewModel.AccessibilityID.sectionHeader(
+                sectionIdentifier.identifier
+            )
             headerView.onTap = { [weak self] in
                 self?.viewModel.handleActionEvent(
                     .sectionDidTap(sectionIdentifier.identifier)

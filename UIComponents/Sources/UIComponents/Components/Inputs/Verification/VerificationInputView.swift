@@ -183,7 +183,7 @@ public final class VerificationInputView: UIView {
     private var inputViews: [_VerificationElementInputView]
 
     public var digitAccessibilityIdentifierPrefix: String?
-    
+
     // MARK: - Accessible properties
     public override var canBecomeFirstResponder: Bool {
         return true

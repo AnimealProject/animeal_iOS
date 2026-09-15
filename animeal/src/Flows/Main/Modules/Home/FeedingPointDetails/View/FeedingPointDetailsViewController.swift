@@ -219,7 +219,9 @@ final class FeedingPointDetailsViewController: UIViewController, FeedingPointDet
                 isHighlighted: content.isFavorite
             )
         )
-        pointDetailsView.applyFavoriteAccessibilityIdentifier(FeedingPointDetailsViewModel.AccessibilityID.favoriteButton)
+        pointDetailsView.applyFavoriteAccessibilityIdentifier(
+            FeedingPointDetailsViewModel.AccessibilityID.favoriteButton
+        )
         pointDetailsView.applyNameAccessibilityIdentifier(FeedingPointDetailsViewModel.AccessibilityID.nameLabel)
         pointDetailsView.didTapOnFavorite = { [weak self] in
             self?.viewModel.handleActionEvent(.tapFavorite)

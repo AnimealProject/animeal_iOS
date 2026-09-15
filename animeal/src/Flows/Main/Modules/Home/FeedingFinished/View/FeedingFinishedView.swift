@@ -45,9 +45,13 @@ struct FeedingFinishedView: View {
     }
 
     private var backButton: some View {
-        AnimealButton(action: {
-            interactionHandler?.handleActionEvent(.backToHome)
-        }, title: L10n.Action.backToHome, accessibilityIdentifier: FeedingFinishedViewModel.AccessibilityID.backToHomeButton)
+        AnimealButton(
+            action: {
+                interactionHandler?.handleActionEvent(.backToHome)
+            },
+            title: L10n.Action.backToHome,
+            accessibilityIdentifier: FeedingFinishedViewModel.AccessibilityID.backToHomeButton
+        )
     }
 }
 
