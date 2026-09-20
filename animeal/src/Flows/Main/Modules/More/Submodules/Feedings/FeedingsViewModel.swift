@@ -166,7 +166,8 @@ final class FeedingsViewModel {
             async let destinationTab: Void = load(status: destination)
             _ = await (pending, destinationTab)
         } catch {
-            actionErrorMessage = L10n.Errors.somethingWrong.asBaseError().description
+            logError("[Feedings] Moderation action (\(destination)) failed: \(error)")
+            actionErrorMessage = L10n.Errors.somethingWrong
         }
     }
 
@@ -196,7 +197,7 @@ final class FeedingsViewModel {
             let items = try await fetchItems(for: status)
             tabStates[status] = .loaded(items)
         } catch {
-            tabStates[status] = .failed(L10n.Errors.somethingWrong.asBaseError().description)
+            tabStates[status] = .failed(L10n.Errors.somethingWrong)
         }
     }
 

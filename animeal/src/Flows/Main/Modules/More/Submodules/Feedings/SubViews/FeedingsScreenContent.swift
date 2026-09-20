@@ -49,7 +49,7 @@ struct FeedingsScreenContent: View {
     @ViewBuilder private var content: some View {
         switch tabState {
         case .none:
-            errorState(message: L10n.Errors.somethingWrong.asBaseError().description)
+            errorState(message: L10n.Errors.somethingWrong)
         case .failed(let message):
             errorState(message: message)
         case .isLoading:
