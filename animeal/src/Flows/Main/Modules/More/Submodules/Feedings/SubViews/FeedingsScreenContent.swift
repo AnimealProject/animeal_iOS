@@ -13,6 +13,7 @@ struct FeedingsScreenContent: View {
     let actions: FeedingItemActions
 
     @EnvironmentObject private var style: StyleEngine
+    @State private var openedItemID: String?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 24) {
@@ -30,6 +31,15 @@ struct FeedingsScreenContent: View {
             Spacer()
         }
         .padding()
+        .contentShape(Rectangle())
+        .onTapGesture { closeOpenedItem() }
+        .onChange(of: selectedTab) { _, _ in
+            openedItemID = nil
+        }
+    }
+
+    private func closeOpenedItem() {
+        openedItemID = nil
     }
 
     private var backButton: some View {
@@ -59,7 +69,7 @@ struct FeedingsScreenContent: View {
             if items.isEmpty {
                 emptyState
             } else {
-                FeedingsListView(items: items, actions: actions)
+                FeedingsListView(items: items, actions: actions, openedItemID: $openedItemID)
             }
         }
     }
