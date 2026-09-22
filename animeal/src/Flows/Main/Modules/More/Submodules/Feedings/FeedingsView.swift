@@ -102,20 +102,20 @@ struct FeedingsView: View {
             .environmentObject(style)
             .presentationDragIndicator(.visible)
         }
-        .alert(
-            L10n.Errors.somethingWrong.asBaseError().description,
+        .customAlert(
             isPresented: Binding(
                 get: { viewModel.actionErrorMessage != nil },
                 set: { if !$0 { viewModel.actionErrorMessage = nil } }
             ),
-            presenting: viewModel.actionErrorMessage
-        ) { _ in
-            Button(L10n.Action.ok, role: .cancel) {
+            viewModel: CustomAlertView.ViewModel(
+                title: viewModel.actionErrorMessage,
+                message: nil,
+                primaryButtonTitle: L10n.Action.ok,
+                secondaryButtonTitle: nil
+            ) { _ in
                 viewModel.actionErrorMessage = nil
             }
-        } message: { message in
-            Text(message)
-        }
+        )
     }
 
     private var processingOverlay: some View {

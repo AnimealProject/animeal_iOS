@@ -21,6 +21,7 @@ struct FeedingListItem: Identifiable {
     }
 
     let id: String
+    let feedingPointId: String
     let user: User
     let review: FeedingReview
     let address: String
@@ -38,6 +39,7 @@ struct FeedingListItem: Identifiable {
         imageURLs: [URL]
     ) {
         self.id = feeding.id
+        self.feedingPointId = feeding.feedingPointFeedingsId
         self.user = User(userId: feeding.userId, userName: userName)
         self.review = Self.makeReview(moderatedBy: feeding.moderatedBy, moderatorName: moderatorName)
         self.address = feeding.feedingPointDetails?.address ?? ""
@@ -56,6 +58,7 @@ struct FeedingListItem: Identifiable {
         imageURLs: [URL]
     ) {
         self.id = history.id
+        self.feedingPointId = history.feedingPointId
         self.user = User(userId: history.userId, userName: userName)
         self.review = Self.makeReview(moderatedBy: history.moderatedBy, moderatorName: moderatorName)
         self.address = history.feedingPointDetails?.address ?? ""
@@ -129,9 +132,10 @@ final class FeedingsViewModel {
     @MainActor
     func approve(_ item: FeedingListItem) async {
         await performAction(destination: .approved) {
+            // The backend resolves the active feeding by its feeding point id, despite the argument name.
             _ = try await networkService.query(
                 request: .customMutation(
-                    ApproveFeedingMutation(feedingId: item.id, reason: Constants.approveReason)
+                    ApproveFeedingMutation(feedingId: item.feedingPointId, reason: Constants.approveReason)
                 )
             )
         }
@@ -142,7 +146,7 @@ final class FeedingsViewModel {
         await performAction(destination: .rejected) {
             _ = try await networkService.query(
                 request: .customMutation(
-                    RejectFeedingMutation(feedingId: item.id, reason: reason)
+                    RejectFeedingMutation(feedingId: item.feedingPointId, reason: reason)
                 )
             )
         }
@@ -162,7 +166,8 @@ final class FeedingsViewModel {
             async let destinationTab: Void = load(status: destination)
             _ = await (pending, destinationTab)
         } catch {
-            actionErrorMessage = L10n.Errors.somethingWrong.asBaseError().description
+            logError("[Feedings] Moderation action (\(destination)) failed: \(error)")
+            actionErrorMessage = L10n.Errors.somethingWrong
         }
     }
 
@@ -192,7 +197,7 @@ final class FeedingsViewModel {
             let items = try await fetchItems(for: status)
             tabStates[status] = .loaded(items)
         } catch {
-            tabStates[status] = .failed(L10n.Errors.somethingWrong.asBaseError().description)
+            tabStates[status] = .failed(L10n.Errors.somethingWrong)
         }
     }
 
