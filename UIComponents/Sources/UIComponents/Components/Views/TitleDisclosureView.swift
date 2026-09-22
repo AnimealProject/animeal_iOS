@@ -3,6 +3,7 @@ import Style
 
 private enum Constants {
     static let indicatorSize: CGFloat = 8
+    static let indicatorSpacing: CGFloat = 5
 }
 
 public final class TitleDisclosureView: UIView {
@@ -46,7 +47,8 @@ public final class TitleDisclosureView: UIView {
         title.leadingAnchor ~= leadingAnchor
         title.topAnchor ~= topAnchor + 10
         title.bottomAnchor ~= bottomAnchor - 10
-        title.trailingAnchor ~= trailingAnchor - 12
+        title.trailingAnchor <= trailingAnchor - 12
+        title.setContentHuggingPriority(.required, for: .horizontal)
         title.font = designEngine.fonts.primary.regular(16)
         title.textColor = designEngine.colors.textPrimary
 
@@ -57,7 +59,7 @@ public final class TitleDisclosureView: UIView {
         addSubview(indicatorView.prepareForAutoLayout())
         indicatorView.widthAnchor ~= Constants.indicatorSize
         indicatorView.heightAnchor ~= Constants.indicatorSize
-        indicatorView.trailingAnchor ~= imageView.leadingAnchor - 8
+        indicatorView.leadingAnchor ~= title.trailingAnchor + Constants.indicatorSpacing
         indicatorView.centerYAnchor ~= centerYAnchor
 
         let gestureRecognizer = LongPressGestureRecognizer { [weak self] gesture in
