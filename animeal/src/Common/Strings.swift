@@ -180,6 +180,8 @@ internal enum L10n {
   internal enum Feedings {
     /// Approved
     internal static let approved = L10n.tr("Localizable", "feedings.approved", fallback: "Approved")
+    /// Auto-Approved
+    internal static let autoApproved = L10n.tr("Localizable", "feedings.autoApproved", fallback: "Auto-Approved")
     /// Outdated
     internal static let outdated = L10n.tr("Localizable", "feedings.outdated", fallback: "Outdated")
     /// Pending
