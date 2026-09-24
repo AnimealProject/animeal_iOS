@@ -2,16 +2,15 @@ import UIKit
 import Style
 
 private enum Constants {
-    static let indicatorSize: CGFloat = 8
+    static let indicatorSpacing: CGFloat = 5
 }
 
 public final class TitleDisclosureView: UIView {
     // MARK: Private properties
     private let title = UILabel()
     private let imageView = UIImageView()
-    private let indicatorView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = Constants.indicatorSize / 2
+    private let indicatorView: PulsingIndicatorView = {
+        let view = PulsingIndicatorView()
         view.isHidden = true
         return view
     }()
@@ -35,8 +34,13 @@ public final class TitleDisclosureView: UIView {
         title.text = model.title
         imageView.image = Asset.Images.arrowRight.image.withRenderingMode(.alwaysTemplate)
         imageView.tintColor = designEngine.colors.textPrimary
-        indicatorView.backgroundColor = designEngine.colors.error
+        indicatorView.backgroundColor = designEngine.colors.textPrimary
         indicatorView.isHidden = !model.hasIndicator
+        if model.hasIndicator {
+            indicatorView.startAnimating()
+        } else {
+            indicatorView.stopAnimating()
+        }
         self.model = model
         accessibilityIdentifier = model.accessibilityIdentifier
     }
@@ -46,7 +50,8 @@ public final class TitleDisclosureView: UIView {
         title.leadingAnchor ~= leadingAnchor
         title.topAnchor ~= topAnchor + 10
         title.bottomAnchor ~= bottomAnchor - 10
-        title.trailingAnchor ~= trailingAnchor - 12
+        title.trailingAnchor <= trailingAnchor - 12
+        title.setContentHuggingPriority(.required, for: .horizontal)
         title.font = designEngine.fonts.primary.regular(16)
         title.textColor = designEngine.colors.textPrimary
 
@@ -55,9 +60,7 @@ public final class TitleDisclosureView: UIView {
         imageView.centerYAnchor ~= centerYAnchor
 
         addSubview(indicatorView.prepareForAutoLayout())
-        indicatorView.widthAnchor ~= Constants.indicatorSize
-        indicatorView.heightAnchor ~= Constants.indicatorSize
-        indicatorView.trailingAnchor ~= imageView.leadingAnchor - 8
+        indicatorView.leadingAnchor ~= title.trailingAnchor + Constants.indicatorSpacing
         indicatorView.centerYAnchor ~= centerYAnchor
 
         let gestureRecognizer = LongPressGestureRecognizer { [weak self] gesture in
