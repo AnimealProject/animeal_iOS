@@ -47,15 +47,6 @@ struct BoundsInput: Equatable {
             bottomRightLon: bottomRightLon + lonBuffer
         )
     }
-
-    /// Bounding box covering all of Georgia (incl. Tbilisi and Batumi).
-    /// Used by `FeatureFlags.isLoadAllFeedingPointsEnabled` to fetch every feeding point upfront.
-    static let allGeorgia = BoundsInput(
-        topLeftLat: 43.6,
-        topLeftLon: 39.9,
-        bottomRightLat: 41.0,
-        bottomRightLon: 46.8
-    )
 }
 
 // MARK: - GetFeedingPoints query
@@ -254,6 +245,10 @@ public struct ExpireFeeding: Codable {
 // MARK: - UpdateFeedingPoint
 
 struct UpdateFeedingPoint: Codable {
+    let id: String
+}
+
+struct CreateFeedingPoint: Codable {
     let id: String
 }
 
