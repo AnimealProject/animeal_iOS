@@ -14,7 +14,9 @@ struct SwipeableFeedingCardView: View {
 
     let item: FeedingListItem
     let isSwipeEnabled: Bool
-    @Binding var openedItemID: String?
+    let isOpen: Bool
+    // The card only reports what happened; the list owns the opened-row state and decides.
+    let onSwipeEnded: (_ shouldOpen: Bool) -> Void
     let onApprove: () -> Void
     let onReject: () -> Void
     let onTap: () -> Void
@@ -26,8 +28,8 @@ struct SwipeableFeedingCardView: View {
         if isSwipeEnabled {
             ZStack(alignment: .trailing) {
                 HStack(spacing: Constants.gap) {
-                    FeedingQuickActionButton(status: .approve, width: Constants.buttonSize, action: approve)
-                    FeedingQuickActionButton(status: .reject, width: Constants.buttonSize, action: reject)
+                    FeedingQuickActionButton(status: .approve, width: Constants.buttonSize, action: onApprove)
+                    FeedingQuickActionButton(status: .reject, width: Constants.buttonSize, action: onReject)
                 }
                 .padding(.leading, Constants.gap)
                 .frame(height: cardHeight)
@@ -46,8 +48,9 @@ struct SwipeableFeedingCardView: View {
                     )
                     .offset(x: currentOffset)
                     .gesture(dragGesture)
-                    .onTapGesture { handleTap() }
+                    .onTapGesture { onTap() }
             }
+            .animation(.spring(response: 0.3, dampingFraction: 0.8), value: isOpen)
         } else {
             FeedingCardView(item: item)
                 .onTapGesture { onTap() }
@@ -79,15 +82,12 @@ struct SwipeableFeedingCardView: View {
 //               │-revealWidth││    0     │
 //               └───────────┘ └───────────┘
 //                       │             │
-//             (tap card / Approve / Reject)
+//        (the list owner flips `isOpen` on tap / tap outside /
+//         Approve / Reject / tab change; the card animates it)
 //                       └──────┬──────┘
 //                              ▼
-//                         close → CLOSED
+//                            CLOSED
 private extension SwipeableFeedingCardView {
-    var isOpen: Bool {
-        openedItemID == item.id
-    }
-
     var currentOffset: CGFloat {
         let committedOffset: CGFloat = isOpen ? -Constants.revealWidth : 0
         let rawOffset = max(-Constants.revealWidth, min(0, committedOffset + dragTranslation))
@@ -122,37 +122,7 @@ private extension SwipeableFeedingCardView {
                 let committedOffset: CGFloat = isOpen ? -Constants.revealWidth : 0
                 let projectedOffset = committedOffset + value.translation.width
                 let shouldReveal = projectedOffset < -Constants.revealWidth / 2
-                setOpen(shouldReveal)
+                onSwipeEnded(shouldReveal)
             }
-    }
-
-    func approve() {
-        onApprove()
-        close()
-    }
-
-    func reject() {
-        onReject()
-        close()
-    }
-
-    func handleTap() {
-        if openedItemID != nil {
-            withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
-                openedItemID = nil
-            }
-        } else {
-            onTap()
-        }
-    }
-
-    func close() {
-        setOpen(false)
-    }
-
-    func setOpen(_ open: Bool) {
-        withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
-            openedItemID = open ? item.id : nil
-        }
     }
 }

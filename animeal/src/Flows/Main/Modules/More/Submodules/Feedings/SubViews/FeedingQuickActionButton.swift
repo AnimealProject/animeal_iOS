@@ -85,6 +85,9 @@ struct FeedingQuickActionButton: View {
                     .strokeBorder(style.colors.accent.color, lineWidth: 1)
             )
         }
+        // Gives the button its own tap gesture: without an explicit style a button in a `List` row
+        // is triggered by the row, and the tap gets claimed by the screen-level gesture instead.
+        .buttonStyle(.plain)
     }
 }
 

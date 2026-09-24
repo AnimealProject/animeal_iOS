@@ -11,8 +11,7 @@ struct FeedingItemActions {
 struct FeedingsListView: View {
     let items: [FeedingListItem]
     let actions: FeedingItemActions
-
-    @State private var openedItemID: String?
+    @Binding var openedItemID: String?
 
     var body: some View {
         List(items) { item in
@@ -33,11 +32,26 @@ struct FeedingsListView: View {
         SwipeableFeedingCardView(
             item: item,
             isSwipeEnabled: item.status == .pending,
-            openedItemID: $openedItemID,
-            onApprove: { actions.onApprove(item) },
-            onReject: { actions.onReject(item) },
-            onTap: { actions.onTap(item) }
+            isOpen: openedItemID == item.id,
+            onSwipeEnded: { shouldOpen in openedItemID = shouldOpen ? item.id : nil },
+            onApprove: {
+                openedItemID = nil
+                actions.onApprove(item)
+            },
+            onReject: {
+                openedItemID = nil
+                actions.onReject(item)
+            },
+            onTap: { handleTap(on: item) }
         )
+    }
+
+    private func handleTap(on item: FeedingListItem) {
+        let wasOpen = openedItemID == item.id
+        openedItemID = nil
+        if !wasOpen {
+            actions.onTap(item)
+        }
     }
 }
 
@@ -67,6 +81,8 @@ struct FeedingsListView: View {
         )
     }
 
+    @Previewable @State var openedItemID: String?
+
     return FeedingsListView(
         items: [
             mockItem(status: .pending, createdAtOffset: -60 * 60 * 1, address: "Kazbegi st. TDN-22"),
@@ -77,7 +93,8 @@ struct FeedingsListView: View {
             mockItem(status: .rejected, createdAtOffset: -3600, address: "Freedom Square 1"),
             mockItem(status: .outdated, createdAtOffset: -3600, address: "Marjanishvili St. 9")
         ],
-        actions: FeedingItemActions(onApprove: { _ in }, onReject: { _ in }, onTap: { _ in })
+        actions: FeedingItemActions(onApprove: { _ in }, onReject: { _ in }, onTap: { _ in }),
+        openedItemID: $openedItemID
     )
     .environmentObject(StyleDefaultEngine() as StyleEngine)
 }
