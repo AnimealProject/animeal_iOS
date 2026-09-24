@@ -31,6 +31,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     private var loadedRegion: BoundsInput?
     private var isFetchingFeedingPoints = false
     private var pendingFetchTask: Task<Void, Never>?
+    private var refreshTask: Task<[HomeModel.FeedingPoint], Error>?
 
     // MARK: - State
     var onFeedingPointsHaveBeenPrepared: (([FeedingPointViewItem]) -> Void)?
@@ -306,13 +307,29 @@ private extension HomeViewModel {
         pendingFetchTask?.cancel()
         pendingFetchTask = nil
         isFetchingFeedingPoints = false
+        refreshTask?.cancel()
         model.resetFeedingPoints()
         loadedRegion = nil
         let fetchBounds = bounds.map(makeFetchBounds)
-        let points = try await model.fetchFeedingPoints(bounds: fetchBounds)
+        let task = makeRefreshTask(bounds: fetchBounds)
+        refreshTask = task
+        let points: [HomeModel.FeedingPoint]
+        do {
+            points = try await task.value
+        } catch is CancellationError {
+            return
+        }
         loadedRegion = fetchBounds
         let viewItems = feedingPointViewMapper.mapFeedingPoints(points)
         onFeedingPointsHaveBeenPrepared?(viewItems)
+    }
+
+    func makeRefreshTask(bounds: BoundsInput?) -> Task<[HomeModel.FeedingPoint], Error> {
+        Task { [model] in
+            let points = try await model.fetchFeedingPoints(bounds: bounds)
+            try Task.checkCancellation()
+            return points
+        }
     }
 
     func startFeedingPoinsEventsListener() {

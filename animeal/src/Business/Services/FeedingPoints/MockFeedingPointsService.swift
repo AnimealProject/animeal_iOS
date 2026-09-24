@@ -7,6 +7,7 @@ import Amplify
 final class MockFeedingPointsService: FeedingPointsServiceProtocol {
 
     private let innerFeedingPoints = CurrentValueSubject<[FullFeedingPoint], Never>([])
+    private var bundledFeedingPoints: [FullFeedingPoint] = []
     private let innerChangedFeedingPoint = PassthroughSubject<FullFeedingPoint, Never>()
 
     var feedingPoints: AnyPublisher<[FullFeedingPoint], Never> {
@@ -44,6 +45,7 @@ final class MockFeedingPointsService: FeedingPointsServiceProtocol {
         }
 
         logInfo("[MockFeedingPointsService] Loaded \(points.count) points from guestmock.json")
+        bundledFeedingPoints = points
         innerFeedingPoints.send(points)
     }
 
@@ -167,6 +169,9 @@ final class MockFeedingPointsService: FeedingPointsServiceProtocol {
 
     func fetchAll(bounds: BoundsInput?) async throws -> [FullFeedingPoint] {
         try await Task.sleep(nanoseconds: 500_000_000)
+        if innerFeedingPoints.value.isEmpty {
+            innerFeedingPoints.send(bundledFeedingPoints)
+        }
         return storedFeedingPoints
     }
 
