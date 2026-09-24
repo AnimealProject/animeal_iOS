@@ -316,8 +316,9 @@ private extension HomeViewModel {
         let points: [HomeModel.FeedingPoint]
         do {
             points = try await task.value
-        } catch is CancellationError {
-            return
+        } catch {
+            if task.isCancelled { return }
+            throw error
         }
         loadedRegion = fetchBounds
         let viewItems = feedingPointViewMapper.mapFeedingPoints(points)
