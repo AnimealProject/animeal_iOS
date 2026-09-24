@@ -42,6 +42,7 @@ struct PartitionContentModel {
         enum ActionID {
             case none
             case copyIBAN
+            case profilePage
         }
     }
 
@@ -56,7 +57,6 @@ struct PartitionContentModel {
 
             enum ActionID {
                 case delete
-                case logout
                 case cancel
             }
 

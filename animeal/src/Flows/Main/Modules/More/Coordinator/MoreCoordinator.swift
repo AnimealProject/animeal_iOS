@@ -61,8 +61,6 @@ extension MoreCoordinator: MoreCoordinatable {
     func routeTo(_ route: MoreRoute) {
         var viewController: UIViewController?
         switch route {
-        case .profilePage:
-            viewController = ProfileChangeableAssembler.assembly(coordinator: self)
         case .feedings:
             viewController = FeedingsAssembler.assemble(coordinator: self)
         case .faq:
@@ -114,11 +112,6 @@ extension MoreCoordinator: MoreCoordinatable {
 extension MoreCoordinator: MorePartitionCoordinatable {
     func routeTo(_ route: MorePartitionRoute) {
         switch route {
-        case .logout:
-            backwardEvent = HomeFlowBackwardEvent.event(
-                .shouldShowToast(L10n.Toast.successLogout)
-            )
-            stop()
         case .deleteUser:
             backwardEvent = HomeFlowBackwardEvent.event(
                 .shouldShowToast(L10n.Toast.userDeleted)
@@ -128,6 +121,9 @@ extension MoreCoordinator: MorePartitionCoordinatable {
             _navigator.pop(animated: true, completion: nil)
         case .error(let errorDescription):
             presentError(errorDescription)
+        case .profilePage:
+            let viewController = ProfileChangeableAssembler.assembly(coordinator: self)
+            _navigator.push(viewController, animated: true, completion: nil)
         }
     }
 }

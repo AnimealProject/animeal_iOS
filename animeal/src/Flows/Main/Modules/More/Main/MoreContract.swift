@@ -39,7 +39,7 @@ protocol MoreCoordinatable: Coordinatable {
 
 // MARK: - Enums
 enum MoreRoute {
-    case profilePage
+    case account
     case feedings
     case faq
     case donate
@@ -47,13 +47,10 @@ enum MoreRoute {
     case alert
     case termsAndConditions
     case privacyPolicy
-    case account
     case qaMenu
 
     init?(rawValue: String) {
         switch rawValue {
-        case MoreActionType.profilePage.rawValue:
-            self = .profilePage
         case MoreActionType.feedings.rawValue:
             self = .feedings
         case MoreActionType.faq.rawValue:

@@ -96,24 +96,42 @@ private extension MorePartitionViewController {
 
     func applyContent(_ model: PartitionContentModel.Content) {
         if let actions = model.actions {
+            contentContainerView.spacing = 16
             actions.forEach { action in
                 let actionView = DestructiveActionView()
-                actionView.configure(
-                    DestructiveActionView.Model(
-                        title: action.title,
-                        image: UIImage(systemName: "trash"),
-                        accessibilityIdentifier: MorePartitionViewModel.AccessibilityID.deleteButton
+                actionView.setContentHuggingPriority(.required, for: .vertical)
+                switch action.actionId {
+                case .profilePage:
+                    actionView.configure(
+                        DestructiveActionView.Model(
+                            title: action.title,
+                            image: UIImage(systemName: "person.crop.circle"),
+                            accessibilityIdentifier: MorePartitionViewModel.AccessibilityID.profilePageItem,
+                            titleColor: designEngine.colors.textPrimary,
+                            imageTintColor: designEngine.colors.textPrimary,
+                        )
                     )
-                )
-                actionView.actionHandler = { [weak self] in
-                    guard let self = self else { return }
-                    if let alert = self.makeAlertView(action.dialog) {
-                        self.present(alert, animated: true)
+                    actionView.actionHandler = { [weak self] in
+                        self?.viewModel.handleActionEvent(.profilePage)
+                    }
+                case .none, .copyIBAN:
+                    actionView.configure(
+                        DestructiveActionView.Model(
+                            title: action.title,
+                            image: UIImage(systemName: "trash"),
+                            accessibilityIdentifier: MorePartitionViewModel.AccessibilityID.deleteButton
+                        )
+                    )
+                    actionView.actionHandler = { [weak self] in
+                        guard let self = self else { return }
+                        if let alert = self.makeAlertView(action.dialog) {
+                            self.present(alert, animated: true)
+                        }
                     }
                 }
                 contentContainerView.addArrangedSubview(actionView)
-                contentContainerView.addArrangedSubview(UIView())
             }
+            contentContainerView.addArrangedSubview(UIView())
         }
 
         if let block = model.bottomTextBlock {
@@ -148,9 +166,7 @@ private extension MorePartitionViewController {
                 viewType: ButtonView.self,
                 icon: nil,
                 title: footer.action.title,
-                accessibilityIdentifier: footer.action.actionId == .copyIBAN
-                    ? MorePartitionViewModel.AccessibilityID.copyButton("iban")
-                    : MorePartitionViewModel.AccessibilityID.logoutButton
+                accessibilityIdentifier: MorePartitionViewModel.AccessibilityID.copyButton("iban")
             )
         )
         button.onTap = { [weak self] _ in
@@ -159,7 +175,7 @@ private extension MorePartitionViewController {
                 self.present(alert, animated: true)
             } else {
                 switch footer.action.actionId {
-                case .none:
+                case .none, .profilePage:
                     break
                 case .copyIBAN:
                     self.viewModel.handleActionEvent(.copyIBAN)
@@ -189,8 +205,6 @@ private extension MorePartitionViewController {
                     switch action.actionId {
                     case .delete:
                         self.viewModel.handleActionEvent(.deleteAccount)
-                    case .logout:
-                        self.viewModel.handleActionEvent(.logout)
                     case .cancel:
                         break
                     }
@@ -199,7 +213,7 @@ private extension MorePartitionViewController {
                     switch action.actionId {
                     case .cancel:
                         return MorePartitionViewModel.AccessibilityID.alertCancel
-                    case .delete, .logout:
+                    case .delete:
                         return MorePartitionViewModel.AccessibilityID.alertConfirm
                     }
                 }())

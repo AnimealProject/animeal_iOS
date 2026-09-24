@@ -42,14 +42,14 @@ protocol MorePartitionCoordinatable: Coordinatable, AlertCoordinatable {
 // MARK: - Enums
 enum MorePartitionRoute {
     case error(String)
-    case logout
     case deleteUser
     case back
+    case profilePage
 }
 
 enum MorePartitionViewActionEvent {
-    case logout
     case deleteAccount
     case back
     case copyIBAN
+    case profilePage
 }
