@@ -41,7 +41,9 @@ struct FeedingStatusBadge: View {
 
         var text: String {
             switch self {
-            case .autoApproved, .approved:
+            case .autoApproved:
+                return L10n.Feedings.autoApproved
+            case .approved:
                 return L10n.Feedings.approved
             case .pending:
                 return L10n.Feedings.pending

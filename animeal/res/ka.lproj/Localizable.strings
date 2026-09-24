@@ -120,6 +120,7 @@
 "feedings.title"                                  = "კვება";
 "feedings.pending"                                = "მოლოდინში";
 "feedings.approved"                               = "დამტკიცებული";
+"feedings.autoApproved"                           = "ავტომატურად დამტკიცებული";
 "feedings.rejected"                               = "უარყოფილი";
 "feedings.outdated"                               = "დაძველებული";
 "feeding.approve"                                 = "დამტკიცება";
