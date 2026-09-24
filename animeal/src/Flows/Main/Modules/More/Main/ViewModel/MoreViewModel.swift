@@ -8,35 +8,38 @@ final class MoreViewModel: MoreViewModelLifeCycle, MoreViewInteraction, MoreView
     private let coordinator: MoreCoordinatable
     private let mapper: MoreItemViewMappable
     private let userProfileService: UserProfileServiceProtocol
+    private let authenticationService: AuthenticationServiceProtocol
 
     // MARK: - State
-    var onActionsHaveBeenPrepared: (([MoreItemView]) -> Void)?
+    var onSectionsHaveBeenPrepared: (([MoreSectionView]) -> Void)?
+    var onLogoutVisibilityHaveBeenPrepared: ((Bool) -> Void)?
 
     // MARK: - Initialization
     init(
         coordinator: MoreCoordinatable,
         mapper: MoreItemViewMappable = MoreItemViewMapper(),
         model: MoreModelProtocol,
-        userProfileService: UserProfileServiceProtocol
+        userProfileService: UserProfileServiceProtocol,
+        authenticationService: AuthenticationServiceProtocol
     ) {
         self.coordinator = coordinator
         self.mapper = mapper
         self.model = model
         self.userProfileService = userProfileService
+        self.authenticationService = authenticationService
     }
 
     // MARK: - Life cycle
     func load() {
-        let actions = model.fetchActions().filter { action in
-            action.type != .feedings || canModerate
-        }
-        render(actions, hasUnseenFeedings: false)
+        let sections = visibleSections(from: model.fetchSections())
+        render(sections, hasUnseenFeedings: false)
+        onLogoutVisibilityHaveBeenPrepared?(!isGuest)
 
         guard canModerate else { return }
 
         Task { @MainActor in
             guard await self.model.hasUnseenPendingFeedings() else { return }
-            self.render(actions, hasUnseenFeedings: true)
+            self.render(sections, hasUnseenFeedings: true)
         }
     }
 
@@ -54,18 +57,30 @@ final class MoreViewModel: MoreViewModelLifeCycle, MoreViewInteraction, MoreView
             }
 
             coordinator.routeTo(route)
+        case .logout:
+            Task { @MainActor in
+                do {
+                    try await self.authenticationService.signOut()
+                    self.coordinator.routeTo(.logout)
+                } catch {
+                    self.coordinator.routeTo(.error(error.localizedDescription))
+                }
+            }
         }
     }
 
     func canRouteTo(route: MoreRoute) -> Bool {
         guard userProfileService.getCurrentUserValidationModel().userMode == .guest else {
-            return route != .feedings || canModerate
+            if case .feedings = route {
+                return canModerate
+            }
+            return true
         }
 
         switch route {
-        case .profilePage, .feedings, .account:
+        case .feedings, .account, .logout:
             return false
-        case .donate, .faq, .about, .alert:
+        case .donate, .faq, .about, .alert, .error:
             return true
         case .termsAndConditions:
             return true
@@ -78,16 +93,26 @@ final class MoreViewModel: MoreViewModelLifeCycle, MoreViewInteraction, MoreView
 
     // MARK: - Private
 
+    private var isGuest: Bool {
+        userProfileService.getCurrentUserValidationModel().userMode == .guest
+    }
+
     private var canModerate: Bool {
         let roles = userProfileService.getCurrentUserValidationModel().roles
         return roles.contains(.admin) || roles.contains(.moderator)
     }
 
-    private func render(_ actions: [MoreActionModel], hasUnseenFeedings: Bool) {
-        onActionsHaveBeenPrepared?(
-            actions.map {
-                mapper.mapActionModel($0, hasIndicator: $0.type == .feedings && hasUnseenFeedings)
-            }
+    private func visibleSections(from sections: [MoreSectionModel]) -> [MoreSectionModel] {
+        sections.compactMap { section in
+            let actions = section.actions.filter { $0.type != .feedings || canModerate }
+            guard !actions.isEmpty else { return nil }
+            return MoreSectionModel(title: section.title, actions: actions)
+        }
+    }
+
+    private func render(_ sections: [MoreSectionModel], hasUnseenFeedings: Bool) {
+        onSectionsHaveBeenPrepared?(
+            sections.map { mapper.mapSection($0, hasUnseenFeedings: hasUnseenFeedings) }
         )
     }
 }
@@ -96,6 +121,10 @@ extension MoreViewModel {
     enum AccessibilityID {
         static let screen = "more_screen"
         static let list = "list"
+        static let logoutButton = "logout_button"
+        static let alertConfirm = "alert_confirm"
+        static let alertCancel = "alert_cancel"
+        static let adminToolsHeader = "admin_tools_header"
 
         static func item(_ id: String) -> String {
             "item_\(id)"

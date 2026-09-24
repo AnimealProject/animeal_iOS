@@ -40,8 +40,9 @@ struct PartitionContentModel {
         let dialog: Dialog?
 
         enum ActionID {
-            case none
             case copyIBAN
+            case profilePage
+            case deleteAccount
         }
     }
 
@@ -56,7 +57,6 @@ struct PartitionContentModel {
 
             enum ActionID {
                 case delete
-                case logout
                 case cancel
             }
 
