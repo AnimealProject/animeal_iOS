@@ -13,6 +13,15 @@ final class MoreViewController: UIViewController, MoreViewable, ScreenAccessible
         stack.spacing = 0
         return stack
     }()
+    private let footerContainerView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.spacing = 0
+        stack.isHidden = true
+        return stack
+    }()
+    private let logoutButton = ButtonViewFactory().makeAccentInvertedButton()
+    private var footerHeightConstraint: NSLayoutConstraint?
 
     // MARK: - Initialization
     init(viewModel: MoreViewModelProtocol) {
@@ -49,8 +58,50 @@ final class MoreViewController: UIViewController, MoreViewable, ScreenAccessible
                     MoreViewActionEvent.tapInside(identifier)
                 )
             }
+            if viewItem.identifier == MoreActionType.feedings.rawValue {
+                contentView.addArrangedSubview(makeSectionTitle(L10n.More.adminTools))
+            }
             contentView.addArrangedSubview(view)
+            if let spacing = Self.spacing(after: viewItem.identifier) {
+                contentView.addArrangedSubview(Self.makeSpacer(height: spacing))
+            }
         }
+    }
+
+    private static func spacing(after identifier: String) -> CGFloat? {
+        switch identifier {
+        case MoreActionType.account.rawValue, MoreActionType.about.rawValue:
+            return 20
+        case MoreActionType.donate.rawValue:
+            return 50
+        default:
+            return nil
+        }
+    }
+
+    private func makeSectionTitle(_ title: String) -> UILabel {
+        let label = UILabel()
+        label.text = title
+        label.font = designEngine.fonts.primary.bold(16)
+        label.textColor = designEngine.colors.textPrimary
+        label.numberOfLines = 1
+        label.accessibilityIdentifier = MoreViewModel.AccessibilityID.adminToolsHeader
+        label.setContentHuggingPriority(.required, for: .vertical)
+        label.setContentCompressionResistancePriority(.required, for: .vertical)
+        return label
+    }
+
+    private static func makeSpacer(height: CGFloat) -> UIView {
+        let spacer = UIView()
+        spacer.heightAnchor ~= height
+        spacer.setContentHuggingPriority(.required, for: .vertical)
+        spacer.setContentCompressionResistancePriority(.required, for: .vertical)
+        return spacer
+    }
+
+    func applyLogoutButton(isVisible: Bool) {
+        footerContainerView.isHidden = !isVisible
+        footerHeightConstraint?.constant = isVisible ? 60 : 0
     }
 
     // MARK: - Setup
@@ -73,5 +124,52 @@ final class MoreViewController: UIViewController, MoreViewable, ScreenAccessible
         contentView.leadingAnchor ~= view.leadingAnchor + 26.0
         contentView.trailingAnchor ~= view.trailingAnchor - 26.0
         contentView.accessibilityIdentifier = MoreViewModel.AccessibilityID.list
+
+        logoutButton.configure(
+            ButtonView.Model(
+                identifier: "logout",
+                viewType: ButtonView.self,
+                icon: nil,
+                title: L10n.Action.logOut,
+                accessibilityIdentifier: MoreViewModel.AccessibilityID.logoutButton
+            )
+        )
+        logoutButton.onTap = { [weak self] _ in
+            self?.presentLogoutAlert()
+        }
+        footerContainerView.addArrangedSubview(logoutButton)
+
+        view.addSubview(footerContainerView.prepareForAutoLayout())
+        footerContainerView.leadingAnchor ~= view.leadingAnchor + 26.0
+        footerContainerView.trailingAnchor ~= view.trailingAnchor - 26.0
+        footerContainerView.bottomAnchor ~= view.safeAreaLayoutGuide.bottomAnchor - 40
+        footerHeightConstraint = footerContainerView.heightAnchor ~= 60
+        contentView.bottomAnchor <= footerContainerView.topAnchor - 16
+    }
+
+    private func presentLogoutAlert() {
+        let alertViewController = AlertViewController(title: L10n.Question.logoutAccount)
+        alertViewController.addAction(
+            AlertAction(
+                title: L10n.Action.cancel,
+                style: .inverted,
+                handler: {
+                    alertViewController.dismiss(animated: true)
+                },
+                accessibilityIdentifier: MoreViewModel.AccessibilityID.alertCancel
+            )
+        )
+        alertViewController.addAction(
+            AlertAction(
+                title: L10n.Action.logOut,
+                style: .accent,
+                handler: { [weak self] in
+                    alertViewController.dismiss(animated: true)
+                    self?.viewModel.handleActionEvent(.logout)
+                },
+                accessibilityIdentifier: MoreViewModel.AccessibilityID.alertConfirm
+            )
+        )
+        present(alertViewController, animated: true)
     }
 }

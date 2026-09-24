@@ -245,6 +245,8 @@ internal enum L10n {
     internal static let aboutShort = L10n.tr("Localizable", "more.aboutShort", fallback: "About")
     /// Account
     internal static let account = L10n.tr("Localizable", "more.account", fallback: "Account")
+    /// Admin Tools
+    internal static let adminTools = L10n.tr("Localizable", "more.adminTools", fallback: "Admin Tools")
     /// Donate
     internal static let donate = L10n.tr("Localizable", "more.donate", fallback: "Donate")
     /// FAQ

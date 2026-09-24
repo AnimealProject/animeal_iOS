@@ -8,21 +8,25 @@ final class MoreViewModel: MoreViewModelLifeCycle, MoreViewInteraction, MoreView
     private let coordinator: MoreCoordinatable
     private let mapper: MoreItemViewMappable
     private let userProfileService: UserProfileServiceProtocol
+    private let authenticationService: AuthenticationServiceProtocol
 
     // MARK: - State
     var onActionsHaveBeenPrepared: (([MoreItemView]) -> Void)?
+    var onLogoutVisibilityHaveBeenPrepared: ((Bool) -> Void)?
 
     // MARK: - Initialization
     init(
         coordinator: MoreCoordinatable,
         mapper: MoreItemViewMappable = MoreItemViewMapper(),
         model: MoreModelProtocol,
-        userProfileService: UserProfileServiceProtocol
+        userProfileService: UserProfileServiceProtocol,
+        authenticationService: AuthenticationServiceProtocol
     ) {
         self.coordinator = coordinator
         self.mapper = mapper
         self.model = model
         self.userProfileService = userProfileService
+        self.authenticationService = authenticationService
     }
 
     // MARK: - Life cycle
@@ -31,6 +35,7 @@ final class MoreViewModel: MoreViewModelLifeCycle, MoreViewInteraction, MoreView
             action.type != .feedings || canModerate
         }
         render(actions, hasUnseenFeedings: false)
+        onLogoutVisibilityHaveBeenPrepared?(!isGuest)
 
         guard canModerate else { return }
 
@@ -54,18 +59,30 @@ final class MoreViewModel: MoreViewModelLifeCycle, MoreViewInteraction, MoreView
             }
 
             coordinator.routeTo(route)
+        case .logout:
+            Task { @MainActor in
+                do {
+                    try await self.authenticationService.signOut()
+                    self.coordinator.routeTo(.logout)
+                } catch {
+                    self.coordinator.routeTo(.error(error.localizedDescription))
+                }
+            }
         }
     }
 
     func canRouteTo(route: MoreRoute) -> Bool {
         guard userProfileService.getCurrentUserValidationModel().userMode == .guest else {
-            return route != .feedings || canModerate
+            if case .feedings = route {
+                return canModerate
+            }
+            return true
         }
 
         switch route {
-        case .profilePage, .feedings, .account:
+        case .feedings, .account, .logout:
             return false
-        case .donate, .faq, .about, .alert:
+        case .donate, .faq, .about, .alert, .error:
             return true
         case .termsAndConditions:
             return true
@@ -77,6 +94,10 @@ final class MoreViewModel: MoreViewModelLifeCycle, MoreViewInteraction, MoreView
     }
 
     // MARK: - Private
+
+    private var isGuest: Bool {
+        userProfileService.getCurrentUserValidationModel().userMode == .guest
+    }
 
     private var canModerate: Bool {
         let roles = userProfileService.getCurrentUserValidationModel().roles
@@ -96,6 +117,10 @@ extension MoreViewModel {
     enum AccessibilityID {
         static let screen = "more_screen"
         static let list = "list"
+        static let logoutButton = "logout_button"
+        static let alertConfirm = "alert_confirm"
+        static let alertCancel = "alert_cancel"
+        static let adminToolsHeader = "admin_tools_header"
 
         static func item(_ id: String) -> String {
             "item_\(id)"
