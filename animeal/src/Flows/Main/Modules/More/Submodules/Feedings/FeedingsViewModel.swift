@@ -169,12 +169,17 @@ final class FeedingsViewModel {
             async let pending: Void = load(status: .pending)
             async let destinationTab: Void = load(status: destination)
             _ = await (pending, destinationTab)
-            return true
+            return isLoaded(.pending) && isLoaded(destination)
         } catch {
             logError("[Feedings] Moderation action (\(destination)) failed: \(error)")
             actionErrorMessage = L10n.Errors.somethingWrong
             return false
         }
+    }
+
+    private func isLoaded(_ status: FeedingStatus) -> Bool {
+        if case .loaded = tabStates[status] { return true }
+        return false
     }
 
     func nextPendingItem(excluding reviewedItemID: String) -> FeedingListItem? {
