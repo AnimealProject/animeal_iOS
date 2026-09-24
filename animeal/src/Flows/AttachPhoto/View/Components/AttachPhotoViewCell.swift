@@ -91,7 +91,7 @@ final class AttachPhotoViewCell: UICollectionViewCell, AttachPhotoViewCellContai
 
     // MARK: - Setup
     private func setup() {
-        contentView.backgroundColor = designEngine.colors.backgroundPrimary
+        contentView.backgroundColor = .clear
         contentView.addSubview(placeImageView)
         placeImageView.topAnchor ~= contentView.topAnchor + Constants.offset
         placeImageView.centerYAnchor ~= contentView.centerYAnchor

@@ -127,7 +127,7 @@ private extension AttachPhotoViewController {
         attachingPhotoView.rightAnchor ~= view.rightAnchor - Constants.offset
         attachingPhotoView.bottomAnchor ~= view.bottomAnchor
 
-        collectionView.backgroundColor = designEngine.colors.backgroundPrimary
+        collectionView.backgroundColor = .clear
         collectionView.delegate = self
         collectionView.register(
             AttachPhotoViewCell.self,
