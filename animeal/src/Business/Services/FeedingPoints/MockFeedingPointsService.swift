@@ -165,7 +165,7 @@ final class MockFeedingPointsService: FeedingPointsServiceProtocol {
         innerFeedingPoints.send([])
     }
 
-    func fetchAll(bounds: BoundsInput) async throws -> [FullFeedingPoint] {
+    func fetchAll(bounds: BoundsInput?) async throws -> [FullFeedingPoint] {
         try await Task.sleep(nanoseconds: 500_000_000)
         return storedFeedingPoints
     }

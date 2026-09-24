@@ -17,7 +17,7 @@ protocol HomeModelProtocol: AnyObject {
     var selectedFilter: HomeModel.FilterItemIdentifier { get }
     var savedFeedingPoints: [HomeModel.FeedingPoint] { get }
     func resetFeedingPoints()
-    func fetchFeedingPoints(bounds: BoundsInput) async throws -> [HomeModel.FeedingPoint]
+    func fetchFeedingPoints(bounds: BoundsInput?) async throws -> [HomeModel.FeedingPoint]
     func fetchFilterItems(_ completion: (([HomeModel.FilterItem]) -> Void)?)
     func fetchFeedingAction(request: HomeModel.FeedingActionRequest) -> HomeModel.FeedingAction
     func fetchFeedingPoint(_ pointId: String) async throws -> HomeModel.FeedingPoint

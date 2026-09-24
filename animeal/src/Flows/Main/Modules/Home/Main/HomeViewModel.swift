@@ -95,6 +95,9 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
     func load() {
         Task { @MainActor [weak self] in
             guard let self else { return }
+            if self.isLoadAllFeedingPointsEnabled {
+                await self.loadAllFeedingPoints()
+            }
             await fetchUnfinishedFeeding()
             self.fetchFilterItems()
             self.startFeedingPoinsEventsListener()
@@ -107,6 +110,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
 
     // MARK: - Interaction
     func handleMapCameraIdle(bounds: BoundsInput, zoom: Double) {
+        guard !isLoadAllFeedingPointsEnabled else { return }
         guard zoom >= Constants.minimumZoomLevel else { return }
         currentBounds = bounds
         guard !(loadedRegion?.contains(bounds) ?? false), !isFetchingFeedingPoints else { return }
@@ -142,8 +146,12 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
                 return
             }
             model.proceedFilter(itemIdentifier)
-            loadedRegion = nil
-            fetchFeedingPointsWithCurrentBounds()
+            if isLoadAllFeedingPointsEnabled {
+                update(model.savedFeedingPoints)
+            } else {
+                loadedRegion = nil
+                fetchFeedingPointsWithCurrentBounds()
+            }
         case .tapCancelFeeding:
             let action = model.fetchFeedingAction(request: .cancelFeeding)
             onFeedingActionHaveBeenPrepared?(feedingActionMapper.mapFeedingAction(action))
@@ -188,7 +196,11 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
 
     func refreshCurrentFeeding() {
         coordinator.displayActivityIndicator { [weak self] in
-            await self?.fetchUnfinishedFeeding()
+            guard let self else { return }
+            if self.isLoadAllFeedingPointsEnabled, self.feedingStatus != .progress {
+                await self.loadAllFeedingPoints()
+            }
+            await self.fetchUnfinishedFeeding()
         }
     }
 
@@ -224,10 +236,7 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
             guard let self else { return }
             do {
                 let result = try await self.model.processFinishFeeding(imageKeys: imageKeys)
-
-                if let bounds = self.currentBounds {
-                    try await self.applyFeedingPointsRefresh(bounds: bounds)
-                }
+                try await self.refreshFeedingPoints()
                 self.feedingStatus = result.feedingStatus
                 self.onFeedingHaveBeenCompleted?()
 
@@ -258,6 +267,28 @@ final class HomeViewModel: HomeViewModelLifeCycle, HomeViewInteraction, HomeView
 }
 
 private extension HomeViewModel {
+    var isLoadAllFeedingPointsEnabled: Bool {
+        FeatureFlags.isLoadAllFeedingPointsEnabled
+    }
+
+    func loadAllFeedingPoints() async {
+        do {
+            try await applyFeedingPointsRefresh(bounds: nil)
+        } catch {
+            logError("[HomeViewModel] Failed to load all feeding points: \(error.localizedDescription)")
+        }
+    }
+
+    /// Reloads the feeding points after a feeding-related mutation: every point in the
+    /// load-all mode, the current viewport otherwise.
+    func refreshFeedingPoints() async throws {
+        if isLoadAllFeedingPointsEnabled {
+            try await applyFeedingPointsRefresh(bounds: nil)
+        } else if let bounds = currentBounds {
+            try await applyFeedingPointsRefresh(bounds: bounds)
+        }
+    }
+
     func fetchFeedingPointsWithCurrentBounds() {
         guard let bounds = currentBounds else { return }
         fetchFeedingPoints(bounds: bounds)
@@ -270,13 +301,14 @@ private extension HomeViewModel {
         }
     }
 
-    func applyFeedingPointsRefresh(bounds: BoundsInput) async throws {
+    /// `bounds == nil` fetches every feeding point.
+    func applyFeedingPointsRefresh(bounds: BoundsInput?) async throws {
         pendingFetchTask?.cancel()
         pendingFetchTask = nil
         isFetchingFeedingPoints = false
         model.resetFeedingPoints()
         loadedRegion = nil
-        let fetchBounds = makeFetchBounds(from: bounds)
+        let fetchBounds = bounds.map(makeFetchBounds)
         let points = try await model.fetchFeedingPoints(bounds: fetchBounds)
         loadedRegion = fetchBounds
         let viewItems = feedingPointViewMapper.mapFeedingPoints(points)
@@ -318,9 +350,7 @@ private extension HomeViewModel {
             } catch {
                 logError("[APP] \(#function) failed to cancel feeding: \(error.localizedDescription)")
             }
-            if let bounds = self.currentBounds {
-                try await self.applyFeedingPointsRefresh(bounds: bounds)
-            }
+            try await self.refreshFeedingPoints()
         }
     }
 
@@ -341,9 +371,7 @@ private extension HomeViewModel {
             } catch {
                 logError("[APP] \(#function) failed to reject feeding: \(error.localizedDescription)")
             }
-            if let bounds = self.currentBounds {
-                try await self.applyFeedingPointsRefresh(bounds: bounds)
-            }
+            try await self.refreshFeedingPoints()
             let action = self.model.fetchFeedingAction(request: .autoCancelFeeding)
             self.onFeedingActionHaveBeenPrepared?(self.feedingActionMapper.mapFeedingAction(action))
         }
@@ -409,10 +437,7 @@ private extension HomeViewModel {
     }
 
     private func makeFetchBounds(from bounds: BoundsInput) -> BoundsInput {
-        guard !FeatureFlags.isLoadAllFeedingPointsEnabled else {
-            return .allGeorgia
-        }
-        return bounds.clamped(minimumRadius: Constants.minimumFetchRadius)
+        bounds.clamped(minimumRadius: Constants.minimumFetchRadius)
             .expanded(by: Constants.bufferFactor)
     }
 }
