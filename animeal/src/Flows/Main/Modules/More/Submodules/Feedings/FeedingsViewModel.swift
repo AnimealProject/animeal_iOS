@@ -129,8 +129,10 @@ final class FeedingsViewModel {
 
     // MARK: - Moderation actions
 
+    /// Returns `true` when the feeding was approved and the lists were refreshed.
     @MainActor
-    func approve(_ item: FeedingListItem) async {
+    @discardableResult
+    func approve(_ item: FeedingListItem) async -> Bool {
         await performAction(destination: .approved) {
             // The backend resolves the active feeding by its feeding point id, despite the argument name.
             _ = try await networkService.query(
@@ -141,8 +143,10 @@ final class FeedingsViewModel {
         }
     }
 
+    /// Returns `true` when the feeding was rejected and the lists were refreshed.
     @MainActor
-    func reject(_ item: FeedingListItem, reason: String) async {
+    @discardableResult
+    func reject(_ item: FeedingListItem, reason: String) async -> Bool {
         await performAction(destination: .rejected) {
             _ = try await networkService.query(
                 request: .customMutation(
@@ -153,8 +157,8 @@ final class FeedingsViewModel {
     }
 
     @MainActor
-    private func performAction(destination: FeedingStatus, _ action: () async throws -> Void) async {
-        guard !isProcessingAction else { return }
+    private func performAction(destination: FeedingStatus, _ action: () async throws -> Void) async -> Bool {
+        guard !isProcessingAction else { return false }
         isProcessingAction = true
         defer { isProcessingAction = false }
 
@@ -165,10 +169,22 @@ final class FeedingsViewModel {
             async let pending: Void = load(status: .pending)
             async let destinationTab: Void = load(status: destination)
             _ = await (pending, destinationTab)
+            return isLoaded(.pending) && isLoaded(destination)
         } catch {
             logError("[Feedings] Moderation action (\(destination)) failed: \(error)")
             actionErrorMessage = L10n.Errors.somethingWrong
+            return false
         }
+    }
+
+    private func isLoaded(_ status: FeedingStatus) -> Bool {
+        if case .loaded = tabStates[status] { return true }
+        return false
+    }
+
+    func nextPendingItem(excluding reviewedItemID: String) -> FeedingListItem? {
+        guard case .loaded(let items) = tabStates[.pending] else { return nil }
+        return items.first { $0.id != reviewedItemID }
     }
 
     // MARK: - Loading

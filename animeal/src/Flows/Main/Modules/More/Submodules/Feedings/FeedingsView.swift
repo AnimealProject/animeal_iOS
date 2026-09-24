@@ -89,13 +89,17 @@ struct FeedingsView: View {
                 onApprove: {
                     selectedItem = nil
                     Task {
-                        await viewModel.approve(item)
+                        if await viewModel.approve(item) {
+                            showNextPendingCard(after: item)
+                        }
                     }
                 },
                 onRejectConfirmed: { reason in
                     selectedItem = nil
                     Task {
-                        await viewModel.reject(item, reason: reason)
+                        if await viewModel.reject(item, reason: reason) {
+                            showNextPendingCard(after: item)
+                        }
                     }
                 }
             )
@@ -116,6 +120,10 @@ struct FeedingsView: View {
                 viewModel.actionErrorMessage = nil
             }
         )
+    }
+
+    private func showNextPendingCard(after reviewedItem: FeedingListItem) {
+        selectedItem = viewModel.nextPendingItem(excluding: reviewedItem.id)
     }
 
     private var processingOverlay: some View {
