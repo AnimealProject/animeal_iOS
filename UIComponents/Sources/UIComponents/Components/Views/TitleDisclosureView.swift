@@ -3,6 +3,7 @@ import Style
 
 private enum Constants {
     static let indicatorSpacing: CGFloat = 5
+    static let verticalPadding: CGFloat = 8
 }
 
 public final class TitleDisclosureView: UIView {
@@ -48,8 +49,8 @@ public final class TitleDisclosureView: UIView {
     private func setup() {
         addSubview(title.prepareForAutoLayout())
         title.leadingAnchor ~= leadingAnchor
-        title.topAnchor ~= topAnchor + 10
-        title.bottomAnchor ~= bottomAnchor - 10
+        title.topAnchor ~= topAnchor + Constants.verticalPadding
+        title.bottomAnchor ~= bottomAnchor - Constants.verticalPadding
         title.trailingAnchor <= trailingAnchor - 12
         title.setContentHuggingPriority(.required, for: .horizontal)
         title.font = designEngine.fonts.primary.regular(16)

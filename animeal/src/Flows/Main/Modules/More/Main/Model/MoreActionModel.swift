@@ -6,13 +6,12 @@ struct MoreActionModel {
 }
 
 enum MoreActionType: String {
-    case profilePage
+    case account
     case feedings
     case faq
     case donate
     case about
     case termsAndConditions
     case privacyPolicy
-    case account
     case qaMenu
 }

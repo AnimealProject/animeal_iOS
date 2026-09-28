@@ -12,11 +12,19 @@ final class MoreModuleAssembler {
 
     func assemble() -> UIViewController {
         let model = MoreModel()
-        let viewModel = MoreViewModel(coordinator: coordinator, model: model, userProfileService: userProfileService)
+        let viewModel = MoreViewModel(
+            coordinator: coordinator,
+            model: model,
+            userProfileService: userProfileService,
+            authenticationService: AppDelegate.shared.context.authenticationService
+        )
         let view = MoreViewController(viewModel: viewModel)
 
         viewModel.onActionsHaveBeenPrepared = { [weak view] actions in
             view?.applyActions(actions)
+        }
+        viewModel.onLogoutVisibilityHaveBeenPrepared = { [weak view] isVisible in
+            view?.applyLogoutButton(isVisible: isVisible)
         }
 
         return view
