@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.serhiiterokhyn.animeal.demo</string>
+	<string>com.animealproject.animeal</string>
 	<key>PROJECT_ID</key>
 	<string>animeal-demo</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:226206918500:ios:e3db0c1391e43d78d03c71</string>
+	<string>1:226206918500:ios:780a7d5df2188f93d03c71</string>
 </dict>
 </plist>
