@@ -13,8 +13,7 @@ final class MoreViewModel: MoreViewModelLifeCycle, MoreViewInteraction, MoreView
     // MARK: - State
     var onSectionsHaveBeenPrepared: (([MoreSectionView]) -> Void)?
     var onLogoutVisibilityHaveBeenPrepared: ((Bool) -> Void)?
-    @MainActor
-    private var isSigningOut = false
+    @MainActor private var isSigningOut = false
 
     // MARK: - Initialization
     init(
