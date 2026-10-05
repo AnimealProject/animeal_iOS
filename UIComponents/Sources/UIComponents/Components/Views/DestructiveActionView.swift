@@ -29,6 +29,9 @@ public final class DestructiveActionView: UIView {
         imageView.tintColor = tintColor
         chevronView.image = Asset.Images.arrowRight.image.withRenderingMode(.alwaysTemplate)
         chevronView.tintColor = designEngine.colors.textPrimary
+        isAccessibilityElement = true
+        accessibilityLabel = model.title
+        accessibilityTraits = .button
         accessibilityIdentifier = model.accessibilityIdentifier
     }
 
