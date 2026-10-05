@@ -85,6 +85,7 @@ final class MoreViewController: UIViewController, MoreViewable, ScreenAccessible
         label.textColor = designEngine.colors.textPrimary
         label.numberOfLines = 1
         label.accessibilityIdentifier = MoreViewModel.AccessibilityID.adminToolsHeader
+        label.accessibilityTraits = .header
         label.setContentHuggingPriority(.required, for: .vertical)
         label.setContentCompressionResistancePriority(.required, for: .vertical)
         return label
