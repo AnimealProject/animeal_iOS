@@ -2,7 +2,8 @@ import UIKit
 
 // MARK: - View
 protocol MoreViewable: AnyObject {
-    func applyActions(_ viewItems: [MoreItemView])
+    func applySections(_ sections: [MoreSectionView])
+    func applyLogoutButton(isVisible: Bool)
 }
 
 // MARK: - ViewModel
@@ -20,14 +21,15 @@ protocol MoreViewInteraction: AnyObject {
 }
 
 protocol MoreViewState: AnyObject {
-    var onActionsHaveBeenPrepared: (([MoreItemView]) -> Void)? { get set }
+    var onSectionsHaveBeenPrepared: (([MoreSectionView]) -> Void)? { get set }
+    var onLogoutVisibilityHaveBeenPrepared: ((Bool) -> Void)? { get set }
 }
 
 // MARK: - Model
 
 // sourcery: AutoMockable
 protocol MoreModelProtocol: AnyObject {
-    func fetchActions() -> [MoreActionModel]
+    func fetchSections() -> [MoreSectionModel]
     func hasUnseenPendingFeedings() async -> Bool
 }
 
@@ -39,7 +41,7 @@ protocol MoreCoordinatable: Coordinatable {
 
 // MARK: - Enums
 enum MoreRoute {
-    case profilePage
+    case account
     case feedings
     case faq
     case donate
@@ -47,13 +49,12 @@ enum MoreRoute {
     case alert
     case termsAndConditions
     case privacyPolicy
-    case account
     case qaMenu
+    case logout
+    case error(String)
 
     init?(rawValue: String) {
         switch rawValue {
-        case MoreActionType.profilePage.rawValue:
-            self = .profilePage
         case MoreActionType.feedings.rawValue:
             self = .feedings
         case MoreActionType.faq.rawValue:
@@ -78,4 +79,5 @@ enum MoreRoute {
 
 enum MoreViewActionEvent {
     case tapInside(_ identifier: String)
+    case logout
 }

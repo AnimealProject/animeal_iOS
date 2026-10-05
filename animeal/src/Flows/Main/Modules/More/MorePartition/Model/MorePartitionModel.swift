@@ -33,7 +33,13 @@ final class MorePartitionModel: MorePartitionModelProtocol {
                 content: PartitionContentModel.Content(
                     actions: [
                         PartitionContentModel.Action(
-                            actionId: PartitionContentModel.Action.ActionID.none,
+                            actionId: PartitionContentModel.Action.ActionID.profilePage,
+                            title: L10n.More.profilePage,
+                            type: PartitionContentModel.FooterType.accent,
+                            dialog: nil
+                        ),
+                        PartitionContentModel.Action(
+                            actionId: PartitionContentModel.Action.ActionID.deleteAccount,
                             title: L10n.Action.deleteAccount,
                             type: PartitionContentModel.FooterType.inverted,
                             dialog: PartitionContentModel.Dialog(
@@ -50,24 +56,7 @@ final class MorePartitionModel: MorePartitionModelProtocol {
                         )
                     ]
                 ),
-                footer: PartitionContentModel.Footer(
-                    action: PartitionContentModel.Action(
-                        actionId: PartitionContentModel.Action.ActionID.none,
-                        title: L10n.Action.logOut,
-                        type: PartitionContentModel.FooterType.inverted,
-                        dialog: PartitionContentModel.Dialog(
-                            title: L10n.Question.logoutAccount,
-                            actions: [
-                                PartitionContentModel.Dialog.Action(
-                                    actionId: .cancel, title: L10n.Action.cancel, style: .inverted
-                                ),
-                                PartitionContentModel.Dialog.Action(
-                                    actionId: .logout, title: L10n.Action.logOut, style: .accent
-                                )
-                            ]
-                        )
-                    )
-                )
+                footer: nil
             )
         case .faq:
             return PartitionContentModel(
@@ -85,20 +74,6 @@ final class MorePartitionModel: MorePartitionModelProtocol {
                 ),
                 footer: nil
             )
-        }
-    }
-
-    func handleSignOut(completion: ((Result<Void, Error>) -> Void)?) {
-        authenticationService.signOut { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success:
-                    completion?(.success(()))
-                case .failure(let error):
-                    logError("\(error)")
-                    completion?(.failure(error))
-                }
-            }
         }
     }
 

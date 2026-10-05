@@ -117,13 +117,14 @@
 "qaMenu.title"                                    = "QA მენიუ";
 "qaMenu.loadAllFeedingPoints"                     = "ყველა კვების წერტილის ჩატვირთვა";
 "more.feedings"                                   = "კვება";
+"more.adminTools"                                 = "ადმინისტრატორის ინსტრუმენტები";
 "feedings.title"                                  = "კვება";
 "feedings.pending"                                = "მოლოდინში";
 "feedings.approved"                               = "დამტკიცებული";
-"feedings.autoApproved"                           = "ავტომატურად დამტკიცებული";
 "feedings.rejected"                               = "უარყოფილი";
 "feedings.outdated"                               = "დაძველებული";
 "feeding.approve"                                 = "დამტკიცება";
+"feedings.autoApproved"                           = "ავტომატურად დამტკიცებული";
 "feeding.reject"                                  = "უარყოფა";
 "feeding.reason.noFood"                           = "საჭმელი არ არის";
 "feeding.reason.badPhotoQuality"                  = "ფოტოს ცუდი ხარისხი";

@@ -5,14 +5,18 @@ struct MoreActionModel {
     let title: String
 }
 
+struct MoreSectionModel {
+    let title: String?
+    let actions: [MoreActionModel]
+}
+
 enum MoreActionType: String {
-    case profilePage
+    case account
     case feedings
     case faq
     case donate
     case about
     case termsAndConditions
     case privacyPolicy
-    case account
     case qaMenu
 }

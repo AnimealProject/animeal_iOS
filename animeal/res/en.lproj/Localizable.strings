@@ -117,13 +117,14 @@
 "qaMenu.title"                                    = "QA Menu";
 "qaMenu.loadAllFeedingPoints"                     = "Load all feeding points";
 "more.feedings"                                   = "Feedings";
+"more.adminTools"                                 = "Admin Tools";
 "feedings.title"                                  = "Feedings";
 "feedings.pending"                                = "Pending";
 "feedings.approved"                               = "Approved";
-"feedings.autoApproved"                           = "Auto-Approved";
 "feedings.rejected"                               = "Rejected";
 "feedings.outdated"                               = "Outdated";
 "feeding.approve"                                 = "Approve";
+"feedings.autoApproved"                           = "Auto-Approved";
 "feeding.reject"                                  = "Reject";
 "feeding.reason.noFood"                           = "No food";
 "feeding.reason.badPhotoQuality"                  = "Bad photo quality";

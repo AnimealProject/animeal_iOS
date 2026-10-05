@@ -30,16 +30,6 @@ final class MorePartitionViewModel: MorePartitionViewModelLifeCycle,
     // MARK: - Interaction
     func handleActionEvent(_ event: MorePartitionViewActionEvent) {
         switch event {
-        case .logout:
-            model.handleSignOut { [weak self] result in
-                guard let self = self else { return }
-                switch result {
-                case .success:
-                    self.coordinator.routeTo(.logout)
-                case .failure(let error):
-                    self.coordinator.routeTo(.error(error.localizedDescription))
-                }
-            }
         case .deleteAccount:
             self.model.handleDeleteUser { [weak self] result in
                 guard let self = self else { return }
@@ -54,6 +44,8 @@ final class MorePartitionViewModel: MorePartitionViewModelLifeCycle,
             coordinator.routeTo(.back)
         case .copyIBAN:
             model.handleCopyIBAN()
+        case .profilePage:
+            coordinator.routeTo(.profilePage)
         }
     }
 }
@@ -61,8 +53,8 @@ final class MorePartitionViewModel: MorePartitionViewModelLifeCycle,
 extension MorePartitionViewModel {
     enum AccessibilityID {
         static let screen = "account_screen"
+        static let profilePageItem = "item_profile_page"
         static let deleteButton = "delete_button"
-        static let logoutButton = "logout_button"
         static let alertConfirm = "alert_confirm"
         static let alertCancel = "alert_cancel"
 

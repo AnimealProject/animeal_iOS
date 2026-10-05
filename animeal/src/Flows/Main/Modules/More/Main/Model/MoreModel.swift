@@ -17,21 +17,41 @@ final class MoreModel: MoreModelProtocol {
     }
 
     // MARK: - Requests
-    func fetchActions() -> [MoreActionModel] {
-        var actions = [
-            MoreActionModel(type: .profilePage, title: L10n.More.profilePage),
-            MoreActionModel(type: .feedings, title: L10n.More.feedings),
-            MoreActionModel(type: .faq, title: L10n.More.faq),
-            MoreActionModel(type: .donate, title: L10n.More.donate),
-            MoreActionModel(type: .about, title: L10n.More.aboutShort),
-            MoreActionModel(type: .termsAndConditions, title: L10n.Action.termsAndConditions),
-            MoreActionModel(type: .privacyPolicy, title: L10n.Action.privacyPolicy),
-            MoreActionModel(type: .account, title: L10n.More.account)
+    func fetchSections() -> [MoreSectionModel] {
+        var adminActions = [
+            MoreActionModel(type: .feedings, title: L10n.More.feedings)
         ]
         #if QA_MENU
-        actions.append(MoreActionModel(type: .qaMenu, title: L10n.More.qaMenu))
+        adminActions.append(MoreActionModel(type: .qaMenu, title: L10n.More.qaMenu))
         #endif
-        return actions
+
+        return [
+            MoreSectionModel(
+                title: nil,
+                actions: [
+                    MoreActionModel(type: .account, title: L10n.More.account)
+                ]
+            ),
+            MoreSectionModel(
+                title: nil,
+                actions: [
+                    MoreActionModel(type: .termsAndConditions, title: L10n.Action.termsAndConditions),
+                    MoreActionModel(type: .privacyPolicy, title: L10n.Action.privacyPolicy),
+                    MoreActionModel(type: .about, title: L10n.More.aboutShort)
+                ]
+            ),
+            MoreSectionModel(
+                title: nil,
+                actions: [
+                    MoreActionModel(type: .faq, title: L10n.More.faq),
+                    MoreActionModel(type: .donate, title: L10n.More.donate)
+                ]
+            ),
+            MoreSectionModel(
+                title: L10n.More.adminTools,
+                actions: adminActions
+            )
+        ]
     }
 
     func hasUnseenPendingFeedings() async -> Bool {
