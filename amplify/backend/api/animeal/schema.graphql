@@ -915,7 +915,6 @@ type FeedingPointCode @aws_api_key @aws_cognito_user_pools {
   code: String!
 }
 
-  status: String!
 type Query {
   translate(text: String!, to: String!, from: String): String!
     @function(name: "translate-${env}")
