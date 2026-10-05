@@ -137,7 +137,7 @@ final class FeedingPointsServiceAdapter: FeedingPointsServiceProtocol {
         currentServiceSubject.value.resetViewportPoints()
     }
 
-    func fetchAll(bounds: BoundsInput) async throws -> [FullFeedingPoint] {
+    func fetchAll(bounds: BoundsInput?) async throws -> [FullFeedingPoint] {
         try await currentServiceSubject.value.fetchAll(bounds: bounds)
     }
 

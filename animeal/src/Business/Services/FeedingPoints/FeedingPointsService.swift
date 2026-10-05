@@ -49,8 +49,9 @@ protocol FeedingPointsServiceProtocol: AnyObject {
 
     func resetViewportPoints()
 
+    /// Fetches the feeding points inside `bounds`, or every feeding point when `bounds` is `nil`.
     @discardableResult
-    func fetchAll(bounds: BoundsInput) async throws -> [FullFeedingPoint]
+    func fetchAll(bounds: BoundsInput?) async throws -> [FullFeedingPoint]
     @discardableResult
     func fetch(byIdentifier identifier: String) async throws -> FullFeedingPoint
     func fetchFeedingHistory(for feedingPointId: String) async throws -> [FeedingHistory]
@@ -93,6 +94,8 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
     // MARK: - Cancellables
     private var cancellables = Set<AnyCancellable>()
     private var feedingPointSubscription: AmplifyAsyncThrowingSequence<GraphQLSubscriptionEvent<UpdateFeedingPoint>>?
+    private var feedingPointCreationSubscription:
+        AmplifyAsyncThrowingSequence<GraphQLSubscriptionEvent<CreateFeedingPoint>>?
 
     // MARK: - Publishers
     var feedingPoints: AnyPublisher<[FullFeedingPoint], Never> {
@@ -152,7 +155,7 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
     }
 
     @discardableResult
-    func fetchAll(bounds: BoundsInput) async throws -> [FullFeedingPoint] {
+    func fetchAll(bounds: BoundsInput?) async throws -> [FullFeedingPoint] {
         let favoriteIds = readState { Set($0.innerFavoritePoints.map(\.identifier)) }
 
         // getFeedingPoints returns category as a nested object — no separate fetch needed.
@@ -337,6 +340,7 @@ final class FeedingPointsService: FeedingPointsServiceProtocol {
 
     deinit {
         feedingPointSubscription?.cancel()
+        feedingPointCreationSubscription?.cancel()
     }
 }
 
@@ -347,6 +351,28 @@ private extension FeedingPointsService {
                 try await fetch(byIdentifier: identifier)
             } catch {
                 logError("[FeedingPointsService] Feeding point cannot be updated by identifier due to absence.")
+            }
+        }
+    }
+
+    /// Adds a feeding point that was created on the backend after the initial fetch.
+    func insertFeedingPoint(byIdentifier identifier: String) {
+        Task {
+            do {
+                guard let point = try await networkService.query(request: .get(FeedingPoint.self, byId: identifier))
+                else { return }
+                let isFavorite = readState { $0.innerFavoritePoints.contains { $0.identifier == identifier } }
+                let fullPoint = FullFeedingPoint(
+                    feedingPoint: point,
+                    isFavorite: isFavorite,
+                    imageURL: try? await dataService.getURL(key: point.cover)
+                )
+                mutateState { state in
+                    guard !state.innerFeedingPoints.contains(where: { $0.identifier == identifier }) else { return }
+                    state.innerFeedingPoints.append(fullPoint)
+                }
+            } catch {
+                logError("[FeedingPointsService] Failed to fetch the created feeding point \(identifier): \(error)")
             }
         }
     }
@@ -449,6 +475,17 @@ private extension FeedingPointsService {
             switch result {
             case .success(let updateFeedingPointAction):
                 self?.updateFeedingPoint(byIdentifier: updateFeedingPointAction.id)
+            case .failure(let error):
+                logError(error.localizedDescription)
+            }
+        }
+
+        feedingPointCreationSubscription = networkService.subscribe(
+            request: .onCreateFeedingPoint()
+        ) { [weak self] result in
+            switch result {
+            case .success(let createFeedingPointAction):
+                self?.insertFeedingPoint(byIdentifier: createFeedingPointAction.id)
             case .failure(let error):
                 logError(error.localizedDescription)
             }

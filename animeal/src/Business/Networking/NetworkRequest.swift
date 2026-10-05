@@ -141,10 +141,11 @@ extension Request {
         )
     }
 
-    static func getFeedingPoints(bounds: BoundsInput) -> Request<[FeedingPoint]> {
+    /// `bounds == nil` skips the location filter, so the backend returns every feeding point.
+    static func getFeedingPoints(bounds: BoundsInput?) -> Request<[FeedingPoint]> {
         Request<[FeedingPoint]>(
             document: getFeedingPointsDocument,
-            variables: ["locationBounds": bounds.variables],
+            variables: bounds.map { ["locationBounds": $0.variables] },
             responseType: [FeedingPoint].self,
             decodePath: "getFeedingPoints"
         )
@@ -198,6 +199,22 @@ extension Request {
         return Request<UpdateFeedingPoint>(
             document: document,
             responseType: UpdateFeedingPoint.self,
+            decodePath: operationName
+        )
+    }
+
+    static func onCreateFeedingPoint() -> Request<CreateFeedingPoint> {
+        let operationName = "onCreateFeedingPointExt"
+        let document = """
+            subscription onCreateFeedingPointExt {
+              \(operationName) {
+                id
+              }
+            }
+            """
+        return Request<CreateFeedingPoint>(
+            document: document,
+            responseType: CreateFeedingPoint.self,
             decodePath: operationName
         )
     }

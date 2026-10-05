@@ -2,7 +2,7 @@ import Foundation
 
 enum AppInfo {
     static var appId: String {
-        return "6478071465"
+        return "6819075277"
     }
 
     static var bundle: String {
@@ -26,7 +26,7 @@ enum AppInfo {
     }
 
     static var appStoreReviewUrl: String {
-        return "https://apps.apple.com/us/app/animeal/id1641080306"
+        return "https://apps.apple.com/us/app/animeal/id\(appId)"
     }
 
     static var appStoreRateUrl: String {

@@ -863,11 +863,11 @@ class HomeModelProtocolMock: HomeModelProtocol {
         return fetchFeedingPointsBoundsCallsCount > 0
     }
     var fetchFeedingPointsBoundsReceivedBounds: BoundsInput?
-    var fetchFeedingPointsBoundsReceivedInvocations: [BoundsInput] = []
+    var fetchFeedingPointsBoundsReceivedInvocations: [BoundsInput?] = []
     var fetchFeedingPointsBoundsReturnValue: [HomeModel.FeedingPoint]!
-    var fetchFeedingPointsBoundsClosure: ((BoundsInput) async throws -> [HomeModel.FeedingPoint])?
+    var fetchFeedingPointsBoundsClosure: ((BoundsInput?) async throws -> [HomeModel.FeedingPoint])?
 
-    func fetchFeedingPoints(bounds: BoundsInput) async throws -> [HomeModel.FeedingPoint] {
+    func fetchFeedingPoints(bounds: BoundsInput?) async throws -> [HomeModel.FeedingPoint] {
         if let error = fetchFeedingPointsBoundsThrowableError {
             throw error
         }

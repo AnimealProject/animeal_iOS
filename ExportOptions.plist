@@ -8,8 +8,8 @@
 	<string>app-store</string>
 	<key>provisioningProfiles</key>
 	<dict>
-		<key>com.serhiiterokhyn.animeal.demo</key>
-		<string>Animeal Demo App Store Distribution</string>
+		<key>com.animealproject.animeal</key>
+		<string>Animeal App Store Distribution</string>
 	</dict>
 	<key>signingStyle</key>
 	<string>manual</string>

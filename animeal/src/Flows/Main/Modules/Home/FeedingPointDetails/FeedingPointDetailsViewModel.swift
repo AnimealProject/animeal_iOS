@@ -24,14 +24,10 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
     var historyInitialized = false
     var moderatorsInitialized = false
 
-    // TODO: Move this strange logic to model
     let isOverMap: Bool
-    private var shouldShowOnMap = true
     private let favoriteState: AsyncValue<Bool>
     var showOnMapAction: ButtonView.Model? {
         if isOverMap { return .none }
-
-        if !shouldShowOnMap { return .none }
 
         return ButtonView.Model(
             identifier: UUID().uuidString,
@@ -106,7 +102,6 @@ final class FeedingPointDetailsViewModel: FeedingPointDetailsViewModelLifeCycle,
 
     private func updateContent(_ modelContent: FeedingPointDetailsModel.PointContent) {
         favoriteState.update(confirmed: modelContent.content.isFavorite)
-        shouldShowOnMap = modelContent.action.isEnabled
         loadMediaContent(modelContent.content.header.cover)
         onContentHaveBeenPrepared?(contentMapper.mapFeedingPoint(modelContent))
     }

@@ -9,15 +9,7 @@ enum FeatureFlags {
         case loadAllFeedingPoints
     }
 
-    /// Compile-time default, controlled via the `LOAD_ALL_FEEDING_POINTS`
-    /// Active Compilation Condition (see `Configurations/Shared.xcconfig`).
-    private static var loadAllFeedingPointsDefault: Bool {
-        #if LOAD_ALL_FEEDING_POINTS
-        return true
-        #else
-        return false
-        #endif
-    }
+    private static let loadAllFeedingPointsDefault = true
 
     @UserDefaultFlag(key: Keys.loadAllFeedingPoints)
     private static var loadAllFeedingPointsOverride: Bool?
