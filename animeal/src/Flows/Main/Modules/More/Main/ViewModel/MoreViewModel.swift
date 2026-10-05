@@ -13,6 +13,8 @@ final class MoreViewModel: MoreViewModelLifeCycle, MoreViewInteraction, MoreView
     // MARK: - State
     var onSectionsHaveBeenPrepared: (([MoreSectionView]) -> Void)?
     var onLogoutVisibilityHaveBeenPrepared: ((Bool) -> Void)?
+    @MainActor
+    private var isSigningOut = false
 
     // MARK: - Initialization
     init(
@@ -58,11 +60,14 @@ final class MoreViewModel: MoreViewModelLifeCycle, MoreViewInteraction, MoreView
 
             coordinator.routeTo(route)
         case .logout:
+            guard !isSigningOut else { return }
+            isSigningOut = true
             Task { @MainActor in
                 do {
                     try await self.authenticationService.signOut()
                     self.coordinator.routeTo(.logout)
                 } catch {
+                    self.isSigningOut = false
                     self.coordinator.routeTo(.error(error.localizedDescription))
                 }
             }
