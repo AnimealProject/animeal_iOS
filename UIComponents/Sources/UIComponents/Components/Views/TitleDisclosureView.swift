@@ -51,6 +51,7 @@ public final class TitleDisclosureView: UIView {
         title.leadingAnchor ~= leadingAnchor
         title.topAnchor ~= topAnchor + Constants.verticalPadding
         title.bottomAnchor ~= bottomAnchor - Constants.verticalPadding
+        heightAnchor >= 44
         title.trailingAnchor <= trailingAnchor - 12
         title.setContentHuggingPriority(.required, for: .horizontal)
         title.font = designEngine.fonts.primary.regular(16)
