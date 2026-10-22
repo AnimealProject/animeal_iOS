@@ -82,6 +82,10 @@ final class SearchViewModel: SearchViewModelProtocol {
                 self?.updateViewInput()
                 return viewItems
             }
+        case .tagDidSelect(let tag):
+            updateViewItems { [weak self] in
+                await self?.updateViewTagContentItems(tag) ?? []
+            }
         case .toggleFavorite(let identifier):
             Task { [weak self] in await self?.model.toogleFavorite(forIdentifier: identifier) }
         }
@@ -174,6 +178,13 @@ private extension SearchViewModel {
         let modelSections = await model.filterFeedingPoints(withFilter: identifier)
         let viewSections = sectionMapper.mapSections(modelSections)
         return viewSections
+    }
+
+    private func updateViewTagContentItems(
+        _ tag: SearchTag
+    ) async -> [SearchViewSectionWrapper] {
+        let modelSections = await model.filterFeedingPoints(withTag: tag)
+        return sectionMapper.mapSections(modelSections)
     }
 
     private func updateViewLoadingItems() -> [SearchViewSectionWrapper] {

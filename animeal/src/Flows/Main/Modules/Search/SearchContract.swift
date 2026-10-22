@@ -43,6 +43,7 @@ protocol SearchModelProtocol: AnyObject {
 
     func filterFeedingPoints(withSearchString searchString: String?) async -> [SearchModelSection]
     func filterFeedingPoints(withFilter identifier: String) async -> [SearchModelSection]
+    func filterFeedingPoints(withTag tag: SearchTag) async -> [SearchModelSection]
 
     func toogleFeedingPoint(forIdentifier identifier: String)
     func toogleFavorite(forIdentifier identifier: String) async
