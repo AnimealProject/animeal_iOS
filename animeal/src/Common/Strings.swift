@@ -345,6 +345,14 @@ internal enum L10n {
       /// Search here
       internal static let placeholder = L10n.tr("Localizable", "search.searchBar.placeholder", fallback: "Search here")
     }
+    internal enum Tag {
+      /// All
+      internal static let all = L10n.tr("Localizable", "search.tag.all", fallback: "All")
+      /// Newly fed
+      internal static let newlyFed = L10n.tr("Localizable", "search.tag.newlyFed", fallback: "Newly fed")
+      /// No food
+      internal static let noFood = L10n.tr("Localizable", "search.tag.noFood", fallback: "No food")
+    }
   }
   internal enum Segment {
     /// Cats
