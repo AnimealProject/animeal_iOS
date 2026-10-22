@@ -9,6 +9,13 @@ final class SearchViewController: UIViewController, SearchViewable, ScreenAccess
     // MARK: - UI properties
     private let selectorView = UnderlinedSegmentedControl().prepareForAutoLayout()
     private let searchInputView = SearchInputView().prepareForAutoLayout()
+    private let tagSelectorView = TagSelectorView().prepareForAutoLayout()
+    private let feedingTags: [(tag: SearchTag, item: TagSelectorView.Item)] = SearchTag.allCases.map { tag in
+        (tag, .init(title: tag.title, isSelected: tag == .all))
+    }
+    private var tagsModel: TagSelectorView.Model {
+        TagSelectorView.Model(items: feedingTags.map(\.item))
+    }
 
     private let collectionViewLayout: UICollectionViewLayout = {
         let item = UICollectionViewFlowLayout()
@@ -56,9 +63,9 @@ final class SearchViewController: UIViewController, SearchViewable, ScreenAccess
         super.viewDidLoad()
         applyScreenIdentifier()
         view.addGestureRecognizer(UITapGestureRecognizer(
-                                                         target: view,
-                                                         action: #selector(UIView.endEditing(_:))
-                                                         ))
+            target: view,
+            action: #selector(UIView.endEditing(_:))
+        ))
 
         setup()
         bind()
@@ -154,6 +161,7 @@ private extension SearchViewController {
     private func setup() {
         setupSelectorView()
         setupSearchView()
+        setupFilterView()
         setupCollectionView()
     }
 
@@ -187,7 +195,7 @@ private extension SearchViewController {
     private func setupCollectionView() {
         view.addSubview(collectionView)
         collectionView.leadingAnchor ~= view.leadingAnchor
-        collectionView.topAnchor ~= searchInputView.bottomAnchor
+        collectionView.topAnchor ~= tagSelectorView.bottomAnchor
         collectionView.trailingAnchor ~= view.trailingAnchor
         collectionView.bottomAnchor ~= view.bottomAnchor
         collectionView.contentInset.bottom = 32.0
@@ -219,6 +227,18 @@ private extension SearchViewController {
         collectionView.accessibilityIdentifier = SearchViewModel.AccessibilityID.list
 
         collectionView.keyboardDismissMode = .onDrag
+    }
+
+    private func setupFilterView() {
+        view.addSubview(tagSelectorView)
+        tagSelectorView.leadingAnchor ~= view.leadingAnchor + 30.0
+        tagSelectorView.topAnchor ~= searchInputView.bottomAnchor + 14.0
+        tagSelectorView.trailingAnchor ~= view.trailingAnchor - 30.0
+        tagSelectorView.configure(tagsModel)
+        tagSelectorView.onTap = { [weak self] index in
+            guard let self, self.feedingTags.indices.contains(index) else { return }
+            self.viewModel.handleActionEvent(.tagDidSelect(self.feedingTags[index].tag))
+        }
     }
 
     // MARK: - Bind
@@ -300,5 +320,18 @@ private extension SearchViewController {
 extension SearchViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
+    }
+}
+
+extension SearchTag {
+    var title: String {
+        switch self {
+        case .all:
+            return L10n.Search.Tag.all
+        case .newlyFed:
+            return L10n.Search.Tag.newlyFed
+        case .noFood:
+            return L10n.Search.Tag.noFood
+        }
     }
 }
