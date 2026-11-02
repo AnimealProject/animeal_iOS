@@ -17,6 +17,7 @@ public extension FeedingPointAnnotationModel {
         var annotation = PointAnnotation(id: identifier, coordinate: coordinates)
         annotation.image = .init(image: image, name: "\(kind)_\(hungerLevel)")
         annotation.iconAnchor = .center
+        annotation.userInfo = ["starved": hungerLevel == .high ? 1 : 0]
         return annotation
     }
 }
