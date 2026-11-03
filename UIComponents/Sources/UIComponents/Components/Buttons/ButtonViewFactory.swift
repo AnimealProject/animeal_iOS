@@ -144,6 +144,10 @@ public struct ButtonViewFactory: ButtonViewGenerating, StyleEngineContainable {
         return CircleButtonView(contentView: button)
     }
 
+    public func makePillButton() -> PillButtonView {
+        PillButtonView(contentView: UIButton(type: .custom), height: 32)
+    }
+
     public func makeTextButton() -> ButtonView {
         TextButtonView(contentView: UIButton(type: .system))
     }
