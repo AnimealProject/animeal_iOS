@@ -2,10 +2,19 @@ import MapboxCoreNavigation
 import MapboxNavigation
 import MapboxDirections
 import MapboxMaps
+import Style
 
 class NavigationMapController: NavigationViewControllerDelegate {
     private enum Constants {
         static let cameraDebounceInterval: TimeInterval = 0.5
+        static let feedingPointsLayerId = "feeding-points"
+        static let clusterCircleLayerId = "mapbox-iOS-cluster-circle-layer-manager-feeding-points"
+        static let clusterTextLayerId = "mapbox-iOS-cluster-text-layer-manager-feeding-points"
+        static let clusterStarvedIndicatorLayerId = "feeding-points-starved-indicator"
+        static let starvedProperty = "starved"
+        static let clusterRadius: Double = 50
+        static let clusterMaxZoom: Double = 14
+        static let clusterZoomDuration: TimeInterval = 0.45
     }
 
     // MARK: - Private properties
@@ -44,6 +53,7 @@ class NavigationMapController: NavigationViewControllerDelegate {
     private var lastTapLocation: CGPoint?
     private weak var tapGestureRecognizer: UITapGestureRecognizer?
     private var cameraChangedCancelable: (any Cancelable)?
+    private var styleLoadedCancelable: (any Cancelable)?
     private var cameraDebounceTimer: Timer?
 
     var view: UIView {
@@ -59,7 +69,10 @@ class NavigationMapController: NavigationViewControllerDelegate {
     }
 
     private lazy var annotationManager: (point: PointAnnotationManager, polygon: PolygonAnnotationManager) = {
-        let point = navigationMapView.mapView.annotations.makePointAnnotationManager()
+        let point = navigationMapView.mapView.annotations.makePointAnnotationManager(
+            id: Constants.feedingPointsLayerId,
+            clusterOptions: Self.makeClusterOptions()
+        )
         let polygon = navigationMapView.mapView
             .annotations
             .makePolygonAnnotationManager(layerPosition: .below(point.id))
@@ -109,6 +122,10 @@ class NavigationMapController: NavigationViewControllerDelegate {
         }
 
         annotationManager.point.delegate = self
+        configureClusterAppearance()
+        styleLoadedCancelable = navigationMapView.mapView.mapboxMap.onEvery(event: .styleLoaded) { [weak self] _ in
+            self?.configureClusterAppearance()
+        }
         setupTapGesture()
     }
 
@@ -129,7 +146,9 @@ class NavigationMapController: NavigationViewControllerDelegate {
 
     @objc private func handleMapTap(_ gesture: UITapGestureRecognizer) {
         guard gesture.state == .ended else { return }
-        lastTapLocation = gesture.location(in: navigationMapView.mapView)
+        let location = gesture.location(in: navigationMapView.mapView)
+        lastTapLocation = location
+        expandCluster(at: location)
     }
 
     // MARK: - Public API
@@ -324,6 +343,168 @@ extension NavigationMapController {
         routeResponse = nil
         self.navigationMapView.removeRoutes()
         self.navigationMapView.removeWaypoints()
+    }
+}
+
+// MARK: - Clustering
+private extension NavigationMapController {
+    static func makeClusterOptions() -> ClusterOptions {
+        let circleRadius = Exp(.step) {
+            Exp(.get) { "point_count" }
+            18
+            10
+            22
+            25
+            28
+            50
+            34
+        }
+        return ClusterOptions(
+            circleRadius: .expression(circleRadius),
+            circleColor: .constant(StyleColor(Asset.Colors.darkTurquoise.color)),
+            textColor: .constant(StyleColor(Asset.Colors.light.color)),
+            textSize: .constant(13),
+            clusterRadius: Constants.clusterRadius,
+            clusterMaxZoom: Constants.clusterMaxZoom,
+            clusterProperties: [Constants.starvedProperty: Self.starvedClusterProperty()]
+        )
+    }
+
+    func configureClusterAppearance() {
+        let style = mapboxMap.style
+        guard style.layerExists(withId: Constants.clusterCircleLayerId),
+              style.layerExists(withId: Constants.clusterTextLayerId) else {
+            return
+        }
+        try? style.setLayerProperty(for: Constants.clusterCircleLayerId, property: "circle-stroke-width", value: 2)
+        try? style.setLayerProperty(
+            for: Constants.clusterCircleLayerId,
+            property: "circle-stroke-color",
+            value: "#FFFFFF"
+        )
+        try? style.setLayerProperty(for: Constants.clusterTextLayerId, property: "text-allow-overlap", value: true)
+        try? style.setLayerProperty(for: Constants.clusterTextLayerId, property: "text-ignore-placement", value: true)
+        try? style.moveLayer(withId: Constants.clusterCircleLayerId, to: .below(Constants.feedingPointsLayerId))
+        try? style.moveLayer(withId: Constants.clusterTextLayerId, to: .above(Constants.feedingPointsLayerId))
+        installStarvedIndicator()
+        try? style.moveLayer(
+            withId: Constants.clusterStarvedIndicatorLayerId,
+            to: .above(Constants.clusterTextLayerId)
+        )
+    }
+
+    static func starvedClusterProperty() -> Expression {
+        Exp(.max) {
+            Exp(.toNumber) {
+                Exp(.get) {
+                    Constants.starvedProperty
+                    Exp(.get) { "userInfo" }
+                }
+            }
+        }
+    }
+
+    func installStarvedIndicator() {
+        let style = mapboxMap.style
+        let layerId = Constants.clusterStarvedIndicatorLayerId
+        guard !style.layerExists(withId: layerId) else { return }
+
+        var indicator = CircleLayer(id: layerId)
+        indicator.source = Constants.feedingPointsLayerId
+        indicator.filter = Exp(.all) {
+            Exp(.has) { "point_count" }
+            Exp(.gt) {
+                Exp(.toNumber) {
+                    Exp(.get) { Constants.starvedProperty }
+                }
+                0
+            }
+        }
+        indicator.circleRadius = .constant(6)
+        indicator.circleColor = .constant(StyleColor(Asset.Colors.carminePink.color))
+        indicator.circleStrokeWidth = .constant(2)
+        indicator.circleStrokeColor = .constant(StyleColor(Asset.Colors.light.color))
+        indicator.circleTranslate = .constant([16, -16])
+        do {
+            try style.addPersistentLayer(indicator, layerPosition: .above(Constants.clusterTextLayerId))
+        } catch {
+            logError(error.localizedDescription)
+        }
+    }
+
+    func clusterQueryLayerIds() -> [String] {
+        var layerIds = [
+            Constants.clusterTextLayerId,
+            Constants.clusterCircleLayerId,
+            Constants.feedingPointsLayerId
+        ]
+        if mapboxMap.style.layerExists(withId: Constants.clusterStarvedIndicatorLayerId) {
+            layerIds.insert(Constants.clusterStarvedIndicatorLayerId, at: 0)
+        }
+        return layerIds
+    }
+
+    func expandCluster(at point: CGPoint) {
+        let options = RenderedQueryOptions(
+            layerIds: clusterQueryLayerIds(),
+            filter: nil
+        )
+        mapboxMap.queryRenderedFeatures(with: point, options: options) { [weak self] result in
+            guard let self,
+                  case .success(let queriedFeatures) = result,
+                  let cluster = queriedFeatures.first?.feature,
+                  self.isCluster(cluster),
+                  case .point(let clusterPoint) = cluster.geometry else {
+                return
+            }
+            self.zoomToCluster(cluster, coordinate: clusterPoint.coordinates)
+        }
+    }
+
+    func isCluster(_ feature: Feature) -> Bool {
+        guard let pointCount = feature.properties?["point_count"] else {
+            return false
+        }
+        if case .number = pointCount {
+            return true
+        }
+        return false
+    }
+
+    func zoomToCluster(_ cluster: Feature, coordinate: CLLocationCoordinate2D) {
+        mapboxMap.getGeoJsonClusterExpansionZoom(
+            forSourceId: Constants.feedingPointsLayerId,
+            feature: cluster
+        ) { [weak self] result in
+            guard let self else { return }
+            let currentZoom = self.mapboxMap.cameraState.zoom
+            let expansionZoom = (try? result.get()).flatMap { self.zoomLevel(from: $0.value) }
+            let targetZoom = expansionZoom.map { max($0 + 0.01, currentZoom + 1) } ?? currentZoom + 1
+            let camera = CameraOptions(
+                center: coordinate,
+                padding: self.cameraEasePadding,
+                zoom: targetZoom
+            )
+            self.navigationMapView.mapView.camera.ease(
+                to: camera,
+                duration: Constants.clusterZoomDuration,
+                curve: .easeOut,
+                completion: nil
+            )
+        }
+    }
+
+    func zoomLevel(from value: Any?) -> CGFloat? {
+        switch value {
+        case let zoom as Double:
+            return CGFloat(zoom)
+        case let zoom as Int:
+            return CGFloat(zoom)
+        case let zoom as NSNumber:
+            return CGFloat(truncating: zoom)
+        default:
+            return nil
+        }
     }
 }
 
