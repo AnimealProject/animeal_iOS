@@ -5,4 +5,5 @@ enum SearchViewActionEvent {
     case itemDidTap(String)
     case filterDidTap(String)
     case toggleFavorite(String)
+    case tagDidSelect(SearchTag)
 }

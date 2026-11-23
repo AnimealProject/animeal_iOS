@@ -32,17 +32,21 @@ protocol SearchViewState: AnyObject {
     var onContentStateWasPrepared: ((SearchViewContentState) -> Void)? { get set }
     var onFiltersWerePrepared: ((SearchViewFilters) -> Void)? { get set }
     var onSearchInputWasPrepared: ((SearchViewInput) -> Void)? { get set }
+    var selectedTag: SearchTag { get }
 }
 
 // MARK: - Model
 // sourcery: AutoMockable
+@MainActor
 protocol SearchModelProtocol: AnyObject {
     func fetchFilteringText() -> String?
+    var selectedTag: SearchTag { get }
     func fetchFeedingPoints() async throws -> [SearchModelSection]
     func fetchFeedingPointsFilters() async -> [SearchModelFilter]
 
     func filterFeedingPoints(withSearchString searchString: String?) async -> [SearchModelSection]
     func filterFeedingPoints(withFilter identifier: String) async -> [SearchModelSection]
+    func filterFeedingPoints(withTag tag: SearchTag) async -> [SearchModelSection]
 
     func toogleFeedingPoint(forIdentifier identifier: String)
     func toogleFavorite(forIdentifier identifier: String) async
